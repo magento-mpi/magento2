@@ -218,6 +218,34 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         );
         $this->assertEquals($attributes, $this->_config->getResourceAttributes('product'));
     }
+    
+    /**
+     * 
+     */
+    public function testGetResourceExcludedAttributes()
+    {
+        $data = array(
+            'admin'     => array(
+                'read'  => array(),
+                'write' => array(),
+            ),
+            'customer'  => array(
+                'read'  => array('created_at'),
+                'write' => array('review_id', 'created_at'),
+            ),
+            'guest'     => array(
+                'read'  => array('review_id', 'created_at'),
+                'write' => array('review_id', 'created_at')
+            )
+        );
+
+        foreach ($data as $user => $operations) {
+            foreach ($operations as $operation => $data) {
+                $excluded = $this->_config->getResourceExcludedAttributes('product', $user, $operation);
+                $this->assertEquals($data, $excluded);
+            }
+        }
+    }
 
     /**
      * Test get resource attributes
