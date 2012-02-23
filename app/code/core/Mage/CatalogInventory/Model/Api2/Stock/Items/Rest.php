@@ -61,7 +61,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
      *
      * @param array $data
      */
-    protected function _update($data)
+    protected function _update(array $data)
     {
         foreach ($data as $itemData) {
             $this->_updateItem($itemData);
