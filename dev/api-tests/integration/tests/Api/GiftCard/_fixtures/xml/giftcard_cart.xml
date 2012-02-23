@@ -27,14 +27,17 @@
 -->
 <root>
     <invalid_create>
-        <code>invalid-code</code>
-        <quote>invalid-quote</quote>
+        <giftcardAccountCode>invalid-code</giftcardAccountCode>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
     </invalid_create>
     <invalid_list>
-        <quote>invalid-quote</quote>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
     </invalid_list>
     <invalid_remove>
-        <code>invalid-code</code>
-        <quote>invalid-quote</quote>
+        <giftcardAccountCode>invalid-code</giftcardAccountCode>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
     </invalid_remove>
 </root>
