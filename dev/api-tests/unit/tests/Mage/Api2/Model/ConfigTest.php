@@ -218,7 +218,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         );
         $this->assertEquals($attributes, $this->_config->getResourceAttributes('product'));
     }
-    
+
     /**
      * Test get resource excluded attributes for all user types and operations
      * 
