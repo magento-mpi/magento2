@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep extends Varien_Data
             $this->setData('disabled', 'disabled');
             $disabled = true;
         }
-        parent::addClass('validate-digits validate-greater-than-zero');
+        parent::addClass('validate-number validate-number-range number-range-0.01-1000000000');
         $html = parent::getElementHtml();
         $htmlId = 'use_config_' . $this->getHtmlId();
         $html .= '<br/><input id="'.$htmlId.'" name="use_config[]" value="' . $this->getId() . '"';
