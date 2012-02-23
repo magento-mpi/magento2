@@ -93,7 +93,7 @@ create_cms_page:
                             -
                                 #TODO: add elements if needed
                                 wysiwyg_editor_buttons:
-                                    xpath: //span[@id='block_content_parent']
+                                    xpath: //*[@id='page_content_tbl']
                                     links:
                                         wysiwyg_insert_widget: //a[@id='page_content_magentowidget']/img
                                         wysiwyg_insert_variable: //a[@id='page_content_magentovariable']/img

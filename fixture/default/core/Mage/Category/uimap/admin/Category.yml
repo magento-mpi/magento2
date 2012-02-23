@@ -35,7 +35,7 @@ manage_categories:
         form:
             fieldsets:
                 -
-                    categories_tree:
+                    select_category:
                         xpath: //*[@id='page:left']/div
                         buttons:
                             add_root_category: //button[@id='add_root_category_button']

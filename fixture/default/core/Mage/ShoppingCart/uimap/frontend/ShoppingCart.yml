@@ -52,10 +52,10 @@ shopping_cart:
                         checkboxes:
                             move_to_wishlist: //tr[*//a[text()='%productName%']]//input[@title='Move to Wishlist']
                         links:
-                            remove_item: //a[@title='Remove item']
+                            remove_item: /tbody/tr[%productNumber%]//a[@title='Remove item']
                             product_name: //h2[@class='product-name']/a[text()='%productName%']
                         fields:
-                            product_qty: %productXpath%//input[@title='Qty']
+                            product_qty: /tbody/tr[%productNumber%]//input[@title='Qty']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
                             price_totals: //table[@id='shopping-cart-totals-table']

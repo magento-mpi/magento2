@@ -138,12 +138,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
             $this->addParameter('param', "//div[@id='widget-chooser_content']");
             $nodes = explode('/', $optionData['category_path']);
             $title = end($nodes);
-            $this->categoryHelper()->selectCategory($optionData['category_path']);
+            $this->categoryHelper()->selectCategory($optionData['category_path'], $name);
             $this->waitForAjax();
             unset($optionData['category_path']);
         }
         if (count($optionData) > 0) {
-            $xpathTR = $this->search($optionData);
+            $xpathTR = $this->search($optionData, $name);
             $this->assertNotEquals(null, $xpathTR, 'Element is not found');
             $names = $this->getTableHeadRowNames("//div[@id='widget-chooser_content']//table[@id]");
             foreach ($rowNames as $value) {

@@ -136,7 +136,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->pleaseWait();
         if ($layoutName == 'categories') {
             foreach ($layoutOptions as $key => $value) {
-                $this->categoryHelper()->selectCategory($value);
+                $this->categoryHelper()->selectCategory($value, 'layout_updates_body');
             }
         } elseif ($layoutName == 'products') {
             foreach ($layoutOptions as $key => $value) {

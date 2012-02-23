@@ -36,15 +36,15 @@
  */
 class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * Find category with valid name
      *
      * @param string $catName
      * @param null|string $parentCategoryId
+     * @param string $fieldsetName
      * @return array
      */
-    public function defineCorrectCategory($catName, $parentCategoryId = null)
+    public function defineCorrectCategory($catName, $parentCategoryId = null, $fieldsetName = 'select_category')
     {
         $isCorrectName = array();
         $categoryText = '/div/a/span';
@@ -52,14 +52,14 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         if (!$parentCategoryId) {
             $this->addParameter('rootName', $catName);
             $catXpath = $this->_getControlXpath('link', 'root_category',
-                                                $this->_findUimapElement('fieldset', 'categories_tree'));
+                                                $this->_findUimapElement('fieldset', $fieldsetName));
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
             $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category',
-                                                          $this->_findUimapElement('fieldset', 'categories_tree'));
+                                                          $this->_findUimapElement('fieldset', $fieldsetName));
             $catXpath = $this->_getControlXpath('link', 'sub_category',
-                                                $this->_findUimapElement('fieldset', 'categories_tree'));
+                                                $this->_findUimapElement('fieldset', $fieldsetName));
             if ($this->isElementPresent($isDiscloseCategory)) {
                 $this->click($isDiscloseCategory);
                 $this->pleaseWait();
@@ -83,19 +83,20 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      * Select category by path
      *
      * @param string $categoryPath
+     * @param string $fieldsetName
      */
-    public function selectCategory($categoryPath)
+    public function selectCategory($categoryPath, $fieldsetName = 'select_category')
     {
         $nodes = explode('/', $categoryPath);
         $rootCat = array_shift($nodes);
         $categoryContainer = "//*[@id='category-edit-container']//h3";
 
-        $correctRoot = $this->defineCorrectCategory($rootCat);
+        $correctRoot = $this->defineCorrectCategory($rootCat, null, $fieldsetName);
 
         foreach ($nodes as $value) {
             $correctSubCat = array();
             foreach ($correctRoot as $v) {
-                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $v));
+                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $v, $fieldsetName));
             }
             $correctRoot = $correctSubCat;
         }
@@ -160,10 +161,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
             $xpath = $this->_getControlXpath('button', 'add_sub_category',
-                                             $this->_findUimapElement('fieldset', 'categories_tree'));
+                                             $this->_findUimapElement('fieldset', 'select_category'));
         } else {
             $xpath = $this->_getControlXpath('button', 'add_root_category',
-                                             $this->_findUimapElement('fieldset', 'categories_tree'));
+                                             $this->_findUimapElement('fieldset', 'select_category'));
         }
         $this->click($xpath);
         $this->pleaseWait();
@@ -393,5 +394,4 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             $this->fail('Cannot find elements to move');
         }
     }
-
 }
