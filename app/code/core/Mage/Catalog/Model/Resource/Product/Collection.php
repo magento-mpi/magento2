@@ -914,6 +914,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $select->columns('ROUND(MAX(' . $priceExpression . $sqlEndPart);
         $select->columns('ROUND(MIN(' . $priceExpression . $sqlEndPart);
         $select->columns($this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart));
+        $select->where($this->getPriceExpression($select) . ' IS NOT NULL');
         $row = $this->getConnection()->fetchRow($select, $this->_bindParams, Zend_Db::FETCH_NUM);
         $this->_totalRecords = (int)$row[0];
         $this->_maxPrice = (float)$row[1];

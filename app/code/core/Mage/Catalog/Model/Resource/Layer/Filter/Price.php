@@ -138,6 +138,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
             }
             $select->where($this->_replaceTableAlias($condition));
         }
+        $select->where($this->_getPriceExpression($filter, $select) . ' IS NOT NULL');
 
         return $select;
     }
