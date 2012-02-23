@@ -31,41 +31,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         Mage::app()->getCacheInstance()->banUse('layout');
     }
 
-    /**
-     * Retrieve new layout update model instance with XML data from a fixture file
-     *
-     * @param string $layoutUpdatesFile
-     * @param PHPUnit_Framework_TestCase $testCase
-     * @return Mage_Core_Model_Layout_Update|PHPUnit_Framework_MockObject_MockObject
-     */
-    public static function getLayoutUpdateFromFixture($layoutUpdatesFile, PHPUnit_Framework_TestCase $testCase)
-    {
-        $layoutUpdate = $testCase->getMock('Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml'));
-        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
-        $layoutUpdate->expects(self::any())
-            ->method('getFileLayoutUpdatesXml')
-            ->will(self::returnValue($layoutUpdatesXml))
-        ;
-        return $layoutUpdate;
-    }
-
-    /**
-     * Retrieve new layout model instance with layout updates from a fixture file
-     *
-     * @param string $layoutUpdatesFile
-     * @param PHPUnit_Framework_TestCase $testCase
-     * @return Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
-     */
-    public static function getLayoutFromFixture($layoutUpdatesFile, PHPUnit_Framework_TestCase $testCase)
-    {
-        $layout = $testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'));
-        $layout->expects(self::any())
-            ->method('getUpdate')
-            ->will(self::returnValue(self::getLayoutUpdateFromFixture($layoutUpdatesFile, $testCase)))
-        ;
-        return $layout;
-    }
-
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Layout();

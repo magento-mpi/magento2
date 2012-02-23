@@ -84,7 +84,8 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     public function testGetPageTypesHierarchy()
     {
-        $model = Mage_Core_Model_LayoutTest::getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml', $this);
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
         $expected = require(__DIR__ . '/_files/_page_types_hierarchy.php');
         $actual = $model->getPageTypesHierarchy();
         $this->assertEquals($expected, $actual);
@@ -95,7 +96,8 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
      */
     public function testPageTypeExists($inputPageType, $expectedResult)
     {
-        $model = Mage_Core_Model_LayoutTest::getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml', $this);
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
         $this->assertSame($expectedResult, $model->pageTypeExists($inputPageType));
     }
 
@@ -113,7 +115,8 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPageTypeLabel($inputPageType, $expectedResult)
     {
-        $model = Mage_Core_Model_LayoutTest::getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml', $this);
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
         $this->assertSame($expectedResult, $model->getPageTypeLabel($inputPageType));
     }
 
@@ -131,7 +134,8 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPageTypeParent($inputPageType, $expectedResult)
     {
-        $model = Mage_Core_Model_LayoutTest::getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml', $this);
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
         $this->assertSame($expectedResult, $model->getPageTypeParent($inputPageType));
     }
 

@@ -21,8 +21,9 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/../../../Core/Model/Layout/_files/_page_types.xml';
-        $layout = Mage_Core_Model_LayoutTest::getLayoutFromFixture($pageTypesFixture, $this);
+        $layout = $layoutUtility->getLayoutFromFixture($pageTypesFixture);
         $layout->getUpdate()->addPageHandles(array('PRODUCT_TYPE_simple'));
         $this->_block = new Mage_DesignEditor_Block_Toolbar_PageType();
         $this->_block->setLayout($layout);

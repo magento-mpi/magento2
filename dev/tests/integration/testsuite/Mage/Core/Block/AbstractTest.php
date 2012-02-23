@@ -9,10 +9,6 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Block_AbstractTestAbstract extends Mage_Core_Block_Abstract
-{
-}
-
 /**
  * @group module:Mage_Core
  */
@@ -25,7 +21,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = new Mage_Core_Block_AbstractTestAbstract;
+        $this->_block = $this->getMockForAbstractClass(
+            'Mage_Core_Block_Abstract', array(array('module_name' => 'Mage_Core'))
+        );
     }
 
     public function testGetRequest()
