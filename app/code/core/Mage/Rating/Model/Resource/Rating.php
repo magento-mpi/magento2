@@ -109,13 +109,23 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         }
 
         // load rating available in stores
-        $select  = $adapter->select()
-            ->from($this->getTable('rating/rating_store'), 'store_id')
-            ->where('rating_id=:rating_id');
-        $result  = $adapter->fetchCol($select, $bind);
-        $object->setStores($result);
+        $object->setStores($this->getStores((int)$object->getId()));
 
         return $this;
+    }
+
+    /**
+     * Retrieve store IDs related to given rating
+     *
+     * @param  int $ratingId
+     * @return array
+     */
+    public function getStores($ratingId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('rating/rating_store'), 'store_id')
+            ->where('rating_id = ?', $ratingId);
+        return $this->_getReadAdapter()->fetchCol($select);
     }
 
     /**

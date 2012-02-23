@@ -430,6 +430,29 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Save correct store list in rating (while Managing Ratings)
+     *
+     * @param Mage_Rating_Model_Rating $model
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function ratingSaveBefore($model)
+    {
+        if (!$model->isObjectNew()) {
+            $roleStoreIds = $this->_role->getStoreIds();
+            // Store list that was assigned to current rating previously
+            $origStoreIds = (array)$model->getResource()->getStores($model->getId());
+            // Store list that admin is currently trying to assign to current rating
+            $postStoreIds = array_intersect((array)$model->getStores(), $roleStoreIds);
+
+            $storeIds = array_merge(array_diff($origStoreIds, $roleStoreIds), $postStoreIds);
+
+            $model->setStores($storeIds);
+        }
+
+    }
+
     /**
      * Validate cms page before delete
      *
