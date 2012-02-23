@@ -48,7 +48,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $parameters = $this->arrayEmptyClear($parameters);
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
+            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope',
+                                             $this->_findUimapElement('fieldset', 'current_configuration_scope'));
             $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {
@@ -58,20 +59,21 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $this->validatePage();
             }
         }
-        foreach ($parameters as $key => $value) {
-            if (is_array($value)) {
-                $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
-                $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
-                if ($tab) {
-                    $xpath = $this->_getControlXpath('tab', $tab);
-                    $this->_defineParameters($xpath, 'href');
-                    $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
-                    $this->fillForm($settings, $tab);
-                    $this->saveForm('save_config');
-                    $this->assertTrue($this->successMessage('success_saved_config'), 'Configuration are not saved');
-//                    $this->assertMessagePresent('success', 'success_saved_config');
-                }
+        foreach ($parameters as $value) {
+            if (!is_array($value)) {
+                continue;
             }
+            $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
+            if ($tab) {
+                $xpath = $this->_getControlXpath('tab', $tab);
+                $this->_defineParameters($xpath, 'href');
+                $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+                $this->fillForm($settings, $tab);
+                $this->saveForm('save_config');
+                $this->assertTrue($this->successMessage('success_saved_config'), 'Configuration are not saved');
+            }
+
         }
     }
 
@@ -79,7 +81,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
      * Define Url Parameters for System Configuration page
      *
      * @param string $xpath
-     * @param type $attribute
+     * @param string $attribute
      */
     private function _defineParameters($xpath, $attribute)
     {
@@ -112,7 +114,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
         $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
-        $data = array('secure_base_url' => $url, 'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
+        $data = array('secure_base_url'             => $url,
+                      'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
         $this->fillForm($data, 'general_web');
         $this->clickButton('save_config');
         if ($this->getTitle() == 'Log into Magento Admin Page') {
