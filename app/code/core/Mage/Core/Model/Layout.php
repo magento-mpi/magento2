@@ -710,11 +710,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $name='', array $attributes = array())
     {
-        try {
-            $block = $this->_getBlockInstance($type, $attributes);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $block = $this->_getBlockInstance($type, $attributes);
 
         if (empty($name) || '.'===$name{0}) {
             $block->setIsAnonymous(true);

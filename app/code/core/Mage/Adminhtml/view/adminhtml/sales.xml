@@ -74,7 +74,7 @@
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-                        <container name="order_item_extra_info"  label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
                     <block type="Mage_Adminhtml_Block_Sales_Order_View_History" name="order_history" template="sales/order/view/history.phtml"></block>
@@ -133,7 +133,7 @@
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-                        <container name="order_item_extra_info"  label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                         <block type="Mage_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
 
                         <block type="Mage_Adminhtml_Block_Sales_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
@@ -177,7 +177,7 @@
             <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-            <container name="order_item_extra_info" label="Order Item Extra Info"/>
+            <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
             <block type="Mage_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
             <block type="Mage_Adminhtml_Block_Sales_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                 <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml" />
@@ -229,7 +229,7 @@
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Comments_View" name="order_comments" template="sales/order/comments/view.phtml">
                         <action method="setParentType"><type>invoice</type></action>
@@ -282,7 +282,7 @@
                         <action method="addItemRender"><type>default</type><block>Mage_Adminhtml_Block_Sales_Items_Renderer_Default</block><template>sales/order/shipment/create/items/renderer/default.phtml</template></action>
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging" name="shipment_packaging" template="sales/order/shipment/packaging/popup.phtml" />
                 </block>
@@ -318,7 +318,7 @@
                         <action method="addItemRender"><type>default</type><block>Mage_Adminhtml_Block_Sales_Items_Renderer_Default</block><template>sales/order/shipment/view/items/renderer/default.phtml</template></action>
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking" name="invoice_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Comments_View"  name="order_comments" template="sales/order/comments/view.phtml">
@@ -342,7 +342,7 @@
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                         <block type="Mage_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
 
                         <block type="Mage_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
@@ -379,7 +379,7 @@
             <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-            <container name="order_item_extra_info" label="Order Item Extra Info"/>
+            <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
             <block type="Mage_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
 
             <block type="Mage_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
@@ -426,7 +426,7 @@
                         <action method="addColumnRender"><column>qty</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>Mage_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Comments_View" name="order_comments" template="sales/order/comments/view.phtml">
                         <action method="setParentType"><type>creditmemo</type></action>
@@ -542,7 +542,7 @@
                         <block type="Mage_Adminhtml_Block_Template" name="gift_options" template="sales/order/giftoptions.phtml">
                             <block type="Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage" />
                         </block>
-                        <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                        <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
                     </block>
                 </block>
             </block>
@@ -604,7 +604,7 @@
                 <block type="Mage_Adminhtml_Block_Template" name="gift_options" template="sales/order/giftoptions.phtml">
                     <block type="Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage" />
                 </block>
-                <container name="order_item_extra_info" label="Order Item Extra Info"/>
+                <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
             </block>
         </reference>
     </adminhtml_sales_order_create_load_block_data>
@@ -695,7 +695,7 @@
                     </block>
                 </block>
             </block>
-            <container name="order_item_extra_info" label="Order Item Extra Info"/>
+            <block type="Mage_Core_Block_Text_List" name="order_item_extra_info"/>
         </reference>
     </adminhtml_sales_order_create_load_block_items>
 

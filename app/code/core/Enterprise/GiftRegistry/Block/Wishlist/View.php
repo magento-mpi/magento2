@@ -22,14 +22,14 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     {
         $outputEnabled = Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
-            $wrapper = $this->getLayout()->getBlock('my.account.wrapper');
-            if ($wrapper) {
-                $oldBlock = $this->getLayout()->getBlock('customer.wishlist');
-                if ($oldBlock) {
-                    $wrapper->unsetChild('customer.wishlist');
-                    $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
+            $oldBlock = $this->_layout->getBlock('customer.wishlist');
+            if ($oldBlock) {
+                $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
+                if ($this->_layout->hasElement('my.account.wrapper')) {
+                    // probably confusion of alias: there is no customer.wishlist alias defined in layout
+                    $this->_layout->unsetChild('my.account.wrapper', 'customer.wishlist');
+                    $this->_layout->appendBlock('my.account.wrapper', $this);
                 }
-                $wrapper->append($this, 'customer.wishlist');
             }
         }
         return parent::_prepareLayout();
