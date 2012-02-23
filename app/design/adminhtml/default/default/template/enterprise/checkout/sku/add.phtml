@@ -66,8 +66,10 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    Event.observe(window, 'load',  function() {
-        addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, productConfigure, <?php echo $this->getAddBySkuDataJson() ?>);
+    var parentAreasLoaded = <?php echo $this->getJsOrderObject() ?>.areasLoaded;
+
+    <?php echo $this->getJsOrderObject() ?>.areasLoaded = function() {
+        addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, <?php echo $this->getAddBySkuDataJson() ?>);
         AddBySku.prototype.add = function()
         {
             var id = ++this.lastId;
@@ -85,6 +87,8 @@
             }
         }
         <?php echo $this->getAdditionalJavascript() ?>
-    }, 10);
+        parentAreasLoaded();
+    };
+
 //]]>
 </script>

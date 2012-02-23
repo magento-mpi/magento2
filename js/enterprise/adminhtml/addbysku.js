@@ -35,10 +35,9 @@ AddBySku.prototype = {
      * Constructor
      *
      * @param order            Instance of AdminOrder
-     * @param productConfigure Instance of ProductConfigure
      * @param data             Array (see initialize())
      */
-    initialize : function (order, productConfigure, data)
+    initialize : function (order, data)
     {
         if (!data) data = {};
         this.lastId = 0;
@@ -46,7 +45,6 @@ AddBySku.prototype = {
         this.dataContainerId = data.dataContainerId;
         this.deleteButtonHtml = data.deleteButtonHtml;
         this.order = order;
-        this.productConfigure = productConfigure;
         this.listType = data.listType;
         this.errorGridId = data.errorGridId;
         this.fileFieldName = data.fileFieldName;
@@ -311,7 +309,7 @@ AddBySku.prototype = {
         var descrElem = $('id_' + id);
         var qtyElement = Element.select(descrElem.up('tr'), 'input[name="qty"]')[0]
         // Don't process configured element by addBySku() observer method (it won't be serialized by serialize())
-        this.productConfigure.setConfirmCallback(this.listType, function ()
+        productConfigure.setConfirmCallback(this.listType, function ()
         {
             // It is vital to push string element, check this line in configure.js:
             // this.itemsFilter[listType].indexOf(itemId) != -1
@@ -321,14 +319,14 @@ AddBySku.prototype = {
                 // Remove message saying product requires configuration
                 $notice[0].remove();
             }
-            var $qty = that.productConfigure.getCurrentConfirmedQtyElement();
+            var $qty = productConfigure.getCurrentConfirmedQtyElement();
             if ($qty) { // Grouped products do not have this
                 // Synchronize qtys between configure window and grid
                 qtyElement.value = $qty.value;
             }
         });
-        this.productConfigure.showItemConfiguration(this.listType, id);
-        this.productConfigure.setShowWindowCallback(this.listType, function() {
+        productConfigure.showItemConfiguration(this.listType, id);
+        productConfigure.setShowWindowCallback(this.listType, function() {
             // sync qty of grid and qty of popup
             if (qtyElement.value && !isNaN(qtyElement.value)) {
                 var formCurrentQty = productConfigure.getCurrentFormQtyElement();
