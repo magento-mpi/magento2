@@ -2447,7 +2447,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _fillFormDropdown($fieldData)
     {
         $fieldXpath = $fieldData['path'];
-        if ($this->isElementPresent($fieldXpath) && $this->isEditable($fieldXpath)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldXpath)) {
             if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
                 if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
                     $this->select($fieldXpath, 'label=' . $fieldData['value']);
