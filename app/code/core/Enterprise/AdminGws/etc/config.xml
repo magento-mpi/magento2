@@ -635,6 +635,7 @@
                     <enterprise_reminder__adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder__adminhtml_reminder>
                     <adminhtml__promo_catalog_edit>removeRuleEntityEditButtons</adminhtml__promo_catalog_edit>
                     <adminhtml__promo_quote_edit>removeRuleEntityEditButtons</adminhtml__promo_quote_edit>
+                    <adminhtml__rating_edit>removeRatingEditButtons</adminhtml__rating_edit>
                     <enterprise_customersegment__adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customersegment__adminhtml_customersegment_edit>
                     <enterprise_reminder__adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder__adminhtml_reminder_edit>
                     <enterprise_rma__adminhtml_rma_item_attribute>removeRmaAddAttributeButton</enterprise_rma__adminhtml_rma_item_attribute>

@@ -609,6 +609,19 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRatingEditButtons($observer)
+    {
+        // Remove delete button
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
+
+    /**
      * Remove action column and massaction functionality
      * from grid for users with limited permissions.
      *
