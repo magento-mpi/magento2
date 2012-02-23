@@ -70,7 +70,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1
      * @param array $data
      * @throws Mage_Api2_Exception
      */
-    protected function _update($data)
+    protected function _update(array $data)
     {
         $this->_validate($data, array(), array('product_id', 'stock_id'));
 
