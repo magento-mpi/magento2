@@ -21,7 +21,7 @@
         <?php endif ?>
         <li class="item<?php if (($i - 1) % $this->getColumnCount() == 0):?> first<?php elseif ($i % $this->getColumnCount() == 0): ?> last<?php endif; ?>">
             <?php
-                $itemBlock = $this->getChild('catalog.product.related.item')->setItem($_item)->setPosition($i);
+                $itemBlock = $this->getChildBlock('catalog.product.related.item')->setItem($_item)->setPosition($i);
                 echo $itemBlock->toHtml();
             ?>
         </li>

@@ -8,24 +8,24 @@
  * @license     {license_link}
  */
 
+/**
+ * Layout structure model
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ */
 class Mage_Core_Model_Layout_Structure
 {
+    /** Available element types */
     const ELEMENT_TYPE_BLOCK = 'block';
     const ELEMENT_TYPE_CONTAINER = 'container';
 
     /**
-     * Layout model
-     *
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
-
-    /**
-     * Page structure as XML document
+     * Page structure as DOM document
      *
      * @var DOMDocument
      */
-    protected $_document;
+    protected $_dom;
 
     /**
      * Xpath object
@@ -34,59 +34,59 @@ class Mage_Core_Model_Layout_Structure
      */
     protected $_xpath;
 
-    protected $_availableOptions = array(
-        self::ELEMENT_TYPE_BLOCK => array(),
-        self::ELEMENT_TYPE_CONTAINER => array(
-            'label', 'htmlId', 'htmlClass', 'htmlTag',
-        ),
-    );
+    /**
+     * Increment for temporary names of elements
+     *
+     * @var int
+     */
+    protected $_nameIncrement = 0;
 
-    public function __construct(Mage_Core_Model_Layout $layout)
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
     {
-        $this->_layout = $layout;
-        $this->_document = new DOMDocument();
-        $this->_document->formatOutput = true;
-        $this->_document->loadXML("<layout/>");
-        $this->_xpath = new DOMXPath($this->_document);
+        $this->_dom = new DOMDocument();
+        $this->_dom->formatOutput = true;
+        $this->_dom->loadXML("<layout/>");
+        $this->_xpath = new DOMXPath($this->_dom);
     }
 
     /**
+     * Get parent element by name
+     *
      * @param $name
-     * @return bool|DOMNode
+     * @return bool|string
      */
-    public function getParentElement($name)
+    public function getParentName($name)
     {
-        $element = $this->_findByXpath("//*[@name='$name']")->item(0);
+        $element = $this->_getElementByXpath("//*[@name='$name']");
         if ($element) {
-            return $this->getElementObject($element->parentNode);
+            return $element->parentNode->getAttribute('name');
         }
         return false;
     }
 
     /**
+     * Get sorted list of child aliases by parent name
+     *
      * @param $parentName
-     * @return DOMNodeList
+     * @return array
      */
-    public function getSortedChildren($parentName)
+    public function getChildNames($parentName)
     {
         $children = array();
         /** @var $child DOMElement */
-        foreach ($this->getSortedChildrenList($parentName) as $child) {
+        foreach ($this->_findByXpath("//*[@name='$parentName']/*") as $child) {
             $children[] = $child->getAttribute('name');
         }
         return $children;
     }
 
     /**
-     * @param $parentName
-     * @return DOMNodeList
-     */
-    public function getSortedChildrenList($parentName)
-    {
-        return $this->_findByXpath("//*[@name='$parentName']/*");
-    }
-
-    /**
+     * Move node to necessary parent node. If node doesn't exist, creates it
+     *
      * @param $parentName
      * @param $elementName
      * @param $alias
@@ -94,95 +94,96 @@ class Mage_Core_Model_Layout_Structure
      */
     public function setChild($parentName, $elementName, $alias)
     {
-        $element = $this->getElementByName($elementName);
+        $element = $this->_getElementByName($elementName);
         if (!$element) {
-            $block = $this->getLayout()->getBlock($elementName);
-            if ($block) {
-                $block->setAlias($alias);
-                $this->insertElement($parentName, $elementName, 'block', $alias);
-            }
+            $this->insertBlock($parentName, $elementName, $alias);
             return $this;
         } else {
             $element->setAttribute('alias', $alias);
         }
-        $elementType = $element->nodeName;
 
-        if (self::ELEMENT_TYPE_BLOCK == $elementType) {
-            $block = $this->getLayout()->getBlock($element->getAttribute('name'));
-            if ($block->isAnonymous()) {
-                $suffix = $block->getAnonSuffix();
-                if (empty($suffix)) {
-                    $suffix = 'child' . $this->getChildrenCount($parentName);
-                }
-                $blockName = $parentName . '.' . $suffix;
-
-                if ($this->getLayout()) {
-                    $this->getLayout()->unsetBlock($block->getNameInLayout())
-                        ->setBlock($blockName, $block);
-                    $this->_updateElementName($block->getNameInLayout(), $blockName);
-                }
-
-                $block->setNameInLayout($blockName);
-                $block->setIsAnonymous(false);
-
-            }
-            if (empty($alias)) {
-                $alias = $block->getNameInLayout();
-            }
-            $block->setBlockAlias($alias);
-        }
         $this->_move($element, $parentName);
 
         return $this;
     }
 
     /**
-     * @param $oldName
-     * @param $newName
+     * Get element alias by name
+     *
+     * @param $name
+     * @return string
+     */
+    public function getElementAlias($name)
+    {
+        return $this->getElementAttribute($name, 'alias');
+    }
+
+    /**
+     * Set element attribute
+     *
+     * @param string $name
+     * @param string $attribute
+     * @param string $value
      * @return Mage_Core_Model_Layout_Structure
      */
-    protected function _updateElementName($oldName, $newName)
+    public function setElementAttribute($name, $attribute, $value)
     {
         /** @var $element DOMElement */
-        $element = $this->_findByXpath("//*[@name='$oldName']")->item(0);
+        $element = $this->_getElementByXpath("//*[@name='$name']");
         if ($element) {
-            $element->setAttribute('name', $newName);
+            $element->setAttribute($attribute, $value);
         }
 
         return $this;
     }
 
     /**
-     * @param DOMElement $element
-     * @param string $newParent
+     * Set element attribute
+     *
+     * @param string $name
+     * @param string $attribute
+     * @return string
      */
-    protected function _move($element, $newParent)
+    public function getElementAttribute($name, $attribute)
     {
-        if ($newParent) {
-            $parentNodes = $this->_findByXpath("//*[@name='$newParent']");
-            if ($parentNodes->length > 1) {
-                throw new Magento_Exception("Found more than one parent '$newParent");
-            } elseif ($parentNodes->length == 1) {
-                $parentNode = $parentNodes->item(0);
-            }
-        }
-        if (!isset($parentNode)) {
-            $parentNode = $this->_document->firstChild;
+        /** @var $element DOMElement */
+        $element = $this->_getElementByXpath("//*[@name='$name']");
+        if ($element->hasAttribute($attribute)) {
+            return $element->getAttribute($attribute);
         }
 
-        $parentNode->appendChild($element);
+        return '';
     }
 
     /**
+     * Move child element to new parent
+     *
+     * @param $childName
+     * @param $parent
+     * @return Mage_Core_Model_Layout_Structure
+     */
+    public function move($childName, $parent)
+    {
+        $child = $this->_getElementByName($childName);
+        if ($child) {
+            $this->_move($child, $parent);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove child from parent element
+     *
      * @param $parentName
      * @param $alias
      * @return Mage_Core_Model_Layout_Structure
      */
     public function unsetChild($parentName, $alias)
     {
-        $parent = $this->_findByXpath("//*[@name='$parentName'")->item(0);
+        $parent = $this->_getElementByXpath("//*[@name='$parentName']");
         if ($parent) {
-            $child = $this->_findByXpath("*[@alias='$alias']", $parent)->item(0);
+            $child = $this->_getElementByXpath("*[@alias='$alias']", $parent);
             if ($child) {
                 $parent->removeChild($child);
             }
@@ -192,74 +193,31 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
+     * Remove element from the structure
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function unsetElement($name)
+    {
+        $element = $this->_getElementByXpath("*[@name='$name']");
+        if ($element) {
+            $this->_dom->removeChild($element);
+        }
+
+        return true;
+    }
+
+    /**
+     * Get child name by parent name and alias
+     *
      * @param $parentName
      * @param $alias
-     * @param $callback
-     * @param $result
-     * @param $params
-     * @return Mage_Core_Model_Layout_Structure
+     * @return string|bool
      */
-    public function unsetCallChild($parentName, $alias, $callback, $result, $params)
-    {
-        $child = $this->getChild($parentName, $alias);
-        if ($this->isBlock($child)) {
-            if ($child) {
-                $args     = func_get_args();
-                $alias    = array_shift($args);
-                $result   = (string)array_shift($args);
-                $callback = array_shift($args);
-                if (!is_array($params)) {
-                    $params = $args;
-                }
-
-                if ($result == call_user_func_array(array(&$child, $callback), $params)) {
-                    $this->unsetChild($parentName, $alias);
-                }
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $parent
-     * @return Mage_Core_Model_Layout_Structure
-     */
-    public function unsetChildren($parent)
-    {
-        $parent = $this->_findByXpath("//*[@name='$parent']")->item(0);
-        if ($parent) {
-            foreach ($parent->childNodes as $child) {
-                $parent->removeChild($child);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $parent
-     * @param string $alias
-     * @return array|Mage_Core_Block_Abstract|null
-     */
-    public function getChild($parent, $alias = '')
-    {
-        $result = null;
-        $element = $this->getChildElement($parent, $alias);
-        if ($element && $element instanceof DOMNode) {
-            $result = $this->getLayout()->getBlock($element->getAttribute('name'));
-        } else {
-            foreach ($element as $child) {
-                $result[] = $this->getElementObject($child);
-            }
-        }
-
-        return $result;
-    }
-
     public function getChildName($parentName, $alias)
     {
-        $child = $this->getChildElement($parentName, $alias);
+        $child = $this->_getChildElement($parentName, $alias);
         if (!$child) {
             return false;
         }
@@ -267,70 +225,48 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * @param $parent
-     * @param string $alias
-     * @return DOMNodeList|DOMElement
-     */
-    public function getChildElement($parent, $alias = '')
-    {
-        $parent = $this->_findByXpath("//*[@name='$parent']")->item(0);
-        if ('' === $alias) {
-            return $parent->childNodes;
-        } else {
-            return $this->_findByXpath("*[@alias='$alias']", $parent)->item(0);
-        }
-    }
-
-    /**
+     * Add new element to necessary position in the structure
+     *
      * @param string $parentName
-     * @return array
-     */
-    public function getSortedChildrenElements($parentName)
-    {
-        $children = array();
-        foreach ($this->getSortedChildren($parentName) as $child) {
-            $children[$child->attribute['name']] = $this->getElementObject($child);
-        }
-        return $children;
-    }
-
-    /**
-     * @param $parentName
-     * @param $name
-     * @param $type
-     * @param $alias
+     * @param string $name
+     * @param string $type
+     * @param string $alias
      * @param string $sibling
      * @param bool $after
-     * @return bool|DOMElement
-     * @throws Magento_Exception
+     * @param array $options
+     * @return string|bool
      */
-    public function insertElement($parentName, $name, $type, $alias = '', $sibling = '', $after = true)
+    public function insertElement($parentName, $name, $type, $alias = '', $after = true, $sibling = '',
+                                      $options = array())
     {
         if (!in_array($type, array(self::ELEMENT_TYPE_BLOCK, self::ELEMENT_TYPE_CONTAINER))) {
             return false;
         }
 
-        if ($parentName) {
-            $parentNodes = $this->_findByXpath("//*[@name='$parentName']");
-            if ($parentNodes->length == 1) {
-                $parentNode = $parentNodes->item(0);
-            }
+        if (empty($name)) {
+            $name = 'STRUCTURE_TMP_NAME_' . ($this->_nameIncrement++);
         }
-        if (!isset($parentNode)) {
-            $parentNode = $this->_document->firstChild;
+
+        $parentNode = false;
+        if ($parentName) {
+            $parentNode = $this->_getElementByXpath("//*[@name='$parentName']");
+        }
+        if (!$parentNode) {
+            $parentNode = $this->_dom->firstChild;
         }
 
         if ($alias == '') {
             $alias = $name;
         }
-        if ($exist = $this->_findByXpath("*[@alias='$alias']", $parentNode)->item(0)) {
+        $exist = $this->_getElementByXpath("*[@alias='$alias']", $parentNode);
+        if ($exist) {
             $parentNode->removeChild($exist);
         }
 
         $child = new DOMElement($type);
-        if ('' !== $sibling) {
-            $siblingNode = $this->_findByXpath("*[@alias='$sibling']", $parentNode)->item(0);
-            if (is_null($siblingNode)) {
+        if ('' !== $sibling && $parentNode->hasChildNodes()) {
+            $siblingNode = $this->_getElementByXpath("*[@alias='$sibling']", $parentNode);
+            if (!$siblingNode) {
                 $siblingNode = $parentNode->lastChild;
             }
             if ($after) {
@@ -339,7 +275,7 @@ class Mage_Core_Model_Layout_Structure
                 $parentNode->insertBefore($child, $siblingNode);
             }
         } else {
-            if ($after) {
+            if ($after || !$parentNode->hasChildNodes()) {
                 $parentNode->appendChild($child);
             } else {
                 $parentNode->insertBefore($child, $parentNode->firstChild);
@@ -349,47 +285,59 @@ class Mage_Core_Model_Layout_Structure
         $child->setAttribute('name', $name);
         $child->setAttribute('alias', $alias);
 
-        return $child;
-    }
-
-    public function insertBlock($parentName, $name, $alias = '', $sibling = '', $after = true)
-    {
-        $this->insertElement($parentName, $name, 'block', $alias, $sibling, $after);
-    }
-
-    public function insertContainer($parentName, $name, $alias = '', $sibling = '', $after = true)
-    {
-        $this->insertElement($parentName, $name, 'container', $alias, $sibling, $after);
-    }
-
-    /**
-     * @param DOMElement $element
-     * @param Mage_Core_Model_Layout_Element $node
-     * @return DOMElement
-     */
-    public function extendAttributes($element, $node)
-    {
-        if (isset($this->_availableOptions[$element->nodeName])) {
-            foreach ($this->_availableOptions[$element->nodeName] as $name) {
-                $parameter = $node->getAttribute($name);
-                if (!is_null($parameter)) {
-                    $element->setAttribute($name, $parameter);
-                }
-            }
+        foreach ($options as $optName => $value) {
+            $child->setAttribute($optName, $alias);
         }
 
-        return $element;
+        return $child->getAttribute('name');
     }
 
     /**
-     * @return string
+     * Add new block to necessary position in the structure
+     *
+     * @param $parentName
+     * @param $name
+     * @param string $alias
+     * @param string $sibling
+     * @param bool $after
+     * @param array $options
+     * @return string|bool
      */
-    public function getDocument()
+    public function insertBlock($parentName, $name, $alias = '', $after = true, $sibling = '', $options = array())
     {
-        return $this->_document->saveXML();
+        return $this->insertElement($parentName, $name, 'block', $alias, $after, $sibling, $options);
     }
 
     /**
+     * Add new container to necessary position in the structure
+     *
+     * @param $parentName
+     * @param $name
+     * @param string $alias
+     * @param string $sibling
+     * @param bool $after
+     * @param array $options
+     * @return string|bool
+     */
+    public function insertContainer($parentName, $name, $alias = '', $after = true, $sibling = '', $options = array())
+    {
+        return $this->insertElement($parentName, $name, 'container', $alias, $after, $sibling, $options);
+    }
+
+    /**
+     * Check if element with specified name exists in the structure
+     *
+     * @param $name
+     * @return bool
+     */
+    public function hasElement($name)
+    {
+        return (bool)$this->_findByXpath("//*[@name='$name']");
+    }
+
+    /**
+     * Get children count
+     *
      * @param string $parentName
      * @return int
      */
@@ -399,60 +347,119 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * @param string $parent
-     * @param string $alias
-     * @return bool|Mage_Core_Block_Abstract
+     * Add element to parent group
+     *
+     * @param string $name
+     * @param string $parentName
+     * @param string $parentGroupName
+     * @return bool
      */
-    public function getElementByAlias($parent, $alias)
+    public function addToParentGroup($name, $parentName, $parentGroupName)
     {
-        return $this->_findByXpath("//*[@name='$parent']/*[@alias='$alias'")->item(0);
+        $parentElement = $this->_getElementByName($parentName);
+        if ($this->_getElementByXpath("groups/group[@name='$parentGroupName']/node[title='$name']", $parentElement)) {
+            return false;
+        }
+
+        $group = $this->_getElementByXpath("groups/group[@groupName='$parentGroupName']", $parentElement);
+        if (!$group) {
+            $groups = $this->_getElementByXpath('groups', $parentElement);
+            if (!$groups) {
+                $groups = new DOMElement('groups');
+                $parentElement->appendChild($groups);
+            }
+            $group = new DOMElement('group');
+            $groups->appendChild($group);
+            $group->setAttribute('groupName', $parentGroupName);
+        }
+
+        $child = new DOMNode();
+        $group->appendChild($child);
+        $child->textContent = $name;
+
+        return true;
     }
 
     /**
+     * Get element names for specified group
+     *
+     * @param string $name
+     * @param string $groupName
+     * @return array
+     */
+    public function getGroupChildNames($name, $groupName)
+    {
+        $children = array();
+        $elements = $this->_findByXpath("//*[@name='$name']/groups/group[@groupName='$groupName']*");
+        /** @var $element DOMNode */
+        foreach ($elements as $element) {
+            $children[] = $element->textContent;
+        }
+
+        return $children;
+    }
+
+    /**
+     * Check if element is block
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isBlock($name)
+    {
+        $element = $this->_getElementByXpath("//*[@name='$name']");
+        return $element && (self::ELEMENT_TYPE_BLOCK == $element->nodeName);
+    }
+
+    /**
+     * Get child node from a parent
+     *
+     * @param $parent
+     * @param string $alias
+     * @return DOMElement|bool
+     */
+    protected function _getChildElement($parent, $alias)
+    {
+        if (!$parent || !$alias) {
+            return false;
+        }
+        $parent = $this->_getElementByXpath("//*[@name='$parent']");
+        return $this->_getElementByXpath("*[@alias='$alias']", $parent);
+    }
+
+    /**
+     * Move element to new parent node
+     *
+     * @param DOMElement $element
+     * @param string $newParent
+     */
+    protected function _move($element, $newParent)
+    {
+        $parentNode = false;
+        if ($newParent) {
+            $parentNode = $this->_getElementByXpath("//*[@name='$newParent']");
+        }
+        if (!$parentNode) {
+            $parentNode = $this->_dom->firstChild;
+        }
+
+        $parentNode->appendChild($element);
+    }
+
+    /**
+     * Get element by name
+     *
      * @param string $name
      * @return DOMElement
      */
-    public function getElementByName($name)
+    protected function _getElementByName($name)
     {
-        $elements = $this->_findByXpath("//*[@name='$name']");
-        if ($elements) {
-            return $elements->item(0);
-        } else {
-            return null;
-        }
+        return $this->_getElementByXpath("//*[@name='$name']");
     }
 
     /**
-     * @param DOMElement $element
-     * @return Mage_Core_Block_Abstract
-     */
-    public function getElementObject($element)
-    {
-        if ($this->isBlock($element)) {
-            $element = $this->getLayout()->getBlock($element->getAttribute('name'));
-        }
-        return $element;
-    }
-
-    /**
-     * @return Mage_Core_Model_Layout
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
-    }
-
-    /**
-     * @param $element
-     * @return bool
-     */
-    public function isBlock($element)
-    {
-        return ($element instanceof Mage_Core_Block_Abstract) ||
-            ($element instanceof DOMElement && self::ELEMENT_TYPE_BLOCK == $element->nodeName);
-    }
-
-    /**
+     * Find element(s) by xpath
+     *
      * @param string $xpath
      * @param DOMElement $context
      * @return DOMNodeList
@@ -460,5 +467,24 @@ class Mage_Core_Model_Layout_Structure
     protected function _findByXpath($xpath, $context = null)
     {
         return $this->_xpath->query($xpath, $context);
+    }
+
+    /**
+     * Get first element by xpath
+     *
+     * Gets element by xpath
+     *
+     * @param $xpath
+     * @param null|DOMElement $context
+     * @return null|DOMElement
+     */
+    protected function _getElementByXpath($xpath, $context = null)
+    {
+        $elements = $this->_xpath->query($xpath, $context);
+        if ($elements) {
+            return $elements->item(0);
+        } else {
+            return null;
+        }
     }
 }

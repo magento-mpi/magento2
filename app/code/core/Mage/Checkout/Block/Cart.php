@@ -129,8 +129,8 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
      */
     public function getMethods($nameInLayout)
     {
-        if ($this->getChild($nameInLayout) instanceof Mage_Core_Block_Abstract) {
-            return $this->getChild($nameInLayout)->getSortedChildren();
+        if ($this->getChildBlock($nameInLayout) instanceof Mage_Core_Block_Abstract) {
+            return $this->getChildBlock($nameInLayout)->getChildNames();
         }
         return array();
     }

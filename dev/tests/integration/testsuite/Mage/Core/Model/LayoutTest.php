@@ -133,7 +133,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_model->setBlock($expectedBlockName, $expectedBlock);
         $this->assertSame($expectedBlock, $this->_model->getBlock($expectedBlockName));
 
-        $this->_model->unsetBlock($expectedBlockName);
+        $this->_model->unsetElement($expectedBlockName);
         $this->assertFalse($this->_model->getBlock($expectedBlockName));
     }
 

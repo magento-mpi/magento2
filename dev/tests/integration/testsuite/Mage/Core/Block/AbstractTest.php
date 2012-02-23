@@ -101,7 +101,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             'block.clone2', 'block.clone3', 'block.clone4', 'block.clone1'
-        ), $this->_block->getSortedChildren());
+        ), $this->_block->getChildNames());
     }
 
     public function testSetAttribute()
@@ -122,28 +122,28 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blockOne->setNameInLayout($nameOne);
         $layout->setBlock($nameOne, $blockOne);
         $this->_block->setChild('block1', $blockOne);
-        $this->assertSame($blockOne, $this->_block->getChild('block1'));
+        $this->assertSame($blockOne, $this->_block->getChildBlock('block1'));
 
         // block factory name
         $blockTwo = new Mage_Core_Block_Template;
         $blockTwo->setLayout($layout);
         $blockTwo->setChild('block2', $nameOne);
-        $this->assertSame($blockOne, $blockTwo->getChild('block2'));
+        $this->assertSame($blockOne, $blockTwo->getChildBlock('block2'));
 
         // anonymous block
         $blockThree = new Mage_Core_Block_Template;
         $blockThree->setIsAnonymous(true);
         $this->_block->setChild('block3', $blockThree);
-        $this->assertSame($blockThree, $this->_block->getChild('block3'));
+        $this->assertSame($blockThree, $this->_block->getChildBlock('block3'));
 
         // unset
         $this->_block->unsetChild('block3');
-        $this->assertNotSame($blockThree, $this->_block->getChild('block3'));
+        $this->assertNotSame($blockThree, $this->_block->getChildBlock('block3'));
         $this->_block->insert($blockOne, '', true, 'block1');
-        $this->assertContains($nameOne, $this->_block->getSortedChildren());
+        $this->assertContains($nameOne, $this->_block->getChildNames());
         $this->_block->unsetChild('block1');
-        $this->assertNotSame($blockOne, $this->_block->getChild('block1'));
-        $this->assertNotContains($nameOne, $this->_block->getSortedChildren());
+        $this->assertNotSame($blockOne, $this->_block->getChildBlock('block1'));
+        $this->assertNotContains($nameOne, $this->_block->getChildNames());
     }
 
     public function testUnsetCallChild()
@@ -151,9 +151,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blockOne = new Mage_Core_Block_Template;
         $blockOne->setSomeValue(true);
         $this->_block->setChild('block1', $blockOne);
-        $this->assertSame($blockOne, $this->_block->getChild('block1'));
+        $this->assertSame($blockOne, $this->_block->getChildBlock('block1'));
         $this->_block->unsetCallChild('block1', 'getSomeValue', true, array());
-        $this->assertNotSame($blockOne, $this->_block->getChild('block1'));
+        $this->assertNotSame($blockOne, $this->_block->getChildBlock('block1'));
     }
 
     /**
@@ -162,15 +162,15 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testUnsetChildren()
     {
-        $this->assertEquals(array(), $this->_block->getChild());
+        $this->assertEquals(array(), $this->_block->getChildNames());
         $blockOne = new Mage_Core_Block_Template;
         $blockTwo = new Mage_Core_Block_Template;
         $this->_block->setChild('block1', $blockOne);
         $this->_block->setChild('block2', $blockTwo);
-        $this->assertSame($blockOne, $this->_block->getChild('block1'));
-        $this->assertSame($blockTwo, $this->_block->getChild('block2'));
+        $this->assertSame($blockOne, $this->_block->getChildBlock('block1'));
+        $this->assertSame($blockTwo, $this->_block->getChildBlock('block2'));
         $this->_block->unsetChildren();
-        $this->assertEquals(array(), $this->_block->getChild());
+        $this->assertEquals(array(), $this->_block->getChildNames());
     }
 
     /**
@@ -218,7 +218,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         list($blocks, $names) = $this->_createSampleBlocks(2);
         $this->_block->append($blocks[0], 'block1')->append($blocks[1], 'block2');
-        $result = $this->_block->getSortedChildBlocks();
+        $result = $this->_block->getChildNames();
         $this->assertArrayHasKey($names[0], $result);
         $this->assertArrayHasKey($names[1], $result);
         $this->assertSame($names[0], key($result));
@@ -241,27 +241,27 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blockOne = new Mage_Core_Block_Template;
         $blockOne->setIsAnonymous(true);
         $this->_block->insert($blockOne);
-        $this->assertContains('.child0', $this->_block->getSortedChildren());
+        $this->assertContains('.child0', $this->_block->getChildNames());
 
         // block with alias, to the last position
         $blockTwo = new Mage_Core_Block_Template;
         $blockTwo->setNameInLayout('block.two');
         $this->_block->insert($blockTwo, '', true, 'block_two');
-        $this->assertContains('block.two', $this->_block->getSortedChildren());
-        $this->assertSame($blockTwo, $this->_block->getChild('block_two'));
+        $this->assertContains('block.two', $this->_block->getChildNames());
+        $this->assertSame($blockTwo, $this->_block->getChildBlock('block_two'));
 
         // unknown sibling, to the 1st position
         $blockThree = new Mage_Core_Block_Template;
         $blockThree->setNameInLayout('block.three');
         $this->_block->insert($blockThree, 'wrong_sibling', false, 'block_three');
-        $this->assertContains('block.three', $this->_block->getSortedChildren());
-        $this->assertSame(0, array_search('block.three', $this->_block->getSortedChildren()));
+        $this->assertContains('block.three', $this->_block->getChildNames());
+        $this->assertSame(0, array_search('block.three', $this->_block->getChildNames()));
 
         $blockFour = new Mage_Core_Block_Template;
         $blockFour->setNameInLayout('block.four');
         $this->_block->insert($blockFour, 'wrong_sibling', true, 'block_four');
-        $this->assertContains('block.four', $this->_block->getSortedChildren());
-        $this->assertSame(3, array_search('block.four', $this->_block->getSortedChildren()));
+        $this->assertContains('block.four', $this->_block->getChildNames());
+        $this->assertSame(3, array_search('block.four', $this->_block->getChildNames()));
     }
 
     /**
@@ -274,20 +274,20 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block->append($blocks[0], 'block1')->append($blocks[1], 'block2');
 
         // addToChildGroup()
-        $this->assertEquals(array(), $this->_block->getChildGroup('group'));
+        $this->assertEquals(array(), $this->_block->getGroupChildNames('group'));
         $this->_block->addToChildGroup('group', $blocks[0]);
         $this->_block->addToChildGroup('group', $blocks[1]);
 
         // getChildGroup() without callback
-        $group = $this->_block->getChildGroup('group');
+        $group = $this->_block->getGroupChildNames('group');
         $this->assertEquals(array('block1' => $blocks[0], 'block2' => $blocks[1]), $group);
 
         // getChildGroup() with callback and skipping empty results
-        $group = $this->_block->getChildGroup('group', 'getChildHtml');
+        $group = $this->_block->getGroupChildNames('group', 'getChildHtml');
         $this->assertEquals(array(), $group);
 
         // getChildGroup() with callback and not skipping empty results
-        $group = $this->_block->getChildGroup('group', 'getChildHtml', false);
+        $group = $this->_block->getGroupChildNames('group', 'getChildHtml', false);
         $this->assertEquals(array('block1' => '', 'block2' => ''), $group);
     }
 
@@ -297,7 +297,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block->append($blocks[0], 'block1')->append($blocks[1], 'block2');
         $blocks[0]->addToParentGroup('group');
         $blocks[1]->addToParentGroup('group');
-        $group = $this->_block->getChildGroup('group');
+        $group = $this->_block->getGroupChildNames('group');
         $this->assertArrayHasKey('block1', $group);
         $this->assertArrayHasKey('block2', $group);
         $this->assertSame($group['block1'], $blocks[0], 'The same instance is expected.');

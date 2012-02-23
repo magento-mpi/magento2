@@ -25,7 +25,7 @@
 
     <script type="text/javascript">
         function setFilterValue(obj) {
-            <?php echo $this->getChild('grid')->getJsObjectName() ?>.addVarToUrl("website_ids", obj);
+            <?php echo $this->getChildBlock('grid')->getJsObjectName() ?>.addVarToUrl("website_ids", obj);
         }
 
         function refreshValues(obj) {

@@ -25,8 +25,8 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 
         ob_implicit_flush();
 
-        foreach ($this->getSortedChildren() as $name) {
-            echo $this->getChildHtml($name);
+        foreach ($this->getChildNames() as $name) {
+            echo $this->getLayout()->renderElement($name);
         }
     }
 

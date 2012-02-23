@@ -393,7 +393,11 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
         }
 
         if ($this->hasShouldPrepareInfoTabs()) {
-            foreach ($this->getChildGroup('info_tabs') as $block) {
+            foreach ($this->getGroupChildNames('info_tabs') as $name) {
+                $block = $this->getLayout()->getBlock($name);
+                if (!$name) {
+                    continue;
+                }
                 $block->setViewUrl(
                     $this->getUrl("*/*/{$block->getViewAction()}", array('profile' => $this->_profile->getId()))
                 );

@@ -819,19 +819,19 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $block = $observer->getEvent()->getBlock();
         if ($block) {
             /* @var $row Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row */
-            $row = $block->getChild('row');
+            $row = $block->getChildBlock('row');
             if ($this->_role->getIsWebsiteLevel()) {
                 $websiteIds = $this->_role->getWebsiteIds();
                 $block->setAdditionConfigData(array('limited_website_ids' => $websiteIds));
             } else if ($this->_role->getIsStoreLevel()) {
                 $block->getCategory()->setPermissionsReadonly(true);
-                $addButton = $block->getChild('add_button');
+                $addButton = $block->getChildBlock('add_button');
                 if ($addButton) {
                     $addButton->setDisabled(true)
                         ->setClass($addButton->getClass() . ' disabled');
                 }
                 if ($row) {
-                    $deleteButton = $row->getChild('delete_button');
+                    $deleteButton = $row->getChildBlock('delete_button');
                     if ($deleteButton) {
                         $addButton->setDisabled(true)
                             ->setClass($deleteButton->getClass() . ' disabled');

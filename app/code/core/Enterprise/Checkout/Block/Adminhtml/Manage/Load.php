@@ -25,8 +25,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Load extends Mage_Core_Block_Te
     protected function _toHtml()
     {
         $result = array();
-        foreach ($this->getSortedChildren() as $name) {
-            $result[$name] = $this->getChildHtml($name);
+        foreach ($this->getChildNames() as $name) {
+            $result[$name] = $this->getLayout()->renderElement($name);
         }
         $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
