@@ -288,7 +288,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $options = $this->_getValidNodeOptions($node);
         $elementName = $this->getStructure()
-            ->insertElement($parentName, $name, $elementType, $alias, $sibling, $after, $options);
+            ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
 
         if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_BLOCK == $elementType) {
             $block = $this->_generateBlock($node);
@@ -299,6 +299,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if ($updatedName != $name) {
                 $this->getStructure()->setElementAttribute($elementName, 'name', $updatedName);
                 $this->getStructure()->setElementAttribute($elementName, 'alias', $updatedName);
+            }
+        } elseif (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER == $elementType) {
+            if (isset($this->_blocks[$name])) {
+                unset($this->_blocks[$name]);
             }
         }
 
@@ -383,10 +387,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $className = (string)$node['type'];
         }
         $elementName = $node->getAttribute('name');
-        $alias = $node->getAttribute('as');
-        if (empty($alias)) {
-            $alias = $elementName;
-        }
 
         $block = $this->addBlock($className, $elementName);
         if (!$block) {
@@ -858,7 +858,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $out = '';
         if (!empty($this->_output)) {
             foreach ($this->_output as $callback) {
-                $out .= $this->getBlock($callback[0])->$callback[1]();
+                $out .= $this->renderElement($callback[0]);
             }
         }
 
