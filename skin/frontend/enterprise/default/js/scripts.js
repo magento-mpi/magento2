@@ -941,21 +941,18 @@ Enterprise.textOverflow = function(elem) {
         var initialHeight = container.getHeight();
         if (inner.getHeight() > initialHeight) {
             var words = inner.innerHTML.split(' ');
-            var test = new Element('span', {'style':'visibility:hidden;'});
+            var test = new Element('span', {'style': 'visibility:hidden;'});
             test.style.width = container.getWidth();
             container.insert(test);
-            tempString = '';
-            i=0;
-            while ($(test).getHeight() < initialHeight|| i < words.legth ) {
+            var tempString = '';
+            for (var i = 0; $(test).getHeight() <= initialHeight || i < words.legth; i++) {
                 tempString = tempString + words[i] + ' ';
                 test.update(tempString)
-                i++;
             };
-            finalstring=(words.slice(-words.length,i-2)).join(' ');
+            var finalstring = (words.slice(-words.length, i - 2)).join(' ');
             test.remove();
-            inner.update(finalstring+'&hellip;');
-
+            inner.update(finalstring + '&hellip;');
         }
-   }
+    }
 };
 Event.observe(document, 'dom:loaded', Enterprise.loadSplitButtons);
