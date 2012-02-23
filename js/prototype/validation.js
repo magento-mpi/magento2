@@ -435,34 +435,45 @@ Validation.addAllThese([
                     return false;
                 }
 
-                var reRange = /^number-range-([-\d.,]*)-([-\d.,]*)$/,
+                var reRange = /^number-range-(-?[\d.,]+)?-(-?[\d.,]+)?$/,
                     result = true;
 
                 $w(elm.className).each(function(name) {
                     var m = reRange.exec(name);
                     if (m) {
                         result = result
-                            && (m[1] == '' || numValue >= parseNumber(m[1]))
-                            && (m[2] == '' || numValue <= parseNumber(m[2]));
+                            && (m[1] == null || numValue >= parseNumber(m[1]))
+                            && (m[2] == null || numValue <= parseNumber(m[2]));
                     }
                 });
 
-                return !!result;
+                return result;
             }],
     ['validate-digits', 'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
             }],
     ['validate-digits-range', 'The value is not within the specified range.', function(v, elm) {
-                var result = Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
-                var reRange = new RegExp(/^digits-range-[0-9]+-[0-9]+$/);
+                if (Validation.get('IsEmpty').test(v)) {
+                    return true;
+                }
+
+                var numValue = parseNumber(v);
+                if (isNaN(numValue)) {
+                    return false;
+                }
+
+                var reRange = /^digits-range-(-?\d+)?-(-?\d+)?$/,
+                    result = true;
+
                 $w(elm.className).each(function(name) {
-                    if (name.match(reRange) && result) {
-                        var min = parseInt(name.split('-')[2], 10);
-                        var max = parseInt(name.split('-')[3], 10);
-                        var val = parseInt(v, 10);
-                        result = (val >= min) && (val <= max);
+                    var m = reRange.exec(name);
+                    if (m) {
+                        result = result
+                            && (m[1] == null || numValue >= parseNumber(m[1]))
+                            && (m[2] == null || numValue <= parseNumber(m[2]));
                     }
                 });
+
                 return result;
             }],
     ['validate-alpha', 'Please use letters only (a-z or A-Z) in this field.', function (v) {
