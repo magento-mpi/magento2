@@ -34,41 +34,13 @@
 class Enterprise_Wishlist_Block_Links extends Mage_Wishlist_Block_Links
 {
     /**
-     * Block position in menu
+     * Count items in wishlist
      *
-     * @var int
+     * @return int
      */
-    protected $_position = 30;
-
-    /**
-     * Create Wishlist Item Collection
-     *
-     * @param int $customerId
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    protected function _createCollection($customerId)
+    protected function _getItemCount()
     {
-        $collection = Mage::getResourceModel('wishlist/item_collection')
-            ->addCustomerIdFilter($customerId)
-            ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
-            ->setVisibilityFilter();
-        return $collection;
-    }
-
-    /**
-     * Set custom wishlist for block
-     * Used by external modules to substitute wishlist
-     *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
-     */
-    public function setCustomWishlist(Mage_Wishlist_Model_Wishlist $wishlist)
-    {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
-            $collection = $this->_createCollection($wishlist->getCustomerId());
-            Mage::helper('wishlist')->setWishlistItemCollection($collection);
-        } else {
-            parent::setCustomWishlist($wishlist);
-        }
+        return $this->helper('enterprise_wishlist')->getItemCount();
     }
 
     /**

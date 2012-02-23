@@ -34,11 +34,37 @@
 class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
 {
     /**
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    protected function _createWishlistItemCollection()
+    {
+        if ($this->isMultipleEnabled()) {
+            return Mage::getModel('wishlist/item')->getCollection()
+                ->addCustomerIdFilter($this->getCustomer()->getId())
+                ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->setVisibilityFilter();
+        } else {
+            return parent::_createWishlistItemCollection();
+        }
+    }
+
+    /**
      * The list of default wishlists grouped by customer id
      *
      * @var array
      */
     protected $_defaultWishlistsByCustomer = array();
+
+    /**
+     * Retrieve current customer
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomer()
+    {
+        return Mage::helper('wishlist')->getCustomer();
+    }
 
     /**
      * Check whether multiple wishlist is enabled
@@ -110,7 +136,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
     public function getCustomerWishlists($customerId = null)
     {
         if (!$customerId) {
-            $customerId = $this->_getCustomerSession()->getCustomerId();
+            $customerId = $this->_getCustomer()->getId();
         }
         $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {

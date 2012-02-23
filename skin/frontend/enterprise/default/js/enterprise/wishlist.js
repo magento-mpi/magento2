@@ -277,15 +277,18 @@ Enterprise.Wishlist.copySelectedToNew = function() {
 Event.observe(document, 'dom:loaded', function() {
     if (typeof Enterprise.Wishlist.list != 'undefined'
         && (Enterprise.Wishlist.list.length || Enterprise.Wishlist.canCreate)) {
+
         var buildUrl = function(url, wishlist) {
+            var glue = url.indexOf('?') == -1 ? '?' : '&';
+            var wishlistInfo = '';
             if (typeof wishlist.serializedData != 'undefined') {
-                var glue = url .indexOf('?') == -1 ? '?' : '&';
-                return url + glue + wishlist.serializedData;
+                wishlistInfo = wishlist.serializedData;
             } else {
-                var glue = url .charAt( url.length-1 ) == '/' ? '' : '/';
-                return url + glue + 'wishlist_id/' + wishlist + '/';
+                wishlistInfo = Hash.toQueryString({'wishlist_id': wishlist});
             }
+            return url + glue + wishlistInfo;
         }
+
         $$('.link-wishlist').each(function(link) {
             var url = link.href;
             var onclick = link.onclick || function() {

@@ -34,13 +34,23 @@
 class Enterprise_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Customer_Sidebar
 {
     /**
+     * Retrieve wishlist helper
+     *
+     * @return Enterprise_Wishlist_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return $this->helper('enterprise_wishlist');
+    }
+
+    /**
      * Retrieve block title
      *
      * @return string
      */
     public function getTitle()
     {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
+        if ($this->_getHelper()->isMultipleEnabled()) {
             return $this->__('My Wishlists <small>(%d)</small>', $this->getItemCount());
         } else {
             return parent::getTitle();
@@ -48,33 +58,12 @@ class Enterprise_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Cus
     }
 
     /**
-     * Create Wishlist Item Collection
      *
-     * @param int $customerId
      * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * Create wishlist item collection
      */
-    protected function _createCollection($customerId)
+    protected function _createWishlistItemCollection()
     {
-        $collection = Mage::getResourceModel('wishlist/item_collection')
-            ->addCustomerIdFilter($customerId)
-            ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
-            ->setVisibilityFilter();
-        return $collection;
-    }
-
-    /**
-     * Set wishlist for block.
-     * Used by persistent wishlist module
-     *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
-     */
-    public function setCustomWishlist(Mage_Wishlist_Model_Wishlist $wishlist)
-    {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
-            $collection = $this->_createCollection($wishlist->getCustomerId());
-            Mage::helper('wishlist')->setWishlistItemCollection($collection);
-        } else {
-            parent::setCustomWishlist($wishlist);
-        }
+        return $this->_getHelper()->getWishlistItemCollection();
     }
 }

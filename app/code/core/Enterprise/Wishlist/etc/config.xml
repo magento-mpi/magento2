@@ -123,14 +123,6 @@
             </modules>
         </translate>
         <events>
-            <controller_action_predispatch>
-                <observers>
-                    <enterprise_wishlist>
-                        <class>enterprise_wishlist/observer</class>
-                        <method>initHelperItemCollection</method>
-                    </enterprise_wishlist>
-                </observers>
-            </controller_action_predispatch>
             <wishlist_delete_commit_after>
                 <observers>
                     <enterprise_pagecache>

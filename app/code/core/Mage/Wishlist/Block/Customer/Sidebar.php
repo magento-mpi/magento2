@@ -75,16 +75,6 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     }
 
     /**
-     * Can Display wishlist
-     *
-     * @return bool
-     */
-    public function getCanDisplayWishlist()
-    {
-        return $this->_getCustomerSession()->isLoggedIn();
-    }
-
-    /**
      * Retrieve URL for removing item from wishlist
      *
      * @deprecated back compatibility alias for getItemRemoveUrl
@@ -109,33 +99,29 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     }
 
     /**
-     * Retrieve Wishlist model
-     *
-     * @return Mage_Wishlist_Model_Wishlist
-     */
-    protected function _getWishlist()
-    {
-        if (is_null($this->_wishlist)) {
-            if (!$this->getCustomWishlist()) {
-                return parent::_getWishlist();
-            } else {
-                $this->_wishlist = $this->getCustomWishlist();
-            }
-        }
-        return $this->_wishlist;
-    }
-
-    /**
-     * Retrieve wishlist item collection
+     * Retrieve Wishlist Product Items collection
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getWishlistItems()
     {
-        $collection = clone $this->helper('wishlist')->getWishlistItemCollection();
-        $collection->clear();
-        $this->_prepareCollection($collection);
-        return $collection;
+        if (is_null($this->_collection)) {
+            $this->_collection = clone $this->_createWishlistItemCollection();
+            $this->_collection->clear();
+            $this->_prepareCollection($this->_collection);
+        }
+
+        return $this->_collection;
+    }
+
+    /**
+     * Return wishlist items count
+     *
+     * @return int
+     */
+    public function getItemCount()
+    {
+        return $this->_getHelper()->getItemCount();
     }
 
     /**
@@ -149,22 +135,13 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     }
 
     /**
-     * Count items in wishlist
+     * Can Display wishlist
      *
-     * @return int
+     * @deprecated after 1.6.2.0
+     * @return bool
      */
-    public function getItemCount()
+    public function getCanDisplayWishlist()
     {
-        return $this->helper('wishlist')->getItemCount();
-    }
-
-    /**
-     * Set custom wishlist
-     *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
-     */
-    public function setCustomWishlist(Mage_Wishlist_Model_Wishlist $wishlist)
-    {
-        Mage::helper('wishlist')->setWishlistItemCollection($wishlist->getItemCollection());
+        return $this->_getCustomerSession()->isLoggedIn();
     }
 }

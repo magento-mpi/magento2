@@ -45,6 +45,13 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
 
     /**
+     * Currently logged in customer
+     *
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_currentCustomer = null;
+
+    /**
      * Customer Wishlist instance
      *
      * @var Mage_Wishlist_Model_Wishlist
@@ -61,7 +68,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Wishlist Items Collection
      *
-     * @var Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @var Mage_Wishlist_Model_Resource_Item_Collection
      */
     protected $_wishlistItemCollection = null;
 
@@ -92,7 +99,30 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getCurrentCustomer()
     {
-        return $this->_getCustomerSession()->getCustomer();
+        return $this->getCustomer();
+    }
+
+    /**
+     * Set current customer
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     */
+    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        $this->_currentCustomer = $customer;
+    }
+
+    /**
+     * Retrieve current customer
+     *
+     * @return Mage_Customer_Model_Customer|null
+     */
+    public function getCustomer()
+    {
+        if (!$this->_currentCustomer && $this->_getCustomerSession()->isLoggedIn()) {
+            $this->_currentCustomer = $this->_getCustomerSession()->getCustomer();
+        }
+        return $this->_currentCustomer;
     }
 
     /**
@@ -111,8 +141,8 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             }
             else {
                 $this->_wishlist = Mage::getModel('wishlist/wishlist');
-                if ($this->_getCustomerSession()->isLoggedIn()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomerSession()->getCustomer());
+                if ($this->getCustomer()) {
+                    $this->_wishlist->loadByCustomer($this->getCustomer());
                 }
             }
         }
@@ -169,31 +199,27 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getProductCollection();
     }
 
+    /**
+     * Create wishlist item collection
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    protected function _createWishlistItemCollection()
+    {
+        return $this->getWishlist()->getItemCollection();
+    }
 
     /**
      * Retrieve wishlist items collection
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getWishlistItemCollection()
     {
         if (is_null($this->_wishlistItemCollection)) {
-            $this->_wishlistItemCollection = $this->getWishlist()
-                ->getItemCollection();
+            $this->_wishlistItemCollection = $this->_createWishlistItemCollection();
         }
         return $this->_wishlistItemCollection;
-    }
-
-    /**
-     * Set Wishlist Item collection
-     *
-     * @param Mage_Wishlist_Model_Resource_Item_Collection $collection
-     * @return Mage_Wishlist_Helper_Data
-     */
-    public function setWishlistItemCollection($collection)
-    {
-        $this->_wishlistItemCollection = $collection;
-        return $this;
     }
 
     /**
@@ -436,7 +462,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isAllowInCart()
     {
-        return $this->isAllow() && $this->_isCustomerLogIn();
+        return $this->isAllow() && $this->getCustomer();
     }
 
     /**
@@ -513,7 +539,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $session = $this->_getCustomerSession();
         $count = 0;
-        if ($this->_isCustomerLogIn() || $this->_wishlistItemCollection) {
+        if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
             if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
                 $count = $collection->getItemsQty();
