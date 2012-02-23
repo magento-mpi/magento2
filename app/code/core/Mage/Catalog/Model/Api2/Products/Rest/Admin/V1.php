@@ -34,9 +34,9 @@
 class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Products_Rest
 {
     /**
-     * The greatest value which could be stored in CatalogInventory Qty field
+     * The greatest decimal value which could be stored. Corresponds to DECIMAL (12,4) SQL type
      */
-    const MAX_QTY_VALUE = 99999999.9999;
+    const MAX_DECIMAL_VALUE = 99999999.9999;
 
     /**
      * Create product
@@ -89,12 +89,14 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         /** @var $productEntity Mage_Eav_Model_Entity_Type */
         $productEntity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
         $this->_validateAttributeSet($data, $productEntity);
-        $this->_validateAttributes($data, $productEntity);
+        $requiredAttributes = $this->_validateAttributes($data, $productEntity);
         $this->_validateStore($data);
         $this->_validateSku($data);
         $this->_validateGroupPrice($data);
         $this->_validateTierPrice($data);
         $this->_validateStockData($data);
+
+        parent::_validate($data, $requiredAttributes, $requiredAttributes);
     }
 
     /**
@@ -102,6 +104,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
      *
      * @param array $data
      * @param Mage_Eav_Model_Entity_Type $productEntity
+     * @return array
      */
     protected function _validateAttributes($data, $productEntity)
     {
@@ -110,6 +113,17 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         }
         if (!isset($data['type']) || empty($data['type'])) {
             $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        // Validate weight
+        if (isset($data['weight']) && !empty($data['weight']) && $data['weight'] > 0
+            && !Zend_Validate::is($data['weight'], 'Between', array(0, self::MAX_DECIMAL_VALUE))) {
+            $this->_error('The "weight" value is not within the specified range.',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        // msrp_display_actual_price_type attribute values needs to be a string to pass validation
+        // see Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::getAllOptions()
+        if (isset($data['msrp_display_actual_price_type'])) {
+            $data['msrp_display_actual_price_type'] = (string) $data['msrp_display_actual_price_type'];
         }
         $requiredAttributes = array('set');
         $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
@@ -137,7 +151,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 // Validate dropdown attributes
                 if ($attribute->usesSource() && !empty($value)) {
                     $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
-                    if (!in_array($value, $allowedValues)) {
+                    if (!in_array($value, $allowedValues, true)) {
                         $this->_error(sprintf('Invalid value for attribute "%s".', $attributeCode),
                             Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                     }
@@ -167,7 +181,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 }
             }
         }
-        parent::_validate($data, $requiredAttributes, $requiredAttributes);
+
+        return $requiredAttributes;
     }
 
     /**
@@ -181,7 +196,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         if (!array_key_exists($data['type'], Mage_Catalog_Model_Product_Type::getTypes())) {
-            $this->_critical('Invalid product type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical('Invalid product type.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
 
@@ -199,7 +214,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
         $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($data['set']);
         if (!$attributeSet->getId() || $productEntity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
-            $this->_critical('Invalid attribute set', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical('Invalid attribute set.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
 
@@ -214,7 +229,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             try {
                 Mage::app()->getStore($data['store']);
             } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_critical('Invalid store', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                $this->_critical('Invalid store.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
     }
@@ -228,7 +243,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     {
         $sku = $data['sku'];
         if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
-            $this->_error('The SKU length could be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_error('SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
 
@@ -454,7 +469,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 $sourceModel = Mage::getSingleton($sourceModelName);
                 if ($sourceModel) {
                     $allowedValues = $this->_getAttributeAllowedValues($sourceModel->toOptionArray());
-                    if (!in_array($data[$field], $allowedValues)) {
+                    if (!in_array($data[$field], $allowedValues, true)) {
                         $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
                             Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                     }
@@ -475,7 +490,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         if (isset($data[$field])) {
             $allowedValues = $this->_getAttributeAllowedValues(
                 Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
-            if (!in_array($data[$field], $allowedValues)) {
+            if (!in_array($data[$field], $allowedValues, true)) {
                 $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
                     Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
@@ -559,8 +574,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         if (!isset($stockData['use_config_manage_stock'])) {
             $stockData['original_inventory_qty'] = 0;
         }
-        if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
-            $stockData['qty'] = self::MAX_QTY_VALUE;
+        if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_DECIMAL_VALUE) {
+            $stockData['qty'] = self::MAX_DECIMAL_VALUE;
         }
         if (isset($stockData['min_qty']) && (int)$stockData['min_qty'] < 0) {
             $stockData['min_qty'] = 0;
