@@ -332,8 +332,5 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
         //Verification
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
-        //Cleanup
-        $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStore(array('store_view_name' => $storeViewName));
     }
 }

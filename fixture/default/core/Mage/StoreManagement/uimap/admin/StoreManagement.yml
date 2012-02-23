@@ -223,7 +223,7 @@ detele_store:
             fieldsets:
                 -
                     backup_options:
-                        xpath: //form[@id='edit_form']
+                        xpath: //*[@id='page:main-container']
                         dropdowns:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
@@ -241,7 +241,7 @@ detele_website:
             fieldsets:
                 -
                     backup_options:
-                        xpath: //form[@id='edit_form']
+                        xpath: //*[@id='page:main-container']
                         dropdowns:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
@@ -259,7 +259,7 @@ detele_store_view:
             fieldsets:
                 -
                     backup_options:
-                        xpath : //form[@id='edit_form']
+                        xpath: //*[@id='page:main-container']
                         dropdowns:
                             create_backup: //select[@id='store_create_backup']
                         buttons:

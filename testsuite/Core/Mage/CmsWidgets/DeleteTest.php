@@ -141,7 +141,7 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created and deleted successfully</p>
      * @dataProvider widgetTypesReqDataProvider
-     * @depends createCategory
+     * @depends createProducts
      * @test
      *
      * @param $dataWidgetType

@@ -144,7 +144,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      * @dataProvider widgetTypesDataProvider
-     * @depends createCategory
+     * @depends createProducts
      * @test
      *
      * @param $dataWidgetType
@@ -191,7 +191,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      * @dataProvider widgetTypesReqDataProvider
-     * @depends createCategory
+     * @depends createProducts
      * @test
      *
      * @param $dataWidgetType
@@ -229,7 +229,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are not created. Message about required field empty appears.</p>
      * @dataProvider withEmptyFieldsDataProvider
-     * @depends createCategory
+     * @depends createProducts
      * @test
      *
      * @param $dataWidgetType
