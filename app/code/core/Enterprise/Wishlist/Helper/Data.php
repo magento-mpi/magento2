@@ -136,7 +136,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
     public function getCustomerWishlists($customerId = null)
     {
         if (!$customerId) {
-            $customerId = $this->_getCustomer()->getId();
+            $customerId = $this->getCustomer()->getId();
         }
         $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
