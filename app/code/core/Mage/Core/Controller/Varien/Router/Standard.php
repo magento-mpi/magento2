@@ -432,6 +432,9 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         if ($this->_shouldBeSecure($path) && !$request->isSecure()) {
             $url = $this->_getCurrentSecureUrl($request);
+            if ($request->getRouteName() != 'adminhtml' && Mage::app()->getUseSessionInUrl()) {
+                $url = Mage::getModel('core/url')->getRedirectUrl($url);
+            }
 
             Mage::app()->getFrontController()->getResponse()
                 ->setRedirect($url)

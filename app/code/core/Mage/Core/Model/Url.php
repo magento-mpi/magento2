@@ -1010,22 +1010,21 @@ class Mage_Core_Model_Url extends Varien_Object
      * Check and add session id to URL
      *
      * @param string $url
+     * @param array $params
+     *
      * @return Mage_Core_Model_Url
      */
-    protected function _prepareSessionUrl($url)
+    protected function _prepareSessionUrl($url, $params = array())
     {
         if (!$this->getUseSession()) {
             return $this;
         }
-        $session = Mage::getSingleton('core/session');
+
         /** @var $session Mage_Core_Model_Session */
+        $session = Mage::getSingleton('core/session', $params);
+
         if (Mage::app()->getUseSessionVar() && !$session->getSessionIdForHost($url)) {
-            // secure URL
-            if ($this->getSecure()) {
-                $this->setQueryParam('___SID', 'S');
-            } else {
-                $this->setQueryParam('___SID', 'U');
-            }
+            $this->setQueryParam('___SID', $this->getSecure() ? 'S' : 'U'); // Secure/Unsecure
         } else {
             $sessionId = $session->getSessionIdForHost($url);
             if ($sessionId) {
@@ -1176,5 +1175,24 @@ class Mage_Core_Model_Url extends Varien_Object
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return frontend redirect URL with SID and other session parameters if any
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public function getRedirectUrl($url)
+    {
+        $this->_prepareSessionUrl($url, array('name' => 'frontend'));
+
+        $query = $this->getQuery(false);
+        if ($query) {
+            $url .= (strpos($url, '?') === false ? '?' : '&') . $query;
+        }
+
+        return $url;
     }
 }
