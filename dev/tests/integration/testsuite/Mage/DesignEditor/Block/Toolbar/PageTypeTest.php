@@ -24,7 +24,7 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
         $layoutUtility = new Mage_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/../../../Core/Model/Layout/_files/_page_types.xml';
         $layout = $layoutUtility->getLayoutFromFixture($pageTypesFixture);
-        $layout->getUpdate()->addPageHandles(array('PRODUCT_TYPE_simple'));
+        $layout->getUpdate()->addPageHandles(array('catalog_product_view_type_simple'));
         $this->_block = new Mage_DesignEditor_Block_Toolbar_PageType();
         $this->_block->setLayout($layout);
     }
@@ -38,8 +38,8 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
 
     public function testGetSelectedPageType()
     {
-        $this->assertEquals('PRODUCT_TYPE_simple', $this->_block->getSelectedPageType());
-        $this->_block->setSelectedPageType('PRODUCT_TYPE_configurable');
-        $this->assertEquals('PRODUCT_TYPE_configurable', $this->_block->getSelectedPageType());
+        $this->assertEquals('catalog_product_view_type_simple', $this->_block->getSelectedPageType());
+        $this->_block->setSelectedPageType('catalog_product_view_type_configurable');
+        $this->assertEquals('catalog_product_view_type_configurable', $this->_block->getSelectedPageType());
     }
 }

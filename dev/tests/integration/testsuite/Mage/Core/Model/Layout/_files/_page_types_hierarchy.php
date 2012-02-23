@@ -44,18 +44,18 @@ return array(
                         'name'     => 'catalog_product_view',
                         'label'    => 'Catalog Product View (Any)',
                         'children' => array(
-                            'PRODUCT_TYPE_simple' => array(
-                                'name'     => 'PRODUCT_TYPE_simple',
+                            'catalog_product_view_type_simple' => array(
+                                'name'     => 'catalog_product_view_type_simple',
                                 'label'    => 'Catalog Product View (Simple)',
                                 'children' => array(),
                             ),
-                            'PRODUCT_TYPE_configurable' => array(
-                                'name'     => 'PRODUCT_TYPE_configurable',
+                            'catalog_product_view_type_configurable' => array(
+                                'name'     => 'catalog_product_view_type_configurable',
                                 'label'    => 'Catalog Product View (Configurable)',
                                 'children' => array(),
                             ),
-                            'PRODUCT_TYPE_grouped' => array(
-                                'name'     => 'PRODUCT_TYPE_grouped',
+                            'catalog_product_view_type_grouped' => array(
+                                'name'     => 'catalog_product_view_type_grouped',
                                 'label'    => 'Catalog Product View (Grouped)',
                                 'children' => array(),
                             ),

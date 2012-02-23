@@ -25,6 +25,6 @@ return array(
     ),
     array(
         'label' => 'Catalog Product View (Simple)',
-        'url'   => 'http://localhost/index.php/design/editor/page/page_type/PRODUCT_TYPE_simple/',
+        'url'   => '',
     ),
 );

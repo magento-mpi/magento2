@@ -14,7 +14,7 @@
 class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
 {
     /**
-     * @var string
+     * @var string|false
      */
     protected $_selectedPageType;
 
@@ -55,19 +55,13 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
     /**
      * Retrieve the name of the currently selected page type
      *
-     * @return string
+     * @return string|false
      */
     public function getSelectedPageType()
     {
         if ($this->_selectedPageType === null) {
-            $this->_selectedPageType = false;
-            $layoutUpdate = $this->getLayout()->getUpdate();
-            foreach (array_reverse($layoutUpdate->getPageHandles()) as $pageHandle) {
-                if ($layoutUpdate->pageTypeExists($pageHandle)) {
-                    $this->_selectedPageType = $pageHandle;
-                    break;
-                }
-            }
+            $pageHandles = $this->getLayout()->getUpdate()->getPageHandles();
+            $this->_selectedPageType = end($pageHandles);
         }
         return $this->_selectedPageType;
     }
