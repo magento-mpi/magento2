@@ -344,7 +344,7 @@ abstract class Mage_Api2_Model_Resource
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType=null, $operation=null)
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
         return $this->getAvailableAttributesFromConfig();
     }

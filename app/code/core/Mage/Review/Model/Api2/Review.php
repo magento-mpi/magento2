@@ -33,13 +33,4 @@
  */
 class Mage_Review_Model_Api2_Review extends Mage_Api2_Model_Resource_Instance
 {
-    /**
-     * Available attributes
-     *
-     * @return array
-     */
-    public function getAvailableAttributes()
-    {
-        return parent::getAvailableAttributes();
-    }
 }

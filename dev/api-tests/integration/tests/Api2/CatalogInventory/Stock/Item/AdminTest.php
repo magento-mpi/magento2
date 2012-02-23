@@ -71,6 +71,9 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
         $restResponse = $this->callGet('stockitems/' . $stockItem->getId());
+        
+        Mage::dump('stockitems/' . $stockItem->getId(), $restResponse); exit;
+        
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();

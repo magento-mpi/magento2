@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resour
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType, $operation)
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
         /** @var $resourceModel Mage_Sales_Model_Resource_Order */
         $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));

@@ -36,9 +36,11 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
     /**
      * Get available attributes of API resource
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
         /** @var $resource Mage_Sales_Model_Resource_Order */
         $resource  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
