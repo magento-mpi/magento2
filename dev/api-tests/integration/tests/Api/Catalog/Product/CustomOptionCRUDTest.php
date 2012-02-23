@@ -199,22 +199,15 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
-            $e = 'SOAP-ERROR: Encoding: object hasn\'t \'additional_fields\' property';
-            $this->markTestSkipped('Soap client fails with fatal error: '.$e);
-        }
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
-        $option = reset($customOptions);
-        unset($option['additional_fields']);
+        $option = $customOptions['field'];
+        $option['additional_fields'] = array();
 
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_custom_option.add', array(
-            'productId' => $fixtureProductId,
-            'data' => $option
-        ));
+        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Provided data is invalid.');
+        $this->call('product_custom_option.add', array('productId' => $fixtureProductId, 'data' => $option));
     }
 
     /**

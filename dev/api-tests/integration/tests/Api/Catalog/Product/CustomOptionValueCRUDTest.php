@@ -146,13 +146,9 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
      */
     public function testCustomOptionValueUpdateExceptionTitle()
     {
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
-            $e = 'SOAP-ERROR: Encoding: object hasn\'t \'title\' property';
-            $this->markTestSkipped('Soap client fails with fatal error: '.$e);
-        }
         $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
-        unset($customOptionValuesToUpdate['value_1']['title']);
+        $customOptionValuesToUpdate['value_1']['title'] = false;
 
         $this->call('product_custom_option_value.update', array(
             'valueId' => self::$_lastAddedOption['value_id'],
@@ -173,9 +169,8 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
         ));
         $this->assertTrue((bool)$removeOptionValueResult);
 
-        $this->markTestIncomplete('It seems option value removal implemented incorrectly');
         // Delete exception test
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Option value with requested id does not exist.');
         $this->call('product_custom_option_value.remove', array('valueId' => self::$_lastAddedOption['value_id']));
     }
 }
