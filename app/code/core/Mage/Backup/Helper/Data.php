@@ -31,38 +31,28 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Backup type constant for database backup
-     *
-     * @const string
      */
-    const TYPE_DB              = 'db';
+    const TYPE_DB = 'db';
 
     /**
      * Backup type constant for filesystem backup
-     *
-     * @const string
      */
-    const TYPE_FILESYSTEM      = 'filesystem';
+    const TYPE_FILESYSTEM = 'filesystem';
 
     /**
      * Backup type constant for full system backup(database + filesystem)
-     *
-     * @const string
      */
     const TYPE_SYSTEM_SNAPSHOT = 'snapshot';
 
     /**
      * Backup type constant for media and database backup
-     *
-     * @const string
      */
-    const TYPE_MEDIA      = 'media';
+    const TYPE_MEDIA = 'media';
 
     /**
      * Backup type constant for full system backup excluding media folder
-     *
-     * @const string
      */
-    const TYPE_SNAPSHOT_WITHOUT_MEDIA   = 'nomedia';
+    const TYPE_SNAPSHOT_WITHOUT_MEDIA = 'nomedia';
 
     /**
      * Get all possible backup type values with descriptive title
