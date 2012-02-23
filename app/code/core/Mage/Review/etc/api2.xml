@@ -37,8 +37,18 @@
                 <sort_order>110</sort_order>
                 <privileges>
                     <!-- For collection only CREATE and retrieve -->
-                    <create>1</create>
-                    <retrieve>1</retrieve>
+                    <guest>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </guest>
+                    <customer>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
                 </privileges>
                 <routes>
                     <route_main>
@@ -56,9 +66,21 @@
                 <title>Product Review</title>
                 <sort_order>100</sort_order>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
-                    <delete>1</delete>
+                    <guest>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </guest>
+                    <customer>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </customer>
+                    <admin>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
                 </privileges>
                 <attributes>
                     <review_id>ID</review_id>

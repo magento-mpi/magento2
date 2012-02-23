@@ -41,8 +41,11 @@
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Item</title>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                    </admin>
                 </privileges>
                 <routes>
                     <route_main>
@@ -106,8 +109,11 @@
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Items</title>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                    </admin>
                 </privileges>
                 <routes>
                     <route_main>

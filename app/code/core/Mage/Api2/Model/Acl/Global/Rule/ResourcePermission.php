@@ -42,11 +42,11 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
     protected $_resourcesPermissions;
 
     /**
-     * Filter item value
+     * Role
      *
-     * @var int
+     * @var Mage_Api2_Model_Acl_Global_Role
      */
-    protected $_roleId;
+    protected $_role;
 
     /**
      * Get resources permissions for selected role
@@ -56,17 +56,18 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
     public function getResourcesPermissions()
     {
         if (null === $this->_resourcesPermissions) {
+            $roleConfigNodeName = $this->_role->getConfigNodeName();
             $rulesPairs = array();
 
-            if ($this->_roleId) {
+            if ($this->_role) {
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
                 $rules = Mage::getResourceModel('api2/acl_global_rule_collection');
-                $rules->addFilterByRoleId($this->_roleId);
+                $rules->addFilterByRoleId($this->_role->getId());
 
                 /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
                 foreach ($rules as $rule) {
                     $resourceId = $rule->getResourceId();
-                    $rulesPairs[$resourceId]['privileges'][$rule->getPrivilege()] =
+                    $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$rule->getPrivilege()] =
                             Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
                 }
             } else {
@@ -86,17 +87,21 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
 
             /** @var $node Varien_Simplexml_Element */
             foreach ($resources as $node) {
-                $resourceId = (string) $node->type;
-                $allowedPrivileges = (array) $node->privileges;
+                $resourceId = (string)$node->type;
+                $allowedRoles = (array)$node->privileges;
+                $allowedPrivileges = array();
+                if (isset($allowedRoles[$roleConfigNodeName])) {
+                    $allowedPrivileges = $allowedRoles[$roleConfigNodeName];
+                }
                 foreach ($privileges as $privilege) {
                     if (empty($allowedPrivileges[$privilege])
-                        && isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                        && isset($rulesPairs[$resourceId][$roleConfigNodeName]['privileges'][$privilege])
                     ) {
-                        unset($rulesPairs[$resourceId]['privileges'][$privilege]);
+                        unset($rulesPairs[$resourceId][$roleConfigNodeName]['privileges'][$privilege]);
                     } elseif (!empty($allowedPrivileges[$privilege])
-                        && !isset($rulesPairs[$resourceId]['privileges'][$privilege])
+                        && !isset($rulesPairs[$resourceId][$roleConfigNodeName]['privileges'][$privilege])
                     ) {
-                        $rulesPairs[$resourceId]['privileges'][$privilege] =
+                        $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$privilege] =
                             Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
                     }
                 }
@@ -109,14 +114,12 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
     /**
      * Set filter value
      *
-     * Set role ID
-     *
      * @param Mage_Api2_Model_Acl_Global_Role $role
      */
     public function setFilterValue($role)
     {
         if ($role && $role->getId()) {
-            $this->_roleId = $role->getId();
+            $this->_role = $role;
         }
     }
 }
