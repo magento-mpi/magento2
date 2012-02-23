@@ -75,6 +75,17 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     }
 
     /**
+     * Can Display wishlist
+     *
+     * @deprecated after 1.6.2.0
+     * @return bool
+     */
+    public function getCanDisplayWishlist()
+    {
+        return $this->_getCustomerSession()->isLoggedIn();
+    }
+
+    /**
      * Retrieve URL for removing item from wishlist
      *
      * @deprecated back compatibility alias for getItemRemoveUrl
@@ -132,16 +143,5 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     public function hasWishlistItems()
     {
         return $this->getItemCount() > 0;
-    }
-
-    /**
-     * Can Display wishlist
-     *
-     * @deprecated after 1.6.2.0
-     * @return bool
-     */
-    public function getCanDisplayWishlist()
-    {
-        return $this->_getCustomerSession()->isLoggedIn();
     }
 }

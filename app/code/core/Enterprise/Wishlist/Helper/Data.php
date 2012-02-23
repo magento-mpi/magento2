@@ -34,6 +34,13 @@
 class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
 {
     /**
+     * The list of default wishlists grouped by customer id
+     *
+     * @var array
+     */
+    protected $_defaultWishlistsByCustomer = array();
+
+    /**
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
@@ -48,13 +55,6 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
             return parent::_createWishlistItemCollection();
         }
     }
-
-    /**
-     * The list of default wishlists grouped by customer id
-     *
-     * @var array
-     */
-    protected $_defaultWishlistsByCustomer = array();
 
     /**
      * Retrieve current customer
@@ -127,6 +127,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
     {
         return count($wishlistList) >= $this->getWishlistLimit();
     }
+
     /**
      * Retrieve Wishlist collection by customer id
      *

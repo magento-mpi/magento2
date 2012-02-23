@@ -58,9 +58,9 @@ class Enterprise_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Cus
     }
 
     /**
+     * Create wishlist item collection
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
-     * Create wishlist item collection
      */
     protected function _createWishlistItemCollection()
     {

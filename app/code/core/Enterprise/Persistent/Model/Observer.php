@@ -106,7 +106,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set whislist items count in top wishlist link block
      *
-     * @deprecated after 1.12.0.0
+     * @deprecated after 1.11.12.0
      * @param Mage_Core_Block_Abstract $block
      * @return null
      */
@@ -121,7 +121,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set persistent wishlist to wishlist sidebar block
      *
-     * @deprecated after 1.12.0.0
+     * @deprecated after 1.11.2.0
      * @param Mage_Core_Block_Abstract $block
      * @return null
      */
