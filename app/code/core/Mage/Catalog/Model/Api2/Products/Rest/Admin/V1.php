@@ -283,7 +283,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                 $this->_validateBoolean($stockData, $fieldSet, 'manage_stock');
                 $manageStock = isset($stockData['manage_stock']) && $stockData['manage_stock'];
             } else {
-                $manageStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
+                $manageStock = Mage::getStoreConfig(
+                    Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
             }
             if ($manageStock) {
                 $this->_validateNumeric($stockData, $fieldSet, 'qty');
@@ -298,7 +299,8 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
                     $this->_validatePositiveInteger($stockData, $fieldSet, 'qty_increments', false, true);
                 }
                 if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
-                    $this->_validateSource($stockData, $fieldSet, 'backorders', 'cataloginventory/source_backorders', true);
+                    $this->_validateSource($stockData, $fieldSet, 'backorders',
+                        'cataloginventory/source_backorders', true);
                     $this->_validateSource($stockData, $fieldSet, 'is_in_stock', 'cataloginventory/source_stock');
                 }
             }
