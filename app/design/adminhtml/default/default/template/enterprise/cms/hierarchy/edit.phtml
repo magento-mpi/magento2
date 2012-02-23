@@ -800,9 +800,10 @@
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
                     if ($(f).tagName.toLowerCase() == 'select') {
                         if (value == '') {
-                            $(f).selectedIndex = 0;
+                            $(f).selectedIndex = 1;
+                        } else {
+                            $(f).value = value;
                         }
-                        $(f).value = value;
                     } else {
                         $(f).value = (value == '0' ? '' : value);
                     }
