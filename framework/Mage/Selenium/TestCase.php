@@ -335,8 +335,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         static $error = null;
         if ($isFirst) {
             $browser = $this->drivers[0]->getBrowserSettings();
-            if ($browser['browser'] == '*iexplore' || $browser['browser'] == '*iehta') {
-                $this->captureScreenshotOnFailure = false;
+            if (strstr($browser['browser'],'*ie') !== false) {
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
             }
@@ -1513,19 +1512,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function takeScreenshot($fileName = null)
     {
-        if (!empty($this->screenshotPath)) {
-            if ($fileName == null) {
-                $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
-            }
-            $filePath = $this->getScreenshotPath() . $fileName;
-            $file = fopen($filePath . '.png', 'a+');
-            fputs($file, base64_decode($this->drivers[0]->captureEntirePageScreenshotToString()));
-            fflush($file);
-            fclose($file);
-            return 'Screenshot: ' . $filePath . ".png\n";
-        } else {
+        if (empty($this->screenshotPath)) {
             return '';
         }
+        try {
+            $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
+        } catch (Exception $e) {
+            return '';
+        }
+        if(empty($screenshotContent)) {
+            return '';
+        }
+        if ($fileName == null) {
+            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+        }
+        $filePath = $this->getScreenshotPath() . $fileName;
+        $file = fopen($filePath . '.png', 'a+');
+        fputs($file, $screenshotContent);
+        fflush($file);
+        fclose($file);
+        return 'Screenshot: ' . $filePath . ".png\n";
     }
 
     /**

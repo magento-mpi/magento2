@@ -62,6 +62,7 @@ framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
     coverageScriptUrl: ''
+    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
     captureScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_fixtures: true
