@@ -85,6 +85,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_elementsHtmlCache = array();
 
     /**
+     * Layout structure model
+     *
+     * @var Mage_Core_Model_Layout_Structure
+     */
+    protected $_structure;
+
+    /**
      * Increment for anonymous block names
      *
      * @var int

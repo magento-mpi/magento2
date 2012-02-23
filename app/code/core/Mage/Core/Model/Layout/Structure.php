@@ -61,7 +61,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getParentName($name)
     {
-        $element = $this->_getElementByXpath("//*[@name='$name']");
+        $element = $this->_getElementByXpath("//element[@name='$name']");
         if ($element) {
             return $element->parentNode->getAttribute('name');
         }
@@ -78,7 +78,7 @@ class Mage_Core_Model_Layout_Structure
     {
         $children = array();
         /** @var $child DOMElement */
-        foreach ($this->_findByXpath("//*[@name='$parentName']/*") as $child) {
+        foreach ($this->_findByXpath("//element[@name='$parentName']/element") as $child) {
             $children[] = $child->getAttribute('name');
         }
         return $children;
@@ -129,7 +129,7 @@ class Mage_Core_Model_Layout_Structure
     public function setElementAttribute($name, $attribute, $value)
     {
         /** @var $element DOMElement */
-        $element = $this->_getElementByXpath("//*[@name='$name']");
+        $element = $this->_getElementByXpath("//element[@name='$name']");
         if (!$element) {
             return false;
         }
@@ -148,7 +148,7 @@ class Mage_Core_Model_Layout_Structure
     public function getElementAttribute($name, $attribute)
     {
         /** @var $element DOMElement */
-        $element = $this->_getElementByXpath("//*[@name='$name']");
+        $element = $this->_getElementByXpath("//element[@name='$name']");
         if ($element && $element->hasAttribute($attribute)) {
             return $element->getAttribute($attribute);
         }
@@ -182,9 +182,9 @@ class Mage_Core_Model_Layout_Structure
      */
     public function unsetChild($parentName, $alias)
     {
-        $parent = $this->_getElementByXpath("//*[@name='$parentName']");
+        $parent = $this->_getElementByXpath("//element[@name='$parentName']");
         if ($parent) {
-            $child = $this->_getElementByXpath("*[@alias='$alias']", $parent);
+            $child = $this->_getElementByXpath("element[@alias='$alias']", $parent);
             if ($child) {
                 $parent->removeChild($child);
             }
@@ -201,7 +201,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function unsetElement($name)
     {
-        $element = $this->_getElementByXpath("*[@name='$name']");
+        $element = $this->_getElementByXpath("element[@name='$name']");
         if ($element) {
             $this->_dom->removeChild($element);
         }
@@ -250,7 +250,7 @@ class Mage_Core_Model_Layout_Structure
 
         $parentNode = false;
         if ($parentName) {
-            $parentNode = $this->_getElementByXpath("//*[@name='$parentName']");
+            $parentNode = $this->_getElementByXpath("//element[@name='$parentName']");
         }
         if (!$parentNode) {
             $parentNode = $this->_dom->firstChild;
@@ -259,14 +259,14 @@ class Mage_Core_Model_Layout_Structure
         if ($alias == '') {
             $alias = $name;
         }
-        $exist = $this->_getElementByXpath("*[@alias='$alias']", $parentNode);
+        $exist = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
         if ($exist) {
             $parentNode->removeChild($exist);
         }
 
-        $child = new DOMElement($type);
+        $child = $this->_dom->createElement('element');
         if ('' !== $sibling && $parentNode->hasChildNodes()) {
-            $siblingNode = $this->_getElementByXpath("*[@alias='$sibling']", $parentNode);
+            $siblingNode = $this->_getElementByXpath("element[@alias='$sibling']", $parentNode);
             if (!$siblingNode) {
                 $siblingNode = $parentNode->lastChild;
             }
@@ -283,6 +283,7 @@ class Mage_Core_Model_Layout_Structure
             }
         }
 
+        $child->setAttribute('type', $type);
         $child->setAttribute('name', $name);
         $child->setAttribute('alias', $alias);
 
@@ -333,7 +334,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function hasElement($name)
     {
-        return $this->_findByXpath("//*[@name='$name']")->length > 0;
+        return $this->_findByXpath("//element[@name='$name']")->length > 0;
     }
 
     /**
@@ -344,7 +345,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildrenCount($parentName)
     {
-        return $this->_findByXpath("//*[@name='$parentName']/*")->length;
+        return $this->_findByXpath("//element[@name='$parentName']/element")->length;
     }
 
     /**
@@ -358,25 +359,25 @@ class Mage_Core_Model_Layout_Structure
     public function addToParentGroup($name, $parentName, $parentGroupName)
     {
         $parentElement = $this->_getElementByName($parentName);
-        if ($this->_getElementByXpath("groups/group[@name='$parentGroupName']/node[title='$name']", $parentElement)) {
+        if ($this->_getElementByXpath("groups/group[@name='$parentGroupName']/child[@name='$name']", $parentElement)) {
             return false;
         }
 
-        $group = $this->_getElementByXpath("groups/group[@groupName='$parentGroupName']", $parentElement);
+        $group = $this->_getElementByXpath("groups/group[@name='$parentGroupName']", $parentElement);
         if (!$group) {
             $groups = $this->_getElementByXpath('groups', $parentElement);
             if (!$groups) {
-                $groups = new DOMElement('groups');
+                $groups = $this->_dom->createElement('groups');
                 $parentElement->appendChild($groups);
             }
-            $group = new DOMElement('group');
+            $group = $this->_dom->createElement('group');
             $groups->appendChild($group);
-            $group->setAttribute('groupName', $parentGroupName);
+            $group->setAttribute('name', $parentGroupName);
         }
 
-        $child = new DOMNode();
+        $child = $this->_dom->createElement('child');
         $group->appendChild($child);
-        $child->textContent = $name;
+        $child->setAttribute('name', $name);
 
         return true;
     }
@@ -391,10 +392,10 @@ class Mage_Core_Model_Layout_Structure
     public function getGroupChildNames($name, $groupName)
     {
         $children = array();
-        $elements = $this->_findByXpath("//*[@name='$name']/groups/group[@groupName='$groupName']*");
-        /** @var $element DOMNode */
+        $elements = $this->_findByXpath("//element[@name='$name']/groups/group[@name='$groupName']/child");
+        /** @var $element DOMElement */
         foreach ($elements as $element) {
-            $children[] = $element->textContent;
+            $children[] = $element->getAttribute('name');
         }
 
         return $children;
@@ -408,13 +409,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function isBlock($name)
     {
-        $element = $this->_getElementByXpath("//*[@name='$name']");
-        return $element && (self::ELEMENT_TYPE_BLOCK == $element->nodeName);
-    }
-
-    public function getStartNode()
-    {
-        file_put_contents('e:/start.xml', $this->_dom->saveXML());
+        return $this->_findByXpath("//element[@name='$name' and @type='block']")->length > 0;
     }
 
     /**
@@ -429,8 +424,8 @@ class Mage_Core_Model_Layout_Structure
         if (!$parent || !$alias) {
             return false;
         }
-        $parent = $this->_getElementByXpath("//*[@name='$parent']");
-        return $this->_getElementByXpath("*[@alias='$alias']", $parent);
+        $parent = $this->_getElementByXpath("//element[@name='$parent']");
+        return $this->_getElementByXpath("element[@alias='$alias']", $parent);
     }
 
     /**
@@ -443,7 +438,7 @@ class Mage_Core_Model_Layout_Structure
     {
         $parentNode = false;
         if ($newParent) {
-            $parentNode = $this->_getElementByXpath("//*[@name='$newParent']");
+            $parentNode = $this->_getElementByXpath("//element[@name='$newParent']");
         }
         if (!$parentNode) {
             $parentNode = $this->_dom->firstChild;
@@ -460,7 +455,7 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _getElementByName($name)
     {
-        return $this->_getElementByXpath("//*[@name='$name']");
+        return $this->_getElementByXpath("//element[@name='$name']");
     }
 
     /**
