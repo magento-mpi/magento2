@@ -55,7 +55,9 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
                 'billing_lastname', "{{billing_lastname}}", array('billing_lastname'=>"$billingAliasName.lastname")
             )
             ->addExpressionFieldToSelect(
-                'shipping_firstname', "{{shipping_firstname}}", array('shipping_firstname'=>"$shippingAliasName.firstname")
+                'shipping_firstname',
+                "{{shipping_firstname}}",
+                array('shipping_firstname'=>"$shippingAliasName.firstname")
             )
             ->addExpressionFieldToSelect(
                 'shipping_lastname', "{{shipping_lastname}}", array('shipping_lastname'=>"$shippingAliasName.lastname")
@@ -63,12 +65,18 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
             ->addExpressionFieldToSelect(
                     'billing_name',
                     "CONCAT({{billing_firstname}}, ' ', {{billing_lastname}})",
-                    array('billing_firstname'=>"$billingAliasName.firstname", 'billing_lastname'=>"$billingAliasName.lastname")
+                    array(
+                        'billing_firstname'=>"$billingAliasName.firstname",
+                        'billing_lastname'=>"$billingAliasName.lastname"
+                    )
             )
             ->addExpressionFieldToSelect(
                     'shipping_name',
                     'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
-                    array('shipping_firstname'=>"$shippingAliasName.firstname", 'shipping_lastname'=>"$shippingAliasName.lastname")
+                    array(
+                        'shipping_firstname'=>"$shippingAliasName.firstname",
+                        'shipping_lastname'=>"$shippingAliasName.lastname"
+                    )
             );
 
         $preparedFilters = array();
