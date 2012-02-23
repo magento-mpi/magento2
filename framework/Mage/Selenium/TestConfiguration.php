@@ -39,7 +39,7 @@ class Mage_Selenium_TestConfiguration
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration|null
      */
-    public static $instance = null;
+    private static $instance = null;
 
     /**
      * File helper instance
@@ -99,6 +99,13 @@ class Mage_Selenium_TestConfiguration
      * Constructor defined as private to implement singleton
      */
     private function __construct()
+    {
+    }
+
+    /**
+     * Clone defined as private to implement singleton
+     */
+    private function __clone()
     {
     }
 

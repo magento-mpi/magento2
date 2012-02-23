@@ -587,15 +587,11 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
             ->with($this->equalTo($pageUrl)
         );
 
-        $configStub = $this->getMock('Mage_Selenium_TestConfiguration',
-            array('addDriverConnection'), array(), '', false);
-        $configStub->expects($this->any())
-                    ->method('addDriverConnection')
-                    ->will($this->returnValue($driverStub)
-                );
         //Steps
-        Mage_Selenium_TestConfiguration::$instance = $configStub;
         $instance = new Mage_Selenium_TestCase();
+        $reflector = new ReflectionProperty('Mage_Selenium_TestCase', 'drivers');
+        $reflector->setAccessible(true);
+        $reflector->setValue($instance, array($driverStub));
 
         $instance->setUrlPostfix($urlPostfix);
         $instance->navigate('home', false);
@@ -632,15 +628,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
             ->method('getLocation')
             ->will($this->returnValue($pageUrl)
         );
-        $configStub = $this->getMock('Mage_Selenium_TestConfiguration',
-            array('addDriverConnection'), array(), '', false);
-        $configStub->expects($this->any())
-                    ->method('addDriverConnection')
-                    ->will($this->returnValue($driverStub)
-                );
-        //Steps
-        Mage_Selenium_TestConfiguration::$instance = $configStub;
+
         $instance = new Mage_Selenium_TestCase();
+        $reflector = new ReflectionProperty('Mage_Selenium_TestCase', 'drivers');
+        $reflector->setAccessible(true);
+        $reflector->setValue($instance, array($driverStub));
+
         $instance->setUrlPostfix($urlPostfix);
         $this->assertTrue($instance->checkCurrentPage('home'));
 
