@@ -36,6 +36,7 @@ OrderReviewController.prototype = {
     onSubmitShippingSuccess : false,
     shippingMethodsUpdateUrl : false,
     _updateShippingMethods: false,
+    _ubpdateOrderButton : false,
     shippingMethodsContainer: false,
     _submitUpdateOrderUrl : false,
     _itemsGrid : false,
@@ -131,6 +132,7 @@ OrderReviewController.prototype = {
     setUpdateButton : function(element, url, resultId)
     {
         if (element) {
+            this._ubpdateOrderButton = element;
             this._submitUpdateOrderUrl = url;
             this._itemsGrid = resultId;
             Event.observe(element, 'click', this._submitUpdateOrder.bindAsEventListener(this, url, resultId));
@@ -154,6 +156,7 @@ OrderReviewController.prototype = {
         if (element) {
             this._copyElement = element;
             Event.observe(element, 'click', this._copyShippingToBilling.bind(this));
+            this._copyShippingToBilling();
         }
     },
 
@@ -361,6 +364,10 @@ OrderReviewController.prototype = {
         if (this._canSubmitOrder && (this.reloadByShippingSelect || this._validateForm())) {
             this.form.submit();
             this._updateOrderSubmit(true);
+            if (this._ubpdateOrderButton) {
+                this._ubpdateOrderButton.addClassName('no-checkout');
+                this._ubpdateOrderButton.setStyle({opacity:.5});
+            }
             if (this._pleaseWait) {
                 this._pleaseWait.show();
             }

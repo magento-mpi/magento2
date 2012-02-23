@@ -525,6 +525,9 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->setTotalsCollectedFlag(true);
         $checkout->setQuote($this->_quote);
         if (isset($data['billing'])) {
+            if (isset($data['customer-email'])) {
+                $data['billing']['email'] = $data['customer-email'];
+            }
             $checkout->saveBilling($data['billing'], 0);
         }
         if (!$this->_quote->getIsVirtual() && isset($data['shipping'])) {
@@ -620,6 +623,9 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->_quote->getIsVirtual()) {
             $this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
+            if (!$this->_config->requireBillingAddress && !$this->getCustomerSession()->isLoggedIn()) {
+                $this->_quote->getBillingAddress()->setSameAsShipping(1);
+            }
         }
     }
 
