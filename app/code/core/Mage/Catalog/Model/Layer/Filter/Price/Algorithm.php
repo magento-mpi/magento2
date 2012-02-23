@@ -461,9 +461,10 @@ class Mage_Catalog_Model_Layer_Filter_Price_Algorithm
             $upperDivision = floor(round($upperPrice / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
 
             $result = array();
-            if ($upperDivision <= 0) {
+            if ($upperDivision <= 0 || $upperDivision - $lowerDivision > 10) {
                 return $result;
             }
+
             for ($i = $lowerDivision; $i <= $upperDivision; ++$i) {
                 $result[] = round($i * $roundingFactor, 2);
             }
