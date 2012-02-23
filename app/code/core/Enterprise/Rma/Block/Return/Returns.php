@@ -14,7 +14,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
     {
         parent::_construct();
         if (Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled()) {
-            $this->setTemplate('rma/return/returns.phtml');
+            $this->setTemplate('return/returns.phtml');
 
             $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')

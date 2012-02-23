@@ -55,7 +55,6 @@
 
 .vde_placeholder {
     position: absolute;
-    z-index: 200;
     background-color: #ff9;
 }
 

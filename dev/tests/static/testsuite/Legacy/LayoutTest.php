@@ -14,7 +14,7 @@
  */
 class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 {
-    protected $_legacyNodes = array(
+    protected $_obsoleteNodes = array(
         'PRODUCT_TYPE_simple', 'PRODUCT_TYPE_configurable', 'PRODUCT_TYPE_grouped', 'PRODUCT_TYPE_bundle',
         'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
         'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
@@ -46,7 +46,7 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($layoutXml->xpath('/layout//block[@type="Mage_Core_Block_Text_List"]'));
 
         foreach ($layoutXml as $handle) {
-            $this->assertNotContains($handle->getName(), $this->_legacyNodes, 'Layout handle was removed.');
+            $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');
         }
     }
 

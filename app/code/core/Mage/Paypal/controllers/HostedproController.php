@@ -34,7 +34,7 @@ class Mage_Paypal_HostedproController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $this->loadLayout($this->getFullActionName());
+        $this->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock();
         $redirectBlock->setGotoSection($gotoSection);

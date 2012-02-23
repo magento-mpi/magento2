@@ -15,8 +15,7 @@
         <p class="item-msg <?php echo $message->getType() ?>"><?php echo $this->escapeHtml($message->getCode()) ?></p>
     <?php endforeach; ?>
 
-    <?php echo $this->getChildHtml('design_editor_toolbar_skin'); ?>
-    <?php echo $this->getChildHtml('design_editor_toolbar_page_types'); ?>
+    <?php echo $this->getChildHtml(); ?>
     <div>
         <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Exit'); ?>" class="vde_button">
             <?php echo $this->__('Exit'); ?>

@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
 {
     /**
+     * @var string
+     */
+    protected $_selectedPageType;
+
+    /**
      * Recursively render each level of the page types hierarchy as an HTML list
      *
      * @param array $pageTypes
@@ -44,8 +49,36 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
      */
     public function renderPageTypes()
     {
-        return $this->_renderPageTypes(
-            $this->getLayout()->getPageTypesHierarchy()
-        );
+        return $this->_renderPageTypes($this->getLayout()->getUpdate()->getPageTypesHierarchy());
+    }
+
+    /**
+     * Retrieve the name of the currently selected page type
+     *
+     * @return string
+     */
+    public function getSelectedPageType()
+    {
+        if ($this->_selectedPageType === null) {
+            $this->_selectedPageType = false;
+            $layoutUpdate = $this->getLayout()->getUpdate();
+            foreach (array_reverse($layoutUpdate->getPageHandles()) as $pageHandle) {
+                if ($layoutUpdate->pageTypeExists($pageHandle)) {
+                    $this->_selectedPageType = $pageHandle;
+                    break;
+                }
+            }
+        }
+        return $this->_selectedPageType;
+    }
+
+    /**
+     * Set the name of the currently selected page type
+     *
+     * @param string $name Page type name
+     */
+    public function setSelectedPageType($name)
+    {
+        $this->_selectedPageType = $name;
     }
 }
