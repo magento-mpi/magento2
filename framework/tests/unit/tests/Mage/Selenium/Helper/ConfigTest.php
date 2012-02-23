@@ -210,7 +210,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetScreenshotDirInvalidPathException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setScreenshotDir('!#$@%*^&:?');
     }
 
@@ -221,7 +221,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetScreenshotDirInvalidParameterException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setScreenshotDir(null);
     }
 
@@ -255,7 +255,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetLogDirInvalidPathException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setLogDir('!#$@%*^&:?');
     }
 
@@ -266,7 +266,7 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     public function testSetLogDirInvalidParameterException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir(): No error');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setLogDir(null);
     }
 }
