@@ -9,10 +9,6 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Session_AbstractTestAbstract extends Mage_Core_Model_Session_Abstract
-{
-}
-
 /**
  * @group module:Mage_Core
  */
@@ -25,7 +21,7 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new Mage_Core_Model_Session_AbstractTestAbstract();
+        $this->_model = $this->getMockForAbstractClass('Mage_Core_Model_Session_Abstract');
     }
 
     public function testGetCookie()

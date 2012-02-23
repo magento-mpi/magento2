@@ -9,20 +9,16 @@
  * @license     {license_link}
  */
 
-class Mage_Wishlist_Block_AbstractTestAbstract extends Mage_Wishlist_Block_Abstract
-{
-}
-
 class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Wishlist_Block_AbstractTestAbstract
+     * @var Mage_Wishlist_Block_Abstract
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = new Mage_Wishlist_Block_AbstractTestAbstract();
+        $this->_block = $this->getMockForAbstractClass('Mage_Wishlist_Block_Abstract');
     }
 
     /**
