@@ -101,8 +101,8 @@ create_invoice:
                     product_line_to_invoice:
                         xpath: //div[@id='invoice_item_container']/div[@class='grid np']//tbody[@class]
                         fields:
-                            product_sku: //*[strong='SKU:']
-                            product_qty: //td[4]
+                            product_sku: "[%productNumber%]//*[strong='SKU:']"
+                            product_qty: "[%productNumber%]//td[4]"
                 -
                     invoice_history:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']

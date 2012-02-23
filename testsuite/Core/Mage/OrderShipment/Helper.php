@@ -58,14 +58,13 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             }
         }
         if (!$verify) {
-            $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_ship');
-            $skuXpath = $this->_getControlXpath('field', 'product_sku');
-            $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-            $productCount = $this->getXpathCount($setXpath);
+            $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_ship'));
             for ($i = 1; $i <= $productCount; $i++) {
-                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
-                $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $this->addParameter('productNumber', $i);
+                $skuXpath = $this->_getControlXpath('field', 'product_sku');
+                $qtyXpath = $this->_getControlXpath('field', 'product_qty');
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $this->getText($skuXpath)));
+                $prodQty = $this->getAttribute($qtyXpath . '/@value');
                 $verify[$prodSku] = $prodQty;
             }
         }

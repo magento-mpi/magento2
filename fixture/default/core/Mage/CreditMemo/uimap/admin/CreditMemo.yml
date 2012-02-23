@@ -100,8 +100,8 @@ create_credit_memo:
                     product_line_to_refund:
                         xpath: //div[@class='grid np']//tbody[@class]
                         fields:
-                            product_sku: //tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']
-                            product_qty: //tr[contains(.//@name,'creditmemo[items')]//td[5]
+                            product_sku: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']"
+                            product_qty: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//td[5]"
                 -
                     credit_memo_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']
