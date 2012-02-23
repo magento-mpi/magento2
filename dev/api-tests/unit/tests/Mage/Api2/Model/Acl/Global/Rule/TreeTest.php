@@ -32,17 +32,19 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_PHPUnit_TestCase
+class Mage_Api2_Model_Acl_Global_Rule_TreeTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test set role
      */
     public function testSetRole()
     {
-        $role = new Mage_Api2_Model_Acl_Global_Role;
+        /* @var $role  Mage_Api2_Model_Acl_Global_Role */
+        $role = Mage::getModel('api2/acl_global_role');
 
-        /* @var $tree Mage_Api2_Model_Acl_Global_Rule_Tree */
-        $tree = Mage::getModel('api2/acl_global_rule_tree');
+        /* @var $tree  Mage_Api2_Model_Acl_Global_Rule_Tree */
+        $tree = Mage::getModel('api2/acl_global_rule_tree', array(
+            'type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE));
         $tree->setRole($role);
         $this->assertEquals($tree->getRole(), $role);
     }
