@@ -462,7 +462,8 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getEncryptedSessionId();
+        return Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost]
+            : $this->getEncryptedSessionId();
     }
 
     /**
@@ -486,8 +487,13 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function isValidForPath($path)
     {
-        $urlPath = trim($path, '/') . '/';
         $cookiePath = trim($this->getCookiePath(), '/') . '/';
+        if ($cookiePath == '/') {
+            return true;
+        }
+
+        $urlPath = trim($path, '/') . '/';
+
         return strpos($urlPath, $cookiePath) === 0;
     }
 
