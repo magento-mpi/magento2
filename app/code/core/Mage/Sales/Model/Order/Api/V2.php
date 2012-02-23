@@ -73,20 +73,24 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
 
         $preparedFilters = array();
         if (isset($filters->filter)) {
-            foreach ($filters->filter as $_filter) {
-                $preparedFilters[][$_filter->key] = $_filter->value;
+            foreach ($filters->filter as $_filterKey => $_filterValue) {
+                if (is_object($_filterValue)) {
+                    $preparedFilters[][$_filterValue->key] = $_filterValue->value;
+                } else {
+                    $preparedFilters[][$_filterKey] = $_filterValue;
+                }
             }
         }
         if (isset($filters->complex_filter)) {
-            foreach ($filters->complex_filter as $_filter) {
+            foreach ($filters->complex_filter as $_key => $_filter) {
                 $_value = $_filter->value;
                 if(is_object($_value)) {
                     $preparedFilters[][$_filter->key] = array(
                         $_value->key => $_value->value
                     );
                 } elseif(is_array($_value)) {
-                    $preparedFilters[][$_filter->key] = array(
-                        $_value['key'] => $_value['value']
+                    $preparedFilters[][$_key] = array(
+                        $_filter->key => $_value
                     );
                 } else {
                     $preparedFilters[][$_filter->key] = $_value;
