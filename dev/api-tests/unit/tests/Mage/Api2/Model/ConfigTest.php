@@ -221,7 +221,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 
     /**
      * Test get resource excluded attributes for all user types and operations
-     * 
+     *
      */
     public function testGetResourceExcludedAttributes()
     {
