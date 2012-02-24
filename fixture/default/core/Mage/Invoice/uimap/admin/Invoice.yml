@@ -95,7 +95,6 @@ create_invoice:
                             update_qty: //button[span[contains(text(),'Update Qty')]]
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            price_totals: //div[@id='invoice_totals']//table/tbody
                             product_line:  //table[@class='data order-tables']/tbody
                 -
                     product_line_to_invoice:
@@ -116,6 +115,8 @@ create_invoice:
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='invoice[comment_customer_notify]']
                             email_copy_of_invoice: //input[@type='checkbox' and @name='invoice[send_email]']
+                        pageelements:
+                            price_totals: //tbody
                         buttons:
                             submit_invoice: //button[span='Submit Invoice']
         buttons:
@@ -154,7 +155,6 @@ view_invoice:
                         xpath: //div[@id='invoice_item_container']/div[@class='grid np']
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            price_totals: //div[@id='history_form']//table/tbody
                             product_line:  //table[@class='data order-tables']/tbody
                 -
                     invoice_history:
@@ -164,6 +164,8 @@ view_invoice:
                 -
                     invoice_totals:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
+                        pageelements:
+                            price_totals: //tbody
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             send_email: //p[@class='form-buttons']//button[span='Send Email']

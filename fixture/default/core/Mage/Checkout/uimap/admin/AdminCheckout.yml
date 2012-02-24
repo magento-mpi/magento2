@@ -181,7 +181,6 @@ create_order_for_new_customer:
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_table_tfoot: //*[@id='order-items_grid']/table/tfoot
-                            price_totals: //*[@id='order-totals']//table/tbody
                             product_line:  //table[@class='data order-tables']/tbody
                         buttons:
                             add_products: //button[span='Add Products']
@@ -302,6 +301,7 @@ create_order_for_new_customer:
                     order_totals: &orderTotals
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
                         pageelements:
+                            price_totals: //*[@id='order-totals']//tbody
                             total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl. Tax)']/td[span='%price%']
                             total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl. Tax)']/td[span='%price%']
                             total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
@@ -484,7 +484,6 @@ view_order:
                                         gift_options: //tbody[@class][tr[contains(.,'%sku%')]]//a[text()='Gift Options']
                                     pageelements:
                                         product_table_head: //table[@class='data order-tables']/thead
-                                        price_totals: //div[@class='order-totals']/table
                                         product_line:  //table[@class='data order-tables']/tbody
                             -
                                 gift_options: *giftMessage
@@ -506,6 +505,7 @@ view_order:
                                 order_totals:
                                     xpath: //div[@class='order-totals']
                                     pageelements:
+                                        price_totals: //div[@class='order-totals']/table
                                         total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
                                         total_subtotal_excl_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
                                         total_subtotal_incl_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
