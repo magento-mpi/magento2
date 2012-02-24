@@ -59,7 +59,10 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
                         'base64_content' => base64_encode(file_get_contents($filePath)));
                 }
 
-                $resultId = $this->call('product_downloadable_link.add', array($product_id, $value, $key));
+                $resultId = $this->call('product_downloadable_link.add', array(
+                    'productId' => $product_id,
+                    'resource' => $value,
+                    'resourceType' => $key));
                 $this->assertGreaterThan(0, $resultId);
             }
         }
@@ -78,11 +81,18 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
         $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
 
         self::$links = array();
-        $items = $this->call('product_downloadable_link.list', array($product_id));
+        $items = $this->call('product_downloadable_link.list', array('productId' => $product_id));
         foreach ($items as $type => $item) {
             switch($type) {
-                case "links": $type = 'link'; break;
-                case "samples": $type = 'sample'; break;
+                case "links":
+                    $type = 'link';
+                    break;
+                case "samples":
+                    $type = 'sample';
+                    break;
+                default:
+                    $this->fail('Unknown link type: \''.$type.'\'');
+                    break;
             }
             foreach ($item as $itemEntity) {
                 if (isset($itemEntity['link_id'])) {
@@ -106,8 +116,9 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
     {
         foreach (self::$links as $type => $item) {
             foreach ($item as $link_id) {
-                $removeResult = $this->call('product_downloadable_link.remove', array($link_id, $type));
-                $this->assertTrue($removeResult);
+                $removeResult = $this->call('product_downloadable_link.remove', array(
+                    'linkId' => $link_id, 'resourceType' => $type));
+                $this->assertTrue((bool)$removeResult);
             }
         }
     }

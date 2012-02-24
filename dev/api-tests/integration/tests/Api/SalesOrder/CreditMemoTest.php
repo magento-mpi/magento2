@@ -38,6 +38,8 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
+        parent::tearDown();
+
         $entityStoreModel = self::getFixture('entity_store_model');
         if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
             $origIncrementData = self::getFixture('orig_creditmemo_increment_data');
@@ -45,7 +47,17 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
             $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
                 ->save();
         }
-        parent::tearDown();
+    }
+
+    /**
+     * Delete created fixtures
+     *
+     * @static
+     */
+    static public function tearDownAfterClass()
+    {
+        self::deleteFixture('order', true);
+        self::deleteFixture('product_virtual', true);
     }
 
     /**
@@ -68,6 +80,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         foreach ($orderItems as $orderItem) {
             $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
         }
+
         $adjustmentPositive = 2;
         $adjustmentNegative = 1;
         $data = array(
@@ -78,7 +91,10 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
+        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => $orderIncrementalId,
+            'creditmemoData' => $data
+        ));
 
         $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
 
@@ -89,10 +105,16 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test add comment
         $commentText = 'Creditmemo comment';
-        $this->assertTrue($this->call('order_creditmemo.addComment', array($creditMemoIncrementId, $commentText)));
+        $this->assertTrue((bool) $this->call('order_creditmemo.addComment', array(
+            'creditmemoIncrementId' => $creditMemoIncrementId,
+            'comment' => $commentText
+        )));
 
         //Test info
-        $creditmemoInfo = $this->call('order_creditmemo.info', array($creditMemoIncrementId));
+        $creditmemoInfo = $this->call('order_creditmemo.info', array(
+            'creditmemoIncrementId' => $creditMemoIncrementId
+        ));
+
         $this->assertInternalType('array', $creditmemoInfo);
         $this->assertNotEmpty($creditmemoInfo);
         $this->assertEquals($creditMemoIncrementId, $creditmemoInfo['increment_id']);
@@ -106,8 +128,16 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->assertInternalType('array', $creditmemoInfo['items']);
         $this->assertGreaterThan(0, count($creditmemoInfo['items']));
 
+        if (!isset($creditmemoInfo['items'][0])) { // workaround for WSI plain array response
+            $creditmemoInfo['items'] = array($creditmemoInfo['items']);
+        }
+
         $this->assertEquals($creditmemoInfo['items'][0]['order_item_id'], $qtys[0]['order_item_id']);
         $this->assertEquals($product->getId(), $creditmemoInfo['items'][0]['product_id']);
+
+        if (!isset($creditmemoInfo['comments'][0])) { // workaround for WSI plain array response
+            $creditmemoInfo['comments'] = array($creditmemoInfo['comments']);
+        }
 
         //Test comment was added correctly
         $this->assertArrayHasKey('comments', $creditmemoInfo);
@@ -118,7 +148,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('order_creditmemo.cancel', array($creditMemoIncrementId));
+        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => $creditMemoIncrementId));
     }
 
     /**
@@ -133,9 +163,12 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $order = self::getFixture('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
 
-        $this->call('order_creditmemo.create', array($order->getIncrementId(), array(
-            'adjustment_positive' => $overRefundAmount
-        )));
+        $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => $order->getIncrementId(),
+            'creditmemoData' => array(
+                'adjustment_positive' => $overRefundAmount
+            )
+        ));
     }
 
     /**
@@ -147,12 +180,12 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     {
         $filter = array('order_id' => 'invalid-id');
         if (self::$_ws instanceof Magento_Test_Webservice_SoapV2) {
-            $filter = new stdClass();
-            $filter->filter = array();
-            $filter->filter[] = (object)array('key' => 'order_id', 'value' => 'invalid-id');
+            $filter = array(
+                'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
+            );
         }
 
-        $creditmemoList = $this->call('order_creditmemo.list', array($filter));
+        $creditmemoList = $this->call('order_creditmemo.list', array('filters' => $filter));
         $this->assertEquals(0, count($creditmemoList));
     }
 
@@ -164,7 +197,10 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidOrderException()
     {
-        $this->call('order_creditmemo.create', array('invalid-id', array()));
+        $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => 'invalid-id',
+            'creditmemoData' => array()
+        ));
     }
 
     /**
@@ -175,7 +211,10 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     public function testAddCommentInvalidOrderException()
     {
-        $this->call('order_creditmemo.addComment', array('invalid-id', 'Comment'));
+        $this->call('order_creditmemo.addComment', array(
+            'creditmemoIncrementId' => 'invalid-id',
+            'comment' => 'Comment'
+        ));
     }
 
     /**
@@ -186,7 +225,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     public function testInfoInvalidOrderException()
     {
-        $this->call('order_creditmemo.info', array('invalid-id'));
+        $this->call('order_creditmemo.info', array('creditmemoIncrementId' => 'invalid-id'));
     }
 
     /**
@@ -197,7 +236,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     public function testCancelInvalidIdException()
     {
-        $this->call('order_creditmemo.cancel', array('invalid-id'));
+        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => 'invalid-id'));
     }
 
     /**
@@ -243,13 +282,14 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
+        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => $orderIncrementalId,
+            'creditmemoData' => $data
+        ));
         self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
 
         $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
         $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
             'Increment Id returned by API is not correct');
-
-        // you can not delete credit memo from non-admin area
     }
 }

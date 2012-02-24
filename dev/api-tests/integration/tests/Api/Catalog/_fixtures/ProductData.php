@@ -36,14 +36,12 @@ return array(
         )
     ),
     'update'   => array(
-        'product'   => '__PLACEHOLDER__',
         'productData'   => array(
             'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
             'name'          => 'Simple Product Updated',    //test update method
         )
     ),
     'update_custom_store'   => array(
-        'product'   => '__PLACEHOLDER__',
         'productData'   => array(
             'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
             'name'          => 'Simple Product Updated Custom Store',    //test update method
@@ -51,7 +49,6 @@ return array(
         'store' => 'test_store'
     ),
     'update_default_store' => array(
-        'product' => '__PLACEHOLDER__',
         'productData' => array(
             'description' => 'Updated description'
         )

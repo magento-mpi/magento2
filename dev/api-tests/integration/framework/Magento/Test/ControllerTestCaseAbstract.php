@@ -44,12 +44,14 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     }
 
     /**
-     * Bootstrap application before eny test
+     * Bootstrap application before any test
      *
      * @return void
      */
     protected function setUp()
     {
+        parent::setUp();
+
         /**
          * Use run options from bootstrap
          */
@@ -61,6 +63,7 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     /**
      * Run request
      *
+     * @param string $uri
      * @return void
      */
     public function dispatch($uri)

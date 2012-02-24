@@ -36,78 +36,42 @@
 class Api_SalesOrder_ListTest extends Magento_Test_Webservice
 {
     /**
-     * Test getting sales order list in SOAP v2
-     */
-    public function testListSoapV2()
-    {
-        if (TESTS_WEBSERVICE_TYPE != self::TYPE_SOAPV2) {
-            return;
-        }
-
-        /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
-
-        $filters = array(array(
-            'filter' => array(
-                array(
-                    'key' => 'status',
-                    'value' => $order->getData('status')
-                ),
-                array(
-                    'key' => 'created_at',
-                    'value' => $order->getData('created_at'),
-                )
-            ),
-            'complex_filter' => array(
-                array(
-                    'key' => 'order_id',
-                    'value' => array(
-                        'key' => 'in',
-                        //add not exist ID "0"
-                        'value' => array($order->getId(), 0)
-                    ),
-                ),
-                array(
-                    'key' => 'protect_code',
-                    'value' => array(
-                        'key' => 'in',
-                        //add not exist ID "0"
-                        'value' => $order->getData('protect_code')
-                    ),
-                ),
-            )
-        ));
-
-
-
-        $result = $this->call('order.list', $filters);
-
-        //should be got array with one order item
-        $this->assertInternalType('array', $result);
-        $this->assertEquals(1, count($result));
-        $this->assertEquals($order->getId(), $result[0]['order_id']);
-    }
-
-    /**
      * Test getting sales order list in other methods
      */
     public function testList()
     {
-        if (TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2) {
-            return;
-        }
-
         /** @var $order Mage_Sales_Model_Order */
         $order = self::getFixture('order');
 
-        $filters = array(array(
-            'status' => array('processing', $order->getData('status')),
-            'created_at' => $order->getData('created_at'),
-            'order_id' => array('in' => array($order->getId(), 0)),
-        ));
-
+        if (TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2 || TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2_WSI) {
+            $filters = array('filters' => array(
+                'filter' => array(
+                    array('key' => 'status', 'value' => $order->getData('status')),
+                    array('key' => 'created_at', 'value' => $order->getData('created_at'))
+                ),
+                'complex_filter' => array(
+                    array(
+                        'key'   => 'order_id',
+                        'value' => array('key' => 'in', 'value' => array($order->getId(), 0))
+                    ),
+                    array(
+                        'key'   => 'protect_code',
+                        'value' => array( 'key' => 'in', 'value' => array($order->getData('protect_code')))
+                    )
+                )
+            ));
+        } else {
+            $filters = array(array(
+                'status' => array('processing', $order->getData('status')),
+                'created_at' => $order->getData('created_at'),
+                'order_id' => array('in' => array($order->getId(), 0))
+            ));
+        }
         $result = $this->call('order.list', $filters);
 
+        if (!isset($result[0])) { // workaround for WS-I
+            $result = array($result);
+        }
         //should be got array with one order item
         $this->assertInternalType('array', $result);
         $this->assertEquals(1, count($result));
@@ -122,6 +86,9 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
     static public function tearDownAfterClass()
     {
         self::deleteFixture('order', true);
+        self::deleteFixture('order2', true);
+        self::deleteFixture('quote', true);
+        self::deleteFixture('quote2', true);
         self::deleteFixture('product_virtual', true);
         self::deleteFixture('customer', true);
     }

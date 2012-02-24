@@ -40,26 +40,13 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     protected function setUp()
     {
-        $product = new Mage_Catalog_Model_Product;
+        $productFixture = require dirname(__FILE__) . '/../_fixtures/ProductData.php';
+        $product        = new Mage_Catalog_Model_Product;
 
-        $product->setData(array(
-            'sku'               => 'simple' . uniqid(),
-            'attribute_set_id'  => 4,
-            'type_id'           => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            'name'              => 'Simple Product',
-            'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
-            'description'       => '...',
-            'short_description' => '...',
-            'price'             => 0.99,
-            'tax_class_id'      => 2,
-            'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
-        ));
-
+        $product->setData($productFixture['create_full_fledged']);
         $product->save();
 
         $this->setFixture('product', $product);
-
         $this->setFixture('requestData', array(
             'label'    => 'My Product Image',
             'position' => 2,
@@ -105,7 +92,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
 
         $imagePath = $this->getWebService()->call(
-            'product_attribute_media.create', array($product->getSku(), $requestData)
+            'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
         );
         $this->assertInternalType('string', $imagePath, 'String type of response expected but not received');
 
@@ -139,7 +126,9 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         );
 
         try {
-            $this->getWebService()->call('product_attribute_media.create', array($product->getSku(), $requestData));
+            $this->getWebService()->call(
+                'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
+            );
         } catch (Exception $e) {
             $this->assertEquals('Unsupported image format.', $e->getMessage(), 'Invalid exception message');
         }
@@ -168,7 +157,9 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $requestData['file']['content'] = base64_encode(file_get_contents($invalidImgPath));
 
         try {
-            $this->getWebService()->call('product_attribute_media.create', array($product->getSku(), $requestData));
+            $this->getWebService()->call(
+                'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
+            );
         } catch (Exception $e) {
             $this->assertEquals('Unsupported image format.', $e->getMessage(), 'Invalid exception message');
         }

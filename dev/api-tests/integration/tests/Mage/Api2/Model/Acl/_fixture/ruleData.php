@@ -29,15 +29,11 @@
  * Rule data fixture
  */
 
-/** @var $_this Magento_TestCase */
-$_this = $this;
-
 $roleData = require 'roleData.php';
 /** @var $role Mage_Api2_Model_Acl_Global_Role */
 $role = Mage::getModel('api2/acl_global_role');
 $role->setData($roleData['create']);
 $role->save();
-$_this->addModelToDelete($role);
 
 $permissions = Mage_Api2_Model_Acl_Global_Rule_Permission::toArray();
 $roleId = $role->getId();

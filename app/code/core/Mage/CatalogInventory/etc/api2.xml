@@ -41,8 +41,11 @@
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Item</title>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                    </admin>
                 </privileges>
                 <routes>
                     <route_main>
@@ -78,6 +81,26 @@
                     <enable_qty_increments>Enable Qty Increments</enable_qty_increments>
                     <is_decimal_divided>Is Divided into Multiple Boxes for Shipping</is_decimal_divided>
                 </attributes>
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <item_id />
+                        </read>
+                    </admin>
+                    <customer>
+                        <read>
+                            <item_id />
+                            <product_id />
+                        </read>
+                    </customer>
+                    <guest>
+                        <read>
+                            <item_id />
+                            <product_id />
+                            <stock_id />
+                        </read>
+                    </guest>
+                </exclude_attributes>
             </stockitem>
             <stockitems>
                 <group>cataloginventory</group>
@@ -86,8 +109,11 @@
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Items</title>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                    </admin>
                 </privileges>
                 <routes>
                     <route_main>

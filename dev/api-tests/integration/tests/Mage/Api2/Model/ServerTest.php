@@ -67,6 +67,20 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     protected static $_token;
 
     /**
+     * Tears down the fixture, for example, close a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+        $this->callModelDelete(self::$_product, true);
+        $this->callModelDelete(self::$_customer, true);
+        $this->callModelDelete(self::$_consumer, true);
+        $this->callModelDelete(self::$_token, true);
+
+        parent::tearDown();
+    }
+
+    /**
      * Set product data fixture
      *
      * @static
@@ -77,7 +91,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product');
         $product->setData(array(
-            'sku'               => 'test_product' . (int)microtime(true) . mt_rand(),
+            'sku'               => 'test_product' . uniqid(),
             'name'              => 'test Product',
             'attribute_set_id'  => 1,
             'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
@@ -108,7 +122,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
             'password'     => '123123q',
             'confirmation' => '123123q',
             'username'     => 'myusername',
-            'email'        => 'my@example.com'
+            'email'        => 'my' . uniqid() . '@example.com'
         ))->save();
 
         self::$_customer = $customer;
@@ -124,10 +138,13 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     {
         /** @var $consumer Mage_OAuth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
+        /** @var $helper Mage_OAuth_Helper_Data */
+        $helper   = Mage::helper('oauth/data');
+
         $consumer->setData(array(
-            'name'   => date('Ymd-His') . ' Consumer Name Server Test',
-            'key'    => md5(mt_rand()),
-            'secret' => md5(mt_rand())
+            'name'   => 'Consumer Name Server Test ' . uniqid(),
+            'key'    => $helper->generateConsumerKey(),
+            'secret' => $helper->generateConsumerSecret()
         ))->save();
 
         self::$_consumer = $consumer;
@@ -162,29 +179,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
         self::$_token = $token;
     }
 
-//    /**
-//     * Get varien http client
-//     *
-//     * @return Varien_Http_Client
-//     */
-//    protected function _getClient()
-//    {
-//        /** @var $product Mage_Catalog_Model_Product */
-//        $product = $this->getFixture('product');
-//
-//        /** @var $client Varien_Http_Client */
-//        $client = new Varien_Http_Client('http://' . TESTS_HTTP_HOST . '/api/' . Mage_Api2_Model_Server::API_TYPE_REST
-//            . '/products/' . $product->getId());
-//
-//        $client->setHeaders(array(
-//            'Accept' => 'text/html',
-//            'Version' => 1,
-//            'Content-Type' => 'application/xml'
-//        ));
-//
-//        return $client;
-//    }
-
     /**
      * Test fixtures creation
      *
@@ -196,99 +190,5 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
      */
     public function testCreateFixtures()
     {
-//        print_r(self::$_customer->getData());
     }
-
-//    /**
-//     * Test get product in HTML format
-//     *
-//     * @return void
-//     */
-//    public function testGetProductInHtmlFormat()
-//    {
-//        $this->_helperMock->expects($this->once())
-//            ->method('getUserTypes')
-//            ->will($this->returnValue(array('customer' => 'catalog/product')));
-//
-//        /** @var $response Zend_Http_Response */
-//        $response = $this->_getClient()->setHeaders('Accept', 'text/html')->request();
-//        echo $response->getBody();die;
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
-//
-//        $contentType = explode('; ', $response->getHeader('Content-type'));
-//        $this->assertEquals('text/html', $contentType[0]);
-//    }
-
-//    /**
-//     * Test get product in JSON format
-//     *
-//     * @return void
-//     */
-//    public function testGetProductInJsonFormat()
-//    {
-//        /** @var $response Zend_Http_Response */
-//        $response = $this->_getClient()->setHeaders('Accept', 'application/json')->request();
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
-//
-//        $body = Zend_Json::decode($response->getBody());
-//        $this->assertInternalType('array', $body);
-//        $this->assertGreaterThan(0, count($body));
-//
-//        /** @var $product Mage_Catalog_Model_Product */
-//        $product = $this->getFixture('product');
-//
-//        $this->assertEquals($product->getId(), $body['entity_id']);
-//        $this->assertEquals($product->getSku(), $body['sku']);
-//
-//        $contentType = explode('; ', $response->getHeader('Content-type'));
-//        $this->assertEquals('application/json', $contentType[0]);
-//    }
-
-//    /**
-//     * Test get product in XML format
-//     *
-//     * @return void
-//     */
-//    public function testGetProductInXmlFormat()
-//    {
-//        /** @var $response Zend_Http_Response */
-//        $response = $this->_getClient()->setHeaders('Accept', 'application/xml')->request();
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
-//
-//        /** @var $body Varien_Simplexml_Element */
-//        $body = new Varien_Simplexml_Element($response->getBody());
-//        $members = $body->xpath('params/param/value/struct/member');
-//        $this->assertEquals(2, count($members));
-//
-//        /** @var $product Mage_Catalog_Model_Product */
-//        $product = $this->getFixture('product');
-//
-//        foreach ($members as $member) {
-//            /** @var $member Varien_Simplexml_Element */
-//            if ('entity_id' == $member->name) {
-//                $this->assertEquals($member->value->string->asArray(), $product->getId());
-//            } elseif ('sku' == $member->name) {
-//                $this->assertEquals($member->value->string->asArray(), $product->getSku());
-//            } else {
-//                $this->fail('Bad param in response.');
-//            }
-//        }
-//
-//        $contentType = explode('; ', $response->getHeader('Content-type'));
-//        $this->assertEquals('application/xml', $contentType[0]);
-//    }
-
-//    /**
-//     * Test dispatch wrong resource
-//     *
-//     * @return void
-//     */
-//    public function testGetWrongResource()
-//    {
-//        /** @var $response Zend_Http_Response */
-//        $response = $this->_getClient()->setUri('http://' . TESTS_HTTP_HOST . '/api/'
-//            . Mage_Api2_Model_Server::API_TYPE_REST . '/qwerty')->request();
-//
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
-//    }
 }

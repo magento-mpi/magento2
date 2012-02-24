@@ -25,7 +25,7 @@
  */
 
 /**
- * Webservice API2 role helper
+ * API2 acl global rule tree
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -56,6 +56,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      * Separator for tree ID
      */
     const ID_SEPARATOR = '-';
+
+    /**
+     * Role
+     *
+     * @var Mage_Api2_Model_Acl_Global_Role
+     */
+    protected $_role;
 
     /**
      * Resources permissions
@@ -300,7 +307,6 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         $item[self::NAME_CHILDREN] = array();
 
         if ($isResource) {
-
             switch ($this->_type) {
                 case self::TYPE_ATTRIBUTE:
                     //add operations
@@ -361,10 +367,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      */
     protected function _addPrivileges(&$item, Varien_Simplexml_Element $node, $name)
     {
-        if ($node->privileges) {
-            $possibleList = $node->privileges->asArray();
-        } else {
-            $possibleList = array();
+        $roleConfigNodeName = $this->getRole()->getConfigNodeName();
+        $possibleList = array();
+        if (isset($node->privileges)) {
+            $possibleRoles = $node->privileges->asArray();
+            if (isset($possibleRoles[$roleConfigNodeName])) {
+                $possibleList = $possibleRoles[$roleConfigNodeName];
+            }
         }
 
         if (!$possibleList) {
@@ -376,7 +385,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             if (empty($possibleList[$key])) {
                 continue;
             }
-            $checked = !empty($this->_resourcesPermissions[$name]['privileges'][$key]);
+            $checked = !empty($this->_resourcesPermissions[$name]['privileges'][$roleConfigNodeName][$key]);
             $item['checked'] = $checked ? $checked : $item['checked'];
             $subItem = array(
                 'id' => self::NAME_PRIVILEGE . self::ID_SEPARATOR . $name . self::ID_SEPARATOR . $key,
@@ -439,41 +448,22 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      */
     protected function _addAttribute(&$item, Varien_Simplexml_Element $node, $name, $privilege)
     {
-        $modelName = (string) $node->model;
-        if (!$modelName) {
-            return false;
-        }
-
-        try {
-            /** @var $model Mage_Api2_Model_Resource_Instance */
-            $model = Mage::getModel($modelName);
-        } catch (Exception $e) {
-            //skip if model not found
-            return false;
-        }
-        if (!$model) {
-            return false;
-        }
-
-        $model->setResourceType($name);
-        $possibleList = $model->getAvailableAttributes();
-
-        if (!$possibleList) {
-            return null;
-        }
-
         $cnt = 0;
-        foreach ($possibleList as $key => $title) {
-            $checked = !empty($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'][$key]);
-            $item['checked'] = $checked ? $checked : $item['checked'];
+        foreach ($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'] as $key=>$attribute) {
+            $title = $attribute['title'];
+            $status = $attribute['status'];
+
+            $checked = $status == Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
+            $item['checked'] = $checked ?$checked   :$item['checked'];
             $item[self::NAME_CHILDREN][] = array(
                 'id'   => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name
-                        . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
+                    . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
                 'text' => $title,
                 'checked' => $checked,
                 'sort_order' => ++$cnt,
             );
         }
+
         return true;
     }
 
@@ -487,6 +477,28 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     protected function _sortTree($a, $b)
     {
         return $a['sort_order'] < $b['sort_order'] ? -1 : ($a['sort_order'] > $b['sort_order'] ? 1 : 0);
+    }
+
+    /**
+     * Set role
+     *
+     * @param Mage_Api2_Model_Acl_Global_Role $role
+     * @return Mage_Api2_Model_Acl_Global_Rule_Tree
+     */
+    public function setRole($role)
+    {
+        $this->_role = $role;
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return Mage_Api2_Model_Acl_Global_Role
+     */
+    public function getRole()
+    {
+        return $this->_role;
     }
 
     /**

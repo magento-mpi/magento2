@@ -115,14 +115,13 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_Controlle
      */
     public function testRoleGrid()
     {
-        $this->markTestSkipped('Failed on kpas. Need to investigate.');
-
         //generate test item
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
         $role = Mage::getModel('api2/acl_global_role');
         $roleName = uniqid('role_');
         $role->setRoleName($roleName)->save();
         $this->setFixture('role', $role);
+        $this->addModelToDelete($role, true);
 
         try {
             $this->loginToAdmin();
@@ -131,12 +130,12 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_Controlle
                 'key'        => $this->_urlModel->getSecretKey()
             ));
 
-            $this->dispatch('admin/api2_role/');
+            $this->dispatch('admin/api2_role');
         } catch (Exception $e) {
             throw $e;
         }
-        $html = $this->getResponse()->getBody();
-        $this->assertContains($roleName, $html);
+
+        $this->assertContains($roleName, $this->getResponse()->getBody());
     }
 
     /**

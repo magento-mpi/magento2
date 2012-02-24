@@ -85,16 +85,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Update method not allowed for this type of resource
-     *
-     * @param array $data
-     */
-    final protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
      * Delete method not allowed for this type of resource
      */
     final protected function _delete()
@@ -176,7 +166,11 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     {
         switch ($this->getRequest()->getOperation()) {
             case self::OPERATION_UPDATE:
-                $this->_update(array());
+                $requestData  = $this->getRequest()->getBodyParams();
+                $filteredData = $this->getFilter()->collectionIn($requestData);
+
+                $this->_update($filteredData);
+                $this->_render($this->getResponse()->getMessages());
                 break;
             case self::OPERATION_DELETE:
                 $this->_delete(array());
@@ -201,6 +195,18 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
+     * Get available attributes of API resource
+     *
+     * @param string|null $userType
+     * @param string|null $operation
+     * @return array
+     */
+    public function getAvailableAttributes($userType = null, $operation = null)
+    {
+        return $this->getResourceInstance()->getAvailableAttributes($userType, $operation);
+    }
+
+    /**
      * Get available attributes of API resource from configuration file
      *
      * @return array
@@ -208,11 +214,43 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     public function getAvailableAttributesFromConfig()
     {
-        $instanceResource = $this->getConfig()->getResourceInstance($this->getResourceType());
+        $instanceResourceType = $this->getInstanceResourceType();
 
-        if (!$instanceResource) {
+        if (!$instanceResourceType) {
             throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
         }
-        return $this->getConfig()->getResourceAttributes($instanceResource);
+        return $this->getConfig()->getResourceAttributes($instanceResourceType);
+    }
+
+    /**
+     * Get instance class for this collection
+     *
+     * @return string
+     */
+    public function getInstanceResourceType()
+    {
+        return $this->getConfig()->getResourceInstance($this->getResourceType());
+    }
+
+    /**
+     * Get instance object for this collection
+     *
+     * @throws Exception
+     * @return Mage_Api2_Model_Resource_Instance
+     */
+    public function getResourceInstance()
+    {
+        $instanceClassPath = $this->getConfig()->getResourceModel($this->getInstanceResourceType());
+
+        /** @var $instance Mage_Api2_Model_Resource_Instance */
+        $instance = Mage::getModel($instanceClassPath);
+
+        if (!$instance) {
+            throw new Exception('Invalid instance object.');
+        }
+
+        $instance->setResourceType($this->getInstanceResourceType());
+
+        return $instance;
     }
 }

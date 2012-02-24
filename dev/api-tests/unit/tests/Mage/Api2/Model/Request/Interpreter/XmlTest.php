@@ -142,6 +142,22 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
                         'test01' => 'some1',
                         'test02' => 'some2',
             ))),
+            array(
+                '<root>
+                  <array attr1="1">
+                      <attr2>2</attr2>
+                  </array>
+                  <array attr1="1">
+                      <attr2>2</attr2>
+                  </array>
+                 </root>',
+                array(
+                    'array' => array(
+                        array('attr1' => 1, 'attr2' => 2),
+                        array('attr1' => 1, 'attr2' => 2),
+                    )
+                )
+            ),
         );
     }
 }

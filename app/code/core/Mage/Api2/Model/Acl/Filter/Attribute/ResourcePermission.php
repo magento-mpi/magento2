@@ -90,16 +90,22 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                         if ($resourceModel) {
                             $resourceModel->setResourceType($resource);
 
-                            $avalaibleAttributes = $resourceModel->getAvailableAttributes();
-                            foreach ($avalaibleAttributes as $attributeValue => $attributeLabel) {
-                                foreach ($operationSource->toArray() as $operationValue => $operationLabel) {
-                                    $status = isset($allowedAttributes[$resource][$operationValue])
-                                        && in_array($attributeValue, $allowedAttributes[$resource][$operationValue])
+                            foreach ($operationSource->toArray() as $operation => $operationLabel) {
+                                $avalaibleAttributes = $resourceModel->getAvailableAttributes(
+                                    $this->_userType,
+                                    $operation
+                                );
+
+                                foreach ($avalaibleAttributes as $attribute => $attributeLabel) {
+                                    $status = isset($allowedAttributes[$resource][$operation])
+                                        && in_array($attribute, $allowedAttributes[$resource][$operation])
                                             ? Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW
                                             : Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
 
-                                    $rulesPairs[$resource]['operations'][$operationValue]['attributes'][$attributeValue]
-                                        = $status;
+                                    $rulesPairs[$resource]['operations'][$operation]['attributes'][$attribute] = array(
+                                        'status'    => $status,
+                                        'title'     => $attributeLabel
+                                    );
                                 }
                             }
                         }

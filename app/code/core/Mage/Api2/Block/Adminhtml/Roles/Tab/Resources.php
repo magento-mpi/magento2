@@ -75,28 +75,28 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getResTreeJson()
     {
-        $this->_setTreeResourcesPermissions();
-        $data = $this->_treeModel->getTreeResources();
-
+        $this->_prepareTreeModel();
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
-        return $helper->jsonEncode($data);
+        return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
 
     /**
-     * Set resources permissions to tree model
+     * Prepare tree model
      *
      * @return Mage_Api2_Block_Adminhtml_Roles_Tab_Resources
      */
-    public function _setTreeResourcesPermissions()
+    public function _prepareTreeModel()
     {
         $role = $this->getRole();
         if ($role) {
-            $role->getPermissionModel()->setFilterValue($role);
-            $this->_treeModel->setResourcesPermissions(
-                $role->getPermissionModel()->getResourcesPermissions()
-            );
+            $permissionModel = $role->getPermissionModel();
+            $permissionModel->setFilterValue($role);
+            $this->_treeModel->setResourcesPermissions($permissionModel->getResourcesPermissions());
+        } else {
+            $role = Mage::getModel('api2/acl_global_role');
         }
+        $this->_treeModel->setRole($role);
         return $this;
     }
 
@@ -107,11 +107,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getEverythingAllowed()
     {
-        $this->_setTreeResourcesPermissions();
+        $this->_prepareTreeModel();
         return $this->_treeModel->getEverythingAllowed();
     }
-
-
 
     /**
      * Get tab label

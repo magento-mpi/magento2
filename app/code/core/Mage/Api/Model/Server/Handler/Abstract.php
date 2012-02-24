@@ -210,7 +210,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      * @param string $apiKey
      * @return string
      */
-    public function login($username, $apiKey)
+    public function login($username, $apiKey = null)
     {
         if (empty($username) || empty($apiKey)) {
             return $this->_fault('invalid_request_param');
@@ -229,7 +229,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
      * Call resource functionality
      *
      * @param string $sessionId
-     * @param string $resourcePath
+     * @param string $apiPath
      * @param array  $args
      * @return mixed
      */

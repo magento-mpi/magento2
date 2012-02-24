@@ -27,18 +27,13 @@
 
 Mage::init('base', 'website');
 //Set up customer fixture
-//Set up customer address fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Magento_Test_Webservice::getFixture('customer');
-/** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Magento_Test_Webservice::getFixture('customer_address');
-
 //Set up virtual product fixture
 require 'product_virtual.php';
 /** @var $product Mage_Catalog_Model_Product */
 $product = Magento_Test_Webservice::getFixture('product_virtual');
-
 
 //Create quote
 $quote = new Mage_Sales_Model_Quote();
@@ -75,6 +70,8 @@ $quote2->setStoreId(1)
 
 $quote2->collectTotals();
 $quote2->save();
+Magento_Test_Webservice::setFixture('quote2', $quote2);
+
 $quoteService2 = new Mage_Sales_Model_Service_Quote($quote2);
 //Set payment method to check/money order
 $quoteService2->getQuote()->getPayment()->setMethod('checkmo');

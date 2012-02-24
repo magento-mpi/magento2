@@ -51,7 +51,7 @@ class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
         );
 
         try {
-            $this->getWebService()->call('product_attribute.create', array($attributeData));
+            $this->call('product_attribute.create', array('data' => $attributeData));
 
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {

@@ -41,8 +41,17 @@
                 <working_model>sales/order</working_model>
                 <title>Orders</title>
                 <privileges>
-                    <create>1</create>
-                    <retrieve>1</retrieve>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
@@ -59,9 +68,14 @@
                 <working_model>sales/order</working_model>
                 <title>Order</title>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
-                    <delete>1</delete>
+                    <admin>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
                 </privileges>
                 <routes>
                     <route_main>
@@ -71,6 +85,75 @@
                 <collection>orders</collection>
                 <versions>1</versions>
             </order>
+            <order_items>
+                <group>order</group>
+                <sort_order>110</sort_order>
+                <type>order_items</type>
+                <model>sales/api2_order_items</model>
+                <working_model>sales/order_item</working_model>
+                <title>Order Items</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:id/items</mask>
+                    </route_main>
+                </routes>
+                <collection>orders_items</collection>
+                <versions>1</versions>
+            </order_items>
+            <address>
+                <group>sales</group>
+                <type>address</type>
+                <model>sales/api2_order_address</model>
+                <working_model>sales/order_address</working_model>
+                <title>Order Address</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:order_id/addresses/:address_type</mask>
+                    </route_main>
+                </routes>
+                <collection>addresses</collection>
+                <versions>1</versions>
+            </address>
+            <addresses>
+                <group>sales</group>
+                <type>addresses</type>
+                <model>sales/api2_order_addresses</model>
+                <working_model>sales/order_addresses</working_model>
+                <title>Order Addresses</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:order_id/addresses</mask>
+                    </route_main>
+                </routes>
+                <instance>address</instance>
+                <versions>1</versions>
+            </addresses>
         </resources>
     </api2>
 </config>

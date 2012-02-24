@@ -28,6 +28,39 @@
 class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 {
     /**
+     * Remove attribute set
+     *
+     * @param int $attrSetId
+     */
+    protected function _removeAttrSet($attrSetId)
+    {
+        /** @var $attrSet Mage_Eav_Model_Entity_Attribute_Set */
+        $attrSet = Mage::getModel('eav/entity_attribute_set');
+
+        $attrSet->setId($attrSetId);
+        $attrSet->delete();
+    }
+
+    /**
+     * Remove attributes
+     *
+     * @param array $attrIds
+     */
+    protected function _removeAttributes($attrIds)
+    {
+        /** @var $attr Mage_Eav_Model_Entity_Attribute */
+        $attr = Mage::getModel('eav/entity_attribute');
+
+        if (!is_array($attrIds)) {
+            $attrIds = array($attrIds);
+        }
+        foreach ($attrIds as $attrId) {
+            $attr->setId($attrId);
+            $attr->delete();
+        }
+    }
+
+    /**
      * Test Attribute set CRUD
      *
      * @return void
@@ -50,7 +83,6 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 
         // items list test
         $attrSetList = $this->call('product_attribute_set.list');
-
         $completeFlag = false;
         foreach ($attrSetList as $attrSet) {
             if ($attrSet['set_id'] == $createdAttrSetId) {
@@ -65,26 +97,26 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         $productData = self::simpleXmlToArray($attributeSetFixture->RelatedProduct);
         $productData['sku'] = $productData['sku'] . '_' . mt_rand(1000, 9999);
         $productId = $this->call('product.create', array(
-            $productData['typeId'],
-            $createdAttrSetId,
-            $productData['sku'],
-            $productData['productData']
+            'type' => $productData['typeId'],
+            'set' => $createdAttrSetId,
+            'sku' => $productData['sku'],
+            'productData' => $productData['productData']
         ));
 
         try {
-            $this->call('product_attribute_set.remove', array($createdAttrSetId));
+            $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
-        $this->call('product.delete', array($productId));
+        $this->call('product.delete', array('productId' => $productId));
 
         // delete test
-        $attributeSetDelete = $this->call('product_attribute_set.remove', array($createdAttrSetId));
-        $this->assertTrue($attributeSetDelete, "Can't delete added attribute set");
+        $attributeSetDelete = $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
+        $this->assertTrue((bool)$attributeSetDelete, "Can't delete added attribute set");
 
         // Test delete undefined attribute set and check successful delete in previous call
         try {
-            $this->call('product_attribute_set.remove', array($createdAttrSetId));
+            $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
@@ -103,13 +135,16 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 
         // add attribute test
         $addResult = $this->call('product_attribute_set.attributeAdd',
-            array($testAttributeSetAttrIdsArray[0], $testAttributeSetId));
-        $this->assertTrue($addResult);
+            array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId));
+        $this->assertTrue((bool)$addResult);
 
         // delete attribute test
         $removeResult = $this->call('product_attribute_set.attributeRemove',
-            array($testAttributeSetAttrIdsArray[0], $testAttributeSetId));
-        $this->assertTrue($removeResult);
+            array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId));
+        $this->assertTrue((bool)$removeResult);
+
+        $this->_removeAttrSet(self::getFixture('testAttributeSetId'));
+        $this->_removeAttributes(self::getFixture('testAttributeSetAttrIdsArray'));
     }
 
     /**
@@ -126,36 +161,39 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 
         // add group test
         $createdAttributeSetGroupId = $this->call('product_attribute_set.groupAdd',
-            array($testAttributeSetId, $data['groupName']));
+            array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['groupName']));
         $this->assertGreaterThan(0, $createdAttributeSetGroupId);
 
         // add already exist group exception test
         try {
             $createdAttributeSetGroupId = $this->call('product_attribute_set.groupAdd',
-                array($testAttributeSetId, $data['existsGroupName']));
+                array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['existsGroupName']));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
         // rename group test
         $groupName = $data['groupName'] . ' ' . mt_rand(1000, 9999);
         $renameResult = $this->call('product_attribute_set.groupRename',
-            array($createdAttributeSetGroupId, $groupName));
-        $this->assertTrue($renameResult);
+            array('groupId' => $createdAttributeSetGroupId, 'groupName' => $groupName));
+        $this->assertTrue((bool)$renameResult);
 
         // rename group exception test
         try {
             $this->call('product_attribute_set.groupRename',
-                array($createdAttributeSetGroupId, $data['existsGroupName']));
+                array('groupId' => $createdAttributeSetGroupId, 'groupName' => $data['existsGroupName']));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
         // remove group test
         $removeResult = $this->call('product_attribute_set.groupRemove',
-            array($createdAttributeSetGroupId));
-        $this->assertTrue($removeResult);
+            array('attributeGroupId' => $createdAttributeSetGroupId));
+        $this->assertTrue((bool)$removeResult);
+
+        $this->_removeAttrSet($testAttributeSetId);
+        $this->_removeAttributes(self::getFixture('testAttributeSetAttrIdsArray'));
 
         // remove undefined group exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_attribute_set.groupRemove', array($createdAttributeSetGroupId));
+        $this->call('product_attribute_set.groupRemove', array('attributeGroupId' => $createdAttributeSetGroupId));
     }
 }

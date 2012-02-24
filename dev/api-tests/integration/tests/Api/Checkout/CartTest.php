@@ -131,7 +131,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     {
         $soapResult = $this->call('cart_product.add', array(
             'quoteId'  => $this->_quote->getId(),
-            'products' => array(
+            'productsData' => array(
                 array('sku' => $this->_product->getSku(), 'qty' => 1)
             )
         ));
@@ -180,7 +180,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         }
         $soapResult = $this->call('cart_product.add', array(
             'quoteId'  => $this->_quote->getId(),
-            'products' => array(
+            'productsData' => array(
                 array('sku' => $this->_product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
             )
         ));
@@ -222,9 +222,14 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $soapResult = $this->call('cart_product.list', array('quoteId' => $this->_quote->getId()));
 
         $this->assertInternalType('array', $soapResult, 'Product List call result is not an array');
-        $this->assertCount(1, $soapResult, 'Product List call result contain not exactly one product');
-        $this->assertArrayHasKey('sku', $soapResult[0], 'Product List call result does not contain a product sku');
-        $this->assertEquals($this->_product->getSku(), $soapResult[0]['sku'], 'Product Sku does not match fixture');
+
+        if (0 === key($soapResult)) {
+            $this->assertCount(1, $soapResult, 'Product List call result contain not exactly one product');
+
+            $soapResult = $soapResult[0]; //workaround for different result structure
+        }
+        $this->assertArrayHasKey('sku', $soapResult, 'Product List call result does not contain a product sku');
+        $this->assertEquals($this->_product->getSku(), $soapResult['sku'], 'Product Sku does not match fixture');
     }
 
     /**

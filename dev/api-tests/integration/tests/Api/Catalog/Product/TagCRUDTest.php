@@ -45,47 +45,55 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
         $data['customer_id'] = Magento_Test_Webservice::getFixture('customerData')->getId();
 
         // create test
-        $createdTagId = $this->call('product_tag.add', array($data));
-        $this->assertGreaterThan(0, $createdTagId);
+        $createdTags = $this->call('product_tag.add', array('data' => $data));
+
+        $this->assertCount(3, $createdTags);
 
         // Invalid product ID exception test
         try {
             $data['product_id'] = mt_rand(10000, 99999);
-            $this->call('product_tag.add', array($data));
+            $this->call('product_tag.add', array('data' => $data));
             $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        } catch (Exception $e) {
+            $this->assertEquals('Requested product does not exist.', $e->getMessage());
+        }
 
         // Invalid customer ID exception test
         try {
             $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
             $data['customer_id'] = mt_rand(10000, 99999);
-            $this->call('product_tag.add', array($data));
+            $this->call('product_tag.add', array('data' => $data));
             $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        } catch (Exception $e) {
+            $this->assertEquals('Requested customer does not exist.', $e->getMessage());
+        }
 
         // Invalid store ID exception test
         try {
             $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
             $data['customer_id'] = Magento_Test_Webservice::getFixture('customerData')->getId();
             $data['store'] = mt_rand(10000, 99999);
-            $this->call('product_tag.add', array($data));
+            $this->call('product_tag.add', array('data' => $data));
             $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        } catch (Exception $e) {
+            $this->assertEquals('Requested store does not exist.', $e->getMessage());
+        }
 
         // items list test
         $tagsList = $this->call('product_tag.list', array(
-            Magento_Test_Webservice::getFixture('productData')->getId()
+            'productId' => Magento_Test_Webservice::getFixture('productData')->getId(), 'store' => 0
         ));
+        $this->assertInternalType('array', $tagsList);
         $this->assertNotEmpty($tagsList, "Can't find added tag in list");
-        $this->assertEquals($expected['created_tags_count'], count($tagsList), "Can't find added tag in list");
+        $this->assertCount((int) $expected['created_tags_count'], $tagsList, "Can't find added tag in list");
 
         // delete test
         $tagToDelete = array_shift($tagsList);
-        $tagDelete = $this->call('product_tag.remove', array($tagToDelete['tag_id']));
-        $this->assertTrue($tagDelete, "Can't delete added tag");
+        $tagDelete = $this->call('product_tag.remove', array('tagId' => $tagToDelete['tag_id']));
+        $this->assertTrue((bool) $tagDelete, "Can't delete added tag");
 
         // Delete exception test
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_tag.remove', array($tagToDelete['tag_id']));
+        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Requested tag does not exist.');
+        $this->call('product_tag.remove', array('tagId' => $tagToDelete['tag_id']));
     }
 }

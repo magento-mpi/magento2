@@ -57,6 +57,24 @@ class Magento_Test_Webservice extends Magento_TestCase
     );
 
     /**
+     * Modify config settings on systen been tested for specified webservice type
+     *
+     * @param string $webserviceType Webservice type. One of self::TYPE_... constant
+     */
+    protected function _modifyConfig($webserviceType)
+    {
+        if (self::TYPE_SOAPV2 == $webserviceType) {
+            if (Mage::getStoreConfig('api/config/compliance_wsi')) {
+                $this->_updateAppConfig('api/config/compliance_wsi', 0, true, true);
+            }
+        } elseif (self::TYPE_SOAPV2_WSI == $webserviceType) {
+            if (!Mage::getStoreConfig('api/config/compliance_wsi')) {
+                $this->_updateAppConfig('api/config/compliance_wsi', 1, true, true);
+            }
+        }
+    }
+
+    /**
      * Get webservice adapter
      *
      * @param array $options
@@ -65,7 +83,11 @@ class Magento_Test_Webservice extends Magento_TestCase
     public function getWebService($options = null)
     {
         if (null === self::$_ws) {
-            $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
+            $webserviceType = strtolower(TESTS_WEBSERVICE_TYPE);
+
+            $this->_modifyConfig($webserviceType);
+
+            $class = $this->_webServiceMap[$webserviceType];
             self::$_ws = new $class();
             self::$_ws->init($options);
         }
@@ -144,7 +166,7 @@ class Magento_Test_Webservice extends Magento_TestCase
         }
         return $result;
     }
-    
+
     /**
      * @param  mixed   $exceptionName
      * @param  string  $exceptionMessage
@@ -153,7 +175,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     public function setExpectedException($exceptionName, $exceptionMessage = '', $exceptionCode = NULL)
     {
         if ($exceptionName == self::DEFAULT_EXCEPTION) {
-            
+
             switch (TESTS_WEBSERVICE_TYPE) {
                 case self::TYPE_SOAPV1:
                 case self::TYPE_SOAPV2:

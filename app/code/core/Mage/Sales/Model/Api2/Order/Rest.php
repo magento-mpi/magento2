@@ -41,21 +41,22 @@ abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Or
      */
     protected function _retrieve()
     {
-        $order = $this->_loadOrder();
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $this->_loadOrderById($this->getRequest()->getParam('id'));
         return $order->getData();
     }
 
     /**
-     * Load order by its id passed through request
+     * Load order by id
      *
+     * @param int $id
      * @throws Mage_Api2_Exception
      * @return Mage_Sales_Model_Order
      */
-    protected function _loadOrder()
+    protected function _loadOrderById($id)
     {
-        $orderId = $this->getRequest()->getParam('id');
         /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = Mage::getModel('sales/order')->load($id);
         if (!$order->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

@@ -70,11 +70,11 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $result = $this->getWebService()->call(
             'catalog_product.setSpecialPrice',
             array(
-                $product->getSku(),
-                $specialPrice,
-                $specialFrom,
-                $specialTo,
-                Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                'productId'    => $product->getSku(),
+                'specialPrice' => $specialPrice,
+                'fromDate'     => $specialFrom,
+                'toDate'       => $specialTo,
+                'store'        => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
             )
         );
 
@@ -149,7 +149,8 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $this->assertNotNull($product->getId());
 
         //update product
-        $data['update']['product'] = $productId;
+        $data['update'] = array('productId' => $productId) + $data['update'];
+
         $isOk = $this->call('catalog_product.update', $data['update']);
 
         //test call response is true
@@ -162,7 +163,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $this->assertEquals($data['update']['productData']['name'], $product->getName());
 
         //delete product
-        $isOk = $this->call('catalog_product.delete', array($productId));
+        $isOk = $this->call('catalog_product.delete', array('productId' => $productId));
 
         //test call response is true
         $this->assertTrue((bool)$isOk, 'Call returned false');  //in SOAP v2 it's integer:1
@@ -428,7 +429,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $this->setFixture('productId', $productId);
 
         // update product on test store
-        $data['update_custom_store']['product'] = $productId;
+        $data['update_custom_store'] = array('productId' => $productId) + $data['update_custom_store'];
         $data['update_custom_store']['store'] = $this->_store->getCode();
         $isOk = $this->call('catalog_product.update', $data['update_custom_store']);
         $this->assertTrue($isOk, 'Can not update product on test store');
@@ -441,7 +442,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
             'Product name was not updated');
 
         // update product attribute in default store
-        $data['update_default_store']['product'] = $productId;
+        $data['update_default_store'] = array('productId' => $productId) + $data['update_default_store'];
         $isOk = $this->call('catalog_product.update', $data['update_default_store']);
         $this->assertTrue($isOk, 'Can not update product on default store');
 

@@ -35,32 +35,36 @@
 class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
 {
     /**
-     * Admin user data fixture
+     * API2 role data fixture
      *
      * @var Mage_Admin_Model_User
      */
-    protected static $_admin;
+    protected $_admin;
 
     /**
      * API2 role data fixture
      *
      * @var Mage_Api2_Model_Acl_Global_Role
      */
-    protected static $_role;
+    protected $_role;
 
     /**
-     * API2 other role data fixture
-     *
-     * @var Mage_Api2_Model_Acl_Global_Role
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
      */
-    protected static $_otherRole;
+    protected function setUp()
+    {
+        parent::setUp();
 
+        $this->_admin = $this->_getAdminDataFixture();
+        $this->_role  = $this->_getRoleDataFixture();
+    }
     /**
-     * Set admin data fixture
+     * Get admin data fixture
      *
-     * @static
+     * @return Mage_Admin_Model_User
      */
-    public static function adminDataFixture()
+    protected function _getAdminDataFixture()
     {
         $data = array(
             'firstname' => 'TestAdminUserFirstName' . mt_rand(),
@@ -74,15 +78,17 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
         $user = Mage::getModel('admin/user');
         $user->setData($data)->save();
 
-        self::$_admin = $user;
+        $this->addModelToDelete($user, true);
+
+        return $user;
     }
 
     /**
-     * Set role data fixture
+     * Get role data fixture
      *
-     * @static
+     * @return Mage_Api2_Model_Acl_Global_Role
      */
-    public static function roleDataFixture()
+    protected function _getRoleDataFixture()
     {
         $data = array(
             'role_name' => 'TestRoleName' . mt_rand()
@@ -92,15 +98,17 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
         $role = Mage::getModel('api2/acl_global_role');
         $role->setData($data)->save();
 
-        self::$_role = $role;
+        $this->addModelToDelete($role, true);
+
+        return $role;
     }
 
     /**
-     * Set another role data fixture
+     * Get another role data fixture
      *
-     * @static
+     * @return Mage_Api2_Model_Acl_Global_Role
      */
-    public static function otherRoleDataFixture()
+    protected function _getOtherRoleDataFixture()
     {
         $data = array(
             'role_name' => 'TestOtherRoleName' . mt_rand()
@@ -110,60 +118,49 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
         $role = Mage::getModel('api2/acl_global_role');
         $role->setData($data)->save();
 
-        self::$_otherRole = $role;
+        $this->addModelToDelete($role, true);
+
+        return $role;
     }
 
     /**
      * Test create new relation row of admin user to API2 role
-     *
-     * @magentoDataFixture adminDataFixture
-     * @magentoDataFixture roleDataFixture
      */
     public function testCreateAdminToRoleRelation()
     {
-        $admin = self::$_admin;
-        $role = self::$_role;
-
-        $collection = $role->getCollection()->addFilterByAdminId($admin->getId());
+        $collection = $this->_role->getCollection()->addFilterByAdminId($this->_admin->getId());
         $this->assertEquals(0, $collection->count());
 
-        $role->getResource()->saveAdminToRoleRelation(self::$_admin->getId(), $role->getId());
+        $this->_role->getResource()->saveAdminToRoleRelation($this->_admin->getId(), $this->_role->getId());
 
-        $collection = $role->getCollection()->addFilterByAdminId($admin->getId());
+        $collection = $this->_role->getCollection()->addFilterByAdminId($this->_admin->getId());
         $this->assertEquals(1, $collection->count());
 
         $collectionRole = $collection->getFirstItem();
-        $this->assertEquals($role->getId(), $collectionRole->getId());
-        $this->assertEquals($role->getRoleName(), $collectionRole->getRoleName());
-        $this->assertEquals($admin->getId(), $collectionRole->getAdminId());
+        $this->assertEquals($this->_role->getId(), $collectionRole->getId());
+        $this->assertEquals($this->_role->getRoleName(), $collectionRole->getRoleName());
+        $this->assertEquals($this->_admin->getId(), $collectionRole->getAdminId());
 
     }
 
     /**
      * Test update relation row of admin user to API2 role
-     *
-     * @magentoDataFixture adminDataFixture
-     * @magentoDataFixture roleDataFixture
-     * @magentoDataFixture otherRoleDataFixture
      */
     public function testUpdateAdminToRoleRelation()
     {
-        $admin = self::$_admin;
-        $role = self::$_role;
-
         // Create relation
-        $role->getResource()->saveAdminToRoleRelation(self::$_admin->getId(), $role->getId());
+        $this->_role->getResource()->saveAdminToRoleRelation($this->_admin->getId(), $this->_role->getId());
 
-        $otherRole = self::$_otherRole;
+        $otherRole = $this->_getOtherRoleDataFixture();
 
         // Update relation
-        $role->getResource()->saveAdminToRoleRelation(self::$_admin->getId(), $otherRole->getId());
+        $this->_role->getResource()->saveAdminToRoleRelation($this->_admin->getId(), $otherRole->getId());
 
-        $collection = $role->getCollection()->addFilterByAdminId($admin->getId());
+        $collection = $this->_role->getCollection()->addFilterByAdminId($this->_admin->getId());
         $collectionRole = $collection->getFirstItem();
 
         $this->assertEquals($otherRole->getId(), $collectionRole->getId());
         $this->assertEquals($otherRole->getRoleName(), $collectionRole->getRoleName());
-        $this->assertEquals($admin->getId(), $collectionRole->getAdminId());
+        $this->assertEquals($this->_admin->getId(), $collectionRole->getAdminId());
     }
 }

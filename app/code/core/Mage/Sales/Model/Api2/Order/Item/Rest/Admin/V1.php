@@ -19,19 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Mage_Api2
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for stock item (customer)
+ * API2 class for order item (admin)
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Customer_V1
-    extends Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
+class Mage_Sales_Model_Api2_Order_Item_Rest_Admin_V1 extends Mage_Sales_Model_Api2_Order_Item_Rest
 {
 }

@@ -43,9 +43,16 @@ class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestC
         $model = Mage::getModel('api/roles');
         $input = 'testXss <script>alert(1)</script>';
         $model->setName($input)->save();
+
+        /** @var $urlModel Mage_Adminhtml_Model_Url */
+        $urlModel = Mage::getSingleton('adminhtml/url');
+
         try {
             //testing
-            $this->getRequest()->setParam('rid', $model->getId());
+            $this->getRequest()->setParams(array(
+                'rid' => $model->getId(),
+                'key' => $urlModel->getSecretKey()
+            ));
             $this->loginToAdmin();
             $this->dispatch('admin/api_role/editRole');
         } catch (Exception $e) {

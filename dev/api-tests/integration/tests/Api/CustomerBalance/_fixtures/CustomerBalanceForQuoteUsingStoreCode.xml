@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <quote_id></quote_id>
+        <quoteId></quoteId>
         <store_code>default</store_code>
     </input>
     <expected>

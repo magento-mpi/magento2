@@ -34,12 +34,14 @@
 class Mage_Review_Model_Api2_Review extends Mage_Api2_Model_Resource_Instance
 {
     /**
-     * Available attributes
+     * Get available attributes of API resource
      *
+     * @param string|null $userType
+     * @param string|null $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
-        return parent::getAvailableAttributes();
+        return $this->_getAvailableAttributes($userType, $operation);
     }
 }

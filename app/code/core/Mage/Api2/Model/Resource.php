@@ -61,6 +61,12 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     /**#@- */
 
+    /**#@+
+     *  Default success messages
+     */
+    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
+    /**#@- */
+
     /**
      * Api user
      *
@@ -354,11 +360,28 @@ abstract class Mage_Api2_Model_Resource
      *
      * This method used for single API resource and for API resource collection.
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    abstract public function getAvailableAttributes($userType = null, $operation = null);
+
+    /**
+     * Get excluded attributes for user type
+     *
+     * @param string $userType
+     * @param string $operation
+     * @return array
+     */
+    public function getExcludedAttributes($userType, $operation)
     {
-        return $this->getAvailableAttributesFromConfig();
+        $excluded = $this->getConfig()->getResourceExcludedAttributes(
+            $this->getResourceType(),
+            $userType,
+            $operation
+        );
+
+        return $excluded;
     }
 
     /**
@@ -571,5 +594,33 @@ abstract class Mage_Api2_Model_Resource
     public function getWorkingModel()
     {
         return Mage::getModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+    }
+
+    /**
+     * Add success message
+     *
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _successMessage($message, $code, $itemId = null)
+    {
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        return $this;
+    }
+
+    /**
+     * Add error message
+     *
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _errorMessage($message, $code, $itemId = null)
+    {
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        return $this;
     }
 }

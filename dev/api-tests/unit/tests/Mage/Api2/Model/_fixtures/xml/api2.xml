@@ -30,6 +30,27 @@
                     <content>Content</content>
                     <created_at>Content</created_at>
                 </attributes>
+                <exclude_attributes>
+                    <customer>
+                        <read>
+                            <created_at />
+                        </read>
+                        <write>
+                            <review_id />
+                            <created_at />
+                        </write>
+                    </customer>
+                    <guest>
+                        <read>
+                            <review_id />
+                            <created_at />
+                        </read>
+                        <write>
+                            <review_id />
+                            <created_at />
+                        </write>
+                    </guest>
+                </exclude_attributes>
                 <working_model>catalog/product</working_model>
             </product>
             <test1 />
