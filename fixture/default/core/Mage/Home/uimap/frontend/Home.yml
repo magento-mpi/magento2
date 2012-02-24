@@ -55,7 +55,7 @@ home:
 
                 -
                     compare_products:
-                        xpath: //div[@class[contains(.,'block-compare')] and */ol[@id='compare-items']]
+                        xpath: //div[contains(div/strong/span,'Compare Products')]
                         links:
                           compare_clear_all: //a[text()='Clear All']
                           compare_delete_product: //li[p='%productName%']/a
