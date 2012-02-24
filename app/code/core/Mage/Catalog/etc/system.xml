@@ -345,7 +345,7 @@
                             <comment>Maximum number of price intervals is 100</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-digits validate-digits-range digits-range-2-100</validate>
-                            <sort_order>3</sort_order>
+                            <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -356,7 +356,7 @@
                             <comment>This setting will be applied when all prices in the specific price interval are equal.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>4</sort_order>
+                            <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -366,22 +366,13 @@
                             <label>Interval Division Limit</label>
                             <comment>Please specify the number of products, that will not be divided into subintervals.</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
+                            <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <validate>validate-digits validate-digits-range digits-range-1-10000</validate>
                             <depends><price_range_calculation>improved</price_range_calculation></depends>
                         </interval_division_limit>
-                        <display_product_count translate="label">
-                            <label>Display Product Count</label>
-                            <frontend_type>select</frontend_type>
-                            <sort_order>3</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </display_product_count>
                     </fields>
                 </layered_navigation>
                 <navigation translate="label">
