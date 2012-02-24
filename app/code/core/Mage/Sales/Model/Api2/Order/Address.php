@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Review
+ * @package     Mage_Api2
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Abstract Api2 model for review item
+ * API2 class for order addresses (admin)
  *
  * @category   Mage
- * @package    Mage_Review
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Api2_Review extends Mage_Api2_Model_Resource_Instance
+class Mage_Sales_Model_Api2_Order_Address extends Mage_Api2_Model_Resource_Instance
 {
     /**
      * Get available attributes of API resource

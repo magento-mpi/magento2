@@ -43,6 +43,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
         $data = $this->_getCollectionForRetrieve()->load()->toArray();
         return isset($data['items']) ? $data['items'] : $data;
     }
+
     /**
      * Retrieve collection instance for stock
      *

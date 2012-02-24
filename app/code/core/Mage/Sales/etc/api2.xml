@@ -110,6 +110,50 @@
                 <collection>orders_items</collection>
                 <versions>1</versions>
             </order_items>
+            <address>
+                <group>sales</group>
+                <type>address</type>
+                <model>sales/api2_order_address</model>
+                <working_model>sales/order_address</working_model>
+                <title>Order Address</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:order_id/addresses/:address_type</mask>
+                    </route_main>
+                </routes>
+                <collection>addresses</collection>
+                <versions>1</versions>
+            </address>
+            <addresses>
+                <group>sales</group>
+                <type>addresses</type>
+                <model>sales/api2_order_addresses</model>
+                <working_model>sales/order_addresses</working_model>
+                <title>Order Addresses</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:order_id/addresses</mask>
+                    </route_main>
+                </routes>
+                <instance>address</instance>
+                <versions>1</versions>
+            </addresses>
         </resources>
     </api2>
 </config>
