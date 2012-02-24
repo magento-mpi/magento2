@@ -63,6 +63,7 @@ class Mage_Core_Model_Layout_Structure
     {
         $element = $this->_getElementByXpath("//element[@name='$name']");
         if ($element) {
+            $this->_fixBrokenRefByName($name);
             return $element->parentNode->getAttribute('name');
         }
         return false;
@@ -76,6 +77,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildNames($parentName)
     {
+        $this->_fixBrokenRef($parentName);
         $children = array();
         /** @var $child DOMElement */
         foreach ($this->_findByXpath("//element[@name='$parentName']/element") as $child) {
@@ -218,6 +220,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildName($parentName, $alias)
     {
+        $this->_fixBrokenRef($parentName, $alias);
         $child = $this->_getChildElement($parentName, $alias);
         if (!$child) {
             return false;
@@ -247,24 +250,25 @@ class Mage_Core_Model_Layout_Structure
         if (empty($name)) {
             $name = 'STRUCTURE_TMP_NAME_' . ($this->_nameIncrement++);
         }
+        if ($alias == '') {
+            $alias = $name;
+        }
 
         $parentNode = false;
+        $child = $this->_dom->createElement('element');
         if ($parentName) {
             $parentNode = $this->_getElementByXpath("//element[@name='$parentName']");
         }
         if (!$parentNode) {
+            $child->setAttribute('broken_parent_name', $parentName);
             $parentNode = $this->_dom->firstChild;
         }
 
-        if ($alias == '') {
-            $alias = $name;
-        }
         $exist = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
         if ($exist) {
             $parentNode->removeChild($exist);
         }
 
-        $child = $this->_dom->createElement('element');
         if ('' !== $sibling && $parentNode->hasChildNodes()) {
             $siblingNode = $this->_getElementByXpath("element[@alias='$sibling']", $parentNode);
             if (!$siblingNode) {
@@ -345,6 +349,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildrenCount($parentName)
     {
+        $this->_fixBrokenRef($parentName);
         return $this->_findByXpath("//element[@name='$parentName']/element")->length;
     }
 
@@ -486,6 +491,36 @@ class Mage_Core_Model_Layout_Structure
             return $elements->item(0);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * A shortcut to _fixBrokenRef in case if parent name is unknown
+     *
+     * @param string $elementName
+     */
+    protected function _fixBrokenRefByName($elementName)
+    {
+        $element = $this->_getElementByXpath("//element[@name='{$elementName}' and @broken_parent_name]");
+        if (!$element) {
+            return;
+        }
+        $this->_fixBrokenRef($element->getAttribute('broken_parent_name'), $element->getAttribute('alias'));
+    }
+
+    /**
+     * Move an element by specified parent and alias, if it is not found on proper place (crutch-fix)
+     *
+     * @param string $parentName
+     * @param string $alias
+     */
+    protected function _fixBrokenRef($parentName, $alias = null)
+    {
+        $xpath = (null === $alias) ? "//element[@broken_parent_name='$parentName']"
+            : "//element[@broken_parent_name='$parentName' and @alias='$alias']";
+        foreach ($this->_findByXpath($xpath) as $element) {
+            $this->setChild($parentName, $element->getAttribute('name'), $element->getAttribute('alias'));
+            $element->removeAttribute('broken_parent_name');
         }
     }
 }

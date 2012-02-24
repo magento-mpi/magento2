@@ -26,7 +26,6 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
             if ($oldBlock) {
                 $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
                 if ($this->_layout->hasElement('my.account.wrapper')) {
-                    // probably confusion of alias: there is no customer.wishlist alias defined in layout
                     $this->_layout->unsetChild('my.account.wrapper', 'customer.wishlist');
                     $this->_layout->appendBlock('my.account.wrapper', $this);
                 }

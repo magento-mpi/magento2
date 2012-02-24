@@ -52,7 +52,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Magento_T
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('admin/cms_page_revision/drop/');
-        $this->markTestIncomplete('Response body is empty. TODO: figure out');
+        $this->markTestIncomplete('MAGETWO-770');
         $this->assertContains('skin/frontend/default/modern/default', $this->getResponse()->getBody());
     }
 }
