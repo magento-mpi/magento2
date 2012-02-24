@@ -35,16 +35,6 @@
 class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
 {
     /**
-     * Prepare ACL
-     */
-    public static function setUpBeforeClass()
-    {
-        require realpath(dirname(__FILE__) . '/../../Sales/_fixtures/guest_acl.php');
-
-        parent::setUpBeforeClass();
-    }
-
-    /**
      * Delete fixtures
      */
     protected function tearDown()
@@ -68,10 +58,6 @@ class Api2_Review_Reviews_GuestTest extends Magento_Test_Webservice_Rest_Guest
     public static function tearDownAfterClass()
     {
         Magento_TestCase::deleteFixture('store', true);
-        Magento_TestCase::deleteFixture('role', true);
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('guest_acl_is_prepared', false);
 
         parent::tearDownAfterClass();
     }
