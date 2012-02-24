@@ -409,6 +409,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getChildBlock($alias)
     {
+        if (!$this->getLayout()) {
+            return false;
+        }
         $name = $this->getLayout()->getChildName($this->getNameInLayout(), $alias);
         if ($name) {
             return $this->getLayout()->getBlock($name);
