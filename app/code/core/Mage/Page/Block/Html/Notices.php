@@ -85,7 +85,7 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
      *
      * @return string
      */
-    public function getSerializedListAcceptedSaveCookiesWebsites()
+    public function getAcceptedSaveCookiesWebsiteIds()
     {
         $acceptedSaveCookiesWebsites = $this->_getAcceptedSaveCookiesWebsites();
         $acceptedSaveCookiesWebsites[Mage::app()->getWebsite()->getId()] = 1;
