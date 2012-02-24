@@ -359,5 +359,29 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $this->assertEquals(1, $stockItem->getData($field), $field . ' is not set to 1');
         }
     }
+
+    /**
+     * Test product resource post using config values in inventory manage stock field
+     */
+    public function testPostInventoryManageStockUseConfig()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
+
+        $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0);
+
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $location = $restResponse->getHeader('Location');
+        list($productId) = array_reverse(explode('/', $location));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->setFixture('product_simple', $product);
+
+        $stockItem = $product->getStockItem();
+        $this->assertNotNull($stockItem);
+        $this->assertEquals(0, $stockItem->getManageStock());
+    }
 }
 
