@@ -172,7 +172,7 @@ class Api_LoginTest extends Magento_Test_Webservice
 
         $this->setExpectedException($client->getExceptionClass());
 
-        $categoryFixture = require_once dirname(__FILE__) . '/Catalog/Category/_fixtures/categoryData.php';
+        $categoryFixture = require dirname(__FILE__) . '/Catalog/Category/_fixtures/categoryData.php';
 
         $client->setSession($sessionId)
             ->call('category.create', $categoryFixture['create']);
