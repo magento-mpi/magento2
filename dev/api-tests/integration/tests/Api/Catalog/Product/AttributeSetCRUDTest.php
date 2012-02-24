@@ -28,6 +28,39 @@
 class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 {
     /**
+     * Remove attribute set
+     *
+     * @param int $attrSetId
+     */
+    protected function _removeAttrSet($attrSetId)
+    {
+        /** @var $attrSet Mage_Eav_Model_Entity_Attribute_Set */
+        $attrSet = Mage::getModel('eav/entity_attribute_set');
+
+        $attrSet->setId($attrSetId);
+        $attrSet->delete();
+    }
+
+    /**
+     * Remove attributes
+     *
+     * @param array $attrIds
+     */
+    protected function _removeAttributes($attrIds)
+    {
+        /** @var $attr Mage_Eav_Model_Entity_Attribute */
+        $attr = Mage::getModel('eav/entity_attribute');
+
+        if (!is_array($attrIds)) {
+            $attrIds = array($attrIds);
+        }
+        foreach ($attrIds as $attrId) {
+            $attr->setId($attrId);
+            $attr->delete();
+        }
+    }
+
+    /**
      * Test Attribute set CRUD
      *
      * @return void
@@ -109,6 +142,9 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         $removeResult = $this->call('product_attribute_set.attributeRemove',
             array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId));
         $this->assertTrue((bool)$removeResult);
+
+        $this->_removeAttrSet(self::getFixture('testAttributeSetId'));
+        $this->_removeAttributes(self::getFixture('testAttributeSetAttrIdsArray'));
     }
 
     /**
@@ -152,6 +188,9 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         $removeResult = $this->call('product_attribute_set.groupRemove',
             array('attributeGroupId' => $createdAttributeSetGroupId));
         $this->assertTrue((bool)$removeResult);
+
+        $this->_removeAttrSet($testAttributeSetId);
+        $this->_removeAttributes(self::getFixture('testAttributeSetAttrIdsArray'));
 
         // remove undefined group exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
