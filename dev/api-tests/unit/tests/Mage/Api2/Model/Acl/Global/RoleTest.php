@@ -55,7 +55,8 @@ class  Mage_Api2_Model_Acl_Global_RoleTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID));
         /* @var $role Mage_Api2_Model_Acl_Global_Role */
         $role = Mage::getModel('api2/acl_global_role');
-        $this->assertEquals($role->getConfigNodeName(), Mage_Api2_Model_Acl_Global_Role::ROLE_CONFIG_NODE_NAME_CUSTOMER);
+        $this->assertEquals($role->getConfigNodeName(),
+            Mage_Api2_Model_Acl_Global_Role::ROLE_CONFIG_NODE_NAME_CUSTOMER);
 
         $roleMock = $this->getModelMockBuilder('api2/acl_global_role')
             ->setMethods(array('getId'))
