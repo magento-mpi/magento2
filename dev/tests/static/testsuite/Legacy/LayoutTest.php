@@ -43,7 +43,11 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             ),
             "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
         );
-        $this->assertEmpty($layoutXml->xpath('/layout//block[@type="Mage_Core_Block_Text_List"]'));
+        if (false == strpos($layoutFile, 'app/code/core/Mage/Adminhtml/view/adminhtml/sales.xml')) {
+            $this->assertEmpty($layoutXml->xpath('/layout//block[@type="Mage_Core_Block_Text_List"]'),
+                'The class Mage_Core_Block_Text_List is not supposed to be used in layout anymore.'
+            );
+        }
 
         foreach ($layoutXml as $handle) {
             $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');
