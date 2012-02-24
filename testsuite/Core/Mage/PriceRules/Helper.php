@@ -213,7 +213,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
                     $categories = explode(',', $formField['value']);
                     $categories = array_map('trim', $categories);
                     foreach ($categories as $value) {
-                        $this->categoryHelper()->selectCategory($value);
+                        $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
                     }
                     $this->click($uimapData->findLink('confirm_choise'));
                     continue;
