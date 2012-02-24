@@ -131,6 +131,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             $strategy->setSearchParams($params);
             $search = Mage::getModel('enterprise_wishlist/search');
             Mage::register('search_results', $search->getResults($strategy));
+            $this->_getSession()->setLastWishlistSearchParams($params);
         } catch (InvalidArgumentException $e) {
             $this->_getSession()->addNotice($e->getMessage());
         } catch (Mage_Core_Exception $e) {
