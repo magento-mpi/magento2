@@ -25,22 +25,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../fixtures');
-
-/* @var $stockItemFixture Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require $fixturesDir . '/CatalogInventory/Stock/Item.php';
-
-$product = new Mage_Catalog_Model_Product;
-$product->setTypeId('simple')
-    ->setAttributeSetId(4)
-    ->setName('Simple Product')
-    ->setSku('simple-product-' . microtime())
-    ->setPrice(rand(0, 100))
-    ->setTaxClassId(0)
-    ->setMetaTitle('meta title')
-    ->setMetaKeyword('meta keyword')
-    ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
-    ->setStockItem(clone $stockItemFixture);
-return $product;
+/* @var $rate Mage_Sales_Model_Quote_Address_Rate */
+$rate = Mage::getModel('sales/quote_address_rate');
+$rate->setCode('freeshipping_freeshipping')
+    ->getPrice(1);
+return $rate;
