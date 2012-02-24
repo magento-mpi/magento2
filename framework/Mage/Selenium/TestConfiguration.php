@@ -171,7 +171,7 @@ class Mage_Selenium_TestConfiguration
         if (!class_exists($class)) {
             throw new OutOfRangeException($class . ' does not exist');
         }
-        $variableName = '_' . $helperName . 'Helper';
+        $variableName = '_' . preg_replace('/^[A-Za-z]/', strtolower($helperName[0]), $helperName) . 'Helper';
         if (is_null($this->$variableName)) {
             if (strtolower($helperName) !== 'params') {
                 $this->$variableName = new $class($this);
