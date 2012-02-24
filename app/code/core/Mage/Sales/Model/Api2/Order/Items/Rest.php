@@ -33,4 +33,47 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_Api2_Order_Items
 {
+    /**
+     * Get order item list
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+        return isset($data['items']) ? $data['items'] : $data;
+    }
+    /**
+     * Retrieve collection instance for stock
+     *
+     * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $this->_loadOrderById($this->getRequest()->getParam('id'));
+
+        /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */
+        $collection = Mage::getResourceModel('sales/order_item_collection');
+        $collection->setOrderFilter($order->getId());
+        $this->_applyCollectionModifiers($collection);
+        return $collection;
+    }
+
+    /**
+     * Load order by id
+     *
+     * @param int $id
+     * @throws Mage_Api2_Exception
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _loadOrderById($id)
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('sales/order')->load($id);
+        if (!$order->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $order;
+    }
 }
