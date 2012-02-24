@@ -46,7 +46,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
     /**
      * Retrieve collection instance for stock
      *
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     protected function _getCollectionForRetrieve()
     {
