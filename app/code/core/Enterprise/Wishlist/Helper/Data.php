@@ -98,8 +98,8 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
      */
     public function getDefaultWishlist($customerId = null)
     {
-        if (!$customerId) {
-            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if (!$customerId && $this->getCustomer()) {
+            $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
             $this->_defaultWishlistsByCustomer[$customerId] = Mage::getModel('wishlist/wishlist');
@@ -137,7 +137,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
      */
     public function getCustomerWishlists($customerId = null)
     {
-        if (!$customerId) {
+        if (!$customerId && $this->getCustomer()) {
             $customerId = $this->getCustomer()->getId();
         }
         $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
