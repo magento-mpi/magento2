@@ -13,7 +13,7 @@
  * @magentoDataFixture Mage/Admin/_files/user.php
  * @group module:Mage_Adminhtml
  */
-class Mage_Adminhtml_System_VariableControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_Adminhtml_System_ConfigControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     protected function setUp()
     {
@@ -23,13 +23,9 @@ class Mage_Adminhtml_System_VariableControllerTest extends Magento_Test_TestCase
         $this->_session->login('user', 'password');
     }
 
-    /**
-     * @covers Mage_Adminhtml_Controller_Action::_addLeft
-     */
     public function testEditAction()
     {
-        $this->dispatch('admin/system_variable/edit');
-        $body = $this->getResponse()->getBody();
-        $this->assertContains('function toggleValueElement(element) {', $body);
+        $this->dispatch('admin/system_config/edit');
+        $this->assertContains('<ul id="system_config_tabs"', $this->getResponse()->getBody());
     }
 }
