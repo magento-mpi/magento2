@@ -236,8 +236,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $statistics = $statistics[$this->_getFilterField()];
 
             $appliedInterval = $this->getInterval();
-            if ($appliedInterval && ($statistics['count'] <= $this->getIntervalDivisionLimit()
-                || $appliedInterval[0] == $appliedInterval[1])
+            if ($statistics['count'] <= $this->getIntervalDivisionLimit() ||
+               ($appliedInterval && $appliedInterval[0] == $appliedInterval[1])
             ) {
                 $algorithmModel->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
