@@ -91,11 +91,8 @@ class Mage_Api_Model_Server_WSI_Handler extends Mage_Api_Model_Server_Handler_Ab
      * @param string $apiKey
      * @return string
      */
-    public function login($username, $apiKey)
+    public function login($username, $apiKey = null)
     {
-
-        /** @todo implement WS-I support check */
-//
         if (is_object($username)) {
             $apiKey = $username->apiKey;
             $username = $username->username;

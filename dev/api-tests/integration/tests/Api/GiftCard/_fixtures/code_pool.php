@@ -31,3 +31,5 @@ do {
     $code = 'test-code-' . mt_rand(10, 9999);
 } while ($pool->exists($code));
 $pool->saveCode($code);
+
+Magento_Test_Webservice::setFixture('giftcardaccount_pool_code', $code);

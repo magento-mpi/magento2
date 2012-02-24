@@ -74,6 +74,11 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
         $removeResult = $this->call('giftcard_account.remove', array('giftcardAccountId' => $id));
         $this->assertTrue($removeResult);
 
+        /** @var $pool Enterprise_GiftCardAccount_Model_Pool */
+        $pool = Mage::getModel('enterprise_giftcardaccount/pool');
+        $pool->setCode(self::getFixture('giftcardaccount_pool_code'));
+        $pool->delete();
+
         //Test item was really removed and fault was Exception thrown
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call('giftcard_account.remove', array('giftcardAccountId' => $id));
