@@ -79,7 +79,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
             $this->_validate($data, array('item_id'), array('item_id', 'product_id', 'stock_id'));
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-            $stockItem = $this->_loadStockItem($data['item_id']);
+            $stockItem = $this->_loadStockItemById($data['item_id']);
             $stockItem->addData($data);
             $stockItem->save();
 
@@ -147,16 +147,16 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
     }
 
     /**
-     * Load stock item by its id
+     * Load stock item by id
      *
-     * @param int $stockItemId
+     * @param int $id
      * @throws Mage_Api2_Exception
      * @return Mage_CatalogInventory_Model_Stock_Item
      */
-    protected function _loadStockItem($stockItemId)
+    protected function _loadStockItemById($id)
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('cataloginventory/stock_item')->load($stockItemId);
+        $stockItem = Mage::getModel('cataloginventory/stock_item')->load($id);
         if (!$stockItem->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

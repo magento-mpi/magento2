@@ -70,7 +70,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
     }
 
     /**
-     * Load stock item by its id passed through request
+     * Load stock item by id
      *
      * @param int $id
      * @throws Mage_Api2_Exception
