@@ -259,4 +259,19 @@ class Enterprise_Search_Model_Observer
             Mage::register('current_layer', Mage::getSingleton('enterprise_search/search_layer'));
         }
     }
+
+    /**
+     * Reindex data after price reindex
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function runFulltextReindexAfterPriceReindex(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+            return;
+        }
+
+        Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext')
+            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+    }
 }

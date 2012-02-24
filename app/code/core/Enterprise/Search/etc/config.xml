@@ -196,6 +196,16 @@
                     </enterprise_search>
                 </observers>
             </store_delete_after>
+
+            <after_reindex_process_catalog_product_price>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>runFulltextReindexAfterPriceReindex</method>
+                    </enterprise_search>
+                </observers>
+            </after_reindex_process_catalog_product_price>
+
         </events>
         <translate>
             <modules>
