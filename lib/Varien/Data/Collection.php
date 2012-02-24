@@ -374,19 +374,21 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
             }
             $this->_items[$itemId] = $item;
         } else {
-            $this->_items[$this->_getUndefinedItemIdIndex()] = $item;
+            $this->_addItem($item);
         }
         return $this;
     }
 
     /**
-     * Retrieve index for item, that has no id
+     * Add item that has no id to collection
      *
-     * @return int
+     * @param Varien_Object $item
+     * @return Varien_Data_Collection
      */
-    protected function _getUndefinedItemIdIndex()
+    protected function _addItem($item)
     {
-        return count($this->_items) + 1;
+        $this->_items[] = $item;
+        return $this;
     }
 
     /**
