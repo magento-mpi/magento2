@@ -241,8 +241,8 @@ class Mage_Core_Model_Layout_Structure
      * @return string|bool
      */
     public function insertElement($parentName, $name, $type, $alias = '', $after = true, $sibling = '',
-                                      $options = array())
-    {
+        $options = array()
+    ) {
         if (!in_array($type, array(self::ELEMENT_TYPE_BLOCK, self::ELEMENT_TYPE_CONTAINER))) {
             return false;
         }
@@ -254,48 +254,84 @@ class Mage_Core_Model_Layout_Structure
             $alias = $name;
         }
 
-        $parentNode = false;
         $child = $this->_dom->createElement('element');
-        if ($parentName) {
-            $parentNode = $this->_getElementByXpath("//element[@name='$parentName']");
-        }
-        if (!$parentNode) {
-            $child->setAttribute('broken_parent_name', $parentName);
-            $parentNode = $this->_dom->firstChild;
-        }
-
-        $exist = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
-        if ($exist) {
-            $parentNode->removeChild($exist);
-        }
-
-        if ('' !== $sibling && $parentNode->hasChildNodes()) {
-            $siblingNode = $this->_getElementByXpath("element[@alias='$sibling']", $parentNode);
-            if (!$siblingNode) {
-                $siblingNode = $parentNode->lastChild;
-            }
-            if ($after) {
-                $parentNode->insertBefore($child, $siblingNode->nextSibling);
-            } else {
-                $parentNode->insertBefore($child, $siblingNode);
-            }
-        } else {
-            if ($after || !$parentNode->hasChildNodes()) {
-                $parentNode->appendChild($child);
-            } else {
-                $parentNode->insertBefore($child, $parentNode->firstChild);
-            }
-        }
-
         $child->setAttribute('type', $type);
         $child->setAttribute('name', $name);
         $child->setAttribute('alias', $alias);
-
         foreach ($options as $optName => $value) {
-            $child->setAttribute($optName, $alias);
+            $child->setAttribute($optName, $value);
+        }
+
+        $parentNode = false;
+        if ($parentName) {
+            $parentNode = $this->_getElementByName($parentName);
+            if (!$parentNode) {
+                $child->setAttribute('broken_parent_name', $parentName);
+                $sibling = '';
+                $after = true;
+            }
+        }
+        if (!$parentNode) {
+            $parentNode = $this->_dom->firstChild;
+        }
+
+        $this->_clearExistingChild($parentNode, $alias);
+
+        $siblingNode = $this->_getSiblingElement($parentNode, $after, $sibling);
+        if ($siblingNode) {
+            $parentNode->insertBefore($child, $siblingNode);
+        } else {
+            $parentNode->appendChild($child);
         }
 
         return $child->getAttribute('name');
+    }
+
+    /**
+     * Get sibling element based on after and siblingName parameter
+     *
+     * @param DOMElement $parentNode
+     * @param string $after
+     * @param string $siblingName
+     * @return DOMElement|bool
+     */
+    protected function _getSiblingElement(DOMElement $parentNode, $after, $siblingName)
+    {
+        if (!$parentNode->hasChildNodes()) {
+            $siblingName = '';
+        }
+        $siblingNode = false;
+        if ('' !== $siblingName) {
+            $siblingNode = $this->_getChildElement($parentNode->getAttribute('name'), $siblingName);
+            if ($siblingNode && $after) {
+                if (isset($siblingNode->nextSibling)) {
+                    $siblingNode = $siblingNode->nextSibling;
+                } else {
+                    $siblingNode = false;
+                }
+            }
+        } elseif (!$after && isset($parentNode->firstChild)) {
+            $siblingNode = $parentNode->firstChild;
+        }
+
+        return $siblingNode;
+    }
+
+    /**
+     * Remove existing child element
+     *
+     * @param DOMElement $parentNode
+     * @param string $alias
+     * @return bool
+     */
+    protected function _clearExistingChild(DOMElement $parentNode, $alias)
+    {
+        $exist = $this->_getChildElement($parentNode->getAttribute('name'), $alias);
+        if ($exist) {
+            $parentNode->removeChild($exist);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -420,17 +456,18 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Get child node from a parent
      *
-     * @param $parent
+     * @param string $parentName
      * @param string $alias
      * @return DOMElement|bool
      */
-    protected function _getChildElement($parent, $alias)
+    protected function _getChildElement($parentName, $alias)
     {
-        if (!$parent || !$alias) {
+        if (!$alias) {
             return false;
         }
-        $parent = $this->_getElementByXpath("//element[@name='$parent']");
-        return $this->_getElementByXpath("element[@alias='$alias']", $parent);
+        $this->_fixBrokenRef($parentName, $alias);
+        $parentName = $this->_getElementByXpath("//element[@name='$parentName']");
+        return $this->_getElementByXpath("element[@alias='$alias']", $parentName);
     }
 
     /**

@@ -18,7 +18,8 @@
  * @category   Mage
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
- * @SuppressWarnings (PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class Mage_Core_Block_Abstract extends Varien_Object
 {
@@ -41,32 +42,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_layout;
 
     /**
-     * Short alias of this block that was referred from parent
-     *
-     * @var string
-     */
-    protected $_alias;
-
-    /**
      * Suffix for name of anonymous block
      *
      * @var string
      */
     protected $_anonSuffix;
-
-    /**
-     * Children blocks HTML cache array
-     *
-     * @var array
-     */
-    protected $_childrenHtmlCache           = array();
-
-    /**
-     * Arbitrary groups of child blocks
-     *
-     * @var array
-     */
-    protected $_childGroups                 = array();
 
     /**
      * Request object
@@ -112,13 +92,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Varien_Object
      */
     private static $_transportObject;
-
-    /**
-     * Array of block sort priority instructions
-     *
-     * @var array
-     */
-    protected $_sortInstructions = array();
 
     /**
      * Class constructor
@@ -470,6 +443,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @param   string $name
      * @param   Mage_Core_Block_Abstract $child
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _beforeChildToHtml($name, $child)
     {
@@ -822,7 +796,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * Translate block sentence
      *
      * @return string
-     * @assertWarnings(PHPMD.ShortMethodName)
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function __()
     {

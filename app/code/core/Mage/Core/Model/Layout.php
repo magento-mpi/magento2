@@ -14,6 +14,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
@@ -71,7 +72,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @var array
      */
-    protected $_availableContainerOptions = array(
+    protected $_containerOptions = array(
         self::CONTAINER_OPT_HTML_CLASS,
         self::CONTAINER_OPT_HTML_ID,
         self::CONTAINER_OPT_HTML_TAG,
@@ -174,34 +175,26 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function generateXml()
     {
         $xml = $this->getUpdate()->asSimplexml();
-        $removeInstructions = $xml->xpath("//remove");
-        if (is_array($removeInstructions)) {
-            foreach ($removeInstructions as $infoNode) {
-                $attributes = $infoNode->attributes();
-                $blockName = (string)$attributes->name;
-                if ($blockName) {
-                    $ignoreNodes = $xml->xpath("//block[@name='".$blockName."']");
-                    if (!is_array($ignoreNodes)) {
-                        continue;
-                    }
-                    $ignoreReferences = $xml->xpath("//reference[@name='".$blockName."']");
-                    if (is_array($ignoreReferences)) {
-                        $ignoreNodes = array_merge($ignoreNodes, $ignoreReferences);
-                    }
+        $removeInstructions = (array)$xml->xpath("//remove[@name]");
+        foreach ($removeInstructions as $infoNode) {
+            $attributes = $infoNode->attributes();
+            $blockName = (string)$attributes->name;
+            $ignoreNodes = $xml->xpath("//block[@name='" . $blockName . "']");
+            if (!is_array($ignoreNodes)) {
+                continue;
+            }
+            $ignoreReferences = $xml->xpath("//reference[@name='" . $blockName . "']");
+            if (is_array($ignoreReferences)) {
+                $ignoreNodes = array_merge($ignoreNodes, $ignoreReferences);
+            }
 
-                    foreach ($ignoreNodes as $block) {
-                        if ($block->getAttribute('ignore') !== null) {
-                            continue;
-                        }
-                        if (($acl = (string)$attributes->acl)
-                            && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl)
-                        ) {
-                            continue;
-                        }
-                        if (!isset($block->attributes()->ignore)) {
-                            $block->addAttribute('ignore', true);
-                        }
-                    }
+            foreach ($ignoreNodes as $block) {
+                if ($block->getAttribute('ignore') !== null || (($acl = (string)$attributes->acl)
+                    && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl))) {
+                    continue;
+                }
+                if (!isset($block->attributes()->ignore)) {
+                    $block->addAttribute('ignore', true);
                 }
             }
         }
@@ -259,52 +252,36 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $_profilerKey = strtoupper($elementType) . ':' . $name;
         Magento_Profiler::start($_profilerKey);
 
-        if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER == $parent->getName()) {
-            $parentName = $parent->getAttribute('name');
-        } else {
-            $parentName = $node->getAttribute('parent');
-            if (is_null($parentName)) {
-                $parentName = $parent->getBlockName();
-                if (!$parentName) {
-                    $parentName = '';
-                }
-            }
+        $parentName = $node->getAttribute('parent');
+        if (is_null($parentName)) {
+            $parentName = $parent->getElementName();
         }
 
         $alias = $node->getAttribute('as');
-        if (empty($alias)) {
+        if (!$alias) {
             $alias = $name;
         }
 
-        $sibling = '-';
+        $sibling = $node->getSibling();
         $after = true;
         if (isset($node['before'])) {
-            $sibling = (string)$node['before'];
             $after = false;
-        } elseif (isset($node['after'])) {
-            $sibling = (string)$node['after'];
-        }
-        if ('-' === $sibling) {
-            $sibling = '';
         }
 
         $options = $this->_getValidNodeOptions($node);
         $elementName = $this->getStructure()
             ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
 
-        if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_BLOCK == $elementType) {
+        $this->_filterBlocksList($elementName);
+
+        if ($this->_structure->isBlock($elementName)) {
             $block = $this->_generateBlock($node);
             $updatedName = $block->getNameInLayout();
-            if (empty($updatedName)) {
-                throw new Magento_Exception('Element has no name');
-            }
-            if ($updatedName != $name) {
-                $this->getStructure()->setElementAttribute($elementName, 'alias', $updatedName);
+            if (empty($name)) {
+                if (empty($alias)) {
+                    $this->getStructure()->setElementAttribute($elementName, 'alias', $updatedName);
+                }
                 $this->getStructure()->setElementAttribute($elementName, 'name', $updatedName);
-            }
-        } elseif (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER == $elementType) {
-            if (isset($this->_blocks[$name])) {
-                unset($this->_blocks[$name]);
             }
         }
 
@@ -366,7 +343,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _getValidNodeOptions(Mage_Core_Model_Layout_Element $node)
     {
         $options = array();
-        foreach ($this->_availableContainerOptions as $optName) {
+        foreach ($this->_containerOptions as $optName) {
             if ($value = $node->getAttribute($optName)) {
                 $options[$optName] = $value;
             }
@@ -539,7 +516,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         foreach ($children as $child) {
             $html .= $this->renderElement($child);
         }
-        if ($html == '' ||  !$structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG)) {
+        if ($html == '' || !$structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG)) {
             return $html;
         }
 
@@ -561,18 +538,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Enter description here...
+     * Run action defined in layout update
      *
-     * @param Varien_Simplexml_Element $node
-     * @param Varien_Simplexml_Element $parent
+     * @param Mage_Core_Model_Layout_Element $node
+     * @param Mage_Core_Model_Layout_Element $parent
      * @return Mage_Core_Model_Layout
+     * @throws Magento_Exception
      */
     protected function _generateAction($node, $parent)
     {
-        if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
-            if (!Mage::getStoreConfigFlag($configPath)) {
-                return $this;
-            }
+        $configPath = $node->getAttribute('ifconfig');
+        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+            return $this;
         }
 
         if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER === $parent->getName()) {
@@ -582,55 +559,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $method = $node->getAttribute('method');
         $parentName = $node->getAttribute('block');
         if (empty($parentName)) {
-            $parentName = $parent->getBlockName();
+            $parentName = $parent->getElementName();
         }
 
         $_profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
         Magento_Profiler::start($_profilerKey);
 
-        if (!empty($parentName)) {
-            $block = $this->getBlock($parentName);
-        }
+        $block = $this->getBlock($parentName);
         if (!empty($block)) {
 
-            $args = (array)$node->children();
-            unset($args['@attributes']);
-
-            foreach ($args as $key => $arg) {
-                if (($arg instanceof Mage_Core_Model_Layout_Element)) {
-                    if (isset($arg['helper'])) {
-                        $helper = (string)$arg['helper'];
-                        if (strpos($helper, '::') === false) {
-                            $helperName = explode('/', $helper);
-                            $helperMethod = array_pop($helperName);
-                            $helperName = implode('/', $helperName);
-                        } else {
-                            list($helperName, $helperMethod) = explode('::', $helper);
-                        }
-                        $arg = $arg->asArray();
-                        unset($arg['@']);
-                        $args[$key] = call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
-                    } else {
-                        /**
-                         * if there is no helper we hope that this is assoc array
-                         */
-                        $arr = array();
-                        foreach ($arg as $subkey => $value) {
-                            $arr[(string)$subkey] = $value->asArray();
-                        }
-                        if (!empty($arr)) {
-                            $args[$key] = $arr;
-                        }
-                    }
-                }
-            }
-
-            if (isset($node['json'])) {
-                $json = explode(' ', (string)$node['json']);
-                foreach ($json as $arg) {
-                    $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($args[$arg]);
-                }
-            }
+            $args = $this->_extractArgs($node);
 
             $this->_translateLayoutNode($node, $args);
             call_user_func_array(array($block, $method), $args);
@@ -639,6 +577,79 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Magento_Profiler::stop($_profilerKey);
 
         return $this;
+    }
+
+    /**
+     * Update args according to its type
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return array
+     */
+    protected function _extractArgs($node)
+    {
+        $args = (array)$node->children();
+        unset($args['@attributes']);
+
+        foreach ($args as $key => $arg) {
+            if (($arg instanceof Mage_Core_Model_Layout_Element)) {
+                if (isset($arg['helper'])) {
+                    $args[$key] = $this->_getArgsByHelper($arg);
+                } else {
+                    /**
+                     * if there is no helper we hope that this is assoc array
+                     */
+                    $arr = $this->_getArgsFromAssoc($arg);
+                    if (!empty($arr)) {
+                        $args[$key] = $arr;
+                    }
+                }
+            }
+        }
+
+        if (isset($node['json'])) {
+            $json = explode(' ', (string)$node['json']);
+            foreach ($json as $arg) {
+                $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($args[$arg]);
+            }
+        }
+
+        return $args;
+    }
+
+    /**
+     * Get args by helper
+     *
+     * @param Mage_Core_Model_Layout_Element $arg
+     * @return mixed
+     */
+    protected function _getArgsByHelper(Mage_Core_Model_Layout_Element $arg)
+    {
+        $helper = (string)$arg['helper'];
+        if (strpos($helper, '::') === false) {
+            $helperName = explode('/', $helper);
+            $helperMethod = array_pop($helperName);
+            $helperName = implode('/', $helperName);
+        } else {
+            list($helperName, $helperMethod) = explode('::', $helper);
+        }
+        $arg = $arg->asArray();
+        unset($arg['@']);
+        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
+    }
+
+    /**
+     * Get args from associative array
+     *
+     * @param array $array
+     * @return array
+     */
+    protected function _getArgsFromAssoc($array)
+    {
+        $arr = array();
+        foreach ($array as $key => $value) {
+            $arr[(string)$key] = $value->asArray();
+        }
+        return $arr;
     }
 
     /**
@@ -966,4 +977,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         return $this->_structure;
     }
+
+    /**
+     * Remove block from the list if added container with the same name
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function _filterBlocksList($name)
+    {
+        if (isset($this->_blocks[$name]) && !$this->_structure->isBlock($name)) {
+            unset($this->_blocks[$name]);
+            return true;
+        }
+        return false;
+    }
+
 }

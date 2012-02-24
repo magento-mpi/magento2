@@ -58,6 +58,30 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
         return (string)$this['name'];
     }
 
+    public function getElementName()
+    {
+        $tagName = $this->getName();
+        if (!in_array($tagName, array('block', 'reference', 'container'))) {
+            return false;
+        }
+        return $this->getAttribute('name');
+    }
+
+    public function getSibling()
+    {
+        $sibling = '';
+        if ($this->getAttribute('before')) {
+            $sibling = $this->getAttribute('before');
+        } elseif ($this->getAttribute('after')) {
+            $sibling = $this->getAttribute('after');
+        }
+        if ('-' === $sibling) {
+            $sibling = '';
+        }
+
+        return $sibling;
+    }
+
     public function prepareBlock($args)
     {
         $type = (string)$this['type'];
