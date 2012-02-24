@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Api2_Helper
      */
     public function validateProductData(array $data, Mage_Catalog_Model_Product $product = null)
     {
-        if ($product->getId()) {
+        if (!is_null($product) && $product->getId()) {
             $data['set'] = $product->getAttributeSetId();
             $data['type'] = $product->getTypeId();
         }
@@ -292,7 +292,7 @@ class Mage_Catalog_Model_Api2_Helper
                 if (isset($stockData['is_qty_decimal']) && (bool) $stockData['is_qty_decimal'] == true) {
                     $this->_validateBoolean($stockData, $fieldSet, 'is_decimal_divided');
                 }
-                $this->_validateBoolean($stockData, $fieldSet, 'enable_qty_increments');
+                $this->_validateBoolean($stockData, $fieldSet, 'enable_qty_increments', true);
                 if (isset($stockData['enable_qty_increments']) && (bool) $stockData['enable_qty_increments'] == true) {
                     $this->_validatePositiveInteger($stockData, $fieldSet, 'qty_increments', false, true);
                 }
@@ -467,10 +467,11 @@ class Mage_Catalog_Model_Api2_Helper
      * @param array $data
      * @param string $fieldSet
      * @param string $field
+     * @param bool $skipIfConfigValueUsed
      */
-    protected function _validateBoolean($data, $fieldSet, $field)
+    protected function _validateBoolean($data, $fieldSet, $field, $skipIfConfigValueUsed = false)
     {
-        if (isset($data[$field])) {
+        if (!$skipIfConfigValueUsed && isset($data[$field])) {
             $allowedValues = $this->_getAttributeAllowedValues(
                 Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
             if (!in_array($data[$field], $allowedValues, true)) {
@@ -582,7 +583,7 @@ class Mage_Catalog_Model_Api2_Helper
     protected function _filterStockData(&$stockData)
     {
         $fieldsWithPossibleDefautlValuesInConfig = array('manage_stock', 'min_sale_qty', 'max_sale_qty', 'backorders',
-            'qty_increments', 'notify_stock_qty', 'min_qty');
+            'qty_increments', 'notify_stock_qty', 'min_qty', 'enable_qty_increments');
         foreach($fieldsWithPossibleDefautlValuesInConfig as $field) {
             if ($this->_isConfigValueUsed($stockData, $field)) {
                 unset($stockData[$field]);

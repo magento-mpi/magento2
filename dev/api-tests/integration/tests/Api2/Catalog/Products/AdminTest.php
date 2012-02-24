@@ -333,5 +333,31 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $this->assertContains($error['message'], $expectedErrors);
         }
     }
+
+    /**
+     * Test product resource post using config values in inventory
+     */
+    public function testPostInventoryUseConfigValues()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInventoryUseConfig.php';
+
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $location = $restResponse->getHeader('Location');
+        list($productId) = array_reverse(explode('/', $location));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->setFixture('product_simple', $product);
+
+        $stockItem = $product->getStockItem();
+        $this->assertNotNull($stockItem);
+        $fields = array('use_config_min_qty', 'use_config_min_sale_qty', 'use_config_max_sale_qty',
+            'use_config_backorders', 'use_config_notify_stock_qty', 'use_config_enable_qty_increments');
+        foreach ($fields as $field) {
+            $this->assertEquals(1, $stockItem->getData($field), $field . ' is not set to 1');
+        }
+    }
 }
 
