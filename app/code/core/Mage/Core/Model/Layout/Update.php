@@ -71,13 +71,6 @@ class Mage_Core_Model_Layout_Update
     protected $_subst = array();
 
     /**
-     * In-memory cache for the page types flat list
-     *
-     * @var array
-     */
-    protected $_pageTypesFlat;
-
-    /**
      * Class constructor
      */
     public function __construct()
@@ -236,44 +229,6 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Retrieve all page types in the system represented as a flat list
-     *
-     * Result format:
-     * array(
-     *     'page_type_1' => array(
-     *         'name'   => 'page_type_1',
-     *         'label'  => 'Page Type 1',
-     *         'parent' => null,
-     *     ),
-     *     'page_type_2' => array(
-     *         'name'   => 'page_type_2',
-     *         'label'  => 'Page Type 2',
-     *         'parent' => 'page_type_1',
-     *     ),
-     *     // ...
-     * )
-     *
-     * @return array
-     */
-    protected function _getPageTypesFlat()
-    {
-        if ($this->_pageTypesFlat === null) {
-            $this->_pageTypesFlat = array();
-            $pageTypeNodes = $this->getPackageLayout()->xpath('/layouts/*[@type="page"]') ?: array();
-            /** @var $pageTypeNode Varien_Simplexml_Element */
-            foreach ($pageTypeNodes as $pageTypeNode) {
-                $pageTypeName = $pageTypeNode->getName();
-                $this->_pageTypesFlat[$pageTypeName] = array(
-                    'name'   => $pageTypeName,
-                    'label'  => (string)$pageTypeNode->label,
-                    'parent' => $pageTypeNode->getAttribute('parent'),
-                );
-            }
-        }
-        return $this->_pageTypesFlat;
-    }
-
-    /**
      * Retrieve recursively all children of a page type
      *
      * @param string $parentName
@@ -282,17 +237,32 @@ class Mage_Core_Model_Layout_Update
     protected function _getPageTypeChildren($parentName)
     {
         $result = array();
-        foreach ($this->_getPageTypesFlat() as $pageType) {
-            $pageTypeName = $pageType['name'];
-            if ($pageType['parent'] === $parentName) {
-                $result[$pageTypeName] = array(
-                    'name'     => $pageTypeName,
-                    'label'    => $pageType['label'],
-                    'children' => $this->_getPageTypeChildren($pageTypeName),
-                );
-            }
+        $xpath = '/layouts/*[@type="page" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ']';
+        $pageTypeNodes = $this->getPackageLayout()->xpath($xpath) ?: array();
+        /** @var $pageTypeNode Varien_Simplexml_Element */
+        foreach ($pageTypeNodes as $pageTypeNode) {
+            $pageTypeName = $pageTypeNode->getName();
+            $result[$pageTypeName] = array(
+                'name'     => $pageTypeName,
+                'label'    => (string)$pageTypeNode->label,
+                'children' => $this->_getPageTypeChildren($pageTypeName),
+            );
         }
         return $result;
+    }
+
+    /**
+     * @param string $pageTypeName
+     * @return Varien_Simplexml_Element
+     */
+    protected function _getPageTypeNode($pageTypeName)
+    {
+        /* quick validation for non-existing page types */
+        if (!$pageTypeName || !isset($this->getPackageLayout()->$pageTypeName)) {
+            return null;
+        }
+        $nodes = $this->getPackageLayout()->xpath("/layouts/{$pageTypeName}[@type='page'][1]");
+        return $nodes ? reset($nodes) : null;
     }
 
     /**
@@ -321,7 +291,7 @@ class Mage_Core_Model_Layout_Update
      */
     public function getPageTypesHierarchy()
     {
-        return $this->_getPageTypeChildren(null);
+        return $this->_getPageTypeChildren('');
     }
 
     /**
@@ -332,7 +302,7 @@ class Mage_Core_Model_Layout_Update
      */
     public function pageTypeExists($pageType)
     {
-        return ($pageType && array_key_exists($pageType, $this->_getPageTypesFlat()));
+        return (bool)$this->_getPageTypeNode($pageType);
     }
 
     /**
@@ -343,8 +313,8 @@ class Mage_Core_Model_Layout_Update
      */
     public function getPageTypeLabel($pageType)
     {
-        $pageTypes = $this->_getPageTypesFlat();
-        return $this->pageTypeExists($pageType) ? $pageTypes[$pageType]['label'] : false;
+        $pageTypeNode = $this->_getPageTypeNode($pageType);
+        return $pageTypeNode ? (string)$pageTypeNode->label : false;
     }
 
     /**
@@ -355,8 +325,8 @@ class Mage_Core_Model_Layout_Update
      */
     public function getPageTypeParent($pageType)
     {
-        $pageTypes = $this->_getPageTypesFlat();
-        return $this->pageTypeExists($pageType) ? $pageTypes[$pageType]['parent'] : false;
+        $pageTypeNode = $this->_getPageTypeNode($pageType);
+        return $pageTypeNode ? $pageTypeNode->getAttribute('parent') : false;
     }
 
     /**
