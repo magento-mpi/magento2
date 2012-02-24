@@ -372,7 +372,10 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function loadByUsername($username)
     {
-        $this->setData($this->getResource()->loadByUsername($username));
+        $data = $this->getResource()->loadByUsername($username);
+        if ($data !== false) {
+            $this->setData($data);
+        }
         return $this;
     }
 
