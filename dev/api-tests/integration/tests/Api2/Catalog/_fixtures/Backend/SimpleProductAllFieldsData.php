@@ -64,7 +64,7 @@ return array(
     'custom_design' => 'default/blank',
     'custom_design_from' => '02/16/2012',
     'custom_design_to' => '05/01/2012',
-    'custom_layout_update' => 'Test Custom Layout Update',
+    'custom_layout_update' => '<xml><layout>Test Custom Layout Update</layout></xml>',
     'page_layout' => 'one_column',
     'options_container' => 'container1',
     'stock_data' => array(

@@ -51,7 +51,6 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         $type = $data['type'];
         $set = $data['set'];
         $sku = $data['sku'];
-        $productData = array_diff_key($data, array_flip(array('type', 'set', 'sku')));
 
         $store = isset($data['store']) ? $data['store'] : '';
         $storeId = Mage::app()->getStore($store)->getId();
@@ -62,10 +61,14 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             ->setTypeId($type)
             ->setSku($sku);
 
-        $this->_prepareDataForSave($product, $productData);
+        $this->_prepareDataForSave($product, $data);
         try {
+            $product->validate();
             $product->save();
             $this->_multicall($product->getId());
+        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $this->_critical(sprintf('Invalid attribute "%s": %s', $e->getAttributeCode(), $e->getMessage()),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -89,12 +92,12 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         /** @var $productEntity Mage_Eav_Model_Entity_Type */
         $productEntity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
         $this->_validateAttributeSet($data, $productEntity);
-        $requiredAttributes = $this->_validateAttributes($data, $productEntity);
         $this->_validateStore($data);
         $this->_validateSku($data);
         $this->_validateGroupPrice($data);
         $this->_validateTierPrice($data);
         $this->_validateStockData($data);
+        $requiredAttributes = $this->_validateAttributes($data, $productEntity);
 
         parent::_validate($data, $requiredAttributes, $requiredAttributes);
     }

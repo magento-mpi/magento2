@@ -64,7 +64,6 @@ return array(
     'custom_design' => 'default/blank',
     'custom_design_from' => '02/16/2012',
     'custom_design_to' => '05/01/2012',
-    'custom_layout_update' => '!"№;%:?*()_+{}[]\|<>,.?',
     'page_layout' => 'one_column',
     'options_container' => 'container1'
 );

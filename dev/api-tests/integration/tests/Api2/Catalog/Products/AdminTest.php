@@ -49,7 +49,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostSimpleRequiredFieldsOnly()
     {
-        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
 
         $restResponse = $this->callPost('products', $productData);
@@ -137,7 +136,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testPostSimpleAllFieldsInvalid()
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
-        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
         $restResponse = $this->callPost('products', $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -279,12 +277,40 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test product create resource with not unique sku value
+     * Negative test.
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testPostNotUniqueSku()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productData['sku'] = $product->getSku();
+
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
+        );
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
      * Test product create resource with empty required fields
      * Negative test.
      */
     public function testPostEmptyRequiredFields()
     {
-        $this->getWebService()->getClient()->setHeaders('Cookie', 'XDEBUG_SESSION=PHPSTORM');
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductEmptyRequired.php';
 
         $restResponse = $this->callPost('products', $productData);
