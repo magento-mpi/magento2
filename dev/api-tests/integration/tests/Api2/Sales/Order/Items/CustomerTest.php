@@ -49,7 +49,15 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
      */
     protected function tearDown()
     {
-        Magento_TestCase::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('quote', true);
+
+        $fixtureProducts = $this->getFixture('products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
 
         parent::tearDown();
     }
@@ -105,7 +113,7 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Test get order items if customer is not owner
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/order.php
+     * @magentoDataFixture Api2/Sales/_fixtures/order_with_items.php
      */
     public function testGetOrderIfCustomerIsNotOwner()
     {
