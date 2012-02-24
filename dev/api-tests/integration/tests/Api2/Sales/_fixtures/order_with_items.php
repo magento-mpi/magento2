@@ -36,19 +36,24 @@ $quoteFixture = require $fixturesDir . '/Sales/Quote/Quote.php';
 /* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
 $rateFixture = require $fixturesDir . '/Sales/Quote/Rate.php';
 
-// Create product
-$product = clone $productFixture;
-$product->save();
+// Create products
+$product1 = clone $productFixture;
+$product1->save();
+$product2 = clone $productFixture;
+$product2->save();
 
 // Create quote
-$quoteFixture->addProduct($product, 2);
-$quote->getShippingAddress()->addShippingRate($rateFixture);
-$quote->collectTotals()->save();
+$quoteFixture->addProduct($product1, 1);
+$quoteFixture->addProduct($product2, 2);
+$quoteFixture->getShippingAddress()->addShippingRate($rateFixture);
+$quoteFixture->collectTotals()
+    ->save();
 
 //Create order
-$quoteService = new Mage_Sales_Model_Service_Quote($quote);
-$order = $quoteService->submitOrder()->save();
+$quoteService = new Mage_Sales_Model_Service_Quote($quoteFixture);
+$order = $quoteService->submitOrder()
+    ->save();
 
+Magento_Test_Webservice::setFixture('products', array($product1, $product2));
+Magento_Test_Webservice::setFixture('quote', $quoteFixture);
 Magento_Test_Webservice::setFixture('order', $order);
-Magento_Test_Webservice::setFixture('quote', $quote);
-Magento_Test_Webservice::setFixture('product', $product);

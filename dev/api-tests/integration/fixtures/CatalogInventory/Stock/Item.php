@@ -33,5 +33,4 @@ $stockItem->setData(array(
     'is_qty_decimal'          => 0,
     'is_in_stock'             => 1,
 ));
-
 return $stockItem;

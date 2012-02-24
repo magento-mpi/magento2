@@ -42,5 +42,5 @@ $product->setTypeId('simple')
     ->setMetaDescription('meta description')
     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
-    ->setStockItem(clone $stockItemFixture);
+    ->setStockItem($stockItemFixture);
 return $product;
