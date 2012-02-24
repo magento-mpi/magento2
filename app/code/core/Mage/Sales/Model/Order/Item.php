@@ -654,6 +654,21 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
         return false;
     }
+    /**
+     * Check if force discount apply to parent item
+     *
+     * @return bool
+     */
+    public function getForceApplyDiscountToParentItem()
+    {
+        if ($this->getParentItem()) {
+            $product = $this->getParentItem()->getProduct();
+        } else {
+            $product = $this->getProduct();
+        }
+
+        return $product->getTypeInstance()->getForceApplyDiscountToParentItem();
+    }
 
     /**
      * Return checking of what shipment
@@ -735,5 +750,20 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $buyRequest = new Varien_Object($option);
         $buyRequest->setQty($this->getQtyOrdered() * 1);
         return $buyRequest;
+    }
+
+    /**
+     * Retrive product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        if (!$this->getData('product')) {
+            $product = Mage::getModel('catalog/product')->load($this->getProductId());
+            $this->setProduct($product);
+        }
+
+        return $this->getData('product');
     }
 }
