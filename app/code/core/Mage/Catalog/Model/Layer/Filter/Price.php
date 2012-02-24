@@ -264,14 +264,14 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
         $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
         $collection = $this->getLayer()->getProductCollection();
-        if ($collection->getSize() <= $this->getIntervalDivisionLimit()) {
+        if ($collection->getPricesCount() <= $this->getIntervalDivisionLimit()) {
             return array();
         }
         $algorithmModel->setPricesModel($this)->setStatistics(
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
-            $collection->getSize()
+            $collection->getPricesCount()
         );
         $appliedInterval = $this->getInterval();
         if ($appliedInterval) {

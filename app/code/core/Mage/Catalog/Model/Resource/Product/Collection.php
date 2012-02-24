@@ -160,13 +160,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     ));
 
     /**
-     * Whether statistics data should be used
-     *
-     * @var bool
-     */
-    protected $_useStatistics = false;
-
-    /**
      * Price expression sql
      *
      * @var string|null
@@ -202,6 +195,13 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected $_priceStandardDeviation;
 
     /**
+     * Prises count (statistics data)
+     *
+     * @var int
+     */
+    protected $_pricesCount = 0;
+
+    /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event
      *
      * @var Varien_Db_Select
@@ -216,17 +216,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function getCatalogPreparedSelect()
     {
         return $this->_catalogPreparePriceSelect;
-    }
-
-    /**
-     * Set use statistics data
-     *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
-     */
-    public function useStatistics()
-    {
-        $this->_useStatistics = true;
-        return $this;
     }
 
     /**
@@ -916,7 +905,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $select->columns($this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart));
         $select->where($this->getPriceExpression($select) . ' IS NOT NULL');
         $row = $this->getConnection()->fetchRow($select, $this->_bindParams, Zend_Db::FETCH_NUM);
-        $this->_totalRecords = (int)$row[0];
+        $this->_pricesCount = (int)$row[0];
         $this->_maxPrice = (float)$row[1];
         $this->_minPrice = (float)$row[2];
         $this->_priceStandardDeviation = (float)$row[3];
@@ -2094,24 +2083,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Get collection size
-     *
-     * @return int
-     */
-    public function getSize()
-    {
-        if (is_null($this->_totalRecords)) {
-            if ($this->_useStatistics) {
-                $this->_prepareStatisticsData();
-            } else {
-                $sql = $this->getSelectCountSql();
-                $this->_totalRecords = (int)$this->getConnection()->fetchOne($sql, $this->_bindParams);
-            }
-        }
-        return $this->_totalRecords;
-    }
-
-    /**
      * Get products max price
      *
      * @return float
@@ -2151,5 +2122,20 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
 
         return $this->_priceStandardDeviation;
+    }
+
+
+    /**
+     * Get count of product prices
+     *
+     * @return int
+     */
+    public function getPricesCount()
+    {
+        if (is_null($this->_pricesCount)) {
+            $this->_prepareStatisticsData();
+        }
+
+        return $this->_pricesCount;
     }
 }
