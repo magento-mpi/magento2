@@ -41,6 +41,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
+     * Create wishlist item collection
      *
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
