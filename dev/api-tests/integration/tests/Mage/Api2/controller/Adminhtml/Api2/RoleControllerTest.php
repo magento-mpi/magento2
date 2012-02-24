@@ -112,8 +112,6 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_Controlle
 
     /**
      * Test role is rendered
-     *
-     * @runInSeparateProcess
      */
     public function testRoleGrid()
     {
