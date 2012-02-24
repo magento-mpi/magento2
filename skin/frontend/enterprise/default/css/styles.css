@@ -1827,6 +1827,12 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 #checkout-step-login .form-list p { padding-left:105px; margin:0; }
 #checkout-step-login .form-list .input-text { width:210px; }
 
+#checkout-step-login .form-list li.note { float:left; padding-left:105px; margin:0 0 9px; width:auto; clear:left; }
+#checkout-step-login .form-list li.control { float:left; clear:left; }
+#checkout-step-login .form-list li.control .input-box { margin-left:105px; }
+#checkout-step-login .form-list li.buttons-set { float:right; clear:none; padding-right:30px; padding-top:2px; }
+
+
 .opc .buttons-set
 .opc .form-buttons { width:auto; text-align:right; }
 .opc .buttons-set p.back-link { text-align:left; }
@@ -2031,15 +2037,17 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .account-login .btn-only a { float:left; white-space:nowrap; }
 .account-login .form-list input.input-text { width:224px; }
 .account-login .form-list p { padding:0 0 0 110px; }
+.account-login .form-list li.note { float:left; padding-left:113px; margin:0 0 9px; width:auto; clear:left; }
+.account-login .form-list li.note a { font-size:12px; }
+.account-login .form-list li.control { float:left; clear:left; }
+li#remember-me-box.control { white-space:nowrap; }
+li#remember-me-box.control label { margin-right:20px; white-space:normal; }
+.account-login .form-list li.control .input-box { margin-left:113px; }
+li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; line-height:16px; padding-top:2px; white-space:normal; }
+.account-login .form-list li.buttons-set { float:right; clear:none; padding-right:38px; padding-top:2px; }
 
 .account-create {}
 
-
-.remember-me input { margin-right:6px; }
-
-
-.shift-up { position: relative; top: -52px; }
-.account-login p.shift-up { margin-left: 243px; padding-left: 0; width: 100px; }
 
 
 /* Popup Dialog Block */
@@ -2499,6 +2507,7 @@ address.copyright { margin-top:6px; }
 
 
 /* Clears ================================================================================ */
+.account-login .form-list:after,
 .wishlist-management .table-caption:after,
 .product-options dt:after,
 #bundleProduct:after,

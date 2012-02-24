@@ -70,6 +70,11 @@
 .split-button { display:inline; zoom:1; }
 .please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); margin-top:-100px; }
 
+li#remember-me-box.control { white-space:nowrap; min-width:250px; }
+li#remember-me-box.control .link-tip,
+li#remember-me-box.control label { float:none; display:inline-block; vertical-align:top; }
+li#remember-me-box.control label * { white-space:normal }
+
 .form-list .control .input-box { padding-top:2px; }
 .form-list .add-field .input-box { display:inline; }
 input.radio { width:13px; height:13px; }
