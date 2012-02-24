@@ -307,7 +307,6 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         $item[self::NAME_CHILDREN] = array();
 
         if ($isResource) {
-
             switch ($this->_type) {
                 case self::TYPE_ATTRIBUTE:
                     //add operations
@@ -454,11 +453,11 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
             $title = $attribute['title'];
             $status = $attribute['status'];
 
-            $checked = $status==Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
+            $checked = $status == Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
             $item['checked'] = $checked ?$checked   :$item['checked'];
             $item[self::NAME_CHILDREN][] = array(
                 'id'   => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name
-                        . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
+                    . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
                 'text' => $title,
                 'checked' => $checked,
                 'sort_order' => ++$cnt,
