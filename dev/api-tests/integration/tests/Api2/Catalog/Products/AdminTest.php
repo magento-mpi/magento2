@@ -178,10 +178,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             . 'Please avoid spaces or other characters such as dots or commas.',
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
             'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
-            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container');
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
+            'gift_message_available', 'gift_wrapping_available');
         foreach ($invalidValueAttributes as $attribute) {
             $expectedErrors[] = sprintf('Invalid value for attribute "%s".', $attribute);
         }
@@ -382,6 +384,24 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
         $this->assertEquals(0, $stockItem->getManageStock());
+    }
+
+    /**
+     * Test product resource post using config values in gift options
+     */
+    public function testPostGiftOptionsUseConfigValues()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductGiftOptionsUseConfig.php';
+
+        $restResponse = $this->callPost('products', $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $location = $restResponse->getHeader('Location');
+        list($productId) = array_reverse(explode('/', $location));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->setFixture('product_simple', $product);
     }
 }
 

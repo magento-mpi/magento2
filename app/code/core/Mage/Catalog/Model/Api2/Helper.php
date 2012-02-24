@@ -65,6 +65,7 @@ class Mage_Catalog_Model_Api2_Helper
         $this->_validateAttributeSet($data, $productEntity);
         $this->_validateStore($data);
         $this->_validateSku($data);
+        $this->_validateGiftOptions($data);
         $this->_validateGroupPrice($data);
         $this->_validateTierPrice($data);
         $this->_validateStockData($data);
@@ -125,7 +126,8 @@ class Mage_Catalog_Model_Api2_Helper
                 // Validate dropdown attributes
                 if ($attribute->usesSource() && !empty($value)) {
                     $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
-                    if (!in_array($value, $allowedValues, true)) {
+                    if (!in_array($value, $allowedValues, true)
+                        && !$this->_isConfigValueUsed($data, $attributeCode)) {
                         $this->_error(sprintf('Invalid value for attribute "%s".', $attributeCode),
                             Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                     }
@@ -227,6 +229,21 @@ class Mage_Catalog_Model_Api2_Helper
         $sku = $data['sku'];
         if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
             $this->_error('SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Validate product gift options data
+     *
+     * @param array $data
+     */
+    protected function _validateGiftOptions($data)
+    {
+        if (isset($data['gift_wrapping_price'])) {
+            if (!(is_numeric($data['gift_wrapping_price']) && $data['gift_wrapping_price'] >= 0)) {
+                $this->_error('Please enter a number 0 or greater in the "gift_wrapping_price" field.',
+                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
         }
     }
 
@@ -549,8 +566,15 @@ class Mage_Catalog_Model_Api2_Helper
     {
         if (isset($productData['stock_data'])) {
             $this->_filterStockData($productData['stock_data']);
-            $product->setStockData($productData['stock_data']);
+        } else {
+            $productData['stock_data'] = array(
+                'use_config_manage_stock' => 1,
+                'use_config_min_sale_qty' => 1,
+                'use_config_max_sale_qty' => 1,
+            );
         }
+        $product->setStockData($productData['stock_data']);
+        $this->_filterConfigValueUsed($productData, array('gift_message_available', 'gift_wrapping_available'));
 
         if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
             $product->setWebsiteIds($productData['website_ids']);
@@ -584,11 +608,7 @@ class Mage_Catalog_Model_Api2_Helper
     {
         $fieldsWithPossibleDefautlValuesInConfig = array('manage_stock', 'min_sale_qty', 'max_sale_qty', 'backorders',
             'qty_increments', 'notify_stock_qty', 'min_qty', 'enable_qty_increments');
-        foreach($fieldsWithPossibleDefautlValuesInConfig as $field) {
-            if ($this->_isConfigValueUsed($stockData, $field)) {
-                unset($stockData[$field]);
-            }
-        }
+        $this->_filterConfigValueUsed($stockData, $fieldsWithPossibleDefautlValuesInConfig);
 
         if (!isset($stockData['use_config_manage_stock'])) {
             $stockData['original_inventory_qty'] = 0;
@@ -601,6 +621,20 @@ class Mage_Catalog_Model_Api2_Helper
         }
         if (!isset($stockData['is_decimal_divided']) || $stockData['is_qty_decimal'] == 0) {
             $stockData['is_decimal_divided'] = 0;
+        }
+    }
+
+    /**
+     * Filter out fields if Use Config Settings option used
+     *
+     * @param array $data
+     * @param string $fields
+     */
+    protected function _filterConfigValueUsed(&$data, $fields) {
+        foreach($fields as $field) {
+            if ($this->_isConfigValueUsed($data, $field)) {
+                unset($data[$field]);
+            }
         }
     }
 

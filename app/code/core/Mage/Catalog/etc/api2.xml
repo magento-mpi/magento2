@@ -89,6 +89,8 @@
                     <set>Attribute Set</set>
                     <store>Store</store>
                     <stock_data>Product Inventory</stock_data>
+                    <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
+                    <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
                 </attributes>
                 <routes>
                     <route_main>
