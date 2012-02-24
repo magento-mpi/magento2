@@ -1010,11 +1010,23 @@ class Mage_Core_Model_Url extends Varien_Object
      * Check and add session id to URL
      *
      * @param string $url
+     *
+     * @return Mage_Core_Model_Url
+     */
+    protected function _prepareSessionUrl($url)
+    {
+        return $this->_prepareSessionUrlWithParams($url, array());
+    }
+
+    /**
+     * Check and add session id to URL, session obtained with parameters
+     *
+     * @param string $url
      * @param array $params
      *
      * @return Mage_Core_Model_Url
      */
-    protected function _prepareSessionUrl($url, $params = array())
+    protected function _prepareSessionUrlWithParams($url, array $params)
     {
         if (!$this->getUseSession()) {
             return $this;
@@ -1186,7 +1198,10 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getRedirectUrl($url)
     {
-        $this->_prepareSessionUrl($url, array('name' => 'frontend'));
+        $this->_prepareSessionUrlWithParams(
+            $url,
+            array('name' => Mage_Core_Controller_Front_Action::SESSION_NAMESPACE)
+        );
 
         $query = $this->getQuery(false);
         if ($query) {
