@@ -113,10 +113,9 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     )
                 );
                 if ($stagingWebsite->getStoresCount() > 0) {
-                    $element->setRenderer(
-                        $this->getLayout()->createBlock(
-                            'enterprise_staging/adminhtml_widget_form_renderer_fieldset_link'
-                        ));
+                    $element->setRenderer($this->getLayout()->createBlock(
+                        'enterprise_staging/adminhtml_widget_form_renderer_fieldset_link'
+                    ));
                 }
 
                 $element = $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
@@ -127,10 +126,9 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     )
                 );
                 if ($stagingWebsite->getStoresCount() > 0) {
-                    $element->setRenderer(
-                        $this->getLayout()->createBlock(
-                            'enterprise_staging/adminhtml_widget_form_renderer_fieldset_link'
-                        ));
+                    $element->setRenderer($this->getLayout()->createBlock(
+                        'enterprise_staging/adminhtml_widget_form_renderer_fieldset_link'
+                    ));
                 }
 
                 $fieldset->addField('staging_website_id_'.$_id, 'hidden',
@@ -211,8 +209,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     'class'    => 'input-text validate-password',
                     'name'     => "websites[{$_id}][master_password]",
                     'required' => true,
-                    'value'    => $stagingWebsite
-                        ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''
+                    'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword())
+                        : ''
                 )
             );
 
