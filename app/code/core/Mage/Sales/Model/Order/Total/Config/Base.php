@@ -85,7 +85,7 @@ class Mage_Sales_Model_Order_Total_Config_Base extends Mage_Sales_Model_Config_O
      */
     public function getTotalModels()
     {
-        if (is_null($this->_totalModels)) {
+        if (empty($this->_totalModels)) {
             $this->_initModels();
             $this->_initCollectors();
             $this->_totalModels = $this->_collectors;

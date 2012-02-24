@@ -1372,18 +1372,21 @@
                     </discount>
                     <shipping>
                         <class>sales/order_invoice_total_shipping</class>
-                        <after>subtotal</after>
-                        <before>grand_total</before>
+                        <after>subtotal,discount</after>
+                        <before>grand_total,tax</before>
                     </shipping>
                     <tax>
                         <class>sales/order_invoice_total_tax</class>
+                        <after>subtotal</after>
                     </tax>
                     <grand_total>
                         <class>sales/order_invoice_total_grand</class>
-                        <after>subtotal</after>
+                        <after>shipping</after>
                     </grand_total>
                     <cost_total>
                         <class>sales/order_invoice_total_cost</class>
+                        <after>discount</after>
+                        <before>grand_total</before>
                     </cost_total>
                 </totals>
             </order_invoice>
@@ -1394,11 +1397,12 @@
                     </subtotal>
                     <shipping>
                         <class>sales/order_creditmemo_total_shipping</class>
-                        <after>subtotal</after>
-                        <before>grand_total</before>
+                        <after>subtotal,discount</after>
+                        <before>grand_total,tax</before>
                     </shipping>
                     <tax>
                         <class>sales/order_creditmemo_total_tax</class>
+                        <after>subtotal</after>
                     </tax>
                     <discount>
                         <class>sales/order_creditmemo_total_discount</class>
@@ -1406,10 +1410,12 @@
                     </discount>
                     <grand_total>
                         <class>sales/order_creditmemo_total_grand</class>
-                        <after>subtotal</after>
+                        <after>shipping,subtotal</after>
                     </grand_total>
                     <cost_total>
                         <class>sales/order_creditmemo_total_cost</class>
+                        <after>discount</after>
+                        <before>grand_total</before>
                     </cost_total>
                 </totals>
             </order_creditmemo>

@@ -115,7 +115,7 @@
                 <totals>
                     <reward>
                         <class>enterprise_reward/total_invoice_reward</class>
-                        <after>weee,discount,tax,grand_total</after>
+                        <after>grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
                     </reward>
                 </totals>

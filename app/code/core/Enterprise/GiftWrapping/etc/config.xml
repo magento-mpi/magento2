@@ -91,7 +91,7 @@
                 <totals>
                     <giftwrapping>
                         <class>enterprise_giftwrapping/total_invoice_giftwrapping</class>
-                        <after>subtotal</after>
+                        <after>cost_total</after>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>enterprise_giftwrapping/total_invoice_tax_giftwrapping</class>

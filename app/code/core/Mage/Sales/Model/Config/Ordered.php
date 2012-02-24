@@ -147,9 +147,9 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                     if (!isset($configArray[$beforeCode])) {
                         continue;
                     }
-                    $configArray[$code]['before'] = array_merge(
+                    $configArray[$code]['before'] = array_unique(array_merge(
                         $configArray[$code]['before'], $configArray[$beforeCode]['before']
-                    );
+                    ));
                     $configArray[$beforeCode]['after'] = array_merge(
                         $configArray[$beforeCode]['after'], array($code), $data['after']
                     );
@@ -159,9 +159,9 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                     if (!isset($configArray[$afterCode])) {
                         continue;
                     }
-                    $configArray[$code]['after'] = array_merge(
+                    $configArray[$code]['after'] = array_unique(array_merge(
                         $configArray[$code]['after'], $configArray[$afterCode]['after']
-                    );
+                    ));
                     $configArray[$afterCode]['before'] = array_merge(
                         $configArray[$afterCode]['before'], array($code), $data['before']
                     );
@@ -169,7 +169,6 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                 }
             }
             uasort($configArray, array($this, '_compareTotals'));
-            $configArray = array_reverse($configArray);
         }
         $sortedCollectors = array_keys($configArray);
         if (Mage::app()->useCache('config')) {
@@ -209,9 +208,9 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
         $aCode = $a['_code'];
         $bCode = $b['_code'];
         if (in_array($aCode, $b['after']) || in_array($bCode, $a['before'])) {
-            $res = 1;
-        } elseif (in_array($bCode, $a['after']) || in_array($aCode, $b['before'])) {
             $res = -1;
+        } elseif (in_array($bCode, $a['after']) || in_array($aCode, $b['before'])) {
+            $res = 1;
         } else {
             $res = 0;
         }
