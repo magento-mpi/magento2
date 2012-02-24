@@ -1740,7 +1740,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .failed-products { border:1px solid #E9581F;   }
 .failed-products .sub-title { background:#FFF5F3 url(../images/icon_error.gif) no-repeat 10px 50%; color:#D91A00; margin:0; padding:10px 10px 10px 30px; border-bottom:1px solid #E9581F; }
-.failed-products .item-msg.error { font-size:11px; color:#D91A00; }
+.failed-products .item-msg.error { background:url(../images/icon_error.gif) no-repeat left; font-size:11px; color:#D91A00; padding:5px 0 5px 20px; }
 /* Empty Cart Add by SKU */
 
 .cart-empty .failed-products { clear:both; z-index:1; position:relative; margin:40px -20px -21px; }
