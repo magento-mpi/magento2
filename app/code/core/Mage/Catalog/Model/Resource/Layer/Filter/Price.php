@@ -403,8 +403,11 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         $select = $filter->getLayer()->getProductCollection()->getSelect();
         $priceExpr = $this->_getPriceExpression($filter, $select, false);
 
-        if ($from == $to && !empty($to)) {
-            $to += self::MIN_POSSIBLE_PRICE;
+        if ($to !== '') {
+            $to = (float)$to;
+            if ($from == $to) {
+                $to += self::MIN_POSSIBLE_PRICE;
+            }
         }
 
         if ($from !== '') {
