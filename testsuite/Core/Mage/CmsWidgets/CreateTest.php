@@ -144,6 +144,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      * @dataProvider widgetTypesDataProvider
+     * @depends createCategory
      * @depends createProducts
      * @test
      *
@@ -152,8 +153,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      */
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $category)
     {
-        $this->navigate('manage_cms_widgets');
-        $temp = array();
+        //Data
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget', $temp, 'widget_instance_title');
@@ -166,7 +166,11 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
             $y = $i + 3;
             $widgetData['layout_updates']['layout_' . $y]['choose_options']['product_' . $i++]['filter_sku'] = $value;
         }
+        //Steps
+        $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
+        //Verifying
+        $this->assertMessagePresent('success', 'successfully_saved_widget');
     }
 
     public function widgetTypesDataProvider()
@@ -191,6 +195,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
      * @dataProvider widgetTypesReqDataProvider
+     * @depends createCategory
      * @depends createProducts
      * @test
      *
@@ -199,12 +204,15 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      */
     public function createAllTypesOfWidgetsReqFields($dataWidgetType, $category)
     {
-        $this->navigate('manage_cms_widgets');
-        $temp = array();
+        //Data
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
+        //Steps
+        $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
+        //Verifying
+        $this->assertMessagePresent('success', 'successfully_saved_widget');
     }
 
     public function widgetTypesReqDataProvider()
@@ -228,19 +236,20 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with required fields empty</p>
      * <p>Expected result</p>
      * <p>Widgets are not created. Message about required field empty appears.</p>
-     * @dataProvider withEmptyFieldsDataProvider
-     * @depends createProducts
-     * @test
      *
-     * @param $dataWidgetType
-     * @param $emptyField
-     * @param $fieldType
-     * @param $category
+     * @param string $dataWidgetType
+     * @param string $emptyField
+     * @param string $fieldType
+     * @param string $category
+     *
+     * @test
+     * @dataProvider withEmptyFieldsDataProvider
+     * @depends createCategory
+     * @depends createProducts
      */
     public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
     {
-        $this->navigate('manage_cms_widgets');
-        $temp = array();
+        //Data
         $temp['filter_sku'] = self::$products['sku']['simple'];
         $temp['category_path'] = $category;
         if ($fieldType == 'field') {
@@ -256,7 +265,10 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
             $this->addParameter('elementName', 'Not Selected');
         }
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp);
+        //Steps
+        $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
+        //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
