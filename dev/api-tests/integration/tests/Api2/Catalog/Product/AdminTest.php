@@ -140,6 +140,46 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test successful product update
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     */
+    public function testUpdateSuccessful()
+    {
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        unset($productDataForUpdate['type']);
+        unset($productDataForUpdate['set']);
+        $product = $this->getFixture('product_simple');
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $this->assertNotNull($updatedProduct->getId());
+
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $this->assertEquals(strtotime($productDataForUpdate[$attribute]),
+                strtotime($updatedProduct->getData($attribute)));
+        }
+
+        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data', 'url_key'));
+        // Validate URL Key - all special chars should be replaced with dash sign
+        $this->assertEquals('123-abc', $updatedProduct->getUrlKey());
+        $productAttributes = array_diff_key($productDataForUpdate, array_flip($exclude));
+        foreach ($productAttributes as $attribute => $value) {
+            $this->assertEquals($value, $updatedProduct->getData($attribute));
+        }
+
+        if (isset($productData['stock_data'])) {
+            $stockItem = $updatedProduct->getStockItem();
+            foreach ($productData['stock_data'] as $attribute => $value) {
+                $this->assertEquals($value, $stockItem->getData($attribute));
+            }
+        }
+    }
+
+    /**
      * Test successful product delete
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php

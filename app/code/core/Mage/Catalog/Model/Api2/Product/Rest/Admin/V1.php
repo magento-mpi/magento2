@@ -34,6 +34,19 @@
 class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
     /**
+     * @var Mage_Catalog_Model_Api2_Helper
+     */
+    protected $_productResourceHelper;
+
+    /**
+     * Initialize product resource helper
+     */
+    function __construct()
+    {
+        $this->_productResourceHelper = Mage::getSingleton('catalog/api2_helper');
+    }
+
+    /**
      * Retrieve product data
      *
      * @return array
@@ -51,18 +64,73 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _delete()
     {
-        $productId = $this->getRequest()->getParam('id');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($productId);
-        if (!$product->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
+        $product = $this->_getProduct();
         try {
             $product->delete();
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+    /**
+     * Update product by its ID
+     *
+     * @param array $data
+     */
+    protected function _update(array $data)
+    {
+        $this->_validate($data);
+        $product = $this->_getProduct();
+        /** @var $product Mage_Catalog_Model_Product */
+        $product->setStoreId($this->_getStore()->getId());
+        if (isset($data['sku'])) {
+            $product->setSku($data['sku']);
+        }
+        $this->_productResourceHelper->prepareDataForSave($product, $data);
+        try {
+            $product->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
+        }
+    }
+
+    /**
+     * Retrieve product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        $productId = $this->getRequest()->getParam('id');
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        if (!$product->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+            return $product;
+        }
+        return $product;
+    }
+
+    /**
+     * Pre-validate request data
+     *
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
+    {
+        parent::_validate($data, $required, $notEmpty);
+        $validationErrors = $this->_productResourceHelper->validateProductData($data, $this->_getProduct());
+        foreach ($validationErrors as $error) {
+            $this->_error($error['message'], $error['code']);
+        }
+        if ($this->getResponse()->isException()) {
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
     }
 }
