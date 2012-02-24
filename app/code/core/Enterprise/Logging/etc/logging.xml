@@ -173,7 +173,7 @@
     </catalog_categories>
 
     <core_urlrewrites translate="label">
-        <label>Urlrewrites</label>
+        <label>URL Rewrites</label>
         <expected_models>
             <core__url_rewrite/>
         </expected_models>
@@ -1316,7 +1316,7 @@
     </sales_agreement>
 
     <api_roles translate="label">
-        <label>Webservices API Roles</label>
+        <label>Web Services API Roles</label>
         <expected_models>
             <api__roles/>
         </expected_models>
@@ -1339,7 +1339,7 @@
     </api_roles>
 
     <api_users translate="label">
-        <label>Webservices API Users</label>
+        <label>Web Services API Users</label>
         <expected_models>
             <api__user>
                 <skip_data>
