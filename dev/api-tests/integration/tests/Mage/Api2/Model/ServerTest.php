@@ -108,7 +108,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
             'password'     => '123123q',
             'confirmation' => '123123q',
             'username'     => 'myusername',
-            'email'        => 'my@example.com'
+            'email'        => (int)microtime(true) . 'my@example.com'
         ))->save();
 
         self::$_customer = $customer;
