@@ -31,10 +31,18 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
     {
         $result = array();
         $layoutUpdate = $this->getLayout()->getUpdate();
-        foreach ($layoutUpdate->getPageHandles() as $pageHandle) {
+        $pageTypes = $layoutUpdate->getPageHandles();
+        if (!$pageTypes) {
+            /** @var $controllerAction Mage_Core_Controller_Varien_Action */
+            $controllerAction = Mage::app()->getFrontController()->getAction();
+            if ($controllerAction) {
+                $pageTypes = $layoutUpdate->getPageLayoutHandles($controllerAction->getDefaultLayoutHandle());
+            }
+        }
+        foreach ($pageTypes as $pageTypeName) {
             $result[] = array(
-                'label' => $this->escapeHtml($layoutUpdate->getPageTypeLabel($pageHandle)),
-                'url'   => $this->getUrl('design/editor/page', array('page_type' => $pageHandle))
+                'label' => $this->escapeHtml($layoutUpdate->getPageTypeLabel($pageTypeName)),
+                'url'   => $this->getUrl('design/editor/page', array('page_type' => $pageTypeName))
             );
         }
         /** @var $blockHead Mage_Page_Block_Html_Head */

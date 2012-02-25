@@ -82,6 +82,31 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array_merge($nonPageHandles, $expectedPageHandles), $this->_model->getHandles());
     }
 
+    /**
+     * @dataProvider getPageLayoutHandlesDataProvider
+     */
+    public function testGetPageLayoutHandles($inputPageHandle, $expectedResult)
+    {
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
+        $this->assertSame($expectedResult, $model->getPageLayoutHandles($inputPageHandle));
+    }
+
+    public function getPageLayoutHandlesDataProvider()
+    {
+        return array(
+            'non-existing handle'      => array('non_existing_handle', array()),
+            'non page type handle'     => array('not_a_page_type', array()),
+            'page type with no parent' => array('default', array('default')),
+            'page type with parent'    => array(
+                'catalog_category_default', array('default', 'catalog_category_default')
+            ),
+            'deeply nested page type'  => array(
+                'catalog_category_layered', array('default', 'catalog_category_default', 'catalog_category_layered')
+            ),
+        );
+    }
+
     public function testGetPageTypesHierarchy()
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);

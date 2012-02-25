@@ -188,7 +188,7 @@ class Mage_Core_Model_Layout_Update
     public function addPageHandles(array $handlesToTry)
     {
         foreach ($handlesToTry as $pageHandle) {
-            $handleWithParents = $this->_getPageLayoutHandles($pageHandle);
+            $handleWithParents = $this->getPageLayoutHandles($pageHandle);
             if ($handleWithParents) {
                 /* replace existing page handles with the new ones */
                 foreach ($this->_pageHandles as $pageHandle) {
@@ -218,7 +218,7 @@ class Mage_Core_Model_Layout_Update
      * @param string $pageHandle
      * @return array
      */
-    protected function _getPageLayoutHandles($pageHandle)
+    public function getPageLayoutHandles($pageHandle)
     {
         $result = array();
         while ($this->pageTypeExists($pageHandle)) {

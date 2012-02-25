@@ -267,7 +267,7 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @return string
      */
-    protected function _getDefaultLayoutHandle()
+    public function getDefaultLayoutHandle()
     {
         return strtolower($this->getFullActionName());
     }
@@ -279,9 +279,10 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function addActionLayoutHandles()
     {
-        if (!$this->addPageLayoutHandles()) {
-            $this->getLayout()->getUpdate()->addHandle($this->_getDefaultLayoutHandle());
-        }
+        /*
+         * @todo Use addPageLayoutHandles() as soon as page type inheritance declarations are correct
+         */
+        $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         return $this;
     }
 
@@ -293,7 +294,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function addPageLayoutHandles(array $parameters = array())
     {
-        $handle = $this->_getDefaultLayoutHandle();
+        $handle = $this->getDefaultLayoutHandle();
         $pageHandles = array($handle);
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
