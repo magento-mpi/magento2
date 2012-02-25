@@ -254,13 +254,13 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
-            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block')
+            ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container')
             ->setArea($widgetInstance->getArea())
             ->setPackage($widgetInstance->getPackage())
             ->setTheme($widgetInstance->getTheme())
             ->setLayoutHandle($layout)
             ->setSelected($selected)
-            ->setAllowedBlocks($widgetInstance->getWidgetSupportedBlocks());
+            ->setAllowedContainers($widgetInstance->getWidgetSupportedContainers());
         $this->setBody($blocksChooser->toHtml());
     }
 
@@ -277,7 +277,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $templateChooser = $this->getLayout()
             ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template')
             ->setSelected($selected)
-            ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByBlock($block));
+            ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByContainer($block));
         $this->setBody($templateChooser->toHtml());
     }
 

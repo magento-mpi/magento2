@@ -14,6 +14,14 @@
  */
 class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 {
+    public function testSetGetType()
+    {
+        $model = new Mage_Widget_Model_Widget_Instance;
+        $this->assertEmpty($model->getType());
+        $this->assertSame('test', $model->setType('test')->getType());
+        $this->assertSame('test', $model->getInstanceType());
+    }
+
     /**
      * @return Mage_Widget_Model_Widget_Instance
      */
@@ -30,6 +38,36 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return Mage_Widget_Model_Widget_Instance
+     */
+    public function testGetWidgetSupportedContainers()
+    {
+        $model = new Mage_Widget_Model_Widget_Instance;
+        $model->setType('Mage_Catalog_Block_Product_Widget_New');
+        $containers = $model->getWidgetSupportedContainers();
+        $this->assertInternalType('array', $containers);
+        $this->assertContains('left', $containers);
+        $this->assertContains('content', $containers);
+        $this->assertContains('right', $containers);
+        return $model;
+    }
+
+    /**
+     * @param Mage_Widget_Model_Widget_Instance $model
+     * @depends testGetWidgetSupportedContainers
+     */
+    public function testGetWidgetSupportedTemplatesByContainer($model)
+    {
+        $templates = $model->getWidgetSupportedTemplatesByContainer('content');
+        $this->assertNotEmpty($templates);
+        $this->assertInternalType('array', $templates);
+        foreach ($templates as $row) {
+            $this->assertArrayHasKey('value', $row);
+            $this->assertArrayHasKey('label', $row);
+        }
+    }
+
+    /**
      * @param Mage_Widget_Model_Widget_Instance $model
      * @depends testGetWidgetConfig
      */
@@ -40,17 +78,5 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         $result = $model->generateLayoutUpdateXml('content');
         $this->assertContains('<reference name="content">', $result);
         $this->assertContains('<block type="' . $model->getType() . '"', $result);
-    }
-
-    public function testSetGetType()
-    {
-        $model = new Mage_Widget_Model_Widget_Instance();
-        $this->assertEmpty($model->getType());
-
-        $model->setType('test-test');
-        $this->assertEquals('test/test', $model->getType());
-
-        $model->setData('instance_type', 'test-test');
-        $this->assertEquals('test/test', $model->getType());
     }
 }

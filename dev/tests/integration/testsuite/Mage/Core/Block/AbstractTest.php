@@ -416,6 +416,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core', $this->_block->getData('module_name'));
     }
 
+    public function testExtractModuleName()
+    {
+        $this->assertEquals('Mage_Core', Mage_Core_Block_Abstract::extractModuleName('Mage_Core_Block_Abstract'));
+    }
+
     public function test__()
     {
         $str = uniqid();

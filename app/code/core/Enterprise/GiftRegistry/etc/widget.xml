@@ -31,25 +31,25 @@
                 </values>
             </template>
         </parameters>
-        <supported_blocks>
+        <supported_containers>
             <left_column>
-                <block_name>left</block_name>
+                <container_name>left</container_name>
                 <template>
                     <default>default_template</default>
                 </template>
             </left_column>
             <!--main_content>
-                <block_name>content</block_name>
+                <container_name>content</container_name>
                 <template>
                     <default>default_template</default>
                 </template>
             </main_content-->
             <right_column>
-                <block_name>right</block_name>
+                <container_name>right</container_name>
                 <template>
                     <default>default_template</default>
                 </template>
             </right_column>
-        </supported_blocks>
+        </supported_containers>
     </enterprise_giftregistry_search>
 </widgets>
