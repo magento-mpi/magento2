@@ -118,7 +118,6 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                     $messages[] = $this->__('%s for "%s".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                 }
             } catch (Exception $e) {
-                echo $e->getMessage();
                 Mage::logException($e);
                 $messages[] = Mage::helper('wishlist')->__('Cannot add the item to shopping cart.');
             }
