@@ -453,7 +453,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         }
         $wishlist->addNewItem($item->getProduct(), $buyRequest);
         $qtyDiff = $item->getQty() - $qty;
-        if ($qtyDiff > 0) {
+        if ($qty && $qtyDiff > 0) {
             $item->setQty($qtyDiff);
             $item->save();
         } else {

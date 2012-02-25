@@ -197,6 +197,11 @@ Enterprise.Wishlist.edit = function(editUrl, wishlistName, visibility) {
     Enterprise.Wishlist.editDialog.show();
 }
 
+Enterprise.Wishlist.getRowQty = function(rowNode) {
+    var qtyNode = $(rowNode).down('input.qty');
+    return qtyNode ? qtyNode.value : null;
+}
+
 Enterprise.Wishlist.copyItemTo = function(itemId, qty, wishlistId) {
     var form = new Element('form', {method: 'post', action: Enterprise.Wishlist.url.copyItem});
     form.insert(new Element('input', {name: 'item_id', type: 'hidden', value: itemId}));
