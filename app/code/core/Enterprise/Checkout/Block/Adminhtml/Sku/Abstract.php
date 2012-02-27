@@ -157,4 +157,24 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
      * @return string
      */
     abstract public function getErrorGridId();
+
+    /**
+     * Retrieve context specific JavaScript
+     *
+     * @return string
+     */
+    public function getContextSpecificJs()
+    {
+        return '';
+    }
+
+    /**
+     * Retrieve additional JavaScript
+     *
+     * @return string
+     */
+    public function getAdditionalJavascript()
+    {
+        return '';
+    }
 }
