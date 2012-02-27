@@ -160,9 +160,10 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             $i = 0;
             $lastIndex = null;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
+            $calculation = Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
             foreach ($items as $k => $v) {
                 ++$i;
-                if ($i > 1 && $i > $maxIntervalsNumber) {
+                if ($calculation == self::RANGE_CALCULATION_MANUAL && $i > 1 && $i > $maxIntervalsNumber) {
                     $items[$lastIndex] += $v;
                     unset($items[$k]);
                 } else {
