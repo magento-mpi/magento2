@@ -106,39 +106,11 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test unsuccessful stock item update with empty required data
-     *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
-     */
-    public function testUpdateEmptyRequired()
-    {
-        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data_emptyrequired.php';
-
-        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = $this->getFixture('stockItem');
-        $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $errors = $responseData['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array('Resource data pre-validation error.');
-        foreach ($dataForUpdate as $key => $value) {
-            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
-        }
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
-    }
-
-    /**
      * Test updating not existing stock item
      */
     public function testUpdateUnavailableResource()
     {
-        $restResponse = $this->callPut('stockitems/' . 'invalid_id', array());
+        $restResponse = $this->callPut('stockitems/invalid_id', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }
