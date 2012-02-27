@@ -72,7 +72,7 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetUnavailableOrder()
     {
-        $restResponse = $this->callGet('orders/' . 'invalid_id');
+        $restResponse = $this->callGet('orders/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }
