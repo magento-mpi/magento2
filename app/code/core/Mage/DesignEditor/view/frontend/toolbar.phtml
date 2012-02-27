@@ -14,13 +14,8 @@
     <?php foreach ($messages as $message): ?>
         <p class="item-msg <?php echo $message->getType() ?>"><?php echo $this->escapeHtml($message->getCode()) ?></p>
     <?php endforeach; ?>
-
     <?php echo $this->getChildHtml(); ?>
-    <div>
-        <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Exit'); ?>" class="vde_button">
-            <?php echo $this->__('Exit'); ?>
-        </a>
-    </div>
+    <div class="vde_toolbar_clear"></div>
 </div>
 
 <script type="text/javascript">
