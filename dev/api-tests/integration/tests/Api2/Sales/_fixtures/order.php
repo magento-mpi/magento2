@@ -38,4 +38,4 @@ $payment = Mage::getModel('sales/order_payment')
 $order->setPayment($payment); // WARNING: setPayment return Mage_Sales_Model_Order_Payment
 $order->save();
 
-Magento_Test_Webservice::setFixture('order', $order);
+Magento_Test_Webservice::setFixture('order', $order->load($order->getId())); // for prepare data

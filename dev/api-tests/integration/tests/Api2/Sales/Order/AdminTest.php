@@ -53,17 +53,15 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
+
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
-        $orderOriginalData = $fixtureOrder->getData();
         foreach ($responseData as $field => $value) {
-            if (isset($orderOriginalData[$field])) {
-                $this->assertEquals($orderOriginalData[$field], $value);
-            }
+            $this->assertEquals($fixtureOrder->getData($field), $value);
         }
     }
 
