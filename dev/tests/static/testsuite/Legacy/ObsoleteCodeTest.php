@@ -48,7 +48,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileDataProvider()
     {
-        return Util_Files::getPhpFiles();
+        return Utility_Files::getPhpFiles();
     }
 
     /**
@@ -66,7 +66,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function xmlFileDataProvider()
     {
-        return Util_Files::getXmlFiles();
+        return Utility_Files::getXmlFiles();
     }
 
     /**
@@ -84,7 +84,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function jsFileDataProvider()
     {
-        return Util_Files::getJsFiles();
+        return Utility_Files::getJsFiles();
     }
 
     /**

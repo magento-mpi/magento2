@@ -70,7 +70,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function designHandlesDataProvider()
     {
-        $files = Util_Files::getLayoutFiles(array(
+        $files = Utility_Files::getLayoutFiles(array(
             'include_code' => false,
             'area' => 'frontend'
         ));
@@ -102,7 +102,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             return $this->_codeFrontendHandles;
         }
 
-        $files = Util_Files::getLayoutFiles(array(
+        $files = Utility_Files::getLayoutFiles(array(
             'include_design' => false,
             'area' => 'frontend'
         ));
@@ -169,7 +169,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         $handles = array();
         foreach ($this->_getPackagesAndThemes() as $packageAndTheme) {
-            $files = Util_Files::getLayoutFiles($packageAndTheme);
+            $files = Utility_Files::getLayoutFiles($packageAndTheme);
             $packageAndTheme['include_design'] = (int) $packageAndTheme['include_design'];
             $idPackageAndTheme = implode('_', $packageAndTheme);
 

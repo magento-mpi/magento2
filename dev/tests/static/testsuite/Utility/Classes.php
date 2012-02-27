@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-class Util_Classes
+class Utility_Classes
 {
     /**
      * Find all unique matches in specified content using specified PCRE
@@ -105,7 +105,7 @@ class Util_Classes
             $classes[] = $node->getName();
         }
 
-        $classes = array_map(array('Util_Classes', 'getCallbackClass'), $classes);
+        $classes = array_map(array('Utility_Classes', 'getCallbackClass'), $classes);
         $classes = array_map('trim', $classes);
         $classes = array_unique($classes);
         $classes = array_filter($classes, function ($value) {

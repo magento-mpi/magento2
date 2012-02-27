@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Util_Files
+class Utility_Files
 {
     /**
      * In-memory cache for the data sets

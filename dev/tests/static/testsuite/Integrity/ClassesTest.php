@@ -21,13 +21,13 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @dataProvider Util_Files::getPhpFiles
+     * @dataProvider Utility_Files::getPhpFiles
      */
     public function testPhpFile($file)
     {
         self::skipBuggyFile($file);
         $contents = file_get_contents($file);
-        $classes = Util_Classes::getAllMatches($contents, '/
+        $classes = Utility_Classes::getAllMatches($contents, '/
             # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
             \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d_]+)[\'"]\s*[\),]
 
@@ -50,7 +50,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
 
         // without modifier "i". Starting from capital letter is a significant characteristic of a class name
-        Util_Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
+        Utility_Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
                 \'([A-Z][a-z\d][A-Za-z\d_]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d_]+)\')
             \s*\)/x',
             $classes
@@ -69,7 +69,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     protected function _collectResourceHelpersPhp($contents, &$classes)
     {
-        $matches = Util_Classes::getAllMatches($contents, '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix');
+        $matches = Utility_Classes::getAllMatches($contents, '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix');
         foreach ($matches as $moduleName) {
             $classes[] = "{$moduleName}_Model_Resource_Helper_Mysql4";
         }
@@ -82,7 +82,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testConfigFile($path)
     {
         self::skipBuggyFile($path);
-        $classes = Util_Classes::collectClassesInConfig(simplexml_load_file($path));
+        $classes = Utility_Classes::collectClassesInConfig(simplexml_load_file($path));
         $this->_assertClassesExist($classes);
     }
 
@@ -91,7 +91,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Util_Files::getConfigFiles();
+        return Utility_Files::getConfigFiles();
     }
 
     /**
@@ -103,16 +103,16 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         self::skipBuggyFile($path);
         $xml = simplexml_load_file($path);
 
-        $classes = Util_Classes::getXmlNodeValues($xml,
+        $classes = Utility_Classes::getXmlNodeValues($xml,
             '/layout//*[contains(text(), "_Block_") or contains(text(), "_Model_") or contains(text(), "_Helper_")]'
         );
-        foreach (Util_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
-            $classes[] = Util_Classes::getCallbackClass($class);
+        foreach (Utility_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
+            $classes[] = Utility_Classes::getCallbackClass($class);
         }
-        foreach (Util_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module') as $module) {
+        foreach (Utility_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module') as $module) {
             $classes[] = "{$module}_Helper_Data";
         }
-        $classes = array_merge($classes, Util_Classes::collectLayoutClasses($xml));
+        $classes = array_merge($classes, Utility_Classes::collectLayoutClasses($xml));
 
         $this->_assertClassesExist(array_unique($classes));
     }
@@ -122,7 +122,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Util_Files::getLayoutFiles();
+        return Utility_Files::getLayoutFiles();
     }
 
     /**

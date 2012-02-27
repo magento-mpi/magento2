@@ -23,4 +23,15 @@ class Magento_Test_Utility_Abstract
     {
         $this->_testCase = $testCase;
     }
+
+    /**
+     * Getter.
+     * Return object of Test Case passed in constructor
+     *
+     * @return PHPUnit_Framework_TestCase
+     */
+    public function getTestCase()
+    {
+        return $this->_testCase;
+    }
 }
