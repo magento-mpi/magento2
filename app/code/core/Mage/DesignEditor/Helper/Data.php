@@ -21,10 +21,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isBlockDraggable(Mage_Core_Block_Abstract $block)
     {
-        $containerBlocks = array('Mage_Core_Block_Text_List', 'Mage_Page_Block_Html_Wrapper');
-        if (($parent = $block->getParentBlock()) != null && in_array($parent->getType(), $containerBlocks)) {
-            return true;
-        }
-        return false;
+        $parent = $block->getParentBlock();
+        return $parent != null && 'Mage_Core_Block_Text_List' == $parent->getType();
     }
 }
