@@ -56,6 +56,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testIndexActionSingleStore()
     {
+        $this->markTestIncomplete('Bug: MAGETWO-773');
         $this->dispatch('admin/system_design_editor/index');
         $this->_assertContainsDesignEditor($this->getResponse()->getBody());
     }
@@ -66,6 +67,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testIndexActionMultipleStores()
     {
+        $this->markTestIncomplete('Bug: MAGETWO-773');
         $this->dispatch('admin/system_design_editor/index');
         $responseBody = $this->getResponse()->getBody();
         $this->_assertContainsDesignEditor($responseBody);

@@ -470,9 +470,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function insert($block, $siblingName = '', $after = false, $alias = '')
     {
         if ($block instanceof Mage_Core_Block_Abstract) {
-            $block = $block->getNameInLayout();
+            $name = $block->getNameInLayout();
+        } else {
+            $name = $block;
+            $block = $this->getLayout()->getBlock($name);
         }
-        $this->_getLayoutStructure()->insertBlock($this->getNameInLayout(), $block, $alias, $after, $siblingName);
+        if (!($block instanceof Mage_Core_Block_Abstract)) {
+            return $this;
+        }
+        if ($block->isAnonymous()) {
+            $name = $this->getLayout()->renameAnonymousBlock($this->getNameInLayout(), $block)->getNameInLayout();
+        }
+        $this->_getLayoutStructure()->insertBlock($this->getNameInLayout(), $name, $alias, $after, $siblingName);
         return $this;
     }
 
@@ -528,7 +537,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($child) {
             return $child->getData($key);
         }
-        return false;
+        return null;
     }
 
     /**

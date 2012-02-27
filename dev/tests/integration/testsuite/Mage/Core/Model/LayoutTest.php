@@ -155,10 +155,21 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreateBlockNotExists()
+    /**
+     * @dataProvider blockNotExistsDataProvider
+     * @expectedException Mage_Core_Exception
+     */
+    public function testCreateBlockNotExists($name)
     {
-        $this->assertFalse($this->_model->createBlock(''));
-        $this->assertFalse($this->_model->createBlock('block_not_exists'));
+        $this->_model->createBlock($name);
+    }
+
+    public function blockNotExistsDataProvider()
+    {
+        return array(
+            array(''),
+            array('block_not_exists'),
+        );
     }
 
     /**
@@ -172,9 +183,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $blockName = 'block_' . __METHOD__;
         $expectedText = "some_text_for_$blockName";
 
-        $block = new Mage_Core_Block_Text();
+        $block = $this->_model->addBlock('Mage_Core_Block_Text', $blockName);
+        $this->_model->insertBlock('', $blockName, '');
         $block->setText($expectedText);
-        $this->_model->addBlock($block, $blockName);
 
         $this->_model->addOutputBlock($blockName);
         $this->assertEquals($expectedText, $this->_model->getOutput());

@@ -310,7 +310,8 @@ class Mage_Core_Model_Layout_Structure
                     $siblingNode = false;
                 }
             }
-        } elseif (!$after && isset($parentNode->firstChild)) {
+        }
+        if (!$after && !$siblingNode && isset($parentNode->firstChild)) {
             $siblingNode = $parentNode->firstChild;
         }
 

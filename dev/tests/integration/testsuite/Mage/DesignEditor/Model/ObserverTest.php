@@ -125,7 +125,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 'params' => array(
                     'name' => 'block.name',
                     'html' => '<div>Any text</div>',
-                    'class' => 'Mage_DesignEditor_Block_That_Belongs_To_That_Module'
+                    'class' => 'Mage_DesignEditor_Block_Toolbar'
                 ),
                 'expectedHtml' => '<div>Any text</div>'
             )
@@ -134,20 +134,16 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function _buildObserverData($params)
     {
-        if (isset($params['class'])) {
-            $block = $this->getMock('Mage_Core_Block_Template', null, array(), $params['class']);
-        } else {
-            $block = new Mage_Core_Block_Template;
+        if (!isset($params['class'])) {
+            $params['class'] = 'Mage_Core_Block_Template';
         }
-        $block->setNameInLayout($params['name'])
-            ->setLayout(new Mage_Core_Model_Layout);
-
+        $layout = new Mage_Core_Model_Layout;
+        $block = $layout->createBlock($params['class'], $params['name']);
         if (isset($params['container'])) {
-            $parentBlock = $this->getMock($params['container'], array('getType'));
-            $parentBlock->expects(self::any())
-                ->method('getType')
-                ->will(new PHPUnit_Framework_MockObject_Stub_Return($params['container']));
-            $block->setParentBlock($parentBlock);
+            $parentBlock = $layout->createBlock($params['container']);
+            $parentName = $parentBlock->getNameInLayout();
+            $layout->insertBlock('', $parentName, 'parent');
+            $layout->setChild($parentName, $params['name'], 'child');
         }
 
         $transport = new Varien_Object();

@@ -52,7 +52,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
      */
     public function testToolbarCoverage()
     {
-        $this->_block->setLayout(new Mage_Core_Model_Layout());
+        $this->_block->setLayout($this->_getLayout());
 
         /* Prepare toolbar block */
         $toolbar = $this->_block->getToolbarBlock();
@@ -68,12 +68,18 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testGetAdditionalHtmlEmpty()
     {
+        $this->_block->setLayout($this->_getLayout());
         $this->assertEmpty($this->_block->getAdditionalHtml());
     }
 
     public function testGetAdditionalHtml()
     {
-        $this->_block->setChild('additional', new Mage_Core_Block_Text(array('text' => 'test')));
+        $layout = $this->_getLayout();
+        $this->_block->setLayout($layout);
+        $name = $this->_block->getNameInLayout();
+        $layout->insertBlock('', $name, '');
+        $childBlock = $layout->createBlock('Mage_Core_Block_Text', 'test', array('text' => 'test'));
+        $layout->insertBlock($name, $childBlock->getNameInLayout(), 'additional');
         $this->assertEquals('test', $this->_block->getAdditionalHtml());
     }
 
@@ -96,5 +102,10 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());
+    }
+
+    protected function _getLayout()
+    {
+        return Mage::app()->getLayout();
     }
 }

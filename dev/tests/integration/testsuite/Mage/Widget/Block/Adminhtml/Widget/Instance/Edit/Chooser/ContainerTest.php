@@ -39,7 +39,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest ext
         list($key, $value) = each($result);
         $this->assertSame(0, $key);
         $this->assertSame(array('value' => '', 'label' => '-- Please Select --'), $value);
-        while (list($key, $value) = each($pleaseSelect)) {
+        while (list($key, $value) = each($result)) {
             $this->assertInternalType('string', $key);
             $this->assertNotEmpty($key);
             $this->assertInternalType('string', $value);

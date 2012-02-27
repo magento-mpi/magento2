@@ -396,32 +396,41 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $structure = $this->getStructure();
 
-        $structure->setChild($parentName, $elementName, $alias);
-
-        if ($structure->isBlock($elementName)) {
-            $block = $this->getBlock($elementName);
-            if ($block->isAnonymous()) {
-                $suffix = $block->getAnonSuffix();
-                if (empty($suffix)) {
-                    $suffix = 'child' . $structure->getChildrenCount($parentName);
-                }
-                $blockName = $parentName . '.' . $suffix;
-
-                $this->unsetElement($block->getNameInLayout())
-                    ->setBlock($blockName, $block);
-                $structure->setElementAttribute($block->getNameInLayout(), 'name', $blockName);
-
-                $block->setNameInLayout($blockName);
-                $block->setIsAnonymous(false);
-
-            }
+        $block = $this->getBlock($elementName);
+        if ($block) {
+            $block = $this->renameAnonymousBlock($parentName, $block);
             if (empty($alias)) {
                 $alias = $block->getNameInLayout();
             }
-            $structure->setElementAttribute($block->getNameInLayout(), 'alias', $alias);
         }
 
+        $structure->setChild($parentName, $elementName, $alias);
+
         return $this;
+    }
+
+    /**
+     * @param string $parentName
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Core_Block_Abstract
+     */
+    public function renameAnonymousBlock($parentName, Mage_Core_Block_Abstract $block)
+    {
+        if ($block->isAnonymous()) {
+            $suffix = $block->getAnonSuffix();
+            if (empty($suffix)) {
+                $suffix = 'child' . $this->getStructure()->getChildrenCount($parentName);
+            }
+            $elementName = $parentName . '.' . $suffix;
+
+            $this->unsetElement($block->getNameInLayout())
+                ->setBlock($elementName, $block);
+
+            $block->setNameInLayout($elementName);
+            $block->setIsAnonymous(false);
+        }
+
+        return $block;
     }
 
     /**
@@ -704,7 +713,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function unsetElement($name)
     {
-        if ($this->_structure->isBlock($name)) {
+        if (isset($this->_blocks[$name])) {
             $this->_blocks[$name] = null;
             unset($this->_blocks[$name]);
         }
