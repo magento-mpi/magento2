@@ -14,6 +14,13 @@
 class Mage_DesignEditor_Block_Adminhtml_Launcher_Form_Container extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Prevent dynamic form block creation, use the layout declaration instead
+     *
+     * @var string
+     */
+    protected $_mode = '';
+
+    /**
      * Customize inherited buttons
      */
     public function __construct()
