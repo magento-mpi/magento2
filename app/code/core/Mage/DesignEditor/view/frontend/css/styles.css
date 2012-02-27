@@ -8,6 +8,10 @@
  */
 
 /* Visual Design Editor ================================================================== */
+#vde_toolbar {
+    color: black;
+    background-color: white;
+}
 #vde_toolbar a.vde_button { border: 1px solid #777777; background: #ffffff; text-decoration: none; padding: 0 7px 1px 7px; text-align: center; }
 #vde_toolbar a.vde_button:hover { background: #eeeeee; }
 #vde_toolbar .item-msg {
@@ -56,6 +60,26 @@
 .vde_placeholder {
     position: absolute;
     background-color: #ff9;
+}
+
+.vde_toolbar_row {
+    clear: both;
+}
+
+.vde_toolbar_row .vde_toolbar_cell {
+    float:left;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.vde_toolbar_row .vde_toolbar_cell > div {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: 1px solid black;
+}
+
+#vde_toolbar .vde_toolbar_clear {
+    clear: both;
 }
 
 .ui-draggable-dragging {

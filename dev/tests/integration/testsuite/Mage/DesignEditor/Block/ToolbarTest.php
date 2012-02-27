@@ -41,7 +41,7 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
     public function testToHtmlDesignEditorActive()
     {
         $this->assertNotEmpty($this->_block->toHtml());
-        $this->assertContains('title="Exit" class="vde_button">', $this->_block->toHtml());
+        $this->assertContains(' id="vde_toolbar"', $this->_block->toHtml());
     }
 
     public function testGetExitUrl()
