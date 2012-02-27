@@ -42,6 +42,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } else {
             $baseUrl = Mage::app()->getStore(true)->getBaseUrl();
         }
+
+        Mage::dispatchEvent('design_editor_launch_action', array('controller' => $this));
+
         $this->_redirectUrl($baseUrl . '?' . $query);
     }
 
@@ -53,6 +56,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $session Mage_DesignEditor_Model_Session */
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->deactivateDesignEditor();
+
+        Mage::dispatchEvent('design_editor_exit_action', array('controller' => $this));
+
         $this->loadLayout();
         $this->renderLayout();
     }

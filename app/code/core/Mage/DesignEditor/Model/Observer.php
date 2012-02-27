@@ -55,6 +55,10 @@ class Mage_DesignEditor_Model_Observer
 
         $session = $this->_getSession();
         if ($session->isDesignEditorActive()) {
+
+            // disable using cache (no save, no load)
+            Mage::app()->getCacheInstance()->banUse('block_html');
+
             $block->setDesignEditorActive(true);
         }
         return $this;
