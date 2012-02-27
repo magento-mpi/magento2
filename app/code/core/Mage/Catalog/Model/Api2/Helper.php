@@ -296,12 +296,8 @@ class Mage_Catalog_Model_Api2_Helper
             $fieldSet = 'stock_data';
             if (!(isset($stockData['use_config_manage_stock']) && $stockData['use_config_manage_stock'])) {
                 $this->_validateBoolean($stockData, $fieldSet, 'manage_stock');
-                $manageStock = isset($stockData['manage_stock']) && $stockData['manage_stock'];
-            } else {
-                $manageStock = Mage::getStoreConfig(
-                    Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
             }
-            if ($manageStock) {
+            if ($this->_isManageStockEnabled($stockData)) {
                 $this->_validateNumeric($stockData, $fieldSet, 'qty');
                 $this->_validatePositiveNumber($stockData, $fieldSet, 'min_qty', false, true, true);
                 $this->_validateNumeric($stockData, $fieldSet, 'notify_stock_qty', false, true);
@@ -323,6 +319,23 @@ class Mage_Catalog_Model_Api2_Helper
             $this->_validatePositiveInteger($stockData, $fieldSet, 'min_sale_qty', false, true);
             $this->_validatePositiveInteger($stockData, $fieldSet, 'max_sale_qty', false, true);
         }
+    }
+
+    /**
+     * Determine if stock management is enabled
+     *
+     * @param array $stockData
+     * @return bool
+     */
+    protected function _isManageStockEnabled($stockData)
+    {
+        if (!(isset($stockData['use_config_manage_stock']) && $stockData['use_config_manage_stock'])) {
+            $manageStock = isset($stockData['manage_stock']) && $stockData['manage_stock'];
+        } else {
+            $manageStock = Mage::getStoreConfig(
+                Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
+        }
+        return (bool) $manageStock;
     }
 
     /**
@@ -488,12 +501,15 @@ class Mage_Catalog_Model_Api2_Helper
      */
     protected function _validateBoolean($data, $fieldSet, $field, $skipIfConfigValueUsed = false)
     {
-        if (!$skipIfConfigValueUsed && isset($data[$field])) {
-            $allowedValues = $this->_getAttributeAllowedValues(
-                Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
-            if (!in_array($data[$field], $allowedValues, true)) {
-                $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        // in case when 'Use Config Settings' is selected no validation needed
+        if (!($skipIfConfigValueUsed && $this->_isConfigValueUsed($data, $field))) {
+            if (isset($data[$field])) {
+                $allowedValues = $this->_getAttributeAllowedValues(
+                    Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
+                if (!in_array($data[$field], $allowedValues, true)) {
+                    $this->_error(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet),
+                        Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                }
             }
         }
     }
@@ -614,7 +630,7 @@ class Mage_Catalog_Model_Api2_Helper
             $stockData['original_inventory_qty'] = 0;
         }
 
-        if (isset($stockData['manage_stock']) && $stockData['manage_stock']) {
+        if ($this->_isManageStockEnabled($stockData)) {
             if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_DECIMAL_VALUE) {
                 $stockData['qty'] = self::MAX_DECIMAL_VALUE;
             }

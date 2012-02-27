@@ -59,7 +59,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
-        $this->setFixture('product_simple', $product);
+        $this->_deleteProductAfterTest($product);
         $this->assertEquals($product->getTypeId(), $productData['type']);
         $this->assertEquals($product->getAttributeSetId(), $productData['set']);
 
@@ -85,7 +85,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
-        $this->setFixture('product_simple', $product);
+        $this->_deleteProductAfterTest($product);
         $this->assertEquals($product->getTypeId(), $productData['type']);
         $this->assertEquals($product->getAttributeSetId(), $productData['set']);
 
@@ -351,7 +351,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
-        $this->setFixture('product_simple', $product);
+        $this->_deleteProductAfterTest($product);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -379,7 +379,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
-        $this->setFixture('product_simple', $product);
+        $this->_deleteProductAfterTest($product);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -401,7 +401,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
-        $this->setFixture('product_simple', $product);
+        $this->_deleteProductAfterTest($product);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -424,6 +424,16 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
+        $this->_deleteProductAfterTest($product);
+    }
+
+    /**
+     * Mark product for removal in tear down
+     *
+     * @param $product
+     */
+    protected function _deleteProductAfterTest($product)
+    {
         $this->setFixture('product_simple', $product);
     }
 }
