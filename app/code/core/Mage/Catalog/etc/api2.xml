@@ -96,6 +96,9 @@
                     <route_main>
                         <mask>/products/:id</mask>
                     </route_main>
+                    <route_with_store>
+                        <mask>/products/:id/store/:store</mask>
+                    </route_with_store>
                 </routes>
                 <versions>1</versions>
                 <collection>products</collection>
