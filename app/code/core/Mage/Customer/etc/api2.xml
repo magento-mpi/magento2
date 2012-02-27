@@ -34,38 +34,18 @@
             </customer>
         </resource_groups>
         <resources>
-            <customers>
-                <group>customer</group>
-                <type>customers</type>
-                <model>customer/api2_customers</model>
-                <working_model>customer/customers</working_model>
-                <title>Customers</title>
-                <privileges>
-                    <admin>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                        <update>1</update>
-                    </admin>
-                </privileges>
-                <routes>
-                    <route_main>
-                        <mask>/customers</mask>
-                    </route_main>
-                </routes>
-                <instance>customer</instance>
-                <versions>1</versions>
-            </customers>
             <customer>
                 <group>customer</group>
+                <sort_order>90</sort_order>
                 <type>customer</type>
                 <model>customer/api2_customer</model>
                 <working_model>customer/customer</working_model>
                 <title>Customer</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
+                        <delete>1</delete>
                     </admin>
                     <customer>
                         <retrieve>1</retrieve>
@@ -81,6 +61,27 @@
                 <versions>1</versions>
                 <exclude_attributes/>
             </customer>
+            <customers>
+                <group>customer</group>
+                <sort_order>100</sort_order>
+                <type>customers</type>
+                <model>customer/api2_customers</model>
+                <working_model>customer/customer</working_model>
+                <title>Customers</title>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/customers</mask>
+                    </route_main>
+                </routes>
+                <instance>customer</instance>
+                <versions>1</versions>
+            </customers>
             <customer_addresses>
                 <group>customer</group>
                 <sort_order>110</sort_order>

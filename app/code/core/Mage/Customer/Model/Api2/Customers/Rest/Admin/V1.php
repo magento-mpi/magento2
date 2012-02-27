@@ -31,6 +31,6 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customers_Rest_Customer_V1 extends Mage_Customer_Model_Api2_Customers_Rest
+class Mage_Customer_Model_Api2_Customers_Rest_Admin_V1 extends Mage_Customer_Model_Api2_Customers_Rest
 {
 }

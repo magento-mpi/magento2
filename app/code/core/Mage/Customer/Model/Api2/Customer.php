@@ -42,6 +42,18 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource_Instanc
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        return array();
+        $attributes = array();
+
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $entityType = Mage::getModel('eav/entity_type')->loadByCode('customer');
+
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($entityType->getAttributeCollection() as $attribute) {
+            if ($attribute->getIsVisible()) {
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
+
+        return $attributes;
     }
 }

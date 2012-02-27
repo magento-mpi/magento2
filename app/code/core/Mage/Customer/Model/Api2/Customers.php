@@ -33,4 +33,27 @@
  */
 class Mage_Customer_Model_Api2_Customers extends Mage_Api2_Model_Resource_Collection
 {
+    /**
+     * Get available attributes of API resource
+     *
+     * @param string $userType
+     * @param string $operation
+     * @return array
+     */
+    public function getAvailableAttributes($userType, $operation)
+    {
+        $attributes = parent::getAvailableAttributes($userType, $operation);
+
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $entityType = Mage::getModel('eav/entity_type')->loadByCode('customer');
+
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($entityType->getAttributeCollection() as $attribute) {
+            if ($attribute->getIsVisible()) {
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
+
+        return $attributes;
+    }
 }
