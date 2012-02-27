@@ -343,6 +343,18 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
     }
 
     /**
+     * Display formatted customs price
+     *
+     * @param float $price
+     * @return string
+     */
+    public function displayCustomsPrice($price)
+    {
+        $orderInfo = $this->getShipment()->getOrder();
+        return $orderInfo->getBaseCurrency()->formatTxt($price);
+    }
+
+    /**
      * Get ordered qty of item
      *
      * @param int $itemId
