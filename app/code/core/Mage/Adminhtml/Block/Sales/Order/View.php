@@ -168,7 +168,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         if ($this->_isAllowedAction('reorder')
             && $this->helper('sales/reorder')->isAllowed($order->getStore())
-            && $order->canReorderIgnoreOutOfStock()
+            && $order->canReorderIgnoreSalable()
         ) {
             $this->_addButton('order_reorder', array(
                 'label'     => Mage::helper('sales')->__('Reorder'),
