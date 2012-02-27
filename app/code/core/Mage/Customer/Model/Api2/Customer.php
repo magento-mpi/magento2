@@ -40,7 +40,7 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource_Instanc
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         return array();
     }

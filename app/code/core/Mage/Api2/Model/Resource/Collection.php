@@ -196,11 +196,11 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     /**
      * Get available attributes of API resource
      *
-     * @param string|null $userType
-     * @param string|null $operation
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         return $this->getResourceInstance()->getAvailableAttributes($userType, $operation);
     }

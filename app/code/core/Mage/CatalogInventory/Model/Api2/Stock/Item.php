@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resour
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         return $this->_getAvailableAttributes($userType, $operation);
     }

@@ -92,7 +92,7 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
      * @param string $operation
      * @return array
      */
-    protected function _getAvailableAttributes($userType = null, $operation = null)
+    protected function _getAvailableAttributes($userType, $operation)
     {
         /** @var $resourceModel Mage_Core_Model_Resource_Db_Abstract */
         $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));

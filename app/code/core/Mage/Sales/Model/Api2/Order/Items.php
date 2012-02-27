@@ -40,7 +40,7 @@ class Mage_Sales_Model_Api2_Order_Items extends Mage_Api2_Model_Resource_Collect
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         /* @var $resource Mage_Sales_Model_Resource_Order_Item */
         $resource  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));

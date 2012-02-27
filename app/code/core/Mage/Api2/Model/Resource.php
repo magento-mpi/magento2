@@ -344,7 +344,7 @@ abstract class Mage_Api2_Model_Resource
      * @param string $operation
      * @return array
      */
-    abstract public function getAvailableAttributes($userType = null, $operation = null);
+    abstract public function getAvailableAttributes($userType, $operation);
 
     /**
      * Get excluded attributes for user type
@@ -355,13 +355,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getExcludedAttributes($userType, $operation)
     {
-        $excluded = $this->getConfig()->getResourceExcludedAttributes(
-            $this->getResourceType(),
-            $userType,
-            $operation
-        );
-
-        return $excluded;
+        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
     }
 
     /**

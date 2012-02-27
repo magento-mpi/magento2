@@ -47,7 +47,7 @@ class Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1 extends Mage_Api2_Mo
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         return $this->_getAvailableAttributes($userType, $operation);
     }

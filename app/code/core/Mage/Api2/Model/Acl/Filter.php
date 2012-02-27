@@ -123,7 +123,9 @@ class Mage_Api2_Model_Acl_Filter
             $helper = Mage::helper('api2/data');
 
             if ($helper->isAllAttributesAllowed($this->_resource->getUserType())) {
-                $allowedAttributes = array_keys($this->_resource->getAvailableAttributes());
+                $allowedAttributes = array_keys(
+                    $this->_resource->getAvailableAttributes($this->_resource->getUserType(), $operation)
+                );
             } else {
                 $allowedAttributes = $helper->getAllowedAttributes(
                     $this->_resource->getUserType(), $this->_resource->getResourceType(), $operation
