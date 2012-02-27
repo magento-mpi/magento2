@@ -756,6 +756,27 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canReorder()
     {
+        return $this->_canReorder(false);
+    }
+
+    /**
+     * Check possibility reorder ignoring available of stock
+     *
+     * @return bool
+     */
+    public function canReorderIgnoreOutOfStock()
+    {
+        return $this->_canReorder(true);
+    }
+
+    /**
+     * Retrieve order reorder availability
+     *
+     * @param bool $ignoreOutOfStock
+     * @return bool
+     */
+    protected function _canReorder($ignoreOutOfStock = false)
+    {
         if ($this->canUnhold() || $this->isPaymentReview() || !$this->getCustomerId()) {
             return false;
         }
@@ -790,7 +811,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                 $product = Mage::getModel('catalog/product')
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
-                if (!$product->getId() || !$product->isSalable()) {
+                if (!$product->getId() || (false == $ignoreOutOfStock && !$product->isSalable())) {
                     return false;
                 }
             }
