@@ -84,7 +84,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $this->_validate($data);
         $product = $this->_getProduct();
         /** @var $product Mage_Catalog_Model_Product */
-        $product->setStoreId($this->_getStore()->getId());
         if (isset($data['sku'])) {
             $product->setSku($data['sku']);
         }
@@ -107,7 +106,9 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     {
         $productId = $this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('catalog/product');
+        $product->setStoreId($this->_getStore()->getId())
+            ->load($productId);
         if (!$product->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
             return $product;

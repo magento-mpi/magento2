@@ -138,7 +138,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful product update
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      */
     public function testUpdateSuccessful()
     {
@@ -156,6 +156,42 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test successful product update on specified store
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     */
+    public function testUpdateOnSpecifiedStoreSuccessful()
+    {
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        unset($productDataForUpdate['type']);
+        unset($productDataForUpdate['set']);
+        $product = $this->getFixture('product_simple');
+        $testStore = $this->getFixture('store_on_new_website');
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId(), $testStore->getCode()),
+            $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        // Check if product data was updated on specified store
+        /** @var $updatedProduct Mage_Catalog_Model_Product */
+        $updatedProduct = Mage::getModel('catalog/product')->setStoreId($testStore->getId())->load($product->getId());
+        // Validate URL Key - all special chars should be replaced with dash sign
+        $productDataForUpdate['url_key'] = '123-abc';
+        $this->_checkProductData($updatedProduct, $productDataForUpdate);
+
+        // Check if product data is untouched on default store (Store View scope attributes only)
+        $origProductData = array(
+            'name' => $product->getName(),
+            'description' => $product->getDescription(),
+            'short_description' => $product->getShortDescription(),
+        );
+
+        /** @var $origProduct Mage_Catalog_Model_Product */
+        $origProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $this->_checkProductData($origProduct, $origProductData);
+    }
+
+    /**
      * Check if product data equals expected data
      *
      * @param Mage_Catalog_Model_Product $product
@@ -167,18 +203,18 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
         foreach ($dateAttributes as $attribute) {
-            $this->assertEquals(strtotime($expectedData[$attribute]),
-                strtotime($product->getData($attribute)));
+            $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
+                $attribute .' is not equal.');
         }
         $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data'));
         $productAttributes = array_diff_key($expectedData, array_flip($exclude));
         foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute));
+            $this->assertEquals($value, $product->getData($attribute), $attribute .' is not equal.');
         }
         if (isset($expectedData['stock_data'])) {
             $stockItem = $product->getStockItem();
             foreach ($expectedData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute));
+                $this->assertEquals($value, $stockItem->getData($attribute), $attribute .' is not equal.');
             }
         }
     }
