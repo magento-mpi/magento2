@@ -53,7 +53,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 array('locale' => Mage::app()->getLocale()->getLocaleCode())
             );
         }
-        $qty = $this->_localFilter->filter((float) $qty);
+        $qty = $this->_localFilter->filter((float)$qty);
         if ($qty < 0) {
             $qty = null;
         }
