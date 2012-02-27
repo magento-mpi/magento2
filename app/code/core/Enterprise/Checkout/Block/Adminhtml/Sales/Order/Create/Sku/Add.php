@@ -73,7 +73,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add
     {
         return '
             var parentAreasLoaded = ' . $this->getJsOrderObject() . '.areasLoaded;
-            ' . $this->getJsOrderObject() . '.areasLoaded = initSku();
-            parentAreasLoaded();';
+            ' . $this->getJsOrderObject() . '.areasLoaded = function () {
+                initSku();
+                parentAreasLoaded();
+            };';
     }
 }
