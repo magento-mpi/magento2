@@ -12,4 +12,4 @@ $stockItem->setProductId($product->getId())
     ->save();
 
 Magento_Test_Webservice::setFixture('product', $product);
-Magento_Test_Webservice::setFixture('stockItem', $stockItem);
+Magento_Test_Webservice::setFixture('stockItem', $stockItem->load($stockItem->getId())); // for prepare data

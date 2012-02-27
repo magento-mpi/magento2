@@ -56,20 +56,15 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
-        $restResponse = $this->callGet('stockitems/' . $stockItem->getId());
 
+        $restResponse = $this->callGet('stockitems/' . $stockItem->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
-        $stockItemOriginalData = $stockItem->getData();
-        foreach ($stockItemOriginalData as $field => $value) {
-            if (is_array($value)) {
-                $this->assertEquals(count($stockItemOriginalData[$field]), count($value));
-            } else {
-                $this->assertEquals($stockItemOriginalData[$field], $value);
-            }
+        foreach ($responseData as $field => $value) {
+            $this->assertEquals($stockItem->getData($field), $value);
         }
     }
 
@@ -78,7 +73,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testGetUnavailableResource()
     {
-        $restResponse = $this->callGet('stockitems/' . 'invalid_id');
+        $restResponse = $this->callGet('stockitems/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -89,19 +84,19 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testUpdate()
     {
-        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
-
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
+
+        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedStockItem Mage_CatalogInventory_Model_Stock_Item */
         $updatedStockItem = Mage::getModel('cataloginventory/stock_item')
             ->load($stockItem->getId());
-        $updatedStockItemData = $updatedStockItem->getData();
         foreach ($dataForUpdate as $field => $value) {
-            $this->assertEquals($value, $updatedStockItemData[$field]);
+            $this->assertEquals($value, $updatedStockItem->getData($field));
         }
     }
 

@@ -62,13 +62,13 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
         $restResponse = $this->callGet('stockitems', array('order' => 'item_id', 'dir' => Zend_Db_Select::SQL_DESC));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
-        $items = $restResponse->getBody();
-        $this->assertNotEmpty($items);
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
         $itemsIds = array();
-        foreach ($items as $item) {
+        foreach ($responseData as $item) {
             $itemsIds[] = $item['item_id'];
         }
-
         $fixtureItems = $this->getFixture('cataloginventory_stock_items');
         foreach ($fixtureItems as $fixtureItem) {
             $this->assertContains($fixtureItem->getId(), $itemsIds,
@@ -140,7 +140,7 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
     public function testUpdateMissingItemId()
     {
         $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
-        unset($singleItemDataForUpdate['item_id']);
+        unset($singleItemDataForUpdate['item_id']); // missing item_id
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
@@ -155,5 +155,40 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
             'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
         );
         $this->assertEquals($errors[0], $expectedError);
+    }
+
+    /**
+     * Test unsuccessful stock item update with empty required data
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     */
+    public function testUpdateEmptyRequired()
+    {
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->getFixture('stockItem');
+        $itemId = $stockItem->getId();
+
+        $singleItemDataForUpdateEmptyRequired = array('item_id' => NULL);
+        $dataForUpdate = array($singleItemDataForUpdateEmptyRequired);
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array();
+        foreach ($singleItemDataForUpdateEmptyRequired as $key => $value) {
+            $expectedErrors[] = array(
+                'message' => sprintf('Empty value for "%s" in request.', $key),
+                'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            );
+        }
+        $this->assertEquals(count($expectedErrors), count($errors));
+
+        foreach ($errors as $key => $error) {
+            $this->assertEquals($error, $expectedErrors[$key]);
+        }
     }
 }

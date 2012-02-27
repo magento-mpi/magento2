@@ -78,10 +78,11 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
     protected function _updateItem($data)
     {
         try {
-            $this->_validate($data, array('item_id'), array('item_id', 'product_id', 'stock_id'));
+            $this->_validate($data, array('item_id'), array('item_id'));
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $this->_loadStockItemById($data['item_id']);
+            unset($data['item_id']); // item_id is not for update
             $stockItem->addData($data);
             $stockItem->save();
 
