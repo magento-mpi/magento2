@@ -56,7 +56,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku extends Enterpris
         $js = $this->getJsOrderObject() . ".addSourceGrid({htmlId: \"{$this->getId()}\", "
             . "listType: \"{$this->getListType()}\"});";
         $js .= $this->getJsOrderObject() . ".addNoCleanSource('{$this->getId()}');";
-        $js .= 'addBySku.observeAddToCart()';
+        $js .= 'addBySku.observeAddToCart();';
         return $js;
     }
 

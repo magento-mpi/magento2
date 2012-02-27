@@ -1208,12 +1208,14 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      *
      * @param Mage_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
      *                                                                      checkout/cart)
+     * @param bool                                    $saveQuote            Whether cart quote should be saved
      * @param bool                                    $doPassDisabledToCart This option for backend only. Whether to try
      *                                                                      to add disabled product to cart instead of
      *                                                                      putting it into error grid.
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $doPassDisabledToCart = true)
+    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null,
+        $saveQuote = true, $doPassDisabledToCart = true)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
@@ -1224,6 +1226,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         }
         $this->setAffectedItems($affectedItems);
         $this->removeSuccessItems();
+        if ($saveQuote) {
+            $cart->saveQuote();
+        }
         return $this;
     }
 
@@ -1234,8 +1239,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @param Mage_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
      *                                                                 checkout/cart
      * @param bool                               $doPassDisabledToCart This option for backend only. Whether to try
-          *                                                            to add disabled product to cart instead of
-          *                                                            putting it into error grid.
+     *                                                                 to add disabled product to cart instead of
+     *                                                                 putting it into error grid.
      * @return Enterprise_Checkout_Model_Cart
      */
     protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $doPassDisabledToCart = true)

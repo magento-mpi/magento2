@@ -111,7 +111,6 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             $cart = $this->_getFailedItemsCart()
                 ->prepareAddProductsBySku($items)
                 ->saveAffectedProducts();
-            $this->_getCart()->saveQuote();
 
             $this->_getSession()->addMessages($cart->getMessages());
 

@@ -103,8 +103,7 @@ class Enterprise_Checkout_Model_Observer
         }
         /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
         $orderCreateModel = $observer->getOrderCreateModel();
-        $cart->saveAffectedProducts($orderCreateModel);
-        $cart->removeSuccessItems();
+        $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
         $request->setPost('item', array());
     }
@@ -130,7 +129,7 @@ class Enterprise_Checkout_Model_Observer
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart = $this->_getBackendCart($observer);
         $cart->prepareAddProductsBySku($rows);
-        $cart->saveAffectedProducts($orderCreateModel);
+        $cart->saveAffectedProducts($orderCreateModel, false);
     }
 
     /**
