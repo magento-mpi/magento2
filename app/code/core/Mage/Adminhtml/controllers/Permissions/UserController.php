@@ -142,7 +142,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The user has been saved.'));
                 Mage::getSingleton('adminhtml/session')->setUserData(false);
-                $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
+                $this->_redirect('*/*/');
                 return;
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
