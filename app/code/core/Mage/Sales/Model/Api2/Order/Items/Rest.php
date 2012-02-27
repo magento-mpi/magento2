@@ -44,7 +44,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
         return isset($data['items']) ? $data['items'] : $data;
     }
     /**
-     * Retrieve collection instance for stock
+     * Retrieve collection instance
      *
      * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
