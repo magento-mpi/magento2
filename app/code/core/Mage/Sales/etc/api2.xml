@@ -107,7 +107,7 @@
                         <mask>/orders/:id/items</mask>
                     </route_main>
                 </routes>
-                <collection>orders_items</collection>
+                <instance>orders_item</instance>
                 <versions>1</versions>
             </order_items>
             <address>
