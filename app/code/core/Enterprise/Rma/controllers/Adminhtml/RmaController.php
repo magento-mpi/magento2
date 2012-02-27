@@ -51,7 +51,6 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $model = Mage::getModel('enterprise_rma/rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
-        $orderId = 0;
         $rmaId = $this->getRequest()->getParam($requestParam);
         if ($rmaId) {
             $model->load($rmaId);
@@ -63,6 +62,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } else {
             $orderId = $this->getRequest()->getParam('order_id');
         }
+
         if ($orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
             if (!$order->getId()) {
@@ -116,8 +116,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->_redirect('*/*/chooseorder', array('customer_id' => $customerId));
         } else {
             try {
-                $createModel = $this->_initCreateModel();
-                $model = $this->_initModel();
+                $this->_initCreateModel();
+                $this->_initModel();
                 if (!Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
                     Mage::getSingleton('adminhtml/session')->addError(
                         Mage::helper('enterprise_rma')->__('There are no applicable items for return in this order')
@@ -565,10 +565,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
         }
+        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -650,10 +648,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
         }
+        $this->getResponse()->setBody($response);
     }
 
 

@@ -172,27 +172,29 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('select', array(
-            'header'=> Mage::helper('enterprise_rma')->__('Select'),
-            'width' => '40px',
-            'type'  => 'checkbox',
-            'align'     => 'center',
+            'header'   => Mage::helper('enterprise_rma')->__('Select'),
+            'width'    => '40px',
+            'type'     => 'checkbox',
+            'align'    => 'center',
             'sortable' => false,
-            'index' => 'item_id',
-            'values'    => $this->_getSelectedProducts(),
-            'name'      => 'in_products',
+            'index'    => 'item_id',
+            'values'   => $this->_getSelectedProducts(),
+            'name'     => 'in_products',
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('enterprise_rma')->__('Product Name'),
-            'renderer'  => 'enterprise_rma/adminhtml_product_bundle_product',
-            'index'     => 'name'
+            'header'   => Mage::helper('enterprise_rma')->__('Product Name'),
+            'renderer' => 'enterprise_rma/adminhtml_product_bundle_product',
+            'index'    => 'name',
+            'escape'   => true,
         ));
 
         $this->addColumn('sku', array(
-            'header'=> Mage::helper('enterprise_rma')->__('SKU'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'sku',
+            'header' => Mage::helper('enterprise_rma')->__('SKU'),
+            'width'  => '80px',
+            'type'   => 'text',
+            'index'  => 'sku',
+            'escape' => true,
         ));
 
         $this->addColumn('price', array(

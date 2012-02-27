@@ -496,9 +496,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 $previousValue = null;
                 $name = $item->getProductName();
                 foreach ($validation as $key => $value) {
-                    if (!is_null($previousValue) && ($value > $previousValue)) {
-                        $errors[] =
-                            Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $name);
+                    if (isset($previousValue) && $value > $previousValue) {
+                        $errors[] = Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', Mage::helper('enterprise_rma')->escapeHtml($name));
                         $errorKeys[$item->getId()] = $key;
                         $errorKeys['tabs'] = 'items_section';
                         break;
@@ -523,11 +522,11 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
                 );
                 foreach ($qtyToStatus as $qtyKey => $qtyValue) {
-                    if (($item->getStatus() === $qtyValue['status'])
-                        && ($item->getOrigData('status') !== $qtyValue['status'])
-                        && !$item->getData($qtyKey)) {
-                        $errors[] =
-                            Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], $name);
+                    if ($item->getStatus() === $qtyValue['status']
+                        && $item->getOrigData('status') !== $qtyValue['status']
+                        && !$item->getData($qtyKey)
+                    ) {
+                        $errors[] = Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], Mage::helper('enterprise_rma')->escapeHtml($name));
                         $errorKeys[$item->getId()] = $qtyKey;
                         $errorKeys['tabs'] = 'items_section';
                     }
@@ -547,10 +546,10 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         foreach ($itemsArray as $key=>$qty) {
             $name = $availableItemsArray[$key]['name'];
             if (!array_key_exists($key, $availableItemsArray)) {
-                $errors[] = Mage::helper('enterprise_rma')->__('You cannot return %s.', $name);
+                $errors[] = Mage::helper('enterprise_rma')->__('You cannot return %s.', Mage::helper('enterprise_rma')->escapeHtml($name));
             }
             if (isset($availableItemsArray[$key]) && $availableItemsArray[$key]['qty'] < $qty) {
-                $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', $name);
+                $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', Mage::helper('enterprise_rma')->escapeHtml($name));
                 $errorKeys[$key] = 'qty_requested';
                 $errorKeys['tabs'] = 'items_section';
             }
@@ -605,26 +604,26 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                     }
                     $errors = array_merge($itemModel->getErrors(), $errors);
 
-                    $itemModels[]               = $itemModel;
+                    $itemModels[] = $itemModel;
                 }
             } else {
-                $itemModel                  = Mage::getModel('enterprise_rma/item');
+                $itemModel = Mage::getModel('enterprise_rma/item');
                 if (isset($item['entity_id']) && $item['entity_id']) {
                     $itemModel->load($item['entity_id']);
                     if ($itemModel->getId()) {
                         if (empty($item['reason'])) {
                             $item['reason'] = $itemModel->getReason();
                         }
+
                         if (empty($item['reason_other'])) {
-                            if ($itemModel->getReasonOther() === NULL) {
-                                $item['reason_other'] = '';
-                            } else {
-                                $item['reason_other'] = $itemModel->getReasonOther();
-                            }
+                            $item['reason_other'] = $itemModel->getReasonOther() === null ? ''
+                                : $itemModel->getReasonOther();
                         }
+
                         if (empty($item['condition'])) {
                             $item['condition'] = $itemModel->getCondition();
                         }
+
                         if (empty($item['qty_requested'])) {
                             $item['qty_requested'] = $itemModel->getQtyRequested();
                         }
@@ -632,7 +631,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
                 }
 
-                $itemPost                   = $this->_preparePost($item);
+                $itemPost = $this->_preparePost($item);
 
                 $itemModel->setData($itemPost)
                     ->prepareAttributes($itemPost, $key);
@@ -641,7 +640,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                     $errorKeys['tabs'] = 'items_section';
                 }
 
-                $itemModels[]               = $itemModel;
+                $itemModels[] = $itemModel;
 
                 if (($itemModel->getStatus() === Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED)
                     && ($itemModel->getOrigData('status') !== $itemModel->getStatus())) {
