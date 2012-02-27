@@ -43,10 +43,18 @@ class Mage_Sales_Model_Api2_Orders extends Mage_Api2_Model_Resource_Collection
     public function getAvailableAttributes($userType, $operation)
     {
         /** @var $resource Mage_Sales_Model_Resource_Order */
-        $resource  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        $resource      = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        $attrCodes     = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
+        $configAttrs   = $this->getAvailableAttributesFromConfig();
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $available     = array();
 
-        $attrCodes = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
-
-        return array_combine($attrCodes, $attrCodes);
+        foreach ($attrCodes as $code) {
+            if (in_array($code, $excludedAttrs)) {
+                continue;
+            }
+            $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
+        }
+        return $available;
     }
 }
