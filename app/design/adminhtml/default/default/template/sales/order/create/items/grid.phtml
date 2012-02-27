@@ -110,12 +110,12 @@
                             <h5 class="title"><span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $this->htmlEscape($_item->getName()) ?></span></h5>
                             <div>
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong>
-                                <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->htmlEscape($_item->getSku()))); ?>
+                                <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->escapeHtml($_item->getSku()))); ?>
                             </div>
                             <?php if($_item->getMessage(false)): ?>
                                 <?php foreach ($_item->getMessage(false) as $message): ?>
                                 <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-                                    <div style="font-size:95%"><?php echo $this->escapeHtml($message); ?></div>
+                                    <div style="font-size:95%"><?php echo Mage::helper('core')->escapeHtml($message); ?></div>
                                 </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>

@@ -591,7 +591,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
-            $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', Mage::helper('cataloginventory')->escapeHtml($this->getProductName()));
+            $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
             $result->setHasError(true)
                 ->setMessage($message)
                 ->setQuoteMessage($message)
@@ -625,12 +625,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                             );
                         } else {
                             $result->setMessage(
-                               Mage::helper('cataloginventory')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', Mage::helper('cataloginventory')->escapeHtml($this->getProductName()), ($backorderQty * 1))
+                               Mage::helper('cataloginventory')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', $this->getProductName(), ($backorderQty * 1))
                             );
                         }
                     } elseif (Mage::app()->getStore()->isAdmin()) {
                         $result->setMessage(
-                            Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', Mage::helper('cataloginventory')->escapeHtml($this->getProductName()))
+                            Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName())
                         );
                     }
                 }
@@ -672,7 +672,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
                 $result->setMessage(
-                    Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.', Mage::helper('cataloginventory')->escapeHtml($this->getProductName()), $qtyIncrements * 1)
+                    Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.',$this->getProductName(), $qtyIncrements * 1)
                 );
             } else {
                 $result->setMessage(
