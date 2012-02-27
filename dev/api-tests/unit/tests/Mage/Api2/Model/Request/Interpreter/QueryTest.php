@@ -81,14 +81,10 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
     public function testInterpretContentNotValid($encoded)
     {
         $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
-        try {
-            $adapter->interpret($encoded);
-        } catch (Exception $e) {
-            $this->assertEquals('Invalid data type. Check Content-Type.', $e->getMessage());
-            return;
-        }
 
-        $this->fail('Invalid argument should produce exception "Invalid data type. Check Content-Type.".');
+        $this->setExpectedException('Mage_Api2_Exception', 'Invalid data type. Check Content-Type.');
+
+        $adapter->interpret($encoded);
     }
 
     /**
