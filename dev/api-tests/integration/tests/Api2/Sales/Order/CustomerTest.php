@@ -46,21 +46,8 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('customer_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get order item for customer
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/order_customer.php
      */
     public function testGetOrder()
@@ -83,8 +70,6 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
 
     /**
      * Test retrieving not existing order item
-     *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      */
     public function testGetUnavailableOrder()
     {
@@ -95,7 +80,6 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     /**
      * Test get order if customer is not owner
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testGetOrderIfCustomerIsNotOwner()

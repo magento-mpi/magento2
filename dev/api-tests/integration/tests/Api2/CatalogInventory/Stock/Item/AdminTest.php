@@ -48,22 +48,8 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('role', true);
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test retrieving existing product stock state
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
     public function testGet()
@@ -89,8 +75,6 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
 
     /**
      * Test retrieving not existing product stock state
-     *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      */
     public function testGetUnavailableResource()
     {
@@ -101,7 +85,6 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock item update
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
     public function testUpdate()
@@ -125,7 +108,6 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test unsuccessful stock item update with empty required data
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
     public function testUpdateEmptyRequired()
@@ -153,8 +135,6 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
 
     /**
      * Test updating not existing stock item
-     *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/admin_acl.php
      */
     public function testUpdateUnavailableResource()
     {
