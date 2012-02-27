@@ -69,7 +69,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     protected function _collectResourceHelpersPhp($contents, &$classes)
     {
-        $matches = Utility_Classes::getAllMatches($contents, '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix');
+        $regex = '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix';
+        $matches = Utility_Classes::getAllMatches($contents, $regex);
         foreach ($matches as $moduleName) {
             $classes[] = "{$moduleName}_Model_Resource_Helper_Mysql4";
         }

@@ -22,14 +22,16 @@ class Mage_Core_Utility_Layout extends Magento_Test_Utility_Abstract
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $layoutUpdate = $this->_testCase->getMock('Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml', 'asSimplexml'));
+        $layoutUpdate = $this->_testCase->getMock(
+            'Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml', 'asSimplexml')
+        );
         $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
         $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFileLayoutUpdatesXml')
             ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
         $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
-                    ->method('asSimplexml')
-                    ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
+            ->method('asSimplexml')
+            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
         return $layoutUpdate;
     }
 
@@ -46,8 +48,7 @@ class Mage_Core_Utility_Layout extends Magento_Test_Utility_Abstract
         $layoutUpdate->asSimplexml();
         $layout->expects(PHPUnit_Framework_TestCase::any())
             ->method('getUpdate')
-            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdate))
-        ;
+            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdate));
         return $layout;
     }
 }
