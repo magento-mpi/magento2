@@ -470,13 +470,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function defineParameterFromUrl($paramName, $url = null)
     {
         if (is_null($url)) {
-            $url = $this->getLocation();
+            $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
         }
         $title_arr = explode('/', $url);
-        $title_arr = array_reverse($title_arr);
+        //$title_arr = array_reverse($title_arr);
         foreach ($title_arr as $key => $value) {
-            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key - 1])) {
-                return $title_arr[$key - 1];
+            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key + 1])) {
+                return $title_arr[$key + 1];
             }
         }
         return null;

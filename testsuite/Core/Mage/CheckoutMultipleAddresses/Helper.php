@@ -220,7 +220,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($addressInfo as $value) {
             $formXpathString .= "[contains(.,'" . $value . "')]";
         }
-        $this->addParameter('param', $formXpathString);
+        $this->addParameter('addressParams', $formXpathString);
         $xpath = $this->_getControlXpath('pageelement', 'address_box_ship');
         $this->addParameter('addressHeader', $this->getText($xpath));
     }
@@ -264,7 +264,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $formXpathString = '';
                 foreach ($value as $v) {
                     $formXpathString .= "[contains(.,'" . $v . "')]";
-                    $this->addParameter('param', $formXpathString);
+                    $this->addParameter('addressParams', $formXpathString);
                     if (is_array($v)) {
                         $this->clickControl('link', 'edit_address');
                         $this->addParameter('id', $this->defineIdFromUrl());
@@ -283,7 +283,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 foreach ($value as $v) {
                     $formXpathString .= "[contains(.,'" . $v . "')]";
                 }
-                $this->addParameter('param', $formXpathString);
+                $this->addParameter('addressParams', $formXpathString);
                 $this->clickControl('link', 'select_address');
             }
         }
@@ -432,7 +432,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $formXpathString = '';
                     foreach ($addressToSearch as $v) {
                         $formXpathString .= "[contains(.,'" . $v . "')]";
-                        $this->addParameter('param', $formXpathString);
+                        $this->addParameter('addressParams', $formXpathString);
                         $xpath = $this->_getControlXpath('pageelement', 'address_box');
                         $this->addParameter('addressHeader', $this->getText($xpath));
                     }

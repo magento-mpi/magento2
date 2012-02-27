@@ -125,7 +125,7 @@ checkout_multishipping_addresses:
                             shipping_information: //li[@title='Shipping Information']
                             billing_information: //li[@title='Billing Information']
                             place_order: //li[@title='Place Order']
-                            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%param%]]/h3
+                            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%addressParams%]]/h3
                             order_success: //li[@title='Order Success']
                 -
                     checkout_multishipping_form:
@@ -188,7 +188,7 @@ checkout_multishipping_shipping_methods:
                     shipping_methods_form:
                         xpath: //div[div[h1='Select Shipping Method']]
                         pageelements:
-                            address_box_ship: //h2[following-sibling::*//div[./address%param%]]
+                            address_box_ship: //h2[following-sibling::*//div[./address%addressParams%]]
                         buttons:
                             continue_to_billing_information: //button[span='Continue to Billing Information']
                         links:
@@ -291,8 +291,8 @@ checkout_multishipping_select_billing_address:
                         buttons:
                             add_new_address: //button[span='Add New Address']
                         links:
-                            edit_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/editAddress/id/')]
-                            select_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/setBilling/id/')]
+                            edit_address: //div[./address%addressParams%]//a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //div[./address%addressParams%]//a[contains(@href, 'multishipping_address/setBilling/id/')]
         messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:

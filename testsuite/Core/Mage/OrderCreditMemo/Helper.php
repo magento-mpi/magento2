@@ -45,6 +45,7 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
     {
         $creditMemoData = $this->arrayEmptyClear($creditMemoData);
         $verify = array();
+        $this->addParameter('invoice_id', $this->getParameter('id'));
         $this->clickButton('credit_memo');
         foreach ($creditMemoData as $product => $options) {
             if (is_array($options)) {

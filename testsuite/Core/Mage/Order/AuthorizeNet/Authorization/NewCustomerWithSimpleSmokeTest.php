@@ -216,6 +216,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
+        $this->addParameter('invoice_id', $this->getParameter('id'));
         $this->clickButton('credit_memo');
         $this->clickButton($refundType);
         //Verifying
@@ -255,6 +256,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         if ($refundType != 'refund') {
             $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
         } else {
+            $this->addParameter('invoice_id', $this->getParameter('id'));
             $this->clickButton('credit_memo');
             $sku = $creditMemo['product_1']['return_filter_sku'];
             $productQty = $creditMemo['product_1']['qty_to_refund'];
