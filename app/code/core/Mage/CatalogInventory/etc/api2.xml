@@ -82,6 +82,20 @@
                             <stock_id />
                         </write>
                     </admin>
+                    <customer>
+                        <write>
+                            <item_id />
+                            <product_id />
+                            <stock_id />
+                        </write>
+                    </customer>
+                    <guest>
+                        <write>
+                            <item_id />
+                            <product_id />
+                            <stock_id />
+                        </write>
+                    </guest>
                 </exclude_attributes>
                 <routes>
                     <route_main>
@@ -112,6 +126,20 @@
                             <stock_id />
                         </write>
                     </admin>
+                    <customer>
+                        <write>
+                            <item_id />
+                            <product_id />
+                            <stock_id />
+                        </write>
+                    </customer>
+                    <guest>
+                        <write>
+                            <item_id />
+                            <product_id />
+                            <stock_id />
+                        </write>
+                    </guest>
                 </exclude_attributes>
                 <routes>
                     <route_main>
