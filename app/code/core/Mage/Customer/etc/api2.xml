@@ -52,6 +52,9 @@
                         <update>1</update>
                     </customer>
                 </privileges>
+                <attributes>
+                    <password>Password</password>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/customers/:id</mask>
@@ -74,12 +77,15 @@
                         <retrieve>1</retrieve>
                     </admin>
                 </privileges>
+                <attributes>
+                    <password>Password</password>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/customers</mask>
                     </route_main>
                 </routes>
-                <instance>customer</instance>
+                <instance>customers</instance>
                 <versions>1</versions>
             </customers>
             <customer_addresses>

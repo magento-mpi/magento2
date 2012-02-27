@@ -42,7 +42,7 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource_Instanc
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        $attributes = array();
+        $attributes = $this->getAvailableAttributesFromConfig();
 
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('customer');

@@ -33,4 +33,50 @@
  */
 abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Model_Api2_Customers
 {
+    protected function _create(array $data)
+    {
+        $this->_validate(
+            $data,
+            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password'),
+            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password')
+        );
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setData($data);
+
+        try {
+            $customer->validate();
+            $customer->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+    /**
+     * Get customers list
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+        return isset($data['items']) ? $data['items'] : $data;
+    }
+
+    /**
+     * Retrieve collection instance for customers
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('customer/customer_collection');
+        $this->_applyCollectionModifiers($collection);
+
+        return $collection;
+    }
 }
