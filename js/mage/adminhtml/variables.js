@@ -106,7 +106,7 @@ var Variables = {
     },
     prepareVariableRow: function(varValue, varLabel) {
         var value = (varValue).replace(/"/g, '&quot;').replace(/'/g, '\\&#39;');
-        var content = '<a href="#" onclick="'+this.insertFunction+'(\''+ value +'\');">' + varLabel + '</a>';
+        var content = '<a href="javascript: void(0);" onclick="'+this.insertFunction+'(\''+ value +'\');">' + varLabel + '</a>';
         return content;
     },
     insertVariable: function(value) {
