@@ -355,7 +355,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             return false;
         }
         foreach ($filter as $v) {
-            if (($v !== '' && (float)$v <= 0) || is_infinite((float) $v)) {
+            if (($v !== '' && (float)$v <= 0) || is_infinite((float)$v)) {
                 return false;
             }
         }
