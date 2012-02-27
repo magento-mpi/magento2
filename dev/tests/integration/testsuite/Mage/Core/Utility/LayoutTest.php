@@ -40,7 +40,9 @@ class Mage_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
         $layout->generateXml()->generateBlocks();
 
         $this->assertNotNull($layout);
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/_layout_update.xml', $layout->getUpdate()->getFileLayoutUpdatesXml(null, null, null)->asNiceXml());
+        $expectedLayoutFile = __DIR__ . '/_files/_layout_update.xml';
+        $actualXmlString = $layout->getUpdate()->getFileLayoutUpdatesXml(null, null, null)->asNiceXml();
+        $this->assertXmlStringEqualsXmlFile($expectedLayoutFile, $actualXmlString);
         $this->assertNotNull($layout->getBlock('root'));
         $this->assertInstanceOf('Mage_Core_Block_Abstract', $layout->getBlock('root'));
         $this->assertEquals($layout->getBlock('messages')->getParentBlock(), $layout->getBlock('root'));

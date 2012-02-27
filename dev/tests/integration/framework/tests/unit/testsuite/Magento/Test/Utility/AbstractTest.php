@@ -1,17 +1,23 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: ruslan.voitenko
- * Date: 2/24/12
- * Time: 5:57 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test class for Abstract Utility
  */
 class Magento_Test_Utility_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testAbstractUtility()
     {
-        $mockedAbstractUtility = $this->getMock('Magento_Test_Utility_Abstract', null, array($this));
+        $utility = $this->getMock('Magento_Test_Utility_Abstract', null, array($this));
 
-        $this->assertTrue(($mockedAbstractUtility->getTestCase() instanceof PHPUnit_Framework_TestCase));
+        $this->assertTrue(($utility->getTestCase() instanceof PHPUnit_Framework_TestCase));
     }
 }
