@@ -34,13 +34,15 @@
 class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource_Instance
 {
     /**
-     * Available attributes
+     * Get available attributes of API resource
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
-        $attributes = parent::getAvailableAttributes();
+        $attributes = $this->getAvailableAttributesFromConfig();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */

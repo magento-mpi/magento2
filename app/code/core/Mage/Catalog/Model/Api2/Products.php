@@ -36,11 +36,13 @@ class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collecti
     /**
      * Add visible EAV attributes to available attributes
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
-        $attributes = parent::getAvailableAttributes();
+        $attributes = parent::getAvailableAttributes($userType, $operation);
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */

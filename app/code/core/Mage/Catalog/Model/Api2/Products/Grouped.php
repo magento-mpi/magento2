@@ -36,9 +36,11 @@ class Mage_Catalog_Model_Api2_Products_Grouped extends Mage_Api2_Model_Resource_
     /**
      * Available attributes
      *
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes()
+    public function getAvailableAttributes($userType = null, $operation = null)
     {
         return $this->getConfig()->getResourceAttributes($this->getResourceType());
     }
