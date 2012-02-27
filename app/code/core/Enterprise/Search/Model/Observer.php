@@ -261,6 +261,20 @@ class Enterprise_Search_Model_Observer
     }
 
     /**
+     * Retrieve full name of current action
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param string $delimiter
+     * @return string
+     */
+    private function getFullActionName($request, $delimiter = '_')
+    {
+        return strtolower(implode($delimiter, array($request->getRequestedRouteName(),
+            $request->getRequestedControllerName(), $request->getRequestedActionName())));
+    }
+
+
+    /**
      * Reindex data after price reindex
      *
      * @param Varien_Event_Observer $observer
@@ -271,7 +285,18 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
-        Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext')
-            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        /* @var Enterprise_Search_Model_Indexer_Indexer $indexer */
+        $indexer = Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext');
+        if (empty($indexer)) {
+            return;
+        }
+
+        $actionName = $this->getFullActionName(Mage::app()->getRequest());
+        if ($actionName == 'adminhtml_promo_catalog_applyrules') {
+            $indexer->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        } else {
+            $indexer->reindexAll();
+        }
+
     }
 }
