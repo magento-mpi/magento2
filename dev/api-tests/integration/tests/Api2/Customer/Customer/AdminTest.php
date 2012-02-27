@@ -117,7 +117,11 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      */
     public function testUpdateUnavailableResource()
     {
-        $response = $this->callPut('customers/invalid_id', array());
+        $response = $this->callPut('customers/invalid_id', array(
+            'firstname' => 'TestFirstname',
+            'lastname'  => 'TestLastname',
+            'email'     => 'testemail@example.com'
+        ));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
     }
 

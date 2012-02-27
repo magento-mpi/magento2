@@ -107,6 +107,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
         $putData = array(
             'firstname' => 'Oleg',
             'lastname'  => 'Barabash',
+            'email'     => $this->_customer->getEmail()
         );
         $response = $this->callPut('customers/' . $this->_customer->getId(), $putData);
 
@@ -125,7 +126,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
         // Restore firstname and lastname attribute values
         $model->addData(array(
             'firstname' => $this->_customer->getFirstname(),
-            'lastname' => $this->_customer->getLastname(),
+            'lastname'  => $this->_customer->getLastname(),
         ))->save();
     }
 
