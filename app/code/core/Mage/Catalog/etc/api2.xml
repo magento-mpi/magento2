@@ -48,9 +48,16 @@
                 <title>Catalog Products</title>
                 <sort_order>10</sort_order>
                 <privileges>
-                    <!-- For collection only CREATE and retrieve -->
-                    <create>1</create>
-                    <retrieve>1</retrieve>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
@@ -78,9 +85,17 @@
                 <title>Catalog Product</title>
                 <sort_order>20</sort_order>
                 <privileges>
-                    <retrieve>1</retrieve>
-                    <update>1</update>
-                    <delete>1</delete>
+                    <admin>
+                        <update>1</update>
+                        <delete>1</delete>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
                 </privileges>
                 <attributes>
                     <product_id>Product ID</product_id>
