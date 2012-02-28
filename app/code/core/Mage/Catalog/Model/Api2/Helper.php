@@ -46,6 +46,13 @@ class Mage_Catalog_Model_Api2_Helper
     protected $_errors = array();
 
     /**
+     * Validation mode. In update mode required fields validation will be skipped if not present in request data
+     *
+     * @var bool
+     */
+    protected $_isUpdate = false;
+
+    /**
      * Validate product data
      *
      * @param array $data
@@ -55,6 +62,7 @@ class Mage_Catalog_Model_Api2_Helper
     public function validateProductData(array $data, Mage_Catalog_Model_Product $product = null)
     {
         if (!is_null($product) && $product->getId()) {
+            $this->_isUpdate = true;
             $data['set'] = $product->getAttributeSetId();
             $data['type'] = $product->getTypeId();
         }
@@ -63,7 +71,6 @@ class Mage_Catalog_Model_Api2_Helper
         /** @var $productEntity Mage_Eav_Model_Entity_Type */
         $productEntity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
         $this->_validateAttributeSet($data, $productEntity);
-        $this->_validateStore($data);
         $this->_validateSku($data);
         $this->_validateGiftOptions($data);
         $this->_validateGroupPrice($data);
@@ -160,8 +167,10 @@ class Mage_Catalog_Model_Api2_Helper
 
         foreach ($requiredAttributes as $key) {
             if (!array_key_exists($key, $data)) {
-                $this->_error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-                continue;
+                if (!$this->_isUpdate) {
+                    $this->_error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                    continue;
+                }
             } else if (empty($data[$key])) {
                 $this->_error(
                     sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
@@ -174,9 +183,13 @@ class Mage_Catalog_Model_Api2_Helper
      * Validate product type
      *
      * @param array $data
+     * @return bool
      */
     protected function _validateProductType($data)
     {
+        if ($this->_isUpdate) {
+            return true;
+        }
         if (!isset($data['type']) || empty($data['type'])) {
             $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
@@ -190,9 +203,13 @@ class Mage_Catalog_Model_Api2_Helper
      *
      * @param array $data
      * @param Mage_Eav_Model_Entity_Type $productEntity
+     * @return bool
      */
     protected function _validateAttributeSet($data, $productEntity)
     {
+        if ($this->_isUpdate) {
+            return true;
+        }
         if (!isset($data['set']) || empty($data['set'])) {
             $this->_critical('Missing "set" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
@@ -204,30 +221,17 @@ class Mage_Catalog_Model_Api2_Helper
     }
 
     /**
-     * Validate store
-     *
-     * @param array $data
-     */
-    protected function _validateStore($data)
-    {
-        if (isset($data['store'])) {
-            try {
-                Mage::app()->getStore($data['store']);
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_critical('Invalid store.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-        }
-    }
-
-    /**
      * Validate SKU
      *
      * @param array $data
+     * @return bool
      */
     protected function _validateSku($data)
     {
-        $sku = $data['sku'];
-        if (!Zend_Validate::is($sku, 'StringLength', array('min' => 0, 'max' => 64))) {
+        if ($this->_isUpdate && !isset($data['sku'])) {
+            return true;
+        }
+        if (!Zend_Validate::is($data['sku'], 'StringLength', array('min' => 0, 'max' => 64))) {
             $this->_error('SKU length should be 64 characters maximum.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
