@@ -149,19 +149,21 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
                     ->from($ratingTitleTable, array('store_id', 'value'))
                     ->where('rating_id = :rating_id');
                 $old    = $adapter->fetchPairs($select, array(':rating_id' => $ratingId));
-                $new    = $object->getRatingCodes();
+                $new    = array_filter(array_map('trim', $object->getRatingCodes()));
 
                 $insert = array_diff_assoc($new, $old);
                 $delete = array_diff_assoc($old, $new);
+                if (!empty($delete)) {
+                    $where = array(
+                        'rating_id = ?' => $ratingId,
+                        'store_id IN(?)' => array_keys($delete)
+                    );
+                    $adapter->delete($ratingTitleTable, $where);
+                }
 
                 if ($insert) {
                     $data = array();
                     foreach ($insert as $storeId => $title) {
-                        //remove record if title is empty
-                        if (empty($title)) {
-                            $delete[$storeId] = $title;
-                            continue;
-                        }
                         $data[] = array(
                             'rating_id' => $ratingId,
                             'store_id'  => (int)$storeId,
@@ -171,13 +173,6 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
                     if (!empty($data)) {
                         $adapter->insertMultiple($ratingTitleTable, $data);
                     }
-                }
-                if ($old && $delete) {
-                    $where = array(
-                        'rating_id = ?' => $ratingId,
-                        'store_id IN(?)' => array_keys($delete)
-                    );
-                    $adapter->delete($ratingTitleTable, $where);
                 }
                 $adapter->commit();
             } catch (Exception $e) {
