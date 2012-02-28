@@ -580,7 +580,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getExcludedAttributes($userType, $operation)
     {
-        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, 'write');
+        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
     }
 
     /**
