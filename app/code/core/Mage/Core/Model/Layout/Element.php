@@ -58,6 +58,13 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
         return (string)$this['name'];
     }
 
+    /**
+     * Get element name
+     *
+     * Advanced version of getBlockName() method: gets name for container as well as for block
+     *
+     * @return bool|string
+     */
     public function getElementName()
     {
         $tagName = $this->getName();
@@ -67,6 +74,11 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
         return $this->getAttribute('name');
     }
 
+    /**
+     * Extracts sibling from 'before' and 'after' attributes
+     *
+     * @return string
+     */
     public function getSibling()
     {
         $sibling = '';

@@ -269,7 +269,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $options = $this->_getValidNodeOptions($node);
-        $elementName = $this->getStructure()
+        $elementName = $this->_structure
             ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
 
         $this->_filterBlocksList($elementName);
@@ -279,9 +279,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $updatedName = $block->getNameInLayout();
             if (empty($name)) {
                 if (empty($alias)) {
-                    $this->getStructure()->setElementAttribute($elementName, 'alias', $updatedName);
+                    $this->_structure->setElementAttribute($elementName, 'alias', $updatedName);
                 }
-                $this->getStructure()->setElementAttribute($elementName, 'name', $updatedName);
+                $this->_structure->setElementAttribute($elementName, 'name', $updatedName);
             }
         }
 
@@ -394,17 +394,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function setChild($parentName, $elementName, $alias)
     {
-        $structure = $this->getStructure();
-
         $block = $this->getBlock($elementName);
         if ($block) {
             $block = $this->renameAnonymousBlock($parentName, $block);
+            $elementName = $block->getNameInLayout();
             if (empty($alias)) {
-                $alias = $block->getNameInLayout();
+                $alias = $elementName;
             }
         }
 
-        $structure->setChild($parentName, $elementName, $alias);
+        $this->_structure->setChild($parentName, $elementName, $alias);
 
         return $this;
     }
@@ -419,7 +418,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ($block->isAnonymous()) {
             $suffix = $block->getAnonSuffix();
             if (empty($suffix)) {
-                $suffix = 'child' . $this->getStructure()->getChildrenCount($parentName);
+                $suffix = 'child' . $this->_structure->getChildrenCount($parentName);
             }
             $elementName = $parentName . '.' . $suffix;
 
@@ -520,26 +519,25 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _renderContainer($name)
     {
         $html = '';
-        $structure = $this->getStructure();
-        $children = $structure->getChildNames($name);
+        $children = $this->_structure->getChildNames($name);
         foreach ($children as $child) {
             $html .= $this->renderElement($child);
         }
-        if ($html == '' || !$structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG)) {
+        if ($html == '' || !$this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG)) {
             return $html;
         }
 
-        $htmlId = $structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_ID);
+        $htmlId = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_ID);
         if ($htmlId) {
             $htmlId = ' id="' . $htmlId . '"';
         }
 
-        $htmlClass = $structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_CLASS);
+        $htmlClass = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_CLASS);
         if ($htmlClass) {
             $htmlClass = ' class="'. $htmlClass . '"';
         }
 
-        $htmlTag = $structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG);
+        $htmlTag = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG);
 
         $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
 
@@ -783,9 +781,29 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             return false;
         }
 
-        $this->getStructure()->insertBlock($parentName, $block->getNameInLayout());
+        $this->_structure->insertBlock($parentName, $block->getNameInLayout());
 
         return true;
+    }
+
+    /**
+     * Rename element in layout and layout structure
+     *
+     * @param string $oldName
+     * @param string $newName
+     * @return bool;
+     */
+    public function renameElement($oldName, $newName)
+    {
+        $renamed = false;
+        if (isset($this->_blocks[$oldName])) {
+            $block = $this->_blocks[$oldName];
+            $this->_blocks[$oldName] = null;
+            unset($this->_blocks[$oldName]);
+            $this->_blocks[$newName] = $block;
+            $renamed = true;
+        }
+        return $this->_structure->setElementAttribute($oldName, 'name', $newName) || $renamed;
     }
 
     /**

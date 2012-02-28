@@ -35,6 +35,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetParentBlock()
     {
+        // without layout
+        $this->assertFalse($this->_block->getParentBlock());
+
         // need to create blocks through layout
         $parentBlock = $this->_createBlockWithLayout('block1', 'block1', 'Mage_Core_Block_Text');
         $childBlock = $this->_createBlockWithLayout('block2', 'block2');
@@ -58,6 +61,25 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('suffix', $this->_block->getAnonSuffix());
     }
 
+    public function testGetBlockAlias()
+    {
+        // without layout
+        $this->assertFalse($this->_block->getBlockAlias());
+
+        // without insert block into layout structure
+        $block1 = $this->_createBlockWithLayout('name1');
+        $this->assertEmpty($block1->getBlockAlias());
+        // insert block into layout structure
+        $block2 = $this->_createBlockWithLayout('name2', 'alias');
+        $this->assertEquals('alias', $block2->getBlockAlias());
+        // change block's alias while changing parent
+        $blockParent = $this->_createBlockWithLayout('parent', 'parent');
+        $blockChild = $this->_createBlockWithLayout('child', 'child');
+        $this->assertEquals('child', $blockChild->getBlockAlias());
+        $blockParent->setChild('parent_child', $blockChild);
+        $this->assertEquals('parent_child', $blockChild->getBlockAlias());
+    }
+
     public function testSetGetNameInLayout()
     {
         // basic setting/getting
@@ -73,6 +95,15 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Abstract', $block);
         $block->setNameInLayout($name);
         $this->assertInstanceOf('Mage_Core_Block_Abstract', $layout->getBlock($name));
+        $this->assertEquals($name, $block->getNameInLayout());
+
+        // add block to the layout structure
+        $layout->insertBlock('', $name, 'block');
+        $this->assertTrue($layout->hasElement($name));
+        $newName = 'new_name';
+        $block->setNameInLayout($newName);
+        $this->assertTrue($layout->hasElement($newName));
+        $this->assertFalse($layout->hasElement($name));
     }
 
     /**
@@ -81,7 +112,10 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildNames()
     {
-        // need to create blocks through layout
+        // without layout
+        $this->assertFalse($this->_block->getChildNames());
+
+        // with layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block1 = $this->_createBlockWithLayout('block1');
         $block2 = $this->_createBlockWithLayout('block2');
@@ -107,6 +141,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetUnsetChild()
     {
+        // without layout
+        $child = new Mage_Core_Block_AbstractTestAbstract;
+        $this->assertFalse($this->_block->setChild('child', $child));
+        $this->assertFalse($this->_block->getChildBlock('child'));
+        $this->assertFalse($this->_block->unsetChild('child'));
+
+        // with layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
 
         // regular block
@@ -122,7 +163,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         // anonymous block
         $blockThree = $this->_createBlockWithLayout('', '', 'Mage_Core_Block_Template');
-        //$blockThree->setIsAnonymous(true);
         $parent->setChild('block3', $blockThree);
         $this->assertSame($blockThree, $parent->getChildBlock('block3'));
 
@@ -153,6 +193,10 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testUnsetChildren()
     {
+        // without layout
+        $this->assertFalse($this->_block->unsetChildren());
+
+        // with layout
         $parent = $this->_createBlockWithLayout('block', 'block');
         $this->assertEquals(array(), $parent->getChildNames());
         $blockOne = $this->_createBlockWithLayout('block1', 'block1', 'Mage_Core_Block_Template');
@@ -171,6 +215,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildHtml()
     {
+        // without layout
+        $this->assertEmpty($this->_block->getChildHtml());
+        $this->assertEmpty($this->_block->getChildHtml('block'));
+
+        // with layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $blockOne = $this->_createBlockWithLayout('block1', 'block1', 'Mage_Core_Block_Text');
         $blockTwo = $this->_createBlockWithLayout('block2', 'block2', 'Mage_Core_Block_Text');
@@ -192,12 +241,62 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $parent->getChildChildHtml('block3'));
     }
 
+    public function testGetChildChildHtml()
+    {
+        // without layout
+        $this->assertEmpty($this->_block->getChildChildHtml('alias'));
+
+        // with layout
+        $parent1 = $this->_createBlockWithLayout('parent1', 'parent1');
+        $parent2 = $this->_createBlockWithLayout('parent2', 'parent2');
+
+        $block1 = $this->_createBlockWithLayout('block1', 'block1', 'Mage_Core_Block_Text');
+        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Mage_Core_Block_Text');
+        $block3 = $this->_createBlockWithLayout('block3', 'block3', 'Mage_Core_Block_Text');
+        $block4 = $this->_createBlockWithLayout('block4', 'block4', 'Mage_Core_Block_Text');
+
+        $block1->setText('one');
+        $block2->setText('two');
+        $block3->setText('three');
+        $block4->setText('four');
+
+        $parent1->insert($parent2);
+        $parent2->insert($block1, '', false, 'block1');
+        $parent2->insert($block2, '', false, 'block2');
+        $parent2->insert($block3, '', true, 'block3');
+        $parent1->insert($block4);
+        $this->assertEquals('twoonethree', $parent1->getChildChildHtml('parent2'));
+    }
+
+    public function testGetBlockHtml($name)
+    {
+        // without layout
+        $block1 = new Mage_Core_Block_Text;
+        $block1->setText('Block text');
+        $block1->setNameInLayout('block');
+        $html = $this->_block->getBlockHtml('block');
+        $this->assertInternalType('string', $html);
+        $this->assertEmpty($html);
+
+        // with layout
+        $expected = 'Block2';
+        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Mage_Core_Block_Text');
+        $block3 = $this->_createBlockWithLayout('block3', 'block3');
+        $block2->setText($expected);
+        $html = $block3->getBlockHtml('block2');
+        $this->assertInternalType('string', $html);
+        $this->assertEquals($expected, $html);
+    }
     /**
      * @covers Mage_Core_Block_Abstract::insert
      * @see testGetSortedChildren()
      */
     public function testInsert()
     {
+        // without layout
+        $child = new Mage_Core_Block_AbstractTestAbstract;
+        $this->assertFalse($this->_block->insert($child));
+
         $parent = $this->_createBlockWithLayout('parent', 'parent');
 
         // invalid block from layout
@@ -227,8 +326,26 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertSame(3, array_search('block.four', $parent->getChildNames()));
     }
 
+    public function testAppend()
+    {
+        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $child1 = $this->_createBlockWithLayout('child1');
+        $parent->append($child1, 'child1');
+        $child2 = $this->_createBlockWithLayout('child2');
+        $parent->append($child2);
+        $this->assertEquals(array('child1', 'child2'), $parent->getChildNames());
+    }
+
+    /**
+     * @covers Mage_Core_Block_Abstract::addToParentGroup
+     * @covers Mage_Core_Block_Abstract::getGroupChildNames
+     */
     public function testAddToParentGroup()
     {
+        // without layout
+        $this->assertFalse($this->_block->addToParentGroup('default_group'));
+
+        // with layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block1 = $this->_createBlockWithLayout('block1', 'block1', 'Mage_Core_Block_Template');
         $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Mage_Core_Block_Template');
@@ -356,11 +473,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('Mage_Core', $this->_block->getModuleName());
         $this->assertEquals('Mage_Core', $this->_block->getData('module_name'));
-    }
-
-    public function testExtractModuleName()
-    {
-        $this->assertEquals('Mage_Core', Mage_Core_Block_Abstract::extractModuleName('Mage_Core_Block_Abstract'));
     }
 
     public function test__()

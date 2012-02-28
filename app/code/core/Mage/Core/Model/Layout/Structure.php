@@ -205,7 +205,7 @@ class Mage_Core_Model_Layout_Structure
     {
         $element = $this->_getElementByXpath("element[@name='$name']");
         if ($element) {
-            $this->_dom->removeChild($element);
+            $element->parentNode->removeChild($element);
         }
 
         return true;
