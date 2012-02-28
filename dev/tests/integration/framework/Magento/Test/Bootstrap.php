@@ -266,14 +266,6 @@ class Magento_Test_Bootstrap
     }
 
     /**
-     * Perform requested cleanup operations
-     */
-    public function __destruct()
-    {
-        $this->_cleanup();
-    }
-
-    /**
      * Perform a cleanup action
      */
     protected function _cleanup()
@@ -474,7 +466,7 @@ class Magento_Test_Bootstrap
         $this->initialize();
         /**
          * Initialization of front controller with all routers.
-         * Should be here as needed only once after installation process. 
+         * Should be here as needed only once after installation process.
          */
         Mage::app()->getFrontController();
     }
