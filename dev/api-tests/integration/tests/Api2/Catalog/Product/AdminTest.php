@@ -148,7 +148,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
+        /** @var $updatedProduct Mage_Catalog_Model_Product */
         $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
         $productDataForUpdate['url_key'] = '123-abc';
@@ -158,14 +158,15 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful product update on specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
      */
     public function testUpdateOnSpecifiedStoreSuccessful()
     {
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type']);
         unset($productDataForUpdate['set']);
+        /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $testStore = $this->getFixture('store_on_new_website');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), $testStore->getCode()),
@@ -176,15 +177,16 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $updatedProduct Mage_Catalog_Model_Product */
         $updatedProduct = Mage::getModel('catalog/product')->setStoreId($testStore->getId())->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
-        $productDataForUpdate['url_key'] = '123-abc';
         $this->_checkProductData($updatedProduct, $productDataForUpdate);
 
-        // Check if product data is untouched on default store (Store View scope attributes only)
-        $origProductData = array(
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'short_description' => $product->getShortDescription(),
-        );
+        // Check if product Store View/Website scope attributes data is untouched on default store
+        $origProductData = $product->getData();
+        unset($origProductData['updated_at']);
+        $globalAttributes = array('sku', 'weight', 'price', 'special_price', 'msrp', 'enable_googlecheckout',
+            'stock_item', 'gift_wrapping_price');
+        foreach ($globalAttributes as $attribute) {
+            $origProductData[$attribute] = $updatedProduct->getData($attribute);
+        }
 
         /** @var $origProduct Mage_Catalog_Model_Product */
         $origProduct = Mage::getModel('catalog/product')->load($product->getId());
@@ -192,37 +194,9 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Check if product data equals expected data
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param array $expectedData
-     */
-    protected function _checkProductData($product, $expectedData)
-    {
-        $this->assertNotNull($product->getId());
-        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
-            'custom_design_from', 'custom_design_to');
-        foreach ($dateAttributes as $attribute) {
-            $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
-                $attribute .' is not equal.');
-        }
-        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data'));
-        $productAttributes = array_diff_key($expectedData, array_flip($exclude));
-        foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute), $attribute .' is not equal.');
-        }
-        if (isset($expectedData['stock_data'])) {
-            $stockItem = $product->getStockItem();
-            foreach ($expectedData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute), $attribute .' is not equal.');
-            }
-        }
-    }
-
-    /**
      * Test update with invalid store
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      */
     public function testUpdateWithInvalidStore()
     {
@@ -234,6 +208,39 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $productDataForUpdate);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+    }
+
+    /**
+     * Test product update with empty required fields
+     * Negative test.
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     */
+    public function testUpdateEmptyRequiredFields()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductEmptyRequired.php';
+
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+        unset($productDataForUpdate['type']);
+        unset($productDataForUpdate['set']);
+        unset($productDataForUpdate['stock_data']);
+        $expectedErrors = array(
+            'Resource data pre-validation error.',
+            'Please enter a valid number in the "qty" field in the "stock_data" set.'
+        );
+        foreach ($productDataForUpdate as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
     }
 
     /**
@@ -275,5 +282,33 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $path .= "/store/$storeId";
         }
         return $path;
+    }
+
+    /**
+     * Check if product data equals expected data
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $expectedData
+     */
+    protected function _checkProductData($product, $expectedData)
+    {
+        $this->assertNotNull($product->getId());
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
+                $attribute .' is not equal.');
+        }
+        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data'));
+        $productAttributes = array_diff_key($expectedData, array_flip($exclude));
+        foreach ($productAttributes as $attribute => $value) {
+            $this->assertEquals($value, $product->getData($attribute), $attribute .' is not equal.');
+        }
+        if (isset($expectedData['stock_data'])) {
+            $stockItem = $product->getStockItem();
+            foreach ($expectedData['stock_data'] as $attribute => $value) {
+                $this->assertEquals($value, $stockItem->getData($attribute), $attribute .' is not equal.');
+            }
+        }
     }
 }
