@@ -41,11 +41,11 @@ abstract class Mage_Api2_Model_Validator
     protected $_errors = array();
 
     /**
-     * Returns an array of errors that explain why the most recent IsSatisfiedBy()
+     * Returns an array of errors that explain why the most recent isSatisfiedByData()
      * call returned false. The array keys are validation failure error identifiers,
      * and the array values are the corresponding human-readable error strings.
      *
-     * If isSatisfiedBy() was never called or if the most recent isSatisfiedBy() call
+     * If isSatisfiedByData() was never called or if the most recent isSatisfiedByData() call
      * returned true, then this method returns an empty array.
      *
      * @return array
