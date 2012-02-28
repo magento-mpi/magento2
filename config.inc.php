@@ -230,6 +230,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/pagecache/',
         'app/design/adminhtml/default/default/layout/pagecache.xml'
     ),
+   'Mage_Captcha' => array(
+        'app/code/core/Mage/Captcha/',
+        'app/design/frontend/base/default/template/captcha/',
+        'app/design/frontend/base/default/layout/captcha.xml',
+        'app/design/adminhtml/default/default/template/captcha/',
+        'app/design/adminhtml/default/default/layout/captcha.xml'
+    ),
     'Mage_Paybox' => array(
         'app/code/core/Mage/Paybox/',
         'app/design/frontend/base/default/template/paybox/',
@@ -540,6 +547,13 @@ $CONFIG['translates'] = array(
         'app/code/core/Enterprise/WebsiteRestriction/',
         'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
     ),
+    'Enterprise_Wishlist' => array(
+        'app/code/core/Enterprise/Wishlist/',
+        'app/design/adminhtml/default/default/layout/enterprise/wishlist.xml',
+        'app/design/adminhtml/default/default/template/enterprise/wishlist/',
+        'app/design/frontend/enterprise/default/layout/enterprise_wishlist.xml',
+        'app/design/frontend/enterprise/default/template/wishlist/'
+    ),
     'Mage_Adminhtml' => array(
         'app/code/core/Mage/Admin/',
         'app/code/core/Mage/Adminhtml/',
@@ -598,6 +612,7 @@ $CONFIG['helpers']  = array(
     'ogone'             => 'Mage_Ogone',
     'page'              => 'Mage_Page',
     'pagecache'         => 'Mage_PageCache',
+    'captcha'           => 'Mage_Captcha',
     'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Mage_Paygate',
     'payment'           => 'Mage_Payment',
@@ -659,5 +674,6 @@ $CONFIG['helpers']  = array(
     'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
+    'enterprise_wishlist'           => 'Enterprise_Wishlist',
 );
 
