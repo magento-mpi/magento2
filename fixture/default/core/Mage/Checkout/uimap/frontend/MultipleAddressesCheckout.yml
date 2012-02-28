@@ -205,7 +205,7 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
                             gift_option_for_individual_items: //p[label='Add gift options for Individual Items']/input
                         radiobuttons:
-                            ship_method: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]//input
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input
                             one_method_selected: //*[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
                         fields:
                             ship_service_name: //dt[text()='%shipService%']
