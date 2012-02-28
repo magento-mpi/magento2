@@ -32,6 +32,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method Mage_Api2_Model_Acl_Global_Role getRole()
  * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setRole(Mage_Api2_Model_Acl_Global_Role $role)
+ * @method string getUserType()
+ * @method Mage_Api2_Block_Adminhtml_Roles_Tab_Resources setUserType($userType)
  */
 class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -77,6 +79,9 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
     {
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('core');
+
+        $this->_treeModel->setUserType($this->getUserType());
+
         return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
 
@@ -87,6 +92,8 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
      */
     public function getEverythingAllowed()
     {
+        $this->_treeModel->setUserType($this->getUserType());
+
         return $this->_treeModel->getEverythingAllowed();
     }
 

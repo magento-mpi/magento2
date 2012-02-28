@@ -76,6 +76,10 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
         $this->_title($title);
         $this->_addBreadcrumb($title, $title);
 
+        /** @var $resourceBlock Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource */
+        $resourceBlock = $this->getLayout()->getBlock('api2.attribute.tab.resource');
+        $resourceBlock->setUserType($type);
+
         $this->renderLayout();
     }
 
