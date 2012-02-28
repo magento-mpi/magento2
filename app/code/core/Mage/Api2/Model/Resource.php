@@ -608,24 +608,23 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Get EAV attributes of working model
      *
+     * @param bool $isVisible Show only the attributes which are visible on frontend
      * @return array
      */
-    public function getEavAttributes()
+    public function getEavAttributes($isVisible = false)
     {
+        $attributes = array();
         $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
 
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->load($model, 'entity_model');
 
-        /** @var $resourceModel Mage_Eav_Model_Resource_Entity_Attribute_Collection */
-        $resourceModel = Mage::getResourceModel($entityType->getEntityAttributeCollection());
-        $attributesInfo = $resourceModel
-            ->setEntityTypeFilter($entityType)
-            ->getData();
-
-        $attributes = array();
-        foreach ($attributesInfo as $attribute) {
-            $attributes[$attribute['attribute_code']] = $attribute['frontend_label'];
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        foreach ($entityType->getAttributeCollection() as $attribute) {
+            if ($isVisible && !$attribute->getIsVisible()) {
+                continue;
+            }
+            $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
         }
 
         return $attributes;
