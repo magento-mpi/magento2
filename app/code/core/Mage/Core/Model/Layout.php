@@ -396,7 +396,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $block = $this->getBlock($elementName);
         if ($block) {
-            $block = $this->renameAnonymousBlock($parentName, $block);
             $elementName = $block->getNameInLayout();
             if (empty($alias)) {
                 $alias = $elementName;
@@ -406,30 +405,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_structure->setChild($parentName, $elementName, $alias);
 
         return $this;
-    }
-
-    /**
-     * @param string $parentName
-     * @param Mage_Core_Block_Abstract $block
-     * @return Mage_Core_Block_Abstract
-     */
-    public function renameAnonymousBlock($parentName, Mage_Core_Block_Abstract $block)
-    {
-        if ($block->isAnonymous()) {
-            $suffix = $block->getAnonSuffix();
-            if (empty($suffix)) {
-                $suffix = 'child' . $this->_structure->getChildrenCount($parentName);
-            }
-            $elementName = $parentName . '.' . $suffix;
-
-            $this->unsetElement($block->getNameInLayout())
-                ->setBlock($elementName, $block);
-
-            $block->setNameInLayout($elementName);
-            $block->setIsAnonymous(false);
-        }
-
-        return $block;
     }
 
     /**

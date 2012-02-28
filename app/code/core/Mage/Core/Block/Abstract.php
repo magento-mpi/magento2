@@ -509,18 +509,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             return false;
         }
         if ($block instanceof Mage_Core_Block_Abstract) {
-            $name = $block->getNameInLayout();
-        } else {
-            $name = $block;
-            $block = $layout->getBlock($name);
+            $block = $block->getNameInLayout();
         }
-        if (!($block instanceof Mage_Core_Block_Abstract)) {
-            return $this;
-        }
-        if ($block->isAnonymous()) {
-            $name = $layout->renameAnonymousBlock($this->getNameInLayout(), $block)->getNameInLayout();
-        }
-        $this->_getLayoutStructure()->insertBlock($this->getNameInLayout(), $name, $alias, $after, $siblingName);
+        $this->_getLayoutStructure()->insertBlock($this->getNameInLayout(), $block, $alias, $after, $siblingName);
         return $this;
     }
 

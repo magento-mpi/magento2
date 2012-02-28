@@ -23,6 +23,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_block;
 
+    /**
+     * @var Mage_Core_Model_Layout
+     */
+    protected $_layout = null;
+
     protected function setUp()
     {
         $this->_block = new Mage_Core_Block_AbstractTestAbstract;
@@ -268,7 +273,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('twoonethree', $parent1->getChildChildHtml('parent2'));
     }
 
-    public function testGetBlockHtml($name)
+    public function testGetBlockHtml()
     {
         // without layout
         $block1 = new Mage_Core_Block_Text;
@@ -306,7 +311,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         // anonymous block
         $blockOne = $this->_createBlockWithLayout('', '', 'Mage_Core_Block_Template');
         $parent->insert($blockOne);
-        $this->assertContains('parent.child0', $parent->getChildNames());
+        $this->assertContains('ANONYMOUS_0', $parent->getChildNames());
 
         // block with alias, to the last position
         $blockTwo = $this->_createBlockWithLayout('block.two', '', 'Mage_Core_Block_Template');
@@ -618,11 +623,18 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Mage_Core_Block_AbstractTestAbstract'
     ) {
-        $layout = Mage::app()->getLayout();
-        $block = $layout->createBlock($type, $name);
+        if (is_null($this->_layout)) {
+            $this->_layout = new Mage_Core_Model_Layout;
+        }
+        $block = $this->_layout->createBlock($type, $name);
         if ($alias) {
-            $layout->insertBlock('', $name, $alias);
+            $this->_layout->insertBlock('', $name, $alias);
         }
         return $block;
+    }
+
+    public function tearDown()
+    {
+        $this->_layout = null;
     }
 }
