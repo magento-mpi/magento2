@@ -135,7 +135,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         $rowNames = array('Title', 'Product Name');
         $title = 'Not Selected';
         if (array_key_exists('category_path', $optionData)) {
-            $this->addParameter('param', "//div[@id='widget-chooser_content']");
+            $this->addParameter('widgetParam', "//div[@id='widget-chooser_content']");
             $nodes = explode('/', $optionData['category_path']);
             $title = end($nodes);
             $this->categoryHelper()->selectCategory($optionData['category_path'], $name);

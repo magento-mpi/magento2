@@ -335,7 +335,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
                 return $i;
             } elseif ($this->isElementPresent($xpathNext)) {
                 $i++;
-                $this->addParameter('param', '?p=' . $i);
+                $this->addParameter('categoryParam', '?p=' . $i);
                 $this->navigate('category_page_index');
             } else {
                 return FALSE;

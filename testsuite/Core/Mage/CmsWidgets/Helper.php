@@ -106,7 +106,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
             $xpath = $this->_getControlXpath('dropdown', 'select_display_on');
             $layoutName = $this->getValue($xpath . '//option[text()="' . $value['select_display_on'] . '"]');
             $this->addParameter('layout', $layoutName);
-            $this->addParameter('param', "//div[@id='" . $layoutName . '_ids_' . $count++ . "']");
+            $this->addParameter('widgetParam', "//div[@id='" . $layoutName . '_ids_' . $count++ . "']");
             $this->fillForm($value);
             $xpathOptionsAll = $this->_getControlXpath('radiobutton', 'all_categories_products_radio');
             if (array_key_exists('choose_options', $value)) {

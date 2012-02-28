@@ -46,7 +46,7 @@ my_orders_history:
                             order_total: //tr[td='%orderId%']/td[span='%orderTotal%']
 
 my_orders_history_index:
-    mca: sales/order/history/%param%/
+    mca: sales/order/history/%orderHistoryParam%/
     title: My Orders
     uimap:
         form: *orderHistory

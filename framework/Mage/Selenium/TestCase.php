@@ -473,7 +473,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
         }
         $title_arr = explode('/', $url);
-        //$title_arr = array_reverse($title_arr);
+        if (in_array($paramName, $title_arr) && isset($title_arr[array_search($paramName, $title_arr) + 1])) {
+            return $title_arr[array_search($paramName, $title_arr) + 1];
+        }
         foreach ($title_arr as $key => $value) {
             if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key + 1])) {
                 return $title_arr[$key + 1];

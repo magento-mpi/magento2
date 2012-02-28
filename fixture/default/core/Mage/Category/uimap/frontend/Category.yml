@@ -135,7 +135,7 @@ sub_category_page_before_reindex:
     uimap: *categoryUIMap
 
 category_page_index:
-    mca: %categoryUrl%.html%param%
+    mca: %categoryUrl%.html%categoryParam%
     title: %categoryTitle%
     uimap:
         form: *categoryPage
