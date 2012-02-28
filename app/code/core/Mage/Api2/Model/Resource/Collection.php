@@ -108,7 +108,10 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
             $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
         }
         if (null !== $orderField) {
-            if (!is_string($orderField) || !array_key_exists($orderField, $this->getAvailableAttributes())) {
+            $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
+            if (!is_string($orderField)
+                || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))) {
+
                 $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
             $collection->setOrder($orderField, $request->getOrderDirection());
