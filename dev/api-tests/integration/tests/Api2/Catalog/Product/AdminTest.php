@@ -244,6 +244,86 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test product resource post with all invalid fields
+     * Negative test.
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     */
+    public function testPostSimpleAllFieldsInvalid()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = require dirname(__FILE__)
+            . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $errorsPlain = array();
+        foreach ($errors as $error) {
+            $errorsPlain[] = $error['message'];
+        }
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'SKU length should be 64 characters maximum.',
+            'Invalid "cust_group" value in the "group_price:0" set',
+            'Please enter a number 0 or greater in the "price" field in the "group_price:1" set.',
+            'Invalid "website_id" value in the "group_price:2" set.',
+            'Invalid "website_id" value in the "group_price:3" set.',
+            'The "cust_group" value in the "group_price:3" set is a required field.',
+            'The "website_id" value in the "group_price:4" set is a required field.',
+            'Invalid "website_id" value in the "group_price:5" set.',
+            'The "price" value in the "group_price:5" set is a required field.',
+            'Invalid "cust_group" value in the "tier_price:0" set',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:1" set.',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:2" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:3" set.',
+            'Invalid "website_id" value in the "tier_price:4" set.',
+            'Invalid "website_id" value in the "tier_price:5" set.',
+            'The "price_qty" value in the "tier_price:7" set is a required field.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:7" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:8" set.',
+            'Please enter a valid number in the "qty" field in the "stock_data" set.',
+            'Please enter a valid number in the "notify_stock_qty" field in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
+            'Invalid "is_decimal_divided" value in the "stock_data" set.',
+            'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
+            . 'Please avoid spaces or other characters such as dots or commas.',
+            'Invalid "backorders" value in the "stock_data" set.',
+            'Invalid "is_in_stock" value in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
+            'Resource data pre-validation error.',
+        );
+        $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
+            'gift_message_available', 'gift_wrapping_available');
+        foreach ($invalidValueAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid value for attribute "%s".', $attribute);
+        }
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid date in the "%s" field.', $attribute);
+        }
+        $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
+        foreach ($positiveNumberAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
+        }
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
      * Test successful product delete
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
