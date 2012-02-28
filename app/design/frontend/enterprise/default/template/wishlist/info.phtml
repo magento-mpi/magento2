@@ -34,25 +34,39 @@
     <h1><?php echo $this->__('Wishlist Info') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->toHtml();?>
-<ul class="list-info">
-    <li class="item wishlist-owner"><span class="label"><?php echo $this->__('Owner');?></span> <span class="value"><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></span></li>
-    <li class="item wishlist-name"><span class="label"><?php echo $this->__('Name');?></span> <span class="value"><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></span></li>
-    <li class="item wishlist-date"><span class="label"><?php echo $this->__('Updated at');?></span> <span class="value"><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);?></span></li>
-</ul>
-<h2 class="sub-title"><?php echo $this->__('Wishlist Items');?></h2>
-<?php if (count($wishlistItems)): ?>
+<div class="info-box">
+    <div class="box-content">
+        <table class="info-table">
+            <col width="1" />
+            <col />
+            <tbody>
+                <tr>
+                    <th><span class="nobr"><?php echo $this->__('Owner');?></span></th>
+                    <td><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
+                </tr>
+                <tr>
+                    <th><span class="nobr"><?php echo $this->__('Name');?></span></th>
+                    <td><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
+                </tr>
+                <tr>
+                    <th><span class="nobr"><?php echo $this->__('Updated at');?></span></th>
+                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2 class="subtitle"><?php echo $this->__('Wishlist Items') ?></h2>
 <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
     <?php $this->getChild('items')->setItems($this->getWishlistItems()); ?>
     <?php echo $this->getChildHtml('items');?>
-    <?php if ($this->isSaleable()): ?>
+    <?php if (count($wishlistItems) && $this->isSaleable()): ?>
         <div class="buttons-set buttons-set2">
             <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-add"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
         </div>
     <?php endif; ?>
 </form>
-<div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-</div>
 <script type="text/javascript">
 //<![CDATA[
     (function() {
@@ -80,6 +94,6 @@
     })();
 //]]>
 </script>
-<?php else: ?>
-    <p class="wishlist-empty"><?php echo $this->__('This Wishlist is empty');?></p>
-<?php endif; ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>

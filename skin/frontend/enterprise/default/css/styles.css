@@ -2209,8 +2209,8 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 #wishlist-table .item-manage .split-button { margin:10px 9px 0 0; }
 #wishlist-table .item-manage .split-button .change { margin-left:2px; }
 #wishlist-table .item-manage .split-button:last-child { margin-right:0; }
-.wishlist-empty { font-size:12px; padding:15px 10px; border:1px solid #d0d0d0; text-align:center; }
-
+.wishlist-empty { font-size:12px; padding:15px 10px; text-align:center; }
+p.wishlist-empty {border:1px solid #d0d0d0;}
 /* Multiple Wishlist */
 
 .link-edit { padding-left:18px; line-height:18px; background:url(../images/bkg_link-edit.png) no-repeat 0 0; display:inline-block; }
