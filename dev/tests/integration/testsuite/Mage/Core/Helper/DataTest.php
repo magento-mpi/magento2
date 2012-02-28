@@ -240,7 +240,7 @@ XML;
     /**
      * @param array $array
      * @param string $rootName
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      * @dataProvider assocToXmlExceptionDataProvider
      */
     public function testAssocToXmlException($array, $rootName = '_')
