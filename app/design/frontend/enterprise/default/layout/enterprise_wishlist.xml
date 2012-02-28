@@ -106,10 +106,11 @@
                         </action>
                     </block>
                     <block type="wishlist/customer_wishlist_item_column_image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml"></block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.details" template="wishlist/item/column/details.phtml">
+                    <block type="wishlist/customer_wishlist_item_column_cart" name="customer.wishlist.item.details" template="wishlist/item/column/details.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Product Info</title>
                         </action>
+                        <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
                     </block>
                     <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.comment" template="wishlist/item/column/comment.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
