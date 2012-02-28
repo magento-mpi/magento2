@@ -31,7 +31,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Api2_Model_Validator
+abstract class Mage_Api2_Model_Resource_Validator
 {
     /**
      * Array of validation failure errors.
