@@ -60,11 +60,9 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         $set = $data['set'];
         $sku = $data['sku'];
 
-        $store = isset($data['store']) ? $data['store'] : '';
-        $storeId = Mage::app()->getStore($store)->getId();
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')
-            ->setStoreId($storeId)
+            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->setAttributeSetId($set)
             ->setTypeId($type)
             ->setSku($sku);
