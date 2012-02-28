@@ -359,7 +359,10 @@ checkout_multishipping_review_order:
                             place_order: //button[span='Place Order']
                 -
                     3d_secure_card_validation:
-                        xpath: //iframe[@id='centinel_authenticate_iframe']
+                        xpath: //*[@id='centinel_authenticate_block']
+                -
+                    3d_secure_card_iframe:
+                        xpath: //body/table
                         fields:
                             3d_password: //input[@name='external.field.password']
                         buttons:
