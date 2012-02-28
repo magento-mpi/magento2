@@ -131,6 +131,57 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     }
 
     /**
+     * Test update customer
+     *
+     * @param array $data
+     * @param string $fieldName
+     * @dataProvider providerTestUpdateEmptyField
+     */
+    public function testUpdateEmptyField($data, $fieldName)
+    {
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $data);
+
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $responseData = $response->getBody();
+
+        $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+
+        $this->assertSame(array(
+            array(
+                'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+                'message' => 'Empty value for "' . $fieldName . '" in request.',
+            ),
+            array(
+                'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+                'message' => Mage_Api2_Model_Resource::RESOURCE_DATA_PRE_VALIDATION_ERROR
+            )
+        ), $responseData['messages']['error']);
+    }
+
+    /**
+     * Data provider for testUpdateEmptyField
+     *
+     * @return array
+     */
+    public function providerTestUpdateEmptyField()
+    {
+        $fields = array('email', 'firstname', 'lastname', 'password');
+        $output = array();
+
+        foreach ($fields as $field) {
+            $output[] = array(
+                array(
+                    $field => ''
+                ),
+                $field
+            );
+        }
+
+        return $output;
+    }
+
+    /**
      * Test update another customer
      */
     public function testUpdateUnavailableResource()
