@@ -12,3 +12,11 @@
     <input type="checkbox" checked="checked" id="vde_highlighting"/>
     <label for="vde_highlighting"><?php echo $this->__('Highlight blocks'); ?></label>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery(document).bind('started.vde', function (e, designEditor) {
+            designEditor.captureHighlighting('vde_highlighting');
+        });
+    });
+</script>
