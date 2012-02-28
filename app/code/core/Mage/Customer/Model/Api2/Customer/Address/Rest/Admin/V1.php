@@ -25,33 +25,13 @@
  */
 
 /**
- * API2 class for customer address (customer)
+ * API2 class for customer address (admin)
  *
  * @category   Mage
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customer_Address_Rest_Customer_V1
+class Mage_Customer_Model_Api2_Customer_Address_Rest_Admin_V1
     extends Mage_Customer_Model_Api2_Customer_Address_Rest
 {
-    /**
-     * Load customer address by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_CatalogInventory_Model_Stock_Item
-     */
-    protected function _loadCustomerAddressById($id)
-    {
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::getModel('customer/address')->load($id);
-        if (!$customerAddress->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        // check owner
-        if ($this->getApiUser()->getUserId() != $customerAddress->getCustomerId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $customerAddress;
-    }
 }

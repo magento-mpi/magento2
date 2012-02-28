@@ -26,13 +26,13 @@
  */
 
 /**
- * Test for customer addresses API2 (admin)
+ * Test for customer address API2 (admin)
  *
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Admin
+class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
      * Delete fixtures
@@ -45,39 +45,34 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     }
 
     /**
-     * Test get customer addresses for admin
+     * Test get customer address for admin
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      *
      */
-    public function testGetCustomerAddresses()
+    public function testGetCustomerAddress()
     {
-        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
-        $fixtureCustomer = $this->getFixture('customer');
-        $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
-        $customerAddressesIds = array();
-        foreach ($responseData as $customerAddress) {
-            $customerAddressesIds[] = $customerAddress['entity_id'];
-        }
-        /* @var $fixtureCustomerAddresses Mage_Customer_Model_Resource_Address_Collection */
-        $fixtureCustomerAddresses = $fixtureCustomer->getAddressesCollection();
-        foreach ($fixtureCustomerAddresses as $fixtureCustomerAddress) {
-            $this->assertContains($fixtureCustomerAddress->getId(), $customerAddressesIds,
-                'Address item should be in response');
+        foreach ($responseData as $field => $value) {
+            $this->assertEquals($value, $fixtureCustomerAddress->getData($field));
         }
     }
 
     /**
-     * Test retrieving addresses for not existing customer
+     * Test retrieving address for not existing customer
      */
-    public function testGetUnavailableCustomerAddresses()
+    public function testGetUnavailableCustomerAddress()
     {
-        $restResponse = $this->callGet('customers/invalid_id/addresses');
+        $restResponse = $this->callGet('customers/addresses/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

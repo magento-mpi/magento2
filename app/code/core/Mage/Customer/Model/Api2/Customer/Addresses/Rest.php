@@ -41,18 +41,23 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
      */
     protected function _create(array $data)
     {
-        /*$this->_validate(
-            $data,
-            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password'),
-            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password')
-        );*/
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('customer/address');
         $customerAddress->setData($data);
+        $customerAddress->setCustomer($customer);
+
+        $errors = $customerAddress->validate();
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            return;
+        }
 
         try {
-            $customerAddress->validate();
             $customerAddress->save();
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);

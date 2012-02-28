@@ -45,4 +45,5 @@ for ($i = 0; $i < COUNT_CUSTOMER_ADDRESES; $i++) {
     $address->save();
 }
 
-Magento_Test_Webservice::setFixture('customer', $customerFixture);
+Magento_Test_Webservice::setFixture('customer',
+    Mage::getModel('customer/customer')->load($customerFixture->getId()));// for load addresses collection

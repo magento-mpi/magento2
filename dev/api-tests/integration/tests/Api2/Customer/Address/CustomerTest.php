@@ -26,13 +26,13 @@
  */
 
 /**
- * Test for customer addresses API2 (customer)
+ * Test for customer address API2 (customer)
  *
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_Customer
+class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
      * Delete fixtures
@@ -55,34 +55,30 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      * Test get customer addresses for customer
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
      */
-    public function testGetCustomerAddresses()
+    public function testGetCustomerAddress()
     {
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
-
-        $restResponse = $this->callGet('customers/' . $customer->getId() . '/addresses');
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $customer
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
-        $customerAddressesIds = array();
-        foreach ($responseData as $customerAddress) {
-            $customerAddressesIds[] = $customerAddress['entity_id'];
-        }
-        /* @var $customerAddresses Mage_Customer_Model_Resource_Address_Collection */
-        $customerAddresses = $customer->getAddressesCollection();
-        foreach ($customerAddresses as $customerAddress) {
-            $this->assertContains($customerAddress->getId(), $customerAddressesIds,
-                'Address item should be in response');
+        foreach ($responseData as $field => $value) {
+            $this->assertEquals($value, $fixtureCustomerAddress->getData($field));
         }
     }
 
     /**
      * Test retrieving addresses for not existing customer
      */
-    public function testGetUnavailableCustomerAddresses()
+    public function testGetUnavailableCustomerAddress()
     {
         $restResponse = $this->callGet('customers/invalid_id/addresses');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
@@ -93,11 +89,13 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      */
-    public function testGetCustomerAddressesIfCustomerIsNotOwner()
+    public function testGetCustomerAddressIfCustomerIsNotOwner()
     {
-        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
-        $fixtureCustomer = $this->getFixture('customer');
-        $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }
