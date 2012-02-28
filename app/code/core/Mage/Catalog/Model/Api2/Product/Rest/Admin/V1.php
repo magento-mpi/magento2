@@ -93,7 +93,11 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         }
         $this->_productResourceHelper->prepareDataForSave($product, $data);
         try {
+            $product->validate();
             $product->save();
+        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $this->_critical(sprintf('Invalid attribute "%s": %s', $e->getAttributeCode(), $e->getMessage()),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
