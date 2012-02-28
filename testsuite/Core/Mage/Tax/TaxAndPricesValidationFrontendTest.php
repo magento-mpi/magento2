@@ -156,7 +156,6 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
                                                     'category'      => $category));
             $priceInProdDetails = $this->loadData($sysConfigData . '_front_prices_in_product_simple_' . $key);
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
-            $this->addParameter('categoryUrl', null);
             $this->productHelper()->frontOpenProduct($productName, $category);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();

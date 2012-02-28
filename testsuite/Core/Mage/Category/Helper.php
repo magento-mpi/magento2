@@ -263,7 +263,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontOpenCategory($categoryPath)
     {
-        $this->addParameter('productUrl', NULL);
         //Determine category title
         $nodes = explode('/', $categoryPath);
         $nodesReverse = array_reverse($nodes);

@@ -868,7 +868,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontOpenProduct($productName, $categoryPath = null)
     {
-        $this->addParameter('categoryUrl', null);
         if (!is_string($productName)) {
             $this->fail('Wrong data to open a product');
         }
