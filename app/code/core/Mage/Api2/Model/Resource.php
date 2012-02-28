@@ -554,9 +554,9 @@ abstract class Mage_Api2_Model_Resource
         $configAttrs   = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
         $dbAttrs = $this->getDbAttributes();
-        $allAttrs = array_merge($configAttrs, $dbAttrs);
+        $attrsCodes = array_merge(array_keys($configAttrs), $dbAttrs);
 
-        foreach ($allAttrs as $code) {
+        foreach ($attrsCodes as $code) {
             if (in_array($code, $excludedAttrs)) {
                 continue;
             }
