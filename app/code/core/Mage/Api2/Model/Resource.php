@@ -553,19 +553,14 @@ abstract class Mage_Api2_Model_Resource
         $available     = array();
         $configAttrs   = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $dbAttrs = $this->getDbAttributes();
+        $allAttrs = array_merge($configAttrs, $dbAttrs);
 
-        /* @var $resource Mage_Sales_Model_Resource_Order */
-        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-        if (method_exists($resource, 'getMainTable')) {
-            $attrCodes = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
-            foreach ($attrCodes as $code) {
-                if (in_array($code, $excludedAttrs)) {
-                    continue;
-                }
-                $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
+        foreach ($allAttrs as $code) {
+            if (in_array($code, $excludedAttrs)) {
+                continue;
             }
-        } else {
-            $available = array_diff_key($configAttrs,  array_flip($excludedAttrs));
+            $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
         }
 
         return $available;
@@ -592,6 +587,22 @@ abstract class Mage_Api2_Model_Resource
     public function getAvailableAttributesFromConfig()
     {
         return $this->getConfig()->getResourceAttributes($this->getResourceType());
+    }
+
+    /**
+     * Get available attributes of API resource from data base
+     *
+     * @return array
+     */
+    public function getDbAttributes()
+    {
+        $available     = array();
+        /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
+        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        if (method_exists($resource, 'getMainTable')) {
+            $available = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
+        }
+        return $available;
     }
 
     /**
