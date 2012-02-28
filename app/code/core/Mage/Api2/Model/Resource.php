@@ -565,7 +565,7 @@ abstract class Mage_Api2_Model_Resource
                 $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
             }
         } else {
-            $available = array_diff($configAttrs, $excludedAttrs);
+            $available = array_diff_key($configAttrs,  array_flip($excludedAttrs));
         }
 
         return $available;
@@ -580,7 +580,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getExcludedAttributes($userType, $operation)
     {
-        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
+        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, 'write');
     }
 
     /**
