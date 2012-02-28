@@ -42,16 +42,11 @@
                 <title>Orders</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                     </admin>
                     <customer>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                     </customer>
-                    <guest>
-                        <retrieve>1</retrieve>
-                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
@@ -70,8 +65,6 @@
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </admin>
                     <customer>
                         <retrieve>1</retrieve>
@@ -95,8 +88,6 @@
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </admin>
                     <customer>
                         <retrieve>1</retrieve>

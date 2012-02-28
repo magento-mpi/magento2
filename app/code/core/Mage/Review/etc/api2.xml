@@ -68,13 +68,9 @@
                 <privileges>
                     <guest>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </guest>
                     <customer>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </customer>
                     <admin>
                         <retrieve>1</retrieve>

@@ -42,7 +42,6 @@
                 <title>Stock Item</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                     </admin>
@@ -98,7 +97,6 @@
                 <title>Stock Items</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                     </admin>
