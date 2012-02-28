@@ -129,19 +129,24 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     protected function _getLocation(Mage_Core_Model_Abstract $resource)
     {
-         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-         $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('api2/route_apiType');
 
-         $chain = $apiTypeRoute->chain(
-             new Zend_Controller_Router_Route($this->getConfig()->getMainRoute($this->getResourceType()))
-         );
-         $params = array(
-             'api_type' => $this->getRequest()->getApiType(),
-             'id'       => $resource->getId()
-         );
-         $uri = $chain->assemble($params);
+        /** @var $config Mage_Api2_Model_Config */
+        $config = $this->getConfig();
+        $chain = $apiTypeRoute->chain(
+            new Zend_Controller_Router_Route($config->getMainRoute(
+                $config->getResourceInstance($this->getResourceType())
+            ))
+        );
 
-         return '/' . $uri;
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            'id'       => $resource->getId()
+        );
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
     }
 
     /**

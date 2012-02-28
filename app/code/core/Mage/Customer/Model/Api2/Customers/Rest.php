@@ -37,6 +37,7 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
      * Create customer
      *
      * @param array $data
+     * @return string
      */
     protected function _create(array $data)
     {
@@ -57,17 +58,8 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-    }
 
-    /**
-     * Get customers list
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-        return isset($data['items']) ? $data['items'] : $data;
+        return $this->_getLocation($customer);
     }
 
     /**
@@ -80,7 +72,6 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
         $collection = Mage::getResourceModel('customer/customer_collection');
 
-        // TODO: To optimize this action
         $collection->addAttributeToSelect(array_keys(
             $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
         ));
@@ -88,5 +79,16 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
         $this->_applyCollectionModifiers($collection);
 
         return $collection;
+    }
+
+    /**
+     * Get customers list
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+        return isset($data['items']) ? $data['items'] : $data;
     }
 }
