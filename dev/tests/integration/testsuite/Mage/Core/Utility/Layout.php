@@ -12,8 +12,18 @@
 /**
  * Core layout utility
  */
-class Mage_Core_Utility_Layout extends Magento_Test_Utility_Abstract
+class Mage_Core_Utility_Layout
 {
+    /**
+     * @var PHPUnit_Framework_TestCase
+     */
+    protected $_testCase;
+
+    public function __construct(PHPUnit_Framework_TestCase $testCase)
+    {
+        $this->_testCase = $testCase;
+    }
+
     /**
      * Retrieve new layout update model instance with XML data from a fixture file
      *
@@ -28,9 +38,6 @@ class Mage_Core_Utility_Layout extends Magento_Test_Utility_Abstract
         $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
         $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFileLayoutUpdatesXml')
-            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
-        $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
-            ->method('asSimplexml')
             ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
         return $layoutUpdate;
     }
