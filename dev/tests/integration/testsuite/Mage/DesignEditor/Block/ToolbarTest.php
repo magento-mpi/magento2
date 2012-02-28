@@ -44,12 +44,6 @@ class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
         $this->assertContains(' id="vde_toolbar"', $this->_block->toHtml());
     }
 
-    public function testGetExitUrl()
-    {
-        $expected = 'http://localhost/index.php/admin/system_design_editor/exit/';
-        $this->assertContains($expected, $this->_block->getExitUrl());
-    }
-
     public function testGetMessages()
     {
         /** @var $session Mage_DesignEditor_Model_Session */

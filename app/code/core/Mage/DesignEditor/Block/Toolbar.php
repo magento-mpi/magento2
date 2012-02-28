@@ -29,16 +29,6 @@ class Mage_DesignEditor_Block_Toolbar extends Mage_Core_Block_Template
     }
 
     /**
-     * Get exit editor URL
-     *
-     * @return string
-     */
-    public function getExitUrl()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_design_editor/exit');
-    }
-
-    /**
      * Returns messages for Visual Design Editor, clears list of session messages
      *
      * @return array
