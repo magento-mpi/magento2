@@ -550,25 +550,22 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        /** @var $resourceModel Mage_Core_Model_Resource_Db_Abstract */
-        $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        $available     = array();
+        $configAttrs   = $this->getAvailableAttributesFromConfig();
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
 
-        $attrCodes = array_keys($resourceModel->getReadConnection()->describeTable($resourceModel->getMainTable()));
-        $attributes = $this->getAvailableAttributesFromConfig();
-        $excluded = $this->getExcludedAttributes($userType, $operation);
-
-        $available = array();
-        foreach ($attrCodes as $code) {
-            if (in_array($code, $excluded)) {
-                continue;
+        /* @var $resource Mage_Sales_Model_Resource_Order */
+        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        if (method_exists($resource, 'getMainTable')) {
+            $attrCodes = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
+            foreach ($attrCodes as $code) {
+                if (in_array($code, $excludedAttrs)) {
+                    continue;
+                }
+                $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
             }
-
-            if (isset($attributes[$code])) {
-                $label = $attributes[$code];
-            } else {
-                $label = $code;
-            }
-            $available[$code] = $label;
+        } else {
+            $available = array_diff($configAttrs, $excludedAttrs);
         }
 
         return $available;
