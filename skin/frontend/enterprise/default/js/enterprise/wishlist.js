@@ -315,7 +315,7 @@ Event.observe(document, 'dom:loaded', function() {
                     (onclick.bind({
                         href: buildUrl(url, wishlist)
                     }))();
-                }, false);
+                }, link.hasClassName('use-ajax'));
                 wishlistSplitButton.addOption(option);
             }
 
