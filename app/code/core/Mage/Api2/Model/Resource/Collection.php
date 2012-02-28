@@ -194,44 +194,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Get available attributes of API resource
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType, $operation)
-    {
-        return $this->getResourceInstance()->getAvailableAttributes($userType, $operation);
-    }
-
-    /**
-     * Get available attributes of API resource from configuration file
-     *
-     * @return array
-     * @throw Exception
-     */
-    public function getAvailableAttributesFromConfig()
-    {
-        $instanceResourceType = $this->getInstanceResourceType();
-
-        if (!$instanceResourceType) {
-            throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
-        }
-        return $this->getConfig()->getResourceAttributes($instanceResourceType);
-    }
-
-    /**
-     * Get instance class for this collection
-     *
-     * @return string
-     */
-    public function getInstanceResourceType()
-    {
-        return $this->getConfig()->getResourceInstance($this->getResourceType());
-    }
-
-    /**
      * Get instance object for this collection
      *
      * @throws Exception
@@ -249,7 +211,16 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         }
 
         $instance->setResourceType($this->getInstanceResourceType());
-
         return $instance;
+    }
+
+    /**
+     * Get instance class for this collection
+     *
+     * @return string
+     */
+    public function getInstanceResourceType()
+    {
+        return $this->getConfig()->getResourceInstance($this->getResourceType());
     }
 }

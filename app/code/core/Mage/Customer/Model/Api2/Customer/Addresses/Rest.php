@@ -55,8 +55,8 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
 
         /* @var $collection Mage_Customer_Model_Resource_Address_Collection */
-        $collection = Mage::getResourceModel('customer/address_collection');
-        $collection->setCustomerFilter($customer);
+        $collection = $customer->getAddressesCollection();
+
         $this->_applyCollectionModifiers($collection);
         return $collection;
     }

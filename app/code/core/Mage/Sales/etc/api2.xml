@@ -136,7 +136,7 @@
                 <group>sales</group>
                 <type>addresses</type>
                 <model>sales/api2_order_addresses</model>
-                <working_model>sales/order_addresses</working_model>
+                <working_model>sales/order_address</working_model>
                 <title>Order Addresses</title>
                 <privileges>
                     <admin>

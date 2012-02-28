@@ -33,15 +33,4 @@
  */
 class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resource_Instance
 {
-    /**
-     * Get available attributes of API resource
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType, $operation)
-    {
-        return $this->_getAvailableAttributes($userType, $operation);
-    }
 }

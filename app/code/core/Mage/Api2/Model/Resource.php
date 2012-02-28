@@ -131,6 +131,49 @@ abstract class Mage_Api2_Model_Resource
     protected $_version;
 
     /**
+     * Internal resource model dispatch
+     */
+    abstract public function dispatch();
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
+     * @param array $data
+     */
+    protected function _create(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
+     * @param array $data
+     */
+    protected function _update(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
      * Render data using registered Renderer
      *
      * @param mixed $data
@@ -227,47 +270,32 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Dummy method to be replaced in descendants
+     * Add success message
      *
-     * @param array $data
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
      */
-    protected function _create(array $data)
+    protected function _successMessage($message, $code, $itemId = null)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        return $this;
     }
 
     /**
-     * Dummy method to be replaced in descendants
+     * Add error message
      *
-     * @return array
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
      */
-    protected function _retrieve()
+    protected function _errorMessage($message, $code, $itemId = null)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        return $this;
     }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @param array $data
-     */
-    protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     */
-    protected function _delete()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Internal resource model dispatch
-     */
-    abstract public function dispatch();
 
     /**
      * Get filter if not exists create
@@ -334,36 +362,6 @@ abstract class Mage_Api2_Model_Resource
 
         return $this->_apiUser;
     }
-
-    /**
-     * Get available attributes of API resource
-     *
-     * This method used for single API resource and for API resource collection.
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    abstract public function getAvailableAttributes($userType, $operation);
-
-    /**
-     * Get excluded attributes for user type
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getExcludedAttributes($userType, $operation)
-    {
-        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
-    }
-
-    /**
-     * Get available attributes of API resource from configuration file
-     *
-     * @return array
-     */
-    abstract public function getAvailableAttributesFromConfig();
 
     /**
      * Set API user
@@ -524,33 +522,6 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Get EAV attributes of working model
-     *
-     * @return array
-     */
-    public function getEavAttributes()
-    {
-        $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
-
-        /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type');
-        $entityType->load($model, 'entity_model');
-
-        /** @var $resourceModel Mage_Eav_Model_Resource_Entity_Attribute_Collection */
-        $resourceModel = Mage::getResourceModel($entityType->getEntityAttributeCollection());
-        $attributesInfo = $resourceModel
-            ->setEntityTypeFilter($entityType)
-            ->getData();
-
-        $attributes = array();
-        foreach ($attributesInfo as $attribute) {
-            $attributes[$attribute['attribute_code']] = $attribute['frontend_label'];
-        }
-
-        return $attributes;
-    }
-
-    /**
      * Get API2 config
      *
      * @return Mage_Api2_Model_Config
@@ -571,30 +542,84 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Add success message
+     * Get available attributes of API resource
      *
-     * @param string $message
-     * @param int $code
-     * @param int $itemId
-     * @return Mage_Api2_Model_Resource
+     * @param string $userType
+     * @param string $operation
+     * @return array
      */
-    protected function _successMessage($message, $code, $itemId = null)
+    public function getAvailableAttributes($userType, $operation)
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
-        return $this;
+        /** @var $resourceModel Mage_Core_Model_Resource_Db_Abstract */
+        $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+
+        $attrCodes = array_keys($resourceModel->getReadConnection()->describeTable($resourceModel->getMainTable()));
+        $attributes = $this->getAvailableAttributesFromConfig();
+        $excluded = $this->getExcludedAttributes($userType, $operation);
+
+        $available = array();
+        foreach ($attrCodes as $code) {
+            if (in_array($code, $excluded)) {
+                continue;
+            }
+
+            if (isset($attributes[$code])) {
+                $label = $attributes[$code];
+            } else {
+                $label = $code;
+            }
+            $available[$code] = $label;
+        }
+
+        return $available;
     }
 
     /**
-     * Add error message
+     * Get excluded attributes for user type
      *
-     * @param string $message
-     * @param int $code
-     * @param int $itemId
-     * @return Mage_Api2_Model_Resource
+     * @param string $userType
+     * @param string $operation
+     * @return array
      */
-    protected function _errorMessage($message, $code, $itemId = null)
+    public function getExcludedAttributes($userType, $operation)
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
-        return $this;
+        return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
+    }
+
+    /**
+     * Get available attributes of API resource from configuration file
+     *
+     * @return array
+     * @throw Exception
+     */
+    public function getAvailableAttributesFromConfig()
+    {
+        return $this->getConfig()->getResourceAttributes($this->getResourceType());
+    }
+
+    /**
+     * Get EAV attributes of working model
+     *
+     * @return array
+     */
+    public function getEavAttributes()
+    {
+        $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
+
+        /** @var $entityType Mage_Eav_Model_Entity_Type */
+        $entityType = Mage::getModel('eav/entity_type')->load($model, 'entity_model');
+
+        /** @var $resourceModel Mage_Eav_Model_Resource_Entity_Attribute_Collection */
+        $resourceModel = Mage::getResourceModel($entityType->getEntityAttributeCollection());
+        $attributesInfo = $resourceModel
+            ->setEntityTypeFilter($entityType)
+            ->getData();
+
+        $attributes = array();
+        foreach ($attributesInfo as $attribute) {
+            $attributes[$attribute['attribute_code']] = $attribute['frontend_label'];
+        }
+
+        return $attributes;
     }
 }
