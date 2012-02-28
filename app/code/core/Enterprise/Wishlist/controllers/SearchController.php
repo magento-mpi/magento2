@@ -212,7 +212,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $messages[] = Mage::helper('enterprise_wishlist')->__('Cannot add the item to shopping cart.');
+                    $messages[] = Mage::helper('enterprise_wishlist')->__('Could not add item to shopping cart.');
                 }
             }
         }
@@ -228,7 +228,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('wishlist')->__('Unable to add the following product(s) to shopping cart: %s.', join(', ', $products));
+            $messages[] = Mage::helper('wishlist')->__('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -236,7 +236,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('wishlist')->__('Product(s) %s have required options. Each of them can be added to cart separately only.', join(', ', $products));
+            $messages[] = Mage::helper('wishlist')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {

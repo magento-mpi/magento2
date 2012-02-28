@@ -132,7 +132,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         $wishlist = Mage::getModel('wishlist/wishlist');
 
         if (!$customerId) {
-            Mage::throwException(Mage::helper('enterprise_wishlist')->__('Login to edit wishlsits.'));
+            Mage::throwException(Mage::helper('enterprise_wishlist')->__('Log in to edit wishlists.'));
         }
         if (!strlen($wishlistName)) {
             Mage::throwException(Mage::helper('enterprise_wishlist')->__('Provide wishlist name'));
@@ -141,7 +141,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             $wishlist->load($wishlistId);
             if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
                 Mage::throwException(
-                    Mage::helper('enterprise_wishlist')->__('You are not authorized to edit this wishlist')
+                    Mage::helper('enterprise_wishlist')->__('The wishlist is not assigned to your account and cannot be edited ')
                 );
             }
         } else {
@@ -150,7 +150,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             $limit = Mage::helper('enterprise_wishlist')->getWishlistLimit();
             if (Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlistCollection)) {
                 Mage::throwException(
-                    Mage::helper('enterprise_wishlist')->__('You are alowed to create only %d wishlists', $limit)
+                    Mage::helper('enterprise_wishlist')->__('Only %d wishlists can be created.', $limit)
                 );
             }
             $wishlist->setCustomerId($customerId);
@@ -236,7 +236,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $message = Mage::helper('enterprise_wishlist')->__('An error occurred while deleting wishlist.');
+            $message = Mage::helper('enterprise_wishlist')->__('An error occurred during wishlist deletion.');
             $this->_getSession()->addException($e, $message);
         }
     }
@@ -319,25 +319,25 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
 
                 $this->_copyItem($item, $wishlist, $qty);
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_wishlist')->__('"%s" was successfully copied to %s', $productName, $wishlistName)
+                    Mage::helper('enterprise_wishlist')->__('"%s" was successfully copied to %s.', $productName, $wishlistName)
                 );
                 Mage::helper('wishlist')->calculate();
             } catch (InvalidArgumentException $e) {
                 $this->_getSession->addError(
-                    Mage::helper('enterprise_wishlist')->__('Item not found')
+                    Mage::helper('enterprise_wishlist')->__('Item was not found.')
                 );
             } catch (DomainException $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_wishlist')->__('"%s" is present in %s', $productName, $wishlistName)
+                    Mage::helper('enterprise_wishlist')->__('"%s" is already present in %s.', $productName, $wishlistName)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
                 if ($productName) {
-                    $message = Mage::helper('enterprise_wishlist')->__('Could not copy "%s"', $productName);
+                    $message = Mage::helper('enterprise_wishlist')->__('Could not copy "%s".', $productName);
                 } else {
-                    $message = Mage::helper('enterprise_wishlist')->__('Could not copy wishlist item');
+                    $message = Mage::helper('enterprise_wishlist')->__('Could not copy wishlist item.');
                 }
                 $this->_getSession()->addError($message);
             }
@@ -394,20 +394,20 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
 
         if (count($notFound)) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items were not found', count($notFound))
+                Mage::helper('enterprise_wishlist')->__('%d items were not found.', count($notFound))
             );
         }
 
         if (count($failed)) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items could not be copied', count($failed))
+                Mage::helper('enterprise_wishlist')->__('%d items could not be copied.', count($failed))
             );
         }
 
         if (count($alreadyPresent)) {
             $names = Mage::helper('core')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items are present in %s: %s', count($alreadyPresent), $wishlistName, $names)
+                Mage::helper('enterprise_wishlist')->__('%d items are already present in %s: %s.', count($alreadyPresent), $wishlistName, $names)
             );
         }
 
@@ -415,7 +415,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             Mage::helper('wishlist')->calculate();
             $names = Mage::helper('core')->escapeHtml($this->_joinProductNames($copied));
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_wishlist')->__('%d items were copied to %s: %s', count($copied), $wishlistName, $names)
+                Mage::helper('enterprise_wishlist')->__('%d items were copied to %s: %s.', count($copied), $wishlistName, $names)
             );
         }
         $this->_redirectReferer();
@@ -488,28 +488,28 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
 
                 $this->_moveItem($item, $wishlist, $wishlists, $this->getRequest()->getParam('qty', null));
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_wishlist')->__('"%s" was successfully moved to %s', $productName, $wishlistName)
+                    Mage::helper('enterprise_wishlist')->__('"%s" was successfully moved to %s.', $productName, $wishlistName)
                 );
                 Mage::helper('wishlist')->calculate();
             } catch (InvalidArgumentException $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('enterprise_wishlist')->__("Item with given id doesn't exist")
+                    Mage::helper('enterprise_wishlist')->__("Item with specified ID doesn't exist.")
                 );
             } catch (DomainException $e) {
                 if ($e->getCode() == 1) {
                     $this->_getSession()->addError(
-                        Mage::helper('enterprise_wishlist')->__('"%s" is already in %s', $productName, $wishlistName)
+                        Mage::helper('enterprise_wishlist')->__('"%s" is already present in %s.', $productName, $wishlistName)
                     );
                 } else {
                     $this->_getSession()->addError(
-                        Mage::helper('enterprise_wishlist')->__('"%s" cannot be moved', $productName)
+                        Mage::helper('enterprise_wishlist')->__('"%s" cannot be moved.', $productName)
                     );
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_wishlist')->__('Could not move wishlist item')
+                    Mage::helper('enterprise_wishlist')->__('Could not move wishlist item.')
                 );
             }
         }
@@ -564,27 +564,27 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
 
         if (count($notFound)) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items were not found', count($notFound))
+                Mage::helper('enterprise_wishlist')->__('%d items were not found.', count($notFound))
             );
         }
 
         if (count($notAllowed)) {
             $names = Mage::helper('core')->escapeHtml($this->_joinProductNames($notAllowed));
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items cannot be moved: %s', count($notAllowed), $names)
+                Mage::helper('enterprise_wishlist')->__('%d items cannot be moved: %s.', count($notAllowed), $names)
             );
         }
 
         if (count($alreadyPresent)) {
             $names = Mage::helper('core')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items are present in %s: %s', count($alreadyPresent), $wishlistName, $names)
+                Mage::helper('enterprise_wishlist')->__('%d items are already present in %s: %s.', count($alreadyPresent), $wishlistName, $names)
             );
         }
 
         if (count($failed)) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_wishlist')->__('%d items could not be moved', count($failed))
+                Mage::helper('enterprise_wishlist')->__('%d items could not be moved.', count($failed))
             );
         }
 
@@ -592,7 +592,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             Mage::helper('wishlist')->calculate();
             $names = Mage::helper('core')->escapeHtml($this->_joinProductNames($moved));
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_wishlist')->__('%d items were succesfully moved to %s: %s', count($moved), $wishlistName, $names)
+                Mage::helper('enterprise_wishlist')->__('%d items were successfully moved to %s: %s.', count($moved), $wishlistName, $names)
             );
         }
         $this->_redirectReferer();
