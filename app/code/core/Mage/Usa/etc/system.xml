@@ -542,7 +542,7 @@
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </allowed_methods>
-                        <smartpost_hubid translate="label">
+                        <smartpost_hubid translate="label comment">
                             <label>Hub ID</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>155</sort_order>

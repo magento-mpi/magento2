@@ -431,7 +431,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Do remote request for and handle errors
      *
-     * @return Mage_Shipping_Model_Rate_Result
+     * @return void
      */
     protected function _getQuotes()
     {
