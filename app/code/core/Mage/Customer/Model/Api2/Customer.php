@@ -42,15 +42,15 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource_Instanc
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        $attributes = $this->getAvailableAttributesFromConfig();
+        $configAttrs = $this->getAvailableAttributesFromConfig();
+        $eavAttrs    = $this->getEavAttributes(true);
+        $attrsCodes  = array_merge(array_keys($configAttrs), array_keys($eavAttrs));
 
-        /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type')->loadByCode('customer');
-
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($entityType->getAttributeCollection() as $attribute) {
-            if ($attribute->getIsVisible()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+        $attributes    = array();
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        foreach ($attrsCodes as $code) {
+            if (!in_array($code, $excludedAttrs)) {
+                $attributes[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $eavAttrs[$code];
             }
         }
 

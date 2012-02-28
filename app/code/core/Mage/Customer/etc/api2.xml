@@ -78,8 +78,45 @@
                     </admin>
                 </privileges>
                 <attributes>
-                    <password>Password</password>
+                    <entity_id>Customer ID</entity_id>
                 </attributes>
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <group_id />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                            <website_id />
+                        </read>
+                        <write>
+                            <entity_id />
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <group_id />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                            <website_id />
+                        </write>
+                    </admin>
+                </exclude_attributes>
                 <routes>
                     <route_main>
                         <mask>/customers</mask>

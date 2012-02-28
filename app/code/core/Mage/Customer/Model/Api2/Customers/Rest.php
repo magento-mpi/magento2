@@ -33,6 +33,11 @@
  */
 abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Model_Api2_Customers
 {
+    /**
+     * Create customer
+     *
+     * @param array $data
+     */
     protected function _create(array $data)
     {
         $this->_validate(
@@ -46,7 +51,6 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
         $customer->setData($data);
 
         try {
-            $customer->validate();
             $customer->save();
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
@@ -75,6 +79,12 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
         $collection = Mage::getResourceModel('customer/customer_collection');
+
+        // TODO: To optimize this action
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+
         $this->_applyCollectionModifiers($collection);
 
         return $collection;
