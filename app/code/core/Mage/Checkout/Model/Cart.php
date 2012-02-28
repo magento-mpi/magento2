@@ -413,7 +413,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
             $qty = isset($itemInfo['qty']) ? (float) $itemInfo['qty'] : false;
             if ($qty > 0) {
                 $item->setQty($qty);
-                if ($item->getHasError()) {
+
+                $itemInQuote = $this->getQuote()->getItemById($item->getId());
+
+                if (!$itemInQuote && $item->getHasError()) {
                     Mage::throwException($item->getMessage());
                 }
 
