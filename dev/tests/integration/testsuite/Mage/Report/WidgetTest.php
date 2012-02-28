@@ -26,7 +26,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('list_names', $templates);
         $this->assertArrayHasKey('list_images', $templates);
 
-        $blocks = $config->xpath('supported_blocks');
+        $blocks = $config->xpath('supported_containers');
         $blocks = (array) $blocks[0]->children();
         $this->assertArrayHasKey('left_column', $blocks);
         $this->assertArrayHasKey('main_content', $blocks);
@@ -45,7 +45,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('list_names', $templates);
         $this->assertArrayHasKey('list_images', $templates);
 
-        $blocks = $config->xpath('supported_blocks');
+        $blocks = $config->xpath('supported_containers');
         $blocks = (array) $blocks[0]->children();
         $this->assertArrayHasKey('left_column', $blocks);
         $this->assertArrayHasKey('main_content', $blocks);

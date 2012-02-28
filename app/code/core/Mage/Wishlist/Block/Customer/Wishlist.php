@@ -143,7 +143,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
             Mage::throwException($this->__("Helper for wishlist options rendering doesn't implement required interface."));
         }
 
-        $block = $this->getChild('item_options');
+        $block = $this->getChildBlock('item_options');
         if (!$block) {
             return '';
         }

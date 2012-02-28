@@ -71,7 +71,11 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
     public function getChildPdfAsArray()
     {
         $result = array();
-        foreach ($this->getChild() as $child) {
+        foreach ($this->getChildNames() as $name) {
+            $child = $this->getLayout()->getBlock($name);
+            if (!$child) {
+                continue;
+            }
             if (is_callable(array($child, 'toPdf'))) {
                 $result[] = $child->toPdf();
             }

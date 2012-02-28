@@ -112,7 +112,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->getChild('search_button')->setOnclick('checkoutObj.searchProducts()');
+        $this->getChildBlock('search_button')->setOnclick('checkoutObj.searchProducts()');
         return $this;
     }
 

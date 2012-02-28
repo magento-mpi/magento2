@@ -169,7 +169,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initLayoutMessages('Mage_Paypal_Model_Session');
             $this->getLayout()->getBlock('paypal.express.review')
                 ->setQuote($this->_getQuote())
-                ->getChild('details')->setQuote($this->_getQuote())
+                ->getChildBlock('details')->setQuote($this->_getQuote())
             ;
             $this->renderLayout();
             return;

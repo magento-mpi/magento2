@@ -31,13 +31,13 @@
 
 
     <adminhtml_customerbalance_form>
-        <block type="Mage_Core_Block_Text_List" name="root">
+        <container name="root" label="Root">
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml">
                 <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
             </block>
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form" name="customerbalance.form"/>
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History" name="customerbalance.history"/>
-        </block>
+        </container>
     </adminhtml_customerbalance_form>
 
     <adminhtml_sales_order_view>

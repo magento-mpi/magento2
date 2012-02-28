@@ -70,7 +70,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getAddButtonId()
     {
-        return $this->getChild('add_button')->getId();
+        return $this->getChildBlock('add_button')->getId();
     }
 
     /**

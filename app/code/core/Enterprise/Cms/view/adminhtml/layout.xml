@@ -78,11 +78,11 @@
         <reference name="root">
             <action method="setTemplate"><template>Enterprise_Cms::page/preview.phtml</template></action>
             <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form" name="preview_form" />
-            <block type="Mage_Core_Block_Text_List" name="tools" as="tools">
+            <container name="tools" as="tools" label="Tools">
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store" name="store_switcher" template="page/preview/store.phtml" />
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision" name="revision_switcher" template="page/preview/revision.phtml" />
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons" name="preview_control_buttons" />
-            </block>
+            </container>
         </reference>
     </adminhtml_cms_page_revision_preview>
 

@@ -108,7 +108,7 @@
                     </div>
                 </li>
 
-                <?php $addressAttributes = $this->getChild('customer_form_billing_address_user_defined_attributes');?>
+                <?php $addressAttributes = $this->getChildBlock('customer_form_billing_address_user_defined_attributes');?>
                 <?php if ($addressAttributes): ?>
                     <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
                     <?php $addressAttributes->setFieldIdFormat('billing:%1$s')->setFieldNameFormat('billing[%1$s]');?>
@@ -141,7 +141,7 @@
                     <?php endif ?>
                 </li>
                 <?php endif; ?>
-                <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
+                <?php $customerAttributes = $this->getChildBlock('customer_form_customer_user_defined_attributes');?>
                 <?php if ($customerAttributes): ?>
                     <?php $customerAttributes->setEntityModelClass('Mage_Customer_Model_Customer')->setFieldIdFormat('billing:%1$s');?>
                     <?php $customerAttributes->setFieldNameFormat('billing[%1$s]')->setShowContainer(false);?>

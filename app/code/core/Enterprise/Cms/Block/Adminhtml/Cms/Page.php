@@ -28,7 +28,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Mage_Adminhtml_Block_Templ
         /* @var $pageGrid Mage_Adminhtml_Block_Cms_Page_Grid */
         $page = $this->getLayout()->getBlock('cms_page');
         if ($page) {
-            $pageGrid = $page->getChild('grid');
+            $pageGrid = $page->getChildBlock('grid');
             if($pageGrid) {
                 $pageGrid->addColumnAfter('versioned', array(
                     'index'     => 'under_version_control',

@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Core_
      */
     protected function _toHtml()
     {
-        $children = $this->getSortedChildren();
+        $children = $this->getChildNames();
         $total = count($children);
         $i = 0;
         $this->setText('');

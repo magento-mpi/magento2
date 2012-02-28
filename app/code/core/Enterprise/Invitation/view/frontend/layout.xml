@@ -25,11 +25,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Invitation_Block_Form" name="invitationForm" template="Enterprise_Invitation::form.phtml">
-                <block type="Mage_Page_Block_Html_Wrapper" name="invitations.form.form.before" as="form_before" translate="label">
-                    <label>Invitation Form Before</label>
-                    <!--action method="setMayBeInvisible"><value>1</value></action-->
-                    <action method="setElementClass"><value>rewards</value></action>
-                </block>
+                <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
             </block>
         </reference>
     </enterprise_invitation_index_send>
@@ -39,11 +35,7 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_Invitation_Block_Customer_List" name="invitations_list" template="list.phtml">
-                <block type="Mage_Page_Block_Html_Wrapper" name="invitations.list.list.before" as="list_before" translate="label">
-                    <label>Invitation List Before</label>
-                    <!--action method="setMayBeInvisible"><value>1</value></action-->
-                    <action method="setElementClass"><value>rewards</value></action>
-                </block>
+                <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTag="div" htmlClass="rewards"/>
             </block>
         </reference>
     </enterprise_invitation_index_index>

@@ -9,13 +9,13 @@
  */
 
 /**
- * Widget Instance block reference chooser
+ * A chooser for container for widget instances
  *
  * @category    Mage
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
     extends Mage_Adminhtml_Block_Widget
 {
     protected $_layoutHandlesXml = null;
@@ -26,42 +26,30 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
 
     protected $_layoutHandle = array();
 
-    protected $_blocks = array();
+    protected $_containers = array();
 
-    protected $_allowedBlocks = array();
+    protected $_allowedContainers = array();
 
     /**
-     * Setter
+     * Set a list of container names to be filtered
      *
-     * @param array $allowedBlocks
-     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
+     * @param array $names
+     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
      */
-    public function setAllowedBlocks($allowedBlocks)
+    public function setAllowedContainers($names)
     {
-        $this->_allowedBlocks = $allowedBlocks;
+        $this->_allowedContainers = $names;
         return $this;
     }
 
     /**
-     * Add allowed block
-     *
-     * @param string $block
-     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
-     */
-    public function addAllowedBlock($block)
-    {
-        $this->_allowedBlocks[] = $block;
-        return $this;
-    }
-
-    /**
-     * Getter
+     * Get a list of container names that a widget is restricted to
      *
      * @return array
      */
-    public function getAllowedBlocks()
+    public function getAllowedContainers()
     {
-        return $this->_allowedBlocks;
+        return $this->_allowedContainers;
     }
 
     /**
@@ -69,7 +57,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
      * If string given exlopde to array by ',' delimiter
      *
      * @param string|array $layoutHandle
-     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
+     * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
      */
     public function setLayoutHandle($layoutHandle)
     {
@@ -141,19 +129,19 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
             ->setClass('required-entry select')
             ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\','
                 .' this.up(\'div.group_container\'), this.value)"')
-            ->setOptions($this->getBlocks())
+            ->setOptions($this->getContainers())
             ->setValue($this->getSelected());
         return parent::_toHtml().$selectBlock->toHtml();
     }
 
     /**
-     * Retrieve blocks array
+     * Collect available containers in the system and return them as an array of label-values
      *
      * @return array
      */
-    public function getBlocks()
+    public function getContainers()
     {
-        if (empty($this->_blocks)) {
+        if (empty($this->_containers)) {
             /* @var $update Mage_Core_Model_Layout_Update */
             $update = Mage::getModel('Mage_Core_Model_Layout')->getUpdate();
             /* @var $layoutHandles Mage_Core_Model_Layout_Element */
@@ -162,13 +150,13 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
                 $this->getPackage(),
                 $this->getTheme());
             $this->_collectLayoutHandles();
-            $this->_collectBlocks();
-            array_unshift($this->_blocks, array(
+            $this->_collectContainers();
+            array_unshift($this->_containers, array(
                 'value' => '',
                 'label' => Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --')
             ));
         }
-        return $this->_blocks;
+        return $this->_containers;
     }
 
     /**
@@ -205,34 +193,17 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
     /**
      * Filter and collect blocks into array
      */
-    protected function _collectBlocks()
+    protected function _collectContainers()
     {
-        if ($blocks = $this->_layoutHandleUpdatesXml->xpath('//block/label/..')) {
-            /* @var $block Mage_Core_Model_Layout_Element */
-            foreach ($blocks as $block) {
-                if ((string)$block->getAttribute('name') && $this->_filterBlock($block)) {
-                    $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($block));
-                    $this->_blocks[(string)$block->getAttribute('name')] = $helper->__((string)$block->label);
+        if ($nodes = $this->_layoutHandleUpdatesXml->xpath('//container')) {
+            /* @var $node Mage_Core_Model_Layout_Element */
+            foreach ($nodes as $node) {
+                if (!$this->_allowedContainers || in_array($node->getAttribute('name'), $this->_allowedContainers)) {
+                    $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($node));
+                    $this->_containers[$node->getAttribute('name')] = $helper->__($node->getAttribute('label'));
                 }
             }
         }
-        asort($this->_blocks, SORT_STRING);
-    }
-
-    /**
-     * Check whether given block match allowed block types
-     *
-     * @param Mage_Core_Model_Layout_Element $block
-     * @return boolean
-     */
-    protected function _filterBlock($block)
-    {
-        if (!$this->getAllowedBlocks()) {
-            return true;
-        }
-        if (in_array((string)$block->getAttribute('name'), $this->getAllowedBlocks())) {
-            return true;
-        }
-        return false;
+        asort($this->_containers, SORT_STRING);
     }
 }

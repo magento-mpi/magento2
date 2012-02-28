@@ -123,12 +123,12 @@
         </reference>
         <update handle="MAP_popup" />
         <reference name="product.tooltip">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Mage_Paypal">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
     </enterprise_giftregistry_view_index>
 

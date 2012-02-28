@@ -62,14 +62,11 @@
 
     <catalog_product_view>
         <reference name="product.info.addtocart">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypaluk.wrapper" translate="label">
-                <label>PayPal Express Checkout (Payflow Edition) Shortcut Wrapper</label>
-                <action method="setHtmlTagName"><tag>p</tag></action>
-                <action method="setElementClass"><class>paypal-logo</class></action>
+            <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="p" htmlClass="paypal-logo">
                 <block type="Mage_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Mage_Paypal::express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
         <update handle="SHORTCUT_uk_popup" />
     </catalog_product_view>
@@ -124,12 +121,12 @@
     <SHORTCUT_uk_popup translate="label">
         <label>PaypalUk Shortcut Popup</label>
         <reference name="product.tooltip">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypaluk.wrapper" translate="label">
+            <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Mage_Paypal::express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
     </SHORTCUT_uk_popup>
 

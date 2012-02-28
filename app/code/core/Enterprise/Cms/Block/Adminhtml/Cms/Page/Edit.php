@@ -44,7 +44,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                         ));
                     }
 
-                    $formBlock = $editBlock->getChild('form');
+                    $formBlock = $editBlock->getChildBlock('form');
                     if ($formBlock) {
                         $formBlock->setTemplate('Enterprise_Cms::page/edit/form.phtml');
                         if ($page->getUnderVersionControl()) {

@@ -197,7 +197,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                 break;
             case 'promo_quote_edit_tabs' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
-                    $relatedBannersBlock = $block->getChild('salesrule.related.banners');
+                    $relatedBannersBlock = $block->getChildBlock('salesrule.related.banners');
                     if (!is_null($relatedBannersBlock)) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
@@ -205,7 +205,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                 break;
             case 'promo_catalog_edit_tabs' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
-                    $relatedBannersBlock = $block->getChild('catalogrule.related.banners');
+                    $relatedBannersBlock = $block->getChildBlock('catalogrule.related.banners');
                     if (!is_null($relatedBannersBlock)) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }

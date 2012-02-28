@@ -14,9 +14,17 @@
  *
  * @category   Mage
  * @package    Mage_Core
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
+    /**
+     * Names of container options in layout
+     */
+    const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
+    const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
+    const CONTAINER_OPT_HTML_ID    = 'htmlId';
+
     /**
      * Layout Update module
      *
@@ -60,12 +68,45 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_directOutput = false;
 
     /**
+     * Available options for containers in layout
+     *
+     * @var array
+     */
+    protected $_containerOptions = array(
+        self::CONTAINER_OPT_HTML_CLASS,
+        self::CONTAINER_OPT_HTML_ID,
+        self::CONTAINER_OPT_HTML_TAG,
+    );
+
+    /**
+     * Cache of generated elements' HTML
+     *
+     * @var array
+     */
+    protected $_elementsHtmlCache = array();
+
+    /**
+     * Layout structure model
+     *
+     * @var Mage_Core_Model_Layout_Structure
+     */
+    protected $_structure;
+
+    /**
+     * Increment for anonymous block names
+     *
+     * @var int
+     */
+    protected $_nameIncrement = 0;
+
+    /**
      * Class constructor
      *
      * @param array $data
      */
     public function __construct($data=array())
     {
+        $this->_structure = Mage::getModel('Mage_Core_Model_Layout_Structure');
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update');
@@ -117,49 +158,43 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve derect output flag
+     * Retrieve direct output flag
      *
      * @return bool
      */
-    public function getDirectOutput()
+    public function isDirectOutput()
     {
         return $this->_directOutput;
     }
 
     /**
-     * Loyout xml generation
+     * Layout xml generation
      *
      * @return Mage_Core_Model_Layout
      */
     public function generateXml()
     {
         $xml = $this->getUpdate()->asSimplexml();
-        $removeInstructions = $xml->xpath("//remove");
-        if (is_array($removeInstructions)) {
-            foreach ($removeInstructions as $infoNode) {
-                $attributes = $infoNode->attributes();
-                $blockName = (string)$attributes->name;
-                if ($blockName) {
-                    $ignoreNodes = $xml->xpath("//block[@name='".$blockName."']");
-                    if (!is_array($ignoreNodes)) {
-                        continue;
-                    }
-                    $ignoreReferences = $xml->xpath("//reference[@name='".$blockName."']");
-                    if (is_array($ignoreReferences)) {
-                        $ignoreNodes = array_merge($ignoreNodes, $ignoreReferences);
-                    }
+        $removeInstructions = (array)$xml->xpath("//remove[@name]");
+        foreach ($removeInstructions as $infoNode) {
+            $attributes = $infoNode->attributes();
+            $blockName = (string)$attributes->name;
+            $ignoreNodes = $xml->xpath("//block[@name='" . $blockName . "']");
+            if (!is_array($ignoreNodes)) {
+                continue;
+            }
+            $ignoreReferences = $xml->xpath("//reference[@name='" . $blockName . "']");
+            if (is_array($ignoreReferences)) {
+                $ignoreNodes = array_merge($ignoreNodes, $ignoreReferences);
+            }
 
-                    foreach ($ignoreNodes as $block) {
-                        if ($block->getAttribute('ignore') !== null) {
-                            continue;
-                        }
-                        if (($acl = (string)$attributes->acl) && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl)) {
-                            continue;
-                        }
-                        if (!isset($block->attributes()->ignore)) {
-                            $block->addAttribute('ignore', true);
-                        }
-                    }
+            foreach ($ignoreNodes as $block) {
+                if ($block->getAttribute('ignore') !== null || (($acl = (string)$attributes->acl)
+                    && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl))) {
+                    continue;
+                }
+                if (!isset($block->attributes()->ignore)) {
+                    $block->addAttribute('ignore', true);
                 }
             }
         }
@@ -170,21 +205,23 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Create layout blocks hierarchy from layout xml configuration
      *
-     * @param Mage_Core_Layout_Element|null $parent
+     * @param Mage_Core_Model_Layout_Element|null $parent
      */
     public function generateBlocks($parent=null)
     {
         if (empty($parent)) {
             $parent = $this->getNode();
         }
+        /** @var Mage_Core_Model_Layout_Element $node  */
         foreach ($parent as $node) {
             $attributes = $node->attributes();
             if ((bool)$attributes->ignore) {
                 continue;
             }
             switch ($node->getName()) {
+                case 'container':
                 case 'block':
-                    $this->_generateBlock($node, $parent);
+                    $this->_generateElement($node, $parent);
                     $this->generateBlocks($node);
                     break;
 
@@ -200,136 +237,320 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Add block object to layout based on xml node data
+     * Creates block/container object based on xml node data
      *
-     * @param Varien_Simplexml_Element $node
-     * @param Varien_Simplexml_Element $parent
+     * @param Mage_Core_Model_Layout_Element $node
+     * @param Mage_Core_Model_Layout_Element $parent
      * @return Mage_Core_Model_Layout
+     * @throws Magento_Exception
      */
-    protected function _generateBlock($node, $parent)
+    protected function _generateElement($node, $parent)
     {
-        if (!empty($node['class'])) {
-            $className = (string)$node['class'];
-        } else {
-            $className = (string)$node['type'];
-        }
+        $elementType = $node->getName();
+        $name = $node->getAttribute('name');
 
-        $blockName = (string)$node['name'];
-        $_profilerKey = 'BLOCK:' . $blockName;
+        $_profilerKey = strtoupper($elementType) . ':' . $name;
         Magento_Profiler::start($_profilerKey);
 
-        $block = $this->addBlock($className, $blockName);
-        if (!$block) {
-            return $this;
+        $parentName = $node->getAttribute('parent');
+        if (is_null($parentName)) {
+            $parentName = $parent->getElementName();
         }
 
-        if (!empty($node['parent'])) {
-            $parentBlock = $this->getBlock((string)$node['parent']);
-        } else {
-            $parentName = $parent->getBlockName();
-            if (!empty($parentName)) {
-                $parentBlock = $this->getBlock($parentName);
-            }
-        }
-        if (!empty($parentBlock)) {
-            $alias = isset($node['as']) ? (string)$node['as'] : '';
-            if (isset($node['before'])) {
-                $sibling = (string)$node['before'];
-                if ('-'===$sibling) {
-                    $sibling = '';
-                }
-                $parentBlock->insert($block, $sibling, false, $alias);
-            } elseif (isset($node['after'])) {
-                $sibling = (string)$node['after'];
-                if ('-'===$sibling) {
-                    $sibling = '';
-                }
-                $parentBlock->insert($block, $sibling, true, $alias);
-            } else {
-                $parentBlock->append($block, $alias);
-            }
-        }
-        if (!empty($node['template'])) {
-            $block->setTemplate((string)$node['template']);
+        $alias = $node->getAttribute('as');
+        if (!$alias) {
+            $alias = $name;
         }
 
-        if (!empty($node['output'])) {
-            $method = (string)$node['output'];
-            $this->addOutputBlock($blockName, $method);
+        $sibling = $node->getSibling();
+        $after = true;
+        if (isset($node['before'])) {
+            $after = false;
         }
+
+        $options = $this->_getValidNodeOptions($node);
+        $elementName = $this->_structure
+            ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
+
+        $this->_filterBlocksList($elementName);
+
+        if ($this->_structure->isBlock($elementName)) {
+            $block = $this->_generateBlock($node);
+            $updatedName = $block->getNameInLayout();
+            if (empty($name)) {
+                if (empty($alias)) {
+                    $this->_structure->setElementAttribute($elementName, 'alias', $updatedName);
+                }
+                $this->_structure->setElementAttribute($elementName, 'name', $updatedName);
+            }
+        }
+
         Magento_Profiler::stop($_profilerKey);
 
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Insert block into layout structure
      *
-     * @param Varien_Simplexml_Element $node
-     * @param Varien_Simplexml_Element $parent
+     * @param $parentName
+     * @param $name
+     * @param $alias
+     * @param bool $after
+     * @param string $sibling
+     * @return bool|string
+     */
+    public function insertBlock($parentName, $name, $alias, $after = true, $sibling = '')
+    {
+        return $this->_structure->insertBlock($parentName, $name, $alias, $after, $sibling);
+    }
+
+    /**
+     * Remove child element from parent
+     *
+     * @param $parentName
+     * @param $alias
      * @return Mage_Core_Model_Layout
      */
-    protected function _generateAction($node, $parent)
+    public function unsetChild($parentName, $alias)
     {
-        if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
-            if (!Mage::getStoreConfigFlag($configPath)) {
-                return $this;
+        $this->_structure->unsetChild($parentName, $alias);
+        return $this;
+    }
+
+    /**
+     * Get child block if exists
+     *
+     * @param $parentName
+     * @param $alias
+     * @return bool|Mage_Core_Block_Abstract
+     */
+    public function getChildBlock($parentName, $alias)
+    {
+        $name = $this->_structure->getChildName($parentName, $alias);
+        if ($this->_structure->isBlock($name)) {
+            return $this->getBlock($name);
+        }
+        return false;
+    }
+
+    /**
+     * Extract valid options from a node
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return array
+     */
+    protected function _getValidNodeOptions(Mage_Core_Model_Layout_Element $node)
+    {
+        $options = array();
+        foreach ($this->_containerOptions as $optName) {
+            if ($value = $node->getAttribute($optName)) {
+                $options[$optName] = $value;
             }
         }
 
-        $method = (string)$node['method'];
-        if (!empty($node['block'])) {
-            $parentName = (string)$node['block'];
+        return $options;
+    }
+
+    /**
+     * Creates block object based on xml node data and add it to the layout
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _generateBlock(Mage_Core_Model_Layout_Element $node)
+    {
+        if (!empty($node['class'])) {
+            $className = (string)$node['class'];
         } else {
-            $parentName = $parent->getBlockName();
+            $className = (string)$node['type'];
+        }
+        $elementName = $node->getAttribute('name');
+
+        $block = $this->addBlock($className, $elementName);
+        if (!$block) {
+            return $this;
+        }
+        if (!empty($node['template'])) {
+            $block->setTemplate((string)$node['template']);
+        }
+
+        // TODO: remove output directive
+        if (!empty($node['output'])) {
+            $method = (string)$node['output'];
+            $this->addOutputBlock($elementName, $method);
+        }
+
+        return $block;
+    }
+
+    /**
+     * Set child element into layout structure
+     *
+     * @param $parentName
+     * @param $elementName
+     * @param $alias
+     * @return Mage_Core_Model_Layout
+     */
+    public function setChild($parentName, $elementName, $alias)
+    {
+        $block = $this->getBlock($elementName);
+        if ($block) {
+            $elementName = $block->getNameInLayout();
+            if (empty($alias)) {
+                $alias = $elementName;
+            }
+        }
+
+        $this->_structure->setChild($parentName, $elementName, $alias);
+
+        return $this;
+    }
+
+    /**
+     * Get list of child names
+     *
+     * @param string $parentName
+     * @return array
+     */
+    public function getChildNames($parentName)
+    {
+        return $this->_structure->getChildNames($parentName);
+    }
+
+    /**
+     * Get child name by alias
+     *
+     * @param string $parentName
+     * @param string $alias
+     * @return bool|string
+     */
+    public function getChildName($parentName, $alias)
+    {
+        return $this->_structure->getChildName($parentName, $alias);
+    }
+
+    /**
+     * Find an element in layout and render it
+     *
+     * Returns element's output as string or false if element is not found
+     *
+     * @param string $name
+     * @param bool $useCache
+     * @return string
+     */
+    public function renderElement($name, $useCache = true)
+    {
+        if ($useCache && isset($this->_elementsHtmlCache[$name])) {
+            return $this->_elementsHtmlCache[$name];
+        }
+
+        if ($this->_structure->isBlock($name)) {
+            return $this->_renderBlock($name);
+        }
+        $html = $this->_renderContainer($name);
+
+        $this->_elementsHtmlCache[$name] = $html;
+
+        return $html;
+    }
+
+    public function addToParentGroup($name, $parentName, $parentGroupName)
+    {
+        return $this->_structure->addToParentGroup($name, $parentName, $parentGroupName);
+    }
+
+    /**
+     * Get element names for specified group
+     *
+     * @param string $name
+     * @param string $groupName
+     * @return array
+     */
+    public function getGroupChildNames($name, $groupName)
+    {
+        return $this->_structure->getGroupChildNames($name, $groupName);
+    }
+
+    /**
+     * Gets HTML of block element
+     *
+     * @param string $name
+     * @return string
+     * @throws Magento_Exception
+     */
+    protected function _renderBlock($name)
+    {
+        $block = $this->getBlock($name);
+        return $block ? $block->toHtml() : '';
+    }
+
+    /**
+     * Gets HTML of container element
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function _renderContainer($name)
+    {
+        $html = '';
+        $children = $this->_structure->getChildNames($name);
+        foreach ($children as $child) {
+            $html .= $this->renderElement($child);
+        }
+        if ($html == '' || !$this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG)) {
+            return $html;
+        }
+
+        $htmlId = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_ID);
+        if ($htmlId) {
+            $htmlId = ' id="' . $htmlId . '"';
+        }
+
+        $htmlClass = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_CLASS);
+        if ($htmlClass) {
+            $htmlClass = ' class="'. $htmlClass . '"';
+        }
+
+        $htmlTag = $this->_structure->getElementAttribute($name, self::CONTAINER_OPT_HTML_TAG);
+
+        $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
+
+        return $html;
+    }
+
+    /**
+     * Run action defined in layout update
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @param Mage_Core_Model_Layout_Element $parent
+     * @return Mage_Core_Model_Layout
+     * @throws Magento_Exception
+     */
+    protected function _generateAction($node, $parent)
+    {
+        $configPath = $node->getAttribute('ifconfig');
+        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+            return $this;
+        }
+
+        if (Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_CONTAINER === $parent->getName()) {
+            throw new Magento_Exception('Action can not be placed inside container');
+        }
+
+        $method = $node->getAttribute('method');
+        $parentName = $node->getAttribute('block');
+        if (empty($parentName)) {
+            $parentName = $parent->getElementName();
         }
 
         $_profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
         Magento_Profiler::start($_profilerKey);
 
-        if (!empty($parentName)) {
-            $block = $this->getBlock($parentName);
-        }
+        $block = $this->getBlock($parentName);
         if (!empty($block)) {
 
-            $args = (array)$node->children();
-            unset($args['@attributes']);
-
-            foreach ($args as $key => $arg) {
-                if (($arg instanceof Mage_Core_Model_Layout_Element)) {
-                    if (isset($arg['helper'])) {
-                        $helper = (string)$arg['helper'];
-                        if (strpos($helper, '::') === false) {
-                            $helperName = explode('/', $helper);
-                            $helperMethod = array_pop($helperName);
-                            $helperName = implode('/', $helperName);
-                        } else {
-                            list($helperName, $helperMethod) = explode('::', $helper);
-                        }
-                        $arg = $arg->asArray();
-                        unset($arg['@']);
-                        $args[$key] = call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
-                    } else {
-                        /**
-                         * if there is no helper we hope that this is assoc array
-                         */
-                        $arr = array();
-                        foreach($arg as $subkey => $value) {
-                            $arr[(string)$subkey] = $value->asArray();
-                        }
-                        if (!empty($arr)) {
-                            $args[$key] = $arr;
-                        }
-                    }
-                }
-            }
-
-            if (isset($node['json'])) {
-                $json = explode(' ', (string)$node['json']);
-                foreach ($json as $arg) {
-                    $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($args[$arg]);
-                }
-            }
+            $args = $this->_extractArgs($node);
 
             $this->_translateLayoutNode($node, $args);
             call_user_func_array(array($block, $method), $args);
@@ -338,6 +559,90 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Magento_Profiler::stop($_profilerKey);
 
         return $this;
+    }
+
+    /**
+     * Update args according to its type
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return array
+     */
+    protected function _extractArgs($node)
+    {
+        $args = (array)$node->children();
+        unset($args['@attributes']);
+
+        foreach ($args as $key => $arg) {
+            if (($arg instanceof Mage_Core_Model_Layout_Element)) {
+                if (isset($arg['helper'])) {
+                    $args[$key] = $this->_getArgsByHelper($arg);
+                } else {
+                    /**
+                     * if there is no helper we hope that this is assoc array
+                     */
+                    $arr = $this->_getArgsFromAssoc($arg);
+                    if (!empty($arr)) {
+                        $args[$key] = $arr;
+                    }
+                }
+            }
+        }
+
+        if (isset($node['json'])) {
+            $json = explode(' ', (string)$node['json']);
+            foreach ($json as $arg) {
+                $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($args[$arg]);
+            }
+        }
+
+        return $args;
+    }
+
+    /**
+     * Get args by helper
+     *
+     * @param Mage_Core_Model_Layout_Element $arg
+     * @return mixed
+     */
+    protected function _getArgsByHelper(Mage_Core_Model_Layout_Element $arg)
+    {
+        $helper = (string)$arg['helper'];
+        if (strpos($helper, '::') === false) {
+            $helperName = explode('/', $helper);
+            $helperMethod = array_pop($helperName);
+            $helperName = implode('/', $helperName);
+        } else {
+            list($helperName, $helperMethod) = explode('::', $helper);
+        }
+        $arg = $arg->asArray();
+        unset($arg['@']);
+        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
+    }
+
+    /**
+     * Get args from associative array
+     *
+     * @param array $array
+     * @return array
+     */
+    protected function _getArgsFromAssoc($array)
+    {
+        $arr = array();
+        foreach ($array as $key => $value) {
+            $arr[(string)$key] = $value->asArray();
+        }
+        return $arr;
+    }
+
+    /**
+     * Check if element exists in layout structure
+     *
+     * @param $name
+     * @return bool
+     */
+    public function hasElement($name)
+    {
+        return $this->_structure->hasElement($name);
     }
 
     /**
@@ -353,8 +658,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             foreach ($items as $arg) {
                 if (isset($node['module'])) {
                     $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
-                }
-                else {
+                } else {
                     $args[$arg] = Mage::helper('Mage_Core_Helper_Data')->__($args[$arg]);
                 }
             }
@@ -365,7 +669,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Save block in blocks registry
      *
      * @param string $name
-     * @param Mage_Core_Model_Layout $block
+     * @param Mage_Core_Block_abstract $block
+     * @return Mage_Core_Model_Layout
      */
     public function setBlock($name, $block)
     {
@@ -376,12 +681,17 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Remove block from registry
      *
-     * @param string $name
+     * @param $name
+     * @return Mage_Core_Model_Layout
      */
-    public function unsetBlock($name)
+    public function unsetElement($name)
     {
-        $this->_blocks[$name] = null;
-        unset($this->_blocks[$name]);
+        if (isset($this->_blocks[$name])) {
+            $this->_blocks[$name] = null;
+            unset($this->_blocks[$name]);
+        }
+        $this->_structure->unsetElement($name);
+
         return $this;
     }
 
@@ -395,21 +705,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $name='', array $attributes = array())
     {
-        try {
-            $block = $this->_getBlockInstance($type, $attributes);
-        } catch (Exception $e) {
-            Mage::logException($e);
-            return false;
-        }
+        $block = $this->_getBlockInstance($type, $attributes);
 
         if (empty($name) || '.'===$name{0}) {
             $block->setIsAnonymous(true);
             if (!empty($name)) {
                 $block->setAnonSuffix(substr($name, 1));
             }
-            $name = 'ANONYMOUS_'.sizeof($this->_blocks);
-        } elseif (isset($this->_blocks[$name]) && Mage::getIsDeveloperMode()) {
-            //Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Block with name "%s" already exists', $name));
+            $name = 'ANONYMOUS_' . $this->_nameIncrement++;
         }
 
         $block->setType($type);
@@ -425,13 +728,57 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|Mage_Core_Block_Abstract $blockClass
+     * @param string|Mage_Core_Block_Abstract $block
      * @param string $blockName
      * @return Mage_Core_Block_Abstract
      */
     public function addBlock($block, $blockName)
     {
         return $this->createBlock($block, $blockName);
+    }
+
+    /**
+     * Append block to the structure
+     *
+     * Check if block exists in layout
+     *
+     * @param string $parentName
+     * @param string|Mage_Core_Block_Abstract $block
+     * @return bool
+     * @throws Magento_Exception
+     */
+    public function appendBlock($parentName, $block)
+    {
+        if (is_string($block)) {
+            $block = $this->getBlock($block);
+        }
+        if (!($block instanceof Mage_Core_Block_Abstract)) {
+            return false;
+        }
+
+        $this->_structure->insertBlock($parentName, $block->getNameInLayout());
+
+        return true;
+    }
+
+    /**
+     * Rename element in layout and layout structure
+     *
+     * @param string $oldName
+     * @param string $newName
+     * @return bool;
+     */
+    public function renameElement($oldName, $newName)
+    {
+        $renamed = false;
+        if (isset($this->_blocks[$oldName])) {
+            $block = $this->_blocks[$oldName];
+            $this->_blocks[$oldName] = null;
+            unset($this->_blocks[$oldName]);
+            $this->_blocks[$newName] = $block;
+            $renamed = true;
+        }
+        return $this->_structure->setElementAttribute($oldName, 'name', $newName) || $renamed;
     }
 
     /**
@@ -481,6 +828,22 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
     }
 
+    public function getParentName($childName)
+    {
+        return $this->_structure->getParentName($childName);
+    }
+
+    /**
+     * Get element alias by name
+     *
+     * @param $name
+     * @return string
+     */
+    public function getElementAlias($name)
+    {
+        return $this->_structure->getElementAlias($name);
+    }
+
     /**
      * Add a block to output
      *
@@ -510,7 +873,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $out = '';
         if (!empty($this->_output)) {
             foreach ($this->_output as $callback) {
-                $out .= $this->getBlock($callback[0])->$callback[1]();
+                $out .= $this->renderElement($callback[0]);
             }
         }
 
@@ -606,4 +969,30 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return 'Mage_Core';
     }
+
+    /**
+     * Gets Layout Structure model
+     *
+     * @return Mage_Core_Model_Layout_Structure
+     */
+    public function getStructure()
+    {
+        return $this->_structure;
+    }
+
+    /**
+     * Remove block from the list if added container with the same name
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function _filterBlocksList($name)
+    {
+        if (isset($this->_blocks[$name]) && !$this->_structure->isBlock($name)) {
+            unset($this->_blocks[$name]);
+            return true;
+        }
+        return false;
+    }
+
 }

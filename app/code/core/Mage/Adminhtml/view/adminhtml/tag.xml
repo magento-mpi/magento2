@@ -47,26 +47,26 @@
     </adminhtml_tag_pending>
 
     <adminhtml_tag_ajaxgrid>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_Adminhtml_Block_Tag_Tag_Grid" name="adminhtml.tag.tag.grid"/>
-        </block>
+        </container>
     </adminhtml_tag_ajaxgrid>
 
     <adminhtml_tag_ajaxpendinggrid>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_Adminhtml_Block_Tag_Grid_Pending" name="adminhtml.tag.grid.pending"/>
-        </block>
+        </container>
     </adminhtml_tag_ajaxpendinggrid>
 
     <adminhtml_tag_product>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_Adminhtml_Block_Tag_Product_Grid" name="adminhtml.tag.product.grid"/>
-        </block>
+        </container>
     </adminhtml_tag_product>
 
     <adminhtml_tag_customer>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root">
             <block type="Mage_Adminhtml_Block_Tag_Customer_Grid" name="adminhtml.tag.customer.grid"/>
-        </block>
+        </container>
     </adminhtml_tag_customer>
 </layout>

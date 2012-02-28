@@ -13,6 +13,11 @@
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Pattern for attribute elements, compatible with HTML ID
+     */
+    const HTML_ID_PATTERN = '/^[a-z][a-z\-\_\d]*$/';
+
+    /**
      * @var array|bool
      */
     protected $_codeFrontendHandles = false;
@@ -209,5 +214,68 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             array('area' => 'frontend', 'package' => 'pro',        'theme' => 'default', 'include_design' => true),
             array('area' => 'frontend', 'package' => 'enterprise', 'theme' => 'default', 'include_design' => true)
         );
+    }
+
+    /**
+     * Suppressing PHPMD issues because this test is complex and it is not reasonable to separate it
+     *
+     * @param string $file
+     * @dataProvider containerDeclarationDataProvider
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public function testContainerDeclaration($file)
+    {
+        $xml = simplexml_load_file($file);
+        $containers = $xml->xpath('/layout//container') ?: array();
+        $errors = array();
+        /** @var SimpleXMLElement $node */
+        foreach ($containers as $node) {
+            $nodeErrors = array();
+            $attr = $node->attributes();
+            if (!isset($attr['name'])) {
+                $nodeErrors[] = '"name" attribute is not specified';
+            } elseif (!preg_match('/^[a-z][a-z\-\_\d\.]*$/i', $attr['name'])) {
+                $nodeErrors[] = 'specified value for "name" attribute is invalid';
+            }
+            if (!isset($attr['label']) || '' == $attr['label']) {
+                $nodeErrors[] = '"label" attribute is not specified or empty';
+            }
+            if (isset($attr['as']) && !preg_match('/^[a-z\d\-\_]+$/i', $attr['as'])) {
+                $nodeErrors[] = 'specified value for "as" attribute is invalid';
+            }
+            if (isset($attr['htmlTag']) && !preg_match('/^[a-z]+$/', $attr['htmlTag'])) {
+                $nodeErrors[] = 'specified value for "htmlTag" attribute is invalid';
+            }
+            if (!isset($attr['htmlTag']) && (isset($attr['htmlId']) || isset($attr['htmlClass']))) {
+                $nodeErrors[] = 'having "htmlId" or "htmlClass" attributes don\'t make sense without "htmlTag"';
+            }
+            if (isset($attr['htmlId']) && !preg_match(self::HTML_ID_PATTERN, $attr['htmlId'])) {
+                $nodeErrors[] = 'specified value for "htmlId" attribute is invalid';
+            }
+            if (isset($attr['htmlClass']) && !preg_match(self::HTML_ID_PATTERN, $attr['htmlClass'])) {
+                $nodeErrors[] = 'specified value for "htmlClass" attribute is invalid';
+            }
+            foreach ($attr as $key => $attribute) {
+                if (!in_array($key, array('name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'module'))) {
+                    $nodeErrors[] = 'unexpected attribute "' . $key . '"';
+                }
+            }
+            if ($nodeErrors) {
+                $errors[] = "\n" . $node->asXML() . "\n - " . implode("\n - ", $nodeErrors);
+            }
+        }
+        if ($errors) {
+            $this->fail(implode("\n\n", $errors));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function containerDeclarationDataProvider()
+    {
+        return Utility_Files::getLayoutFiles();
     }
 }

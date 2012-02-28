@@ -49,7 +49,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_Paypal::review.js</file></action>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" />
+        <container name="additional.product.info" label="Additional Product Info"/>
     </paypal_express_review>
 
     <paypal_express_review_details translate="label" type="page" parent="checkout_onepage_review">
@@ -75,12 +75,11 @@ Available logo types can be assigned with action="setLogoType":
 -->
     <catalog_product_view>
         <reference name="product.info.addtocart">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
-                <label>PayPal Express Checkout Shortcut Wrapper</label>
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
         <update handle="SHORTCUT_popup" />
         <reference name="right">
@@ -182,12 +181,12 @@ Available logo types can be assigned with action="setLogoType":
     <SHORTCUT_popup translate="label">
         <label>Paypal Shortcut Popup</label>
         <reference name="product.tooltip">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
     </SHORTCUT_popup>
 

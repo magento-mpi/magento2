@@ -25,7 +25,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtm
         if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/enterprise_checkout/update')) {
             return parent::_toHtml();
         }
-        foreach ($this->getChild() as $child) {
+        foreach ($this->getChildNames() as $name) {
+            $child = $this->getLayout()->getBlock($name);
+            if (!$child) {
+                continue;
+            }
             $data = array(
                 'title'       => $child->getHeaderText(),
                 'open'        => false
@@ -36,9 +40,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtm
             if ($child->hasData('content_url')) {
                 $data['content_url'] = $child->getData('content_url');
             } else {
-                $data['content'] = $child->toHtml();
+                $data['content'] = $this->getLayout()->renderElement($name);
             }
-            $this->addItem($child->getNameInLayout(), $data);
+            $this->addItem($name, $data);
         }
 
         return parent::_toHtml();

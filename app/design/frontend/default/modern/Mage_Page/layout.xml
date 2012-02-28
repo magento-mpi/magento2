@@ -34,56 +34,36 @@ Default layout, loads most of the pages
                 <action method="addJs"><file>Mage_Page::js/cookies.js</file></action>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="after_body_start" as="after_body_start" translate="label">
-                <label>Page Top</label>
-            </block>
+            <container name="after_body_start" as="after_body_start" label="Page Top"/>
 
             <block type="Mage_Page_Block_Html_Notices" name="global_notices" as="global_notices" template="html/notices.phtml" />
 
             <block type="Mage_Page_Block_Html_Header" name="header" as="header">
-                <block type="Mage_Core_Block_Text_List" name="top.menu" as="topMenu" translate="label">
-                    <label>Navigation Bar</label>
-                </block>
+                <container name="top.menu" as="topMenu" label="Navigation Bar"/>
                 <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>
-                <block type="Mage_Page_Block_Html_Wrapper" name="top.bar" as="topBar" translate="label">
-                    <label>Breadcrumbs</label>
-                    <action method="setElementClass"><value>top-bar</value></action>
+                <container name="top.bar" as="topBar" label="Breadcrumbs" htmlTag="div" htmlClass="top-bar">
                     <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-                </block>
-                <block type="Mage_Page_Block_Html_Wrapper" name="top.container" as="topContainer" translate="label">
-                    <label>Page Header</label>
-                    <action method="setElementClass"><value>top-container</value></action>
-                </block>
+                </container>
+                <container name="top.container" as="topContainer" label="Page Header" htmlTag="div" htmlClass="top-container"/>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="left" as="left" translate="label">
-                <label>Left Column</label>
-            </block>
+            <container name="left" as="left" label="Left Column"/>
 
             <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
 
-            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
-                <label>Main Content Area</label>
-            </block>
+            <container name="content" as="content" label="Main Content Area"/>
 
-            <block type="Mage_Core_Block_Text_List" name="right" as="right" translate="label">
-                <label>Right Column</label>
-            </block>
+            <container name="right" as="right" label="Right Column"/>
 
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
-                <block type="Mage_Page_Block_Html_Wrapper" name="bottom.container" as="bottomContainer" translate="label">
-                    <label>Page Footer</label>
-                    <action method="setElementClass"><value>bottom-container</value></action>
-                </block>
+                <container name="bottom.container" as="bottomContainer" label="Page Footer" htmlTag="div" htmlClass="bottom-container"/>
                 <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" template="template/links.phtml"/>
                 <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="before_body_end" as="before_body_end" translate="label">
-                <label>Page Bottom</label>
-            </block>
+            <container name="before_body_end" as="before_body_end" label="Page Bottom"/>
         </block>
     </default>
 
@@ -100,9 +80,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><file>varien/js.js</file></action>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
-                <label>Main Content Area</label>
-            </block>
+            <container name="content" as="content" label="Main Content Area"/>
 
         </block>
     </print>

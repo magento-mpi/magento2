@@ -19,12 +19,8 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
     protected function _toHtml()
     {
         $this->setText('');
-        foreach ($this->getSortedChildren() as $name) {
-            $block = $this->getLayout()->getBlock($name);
-            if (!$block) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block: %s', $name));
-            }
-            $this->addText($block->toHtml());
+        foreach ($this->getChildNames() as $child) {
+            $this->addText($this->getLayout()->renderElement($child));
         }
         return parent::_toHtml();
     }

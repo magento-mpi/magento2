@@ -30,9 +30,7 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/sidebar/default.phtml</template></action>
-                <block type="Mage_Core_Block_Text_List" name="topCart.extra_actions" as="extra_actions" translate="label" module="Mage_Checkout">
-                    <label>My Cart Extra Actions</label>
-                </block>
+                <container name="topCart.extra_actions" as="extra_actions" label="My Cart Extra Actions" module="Mage_Checkout"/>
             </block>
         </reference>
         <reference name="right">
@@ -41,7 +39,7 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/sidebar/default.phtml</template></action>
-                <block type="Mage_Core_Block_Text_List" name="topCart.extra_actions" as="extra_actions"/>
+                <container name="topCart.extra_actions" as="extra_actions" label="Extra Actions"/>
             </block-->
         </reference>
     </default>
@@ -63,40 +61,28 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
 
-                <block type="Mage_Core_Block_Text_List" name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" translate="label">
-                    <label>Empty Shopping Cart Content Before</label>
-                </block>
+                <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
 
-                <block type="Mage_Core_Block_Text_List" name="checkout.cart.top_methods" as="top_methods" translate="label">
-                    <label>Payment Methods Before Checkout Button</label>
+                <container name="checkout.cart.top_methods" as="top_methods" label="Payment Methods Before Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>
-                </block>
+                </container>
 
-                <block type="Mage_Page_Block_Html_Wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
-                    <label>Shopping Cart Items Before</label>
-                    <action method="setElementClass"><value>rewards</value></action>
-                    <action method="setMayBeInvisible"><value>1</value></action>
-                </block>
+                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Items Before" htmlTag="div" htmlClass="rewards"/>
 
-                <block type="Mage_Core_Block_Text_List" name="checkout.cart.methods" as="methods" translate="label">
-                    <label>Payment Methods After Checkout Button</label>
+                <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
                     <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
-                </block>
+                </container>
 
                 <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
                 <block type="Mage_Checkout_Block_Cart_Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
-                <block type="Mage_Core_Block_Text_List" name="checkout.cart.widget" as="checkout_cart_widget" translate="label">
-                    <label>Shopping Cart Items After</label>
-                </block>
+                <container name="checkout.cart.widget" as="checkout_cart_widget" label="Shopping Cart Items After"/>
                 <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
 
                 <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
             </block>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
-            <label>Additional Product Info</label>
-        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_cart_index>
 
     <checkout_cart_configure translate="label" type="page" parent="catalog_product_view">
@@ -219,9 +205,7 @@ Multi address shipping checkout address page
                 <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>multishipping/item/default.phtml</template></action>
             </block>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
-            <label>Additional Product Info</label>
-        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_multishipping_addresses>
 
 <!--
@@ -245,9 +229,7 @@ Multi address shipping checkout shipping information
                 </block>
             </block>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
-            <label>Additional Product Info</label>
-        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_multishipping_shipping>
 
 <!--
@@ -261,12 +243,8 @@ Multi address shipping checkout billing information
         <reference name="content">
             <block type="Mage_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
                 <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
-                <block type="Mage_Core_Block_Text_List" name="payment_methods_before" translate="label">
-                    <label>Payment Methods Before</label>
-                </block>
-                <block type="Mage_Core_Block_Text_List" name="payment_methods_after" translate="label">
-                    <label>Payment Methods After</label>
-                </block>
+                <container name="payment_methods_before" label="Payment Methods Before"/>
+                <container name="payment_methods_after" label="Payment Methods After"/>
 
                 <!--<block type="Mage_Checkout_Block_Multishipping_Billing_Items" name="checkout_billing_items" template="checkout/multishipping/billing/items.phtml">
                     <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
@@ -298,14 +276,10 @@ Multi address shipping checkout overview
                 </block>
                 <block type="Mage_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
                 <block type="Mage_Checkout_Block_Cart_Totals" name="totals" />
-                <block type="Mage_Core_Block_Text_List" name="checkout.multishipping.overview.items.after" as="items_after" translate="label">
-                    <label>Overview Items After</label>
-                </block>
+                <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
         </reference>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
-            <label>Additional Product Info</label>
-        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_multishipping_overview>
 
 <!--
@@ -341,10 +315,7 @@ One page checkout main layout
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Progress" as="checkoutProgress" name="checkout.progress" template="onepage/progress.phtml"/>
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
-                    <block type="Mage_Page_Block_Html_Wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
-                        <label>Login/Registration Before</label>
-                        <action method="setMayBeInvisible"><value>1</value></action>
-                    </block>
+                    <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
@@ -448,18 +419,12 @@ One page checkout order review block
             <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
             <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>onepage/review/item.phtml</template></action>
             <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
-            <block type="Mage_Core_Block_Text_List" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
-                <label>Items Before</label>
-            </block>
-            <block type="Mage_Core_Block_Text_List" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
-                <label>Items After</label>
-            </block>
+            <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>
+            <container name="checkout.onepage.review.info.items.after" as="items_after" label="Items After"/>
             <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
             <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
         </block>
-        <block type="Mage_Core_Block_Text_List" name="additional.product.info" translate="label">
-            <label>Additional Product Info</label>
-        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_onepage_review>
 
     <checkout_onepage_success translate="label" type="page" parent="checkout_onepage_index">

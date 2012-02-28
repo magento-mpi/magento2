@@ -36,8 +36,8 @@
         </reference>
     </adminhtml_export_index>
     <adminhtml_export_getfilter>
-        <block type="Mage_Core_Block_Text_List" name="root">
+        <container name="root" label="Root">
             <block type="Mage_ImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
-        </block>
+        </container>
     </adminhtml_export_getfilter>
 </layout>

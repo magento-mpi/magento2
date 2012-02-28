@@ -175,6 +175,18 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDataFixture Mage/Core/Model/Layout/_files/db_layout_update.php
+     */
+    public function testFetchDbLayoutUpdates()
+    {
+        $this->_model->fetchDbLayoutUpdates('fixture_handle');
+        $this->assertStringMatchesFormat(
+            '<reference name="root">%w<block type="Mage_Core_Block_Template" template="dummy.phtml"/>%w</reference>',
+            trim($this->_model->asString())
+        );
+    }
+
     public function testGetFileLayoutUpdatesXmlFromTheme()
     {
         $this->_replaceConfigLayoutUpdates('

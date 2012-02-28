@@ -219,7 +219,7 @@ class Enterprise_PricePermissions_Model_Observer
             // Handle Custom Options tab of products
             case 'admin.product.options' :
                 if (!$this->_canEditProductPrice) {
-                    $optionsBoxBlock = $block->getChild('options_box');
+                    $optionsBoxBlock = $block->getChildBlock('options_box');
                     if (!is_null($optionsBoxBlock)) {
                         $optionsBoxBlock->setCanEditPrice(false);
                         if (!$this->_canReadProductPrice) {
@@ -246,7 +246,7 @@ class Enterprise_PricePermissions_Model_Observer
                 break;
             // Handle selection prices of bundle product with fixed price
             case 'adminhtml.catalog.product.edit.tab.bundle.option' :
-                $selectionTemplateBlock = $block->getChild('selection_template');
+                $selectionTemplateBlock = $block->getChildBlock('selection_template');
                 if (!$this->_canReadProductPrice) {
                     $block->setCanReadPrice(false);
                     if (!is_null($selectionTemplateBlock)) {

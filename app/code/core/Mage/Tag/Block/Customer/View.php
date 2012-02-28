@@ -119,7 +119,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
      */
     public function getMode()
     {
-        return $this->getChild('toolbar')->getCurrentMode();
+        return $this->getChildBlock('toolbar')->getCurrentMode();
     }
 
     /**

@@ -103,7 +103,7 @@
 
     <adminhtml_checkout_manage_load_block_plain>
         <reference name="root">
-            <block type="Mage_Core_Block_Text_List" name="content" />
+            <container name="content" label="Content"/>
         </reference>
     </adminhtml_checkout_manage_load_block_plain>
 
