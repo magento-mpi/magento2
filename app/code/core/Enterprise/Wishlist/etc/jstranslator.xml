@@ -37,7 +37,7 @@
         <message>Cancel</message>
     </enterprise-wishlist-cancel>
     <enterprise-wishlist-make-wishlist-public translate="message" module="enterprise_wishlist">
-        <message>Make this wishlist public</message>
+        <message>Make This Wishlist Public</message>
     </enterprise-wishlist-make-wishlist-public>
     <enterprise-wishlist-error-while-creating translate="message" module="enterprise_wishlist">
         <message>Error happened during wishlist creation. Try again later</message>

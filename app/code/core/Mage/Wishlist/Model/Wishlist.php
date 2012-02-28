@@ -588,4 +588,15 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Save wishlist.
+     *
+     * @return Mage_Wishlist_Model_Wishlist
+     */
+    public function save()
+    {
+        $this->_hasDataChanges = true;
+        return parent::save();
+    }
 }
