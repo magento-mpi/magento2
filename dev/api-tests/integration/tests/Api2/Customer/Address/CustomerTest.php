@@ -98,4 +98,50 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
+
+    /**
+     * Test delete address
+     *
+     * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
+     */
+    public function testDelete()
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $customer
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        /* @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = Mage::getModel('customer/address')->load($fixtureCustomerAddress->getId());
+        $this->assertEmpty($customerAddress->getId());
+    }
+
+    /**
+     * Test delete not existing address
+     */
+    public function testDeleteUnavailableResource()
+    {
+        $response = $this->callDelete('customers/addresses/invalid_id');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+    }
+
+    /**
+     * Test delete address if customer is not owner
+     *
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     */
+    public function testDeleteCustomerAddressIfCustomerIsNotOwner()
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
 }
