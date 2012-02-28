@@ -42,18 +42,43 @@ class Mage_Customer_Model_Api2_Customer_Addresses extends Mage_Api2_Model_Resour
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        $attributes = parent::getAvailableAttributesFromConfig();
+        $available     = array();
+        $configAttrs   = $this->getAvailableAttributesFromConfig();
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $dbAttrs = $this->getDbAttributes();
+        $eavAttrs = $this->getEavAttributes();
+        $allAttrs = array_merge($configAttrs, $dbAttrs, array_keys($eavAttrs));
 
-        /* @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type')->loadByCode('customer_address');
-
-        /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($entityType->getAttributeCollection() as $attribute) {
-            if ($attribute->getIsVisible()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+        foreach ($allAttrs as $code) {
+            if (in_array($code, $excludedAttrs)) {
+                continue;
+            }
+            if (isset($configAttrs[$code])) {
+                // first priority
+                $available[$code] = $configAttrs[$code];
+            } elseif (isset($eavAttrs[$code])) {
+                $available[$code] = $eavAttrs[$code];
+            } else {
+                $available[$code] = $code;
             }
         }
 
-        return $attributes;
+        return $available;
+    }
+
+    /**
+     * Get available attributes of API resource from data base
+     *
+     * @return array
+     */
+    public function getDbAttributes()
+    {
+        $available     = array();
+        /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
+        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+        if (method_exists($resource, 'getEntityTable')) {
+            $available = array_keys($resource->getReadConnection()->describeTable($resource->getEntityTable()));
+        }
+        return $available;
     }
 }
