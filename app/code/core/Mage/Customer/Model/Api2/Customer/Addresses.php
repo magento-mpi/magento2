@@ -47,9 +47,9 @@ class Mage_Customer_Model_Api2_Customer_Addresses extends Mage_Api2_Model_Resour
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
         $dbAttrs = $this->getDbAttributes();
         $eavAttrs = $this->getEavAttributes();
-        $allAttrs = array_merge($configAttrs, $dbAttrs, array_keys($eavAttrs));
+        $attrsCodes = array_merge(array_keys($configAttrs), $dbAttrs, array_keys($eavAttrs));
 
-        foreach ($allAttrs as $code) {
+        foreach ($attrsCodes as $code) {
             if (in_array($code, $excludedAttrs)) {
                 continue;
             }
