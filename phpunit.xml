@@ -64,10 +64,4 @@
         <log type="testdox-text" target="./var/logs/testdox.txt"/>
     </logging>
 
-    <!-- Test listeners -->
-    <listeners>
-        <listener class="Mage_Listener_EventListener">
-        </listener>
-    </listeners>
-
 </phpunit>
