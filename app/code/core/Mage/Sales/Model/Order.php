@@ -760,7 +760,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Check possibility reorder ignoring disable and availability of stock
+     * Check the ability to reorder ignoring the availability in stock or status of the ordered products
      *
      * @return bool
      */
@@ -811,7 +811,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                 $product = Mage::getModel('catalog/product')
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
-                if (!$product->getId() || (false == $ignoreSalable && !$product->isSalable())) {
+                if (!$product->getId() || (!$ignoreSalable && !$product->isSalable())) {
                     return false;
                 }
             }
