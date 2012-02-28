@@ -46,3 +46,6 @@ Mage_Selenium_Autoloader::register();
 require_once 'functions.php';
 
 Mage_Selenium_TestConfiguration::getInstance();
+
+Mage_Listener_EventListener::autoAttach(SELENIUM_TESTS_BASEDIR
+                        . implode(DIRECTORY_SEPARATOR, array('', 'framework', 'Mage', 'Listener', '*.php')));
