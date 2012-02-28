@@ -54,11 +54,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
      */
     protected function _update(array $data)
     {
-        $this->_validate(
-            $data,
-            array('email', 'firstname', 'lastname'),
-            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password')
-        );
+        $this->_validate($data, array(), array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password'));
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
