@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     /**
      * Minimal possible price
      */
-    const MIN_POSSIBLE_PRICE = .01;
+    const MIN_POSSIBLE_PRICE = .0001;
 
     /**
      * Initialize connection and define main table name
