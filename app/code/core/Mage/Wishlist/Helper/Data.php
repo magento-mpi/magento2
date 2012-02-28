@@ -468,13 +468,13 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve customer name
      *
-     * @return string
+     * @return string|null
      */
     public function getCustomerName()
     {
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
-        return $customer->getName();
+            return $customer->getName();
         }
     }
 
@@ -488,7 +488,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
-            $key = $customer->getId().','.$customer->getEmail();
+            $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
                 'data' => Mage::helper('core')->urlEncode($key),
                 '_secure' => false,
