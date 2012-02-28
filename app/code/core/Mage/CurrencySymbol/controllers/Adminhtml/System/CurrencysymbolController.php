@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
@@ -19,8 +19,8 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     currencysymbol
- * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @package     Mage_CurrencySymbol
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -67,11 +67,14 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencysymbolController extends Mage
             }
         }
 
-        Mage::getModel('currencysymbol/system_currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
-
-        Mage::getSingleton('connect/session')->addSuccess(
-            Mage::helper('currencysymbol')->__('Custom currency symbols were applied successfully.')
-        );
+        try {
+            Mage::getModel('currencysymbol/system_currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
+            Mage::getSingleton('connect/session')->addSuccess(
+                Mage::helper('currencysymbol')->__('Custom currency symbols were applied successfully.')
+            );
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
 
         $this->_redirectReferer();
     }

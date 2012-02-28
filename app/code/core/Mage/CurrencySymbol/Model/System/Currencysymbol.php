@@ -59,7 +59,6 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        'full_page',
         'config',
         'block_html',
         'layout'
@@ -116,94 +115,76 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
      */
     public function getCurrencySymbolsData()
     {
-        if (!$this->_symbolsData) {
-            $this->_symbolsData = array();
+        if ($this->_symbolsData) {
+            return $this->_symbolsData;
+        }
 
-            $allowedCurrencies = array_fill_keys(
-                explode(
-                    self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-                    Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
-                ),
-                array()
-            );
+        $this->_symbolsData = array();
 
-            /* @var $storeModel Mage_Adminhtml_Model_System_Store */
-            $storeModel = Mage::getSingleton('adminhtml/system_store');
-            foreach ($storeModel->getWebsiteCollection() as $website) {
-                $websiteShow = false;
-                foreach ($storeModel->getGroupCollection() as $group) {
-                    if ($group->getWebsiteId() != $website->getId()) {
+        $allowedCurrencies = explode(
+            self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
+            Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
+        );
+
+        /* @var $storeModel Mage_Adminhtml_Model_System_Store */
+        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        foreach ($storeModel->getWebsiteCollection() as $website) {
+            $websiteShow = false;
+            foreach ($storeModel->getGroupCollection() as $group) {
+                if ($group->getWebsiteId() != $website->getId()) {
+                    continue;
+                }
+                foreach ($storeModel->getStoreCollection() as $store) {
+                    if ($store->getGroupId() != $group->getId()) {
                         continue;
                     }
-                    foreach ($storeModel->getStoreCollection() as $store) {
-                        if ($store->getGroupId() != $group->getId()) {
-                            continue;
-                        }
-                        if (!$websiteShow) {
-                            $websiteShow = true;
-                            $websiteSymbols  = $website->getConfig(self::XML_PATH_ALLOWED_CURRENCIES);
-                            $allowedCurrencies = array_merge(
-                                $allowedCurrencies,
-                                array_fill_keys(
-                                    explode(
-                                        self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-                                        $websiteSymbols
-                                    ),
-                                    array()
-                                )
-                            );
-                        }
-                        $storeSymbols = Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
-                        $allowedCurrencies = array_merge(
-                            $allowedCurrencies,
-                            array_fill_keys(
-                                explode(
-                                    self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-                                    $storeSymbols
-                                ),
-                                array()
-                            )
-                        );
+                    if (!$websiteShow) {
+                        $websiteShow = true;
+                        $websiteSymbols  = $website->getConfig(self::XML_PATH_ALLOWED_CURRENCIES);
+                        $allowedCurrencies = array_merge($allowedCurrencies, explode(
+                            self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
+                            $websiteSymbols
+                        ));
                     }
+                    $storeSymbols = Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
+                    $allowedCurrencies = array_merge($allowedCurrencies, explode(
+                        self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
+                        $storeSymbols
+                    ));
                 }
             }
-            ksort($allowedCurrencies);
-
-            $currentSymbols = Mage::getStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL, null);
-            try {
-                if ($currentSymbols) {
-                    $currentSymbols = unserialize($currentSymbols);
-                }
-            } catch (Exception $e) {
-                $currentSymbols = array();
-            }
-            /** @var $locale Mage_Core_Model_Locale */
-            $locale = Mage::app()->getLocale();
-            foreach ($allowedCurrencies as $code => $value) {
-                if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
-                    $symbol = $code;
-                }
-                if (!$name = $locale->getTranslation($code, 'nametocurrency')) {
-                    $name = $code;
-                }
-                $allowedCurrencies[$code] = array(
-                    'parentSymbol'  => $symbol,
-                    'displayName' => $name
-                );
-
-                if (isset($currentSymbols[$code]) && !empty($currentSymbols[$code])) {
-                    $allowedCurrencies[$code]['displaySymbol'] = $currentSymbols[$code];
-                } else {
-                    $allowedCurrencies[$code]['displaySymbol'] = $allowedCurrencies[$code]['parentSymbol'];
-                }
-                if ($allowedCurrencies[$code]['parentSymbol'] == $allowedCurrencies[$code]['displaySymbol']) {
-                    $allowedCurrencies[$code]['inherited'] = true;
-                } else {
-                    $allowedCurrencies[$code]['inherited'] = false;
-                }
-            }
-            $this->_symbolsData = $allowedCurrencies;
         }
+        ksort($allowedCurrencies);
+
+        $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
+
+        /** @var $locale Mage_Core_Model_Locale */
+        $locale = Mage::app()->getLocale();
+        foreach ($allowedCurrencies as $code) {
+            if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
+                $symbol = $code;
+            }
+            $name = $locale->getTranslation($code, 'nametocurrency');
+            if (!$name) {
+                $name = $code;
+            }
+            $this->_symbolsData[$code] = array(
+                'parentSymbol'  => $symbol,
+                'displayName' => $name
+            );
+
+            if (isset($currentSymbols[$code]) && !empty($currentSymbols[$code])) {
+                $this->_symbolsData[$code]['displaySymbol'] = $currentSymbols[$code];
+            } else {
+                $this->_symbolsData[$code]['displaySymbol'] = $this->_symbolsData[$code]['parentSymbol'];
+            }
+            if ($this->_symbolsData[$code]['parentSymbol'] == $this->_symbolsData[$code]['displaySymbol']) {
+                $this->_symbolsData[$code]['inherited'] = true;
+            } else {
+                $this->_symbolsData[$code]['inherited'] = false;
+            }
+        }
+
         return $this->_symbolsData;
     }
 
@@ -222,17 +203,9 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
             }
         }
         if ($symbols) {
-            $value = array(
-                'options' => array(
-                    'fields' => array(
-                        'customsymbol' => array(
-                            'value' => serialize($symbols)
-                        )
-                    )
-                )
-            );
+            $value['options']['fields']['customsymbol']['value'] = serialize($symbols);
         } else {
-            $value = array('options' => array('fields' => array('customsymbol' => array('inherit' => '1'))));
+            $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
         Mage::getModel('adminhtml/config_data')
@@ -267,16 +240,9 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
      */
     public function getCurrencySymbol($code)
     {
-        $customSymbols = Mage::getStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL, null);
-        if ($customSymbols) {
-            try {
-                $customSymbols  = unserialize($customSymbols);
-                if (isset($customSymbols[$code])) {
-                    return $customSymbols[$code];
-                }
-            } catch (Exception $e) {
-                return false;
-            }
+        $customSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
+        if (array_key_exists($code, $customSymbols)) {
+            return $customSymbols[$code];
         }
 
         return false;
@@ -294,5 +260,23 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
             Mage::app()->getCacheInstance()->invalidateType($cacheType);
         }
         return $this;
+    }
+
+    /**
+     * Unserialize data from Store Config.
+     *
+     * @param string $configPath
+     * @param int $storeId
+     * @return array
+     */
+    protected function _unserializeStoreConfig($configPath, $storeId = null)
+    {
+        $result = array();
+        $configData = (string)Mage::getStoreConfig($configPath, $storeId);
+        if ($configData) {
+            $result = unserialize($configData);
+        }
+
+        return is_array($result) ? $result : array();
     }
 }

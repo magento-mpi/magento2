@@ -34,7 +34,7 @@
 class Mage_Currencysymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
-     * Constructor
+     * Constructor. Initialization required variables for class instance.
      */
     public function __construct()
     {
@@ -79,15 +79,13 @@ class Mage_Currencysymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Adm
     {
         /** @var $block Mage_Core_Block_Abstract */
         $block = $this->getLayout()->createBlock('adminhtml/widget_button');
-        if ($block) {
-            $block->setData(array(
-                'label'     => Mage::helper('currencysymbol')->__('Save Currency Symbols'),
-                'onclick'   => 'currencySymbolsForm.submit();',
-                'class'     => 'save'
-            ));
-            return $block->toHtml();
-        }
-        return '';
+        $block->setData(array(
+            'label'     => Mage::helper('currencysymbol')->__('Save Currency Symbols'),
+            'onclick'   => 'currencySymbolsForm.submit();',
+            'class'     => 'save'
+        ));
+
+        return $block->toHtml();
     }
 
     /**

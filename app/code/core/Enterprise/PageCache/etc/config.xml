@@ -153,6 +153,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_postdispatch_adminhtml_catalog_product_massStatus>
+            <controller_action_postdispatch_adminhtml_system_currencysymbol_save>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_currencysymbol_save>
             <catalogrule_after_apply>
                 <observers>
                     <enterprise_pagecache>
