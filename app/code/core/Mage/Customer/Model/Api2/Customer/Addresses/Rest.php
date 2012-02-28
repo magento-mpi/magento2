@@ -35,6 +35,33 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
     extends Mage_Customer_Model_Api2_Customer_Addresses
 {
     /**
+     * Create customer address
+     *
+     * @param array $data
+     */
+    protected function _create(array $data)
+    {
+        /*$this->_validate(
+            $data,
+            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password'),
+            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password')
+        );*/
+
+        /* @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = Mage::getModel('customer/address');
+        $customerAddress->setData($data);
+
+        try {
+            $customerAddress->validate();
+            $customerAddress->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+    /**
      * Get customer addresses list
      *
      * @return array

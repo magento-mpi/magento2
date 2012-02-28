@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Mage_Api2
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for stock items (guest)
+ * API2 class for customer address (customer)
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest_Guest_V1
-    extends Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
+class Mage_Customer_Model_Api2_Customer_Address_Rest_Customer_V1
+    extends Mage_Customer_Model_Api2_Customer_Address_Rest
 {
 }

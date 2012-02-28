@@ -112,9 +112,39 @@
                         <mask>/customers/:id/addresses</mask>
                     </route_main>
                 </routes>
-                <instance>address</instance>
+                <instance>customer_address</instance>
                 <versions>1</versions>
             </customer_addresses>
+            <customer_address>
+                <group>customer</group>
+                <sort_order>110</sort_order>
+                <type>customer_address</type>
+                <model>customer/api2_customer_address</model>
+                <working_model>customer/address</working_model>
+                <title>Customer Address</title>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </customer>
+                </privileges>
+                <exclude_attributes/>
+                <routes>
+                    <route_main>
+                        <mask>/customers/addresses/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>customer_addresses</collection>
+                <versions>1</versions>
+            </customer_address>
         </resources>
     </api2>
 </config>
