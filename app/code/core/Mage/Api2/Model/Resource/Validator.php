@@ -64,5 +64,5 @@ abstract class Mage_Api2_Model_Resource_Validator
      * @param  array $data
      * @void bool
      */
-    abstract public function isSatisfiedByData($data);
+    abstract public function isSatisfiedByData(array $data);
 }

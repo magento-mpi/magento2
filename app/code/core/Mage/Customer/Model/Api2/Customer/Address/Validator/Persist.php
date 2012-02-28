@@ -43,8 +43,11 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator_Persist
      * @param  array $data
      * @void bool
      */
-    public function isSatisfiedByData($data)
+    public function isSatisfiedByData(array $data)
     {
-
+        //print_r($data);
+        //exit;
+        //$this->_validate($data, array(), array(
+            //'firstname', 'lastname', 'street', 'city', 'country_id', 'postcode', 'telephone'));
     }
 }

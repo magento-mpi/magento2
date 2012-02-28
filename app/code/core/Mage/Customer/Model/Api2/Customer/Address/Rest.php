@@ -55,8 +55,14 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
      */
     protected function _update(array $data)
     {
-        $this->_validate($data, array(), array(
-            'firstname', 'lastname', 'street', 'city', 'country_id', 'postcode', 'telephone'));
+        /* @var $validator Mage_Customer_Model_Api2_Customer_Address_Validator_Persist */
+        $validator = Mage::getModel('customer/api2_customer_address_validator_persist');
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            return;
+        }
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
