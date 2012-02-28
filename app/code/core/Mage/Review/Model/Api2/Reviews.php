@@ -44,20 +44,4 @@ class Mage_Review_Model_Api2_Reviews extends Mage_Api2_Model_Resource_Collection
     {
         return $this->getResourceInstance()->getAvailableAttributes($userType, $operation);
     }
-
-    /**
-     * Get available attributes of API resource from configuration file
-     *
-     * @return array
-     * @throw Exception
-     */
-    public function getAvailableAttributesFromConfig()
-    {
-        $instanceResourceType = $this->getInstanceResourceType();
-
-        if (!$instanceResourceType) {
-            throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
-        }
-        return $this->getConfig()->getResourceAttributes($instanceResourceType);
-    }
 }
