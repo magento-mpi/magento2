@@ -1102,7 +1102,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
      *  'field_name' => 'value'
      * )
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Varien_Object $category
      * @param array $replaceFields
      * @return array
      */
