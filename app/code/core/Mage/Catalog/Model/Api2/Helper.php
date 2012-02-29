@@ -630,10 +630,6 @@ class Mage_Catalog_Model_Api2_Helper
             'qty_increments', 'notify_stock_qty', 'min_qty', 'enable_qty_increments');
         $this->_filterConfigValueUsed($stockData, $fieldsWithPossibleDefautlValuesInConfig);
 
-        if (!isset($stockData['use_config_manage_stock'])) {
-            $stockData['original_inventory_qty'] = 0;
-        }
-
         if ($this->_isManageStockEnabled($stockData)) {
             if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_DECIMAL_VALUE) {
                 $stockData['qty'] = self::MAX_DECIMAL_VALUE;

@@ -57,4 +57,16 @@ return array(
     'options_container' => 'container2',
     'gift_wrapping_available' => 0,
     'gift_wrapping_price' => 15.56,
+    'stock_data' => array(
+        'manage_stock' => 1,
+        'qty' => 10,
+        'min_qty' => 10.56,
+        'min_sale_qty' => 10,
+        'max_sale_qty' => 10,
+        'is_qty_decimal' => 0,
+        'backorders' => 1,
+        'notify_stock_qty' => -500.99,
+        'enable_qty_increments' => 0,
+        'is_in_stock' => 1
+    )
 );

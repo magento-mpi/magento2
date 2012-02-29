@@ -175,15 +175,22 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         // Check if product data was updated on specified store
         /** @var $updatedProduct Mage_Catalog_Model_Product */
-        $updatedProduct = Mage::getModel('catalog/product')->setStoreId($testStore->getId())->load($product->getId());
+        $updatedProduct = Mage::getModel('catalog/product')
+            ->load($product->getId())
+            ->clearInstance()
+            ->setStoreId($testStore->getId())
+            ->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
         $this->_checkProductData($updatedProduct, $productDataForUpdate);
 
         // Check if product Store View/Website scope attributes data is untouched on default store
-        $origProductData = $product->getData();
-        unset($origProductData['updated_at']);
+        $origProductData = array();
+        foreach ($productDataForUpdate as $attribute => $value) {
+            $origProductData[$attribute] = $product->getData($attribute);
+        }
+        $origProductData['stock_data'] = $productDataForUpdate['stock_data'];
         $globalAttributes = array('sku', 'weight', 'price', 'special_price', 'msrp', 'enable_googlecheckout',
-            'stock_item', 'gift_wrapping_price');
+            'gift_wrapping_price');
         foreach ($globalAttributes as $attribute) {
             $origProductData[$attribute] = $updatedProduct->getData($attribute);
         }
