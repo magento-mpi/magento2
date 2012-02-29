@@ -26,6 +26,7 @@ class Mage_DesignEditor_Model_Layout
         'Mage_Page_Block_',
         'Mage_DesignEditor_Block_',
         'Mage_Checkout_Block_Onepage_',
+        'Mage_Paypal_Block_Express_Review_Details',
     );
 
     /**
@@ -192,7 +193,7 @@ class Mage_DesignEditor_Model_Layout
         $result = $node->xpath("//block[@name='{$name}']") ?: array();
         foreach ($result as $block) {
             $isTypeSafe = self::_isTypeSafe($block->getAttribute('type'));
-            if (!($isTypeSafe || $isTypeSafe && self::_isParentSafe($block))) {
+            if (!$isTypeSafe || !self::_isParentSafe($block)) {
                 self::_deleteNodes($node, 'action');
             }
             break;

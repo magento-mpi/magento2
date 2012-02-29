@@ -49,9 +49,16 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider pageActionDataProvider
+     *
+     * @param string $pageType
+     * @param string $requiredModule
+     * @param bool $isVdeToolbarBug
      */
-    public function testPageAction($pageType, $isVdeToolbarBug = false)
+    public function testPageAction($pageType, $requiredModule, $isVdeToolbarBug = false)
     {
+        if (!in_array($requiredModule, Magento_Test_Helper_Factory::getHelper('config')->getEnabledModules())) {
+            $this->markTestSkipped("Test requires the module '$requiredModule' to be enabled.");
+        }
         $this->getRequest()->setParam('page_type', $pageType);
         $this->dispatch('design/editor/page');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
@@ -70,8 +77,10 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     public function pageActionDataProvider()
     {
         return array(
-            'Catalog Product View'       => array('catalog_product_view'),
-            'One Page Checkout Overview' => array('checkout_onepage_review', true),
+            'Catalog Product View'             => array('catalog_product_view',            'Mage_Catalog'),
+            'One Page Checkout Overview'       => array('checkout_onepage_review',         'Mage_Checkout', true),
+            'Paypal Express Review Details'    => array('paypal_express_review_details',   'Mage_Paypal',   true),
+            'Paypal UK Express Review Details' => array('paypaluk_express_review_details', 'Mage_PaypalUk', true),
         );
     }
 
