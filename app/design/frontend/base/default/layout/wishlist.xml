@@ -91,7 +91,7 @@ Wishlist pages
                         <action method="setTitle" translate="title">
                             <title>Add to Cart</title>
                         </action>
-                        <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
+                        <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options"/>
                     </block>
                     <block type="wishlist/customer_wishlist_item_column_remove" name="customer.wishlist.item.remove" template="wishlist/item/column/remove.phtml"></block>
                 </block>

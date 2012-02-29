@@ -303,4 +303,17 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Initialize product options renderer with giftcard specific params
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCard_Model_Observer
+     */
+    public function initOptionRenderer(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getBlock();
+        $block->addOptionsRenderCfg('giftcard', 'enterprise_giftcard/catalog_product_configuration');
+        return $this;
+    }
 }
