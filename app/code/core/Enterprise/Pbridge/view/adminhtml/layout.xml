@@ -18,7 +18,7 @@
     </adminhtml_sales_order_create_index>
 
     <adminhtml_pbridge_result>
-        <block type="Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="toHtml" />
+        <block type="Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="1" />
     </adminhtml_pbridge_result>
 
 </layout>

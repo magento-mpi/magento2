@@ -39,71 +39,71 @@
         </reference>
     </adminhtml_customer_group_index>
     <adminhtml_customer_wishlist>
-        <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="toHtml" />
+        <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="1" />
     </adminhtml_customer_wishlist>
 
     <adminhtml_customer_orders>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Orders" name="adminhtml.customer.edit.tab.orders"/>
         </container>
     </adminhtml_customer_orders>
 
     <adminhtml_customer_carts>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Carts" name="admin.customer.carts"/>
         </container>
     </adminhtml_customer_carts>
 
     <adminhtml_customer_viewcart>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart" name="admin.customer.view.cart"/>
         </container>
     </adminhtml_customer_viewcart>
 
     <adminhtml_customer_viewwishlist>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist" name="admin.customer.view.wishlist"/>
         </container>
     </adminhtml_customer_viewwishlist>
 
     <adminhtml_customer_lastorders>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders" name="admin.customer.lastorders"/>
         </container>
     </adminhtml_customer_lastorders>
 
     <adminhtml_customer_productreviews>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews" name="admin.customer.reviews"/>
         </container>
     </adminhtml_customer_productreviews>
 
     <adminhtml_customer_producttags>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Tag" name="admin.customer.tags"/>
         </container>
     </adminhtml_customer_producttags>
 
     <adminhtml_customer_taggrid>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Tag" name="admin.customer.tags"/>
         </container>
     </adminhtml_customer_taggrid>
 
     <adminhtml_customer_newsletter>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid" name="admin.customer.newsletter.grid"/>
         </container>
     </adminhtml_customer_newsletter>
 
     <adminhtml_customer_grid>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Grid" name="admin.customer.grid"/>
         </container>
     </adminhtml_customer_grid>
 
     <adminhtml_customer_cart>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Cart" name="admin.customer.view.edit.cart" />
         </container>
     </adminhtml_customer_cart>

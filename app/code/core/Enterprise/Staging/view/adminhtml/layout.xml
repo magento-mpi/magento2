@@ -19,7 +19,7 @@
 
     <adminhtml_staging_manage_grid>
         <remove name="root" />
-        <block type="Enterprise_Staging_Block_Adminhtml_Staging_Grid" output="toHtml" name="enterprise_staging_grid" />
+        <block type="Enterprise_Staging_Block_Adminhtml_Staging_Grid" output="1" name="enterprise_staging_grid" />
     </adminhtml_staging_manage_grid>
 
     <adminhtml_staging_manage_new>
@@ -60,7 +60,7 @@
 
     <adminhtml_staging_backup_grid>
         <remove name="root" />
-        <block type="Enterprise_Staging_Block_Adminhtml_Backup_Grid" output="toHtml" name="enterprise_staging_backup" />
+        <block type="Enterprise_Staging_Block_Adminhtml_Backup_Grid" output="1" name="enterprise_staging_backup" />
     </adminhtml_staging_backup_grid>
 
     <adminhtml_staging_backup_edit>

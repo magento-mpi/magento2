@@ -33,6 +33,6 @@
 
     <moneybookers_processing_redirect translate="label" type="page" parent="moneybookers_processing_payment">
         <label>Moneybookers Redirect</label>
-        <block type="Phoenix_Moneybookers_Block_Redirect" output="toHtml" name="moneybookers_placeform" template="redirect.phtml"/>
+        <block type="Phoenix_Moneybookers_Block_Redirect" output="1" name="moneybookers_placeform" template="redirect.phtml"/>
     </moneybookers_processing_redirect>
 </layout>

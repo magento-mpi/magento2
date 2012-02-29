@@ -45,7 +45,7 @@
 -->
     <adminhtml_cms_page_versions>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions"  output="toHtml" name="cms_page_edit_versions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions"  output="1" name="cms_page_edit_versions" />
         <update handle="formkey" />
     </adminhtml_cms_page_versions>
 
@@ -102,7 +102,7 @@
 -->
     <adminhtml_cms_page_version_revisions>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions"  output="toHtml" name="cms_page_edit_version_edit_revisions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions"  output="1" name="cms_page_edit_version_edit_revisions" />
     </adminhtml_cms_page_version_revisions>
 
 <!--
@@ -135,7 +135,7 @@
 -->
     <adminhtml_cms_hierarchy_pagegrid>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="toHtml" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="1" />
     </adminhtml_cms_hierarchy_pagegrid>
 
 </layout>

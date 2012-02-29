@@ -58,15 +58,15 @@
 
     <adminhtml_banner_grid>
         <remove name="root"/>
-        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="1"/>
     </adminhtml_banner_grid>
     <adminhtml_banner_salesrulegrid>
         <remove name="root"/>
-        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid" output="1"/>
     </adminhtml_banner_salesrulegrid>
     <adminhtml_banner_catalogrulegrid>
         <remove name="root"/>
-        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid" output="1"/>
     </adminhtml_banner_catalogrulegrid>
 
      <!-- Binding Banners Tab for Catalog Price Rule -->
@@ -93,7 +93,7 @@
     <!-- Binding Banners Grid for Shopping Cart Price Rule -->
     <adminhtml_banner_catalogrulebannersgrid>
         <remove name="root"/>
-        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid" name="related_catalogrule_banners_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid" name="related_catalogrule_banners_grid" output="1"/>
     </adminhtml_banner_catalogrulebannersgrid>
 
 
@@ -121,6 +121,6 @@
     <!-- Binding Banners Grid for Shopping Cart Price Rule -->
     <adminhtml_banner_salesrulebannersgrid>
         <remove name="root"/>
-        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid" output="toHtml"/>
+        <block type="Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid" output="1"/>
     </adminhtml_banner_salesrulebannersgrid>
 </layout>

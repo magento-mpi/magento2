@@ -52,47 +52,47 @@
 
     <adminhtml_checkout_cart>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Items" name="checkout.items" template="manage/items.phtml" output="1"/>
     </adminhtml_checkout_cart>
 
     <adminhtml_checkout_applycoupon>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
     </adminhtml_checkout_applycoupon>
 
     <adminhtml_checkout_coupon>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
     </adminhtml_checkout_coupon>
 
     <adminhtml_checkout_products>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="checkout.accordion.products" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products" name="checkout.accordion.products" output="1"/>
     </adminhtml_checkout_products>
 
     <adminhtml_checkout_viewwishlist>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist" name="checkout.accordion.wishlist" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist" name="checkout.accordion.wishlist" output="1"/>
     </adminhtml_checkout_viewwishlist>
 
     <adminhtml_checkout_viewcompared>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared" name="checkout.accordion.compared" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared" name="checkout.accordion.compared" output="1"/>
     </adminhtml_checkout_viewcompared>
 
     <adminhtml_checkout_viewrecentlycompared>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared" name="checkout.accordion.rcompared" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared" name="checkout.accordion.rcompared" output="1"/>
     </adminhtml_checkout_viewrecentlycompared>
 
     <adminhtml_checkout_viewrecentlyviewed>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed" name="checkout.accordion.rviewed" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed" name="checkout.accordion.rviewed" output="1"/>
     </adminhtml_checkout_viewrecentlyviewed>
 
     <adminhtml_checkout_viewordered>
         <remove name="root"/>
-        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered" name="checkout.accordion.ordered" output="toHtml"/>
+        <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered" name="checkout.accordion.ordered" output="1"/>
     </adminhtml_checkout_viewordered>
 
     <adminhtml_checkout_manage_load_block_json>

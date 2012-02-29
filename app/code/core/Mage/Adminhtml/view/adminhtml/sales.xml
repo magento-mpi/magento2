@@ -13,7 +13,7 @@
 <layout>
     <adminhtml_sales_order_grid>
         <update handle="formkey"/>
-        <block type="Mage_Adminhtml_Block_Sales_Order_Grid" name="sales_order.grid" output="toHtml"></block>
+        <block type="Mage_Adminhtml_Block_Sales_Order_Grid" name="sales_order.grid" output="1"></block>
     </adminhtml_sales_order_grid>
 
     <adminhtml_sales_order_index>
@@ -23,7 +23,7 @@
     </adminhtml_sales_order_index>
 
     <adminhtml_sales_order_transactions>
-        <block type="Mage_Adminhtml_Block_Sales_Transactions_Grid" name="sales_transactions.grid" output="toHtml"></block>
+        <block type="Mage_Adminhtml_Block_Sales_Transactions_Grid" name="sales_transactions.grid" output="1"></block>
     </adminhtml_sales_order_transactions>
 
     <adminhtml_sales_billing_agreement_index>
@@ -33,7 +33,7 @@
     </adminhtml_sales_billing_agreement_index>
 
     <adminhtml_sales_billing_agreement_grid>
-        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="toHtml"></block>
+        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="1"></block>
     </adminhtml_sales_billing_agreement_grid>
 
     <adminhtml_sales_billing_agreement_view>
@@ -49,11 +49,11 @@
     </adminhtml_sales_billing_agreement_view>
 
     <adminhtml_sales_billing_agreement_ordersgrid>
-        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="related.orders.grid" output="toHtml"></block>
+        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="related.orders.grid" output="1"></block>
     </adminhtml_sales_billing_agreement_ordersgrid>
 
     <adminhtml_sales_billing_agreement_customergrid>
-        <block type="Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement" name="customer.billing.agreement.grid" output="toHtml"></block>
+        <block type="Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement" name="customer.billing.agreement.grid" output="1"></block>
     </adminhtml_sales_billing_agreement_customergrid>
 
     <adminhtml_sales_order_view>
@@ -119,7 +119,7 @@
     </adminhtml_sales_order_view>
 
     <adminhtml_sales_order_addcomment>
-        <block type="Mage_Adminhtml_Block_Sales_Order_View_History" name="order_history" template="sales/order/view/history.phtml" output="toHtml"/>
+        <block type="Mage_Adminhtml_Block_Sales_Order_View_History" name="order_history" template="sales/order/view/history.phtml" output="1"/>
     </adminhtml_sales_order_addcomment>
 
     <adminhtml_sales_order_invoice_new>
@@ -469,7 +469,7 @@
         </reference>
     </adminhtml_sales_transactions_index>
     <adminhtml_sales_transactions_grid>
-        <block type="Mage_Adminhtml_Block_Sales_Transactions_Grid" name="sales_transactions.grid" output="toHtml"></block>
+        <block type="Mage_Adminhtml_Block_Sales_Transactions_Grid" name="sales_transactions.grid" output="1"></block>
     </adminhtml_sales_transactions_grid>
     <adminhtml_sales_transactions_view>
         <reference name="content">
@@ -953,11 +953,11 @@
 
     <adminhtml_sales_recurring_profile_grid>
         <remove name="root"/>
-        <block type="Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid" name="sales.recurring.profile.grid" output="toHtml"/>
+        <block type="Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid" name="sales.recurring.profile.grid" output="1"/>
     </adminhtml_sales_recurring_profile_grid>
 
     <adminhtml_sales_recurring_profile_customergrid>
-        <block type="Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile" name="customer.recurring.profile.grid" output="toHtml"></block>
+        <block type="Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile" name="customer.recurring.profile.grid" output="1"></block>
     </adminhtml_sales_recurring_profile_customergrid>
 
     <adminhtml_sales_recurring_profile_view>
@@ -1019,7 +1019,7 @@
 
     <adminhtml_sales_recurring_profile_orders>
         <remove name="root"/>
-        <block type="Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders" name="sales.recurring.profile.tab.orders" output="toHtml"/>
+        <block type="Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders" name="sales.recurring.profile.tab.orders" output="1"/>
     </adminhtml_sales_recurring_profile_orders>
 
     <adminhtml_customer_edit>

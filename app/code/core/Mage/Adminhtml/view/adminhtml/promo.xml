@@ -74,7 +74,7 @@
         </reference>
     </adminhtml_promo_quote_edit>
     <adminhtml_promo_quote_couponsgrid>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid" />
         </container>
     </adminhtml_promo_quote_couponsgrid>

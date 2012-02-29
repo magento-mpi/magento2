@@ -39,6 +39,6 @@ Product view
 
     <social_facebook_index_page translate="label" type="page" parent="cms_page_view">
         <label>Facebook Head</label>
-        <block type="Social_Facebook_Block_Head" name="social_facebook_head" output="toHtml" template="page.phtml" />
+        <block type="Social_Facebook_Block_Head" name="social_facebook_head" output="1" template="page.phtml" />
     </social_facebook_index_page>
 </layout>

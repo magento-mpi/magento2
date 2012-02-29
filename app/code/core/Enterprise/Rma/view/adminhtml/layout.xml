@@ -33,11 +33,11 @@
     </adminhtml_rma_chooseorder>
 
     <adminhtml_rma_addcomment>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="edit/general/history.phtml" name="comments_history" output="toHtml"/>
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="edit/general/history.phtml" name="comments_history" output="1"/>
     </adminhtml_rma_addcomment>
 
     <adminhtml_rma_addproductgrid>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="add_product_grid" output="toHtml"/>
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="add_product_grid" output="1"/>
     </adminhtml_rma_addproductgrid>
 
     <adminhtml_rma_edit>
@@ -75,23 +75,23 @@
     </adminhtml_rma_edit>
 
     <adminhtml_rma_loadattributes>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item" name="enterprise_rma_edit_item" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item" name="enterprise_rma_edit_item" output="1" />
     </adminhtml_rma_loadattributes>
 
     <adminhtml_rma_loadnewattributes>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item" name="enterprise_rma_edit_item" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item" name="enterprise_rma_edit_item" output="1" />
     </adminhtml_rma_loadnewattributes>
 
     <adminhtml_rma_loadsplitline>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="enterprise_rma_edit_items_grid" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="enterprise_rma_edit_items_grid" output="1" />
     </adminhtml_rma_loadsplitline>
 
     <adminhtml_rma_showshippingmethods>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods" name="enterprise_rma_shipping_available" output="toHtml" template="edit/shipping/methods.phtml"/>
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods" name="enterprise_rma_shipping_available" output="1" template="edit/shipping/methods.phtml"/>
     </adminhtml_rma_showshippingmethods>
 
     <adminhtml_rma_getshippingitemsgrid>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid" name="enterprise_rma_getshippingitemsgrid" template="edit/shipping/grid.phtml" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid" name="enterprise_rma_getshippingitemsgrid" template="edit/shipping/grid.phtml" output="1" />
     </adminhtml_rma_getshippingitemsgrid>
 
     <adminhtml_rma_psl>
@@ -99,11 +99,11 @@
     </adminhtml_rma_psl>
 
     <adminhtml_rma_addtrack>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="1" />
     </adminhtml_rma_addtrack>
 
     <adminhtml_rma_removetrack>
-        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="shipment_tracking" template="edit/shipping/tracking.phtml" output="1" />
     </adminhtml_rma_removetrack>
 
     <adminhtml_rma_new>
@@ -137,7 +137,7 @@
     </adminhtml_rma_new>
 
     <adminhtml_rma_showbundleitems>
-        <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items" template="edit/bundle/bundle.phtml" name="enterprise_rma_bundle" output="toHtml" />
+        <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items" template="edit/bundle/bundle.phtml" name="enterprise_rma_bundle" output="1" />
     </adminhtml_rma_showbundleitems>
 
     <!-- RMA item attributes -->

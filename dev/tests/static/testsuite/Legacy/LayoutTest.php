@@ -48,6 +48,9 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
                 'The class Mage_Core_Block_Text_List is not supposed to be used in layout anymore.'
             );
         }
+        $this->assertEmpty(
+            $layoutXml->xpath('/layout/*[@output="toHtml"]'), 'output="toHtml" is obsolete. Use output="1"'
+        );
 
         foreach ($layoutXml as $handle) {
             $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');

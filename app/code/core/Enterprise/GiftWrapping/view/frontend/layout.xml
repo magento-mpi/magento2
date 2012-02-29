@@ -12,7 +12,7 @@
 <layout version="0.1.0">
     <checkout_onepage_additional>
         <reference name="root">
-            <block type="Enterprise_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="toHtml" template="checkout/options.phtml" />
+            <block type="Enterprise_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="1" template="checkout/options.phtml" />
         </reference>
     </checkout_onepage_additional>
 

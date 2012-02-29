@@ -39,7 +39,7 @@
    </adminhtml_giftregistry_customer_edit>
 
    <adminhtml_giftregistry_customer_grid>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
         </container>
     </adminhtml_giftregistry_customer_grid>
