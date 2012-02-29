@@ -124,8 +124,7 @@
                 <totals>
                     <reward>
                         <class>enterprise_reward/total_creditmemo_reward</class>
-                        <after>weee,discount,tax,grand_total</after>
-                        <before>giftcardaccount,customerbalance</before>
+                        <after>weee,discount,tax,grand_total,customerbalance,giftcardaccount</after>
                     </reward>
                 </totals>
             </order_creditmemo>

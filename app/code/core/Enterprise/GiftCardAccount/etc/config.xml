@@ -95,8 +95,8 @@
                 <totals>
                     <giftcardaccount>
                         <class>enterprise_giftcardaccount/total_creditmemo_giftcardaccount</class>
-                        <after>weee,discount,tax,grand_total,reward,giftwrapping</after>
-                        <before>customerbalance</before>
+                        <after>weee,discount,tax,grand_total,giftwrapping,customerbalance</after>
+                        <before>reward</before>
                     </giftcardaccount>
                 </totals>
             </order_creditmemo>

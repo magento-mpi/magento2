@@ -99,7 +99,7 @@
                 <totals>
                     <customerbalance>
                         <class>enterprise_customerbalance/total_creditmemo_customerbalance</class>
-                        <after>weee,discount,tax,grand_total,reward,giftcardaccount</after>
+                        <after>weee,discount,tax,grand_total</after>
                     </customerbalance>
                 </totals>
             </order_creditmemo>
