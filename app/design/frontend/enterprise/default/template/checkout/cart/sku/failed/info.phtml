@@ -35,7 +35,7 @@ $escapedSku = $this->escapeHtml($_item->getSku());
 ?>
 <h3 class="product-name product-sku"><?php echo $escapedSku ?></h3>
 <p class="tier-prices"><?php echo $this->getTierPriceHtml(); ?></p>
-<p class="item-msg error">* <?php echo $this->getMessage(); ?></p>
+<p class="item-msg error"><?php echo $this->getMessage(); ?></p>
 <p class="item-configure"><?php echo $this->getLink(); ?></p>
 <input type="hidden" name="failed[<?php echo $escapedSku; ?>][sku]" value="<?php echo $this->escapeHtml($_item->getSku()); ?>" />
 <input type="hidden" name="failed[<?php echo $escapedSku; ?>][code]" value="<?php echo $_item->getCode(); ?>" />
