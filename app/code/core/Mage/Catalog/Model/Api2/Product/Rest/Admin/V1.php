@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _retrieve()
     {
-        $product = $this->_loadProduct();
+        $product = $this->_getProduct();
         return $product->getData();
     }
 

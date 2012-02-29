@@ -33,28 +33,37 @@
  */
 abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_Api2_Product
 {
+
+    /**
+     * @var Mage_Catalog_Model_Product
+     */
+    protected $_product;
+
     /**
      * Load product by its SKU or ID
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _loadProduct()
+    protected function _getProduct()
     {
-        $productId = $this->getRequest()->getParam('id');
-        /** @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('catalog/product');
-        $product = $productHelper->getProduct($productId, $this->_getStore()->getId());
-        if (!($product->getId())) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        // check if product belongs to website current
-        if ($this->getRequest()->getParam('store')) {
-            $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
-            if (!$isValidWebsite) {
+        if (is_null($this->_product)) {
+            $productId = $this->getRequest()->getParam('id');
+            /** @var $productHelper Mage_Catalog_Helper_Product */
+            $productHelper = Mage::helper('catalog/product');
+            $product = $productHelper->getProduct($productId, $this->_getStore()->getId());
+            if (!($product->getId())) {
                 $this->_critical(self::RESOURCE_NOT_FOUND);
             }
+            // check if product belongs to website current
+            if ($this->getRequest()->getParam('store')) {
+                $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
+                if (!$isValidWebsite) {
+                    $this->_critical(self::RESOURCE_NOT_FOUND);
+                }
+            }
+            $this->_product = $product;
         }
-        return $product;
+        return $this->_product;
     }
 
     /**
