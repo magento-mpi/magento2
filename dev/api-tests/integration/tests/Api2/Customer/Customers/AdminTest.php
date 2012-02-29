@@ -52,6 +52,9 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $this->_customer = require dirname(__FILE__) . '/../../../../fixtures/Customer/Customer.php';
     }
 
+    /**
+     * Test create customer
+     */
     public function testCreate()
     {
         $this->_customer->addData(array(
