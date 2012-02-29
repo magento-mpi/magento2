@@ -42,25 +42,37 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         return array(
             'no page type'      => array('', 'Invalid page type specified.'),
             'invalid page type' => array('1nvalid_type', 'Invalid page type specified.'),
-            'no-nexisting type' => array('non_existing_type', 'Specified page type doesn\'t exist: %s'),
+            'non-existing type' => array('non_existing_type', 'Specified page type doesn\'t exist: %s'),
         );
     }
 
     /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @dataProvider pageActionDataProvider
      */
-    public function testPageAction()
+    public function testPageAction($pageType, $isVdeToolbarBug = false)
     {
-        $this->getRequest()->setParam('page_type', 'catalog_product_view');
+        $this->getRequest()->setParam('page_type', $pageType);
         $this->dispatch('design/editor/page');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+        $controller = Mage::app()->getFrontController()->getAction();
+        $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
+        if ($isVdeToolbarBug) {
+            $this->markTestIncomplete('Bug MAGETWO-763');
+        }
         $this->assertRegExp(
-            '/treeInstance\.select_node\(.*"catalog_product_view".*\)/U',
+            '/treeInstance\.select_node\(.*"' . preg_quote($pageType, '/') . '".*\)/U',
             $this->getResponse()->getBody(),
             'Page type control should maintain the selection of the current page type.'
         );
-        $controller = Mage::app()->getFrontController()->getAction();
-        $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
+    }
+
+    public function pageActionDataProvider()
+    {
+        return array(
+            'Catalog Product View'       => array('catalog_product_view'),
+            'One Page Checkout Overview' => array('checkout_onepage_review', true),
+        );
     }
 
     public function testGetFullActionName()

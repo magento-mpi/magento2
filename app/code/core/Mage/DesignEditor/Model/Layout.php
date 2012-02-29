@@ -25,6 +25,7 @@ class Mage_DesignEditor_Model_Layout
         'Mage_Core_Block_Text_List',
         'Mage_Page_Block_',
         'Mage_DesignEditor_Block_',
+        'Mage_Checkout_Block_Onepage_',
     );
 
     /**
