@@ -12,6 +12,7 @@ Published Magento 2 update as of 2/29/2012
 -- Fixed phpdoc for Mage_Core_Model_Design_Package
 -- Fixed static code analysis failures related with case-sensitivity
 -- Fixed several typos and minor mistakes
+-- Fixed integration tests failures due to specifics of xpath library version
 - Imported fresh features and bug fixes from Magento 1.x
 
 ------
