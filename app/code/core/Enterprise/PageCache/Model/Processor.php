@@ -109,6 +109,9 @@ class Enterprise_PageCache_Model_Processor
             if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS])) {
                 $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS];
             }
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE];
+            }
             $designPackage = $this->_getDesignPackage();
 
             if ($designPackage) {
@@ -420,7 +423,7 @@ class Enterprise_PageCache_Model_Processor
                 preg_match($placeholder->getPattern(), $content, $matches);
                 if (array_key_exists(1,$matches)) {
                     $containers = array_merge($this->_processContainers($matches[1]), $containers);
-                    $content = preg_replace($placeholder->getPattern(), $matches[1], $content);
+                    $content = preg_replace($placeholder->getPattern(), str_replace('$', '\\$', $matches[1]), $content);
                 }
             }
         }

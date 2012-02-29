@@ -70,8 +70,8 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             $type = $this->getRequest()->getParam('type');
 
             if ($type == Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT
-                && $this->getRequest()->getParam('exclude_media'))
-            {
+                && $this->getRequest()->getParam('exclude_media')
+            ) {
                 $type = Mage_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 

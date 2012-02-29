@@ -16,15 +16,15 @@
 class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $saveMethod
+     * @param string $iniValue
      * @dataProvider sessionSaveMethodDataProvider
      */
     public function testSessionSaveMethod($saveMethod, $iniValue)
     {
-        $this->markTestIncomplete('Bug MAGE-5487');
-
         // depending on configuration some values cannot be set as default save session handlers.
         $origSessionHandler = ini_set('session.save_handler', $iniValue);
-        if ($iniValue && (ini_get($iniValue) != $iniValue)) {
+        if ($iniValue && (ini_get('session.save_handler') != $iniValue)) {
             $this->markTestSkipped("Can't  set '$iniValue' as session save handler");
         }
         ini_set('session.save_handler', $origSessionHandler);
@@ -38,11 +38,15 @@ class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_Test
         if ($iniValue) {
             $this->assertEquals(ini_get('session.save_handler'), $iniValue);
         }
+        ini_set('session.save_handler', $origSessionHandler);
     }
 
+    /**
+     * @return array
+     */
     public function sessionSaveMethodDataProvider()
     {
-        $testCases = array(
+        return array(
             array('db', 'user'),
             array('memcache', 'memcache'),
             array('memcached', 'memcached'),
@@ -50,7 +54,5 @@ class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_Test
             array('', ''),
             array('dummy', ''),
         );
-
-        return $testCases;
     }
 }

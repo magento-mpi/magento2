@@ -49,7 +49,8 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'name'   => 'website_id',
             'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
             'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
+            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(),
+            'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
         ));
 
         $fieldset->addField('customer_group_id', 'select', array(
@@ -69,10 +70,14 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
         $rateRenderer = $this->getLayout()
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate')
             ->setRate($this->getRate());
-        $fromIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-                   ? 'points' : 'currency_amount';
-        $toIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-                 ? 'currency_amount' : 'points';
+        $direction = $this->getRate()->getDirection();
+        if ($direction == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
+            $fromIndex = 'points';
+            $toIndex = 'currency_amount';
+        } else {
+            $fromIndex = 'currency_amount';
+            $toIndex = 'points';
+        }
         $fieldset->addField('rate_to_currency', 'note', array(
             'title'             => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),
             'label'             => Mage::helper('Enterprise_Reward_Helper_Data')->__('Rate'),

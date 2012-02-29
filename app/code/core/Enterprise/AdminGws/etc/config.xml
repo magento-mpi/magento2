@@ -371,7 +371,9 @@
                     <enterprise_banner_model_banner>bannerSaveBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
+                    <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
                     <mage_review_model_review>catalogProductReviewSaveBefore</mage_review_model_review>
+                    <mage_rating_model_rating>ratingSaveBefore</mage_rating_model_rating>
                 </model_save_before>
                 <model_delete_before>
                     <mage_cms_model_page>cmsPageDeleteBefore</mage_cms_model_page>
@@ -422,6 +424,7 @@
                     <adminhtml__catalog_product_action_attribute__edit>validateCatalogProductMassActions</adminhtml__catalog_product_action_attribute__edit>
 
                     <adminhtml__promo_catalog__>validateRuleEntityAction</adminhtml__promo_catalog__>
+                    <adminhtml__promo_catalog__index>promoCatalogIndexAction</adminhtml__promo_catalog__index>
                     <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules>
                     <adminhtml__promo_quote__>validateRuleEntityAction</adminhtml__promo_quote__>
                     <adminhtml__customersegment__>validateRuleEntityAction</adminhtml__customersegment__>
@@ -521,6 +524,9 @@
                     <adminhtml__customer_attribute__>validateCustomerAttributeActions</adminhtml__customer_attribute__>
                     <adminhtml__customer_address_attribute__>validateCustomerAttributeActions</adminhtml__customer_address_attribute__>
                     <adminhtml__rma__new>validateSalesOrderViewAction</adminhtml__rma__new>
+                    <adminhtml__rma_item_attribute__save>validateRmaAttributeSaveAction</adminhtml__rma_item_attribute__save>
+                    <adminhtml__rma_item_attribute__edit>validateRmaAttributeEditAction</adminhtml__rma_item_attribute__edit>
+                    <adminhtml__rma_item_attribute__delete>validateRmaAttributeDeleteAction</adminhtml__rma_item_attribute__delete>
                 </controller_predispatch>
                 <block_html_before>
                     <mage_adminhtml_block_customer>widgetCustomerGridContainer</mage_adminhtml_block_customer>
@@ -551,6 +557,8 @@
                     <enterprise_staging_block_adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging_block_adminhtml_staging_edit>
                     <enterprise_staging_block_adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging_block_adminhtml_backup_grid>
                     <enterprise_staging_block_adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging_block_adminhtml_backup_edit>
+                    <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
+                    <enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>removeGiftWrappingForbiddenMassactions</enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
@@ -587,8 +595,11 @@
                     <enterprise_reminder__adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder__adminhtml_reminder>
                     <adminhtml__promo_catalog_edit>removeRuleEntityEditButtons</adminhtml__promo_catalog_edit>
                     <adminhtml__promo_quote_edit>removeRuleEntityEditButtons</adminhtml__promo_quote_edit>
+                    <adminhtml__rating_edit>removeRatingEditButtons</adminhtml__rating_edit>
                     <enterprise_customersegment__adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customersegment__adminhtml_customersegment_edit>
                     <enterprise_reminder__adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder__adminhtml_reminder_edit>
+                    <enterprise_rma__adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma__adminhtml_rma_item_attribute_edit>
+                    <enterprise_rma__adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</enterprise_rma__adminhtml_rma_item_attribute_edit_tab_options>
                 </block_html_before>
             </admingws>
         </enterprise>

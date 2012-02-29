@@ -35,7 +35,7 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="express/review.phtml">
+            <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="paypaluk/express/review.phtml">
                 <action method="setPaypalActionPrefix"><prefix>paypaluk</prefix></action>
                 <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
                     <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>

@@ -40,6 +40,7 @@
                         <checkout_multiple_maximum_qty translate="label">
                             <label>Maximum Qty Allowed for Shipping to Multiple Addresses</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -146,6 +147,7 @@
                         <price translate="label">
                             <label>Price</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -163,6 +165,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -252,6 +255,7 @@
                         <free_shipping_subtotal translate="label">
                             <label>Minimum Order Amount</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -340,6 +344,7 @@
                         <handling_fee translate="label">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

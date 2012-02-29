@@ -58,7 +58,7 @@
     </td>
     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
     <td class="a-center">
-        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" title="<?php echo $this->__('Move to Wishlist') ?>" class="checkbox" />
+        <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist"><?php echo $this->__('Move'); ?></a>
     </td>
     <?php endif ?>
 <?php if ($canApplyMsrp): ?>

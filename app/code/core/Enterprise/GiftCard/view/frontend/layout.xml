@@ -111,7 +111,7 @@
     </default>
 
     <wishlist_index_index>
-        <reference name="customer.wishlist">
+        <reference name="customer.wishlist.item.cart">
             <action method="addOptionsRenderCfg"><type>giftcard</type><helper>Enterprise_GiftCard_Helper_Catalog_Product_Configuration</helper></action>
         </reference>
     </wishlist_index_index>

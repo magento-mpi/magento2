@@ -43,7 +43,7 @@
                 <totals>
                     <reward>
                         <class>Enterprise_Reward_Model_Total_Quote_Reward</class>
-                        <after>wee,discount,tax,tax_subtotal,grand_total</after>
+                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
                         <renderer>Enterprise_Reward_Block_Checkout_Total</renderer>
                     </reward>
@@ -53,6 +53,8 @@
                 <totals>
                     <reward>
                         <class>Enterprise_Reward_Model_Total_Invoice_Reward</class>
+                        <after>grand_total</after>
+                        <before>giftcardaccount,customerbalance</before>
                     </reward>
                 </totals>
             </order_invoice>
@@ -60,6 +62,8 @@
                 <totals>
                     <reward>
                         <class>Enterprise_Reward_Model_Total_Creditmemo_Reward</class>
+                        <after>weee,discount,tax,grand_total</after>
+                        <before>giftcardaccount,customerbalance</before>
                     </reward>
                 </totals>
             </order_creditmemo>

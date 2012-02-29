@@ -42,6 +42,9 @@ class Enterprise_Persistent_Model_Observer
 
             // apply persistent data to segments
             Mage::register('segment_customer', $customer, true);
+            if ($this->_isWishlistPersist()) {
+                Mage::helper('wishlist')->setCustomer($customer);
+            }
         }
         return $this;
     }
@@ -89,6 +92,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set whislist items count in top wishlist link block
      *
+     * @deprecated after 1.11.12.0
      * @param Mage_Core_Block_Abstract $block
      * @return null
      */
@@ -97,13 +101,13 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isWishlistPersist()) {
             return;
         }
-        $block->setItemCount($this->_initWishlist()->getItemsCount());
-        $block->initLinkProperties();
+        $block->setCustomWishlist($this->_initWishlist());
     }
 
     /**
      * Set persistent wishlist to wishlist sidebar block
      *
+     * @deprecated after 1.11.2.0
      * @param Mage_Core_Block_Abstract $block
      * @return null
      */
@@ -239,14 +243,9 @@ class Enterprise_Persistent_Model_Observer
             return;
         }
 
-        $wishlist = $this->_initWishlist();
-        if ($wishlist->getId()) {
-            /** @var $controller Mage_Wishlist_IndexController */
-            $controller = $observer->getEvent()->getControllerAction();
-            if ($controller instanceof Mage_Wishlist_IndexController) {
-                Mage::register('wishlist', $wishlist);
-                $controller->skipAuthentication();
-            }
+        $controller = $observer->getEvent()->getControllerAction();
+        if ($controller instanceof Mage_Wishlist_IndexController) {
+            $controller->skipAuthentication();
         }
     }
 

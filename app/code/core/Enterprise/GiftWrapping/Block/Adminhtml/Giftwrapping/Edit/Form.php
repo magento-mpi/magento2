@@ -78,7 +78,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
                 'required' => true,
                 'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Websites'),
                 'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
-                'value'    => $model->getWebsiteIds()
+                'value'    => $model->getWebsiteIds(),
+                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
         }
 
@@ -139,9 +140,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName(
-                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image'
-            )
+            'image' => Mage::getConfig()
+                ->getBlockClassName('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image')
         );
     }
 }

@@ -578,7 +578,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
                         $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
-                        $qty        = ($item->getWeight() / $itemWeight) * $qty;
+                        $qty        = round(($item->getWeight() / $itemWeight) * $qty);
                         $changeQty  = false;
                    } else {
                        $itemWeight = $this->_getWeight($itemWeight * $item->getQty());

@@ -59,14 +59,28 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
 
             // prepare products collection and apply visitors log to it
             $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            if (!in_array('status', $attributes)) {
+                // Status attribute is required even if it is not used in product listings
+                array_push($attributes, 'status');
+            }
             $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
             Mage::getResourceSingleton('Mage_Reports_Model_Resource_Event')->applyLogToCollection(
-                $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
+                $productCollection,
+                Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
+                $this->_getCustomer()->getId(),
+                0,
+                $skipProducts
             );
             $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            // Remove disabled and out of stock products from the grid
+            foreach ($productCollection as $product) {
+                if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {
+                    $productCollection->removeItemByKey($product->getId());
+                }
+            }
             $productCollection->addOptionsToResult();
             $this->setData('items_collection', $productCollection);
         }

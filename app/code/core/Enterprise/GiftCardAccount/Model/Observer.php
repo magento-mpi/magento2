@@ -273,10 +273,12 @@ class Enterprise_GiftCardAccount_Model_Observer
         if (!$quote->getGiftCardAccountApplied()) {
             return $this;
         }
-        // disable all payment methods and enable only Zero Subtotal Checkout
+        // disable all payment methods and enable only Zero Subtotal Checkout and Google Checkout
         if ((0 == $quote->getBaseGrandTotal()) && ((float)$quote->getGiftCardsAmountUsed())) {
             $result = $observer->getEvent()->getResult();
-            if ('free' === $observer->getEvent()->getMethodInstance()->getCode()) {
+            $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
+            // Allow customer to place order via googlecheckout even if grandtotal is zero
+            if ('free' === $paymentMethod || 'googlecheckout' === $paymentMethod) {
                 $result->isAvailable = true;
             } else {
                 $result->isAvailable = false;

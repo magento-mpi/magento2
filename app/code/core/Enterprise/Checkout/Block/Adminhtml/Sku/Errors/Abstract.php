@@ -147,4 +147,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      * @return Mage_Core_Model_Store
      */
     abstract public function getStore();
+
+    /**
+     * Get title of button, that adds products from grid
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getAddButtonTitle();
 }

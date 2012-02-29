@@ -49,7 +49,7 @@
                 <totals>
                     <giftwrapping>
                         <class>Enterprise_GiftWrapping_Model_Total_Invoice_Giftwrapping</class>
-                        <after>subtotal</after>
+                        <after>cost_total</after>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>Enterprise_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping</class>

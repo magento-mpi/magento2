@@ -21,9 +21,9 @@
     </checkout_cart_index>
 
     <wishlist_index_index>
-        <block type="Enterprise_GiftRegistry_Block_Wishlist_View" name="giftregistry.customer.wishlist" template="wishlist/view.phtml">
-            <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
-        </block>
+        <reference name="customer.wishlist.item.info">
+            <block type="Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml"></block>
+        </reference>
     </wishlist_index_index>
 
     <enterprise_giftregistry_index_index>

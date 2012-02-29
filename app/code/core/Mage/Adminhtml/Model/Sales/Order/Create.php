@@ -516,7 +516,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
         $item = $this->_getQuoteItem($item);
         if ($item) {
             $removeItem = false;
-            switch ($moveTo) {
+            $moveTo = explode('_', $moveTo);
+            switch ($moveTo[0]) {
                 case 'order':
                     $info = $item->getBuyRequest();
                     $info->setOptions($this->_prepareOptionsForRequest($item))
@@ -569,8 +570,27 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                     }
                     break;
                 case 'wishlist':
-                    $wishlist = $this->getCustomerWishlist();
-                    if ($wishlist && $item->getProduct()->isVisibleInSiteVisibility()) {
+                    $wishlist = null;
+                    if (!isset($moveTo[1])) {
+                        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer(
+                            $this->getSession()->getCustomer(),
+                            true
+                        );
+                    } else {
+                        $wishlist = Mage::getModel('wishlist/wishlist')->load($moveTo[1]);
+                        if (!$wishlist->getId()
+                            || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
+                        ) {
+                            $wishlist = null;
+                        }
+                    }
+                    if (!$wishlist) {
+                        Mage::throwException(Mage::helper('wishlist')->__('Could not find wishlist'));
+                    }
+                    $wishlist->setStore($this->getSession()->getStore())
+                        ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
+
+                    if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
                         $info = $item->getBuyRequest();
                         $info->setOptions($this->_prepareOptionsForRequest($item))
                             ->setQty($qty)

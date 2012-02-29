@@ -268,7 +268,6 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Constructor.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -624,20 +623,15 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveCustomOptions()
     {
-        $productTable   = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_entity');
-        $optionTable    = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option');
-        $priceTable     = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option_price');
-        $titleTable     = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option_title');
-        $typePriceTable = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option_type_price');
-        $typeTitleTable = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option_type_title');
-        $typeValueTable = Mage::getSingleton('Mage_Core_Model_Resource')
-                ->getTableName('catalog_product_option_type_value');
+        /** @var $coreResource Mage_Core_Model_Resource */
+        $coreResource   = Mage::getSingleton('Mage_Core_Model_Resource');
+        $productTable   = $coreResource->getTableName('catalog_product_entity');
+        $optionTable    = $coreResource->getTableName('catalog_product_option');
+        $priceTable     = $coreResource->getTableName('catalog_product_option_price');
+        $titleTable     = $coreResource->getTableName('catalog_product_option_title');
+        $typePriceTable = $coreResource->getTableName('catalog_product_option_type_price');
+        $typeTitleTable = $coreResource->getTableName('catalog_product_option_type_title');
+        $typeValueTable = $coreResource->getTableName('catalog_product_option_type_value');
         $nextOptionId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($optionTable);
         $nextValueId    = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($typeValueTable);
         $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
@@ -802,10 +796,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             // if complex options does not contain values - ignore them
             foreach ($customOptions[$optionTable] as $key => $optionData) {
                 if ($typeSpecific[$optionData['type']] === true
-                        && !isset($customOptions[$typeValueTable][$optionData['option_id']])) {
+                        && !isset($customOptions[$typeValueTable][$optionData['option_id']])
+                ) {
                     unset($customOptions[$optionTable][$key], $customOptions[$titleTable][$optionData['option_id']]);
                 }
             }
+
             if ($customOptions[$optionTable]) {
                 $this->_connection->insertMultiple($optionTable, $customOptions[$optionTable]);
             } else {

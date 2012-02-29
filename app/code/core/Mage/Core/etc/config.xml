@@ -57,8 +57,7 @@
             <validation>
                 <http_user_agent_skip>
                     <flash>Shockwave Flash</flash>
-                    <flash_9_mac>Adobe Flash Player 9</flash_9_mac>
-                    <flash_10_mac>Adobe Flash Player 10</flash_10_mac>
+                    <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
                 </http_user_agent_skip>
             </validation>
         </session>
@@ -255,6 +254,7 @@
             <cookie>
                 <cookie_lifetime>3600</cookie_lifetime>
                 <cookie_httponly>1</cookie_httponly>
+                <cookie_restriction>0</cookie_restriction>
             </cookie>
             <session>
                 <use_remote_addr>0</use_remote_addr>

@@ -69,7 +69,7 @@
                                     <?php if ($params->getContentType() != null): ?>
                                         <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Contents') ?></th>
                                         <?php if ($params->getContentType() == 'OTHER'): ?>
-                                            <td><?php echo $params->getContentTypeOther() ?></td>
+                                            <td><?php echo $this->escapeHtml($params->getContentTypeOther()) ?></td>
                                         <?php else: ?>
                                             <td><?php echo $this->getContentTypeByCode($params->getContentType()) ?></td>
                                         <?php endif; ?>

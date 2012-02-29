@@ -34,7 +34,14 @@ class Enterprise_Checkout_Model_Observer
      */
     protected function _getBackendCart(Varien_Event_Observer $observer)
     {
-        return $this->_getCart()->setSession($observer->getSession());
+        $storeId = $observer->getRequestModel()->getParam('storeId');
+        if (is_null($storeId)) {
+            $storeId = $observer->getRequestModel()->getParam('store_id');
+        }
+        return $this->_getCart()
+            ->setSession($observer->getSession())
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_ORDER)
+            ->setCurrentStore((int)$storeId);
     }
 
     /**
@@ -80,8 +87,7 @@ class Enterprise_Checkout_Model_Observer
         }
         /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
         $orderCreateModel = $observer->getOrderCreateModel();
-        $cart->saveAffectedProducts($orderCreateModel);
-        $cart->removeSuccessItems();
+        $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
         $request->setPost('item', array());
     }
@@ -94,24 +100,20 @@ class Enterprise_Checkout_Model_Observer
      */
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
-        /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
-        if (!$importModel->hasAnythingToUpload()) {
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+        $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
+            ? $helper->processSkuFileUploading($observer->getSession())
+            : array();
+        if (empty($rows)) {
             return;
         }
-        try {
-            if ($importModel->uploadFile()) {
-                /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
-                $orderCreateModel = $observer->getOrderCreateModel();
-                $cart = $this->_getCart()->setSession($observer->getSession());
-                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts($orderCreateModel);
-            } else {
-                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error while uploading file.'));
-            }
-        } catch (Mage_Core_Exception $e) {
-            $observer->getSession()->addError($e->getMessage());
-        }
+
+        /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+        $orderCreateModel = $observer->getOrderCreateModel();
+        $cart = $this->_getBackendCart($observer);
+        $cart->prepareAddProductsBySku($rows);
+        $cart->saveAffectedProducts($orderCreateModel, false);
     }
 
     /**
@@ -174,7 +176,12 @@ class Enterprise_Checkout_Model_Observer
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $collection = new Varien_Data_Collection();
 
-        foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(true) as $item) {
+        foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(false) as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            if ((float)$item->getQty() <= 0) {
+                $item->setSkuRequestedQty($item->getQty());
+                $item->setData('qty', 1);
+            }
             $item->setQuote($quote);
             $collection->addItem($item);
         }
@@ -184,6 +191,13 @@ class Enterprise_Checkout_Model_Observer
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();
+
+        foreach ($quote->getAllItems() as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            if ($item->hasSkuRequestedQty()) {
+                $item->setData('qty', $item->getSkuRequestedQty());
+            }
+        }
     }
 
     /**

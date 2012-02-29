@@ -65,7 +65,8 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     protected function _getFailedItemsCart()
     {
-        return Mage::getSingleton('Enterprise_Checkout_Model_Cart');
+        return Mage::getSingleton('Enterprise_Checkout_Model_Cart')
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_FRONTEND);
     }
 
     /**
@@ -75,24 +76,36 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function advancedAddAction()
     {
+        // check empty data
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        $items = $this->getRequest()->getParam('items');
+        foreach ($items as $k => $item) {
+            if (empty($item['sku'])) {
+                unset($items[$k]);
+            }
+        }
+        if (empty($items) && !$helper->isSkuFileUploaded($this->getRequest())) {
+            $this->_getSession()->addError($helper->getSkuEmptyDataMessageText());
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
         try {
+            // perform data
             $cart = $this->_getFailedItemsCart()
-                ->prepareAddProductsBySku($this->getRequest()->getParam('items'))
+                ->prepareAddProductsBySku($items)
                 ->saveAffectedProducts();
 
             $this->_getSession()->addMessages($cart->getMessages());
-            $cart->removeSuccessItems();
 
             if ($cart->hasErrorMessage()) {
-                $this->_getSession()->addError(
-                    $cart->getErrorMessage()
-                );
+                Mage::throwException($cart->getErrorMessage());
             }
-        } catch (Enterprise_Checkout_Exception $e) {
-            $this->_getSession()->addError(
-                $e->getMessage()
-            );
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
         }
+
         $this->_redirect('checkout/cart');
     }
 

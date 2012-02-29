@@ -27,7 +27,8 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty
     public function render(Varien_Object $row)
     {
         $isDisabled = ($row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU)
-            || $row->getIsDisabled();
+            || $row->getIsConfigureDisabled()
+            || $row->getIsQtyDisabled();
 
         $html = '<input type="text" ';
         $html .= 'name="' . $this->getColumn()->getId() . '" ';

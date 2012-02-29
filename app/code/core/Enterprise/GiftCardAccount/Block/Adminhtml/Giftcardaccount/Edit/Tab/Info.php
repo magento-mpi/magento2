@@ -80,6 +80,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'required'  => true,
             'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(true),
+            'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
         ));
 
         $fieldset->addType('price', 'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
