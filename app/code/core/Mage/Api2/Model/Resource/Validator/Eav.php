@@ -36,7 +36,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     /**
      * Current form mode path
      *
-     * @var Mage_Eav_Model_Form
+     * @var string
      */
     protected $_formPath;
 
@@ -106,5 +106,29 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
             ->ignoreInvisible(false);
 
         return $form->validateData($data);
+    }
+
+    /**
+     * Create validator instance for specified entity type
+     *
+     * @param Mage_Api2_Model_Resource $resource
+     * @param string $operation
+     * @return Mage_Api2_Model_Resource_Validator_Eav
+     */
+    public static function create(Mage_Api2_Model_Resource $resource, $operation)
+    {
+        /** @var $config Mage_Api2_Model_Config */
+        $config = $resource->getConfig();
+
+        $resourceType = $resource->getResourceType();
+        $userType = $resource->getUserType();
+
+        $formPath = $config->getResourceValidatorFormModel($resource->getResourceType(), self::TYPE_PERSIST,$userType);
+        $formCode = $config->getResourceValidatorFormCode($resourceType, self::TYPE_PERSIST, $userType, $operation);
+        $entity = Mage::getModel(
+            $config->getResourceValidatorEntityModel($resourceType, self::TYPE_PERSIST, $userType)
+        );
+
+        return new self($formPath, $entity, $formCode);
     }
 }
