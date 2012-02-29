@@ -87,15 +87,13 @@
 
     function toggleUseDefault(code, value)
     {
-        if ($j('#custom_currency_symbol_inherit'+code+':checked').val() !== undefined) {
-            if(!$j('#custom_currency_symbol'+code).attr('disabled')) {
-                $j('#custom_currency_symbol'+code).val(value);
-                $j('#custom_currency_symbol'+code).attr("disabled", true);
-            }
+        checkbox = $('custom_currency_symbol_inherit'+code);
+        input = $('custom_currency_symbol'+code);
+        if (checkbox.checked) {
+            input.value = value;
+            input.disabled = true;
         } else {
-            if($j('#custom_currency_symbol'+code).attr('disabled')) {
-                $j('#custom_currency_symbol'+code).removeAttr('disabled');
-            }
+            input.disabled = false;
         }
     }
 </script>
