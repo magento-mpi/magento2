@@ -77,7 +77,6 @@
                 <validators>
                     <persist>
                         <admin>
-                            <model>customer/api2_customer_validator_persist</model>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
                             <form_key>
@@ -86,7 +85,6 @@
                             </form_key>
                         </admin>
                         <customer>
-                            <model>customer/api2_customer_validator_persist</model>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
                             <form_key>

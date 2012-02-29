@@ -350,4 +350,50 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 
         return $attributes ? (array) $attributes : array();
     }
+
+    /**
+     * Retrieve validator entity model path
+     *
+     * @param string $resource
+     * @param string $validator
+     * @param string $userType
+     * @return string
+     */
+    public function getResourceValidatorEntityModel($resource, $validator, $userType)
+    {
+        return (string) $this->getNode(
+            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/entity_model'
+        );
+    }
+
+    /**
+     * Retrieve validator form model path
+     *
+     * @param string $resource
+     * @param string $validator
+     * @param string $userType
+     * @return string
+     */
+    public function getResourceValidatorFormModel($resource, $validator, $userType)
+    {
+        return (string) $this->getNode(
+            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/form_model'
+        );
+    }
+
+    /**
+     * Retrieve validator form code
+     *
+     * @param string $resource
+     * @param string $validator
+     * @param string $userType
+     * @param string $operation
+     * @return string
+     */
+    public function getResourceValidatorFormCode($resource, $validator, $userType, $operation)
+    {
+        return (string) $this->getNode(
+            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/form_code/' . $operation
+        );
+    }
 }
