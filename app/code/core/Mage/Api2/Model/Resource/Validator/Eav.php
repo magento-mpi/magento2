@@ -34,27 +34,6 @@
 abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Current form code
-     *
-     * @var string
-     */
-    protected $_formCode;
-
-    /**
-     * Current form mode path
-     *
-     * @var Mage_Eav_Model_Form
-     */
-    protected $_formPath;
-
-    /**
-     * Current entity model
-     *
-     * @var Mage_Core_Model_Abstract
-     */
-    protected $_entity;
-
-    /**
      * Validate entity.
      * If fails validation, then this metod return an array of errors
      * that explain why the validation failed.
@@ -66,8 +45,8 @@ abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Re
     {
         /** @var $form Mage_Eav_Model_Form */
         $form = Mage::getModel($this->_getFormPath());
-        $form->setEntity($this->_entity)
-            ->setFormCode($this->_formCode)
+        $form->setEntity($this->_getEntity())
+            ->setFormCode($this->_getFormCode())
             ->ignoreInvisible(false);
 
         return $form->validateData($data);
@@ -91,4 +70,28 @@ abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Re
         }
         return true;
     }
+
+    /**
+     * Retrieve form path, which will used to initiate form validation model
+     *
+     * @abstract
+     * @return string
+     */
+    abstract protected function _getFormPath();
+
+    /**
+     * Retrieve form code, which will use for attributes validation
+     *
+     * @abstract
+     * @return string
+     */
+    abstract protected function _getFormCode();
+
+    /**
+     * Retrieve entity, which will be validated
+     *
+     * @abstract
+     * @return Mage_Core_Model_Abstract
+     */
+    abstract protected function _getEntity();
 }
