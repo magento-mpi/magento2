@@ -488,10 +488,11 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
-            $checkCookie = $checkCookie && !$this->getRequest()->getParam('nocookie', false);
+            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
+                && !$this->getRequest()->getParam('nocookie', false);
             $cookies = Mage::getSingleton('core/cookie')->get();
-            if ($checkCookie && empty($cookies)) {
+            $queryContainsSid = isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM]);
+            if ($checkCookie && empty($cookies) && !$queryContainsSid) {
                 $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
             }
             Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace))->start();
