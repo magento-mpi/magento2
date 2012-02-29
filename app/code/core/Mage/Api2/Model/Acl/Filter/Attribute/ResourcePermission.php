@@ -84,13 +84,30 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                 $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
 
                 foreach ($config->getResourcesTypes() as $resource) {
+                    $resourceUserPrivileges = $config->getResourceUserPrivileges($resource, $this->_userType);
+
+                    if (!$resourceUserPrivileges) { // skip user without any privileges for resource
+                        continue;
+                    }
+                    $operations = $operationSource->toArray();
+
+                    if (empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_CREATE])
+                        && empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_UPDATE])) {
+                        unset($operations[Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE]);
+                    }
+                    if (empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_RETRIEVE])) {
+                        unset($operations[Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ]);
+                    }
+                    if (!$operations) { // skip resource without any operations allowed
+                        continue;
+                    }
                     try {
                         /** @var $resourceModel Mage_Api2_Model_Resource_Instance */
                         $resourceModel = Mage::getModel($config->getResourceModel($resource));
                         if ($resourceModel) {
                             $resourceModel->setResourceType($resource);
 
-                            foreach ($operationSource->toArray() as $operation => $operationLabel) {
+                            foreach ($operations as $operation => $operationLabel) {
                                 $avalaibleAttributes = $resourceModel->getAvailableAttributes(
                                     $this->_userType,
                                     $operation

@@ -107,13 +107,6 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     protected $_initialized = false;
 
     /**
-     * API user type: guest, admin, customer etc.
-     *
-     * @var string
-     */
-    protected $_userType;
-
-    /**
      * Constructor
      *
      * In the constructor should be set tree type: attributes or privileges.
@@ -161,13 +154,8 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         $config = Mage::getModel('api2/config');
         $this->_resourcesConfig = $config->getResourceGroups();
 
-        if ($this->_type == self::TYPE_ATTRIBUTE) {
-            if (!$this->_existOperations) {
-                throw new Exception('Operations is not set');
-            }
-            if (null === $this->_userType) {
-                throw new Exception('User type is unknown');
-            }
+        if ($this->_type == self::TYPE_ATTRIBUTE && !$this->_existOperations) {
+            throw new Exception('Operations is not set');
         }
 
         if ($this->_type == self::TYPE_PRIVILEGE && !$this->_existPrivileges) {
@@ -525,18 +513,5 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     public function getResourcesPermissions()
     {
         return $this->_resourcesPermissions;
-    }
-
-    /**
-     * User type specify
-     *
-     * @param string $userType
-     * @return Mage_Api2_Model_Acl_Global_Rule_Tree
-     */
-    public function setUserType($userType)
-    {
-        $this->_userType = $userType;
-
-        return $this;
     }
 }
