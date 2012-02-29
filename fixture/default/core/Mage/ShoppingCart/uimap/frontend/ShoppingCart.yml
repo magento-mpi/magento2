@@ -56,6 +56,7 @@ shopping_cart:
                             product_name: //h2[@class='product-name']/a[text()='%productName%']
                         fields:
                             product_qty: /tbody/tr[%productNumber%]//input[@title='Qty']
+                            product_qty_by_name: //tr[*//a[text()='%productName%']]//input[@title='Qty']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
                             product_line:  //table[@id='shopping-cart-table']/tbody/tr
