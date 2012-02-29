@@ -59,7 +59,6 @@ $product->setAttributeSetId($productData['set'])
             ),
         )
     )
-    ->setStoreId(Mage::app()->getDefaultStoreView()->getId())
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()));
 
 unset($productData['set']);
