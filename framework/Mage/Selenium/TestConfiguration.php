@@ -90,10 +90,10 @@ class Mage_Selenium_TestConfiguration
     protected $_configFixtures = array();
 
     /**
-     * Array of files paths to test helpers
+     * Array of class names for test Helper files
      * @var array
      */
-    protected $_configTestHelpers = array();
+    protected $_testHelperClassNames = array();
 
     /**
      * Constructor defined as private to implement singleton
@@ -129,7 +129,7 @@ class Mage_Selenium_TestConfiguration
     {
         $this->_initConfig();
         $this->_initFixturesPaths();
-        $this->_initTestHelpersPaths();
+        $this->_initTestHelperClassNames();
         $this->_initFixtures();
     }
 
@@ -154,12 +154,12 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initialize all paths to test Helper files
+     * Initialize all class names for test Helper files
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _initTestHelpersPaths()
+    protected function _initTestHelperClassNames()
     {
-        $this->getConfigTestHelpers();
+        $this->getTestHelperClassNames();
         return $this;
     }
 
@@ -249,10 +249,10 @@ class Mage_Selenium_TestConfiguration
      * Get all test helper class names
      * @return array
      */
-    public function getConfigTestHelpers()
+    public function getTestHelperClassNames()
     {
-        if (!empty($this->_configTestHelpers)) {
-            return $this->_configTestHelpers;
+        if (!empty($this->_testHelperClassNames)) {
+            return $this->_testHelperClassNames;
         }
         //Get initial path to test helpers
         $frameworkConfig = $this->_configHelper->getConfigFramework();
@@ -270,12 +270,11 @@ class Mage_Selenium_TestConfiguration
             foreach ($files as $file) {
                 $className = str_replace($initialPath . DIRECTORY_SEPARATOR, '', $file);
                 $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
-                $helperName = explode('_', str_replace('_Helper', '', $className));
-                $helperName = end($helperName);
-                $this->_configTestHelpers[$helperName] = $className;
+                $helperName = end(explode('_', str_replace('_Helper', '', $className)));
+                $this->_testHelperClassNames[$helperName] = $className;
             }
         }
-        return $this->_configTestHelpers;
+        return $this->_testHelperClassNames;
     }
 
     /**
