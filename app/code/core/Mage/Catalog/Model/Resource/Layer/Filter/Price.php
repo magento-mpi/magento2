@@ -225,9 +225,9 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     {
         $currencyRate = $filter->getLayer()->getProductCollection()->getCurrencyRate();
         if ($decrease) {
-            return ($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
+            return round(($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
         }
-        return ($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
+        return round(($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
     }
 
     /**
