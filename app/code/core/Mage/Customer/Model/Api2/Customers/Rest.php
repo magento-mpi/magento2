@@ -41,11 +41,13 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
      */
     protected function _create(array $data)
     {
-        $this->_validate(
-            $data,
-            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password'),
-            array('website_id', 'group_id', 'email', 'firstname', 'lastname', 'password')
-        );
+        $validator = Mage_Api2_Model_Resource_Validator_Eav::create($this, Mage_Api2_Model_Resource::OPERATION_CREATE);
+        if (true !== $validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');

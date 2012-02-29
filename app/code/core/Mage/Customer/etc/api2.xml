@@ -80,7 +80,6 @@
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>adminhtml_customer</create>
                                 <update>adminhtml_customer</update>
                             </form_code>
                         </admin>
@@ -88,7 +87,6 @@
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>customer_account_create</create>
                                 <update>customer_account_edit</update>
                             </form_code>
                         </customer>
@@ -155,6 +153,17 @@
                 </routes>
                 <instance>customer</instance>
                 <versions>1</versions>
+                <validators>
+                    <persist>
+                        <admin>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                            </form_code>
+                        </admin>
+                    </persist>
+                </validators>
             </customers>
             <customer_address>
                 <group>customer</group>
