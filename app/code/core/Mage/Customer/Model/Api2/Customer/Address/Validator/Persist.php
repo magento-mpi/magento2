@@ -35,7 +35,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator_Persist
     extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Validate entity.
+     * Validate data.
      * If fails validation, then this method returns false, and
      * getErrors() will return an array of errors that explain why the
      * validation failed.
@@ -45,6 +45,8 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator_Persist
      */
     public function isSatisfiedByData(array $data)
     {
+        return true;
+
         //print_r($data);
         //exit;
         //$this->_validate($data, array(), array(
