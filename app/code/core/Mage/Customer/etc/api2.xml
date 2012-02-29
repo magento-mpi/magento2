@@ -74,6 +74,28 @@
                         </read>
                     </customer>
                 </exclude_attributes>
+                <validators>
+                    <persist>
+                        <admin>
+                            <model>customer/api2_customer_validator_persist</model>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_key>
+                                <create>customer_account_create</create>
+                                <update>customer_account_edit</update>
+                            </form_key>
+                        </admin>
+                        <customer>
+                            <model>customer/api2_customer_validator_persist</model>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_key>
+                                <create>adminhtml_customer</create>
+                                <update>adminhtml_customer</update>
+                            </form_key>
+                        </customer>
+                    </persist>
+                </validators>
             </customer>
             <customers>
                 <group>customer</group>

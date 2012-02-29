@@ -25,46 +25,52 @@
  */
 
 /**
- * API2 Abstarct Validator
+ * API2 EAV Validator
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Api2_Model_Resource_Validator
+abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Array of validation failure errors.
+     * Current form code
      *
-     * @var array
+     * @var string
      */
-    protected $_errors = array();
+    protected $_formCode;
 
     /**
-     * Set an array of errors
+     * Current form mode path
+     *
+     * @var Mage_Eav_Model_Form
+     */
+    protected $_formPath;
+
+    /**
+     * Current entity model
+     *
+     * @var Mage_Core_Model_Abstract
+     */
+    protected $_entity;
+
+    /**
+     * Validate entity.
+     * If fails validation, then this metod return an array of errors
+     * that explain why the validation failed.
      *
      * @param array $data
-     * @return Mage_Api2_Model_Resource_Validator
+     * @return array|bool
      */
-    protected function _setErrors(array $data)
+    protected function _validate(array $data)
     {
-        $this->_errors = $data;
-        return $this;
-    }
+        /** @var $form Mage_Eav_Model_Form */
+        $form = Mage::getModel($this->_getFormPath());
+        $form->setEntity($this->_entity)
+            ->setFormCode($this->_formCode)
+            ->ignoreInvisible(false);
 
-    /**
-     * Returns an array of errors that explain why the most recent isSatisfiedByData()
-     * call returned false. The array keys are validation failure error identifiers,
-     * and the array values are the corresponding human-readable error strings.
-     *
-     * If isSatisfiedByData() was never called or if the most recent isSatisfiedByData() call
-     * returned true, then this method returns an empty array.
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->_errors;
+        return $form->validateData($data);
     }
 
     /**
@@ -74,7 +80,15 @@ abstract class Mage_Api2_Model_Resource_Validator
      * validation failed.
      *
      * @param  array $data
-     * @void bool
+     * @return bool
      */
-    abstract public function isSatisfiedByData(array $data);
+    public function isSatisfiedByData(array $data)
+    {
+        $errors = $this->_validate($data);
+        if (true !== $errors) {
+            $this->_setErrors($errors);
+            return false;
+        }
+        return true;
+    }
 }
