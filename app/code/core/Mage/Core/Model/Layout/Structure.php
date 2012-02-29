@@ -454,6 +454,41 @@ class Mage_Core_Model_Layout_Structure
         return $this->_findByXpath("//element[@name='$name' and @type='block']")->length > 0;
     }
 
+    public function isContainer($name)
+    {
+        return $this->_findByXpath("//element[@name='$name' and @type='container']")->length > 0;
+    }
+
+    /**
+     * Mark elements for output
+     *
+     * Containers are output marked by default. Only root elements can be market as output
+     *
+     * @param $name
+     * @return bool
+     */
+    public function markOutput($name)
+    {
+        if ($this->isBlock($name) && $element = $this->_getElementByXpath("/layout/element[@name='$name']")) {
+            $element->setAttribute('output', '1');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get elements marked for output
+     * @return array
+     */
+    public function getOutputElementNames()
+    {
+        $names = array();
+        foreach ($this->_findByXpath("/layout/element[@type='container' or @output='1']") as $element) {
+            $names[] = $element->getAttribute('name');
+        }
+        return $names;
+    }
+
     /**
      * Get child node from a parent
      *

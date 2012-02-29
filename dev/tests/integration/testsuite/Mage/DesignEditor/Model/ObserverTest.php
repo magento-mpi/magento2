@@ -79,7 +79,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $params = array(
             'name'   => 'block.name',
             'html'   => '<div>Any text</div>',
-            'container' => 'Mage_Core_Block_Text_List'
+            'container' => 'parent'
         );
         $observerData = $this->_buildObserverData($params);
         $this->_observer->wrapHtmlWithBlockInfo($observerData);
@@ -140,10 +140,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->createBlock($params['class'], $params['name']);
         if (isset($params['container'])) {
-            $parentBlock = $layout->createBlock($params['container']);
-            $parentName = $parentBlock->getNameInLayout();
-            $layout->insertBlock('', $parentName, 'parent');
-            $layout->setChild($parentName, $params['name'], 'child');
+            $layout->getStructure()->insertContainer('', $params['container']);
+            $layout->insertBlock($params['container'], $params['name'], $params['name']);
         }
 
         $transport = new Varien_Object();
