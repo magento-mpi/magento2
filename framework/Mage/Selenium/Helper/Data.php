@@ -111,4 +111,40 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     {
         return $this->getConfig()->_descend($this->_testData, $path);
     }
+
+    /**
+     * Loads DataSet from specified file.
+     *
+     * @param string $fileName
+     * @param string $dataSetName
+     *
+     * @return array
+     * @throws RuntimeException
+     */
+    public function loadTestDataSet($fileName, $dataSetName)
+    {
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($this->_configFixtures as $codePoolData) {
+            if (!array_key_exists('data', $codePoolData)) {
+                continue;
+            }
+            foreach ($codePoolData['data'] as $file) {
+                if (!preg_match('|data' . $separator . $fileName . '.yml$|', $file)) {
+                    continue;
+                }
+                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                if (!$dataSets) {
+                    throw new RuntimeException($fileName . ' file is empty');
+                }
+                foreach ($dataSets as $dataSetKey => $content) {
+                    if ($dataSetKey == $dataSetName) {
+                        $this->_testData[$dataSetKey] = $content;
+                        return $this->_testData[$dataSetKey];
+                    }
+                }
+            }
+        }
+        throw new RuntimeException('DataSet with name "' . $dataSetName
+            . '" is not present in "' . $fileName . '" file.');
+    }
 }

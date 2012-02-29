@@ -564,18 +564,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Loads test data.
      *
-     * @param string $dataSource
+     * @param string $dataFile - File name in which DataSet is specified
+     * @param string $dataSource - DataSet name(for example: 'test_data')
+     * or part of DataSet (for example: 'test_data/product')
      * @param array|null $overrideByKey
      * @param array|null $overrideByValueParam
      *
      * @return array
      * @throws PHPUnit_Framework_Exception
      */
-    public function loadDataSet($dataSource, $overrideByKey = null, $overrideByValueParam = null)
+    public function loadDataSet($dataFile, $dataSource, $overrideByKey = null, $overrideByValueParam = null)
     {
         $data = $this->_dataHelper->getDataValue($dataSource);
+
+        if ($data === false) {
+            $dataSetName = array_shift(explode('/', $dataSource));
+            $this->_dataHelper->loadTestDataSet($dataFile, $dataSetName);
+            $data = $this->_dataHelper->getDataValue($dataSource);
+        }
+
         if (!is_array($data)) {
-            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not loaded.');
+            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not specified.');
         }
 
         if ($overrideByKey) {
