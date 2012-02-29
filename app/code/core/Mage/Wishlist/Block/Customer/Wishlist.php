@@ -35,7 +35,7 @@
 class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
 {
     /*
-     * List of product type configuration to render options list
+     * List of product options rendering configurations by product type
      */
     protected $_optionsCfg = array();
 
@@ -101,7 +101,6 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
 
     /*
      * Adds config for rendering product type options
-     * If template is null - later default will be used
      *
      * @deprecated after 1.6.2.0
      * @param string $productType

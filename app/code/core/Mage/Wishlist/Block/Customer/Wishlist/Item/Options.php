@@ -34,7 +34,7 @@
 class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_Block_Abstract
 {
     /*
-     * List of product type configuration to render options list
+     * List of product options rendering configurations by product type
      *
      * @var array
      */
@@ -54,12 +54,11 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_B
 
     /*
      * Adds config for rendering product type options
-     * If template is null - later default will be used
      *
      * @param string $productType
      * @param string $helperName
      * @param null|string $template
-     * @return Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart
+     * @return Mage_Wishlist_Block_Customer_Wishlist_Item_Options
      */
     public function addOptionsRenderCfg($productType, $helperName, $template = null)
     {
