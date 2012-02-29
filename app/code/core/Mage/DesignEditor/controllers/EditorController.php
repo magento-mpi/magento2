@@ -63,7 +63,9 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             }
 
             $this->_fullActionName = $pageType;
-            $this->loadLayout(null, false, true);
+            $this->addPageLayoutHandles();
+            $this->loadLayoutUpdates();
+            $this->generateLayoutXml();
             Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
             $this->generateLayoutBlocks();
 
