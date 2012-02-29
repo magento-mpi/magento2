@@ -39,7 +39,14 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     protected function tearDown()
     {
-        Magento_TestCase::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('quote', true);
+        $fixtureProducts = $this->getFixture('products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
 
         parent::tearDown();
     }
@@ -60,8 +67,9 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
+        $fixtureOrderData = $fixtureOrder->getData(); // for total_due, base_total_due
         foreach ($responseData as $field => $value) {
-            $this->assertEquals($fixtureOrder->getData($field), $value);
+            $this->assertEquals($responseData[$field], $value);
         }
     }
 

@@ -41,7 +41,6 @@ class Api2_Sales_Order_Items_AdminTest extends Magento_Test_Webservice_Rest_Admi
     {
         Magento_Test_Webservice::deleteFixture('order', true);
         Magento_Test_Webservice::deleteFixture('quote', true);
-
         $fixtureProducts = $this->getFixture('products');
         if ($fixtureProducts && count($fixtureProducts)) {
             foreach ($fixtureProducts as $fixtureProduct) {
@@ -55,12 +54,13 @@ class Api2_Sales_Order_Items_AdminTest extends Magento_Test_Webservice_Rest_Admi
     /**
      * Test get order items for admin
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/order_with_items.php
+     * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testGetOrderItems()
     {
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
+
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/items');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
