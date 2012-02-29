@@ -68,6 +68,6 @@ class Mage_Sales_Model_Api2_OrdersTest extends Mage_PHPUnit_TestCase
         $ordersModel = Mage::getModel('sales/api2_orders');
         $ordersModel->setResourceType('orders');
 
-        $this->assertSame($ordersModel->getAvailableAttributes(), $testAvailableAttributes);
+        $this->assertSame($ordersModel->getAvailableAttributes('admin', 'read'), $testAvailableAttributes);
     }
 }

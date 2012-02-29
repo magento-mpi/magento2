@@ -307,22 +307,14 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         $item[self::NAME_CHILDREN] = array();
 
         if ($isResource) {
-            switch ($this->_type) {
-                case self::TYPE_ATTRIBUTE:
-                    //add operations
-                    if (!$this->_addOperations($item, $node, $name)) {
-                        return null;
-                    }
-                    break;
-
-                case self::TYPE_PRIVILEGE:
-                    //add privileges
-                    if (!$this->_addPrivileges($item, $node, $name)) {
-                        return null;
-                    }
-                    break;
-
-                //no default
+            if (self::TYPE_ATTRIBUTE == $this->_type) {
+                if (!$this->_addOperations($item, $node, $name)) {
+                    return null;
+                }
+            } elseif (self::TYPE_PRIVILEGE == $this->_type) {
+                if (!$this->_addPrivileges($item, $node, $name)) {
+                    return null;
+                }
             }
         }
 

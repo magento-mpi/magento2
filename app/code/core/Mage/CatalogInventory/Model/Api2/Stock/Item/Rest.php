@@ -55,8 +55,6 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
      */
     protected function _update(array $data)
     {
-        $this->_validate($data, array(), array('product_id', 'stock_id'));
-
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->_loadStockItemById($this->getRequest()->getParam('id'));
         $stockItem->addData($data);

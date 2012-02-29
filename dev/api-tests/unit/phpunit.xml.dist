@@ -32,10 +32,10 @@
     </testsuite>
     <filter>
         <whitelist>
-            <directory suffix=".php">../../app/code</directory>
+            <directory suffix=".php">../../../app/code</directory>
             <exclude>
-                <directory suffix=".php">../../app/code/*/*/*/sql</directory>
-                <directory suffix=".php">../../app/code/*/*/*/data</directory>
+                <directory suffix=".php">../../../app/code/*/*/*/sql</directory>
+                <directory suffix=".php">../../../app/code/*/*/*/data</directory>
             </exclude>
         </whitelist>
     </filter>

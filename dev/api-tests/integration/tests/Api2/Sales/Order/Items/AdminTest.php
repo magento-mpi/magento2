@@ -35,23 +35,12 @@
 class Api2_Sales_Order_Items_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
-     * Prepare ACL
-     */
-    public static function setUpBeforeClass()
-    {
-        require dirname(__FILE__) . '/../../_fixtures/admin_acl.php';
-
-        parent::setUpBeforeClass();
-    }
-
-    /**
      * Delete fixtures
      */
     protected function tearDown()
     {
         Magento_Test_Webservice::deleteFixture('order', true);
         Magento_Test_Webservice::deleteFixture('quote', true);
-
         $fixtureProducts = $this->getFixture('products');
         if ($fixtureProducts && count($fixtureProducts)) {
             foreach ($fixtureProducts as $fixtureProduct) {
@@ -63,27 +52,15 @@ class Api2_Sales_Order_Items_AdminTest extends Magento_Test_Webservice_Rest_Admi
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('role', true);
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get order items for admin
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/order_with_items.php
+     * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testGetOrderItems()
     {
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
+
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/items');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 

@@ -338,6 +338,20 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve API user privileges for specified resource
+     *
+     * @param string $resource
+     * @param string $userType
+     * @return array
+     */
+    public function getResourceUserPrivileges($resource, $userType)
+    {
+        $attributes = $this->getNode('resources/' . $resource . '/privileges/' . $userType);
+
+        return $attributes ? (array) $attributes : array();
+    }
+
+    /**
      * Retrieve resource subresources
      *
      * @param string $node

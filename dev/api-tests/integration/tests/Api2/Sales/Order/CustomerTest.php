@@ -39,52 +39,50 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
      */
     protected function tearDown()
     {
-        Magento_TestCase::deleteFixture('order_customer', true);
-        Magento_TestCase::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('customer_order', true);
+        Magento_Test_Webservice::deleteFixture('customer_quote', true);
+        $fixtureProducts = $this->getFixture('customer_products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
+
+        Magento_Test_Webservice::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('quote', true);
+        $fixtureProducts = $this->getFixture('products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
 
         parent::tearDown();
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('customer_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get order item for customer
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
-     * @magentoDataFixture Api2/Sales/_fixtures/order_customer.php
+     * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
      */
     public function testGetOrder()
     {
         /* @var $fixtureOrder Mage_Sales_Model_Order */
-        $fixtureOrder = $this->getFixture('order_customer');
+        $fixtureOrder = $this->getFixture('customer_order');
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
-        $orderOriginalData = $fixtureOrder->getData();
+        $fixtureOrderData = $fixtureOrder->getData(); // for total_due, base_total_due
         foreach ($responseData as $field => $value) {
-            if (isset($orderOriginalData[$field])) {
-                $this->assertEquals($orderOriginalData[$field], $value);
-            }
+            $this->assertEquals($responseData[$field], $value);
         }
     }
 
     /**
      * Test retrieving not existing order item
-     *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      */
     public function testGetUnavailableOrder()
     {
@@ -95,7 +93,6 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     /**
      * Test get order if customer is not owner
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testGetOrderIfCustomerIsNotOwner()

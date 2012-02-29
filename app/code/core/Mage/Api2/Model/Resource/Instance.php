@@ -72,49 +72,4 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
     }
-
-    /**
-     * Get available attributes of API resource from configuration file
-     *
-     * @return array
-     * @throw Exception
-     */
-    public function getAvailableAttributesFromConfig()
-    {
-        return $this->getConfig()->getResourceAttributes($this->getResourceType());
-    }
-
-    /**
-     * Get available attributes of API resource
-     * Most common way
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    protected function _getAvailableAttributes($userType = null, $operation = null)
-    {
-        /** @var $resourceModel Mage_Core_Model_Resource_Db_Abstract */
-        $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-
-        $attrCodes = array_keys($resourceModel->getReadConnection()->describeTable($resourceModel->getMainTable()));
-        $attributes = $this->getAvailableAttributesFromConfig();
-        $excluded = $this->getExcludedAttributes($userType, $operation);
-
-        $available = array();
-        foreach ($attrCodes as $code) {
-            if (in_array($code, $excluded)) {
-                continue;
-            }
-
-            if (isset($attributes[$code])) {
-                $label = $attributes[$code];
-            } else {
-                $label = $code;
-            }
-            $available[$code] = $label;
-        }
-
-        return $available;
-    }
 }

@@ -35,16 +35,6 @@
 class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
-     * Prepare ACL
-     */
-    public static function setUpBeforeClass()
-    {
-        require dirname(__FILE__) . '/../../_fixtures/admin_acl.php';
-
-        parent::setUpBeforeClass();
-    }
-
-    /**
      * Delete fixtures
      */
     protected function tearDown()
@@ -63,19 +53,6 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('role', true);
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get stock items for admin
      *
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
@@ -85,13 +62,13 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
         $restResponse = $this->callGet('stockitems', array('order' => 'item_id', 'dir' => Zend_Db_Select::SQL_DESC));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
-        $items = $restResponse->getBody();
-        $this->assertNotEmpty($items);
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
         $itemsIds = array();
-        foreach ($items as $item) {
+        foreach ($responseData as $item) {
             $itemsIds[] = $item['item_id'];
         }
-
         $fixtureItems = $this->getFixture('cataloginventory_stock_items');
         foreach ($fixtureItems as $fixtureItem) {
             $this->assertContains($fixtureItem->getId(), $itemsIds,
@@ -163,7 +140,7 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
     public function testUpdateMissingItemId()
     {
         $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
-        unset($singleItemDataForUpdate['item_id']);
+        unset($singleItemDataForUpdate['item_id']); // missing item_id
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
@@ -191,12 +168,8 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
         $stockItem = $this->getFixture('stockItem');
         $itemId = $stockItem->getId();
 
-        $singleItemDataForUpdate['item_id'] = NULL; // for this case item_id is NULL also
-        $singleItemDataForUpdate = array_merge(
-            $singleItemDataForUpdate,
-            require dirname(__FILE__) . '/../../_fixtures/stock_item_data_emptyrequired.php'
-        );
-        $dataForUpdate = array($singleItemDataForUpdate);
+        $singleItemDataForUpdateEmptyRequired = array('item_id' => NULL);
+        $dataForUpdate = array($singleItemDataForUpdateEmptyRequired);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -206,7 +179,7 @@ class Api2_CatalogInventory_Stock_Items_AdminTest extends Magento_Test_Webservic
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array();
-        foreach ($singleItemDataForUpdate as $key => $value) {
+        foreach ($singleItemDataForUpdateEmptyRequired as $key => $value) {
             $expectedErrors[] = array(
                 'message' => sprintf('Empty value for "%s" in request.', $key),
                 'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,

@@ -42,16 +42,11 @@
                 <title>Orders</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                     </admin>
                     <customer>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                     </customer>
-                    <guest>
-                        <retrieve>1</retrieve>
-                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
@@ -70,8 +65,6 @@
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </admin>
                     <customer>
                         <retrieve>1</retrieve>
@@ -95,8 +88,6 @@
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
-                        <update>1</update>
-                        <delete>1</delete>
                     </admin>
                     <customer>
                         <retrieve>1</retrieve>
@@ -107,7 +98,7 @@
                         <mask>/orders/:id/items</mask>
                     </route_main>
                 </routes>
-                <collection>orders_items</collection>
+                <instance>orders_item</instance>
                 <versions>1</versions>
             </order_items>
             <address>
@@ -136,7 +127,7 @@
                 <group>sales</group>
                 <type>addresses</type>
                 <model>sales/api2_order_addresses</model>
-                <working_model>sales/order_addresses</working_model>
+                <working_model>sales/order_address</working_model>
                 <title>Order Addresses</title>
                 <privileges>
                     <admin>

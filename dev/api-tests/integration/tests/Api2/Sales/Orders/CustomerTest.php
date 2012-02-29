@@ -50,21 +50,8 @@ class Api2_Sales_Orders_CustomerTest extends Magento_Test_Webservice_Rest_Custom
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('customer_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get orders for customer
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_acl.php
      * @magentoDataFixture Api2/Sales/_fixtures/orders_list_customer.php
      */
     public function testGetOrders()

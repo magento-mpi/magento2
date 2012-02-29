@@ -86,8 +86,24 @@ class Magento_Test_Webservice_Rest_Adapter
 
         // Create oAuth token for REST adapter (admin/customer)
         if (isset($options['type']) && $options['type'] != 'guest') {
-            $this->_createToken($options['type']);
+            $this->_loadToken($options['type']);
         }
+    }
+
+    /**
+     * Create authorized access token
+     *
+     * @param string $consumerId
+     * @param string $userType
+     * @param int $userId
+     */
+    protected function _createToken($consumerId, $userType, $userId)
+    {
+        $this->_token = Mage::getModel('oauth/token');
+
+        $this->_token->createRequestToken($consumerId, TESTS_WEBSERVICE_URL)
+            ->authorize($userId, $userType)
+            ->convertToAccess();
     }
 
     /**
@@ -97,12 +113,10 @@ class Magento_Test_Webservice_Rest_Adapter
      * @return void
      * @throws Exception
      */
-    protected function _createToken($userType)
+    protected function _loadToken($userType)
     {
         $this->_consumer = Mage::getModel('oauth/consumer')
             ->load(TESTS_OAUTH_CONSUMER, 'key');
-        $this->_token = Mage::getModel('oauth/token');
-        $this->_token->createRequestToken($this->_consumer->getId(), TESTS_WEBSERVICE_URL);
 
         if ($userType == 'customer') {
             $website = Mage::app()->getWebsite();
@@ -121,9 +135,24 @@ class Magento_Test_Webservice_Rest_Adapter
             if (!$userId) {
                 throw new Exception('Test Admin not found.');
             }
+        } else {
+            throw new Exception("Invalid user type '{$userType}'.");
         }
+        /** @var $tokenResource Mage_OAuth_Model_Resource_Token_Collection */
+        $tokenResource = Mage::getResourceModel('oauth/token_collection');
 
-        $this->_token->authorize($userId, $userType)->convertToAccess();
+        $tokenResource->addFilterByConsumerId($this->_consumer->getId())->addFilterByType('access');
+
+        if ($userType == 'customer') {
+            $tokenResource->addFilterByCustomerId($userId);
+        } else {
+            $tokenResource->addFilterByAdminId($userId);
+        }
+        if (($tokens = $tokenResource->getItems())) {
+            $this->_token = reset($tokens);
+        } else {
+            $this->_createToken($this->_consumer->getId(), $userType, $userId);
+        }
     }
 
     /**

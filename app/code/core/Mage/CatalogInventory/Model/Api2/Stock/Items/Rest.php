@@ -31,7 +31,8 @@
  * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_CatalogInventory_Model_Api2_Stock_Items
+abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
+    extends Mage_CatalogInventory_Model_Api2_Stock_Items
 {
     /**
      * Get orders list
@@ -77,10 +78,11 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
     protected function _updateItem($data)
     {
         try {
-            $this->_validate($data, array('item_id'), array('item_id', 'product_id', 'stock_id'));
+            $this->_validate($data, array('item_id'), array('item_id'));
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $this->_loadStockItemById($data['item_id']);
+            unset($data['item_id']); // item_id is not for update
             $stockItem->addData($data);
             $stockItem->save();
 
@@ -100,7 +102,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest extends Mage_Ca
             }
         } catch (Exception $e) {
             $this->_errorMessage(
-                $e->getMessage(),
+                Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR,
                 Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
                 isset($data['item_id']) ? $data['item_id'] : null
             );

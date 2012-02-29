@@ -33,15 +33,4 @@
  */
 class Mage_Sales_Model_Api2_Order_Address extends Mage_Api2_Model_Resource_Instance
 {
-    /**
-     * Get available attributes of API resource
-     *
-     * @param string|null $userType
-     * @param string|null $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType = null, $operation = null)
-    {
-        return $this->_getAvailableAttributes($userType, $operation);
-    }
 }

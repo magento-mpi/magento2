@@ -36,12 +36,17 @@ class Mage_Review_Model_Api2_Review extends Mage_Api2_Model_Resource_Instance
     /**
      * Get available attributes of API resource
      *
-     * @param string|null $userType
-     * @param string|null $operation
+     * @param string $userType
+     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
-        return $this->_getAvailableAttributes($userType, $operation);
+        $available = $this->getAvailableAttributesFromConfig();
+
+        foreach ($this->getExcludedAttributes($userType, $operation) as $excludeAttrCode) {
+            unset($available[$excludeAttrCode]);
+        }
+        return $available;
     }
 }

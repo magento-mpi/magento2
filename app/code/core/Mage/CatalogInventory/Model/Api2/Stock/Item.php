@@ -33,36 +33,4 @@
  */
 class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resource_Instance
 {
-    /**
-     * Get available attributes of API resource
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType = null, $operation = null)
-    {
-        /** @var $resourceModel Mage_Sales_Model_Resource_Order */
-        $resourceModel  = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-
-        $attrCodes = array_keys($resourceModel->getReadConnection()->describeTable($resourceModel->getMainTable()));
-        $attributes = $this->getAvailableAttributesFromConfig();
-        $excluded = $this->getExcludedAttributes($userType, $operation);
-
-        $available = array();
-        foreach ($attrCodes as $code) {
-            if (in_array($code, $excluded)) {
-                continue;
-            }
-
-            if (isset($attributes[$code])) {
-                $label = $attributes[$code];
-            } else {
-                $label = $code;
-            }
-            $available[$code] = $label;
-        }
-
-        return $available;
-    }
 }

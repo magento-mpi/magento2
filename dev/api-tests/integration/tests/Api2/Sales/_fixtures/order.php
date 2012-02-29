@@ -25,17 +25,36 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $order Mage_Sales_Model_Order */
-$order = Mage::getModel('sales/order')
-    ->setBillingAddress(new Mage_Sales_Model_Order_Address());
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
 
-/* @var $payment Mage_Sales_Model_Order_Payment */
-$payment = Mage::getModel('sales/order_payment')
-    ->setMethod('free')
-    ->setOrder($order)
-    ->place();
+/* @var $productFixture Mage_Catalog_Model_Product */
+$productFixture = require $fixturesDir . '/Catalog/Product.php';
 
-$order->setPayment($payment); // WARNING: setPayment return Mage_Sales_Model_Order_Payment
-$order->save();
+/* @var $quoteFixture Mage_Sales_Model_Quote */
+$quoteFixture = require $fixturesDir . '/Sales/Quote/Quote.php';
 
-Magento_Test_Webservice::setFixture('order', $order);
+/* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
+$rateFixture = require $fixturesDir . '/Sales/Quote/Rate.php';
+
+// Create products
+$product1 = clone $productFixture;
+$product1->save();
+$product2 = clone $productFixture;
+$product2->save();
+
+// Create quote
+$quoteFixture->addProduct($product1, 1);
+$quoteFixture->addProduct($product2, 2);
+$quoteFixture->getShippingAddress()->addShippingRate($rateFixture);
+$quoteFixture->collectTotals()
+    ->save();
+
+//Create order
+$quoteService = new Mage_Sales_Model_Service_Quote($quoteFixture);
+$order = $quoteService->submitOrder()
+    ->place()
+    ->save();
+
+Magento_Test_Webservice::setFixture('products', array($product1, $product2));
+Magento_Test_Webservice::setFixture('quote', $quoteFixture);
+Magento_Test_Webservice::setFixture('order', Mage::getModel('sales/order')->load($order->getId()));

@@ -34,6 +34,11 @@
 class Mage_Api2_Model_Request_Interpreter_Query implements Mage_Api2_Model_Request_Interpreter_Interface
 {
     /**
+     * URI validate pattern
+     */
+    const URI_VALIDATE_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
+
+    /**
      * Parse request body into array of params
      *
      * @param string $body  Posted content from request
@@ -45,8 +50,28 @@ class Mage_Api2_Model_Request_Interpreter_Query implements Mage_Api2_Model_Reque
         if (!is_string($body)) {
             throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
-        parse_str($body, $data);
 
+        if (!$this->_validateQuery($body)) {
+            throw new Mage_Api2_Exception(
+                'Invalid data type. Check Content-Type.',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
+
+        $data = array();
+        parse_str($body, $data);
         return $data;
+    }
+
+    /**
+     * Returns true if and only if the query string passes validation.
+     *
+     * @param  string $query The query to validate
+     * @return boolean
+     * @link   http://www.faqs.org/rfcs/rfc2396.html
+     */
+    protected function _validateQuery($query)
+    {
+        return preg_match(self::URI_VALIDATE_PATTERN, $query);
     }
 }

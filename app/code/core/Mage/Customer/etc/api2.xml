@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Customer
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <api2>
+        <resource_groups>
+            <customer translate="title" module="customer">
+                <title>Customer</title>
+                <sort_order>130</sort_order>
+            </customer>
+        </resource_groups>
+        <resources>
+            <customer>
+                <group>customer</group>
+                <sort_order>90</sort_order>
+                <type>customer</type>
+                <model>customer/api2_customer</model>
+                <working_model>customer/customer</working_model>
+                <title>Customer</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                    </customer>
+                </privileges>
+                <attributes>
+                    <password>Password</password>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/customers/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>customers</collection>
+                <versions>1</versions>
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <password />
+                        </read>
+                    </admin>
+                    <customer>
+                        <read>
+                            <password />
+                        </read>
+                    </customer>
+                </exclude_attributes>
+                <validators>
+                    <persist>
+                        <admin>
+                            <model>customer/api2_customer_validator_persist</model>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_key>
+                                <create>customer_account_create</create>
+                                <update>customer_account_edit</update>
+                            </form_key>
+                        </admin>
+                        <customer>
+                            <model>customer/api2_customer_validator_persist</model>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_key>
+                                <create>adminhtml_customer</create>
+                                <update>adminhtml_customer</update>
+                            </form_key>
+                        </customer>
+                    </persist>
+                </validators>
+            </customer>
+            <customers>
+                <group>customer</group>
+                <sort_order>100</sort_order>
+                <type>customers</type>
+                <model>customer/api2_customers</model>
+                <working_model>customer/customer</working_model>
+                <title>Customers</title>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                </privileges>
+                <attributes>
+                    <entity_id>Customer ID</entity_id>
+                    <password>Password</password>
+                </attributes>
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <password />
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <group_id />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                            <website_id />
+                        </read>
+                        <write>
+                            <entity_id />
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                        </write>
+                    </admin>
+                </exclude_attributes>
+                <routes>
+                    <route_main>
+                        <mask>/customers</mask>
+                    </route_main>
+                </routes>
+                <instance>customer</instance>
+                <versions>1</versions>
+            </customers>
+            <customer_address>
+                <group>customer</group>
+                <sort_order>110</sort_order>
+                <type>customer_address</type>
+                <model>customer/api2_customer_address</model>
+                <working_model>customer/address</working_model>
+                <title>Customer Address</title>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </customer>
+                </privileges>
+                <exclude_attributes/>
+                <routes>
+                    <route_main>
+                        <mask>/customers/addresses/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>customer_addresses</collection>
+                <versions>1</versions>
+            </customer_address>
+            <customer_addresses>
+                <group>customer</group>
+                <sort_order>110</sort_order>
+                <type>customer_addresses</type>
+                <model>customer/api2_customer_addresses</model>
+                <working_model>customer/address</working_model>
+                <title>Customer Addresses</title>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <exclude_attributes/>
+                <routes>
+                    <route_main>
+                        <mask>/customers/:id/addresses</mask>
+                    </route_main>
+                </routes>
+                <instance>customer_address</instance>
+                <versions>1</versions>
+            </customer_addresses>
+        </resources>
+    </api2>
+</config>

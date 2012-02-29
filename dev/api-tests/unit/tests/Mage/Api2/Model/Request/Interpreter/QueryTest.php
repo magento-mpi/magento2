@@ -72,6 +72,22 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
     }
 
     /**
+     * Test interpret content not valid
+     *
+     * @dataProvider dataProviderFailed
+     * @param string $encoded
+     * @return void
+     */
+    public function testInterpretContentNotValid($encoded)
+    {
+        $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+
+        $this->setExpectedException('Mage_Api2_Exception', 'Invalid data type. Check Content-Type.');
+
+        $adapter->interpret($encoded);
+    }
+
+    /**
      * Provides data for testing successful flow
      *
      * @return array
@@ -79,12 +95,10 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
     public function dataProviderSuccess()
     {
         return array(
-            array('foo', array('foo'=>'')),
-            array('foo bar', array('foo_bar'=>'')),
+            array('foo', array('foo' => '')),
             array('1', array('1'=>'')),
             array('1.234', array('1_234'=>'')),
             array('foo=bar', array('foo'=>'bar')),
-            array('foo=>bar', array('foo'=>'>bar')),
             array('foo=bar=', array('foo'=>'bar=')),
             array(
                 'key1=test1&key2=test2&array[test01]=some1&array[test02]=some2',
@@ -95,7 +109,23 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
                         'test01' => 'some1',
                         'test02' => 'some2',
                     )
-                )),
+                )
+            ),
+        );
+    }
+
+    /**
+     * Provides data for testing failed flow
+     *
+     * @return array
+     */
+    public function dataProviderFailed()
+    {
+        return array(
+            array('foo bar'),
+            array('foo=>bar'),
+            array('foo
+            bar')
         );
     }
 }

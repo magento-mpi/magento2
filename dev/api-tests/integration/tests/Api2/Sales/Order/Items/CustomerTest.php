@@ -35,23 +35,21 @@
 class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
-     * Prepare ACL
-     */
-    public static function setUpBeforeClass()
-    {
-        require dirname(__FILE__) . '/../../_fixtures/admin_acl.php';
-
-        parent::setUpBeforeClass();
-    }
-
-    /**
      * Delete fixtures
      */
     protected function tearDown()
     {
+        Magento_Test_Webservice::deleteFixture('customer_order', true);
+        Magento_Test_Webservice::deleteFixture('customer_quote', true);
+        $fixtureProducts = $this->getFixture('customer_products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
+
         Magento_Test_Webservice::deleteFixture('order', true);
         Magento_Test_Webservice::deleteFixture('quote', true);
-
         $fixtureProducts = $this->getFixture('products');
         if ($fixtureProducts && count($fixtureProducts)) {
             foreach ($fixtureProducts as $fixtureProduct) {
@@ -63,27 +61,14 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
     }
 
     /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_TestCase::deleteFixture('role', true);
-        Magento_TestCase::deleteFixture('rule', true);
-        Magento_TestCase::deleteFixture('attribute', true);
-        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test get order items for customer
      *
-     *  @magentoDataFixture Api2/Sales/_fixtures/order_with_items_customer.php
+     *  @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
      */
     public function testGetOrder()
     {
         /* @var $fixtureOrder Mage_Sales_Model_Order */
-        $fixtureOrder = $this->getFixture('order');
+        $fixtureOrder = $this->getFixture('customer_order');
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/items');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -113,7 +98,7 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Test get order items if customer is not owner
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/order_with_items.php
+     * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testGetOrderIfCustomerIsNotOwner()
     {

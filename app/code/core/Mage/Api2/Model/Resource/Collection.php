@@ -108,7 +108,10 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
             $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
         }
         if (null !== $orderField) {
-            if (!is_string($orderField) || !array_key_exists($orderField, $this->getAvailableAttributes())) {
+            $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
+            if (!is_string($orderField)
+                || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))) {
+
                 $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
             $collection->setOrder($orderField, $request->getOrderDirection());
@@ -126,8 +129,8 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     protected function _getLocation(Mage_Core_Model_Abstract $resource)
     {
-         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-         $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('api2/route_apiType');
 
         $instanceResourceType = $this->getConfig()->getResourceInstance($this->getResourceType());
         $chain = $apiTypeRoute->chain(
@@ -139,7 +142,13 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
          );
          $uri = $chain->assemble($params);
 
-         return '/' . $uri;
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            'id'       => $resource->getId()
+        );
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
     }
 
     /**
@@ -195,44 +204,6 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
     }
 
     /**
-     * Get available attributes of API resource
-     *
-     * @param string|null $userType
-     * @param string|null $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType = null, $operation = null)
-    {
-        return $this->getResourceInstance()->getAvailableAttributes($userType, $operation);
-    }
-
-    /**
-     * Get available attributes of API resource from configuration file
-     *
-     * @return array
-     * @throw Exception
-     */
-    public function getAvailableAttributesFromConfig()
-    {
-        $instanceResourceType = $this->getInstanceResourceType();
-
-        if (!$instanceResourceType) {
-            throw new Exception(sprintf("Can not find instance node name for resource '%s'", $this->getResourceType()));
-        }
-        return $this->getConfig()->getResourceAttributes($instanceResourceType);
-    }
-
-    /**
-     * Get instance class for this collection
-     *
-     * @return string
-     */
-    public function getInstanceResourceType()
-    {
-        return $this->getConfig()->getResourceInstance($this->getResourceType());
-    }
-
-    /**
      * Get instance object for this collection
      *
      * @throws Exception
@@ -250,7 +221,16 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
         }
 
         $instance->setResourceType($this->getInstanceResourceType());
-
         return $instance;
+    }
+
+    /**
+     * Get instance class for this collection
+     *
+     * @return string
+     */
+    public function getInstanceResourceType()
+    {
+        return $this->getConfig()->getResourceInstance($this->getResourceType());
     }
 }

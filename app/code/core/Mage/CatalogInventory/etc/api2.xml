@@ -42,18 +42,10 @@
                 <title>Stock Item</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                     </admin>
                 </privileges>
-                <routes>
-                    <route_main>
-                        <mask>/stockitems/:id</mask>
-                    </route_main>
-                </routes>
-                <collection>stockitems</collection>
-                <versions>1</versions>
                 <attributes>
                     <item_id>Item Id</item_id>
                     <product_id>Product Id</product_id>
@@ -83,24 +75,19 @@
                 </attributes>
                 <exclude_attributes>
                     <admin>
-                        <read>
-                            <item_id />
-                        </read>
-                    </admin>
-                    <customer>
-                        <read>
-                            <item_id />
-                            <product_id />
-                        </read>
-                    </customer>
-                    <guest>
-                        <read>
-                            <item_id />
+                        <write>
                             <product_id />
                             <stock_id />
-                        </read>
-                    </guest>
+                        </write>
+                    </admin>
                 </exclude_attributes>
+                <routes>
+                    <route_main>
+                        <mask>/stockitems/:id</mask>
+                    </route_main>
+                </routes>
+                <collection>stockitems</collection>
+                <versions>1</versions>
             </stockitem>
             <stockitems>
                 <group>cataloginventory</group>
@@ -110,11 +97,18 @@
                 <title>Stock Items</title>
                 <privileges>
                     <admin>
-                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                     </admin>
                 </privileges>
+                <exclude_attributes>
+                    <admin>
+                        <write>
+                            <product_id />
+                            <stock_id />
+                        </write>
+                    </admin>
+                </exclude_attributes>
                 <routes>
                     <route_main>
                         <mask>/stockitems</mask>
