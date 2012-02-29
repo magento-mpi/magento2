@@ -79,11 +79,7 @@ set strArrayName.%strArrayNumber%=%config%
 GOTO :EOF
 
 :functionCreateDir
-set tdtd=none
-set ttrn=none
-for /F "tokens=2-4 delims=/ " %%i in ('date /t') do set tdtd=%%i%%j%%k
-for /F "tokens=5-8 delims=:. " %%i in ('echo.^| time ^| find "current" ') do set ttrn=%%i%%j%%k%%l
-set tufn=%tdtd%%ttrn%
+set tufn=%time:~0,2%%time:~3,2%%time:~6,2%%time:~9,2%
 mkdir %tufn%
 GOTO :EOF
 
@@ -117,7 +113,7 @@ For /F "usebackq delims=.=: tokens=2,3,4" %%a IN (`set strConfName`) DO (
 GOTO :EOF
 
 :functionRepAnExec
-for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%_%counter%\config\config.yml.dist) do (
+for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%_%counter%\config\config.yml) do (
 	if "%%i"=="%defaultbrowser%" (
 		(echo %newdefaultbrowser%)>> %workingDir%\%tufn%\%app%%browser%_%counter%\config\confignew.yml
 	) else (
@@ -129,7 +125,7 @@ for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%_%counter%\c
 	)
 )
 move %workingDir%\%tufn%\%app%%browser%_%counter%\config\confignew.yml %workingDir%\%tufn%\%app%%browser%_%counter%\config\config.yml
-start cmd cd %workingDir%\%tufn%\%app%%browser%_%counter%&&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration phpunit.xml >var\logs\PHPUnitReport.txt
+start cmd /X/V:ON/K "cd /d %workingDir%\%tufn%\%app%%browser%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration phpunit.xml" 
 GOTO :EOF
 
 :EOF
