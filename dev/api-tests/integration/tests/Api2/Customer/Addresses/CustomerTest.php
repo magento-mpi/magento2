@@ -52,6 +52,59 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
     }
 
     /**
+     * Test create customer address
+     *
+     * @param array $dataForUpdate
+     * @dataProvider providerTestUpdateData
+     */
+    public function testCreateCustomerAddress($dataForUpdate)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+        $restResponse = $this->callPost('customers/' . $customer->getId() . '/addresses', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
+        /* @var $createdAddress Mage_Customer_Model_Address */
+        $createdAddress = Mage::getModel('customer/address')->load($addressId);
+        $this->assertGreaterThan(0, $createdAddress->getId());
+
+        $this->addModelToDelete($createdAddress, true);
+    }
+
+    /**
+     * Test gcreate customer address if customer is not owner
+     *
+     * @param array $dataForUpdate
+     * @dataProvider providerTestUpdateData
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     */
+    public function testCreateCustomerAddressIfCustomerIsNotOwner()
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Data provider
+     *
+     * @return array
+     */
+    public function providerTestUpdateData()
+    {
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+        /* @var $customerAddressFixture Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = require $fixturesDir . '/Customer/Address.php';
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+        unset($dataForUpdate['is_default_billing']);
+        unset($dataForUpdate['is_default_shipping']);
+        return array(array($dataForUpdate));
+    }
+
+    /**
      * Test get customer addresses for customer
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
      */

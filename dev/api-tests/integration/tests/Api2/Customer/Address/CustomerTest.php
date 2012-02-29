@@ -52,6 +52,15 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
+     * Test create customer address
+     */
+    public function testCreateCustomerAddress()
+    {
+        $response = $this->callPost('customers/addresses/1', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+    }
+
+    /**
      * Test get customer addresses for customer
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
      */
@@ -106,7 +115,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerTestUpdateData
      */
-    public function testUpdate($dataForUpdate)
+    public function testUpdateCustomerAddress($dataForUpdate)
     {
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
@@ -132,7 +141,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param array $dataForUpdate
      * @dataProvider providerTestUpdateData
      */
-    public function testUpdateUnavailableResource($dataForUpdate)
+    public function testUpdateUnavailableCustomerAddress($dataForUpdate)
     {
         $response = $this->callPut('customers/addresses/invalid_id', $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
@@ -176,7 +185,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
      */
-    public function testDelete()
+    public function testDeleteCustomerAddress()
     {
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
@@ -196,7 +205,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test delete not existing address
      */
-    public function testDeleteUnavailableResource()
+    public function testDeleteUnavailableCustomerAddress()
     {
         $response = $this->callDelete('customers/addresses/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());

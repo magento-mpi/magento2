@@ -65,6 +65,8 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
+
+        return $this->_getLocation($customerAddress);
     }
 
     /**

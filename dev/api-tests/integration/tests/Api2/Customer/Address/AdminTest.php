@@ -91,7 +91,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      * @dataProvider providerTestUpdateData
      */
-    public function testUpdate($dataForUpdate)
+    public function testUpdateCustomerAddress($dataForUpdate)
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = $this->getFixture('customer')
@@ -114,7 +114,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @dataProvider providerTestUpdateData
      */
-    public function testUpdateUnavailableResource($dataForUpdate)
+    public function testUpdateUnavailableCustomerAddress($dataForUpdate)
     {
         $response = $this->callPut('customers/addresses/invalid_id', $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
@@ -141,7 +141,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      */
-    public function testDelete()
+    public function testDeleteCustomerAddress()
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = $this->getFixture('customer')
@@ -158,7 +158,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test delete not existing address
      */
-    public function testDeleteUnavailableResource()
+    public function testDeleteUnavailableCustomerAddress()
     {
         $response = $this->callDelete('customers/addresses/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());

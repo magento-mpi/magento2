@@ -45,10 +45,47 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     }
 
     /**
+     * Test create customer address
+     *
+     * @param array $dataForUpdate
+     * @dataProvider providerTestUpdateData
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     */
+    public function testCreateCustomerAddress($dataForUpdate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
+        /* @var $createdAddress Mage_Customer_Model_Address */
+        $createdAddress = Mage::getModel('customer/address')->load($addressId);
+        $this->assertGreaterThan(0, $createdAddress->getId());
+
+        $this->addModelToDelete($createdAddress, true);
+    }
+
+    /**
+     * Data provider
+     *
+     * @return array
+     */
+    public function providerTestUpdateData()
+    {
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+        /* @var $customerAddressFixture Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = require $fixturesDir . '/Customer/Address.php';
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+        unset($dataForUpdate['is_default_billing']);
+        unset($dataForUpdate['is_default_shipping']);
+        return array(array($dataForUpdate));
+    }
+
+    /**
      * Test get customer addresses for admin
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
-     *
      */
     public function testGetCustomerAddresses()
     {
@@ -79,5 +116,31 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     {
         $restResponse = $this->callGet('customers/invalid_id/addresses');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test update customer address
+     *
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     */
+    public function testUpdateCustomerAddress()
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $restResponse = $this->callPut('customers/' . $fixtureCustomer->getId() . '/addresses', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+    }
+
+    /**
+     * Test delete customer address
+     *
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     */
+    public function testDeleteCustomerAddress()
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $restResponse = $this->callDelete('customers/' . $fixtureCustomer->getId() . '/addresses', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 }
