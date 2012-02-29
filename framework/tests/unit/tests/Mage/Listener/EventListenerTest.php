@@ -27,11 +27,11 @@
  */
 class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
 {
-    protected static $mockTearDown = array();
+    protected $observersMock = array();
 
     public function tearDown()
     {
-        foreach (self::$mockTearDown as $mockObj) {
+        foreach ($this->observersMock as $mockObj) {
             Mage_Listener_EventListener::detach($mockObj);
         }
     }
@@ -42,30 +42,31 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
      */
     public function testAttach()
     {
-        self::$mockTearDown[] = $this->getMock('Mage_Listener_EmptyObserver');
+        $this->observersMock[] = $this->getMock('Mage_Listener_EmptyObserver');
 
-        Mage_Listener_EventListener::attach(self::$mockTearDown[0]);
+        Mage_Listener_EventListener::attach($this->observersMock[0]);
         $this->assertInternalType('array', Mage_Listener_EventListener::getObservers());
         $this->assertNotEmpty(Mage_Listener_EventListener::getObservers());
+        $this->assertInstanceOf('Mage_Listener_EmptyObserver', $this->observersMock[0]);
+        $this->assertCount(1, Mage_Listener_EventListener::getObservers());
 
-        self::$mockTearDown[] = $this->getMock('Mage_Listener_EmptyObserver');
-        Mage_Listener_EventListener::attach(self::$mockTearDown[1]);
+        $this->observersMock[] = $this->getMock('Mage_Listener_EmptyObserver');
+        Mage_Listener_EventListener::attach($this->observersMock[1]);
         $this->assertCount(2, Mage_Listener_EventListener::getObservers());
     }
 
     /**
      * @covers Mage_Listener_EventListener::autoAttach
-     * @covers Mage_Listener_EventListener::getObservers
      *
      * @param $path Input parameter for autoAttach()
-     * @param $attachNumber Number of times attach() should be invoked
+     * @param $attachTimes Number of times attach() should be invoked
      *
      * @dataProvider testAutoAttachDataProvider
      */
-    public function testAutoAttach($path, $attachNumber)
+    public function testAutoAttach($path, $attachTimes)
     {
         $obj = $this->getMockClass('Mage_Listener_EventListener', array('attach'));
-        $obj::staticExpects($this->exactly($attachNumber))->method('attach');
+        $obj::staticExpects($this->exactly($attachTimes))->method('attach');
         $obj::autoAttach($path);
     }
 
@@ -85,17 +86,19 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
      */
     public function testDetach()
     {
-        self::$mockTearDown[] = $this->getMock('Mage_Listener_EmptyObserver');
-        Mage_Listener_EventListener::attach(self::$mockTearDown[0]);
+        $obj1 = $this->observersMock[] = $this->getMock('Mage_Listener_EmptyObserver');
+        $obj2 = $this->observersMock[] = $this->getMock('Mage_Listener_EmptyObserver');
+        Mage_Listener_EventListener::attach($obj1);
         $this->assertInternalType('array', Mage_Listener_EventListener::getObservers());
         $this->assertNotEmpty(Mage_Listener_EventListener::getObservers());
 
-        self::$mockTearDown[] = $this->getMock('Mage_Listener_EmptyObserver');
-        Mage_Listener_EventListener::attach(self::$mockTearDown[1]);
+        $this->observersMock[] = $this->getMock('Mage_Listener_EmptyObserver');
+        Mage_Listener_EventListener::attach($obj2);
         $this->assertCount(2, Mage_Listener_EventListener::getObservers());
 
-        Mage_Listener_EventListener::detach(self::$mockTearDown[1]);
+        Mage_Listener_EventListener::detach($obj2);
         $this->assertCount(1, Mage_Listener_EventListener::getObservers());
+        $this->assertTrue(is_object($obj1));
     }
 
     /**
@@ -108,7 +111,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('testFailed')
@@ -127,7 +130,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('testFailed')
@@ -146,7 +149,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('testSkipped')
@@ -165,7 +168,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('testSkipped')
@@ -184,7 +187,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestSuite');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('startTestSuite')
@@ -203,7 +206,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testSuiteMock = $this->getMock('PHPUnit_Framework_TestSuite');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('endTestSuite')
@@ -223,7 +226,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->_observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('startTest')
@@ -242,7 +245,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $testCaseMock = $this->getMockForAbstractClass('PHPUnit_Framework_TestCase');
 
         Mage_Listener_EventListener::attach($observerMock);
-        self::$mockTearDown[] = $observerMock;
+        $this->_observersMock[] = $observerMock;
         $instance = new Mage_Listener_EventListener();
         $observerMock->expects($this->once())
             ->method('endTest')
@@ -251,6 +254,4 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
         $instance->endTest($testCaseMock, new Exception(), time());
         $this->assertEquals($testCaseMock, $instance->getCurrentTest());
     }
-
-
 }

@@ -50,21 +50,27 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
 
     /**
      * Register observer class
+     *
      * @static
+     * @param Mage_Listener_EmptyObserver $observerInstance
      */
-    public static function attach($observerInstanse)
+    public static function attach($observerInstance)
     {
-        self::$_observers[] = $observerInstanse;
+        self::$_observers[] = $observerInstance;
     }
 
     /**
      * Register observer class
+     *
      * @static
+     * @param Mage_Listener_EmptyObserver $observerInstance
+     *
+     * @return bool
      */
-    public static function detach($observerInstanse)
+    public static function detach($observerInstance)
     {
-        foreach( self::$_observers as $oKey => $oVal) {
-            if ($oVal == $observerInstanse) {
+        foreach (self::$_observers as $oKey => $oVal) {
+            if ($oVal === $observerInstance) {
                 unset(self::$_observers[$oKey]);
                 return true;
             }
@@ -72,13 +78,19 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
         return false;
     }
 
+    /**
+     * Get registered observers
+     *
+     * @static
+     * @return array
+     */
     public static function getObservers()
     {
         return self::$_observers;
     }
 
     /**
-     * Will load all available Listeners from folder
+     * Load all available Listeners from folder
      *
      * @static
      * @param string $path Path to Folder with Listener classes
@@ -97,13 +109,6 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
     }
 
     /**
-     * Constructor instantiates observers from registered classes and passes itself to constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Retrieve currently running test
      *
      * @return PHPUnit_Framework_TestSuite|null
@@ -116,7 +121,7 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
     /**
      * Retrieve currently running test
      *
-     * @return PHPUnit_Framework_TestCase
+     * @return PHPUnit_Framework_TestCase|null
      */
     public function getCurrentTest()
     {

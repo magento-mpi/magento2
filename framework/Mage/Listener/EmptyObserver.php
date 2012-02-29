@@ -16,13 +16,6 @@ class Mage_Listener_EmptyObserver
      */
     protected $_listener;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
     public function startTestSuite(Mage_Listener_EventListener $listener)
     {
         $listener->getCurrentSuite();
@@ -37,5 +30,4 @@ class Mage_Listener_EmptyObserver
     {
         $listener->getCurrentTest();
     }
-
  }
