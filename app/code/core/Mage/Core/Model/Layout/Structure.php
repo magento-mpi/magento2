@@ -16,9 +16,16 @@
  */
 class Mage_Core_Model_Layout_Structure
 {
-    /** Available element types */
+    /**
+     * Available element types
+     */
     const ELEMENT_TYPE_BLOCK = 'block';
     const ELEMENT_TYPE_CONTAINER = 'container';
+
+    /**
+     * Prefix for temporary names of elements
+     */
+    const TMP_NAME_PREFIX = 'STRUCTURE_TMP_NAME_';
 
     /**
      * Page structure as DOM document
@@ -220,7 +227,6 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildName($parentName, $alias)
     {
-        $this->_fixBrokenRef($parentName, $alias);
         $child = $this->_getChildElement($parentName, $alias);
         if (!$child) {
             return false;
@@ -248,7 +254,7 @@ class Mage_Core_Model_Layout_Structure
         }
 
         if (empty($name)) {
-            $name = 'STRUCTURE_TMP_NAME_' . ($this->_nameIncrement++);
+            $name = self::TMP_NAME_PREFIX . ($this->_nameIncrement++);
         }
         if ($alias == '') {
             $alias = $name;
@@ -444,7 +450,7 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Check if element is block
+     * Check if element with specified name is block
      *
      * @param string $name
      * @return bool
@@ -452,6 +458,47 @@ class Mage_Core_Model_Layout_Structure
     public function isBlock($name)
     {
         return $this->_findByXpath("//element[@name='$name' and @type='block']")->length > 0;
+    }
+
+    /**
+     * Check if element with specified name is container
+     *
+     * @param $name
+     * @return bool
+     */
+    public function isContainer($name)
+    {
+        return $this->_findByXpath("//element[@name='$name' and @type='container']")->length > 0;
+    }
+
+    /**
+     * Mark elements for output
+     *
+     * Containers are output marked by default. Only root elements can be market as output
+     *
+     * @param $name
+     * @return bool
+     */
+    public function markOutput($name)
+    {
+        if ($this->isBlock($name) && $element = $this->_getElementByXpath("/layout/element[@name='$name']")) {
+            $element->setAttribute('output', '1');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get elements marked for output
+     * @return array
+     */
+    public function getOutputList()
+    {
+        $names = array();
+        foreach ($this->_findByXpath("/layout/element[@type='container' or @output='1']") as $element) {
+            $names[] = $element->getAttribute('name');
+        }
+        return $names;
     }
 
     /**
@@ -510,6 +557,9 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _findByXpath($xpath, $context = null)
     {
+        if (is_null($context)) {
+            return $this->_xpath->query($xpath);
+        }
         return $this->_xpath->query($xpath, $context);
     }
 
@@ -551,14 +601,19 @@ class Mage_Core_Model_Layout_Structure
      *
      * @param string $parentName
      * @param string $alias
+     * @return bool
      */
     protected function _fixBrokenRef($parentName, $alias = null)
     {
+        if (!$this->_getElementByName($parentName)) {
+            return false;
+        }
         $xpath = (null === $alias) ? "//element[@broken_parent_name='$parentName']"
             : "//element[@broken_parent_name='$parentName' and @alias='$alias']";
         foreach ($this->_findByXpath($xpath) as $element) {
             $this->setChild($parentName, $element->getAttribute('name'), $element->getAttribute('alias'));
             $element->removeAttribute('broken_parent_name');
         }
+        return true;
     }
 }

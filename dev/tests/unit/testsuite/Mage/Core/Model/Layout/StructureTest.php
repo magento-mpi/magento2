@@ -53,16 +53,15 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($children, $childNames);
     }
 
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::setChild
-     * @todo Implement testSetChild().
-     */
     public function testSetChild()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $parent = 'parent';
+        $child = 'child';
+        $alias = 'alias';
+        $this->_model->insertContainer('', $parent);
+        $this->assertEmpty($this->_model->getChildNames($parent));
+        $this->_model->setChild($parent, $child, $alias);
+        $this->assertEquals($child, $this->_model->getChildName($parent, $alias));
     }
 
     public function testGetElementAlias()
@@ -103,52 +102,63 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->setElementAttribute($name2, 'attr', $attr));
     }
 
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::move
-     * @todo Implement testMove().
-     */
     public function testMove()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $parent1 = 'parent1';
+        $parent2 = 'parent2';
+        $block1 = 'block1';
+        $block2 = 'block2';
+
+        $this->_model->insertContainer('', $parent1);
+        $this->_model->insertContainer('', $parent2);
+        $this->_model->insertBlock('', $block1);
+        $this->_model->insertBlock('', $block2);
+        $this->assertEmpty($this->_model->getChildNames($parent1));
+        $this->assertEmpty($this->_model->getChildNames($parent2));
+        $this->_model->move($block1, $parent1);
+        $this->_model->move($block2, $parent2);
+        $this->assertEquals(array($block1), $this->_model->getChildNames($parent1));
+        $this->assertEquals(array($block2), $this->_model->getChildNames($parent2));
+        $this->_model->move($block2, $parent1);
+        $this->assertEquals(array($block1, $block2), $this->_model->getChildNames($parent1));
+        $this->assertEmpty($this->_model->getChildNames($parent2));
     }
 
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::unsetChild
-     * @todo Implement testUnsetChild().
-     */
-    public function testUnsetChild()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::unsetElement
-     * @todo Implement testUnsetElement().
-     */
     public function testUnsetElement()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $name = 'name';
+        $this->_model->insertBlock('', $name);
+        $this->assertTrue($this->_model->hasElement($name));
+        $this->_model->unsetElement($name);
+        $this->assertFalse($this->_model->hasElement($name));
     }
 
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::getChildName
-     * @todo Implement testGetChildName().
-     */
     public function testGetChildName()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $parent = 'parent';
+        $child = 'child';
+        $alias = 'alias';
+        $this->_model->insertBlock('', $parent);
+        $this->assertFalse($this->_model->getChildName($parent, $alias));
+        $this->_model->insertBlock($parent, $child, $alias);
+        $result = $this->_model->getChildName($parent, $alias);
+        $this->assertEquals($child, $result);
+        $this->assertInternalType('string', $result);
+    }
+
+    public function testGetChildNameWithBrokenRef()
+    {
+        $parent = 'parent';
+        $child = 'child';
+        $alias = 'alias';
+        $this->_model->insertBlock($parent, $child, $alias);
+        $this->assertEquals($parent, $this->_model->getElementAttribute($child, 'broken_parent_name'));
+        $this->assertFalse($this->_model->getChildName($parent, $alias));
+        $this->_model->insertBlock('', $parent);
+        $result = $this->_model->getChildName($parent, $alias);
+        $this->assertEquals($child, $result);
+        $this->assertInternalType('string', $result);
+        $this->assertEmpty($this->_model->getElementAttribute($child, 'broken_parent_name'));
     }
 
     /**
@@ -177,12 +187,12 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
     {
         $name = $this->_model->insertElement('root', '', 'block');
         $this->assertTrue($this->_model->hasElement($name));
-        $this->assertEquals('STRUCTURE_TMP_NAME_0', $name);
+        $this->assertEquals(Mage_Core_Model_Layout_Structure::TMP_NAME_PREFIX . '0', $name);
 
         $this->_model->insertElement('root', 'name', 'block');
         $name = $this->_model->insertElement('root', '', 'block');
         $this->assertTrue($this->_model->hasElement($name));
-        $this->assertEquals('STRUCTURE_TMP_NAME_1', $name);
+        $this->assertEquals(Mage_Core_Model_Layout_Structure::TMP_NAME_PREFIX . '1', $name);
     }
 
     public function testInsertElementWithoutAlias()
@@ -190,6 +200,7 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $root = 'root';
         $name = 'name';
 
+        $this->_model->insertContainer('', $root);
         $this->_model->insertElement($root, $name, 'block');
         $alias = $this->_model->getElementAlias($name);
         $this->assertEquals($name, $alias);
@@ -243,51 +254,61 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isBlock($name));
     }
 
+    /**
+     * @covers Mage_Core_Model_Layout_Structure::hasElement
+     * @covers Mage_Core_Model_Layout_Structure::unsetChild
+     */
     public function testHasElement()
     {
-        $name = 'name';
-        $this->assertFalse($this->_model->hasElement($name));
-        $this->_model->insertBlock('', $name);
-        $this->assertTrue($this->_model->hasElement($name));
-        // @todo: add remove
+        $parent = 'parent';
+        $child = 'name';
+        $this->_model->insertBlock('', $parent);
+        $this->assertFalse($this->_model->hasElement($child));
+        $this->_model->insertBlock($parent, $child);
+        $this->assertTrue($this->_model->hasElement($child));
+        $this->_model->unsetChild($parent, $child);
+        $this->assertFalse($this->_model->hasElement($child));
     }
 
     public function testGetChildrenCount()
     {
         $root = 'root';
+        $child = 'block';
         $this->_model->insertBlock('', $root);
-
         $this->assertEquals(0, $this->_model->getChildrenCount($root));
-        $this->_model->insertBlock($root, '');
+        $this->_model->insertBlock($root, $child);
         $this->assertEquals(1, $this->_model->getChildrenCount($root));
-        // @todo: add remove
+        $this->_model->unsetChild($root, $child);
+        $this->assertEquals(0, $this->_model->getChildrenCount($root));
     }
 
     /**
      * @covers Mage_Core_Model_Layout_Structure::addToParentGroup
-     * @todo Implement testAddToParentGroup().
+     * @covers Mage_Core_Model_Layout_Structure::getGroupChildNames
      */
-    public function testAddToParentGroup()
+    public function testAddGetGroup()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $parent = 'parent';
+        $child1 = 'child1';
+        $child2 = 'child2';
+        $group1 = 'group1';
+        $group2 = 'group2';
+        $this->_model->insertContainer('', $parent);
+        $this->_model->insertBlock($parent, $child1);
+        $this->assertEmpty($this->_model->getGroupChildNames($parent, $group1));
+        $this->assertEmpty($this->_model->getGroupChildNames($parent, $group2));
+        $this->_model->addToParentGroup($child1, $parent, $group1);
+        $this->_model->insertBlock($parent, $child2);
+        $this->_model->addToParentGroup($child2, $parent, $group2);
+        $this->assertEquals(array($child1), $this->_model->getGroupChildNames($parent, $group1));
+        $this->assertEquals(array($child2), $this->_model->getGroupChildNames($parent, $group2));
     }
 
     /**
-     * @covers Mage_Core_Model_Layout_Structure::getGroupChildNames
-     * @todo Implement testGetGroupChildNames().
+     * @covers Mage_Core_Model_Layout_Structure::isBlock
+     * @covers Mage_Core_Model_Layout_Structure::isContainer
      */
-    public function testGetGroupChildNames()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    public function testIsBlock()
+    public function testIsBlockIsContainer()
     {
         $block = 'block';
         $container = 'container';
@@ -300,17 +321,61 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isBlock($block));
         $this->assertFalse($this->_model->isBlock($container));
         $this->assertFalse($this->_model->isBlock($invalidType));
+
+        $this->assertFalse($this->_model->isContainer($block));
+        $this->assertTrue($this->_model->isContainer($container));
+        $this->assertFalse($this->_model->isContainer($invalidType));
     }
 
     /**
-     * @covers Mage_Core_Model_Layout_Structure::getStartNode
-     * @todo Implement testGetStartNode().
+     * @covers Mage_Core_Model_Layout_Structure::markOutput
+     * @covers Mage_Core_Model_Layout_Structure::getOutputList
      */
-    public function testGetStartNode()
+    public function testMarkGetOutput()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $blockName = 'name';
+        $containerName = 'container';
+        $childBlock = 'child';
+        $childContainer = 'child_container';
+        $this->assertEmpty($this->_model->getElementAttribute($blockName, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
+
+        $this->assertEquals(array(), $this->_model->getOutputList());
+
+        $this->_model->insertContainer('', $containerName);
+        $this->_model->insertBlock('', $blockName);
+        $this->_model->insertBlock($containerName, $childBlock);
+        $this->_model->insertBlock($containerName, $childContainer);
+        $this->assertEmpty($this->_model->getElementAttribute($blockName, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
+        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
+
+        // root containers are always in output list, they should not be marked additionally
+        $this->assertEquals(array($containerName), $this->_model->getOutputList());
+
+        $this->_model->markOutput($containerName);
+        // root containers should be in output list
+        $this->assertEquals(array($containerName), $this->_model->getOutputList());
+        $this->_model->markOutput($blockName);
+        // root blocks should be in output list
+        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
+        $this->_model->markOutput($childBlock);
+        // child blocks should not be in output list
+        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
+        $this->_model->markOutput($childContainer);
+        // child containers should not be in output list
+        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
+
+        // root block should be marked
+        $this->assertEquals('1', $this->_model->getElementAttribute($blockName, 'output'));
+        // container should not be marked
+        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
+        // not root blocks should not be marked
+        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
+        // not root containers should not be marked
+        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
     }
 }

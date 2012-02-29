@@ -26,44 +26,29 @@ class Mage_DesignEditor_Model_DataTest extends PHPUnit_Framework_TestCase
         $this->_helper = new Mage_DesignEditor_Helper_Data();
     }
 
-    /**
-     * @param array $params
-     * @param boolean $expectedResult
-     *
-     * @dataProvider isBlockDraggableDataProvider
-     */
-    public function testIsBlockDraggable($params, $expectedResult)
+    public function testIsBlockDraggable()
     {
-        $block = $this->getMock('Mage_Core_Block_Template', array('getParentBlock'), array(), $params['block']);
-        $parentBlock = $this->getMock($params['container'], array('getType'));
+        // without layout
+        $block1 = new Mage_Core_Block_Template;
+        $this->assertFalse($this->_helper->isBlockDraggable($block1));
 
-        $parentBlock->expects(self::any())
-            ->method('getType')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return($params['container']));
-        $block->expects(self::any())
-            ->method('getParentBlock')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return($parentBlock));
+        // with layout
+        $layout = new Mage_Core_Model_Layout;
+        $layout->getStructure()->insertContainer('', 'parent');
 
-        $this->assertEquals($expectedResult, $this->_helper->isBlockDraggable($block));
-    }
+        // block inside container
+        $block2 = $layout->createBlock('Mage_Core_Block_Template', 'block2');
+        $layout->insertBlock('parent', 'block2', 'block2');
+        $this->assertTrue($this->_helper->isBlockDraggable($block2));
 
-    public function isBlockDraggableDataProvider()
-    {
-        return array(
-            'draggable_block' => array(
-                'params' => array(
-                    'block'  => 'Mage_Module_Block_Items_List',
-                    'container' => 'Mage_Core_Block_Text_List'
-                ),
-                'expectedResult' => true
-            ),
-            'not_draggable_body' => array(
-                'params' => array(
-                    'block'  => 'Mage_Module_Block_Items_Info',
-                    'container' => 'Mage_Core_Block_Text_List_Item'
-                ),
-                'expectedResult' => false
-            ),
-        );
+        // block is outside container
+        $block3 = $layout->createBlock('Mage_Core_Block_Template', 'block3');
+        $layout->insertBlock('', 'block3', 'block3');
+        $this->assertFalse($this->_helper->isBlockDraggable($block3));
+
+        // block is inside block, which is inside container
+        $block4 = $layout->createBlock('Mage_Core_Block_Template', 'block4');
+        $layout->insertBlock('block2', 'block4', 'block4');
+        $this->assertFalse($this->_helper->isBlockDraggable($block4));
     }
 }
