@@ -75,6 +75,9 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             foreach ($codePoolData['uimap'] as $areaKey => $files) {
                 foreach ($files as $file) {
                     $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                    if (!$pages) {
+                        continue;
+                    }
                     foreach ($pages as $pageKey => $content) {
                         if ($content) {
                             $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);

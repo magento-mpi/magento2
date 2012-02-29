@@ -73,8 +73,15 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
                 continue;
             }
             foreach ($codePoolData['data'] as $file) {
-                $this->_testData = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($file),
-                                               $this->_testData);
+                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                if (!$dataSets) {
+                    continue;
+                }
+                foreach ($dataSets as $dataSetKey => $content) {
+                    if ($content) {
+                        $this->_testData[$dataSetKey] = $content;
+                    }
+                }
             }
         }
 
