@@ -138,28 +138,49 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful product update
      *
+     * @param array $productDataForUpdate
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @dataProvider dataProviderTestUpdateSuccessful()
      */
-    public function testUpdateSuccessful()
+    public function testUpdateSuccessful($productDataForUpdate)
     {
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
         unset($productDataForUpdate['type']);
         unset($productDataForUpdate['set']);
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         /** @var $updatedProduct Mage_Catalog_Model_Product */
-        $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $updatedProduct = Mage::getModel('catalog/product')
+            ->load($product->getId())
+            ->clearInstance()
+            ->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
         $productDataForUpdate['url_key'] = '123-abc';
         $this->_checkProductData($updatedProduct, $productDataForUpdate);
     }
 
     /**
+     * Data provider for testPostSimpleAllFieldsValid
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdateSuccessful()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productDataSpecialChars = require dirname(__FILE__)
+            . '/../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+
+        return array(
+            array($productDataSpecialChars),
+            array($productData),
+        );
+    }
+
+    /**
      * Test successful product update on specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      */
     public function testUpdateOnSpecifiedStoreSuccessful()
     {
@@ -167,7 +188,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($productDataForUpdate['type']);
         unset($productDataForUpdate['set']);
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product_simple');
+        $product = $this->getFixture('product_simple_all_fields');
         $testStore = $this->getFixture('store_on_new_website');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), $testStore->getCode()),
             $productDataForUpdate);
@@ -256,7 +277,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      */
-    public function testPostSimpleAllFieldsInvalid()
+    public function testUpdateAllFieldsInvalid()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
@@ -323,6 +344,99 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($positiveNumberAttributes as $attribute) {
             $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
         }
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test product update resource with invalid manage stock value
+     * Negative test.
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     */
+    public function testUpdateInvalidManageStock()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = require dirname(__FILE__)
+            . '/../_fixtures/Backend/SimpleProductInvalidManageStock.php';
+
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'Resource data pre-validation error.',
+            'Invalid "manage_stock" value in the "stock_data" set.'
+        );
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test product update resource with invalid weight value
+     * Negative test.
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     */
+    public function testUpdateWeightOutOfRange()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = require dirname(__FILE__)
+            . '/../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
+
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'Resource data pre-validation error.',
+            'The "weight" value is not within the specified range.'
+        );
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
+     * Test product update resource with not unique sku value
+     * Negative test.
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     */
+    public function testPostNotUniqueSku()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        /** @var $updateProduct Mage_Catalog_Model_Product */
+        $updateProduct = $this->getFixture('product_simple_all_fields');
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productDataForUpdate['sku'] = $product->getSku();
+
+        $restResponse = $this->callPut($this->_getResourcePath($updateProduct->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
+        );
 
         $this->assertEquals(count($expectedErrors), count($errors));
         foreach ($errors as $error) {

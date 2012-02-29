@@ -84,10 +84,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $this->_validate($data);
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->_getProduct();
-        $store = $this->_getUpdateStore();
-        if (!is_null($store)) {
-            $product->setStoreId($store->getId());
-        }
         if (isset($data['sku'])) {
             $product->setSku($data['sku']);
         }
@@ -103,44 +99,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
         }
-    }
-
-    /**
-     * Get store if it's provided in request
-     *
-     * @return Mage_Core_Model_Store|null
-     */
-    protected function _getUpdateStore()
-    {
-        $store = $this->getRequest()->getParam('store');
-        if (!is_null($store)) {
-            try {
-                $store = Mage::app()->getStore($store);
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                // store does not exist
-                $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-        }
-
-        return $store;
-    }
-
-    /**
-     * Retrieve product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    protected function _getProduct()
-    {
-        $productId = $this->getRequest()->getParam('id');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product');
-        $product->load($productId);
-        if (!$product->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-            return $product;
-        }
-        return $product;
     }
 
     /**
