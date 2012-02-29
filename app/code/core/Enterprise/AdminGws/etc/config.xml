@@ -386,7 +386,7 @@
                     <cms__page>cmsPageSaveBefore</cms__page>
                     <cms__block>cmsBlockSaveBefore</cms__block>
                     <poll__poll>pollSaveBefore</poll__poll>
-                    <rule__ruleabstract>ruleSaveBefore</rule__ruleabstract>
+                    <rule__abstract>ruleSaveBefore</rule__abstract>
                     <sales__order>salesOrderSaveBefore</sales__order>
                     <sales__order_invoice>salesOrderEntitySaveBefore</sales__order_invoice>
                     <sales__order_shipment>salesOrderEntitySaveBefore</sales__order_shipment>
@@ -418,7 +418,7 @@
                     <cms__page>cmsPageDeleteBefore</cms__page>
                     <cms__block>cmsBlockDeleteBefore</cms__block>
                     <poll__poll>pollDeleteBefore</poll__poll>
-                    <rule__ruleabstract>ruleDeleteBefore</rule__ruleabstract>
+                    <rule__abstract>ruleDeleteBefore</rule__abstract>
                     <catalog__product>catalogProductDeleteBefore</catalog__product>
                     <catalog__category>catalogCategoryDeleteBefore</catalog__category>
                     <customer__customer>customerDeleteBefore</customer__customer>
@@ -445,7 +445,7 @@
                     <customer__customer>customerLoadAfter</customer__customer>
                     <sales__order>salesOrderLoadAfter</sales__order>
                     <sales__order_payment_transaction>salesOrderTransactionLoadAfter</sales__order_payment_transaction>
-                    <rule__ruleabstract>ruleLoadAfter</rule__ruleabstract>
+                    <rule__abstract>ruleLoadAfter</rule__abstract>
                     <core__website>coreWebsiteLoadAfter</core__website>
                     <core__store_group>coreStoreGroupLoadAfter</core__store_group>
                     <core__store>coreStoreGroupLoadAfter</core__store>
