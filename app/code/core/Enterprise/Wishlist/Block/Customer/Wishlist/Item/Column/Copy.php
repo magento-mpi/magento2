@@ -51,7 +51,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy
      */
     public function isMultipleEnabled()
     {
-        return Mage::helper('enterprise_wishlist')->isMultipleEnabled();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled();
     }
 
     /**

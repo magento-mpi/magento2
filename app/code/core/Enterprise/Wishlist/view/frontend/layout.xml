@@ -30,18 +30,18 @@
     <default>
         <reference name="top.links">
             <action method="removeLinkBlock"><blockName>wishlist_link</blockName></action>
-            <block type="enterprise_wishlist/links" name="wishlist_link"/>
+            <block type="Enterprise_Wishlist_Block_Links" name="wishlist_link"/>
             <action method="addLinkBlock"><blockName>wishlist_link</blockName></action>
         </reference>
 
-        <block type="enterprise_wishlist/customer_sidebar" name="wishlist_sidebar" template="wishlist/sidebar.phtml"/>
+        <block type="Enterprise_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="wishlist/sidebar.phtml"/>
 
         <reference name="head">
-           <action method="addItem"><type>skin_js</type><script>js/enterprise/wishlist.js</script></action>
+           <action method="addJs"><file>Enterprise_Wishlist::wishlist.js</file></action>
         </reference>
 
         <reference name="before_body_end">
-            <block type="enterprise_wishlist/behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="wishlist/behaviour.phtml" />
+            <block type="Enterprise_Wishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="wishlist/behaviour.phtml" />
         </reference>
     </default>
 
@@ -66,23 +66,23 @@
             <action method="setTitle" translate="title" module="enterprise_wishlist" ifconfig="wishlist/general/multiple_enabled">
                 <title>My Wishlists</title>
             </action>
-            <block type="enterprise_wishlist/customer_wishlist_management" name="customer.wishlist.management" as="top" template="wishlist/view/management.phtml">
+            <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Management" name="customer.wishlist.management" as="top" template="wishlist/view/management.phtml">
             </block>
             <reference name="customer.wishlist.items">
-                <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" before="-" template="wishlist/item/column/selector.phtml" />
+                <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector" name="customer.wishlist.item.selector" before="-" template="wishlist/item/column/selector.phtml" />
                 <reference name="customer.wishlist.item.info">
-                    <block type="enterprise_wishlist/customer_wishlist_item_column_management" name="customer.wishlist.item.mananagement" before="-" template="wishlist/item/column/management.phtml"></block>
+                    <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management" name="customer.wishlist.item.mananagement" before="-" template="wishlist/item/column/management.phtml"></block>
                 </reference>
             </reference>
             <reference name="customer.wishlist.buttons">
-                <block type="enterprise_wishlist/customer_wishlist_button_delete" name="customer.wishlist.button.delete" template="wishlist/button/delete.phtml"></block>
+                <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Button_Delete" name="customer.wishlist.button.delete" template="wishlist/button/delete.phtml"></block>
             </reference>
         </reference>
     </wishlist_index_index>
 
     <wishlist_index_share>
         <reference name="my.account.wrapper">
-            <block type="enterprise_wishlist/customer_sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
+            <block type="Enterprise_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
         </reference>
     </wishlist_index_share>
 
@@ -98,41 +98,41 @@
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_wishlist/info" name="customer.wishlist.info" template="wishlist/info.phtml" >
-                <block type="wishlist/customer_wishlist_items" name="wishlist.view.items" as="items" template="wishlist/item/list.phtml">
-                    <block type="enterprise_wishlist/customer_wishlist_item_column_selector" name="customer.wishlist.item.selector" after="-" template="wishlist/item/column/selector.phtml" >
+            <block type="Enterprise_Wishlist_Block_Info" name="customer.wishlist.info" template="wishlist/info.phtml" >
+                <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="wishlist/item/list.phtml">
+                    <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector" name="customer.wishlist.item.selector" after="-" template="wishlist/item/column/selector.phtml" >
                         <action method="setIsEnabled">
                             <isEnabled>true</isEnabled>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column_image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml"></block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.details" template="wishlist/item/column/details.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="wishlist/item/column/details.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Product Info</title>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.comment" template="wishlist/item/column/comment.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="wishlist/item/column/comment.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Comment</title>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.qty" template="wishlist/item/column/qty.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="wishlist/item/column/qty.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Wanted Qty</title>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.price" template="wishlist/item/column/price.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="wishlist/item/column/price.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Unit Price</title>
                         </action>
                     </block>
-                    <block type="wishlist/customer_wishlist_item_column" name="customer.wishlist.item.to_cart_qty" template="wishlist/item/column/qty_input.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="wishlist/item/column/qty_input.phtml">
                         <action method="setTitle" translate="title" module="enterprise_wishlist">
                             <title>Qty</title>
                         </action>
                     </block>
-                    <block type="enterprise_wishlist/customer_wishlist_item_column_copy" name="customer.wishlist.item.to_wishlist" template="wishlist/item/column/copy.phtml">
-                        <action method="setTitle" translate="title" module="enterprise_wishlist">
+                    <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy" name="customer.wishlist.item.to_wishlist" template="wishlist/item/column/copy.phtml">
+                        <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Add to Wishlist</title>
                         </action>
                     </block>
@@ -143,21 +143,21 @@
 
     <wishlist_search_index>
         <reference name="content">
-            <block type="enterprise_wishlist/search_form" name="wishlist.search.form" template="wishlist/search/form.phtml">
+            <block type="Enterprise_Wishlist_Block_Search_Form" name="wishlist.search.form" template="wishlist/search/form.phtml">
             </block>
         </reference>
     </wishlist_search_index>
 
     <wishlist_search_results>
         <reference name="content">
-            <block type="enterprise_wishlist/search_form" name="wishlist.search.form" template="wishlist/search/form.phtml"></block>
-            <block type="enterprise_wishlist/search_results" name="wishlist.search.results" template="wishlist/search/results.phtml"></block>
+            <block type="Enterprise_Wishlist_Block_Search_Form" name="wishlist.search.form" template="wishlist/search/form.phtml"></block>
+            <block type="Enterprise_Wishlist_Block_Search_Results" name="wishlist.search.results" template="wishlist/search/results.phtml"></block>
         </reference>
     </wishlist_search_results>
 
     <rss_index_wishlist>
-        <block type="enterprise_wishlist/rss" name="rss.wishlist" output="toHtml">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>catalog/product_price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
+        <block type="Enterprise_Wishlist_Block_Rss" name="rss.wishlist" output="toHtml">
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
         </block>
     </rss_index_wishlist>
 </layout>

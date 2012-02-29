@@ -29,7 +29,7 @@
  */
 $installer = $this;
 $installer->getConnection()->insert(
-    $installer->getTable('core/config_data'), array(
+    $installer->getTable('core_config_data'), array(
        'scope'    => 'default',
        'scope_id' => 0,
        'path'     => Mage_Directory_Helper_Data::XML_PATH_DISPLAY_ALL_STATES,
@@ -41,14 +41,14 @@ $installer->getConnection()->insert(
  * @var $countries array
  */
 $countries = array();
-foreach(Mage::helper('directory')->getCountryCollection() as $country) {
+foreach(Mage::helper('Mage_Directory_Helper_Data')->getCountryCollection() as $country) {
     if($country->getRegionCollection()->getSize() > 0) {
         $countries[] = $country->getId();
     }
 }
 
 $installer->getConnection()->insert(
-    $installer->getTable('core/config_data'), array(
+    $installer->getTable('core_config_data'), array(
         'scope'    => 'default',
         'scope_id' => 0,
         'path'     => Mage_Directory_Helper_Data::XML_PATH_STATES_REQUIRED,

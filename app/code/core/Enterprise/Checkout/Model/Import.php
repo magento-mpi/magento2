@@ -55,7 +55,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     public function uploadFile()
     {
         /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('core/file_uploader', self::FIELD_NAME_SOURCE_FILE);
+        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', self::FIELD_NAME_SOURCE_FILE);
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
@@ -66,7 +66,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->getFileGeneralErrorText());
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->getFileGeneralErrorText());
         }
     }
 
@@ -116,7 +116,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        Mage::throwException(Mage::helper('enterprise_checkout')->getSkuEmptyDataMessageText());
+                        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->getSkuEmptyDataMessageText());
                     }
                 }
 
@@ -174,6 +174,6 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
      */
     protected function _getFileTypeMessageText()
     {
-        return Mage::helper('enterprise_checkout')->__('Only .csv file format is supported.');
+        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Only .csv file format is supported.');
     }
 }

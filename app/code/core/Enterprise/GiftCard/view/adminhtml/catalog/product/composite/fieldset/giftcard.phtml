@@ -12,7 +12,7 @@
 <?php $_product = $this->getProduct(); ?>
 <?php $_id = $_product->getId(); ?>
 <?php $_storeId = $_product->getStoreId(); ?>
-<?php $_skipSaleableCheck = Mage::helper('catalog/product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
 <script>
 //<![CDATA[
 productConfigure.giftcardConfig = {};

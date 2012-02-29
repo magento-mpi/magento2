@@ -38,6 +38,6 @@ class Enterprise_Wishlist_Model_Item extends Mage_Wishlist_Model_Item
      */
     protected function _construct()
     {
-        $this->_init('enterprise_wishlist/item');
+        $this->_init('Enterprise_Wishlist_Model_Resource_Item');
     }
 }

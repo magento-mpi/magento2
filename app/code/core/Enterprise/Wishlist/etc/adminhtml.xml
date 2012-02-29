@@ -34,7 +34,7 @@
                         <children>
                             <customers>
                                 <children>
-                                    <wishlist translate="title" module="enterprise_wishlist">
+                                    <wishlist translate="title" module="Enterprise_Wishlist">
                                         <title>Customer's Wishlists</title>
                                         <sort_order>110</sort_order>
                                     </wishlist>
@@ -51,7 +51,7 @@
             <children>
                 <customers>
                     <children>
-                        <wishlist translate="title" module="enterprise_wishlist">
+                        <wishlist translate="title" module="Enterprise_Wishlist">
                             <title>Customer's Wishlists</title>
                             <action>adminhtml/report_customer_wishlist</action>
                             <depends>

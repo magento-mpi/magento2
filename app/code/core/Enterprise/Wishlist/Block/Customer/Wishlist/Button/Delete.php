@@ -40,7 +40,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Button_Delete extends Mage_Wis
      */
     protected function _toHtml()
     {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
+        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
             return parent::_toHtml();
         }
         return '';
@@ -53,7 +53,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Button_Delete extends Mage_Wis
      */
     protected function isWishlistDeleteable()
     {
-        return !Mage::helper('enterprise_wishlist')->isWishlistDefault($this->getWishlistInstance());
+        return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($this->getWishlistInstance());
     }
 
     /**

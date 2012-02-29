@@ -651,7 +651,7 @@ class Mage_Paypal_Model_Express_Checkout
             return Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
         }
         if (!$this->_quote->getCheckoutMethod()) {
-            if (Mage::helper('checkout')->isAllowedGuestCheckout($this->_quote)) {
+            if (Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this->_quote)) {
                 $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_GUEST);
             } else {
                 $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);

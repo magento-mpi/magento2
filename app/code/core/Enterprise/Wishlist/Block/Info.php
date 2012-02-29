@@ -60,7 +60,7 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
      */
     public function getWishlistOwner()
     {
-        $owner = Mage::getModel("customer/customer");
+        $owner = Mage::getModel('Mage_Customer_Model_Customer');
         $owner->load($this->_getWishlist()->getCustomerId());
         return $owner;
     }
@@ -74,7 +74,7 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
     {
         return $this->getUrl(
             'wishlist/search/results',
-            array('_query' => array('params' => Mage::getSingleton('customer/session')->getLastWishlistSearchParams()))
+            array('_query' => array('params' => Mage::getSingleton('Mage_Customer_Model_Session')->getLastWishlistSearchParams()))
         );
     }
 }

@@ -40,7 +40,7 @@ class Enterprise_Wishlist_Block_Links extends Mage_Wishlist_Block_Links
      */
     protected function _getItemCount()
     {
-        return $this->helper('enterprise_wishlist')->getItemCount();
+        return $this->helper('Enterprise_Wishlist_Helper_Data')->getItemCount();
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Wishlist_Block_Links extends Mage_Wishlist_Block_Links
      */
     protected function _createLabel($count)
     {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
+        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
             if ($count > 1) {
                 return $this->__('My Wishlists (%d items)', $count);
             } else if ($count == 1) {

@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->getConnection()->addColumn(
-    $installer->getTable('enterprise_targetrule/index'),
+    $installer->getTable('enterprise_targetrule_index'),
     'customer_segment_id',
     array(
         'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -41,8 +41,8 @@ $installer->getConnection()->addColumn(
 );
 
 $installer->getConnection()->addIndex(
-    $installer->getTable('enterprise_targetrule/index'),
-    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule/index')),
+    $installer->getTable('enterprise_targetrule_index'),
+    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule_index')),
     array(
         'entity_id',
         'store_id',
@@ -54,7 +54,7 @@ $installer->getConnection()->addIndex(
 );
 
 $installer->getConnection()->addColumn(
-    $installer->getTable('enterprise_targetrule/index_related'),
+    $installer->getTable('enterprise_targetrule_index_related'),
     'customer_segment_id',
     array(
         'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -65,8 +65,8 @@ $installer->getConnection()->addColumn(
     )
 );
 $installer->getConnection()->addIndex(
-    $installer->getTable('enterprise_targetrule/index_related'),
-    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule/index_related')),
+    $installer->getTable('enterprise_targetrule_index_related'),
+    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule_index_related')),
     array(
         'entity_id',
         'store_id',
@@ -77,7 +77,7 @@ $installer->getConnection()->addIndex(
 );
 
 $installer->getConnection()->addColumn(
-    $installer->getTable('enterprise_targetrule/index_upsell'),
+    $installer->getTable('enterprise_targetrule_index_upsell'),
     'customer_segment_id',
     array(
         'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -88,8 +88,8 @@ $installer->getConnection()->addColumn(
     )
 );
 $installer->getConnection()->addIndex(
-    $installer->getTable('enterprise_targetrule/index_upsell'),
-    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule/index_upsell')),
+    $installer->getTable('enterprise_targetrule_index_upsell'),
+    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule_index_upsell')),
     array(
         'entity_id',
         'store_id',
@@ -100,7 +100,7 @@ $installer->getConnection()->addIndex(
 );
 
 $installer->getConnection()->addColumn(
-    $installer->getTable('enterprise_targetrule/index_crosssell'),
+    $installer->getTable('enterprise_targetrule_index_crosssell'),
     'customer_segment_id',
     array(
         'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
@@ -111,8 +111,8 @@ $installer->getConnection()->addColumn(
     )
 );
 $installer->getConnection()->addIndex(
-    $installer->getTable('enterprise_targetrule/index_crosssell'),
-    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule/index_crosssell')),
+    $installer->getTable('enterprise_targetrule_index_crosssell'),
+    $installer->getConnection()->getPrimaryKeyName($installer->getTable('enterprise_targetrule_index_crosssell')),
     array(
         'entity_id',
         'store_id',

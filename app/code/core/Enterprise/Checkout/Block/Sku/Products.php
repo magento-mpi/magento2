@@ -139,7 +139,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     {
         $product = $item->getProduct();
         if ($product->isComposite()) {
-            $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+            $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
                     if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())

@@ -41,7 +41,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist
      */
     protected function _createCollection()
     {
-        return Mage::getModel('enterprise_wishlist/item')->getCollection();
+        return Mage::getModel('Enterprise_Wishlist_Model_Item')->getCollection();
     }
 
     /**
@@ -52,7 +52,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist
     protected function _prepareColumns()
     {
         $this->addColumn('wishlist_name', array(
-            'header'    => Mage::helper('wishlist')->__('Wishlist'),
+            'header'    => Mage::helper('Mage_Wishlist_Helper_Data')->__('Wishlist'),
             'index'     => 'wishlist_name'
         ));
 

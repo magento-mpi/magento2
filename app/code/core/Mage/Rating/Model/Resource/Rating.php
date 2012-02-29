@@ -107,7 +107,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     public function getStores($ratingId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('rating/rating_store'), 'store_id')
+            ->from($this->getTable('rating_store'), 'store_id')
             ->where('rating_id = ?', $ratingId);
         return $this->_getReadAdapter()->fetchCol($select);
     }

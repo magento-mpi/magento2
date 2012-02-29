@@ -122,7 +122,7 @@
             <banner_edit_tab_properties_after_prepare_form>
                 <observers>
                     <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
+                        <class>Enterprise_CustomerSegment_Model_Observer</class>
                         <method>addFieldsToBannerForm</method>
                     </enterprise_customersegment>
                 </observers>

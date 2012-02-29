@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function isEnabled()
     {
-        return Mage::helper('enterprise_giftregistry')->isEnabled() && count($this->getGiftRegistryList());
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled() && count($this->getGiftRegistryList());
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function getGiftRegistryList()
     {
-        return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function checkProductType($item)
     {
-        return Mage::helper('enterprise_giftregistry')->canAddToGiftRegistry($item);
+        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
     }
 
     /**

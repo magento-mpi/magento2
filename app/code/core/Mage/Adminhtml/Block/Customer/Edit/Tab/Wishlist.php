@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
      */
     protected function _createCollection()
     {
-        return Mage::getModel('wishlist/item')->getCollection();
+        return Mage::getModel('Mage_Wishlist_Model_Item')->getCollection();
     }
 
     /**

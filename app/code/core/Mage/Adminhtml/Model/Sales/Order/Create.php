@@ -572,12 +572,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                 case 'wishlist':
                     $wishlist = null;
                     if (!isset($moveTo[1])) {
-                        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer(
+                        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer(
                             $this->getSession()->getCustomer(),
                             true
                         );
                     } else {
-                        $wishlist = Mage::getModel('wishlist/wishlist')->load($moveTo[1]);
+                        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->load($moveTo[1]);
                         if (!$wishlist->getId()
                             || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
                         ) {
@@ -585,7 +585,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                         }
                     }
                     if (!$wishlist) {
-                        Mage::throwException(Mage::helper('wishlist')->__('Could not find wishlist'));
+                        Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Could not find wishlist'));
                     }
                     $wishlist->setStore($this->getSession()->getStore())
                         ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());

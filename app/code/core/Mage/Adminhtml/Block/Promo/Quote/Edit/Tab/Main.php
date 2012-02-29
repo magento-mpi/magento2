@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId,
-                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
+                'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
             ));
             $model->setWebsiteIds($websiteId);
         } else {

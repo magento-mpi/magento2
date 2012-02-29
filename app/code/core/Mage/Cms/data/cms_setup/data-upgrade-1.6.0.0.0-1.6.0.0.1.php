@@ -253,9 +253,9 @@ $privacyPageData = array(
     'sort_order'      => 0
 );
 
-Mage::getModel('cms/page')->setData($privacyPageData)->save();
+Mage::getModel('Mage_Cms_Model_Page')->setData($privacyPageData)->save();
 
-$footerLinksBlock = Mage::getModel('cms/block')->load('footer_links','identifier');
+$footerLinksBlock = Mage::getModel('Mage_Cms_Model_Block')->load('footer_links','identifier');
 
 if ($footerLinksBlock->getId()) {
     $content = $footerLinksBlock->getContent();

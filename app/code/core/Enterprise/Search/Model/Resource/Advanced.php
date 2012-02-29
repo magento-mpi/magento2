@@ -79,7 +79,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             $value = array($value);
         }
 
-        $field = Mage::getResourceSingleton('enterprise_search/engine')
+        $field = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')
                 ->getSearchEngineFieldName($attribute);
 
         if ($attribute->getBackendType() == 'datetime') {
@@ -121,7 +121,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
         $collection->addPriceData();
-        $fieldName = Mage::getResourceSingleton('enterprise_search/engine')
+        $fieldName = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')
                 ->getSearchEngineFieldName($attribute);
         $collection->addSearchParam(array($fieldName => $value));
 

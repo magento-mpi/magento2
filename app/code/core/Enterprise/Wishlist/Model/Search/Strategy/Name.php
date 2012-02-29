@@ -56,13 +56,13 @@ class Enterprise_Wishlist_Model_Search_Strategy_Name implements Enterprise_Wishl
     {
         if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('enterprise_wishlist')->__('Please enter at least 2 letters of the first name.')
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least 2 letters of the first name.')
             );
         }
         $this->_firstname = $params['firstname'];
         if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('enterprise_wishlist')->__('Please enter at least 2 letters of the last name.')
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least 2 letters of the last name.')
             );
         }
         $this->_lastname = $params['lastname'];
@@ -77,7 +77,7 @@ class Enterprise_Wishlist_Model_Search_Strategy_Name implements Enterprise_Wishl
     public function filterCollection(Mage_Wishlist_Model_Resource_Wishlist_Collection $collection)
     {
         /* @var $customers Mage_Customer_Model_Resource_Customer_Collection */
-        $customers = Mage::getModel('customer/customer')->getCollection()
+        $customers = Mage::getModel('Mage_Customer_Model_Customer')->getCollection()
             ->addAttributeToFilter(
                 array(array('attribute' => 'firstname', 'like' => '%'.$this->_firstname.'%'))
             )

@@ -19,7 +19,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Price_Step
             ),
             array(
                 'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_IMPROVED,
-                'label' => Mage::helper('adminhtml')->__('Continuous')
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Continuous')
             ),
             array(
                 'value' => Mage_Catalog_Model_Layer_Filter_Price::RANGE_CALCULATION_MANUAL,

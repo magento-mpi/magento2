@@ -41,7 +41,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function isEnabled()
     {
-        return Mage::helper('enterprise_wishlist')->isMultipleEnabled();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled();
     }
 
     /**
@@ -51,7 +51,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getWishlists()
     {
-        return Mage::helper('enterprise_wishlist')->getCustomerWishlists();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getCustomerWishlists();
     }
 
     /**
@@ -61,7 +61,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('enterprise_wishlist')->getDefaultWishlist();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlist();
     }
 
     /**
@@ -71,7 +71,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getCurrentWishlist()
     {
-        return Mage::helper('wishlist')->getWishlist();
+        return Mage::helper('Mage_Wishlist_Helper_Data')->getWishlist();
     }
 
     /**
@@ -82,8 +82,8 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function canCreateWishlists(Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlists) && $customerId;
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlists) && $customerId;
     }
 
     /**

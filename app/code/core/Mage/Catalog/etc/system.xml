@@ -300,7 +300,7 @@
                             <label>Display Product Count</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>5</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

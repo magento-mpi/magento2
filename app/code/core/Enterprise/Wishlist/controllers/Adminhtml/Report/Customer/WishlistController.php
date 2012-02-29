@@ -43,12 +43,12 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
         $this->loadLayout()
             ->_setActiveMenu('report/customers')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_wishlist')->__('Reports'),
-                Mage::helper('enterprise_wishlist')->__('Reports')
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports'),
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('enterprise_wishlist')->__('Customers'),
-                Mage::helper('enterprise_wishlist')->__('Customers')
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers'),
+                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers')
             );
         return $this;
     }
@@ -82,7 +82,7 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
     {
         $fileName = 'customer_wishlists.xml';
         $content = $this->getLayout()
-            ->createBlock('enterprise_wishlist/adminhtml_report_customer_wishlist_grid')
+            ->createBlock('Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid')
             ->getExcelFile($fileName);
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -94,7 +94,7 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
     {
         $fileName = 'customer_wishlists.csv';
         $content = $this->getLayout()
-            ->createBlock('enterprise_wishlist/adminhtml_report_customer_wishlist_grid')
+            ->createBlock('Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid')
             ->getCsvFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -106,7 +106,7 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('admin/session');
+        return Mage::getSingleton('Mage_Admin_Model_Session');
     }
 
     /**
@@ -116,6 +116,6 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('admin/session')->isAllowed('admin/report/customers/wishlist');
+        return  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/report/customers/wishlist');
     }
 }

@@ -27,28 +27,28 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$tableName = $installer->getTable('wishlist/wishlist');
+$tableName = $installer->getTable('wishlist');
 
 $installer->getConnection()->dropForeignKey(
     $tableName,
-    $installer->getFkName('wishlist/wishlist', 'customer_id', 'customer/entity', 'entity_id')
+    $installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id')
 );
 $installer->getConnection()->dropIndex(
     $tableName,
-    $installer->getIdxName('wishlist/wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    $installer->getIdxName('wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
 );
 
 $installer->getConnection()->addIndex(
     $tableName,
-    $installer->getIdxName('wishlist/wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
+    $installer->getIdxName('wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
     'customer_id',
     Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX
 );
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('wishlist/wishlist', 'customer_id', 'customer/entity', 'entity_id'),
+    $installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id'),
     $tableName,
     'customer_id',
-    $installer->getTable('customer/entity'),
+    $installer->getTable('customer_entity'),
     'entity_id',
     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
 );

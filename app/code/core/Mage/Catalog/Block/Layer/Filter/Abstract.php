@@ -123,7 +123,7 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
     public function shouldDisplayProductCount()
     {
         if ($this->_displayProductCount === null) {
-            $this->_displayProductCount = Mage::helper('catalog')->shouldDisplayProductCountOnLayer();
+            $this->_displayProductCount = Mage::helper('Mage_Catalog_Helper_Data')->shouldDisplayProductCountOnLayer();
         }
         return $this->_displayProductCount;
     }

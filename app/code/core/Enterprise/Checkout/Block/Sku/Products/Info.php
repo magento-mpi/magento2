@@ -161,7 +161,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         Mage::unregister('product');
         Mage::register('product', $product);
         if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('catalog/product_view'));
+            $this->setProductViewBlock($this->getLayout()->createBlock('Mage_Catalog_Block_Product_View'));
         }
         return $this->getProductViewBlock()->getTierPriceHtml();
     }

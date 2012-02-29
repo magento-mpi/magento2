@@ -338,10 +338,10 @@
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
                     <mage_review_model_resource_review_product_collection>limitProductReviews</mage_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
-                    <catalogrule__rule_collection>limitRuleEntityCollection</catalogrule__rule_collection>
-                    <salesrule__rule_collection>limitRuleEntityCollection</salesrule__rule_collection>
-                    <enterprise_reminder__rule_collection>limitRuleEntityCollection</enterprise_reminder__rule_collection>
-                    <enterprise_customersegment__segment_collection>limitRuleEntityCollection</enterprise_customersegment__segment_collection>
+                    <mage_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</mage_catalogRule_model_resource_rule_collection>
+                    <mage_salesRule_model_resource_rule_collection>limitRuleEntityCollection</mage_salesRule_model_resource_rule_collection>
+                    <enterprise_reminder_model_resource_rule_collection>limitRuleEntityCollection</enterprise_reminder_model_resource_rule_collection>
+                    <enterprise_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</enterprise_customerSegment_model_resource_segment_collection>
                 </collection_load_before>
                 <model_save_before>
                     <mage_cms_model_page>cmsPageSaveBefore</mage_cms_model_page>
@@ -589,17 +589,17 @@
                     <enterprise_customer_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute>
                     <enterprise_customer_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute_edit>
                     <enterprise_customer_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute_edit>
-                    <adminhtml__promo_catalog>removeRuleEntityGridButtons</adminhtml__promo_catalog>
-                    <adminhtml__promo_quote>removeRuleEntityGridButtons</adminhtml__promo_quote>
-                    <enterprise_customersegment__adminhtml_customersegment>removeRuleEntityGridButtons</enterprise_customersegment__adminhtml_customersegment>
-                    <enterprise_reminder__adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder__adminhtml_reminder>
-                    <adminhtml__promo_catalog_edit>removeRuleEntityEditButtons</adminhtml__promo_catalog_edit>
-                    <adminhtml__promo_quote_edit>removeRuleEntityEditButtons</adminhtml__promo_quote_edit>
-                    <adminhtml__rating_edit>removeRatingEditButtons</adminhtml__rating_edit>
-                    <enterprise_customersegment__adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customersegment__adminhtml_customersegment_edit>
-                    <enterprise_reminder__adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder__adminhtml_reminder_edit>
-                    <enterprise_rma__adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma__adminhtml_rma_item_attribute_edit>
-                    <enterprise_rma__adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</enterprise_rma__adminhtml_rma_item_attribute_edit_tab_options>
+                    <mage_adminhtml_block_promo_catalog>removeRuleEntityGridButtons</mage_adminhtml_block_promo_catalog>
+                    <mage_adminhtml_block_promo_quote>removeRuleEntityGridButtons</mage_adminhtml_block_promo_quote>
+                    <enterprise_customerSegment_block_adminhtml_customersegment>removeRuleEntityGridButtons</enterprise_customerSegment_block_adminhtml_customersegment>
+                    <enterprise_reminder_block_adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder_block_adminhtml_reminder>
+                    <mage_adminhtml_block_promo_catalog_edit>removeRuleEntityEditButtons</mage_adminhtml_block_promo_catalog_edit>
+                    <mage_adminhtml_block_promo_quote_edit>removeRuleEntityEditButtons</mage_adminhtml_block_promo_quote_edit>
+                    <mage_adminhtml_block_rating_edit>removeRatingEditButtons</mage_adminhtml_block_rating_edit>
+                    <enterprise_customerSegment_block_adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customerSegment_block_adminhtml_customersegment_edit>
+                    <enterprise_reminder_block_adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder_block_adminhtml_reminder_edit>
+                    <enterprise_rma_block_adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit>
+                    <enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>
                 </block_html_before>
             </admingws>
         </enterprise>

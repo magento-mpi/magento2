@@ -27,53 +27,53 @@
 -->
 <layout>
     <adminhtml_customer_wishlist>
-        <block type="enterprise_wishlist/adminhtml_customer_edit_tab_wishlist" name="customer.wishlist.edit.tab" />
+        <block type="Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" />
     </adminhtml_customer_wishlist>
     <adminhtml_sales_order_create_index>
         <reference name="sidebar">
-            <block type="enterprise_wishlist/adminhtml_sales_order_create_sidebar_wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_index>
 
     <adminhtml_sales_order_create_load_block_index>
         <reference name="sidebar">
-            <block type="enterprise_wishlist/adminhtml_sales_order_create_sidebar_wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_index>
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="sidebar">
-            <block type="enterprise_wishlist/adminhtml_sales_order_create_sidebar_wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_load_block_sidebar>
         <reference name="sidebar">
-            <block type="enterprise_wishlist/adminhtml_sales_order_create_sidebar_wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_sidebar>
 
     <adminhtml_sales_order_create_load_block_sidebar_wishlist>
         <reference name="content">
-            <block type="enterprise_wishlist/adminhtml_sales_order_create_sidebar_wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="sidebar_wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="enterprise/wishlist/sales/order/create/sidebar/items.phtml" name="sidebar_wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_sidebar_wishlist>
 
     <adminhtml_checkout_index>
         <reference name="checkout.accordion">
-            <block type="enterprise_wishlist/adminhtml_manage_accordion_wishlist" name="wishlist"/>
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist" name="wishlist"/>
         </reference>
     </adminhtml_checkout_index>
 
     <adminhtml_checkout_viewwishlist>
-        <block type="enterprise_wishlist/adminhtml_manage_accordion_wishlist" name="checkout.accordion.wishlist" />
+        <block type="Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist" name="checkout.accordion.wishlist" />
     </adminhtml_checkout_viewwishlist>
 
     <adminhtml_report_customer_wishlist_wishlist>
         <update handle="report_sales"/>
         <reference name="content">
-            <block type="enterprise_wishlist/adminhtml_report_customer_wishlist" template="report/grid/container.phtml" name="customer.report.wishlist">
-                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist" template="report/grid/container.phtml" name="customer.report.wishlist">
+                <block type="Mage_Adminhtml_Block_Store_Switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
             </block>

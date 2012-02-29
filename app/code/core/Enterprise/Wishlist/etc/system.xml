@@ -31,10 +31,10 @@
             <groups>
                 <general>
                     <fields>
-                        <multiple_enabled translate="label" module="enterprise_wishlist">
+                        <multiple_enabled translate="label" module="Enterprise_Wishlist">
                             <label>Enable Multiple Wishlists</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -43,7 +43,7 @@
                                 <active>1</active>
                             </depends>
                         </multiple_enabled>
-                        <multiple_wishlist_number translate="label comment" module="enterprise_wishlist">
+                        <multiple_wishlist_number translate="label comment" module="Enterprise_Wishlist">
                             <label>Number of Multiple Wishlists</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>

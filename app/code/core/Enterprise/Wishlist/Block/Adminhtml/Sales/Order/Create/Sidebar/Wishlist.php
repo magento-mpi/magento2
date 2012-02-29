@@ -44,7 +44,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist
         $collection = $this->getData('item_collection');
         $storeIds = $this->getCreateOrderModel()->getSession()->getStore()->getWebsite()->getStoreIds();
         if (is_null($collection)) {
-            $collection = Mage::getModel('enterprise_wishlist/item')->getCollection()
+            $collection = Mage::getModel('Enterprise_Wishlist_Model_Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomerId())
                 ->addStoreFilter($storeIds)
                 ->setVisibilityFilter();

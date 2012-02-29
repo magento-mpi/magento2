@@ -28,8 +28,8 @@
     $wishlistItems = $this->getWishlistItems();
 ?>
 <div class="page-title title-buttons">
-    <?php if ($this->helper('wishlist')->isRssAllow() && count($this->getWishlistItems())): ?>
-        <a href="<?php echo $this->helper('wishlist')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
     <?php endif; ?>
     <h1><?php echo $this->__('Wishlist Info') ?></h1>
 </div>

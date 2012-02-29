@@ -32,25 +32,6 @@
         </Enterprise_Wishlist>
     </modules>
     <global>
-        <models>
-            <enterprise_wishlist>
-                <class>Enterprise_Wishlist_Model</class>
-                <resourceModel>enterprise_wishlist_resource</resourceModel>
-            </enterprise_wishlist>
-            <enterprise_wishlist_resource>
-                <class>Enterprise_Wishlist_Model_Resource</class>
-            </enterprise_wishlist_resource>
-        </models>
-        <blocks>
-            <enterprise_wishlist>
-                <class>Enterprise_Wishlist_Block</class>
-            </enterprise_wishlist>
-        </blocks>
-        <helpers>
-            <enterprise_wishlist>
-                <class>Enterprise_Wishlist_Helper</class>
-            </enterprise_wishlist>
-        </helpers>
         <resources>
             <enterprise_wishlist_setup>
                 <setup>
@@ -126,11 +107,11 @@
             <wishlist_delete_commit_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerWishlistChange</method>
                     </enterprise_pagecache>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerWishlistListChange</method>
                     </enterprise_pagecache>
                 </observers>
@@ -138,7 +119,7 @@
             <wishlist_save_commit_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>registerWishlistListChange</method>
                     </enterprise_pagecache>
                 </observers>

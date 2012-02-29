@@ -291,7 +291,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if (Mage::helper('catalog')->canApplyMsrp($itemProduct)) {
+                        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
@@ -341,7 +341,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function processSkuFileUploading($session)
     {
         /** @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('enterprise_checkout/import');
+        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
@@ -378,7 +378,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAccountSkuUrl()
     {
-        return Mage::getSingleton('core/url')->getUrl('enterprise_checkout/sku');
+        return Mage::getSingleton('Mage_Core_Model_Url')->getUrl('enterprise_checkout/sku');
     }
 
     /**

@@ -179,7 +179,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
                 }
 
                 /** @var $addressCollection Mage_Customer_Model_Resource_Address_Collection */
-                $addressCollection = Mage::getResourceModel('customer/address_collection');
+                $addressCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
                 $addressCollection->addAttributeToFilter('parent_id', $customerId);
 
                 $addressAttributes = array();

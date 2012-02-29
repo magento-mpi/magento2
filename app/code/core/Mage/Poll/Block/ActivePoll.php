@@ -189,7 +189,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
     protected function _toHtml()
     {
         /** @var $coreSessionModel Mage_Core_Model_Session */
-        $coreSessionModel = Mage::getSingleton('core/session');
+        $coreSessionModel = Mage::getSingleton('Mage_Core_Model_Session');
         $justVotedPollId = $coreSessionModel->getJustVotedPoll();
         if ($justVotedPollId && !$this->_pollModel->isVoted($justVotedPollId)) {
             $this->_pollModel->setVoted($justVotedPollId);

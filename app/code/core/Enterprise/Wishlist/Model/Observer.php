@@ -39,13 +39,13 @@ class Enterprise_Wishlist_Model_Observer
      */
     public function initHelperItemCollection()
     {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
-            $collection = Mage::getModel('wishlist/item')->getCollection()
-                ->addCustomerIdFilter(Mage::getSingleton('customer/session')->getCustomerId())
+        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
+            $collection = Mage::getModel('Mage_Wishlist_Model_Item')->getCollection()
+                ->addCustomerIdFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                 ->setVisibilityFilter()
                 ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
-            Mage::helper('wishlist')->setWishlistItemCollection($collection);
+            Mage::helper('Mage_Wishlist_Helper_Data')->setWishlistItemCollection($collection);
         }
     }
 }

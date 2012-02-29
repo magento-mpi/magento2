@@ -172,7 +172,7 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     public function addFieldsToBannerForm(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             return;
         }
         /* @var $form Varien_Data_Form */
@@ -187,10 +187,10 @@ class Enterprise_CustomerSegment_Model_Observer
         // whether to specify customer segments - also for UI design purposes only
         $fieldset->addField('use_customer_segment', 'select', array(
             'name' => 'use_customer_segment',
-            'label' => Mage::helper('enterprise_customersegment')->__('Customer Segments'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments'),
             'options' => array(
-                '0' => Mage::helper('enterprise_customersegment')->__('All'),
-                '1' => Mage::helper('enterprise_customersegment')->__('Specified'),
+                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('All'),
+                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Specified'),
             ),
             'note' => $model->getUseCustomerSegment() ?
                 $this->_getSpecificSegmentMessage() : $this->_getAllSegmentsMessage(),
@@ -203,7 +203,7 @@ class Enterprise_CustomerSegment_Model_Observer
 
         $fieldset->addField('customer_segment_ids', 'multiselect', array(
             'name' => 'customer_segment_ids',
-            'values' => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
+            'values' => Mage::getResourceSingleton('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')->toOptionArray(),
             'can_be_empty' => true,
         ));
 
@@ -220,7 +220,7 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     protected function _getAllSegmentsMessage()
     {
-        return Mage::helper('enterprise_customersegment')->__('Applies to All of the Specified Customer Segments');
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Applies to All of the Specified Customer Segments');
     }
 
     /**
@@ -229,7 +229,7 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     protected function _getSpecificSegmentMessage()
     {
-        return Mage::helper('enterprise_customersegment')->__('Apply to the Selected Customer Segments');
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Apply to the Selected Customer Segments');
     }
 
 

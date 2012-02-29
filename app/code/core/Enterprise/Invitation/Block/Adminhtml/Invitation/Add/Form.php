@@ -64,7 +64,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
                 'required' => true,
                 'name' => 'store_id',
                 'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
-                'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Model_Store_Switcher')->getHintHtml()
+                'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
             ));
         }
 

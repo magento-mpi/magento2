@@ -29,7 +29,7 @@ class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
      */
     protected function _toHtml()
     {
-        if ($this->helper('wishlist')->isAllow()) {
+        if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) {
             $text = $this->_createLabel($this->_getItemCount());
             $this->_label = $text;
             $this->_title = $text;
@@ -59,7 +59,7 @@ class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
      */
     protected function _getItemCount()
     {
-        return $this->helper('wishlist')->getItemCount();
+        return $this->helper('Mage_Wishlist_Helper_Data')->getItemCount();
     }
 
     /**

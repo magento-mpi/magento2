@@ -48,7 +48,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return Mage::getModel('wishlist/item')->getCollection()
+            return Mage::getModel('Mage_Wishlist_Model_Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomer()->getId())
                 ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
@@ -64,7 +64,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
      */
     public function getCustomer()
     {
-        return Mage::helper('wishlist')->getCustomer();
+        return Mage::helper('Mage_Wishlist_Helper_Data')->getCustomer();
     }
 
     /**
@@ -102,7 +102,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
             $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
-            $this->_defaultWishlistsByCustomer[$customerId] = Mage::getModel('wishlist/wishlist');
+            $this->_defaultWishlistsByCustomer[$customerId] = Mage::getModel('Mage_Wishlist_Model_Wishlist');
             $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
@@ -142,7 +142,7 @@ class Enterprise_Wishlist_Helper_Data extends Mage_Wishlist_Helper_Data
         }
         $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            $collection = Mage::getModel('wishlist/wishlist')->getCollection();
+            $collection = Mage::getModel('Mage_Wishlist_Model_Wishlist')->getCollection();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
             Mage::register('wishlists_by_customer', $wishlistsByCustomer);

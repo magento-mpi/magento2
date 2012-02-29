@@ -41,7 +41,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector
      */
     public function isEnabled()
     {
-        return Mage::helper('enterprise_wishlist')->isMultipleEnabled() || $this->getIsEnabled();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled() || $this->getIsEnabled();
     }
 
     /**

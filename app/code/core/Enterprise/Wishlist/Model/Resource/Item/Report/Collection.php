@@ -39,7 +39,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _construct()
     {
-        $this->_init('wishlist/item');
+        $this->_init('Enterprise_Wishlist_Model_Item', 'Enterprise_Wishlist_Model_Resource_Item');
     }
 
     /**
@@ -50,7 +50,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     protected function _addCustomerInfo()
     {
         /* @var Mage_Customer_Model_Resource_Customer $customer */
-        $customer  = Mage::getResourceSingleton('customer/customer');
+        $customer  = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
         $select = $this->getSelect();
 
         $customerAccount = Mage::getConfig()->getFieldset('customer_account');
@@ -144,9 +144,9 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addProductInfo()
     {
-        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             $this->getSelect()->joinLeft(
-                array('item_stock' => $this->getTable('cataloginventory/stock_item')),
+                array('item_stock' => $this->getTable('cataloginventory_stock_item')),
                 'main_table.product_id = item_stock.product_id',
                 array('product_qty' => 'qty')
             );
@@ -171,9 +171,9 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
             ->columns(array('item_qty' => 'qty', 'added_at', 'description', 'product_id'));
 
         $adapter = $this->getSelect()->getAdapter();
-        $defaultWishlistName = Mage::helper('wishlist')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
         $this->getSelect()->join(
-            array('wishlist_table' => $this->getTable('wishlist/wishlist')),
+            array('wishlist_table' => $this->getTable('wishlist')),
             'main_table.wishlist_id = wishlist_table.wishlist_id',
             array(
                 'visibility' => 'visibility',

@@ -212,7 +212,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     public function getCustomerWishlists()
     {
         /* @var Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
-        return Mage::getModel("wishlist/wishlist")->getCollection()
+        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

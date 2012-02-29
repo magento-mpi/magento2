@@ -100,7 +100,7 @@ abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Mo
     public function isZipCodeRequired(Mage_Shipping_Model_Rate_Request $request = null)
     {
         if ($request instanceof Mage_Shipping_Model_Rate_Request) {
-            return !Mage::helper('directory')->isZipCodeOptional($request->getDestCountryId());
+            return !Mage::helper('Mage_Directory_Helper_Data')->isZipCodeOptional($request->getDestCountryId());
         }
         return true;
     }

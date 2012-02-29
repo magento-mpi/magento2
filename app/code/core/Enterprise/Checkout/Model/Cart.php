@@ -550,7 +550,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(Mage::helper('wishlist')->__("Could not find such wishlist"));
+                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("Could not find such wishlist"));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -790,7 +790,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
-            Mage::getModel('cataloginventory/stock_item')->assignProduct($product);
+            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->assignProduct($product);
         }
 
         return $product;
@@ -866,7 +866,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $this->_successOptions = array();
 
             /** @var $option Mage_Catalog_Model_Product_Option */
-            $option = Mage::getModel('catalog/product_option')
+            $option = Mage::getModel('Mage_Catalog_Model_Product_Option')
                 ->setAddRequiredFilter(true)
                 ->setAddRequiredFilterValue(true);
 

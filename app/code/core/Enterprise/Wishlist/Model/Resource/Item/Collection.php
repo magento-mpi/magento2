@@ -44,7 +44,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection extends Mage_Wishlist_M
         parent::addCustomerIdFilter($customerId);
 
         $adapter = $this->getConnection();
-        $defaultWishlistName = Mage::helper('wishlist')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
         $this->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

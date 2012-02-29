@@ -28,7 +28,7 @@
 $installer = $this;
 $installer->startSetup();
 $installer->getConnection()->changeColumn(
-    $installer->getTable('tax/tax_calculation_rate'),
+    $installer->getTable('tax_calculation_rate'),
     'tax_postcode',
     'tax_postcode',
     'VARCHAR(21) NULL DEFAULT NULL'

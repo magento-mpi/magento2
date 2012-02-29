@@ -68,7 +68,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('wishlist/item')->getCollection();
+        return Mage::getModel('Mage_Wishlist_Model_Item')->getCollection();
     }
 
     /**

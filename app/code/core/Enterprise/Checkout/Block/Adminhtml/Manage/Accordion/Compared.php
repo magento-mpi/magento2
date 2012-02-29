@@ -52,7 +52,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-            Mage::getSingleton('cataloginventory/stock_status')->addIsInStockFilterToCollection($collection);
+            Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
             $collection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);

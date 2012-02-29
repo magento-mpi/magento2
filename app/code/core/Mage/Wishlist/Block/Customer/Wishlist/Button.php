@@ -40,6 +40,6 @@ class Mage_Wishlist_Block_Customer_Wishlist_Button extends Mage_Core_Block_Templ
      */
     public function getWishlist()
     {
-        return Mage::helper('wishlist')->getWishlist();
+        return Mage::helper('Mage_Wishlist_Helper_Data')->getWishlist();
     }
 }

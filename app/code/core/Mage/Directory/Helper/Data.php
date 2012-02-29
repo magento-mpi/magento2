@@ -204,7 +204,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $countryList = explode(',', Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
-            return Mage::helper('core')->jsonEncode($countryList);
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($countryList);
         }
         return $countryList;
     }

@@ -41,7 +41,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('enterprise_wishlist/item')->getCollection();
+        return Mage::getModel('Enterprise_Wishlist_Model_Item')->getCollection();
     }
 
     /**
@@ -52,7 +52,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist
     protected function _prepareColumns()
     {
         $this->addColumn('wishlist_name', array(
-            'header'    => Mage::helper('enterprise_wishlist')->__('Wishlist name'),
+            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist name'),
             'index'     => 'wishlist_name',
             'sortable'  => false
         ));

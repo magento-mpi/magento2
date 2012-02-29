@@ -95,17 +95,4 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->renderLayout();
     }
-
-    /**
-     * Display product image action
-     *
-     * @deprecated
-     */
-    public function imageAction()
-    {
-        /*
-         * All logic has been cut to avoid possible malicious usage of the method
-         */
-        $this->_forward('noRoute');
-    }
 }

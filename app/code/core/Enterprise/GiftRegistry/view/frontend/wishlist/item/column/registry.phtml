@@ -31,7 +31,7 @@
         <div class="list-container">
             <ul>
                 <?php foreach ($this->getGiftRegistryList() as $_entity):?>
-                    <li onclick="return addProductToGiftregistry('<?php echo $this->getItem()->getId() ?>', <?php echo $_entity->getValue()?>);"><span title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40)); ?></span></li>
+                    <li onclick="return addProductToGiftregistry('<?php echo $this->getItem()->getId() ?>', <?php echo $_entity->getValue()?>);"><span title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_String')->truncate($_entity->getTitle(), 40)); ?></span></li>
                 <?php endforeach;?>
             </ul>
         </div>

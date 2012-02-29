@@ -81,7 +81,7 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
         if ($wishlist->getVisibility()) {
             $this->_showWishlistRss();
             return ;
-        } else if (Mage::getSingleton('customer/session')->authenticate($this)
+        } else if (Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)
             && $wishlist->getCustomerId() == $this->_getCustomer()->getId()
         ) {
             $this->_showWishlistRss();
@@ -108,7 +108,7 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist');
+            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -129,12 +129,12 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
 
-            $params = Mage::helper('core')->urlDecode($this->getRequest()->getParam('data'));
+            $params = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
-            if ($customerId && ($customerId == Mage::getSingleton('customer/session')->getCustomerId()) ) {
+            if ($customerId && ($customerId == Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }

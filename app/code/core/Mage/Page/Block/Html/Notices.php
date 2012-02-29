@@ -83,7 +83,7 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
      */
     protected function _getAcceptedSaveCookiesWebsites()
     {
-        $serializedList = Mage::getSingleton('core/cookie')->get(Mage_Page_Helper_Data::IS_USER_ALLOWED_SAVE_COOKIE);
+        $serializedList = Mage::getSingleton('Mage_Core_Model_Cookie')->get(Mage_Page_Helper_Data::IS_USER_ALLOWED_SAVE_COOKIE);
         $unSerializedList = unserialize($serializedList);
         return is_array($unSerializedList) ? $unSerializedList : array();
     }

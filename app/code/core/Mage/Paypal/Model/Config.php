@@ -855,9 +855,9 @@ class Mage_Paypal_Model_Config
     public function getRequireBillingAddressOptions()
     {
         return array(
-            self::REQUIRE_BILLING_ADDRESS_ALL       => Mage::helper('paypal')->__('Yes'),
-            self::REQUIRE_BILLING_ADDRESS_NO        => Mage::helper('paypal')->__('No'),
-            self::REQUIRE_BILLING_ADDRESS_VIRTUAL   => Mage::helper('paypal')->__('For Virtual Quotes Only'),
+            self::REQUIRE_BILLING_ADDRESS_ALL       => Mage::helper('Mage_Paypal_Helper_Data')->__('Yes'),
+            self::REQUIRE_BILLING_ADDRESS_NO        => Mage::helper('Mage_Paypal_Helper_Data')->__('No'),
+            self::REQUIRE_BILLING_ADDRESS_VIRTUAL   => Mage::helper('Mage_Paypal_Helper_Data')->__('For Virtual Quotes Only'),
         );
     }
 

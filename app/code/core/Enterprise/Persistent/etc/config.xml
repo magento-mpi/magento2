@@ -167,7 +167,7 @@
             <controller_action_predispatch_wishlist_index_createwishlist>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -175,7 +175,7 @@
             <controller_action_predispatch_wishlist_index_editwishlist>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -183,7 +183,7 @@
             <controller_action_predispatch_wishlist_index_deletewishlist>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -191,7 +191,7 @@
             <controller_action_predispatch_wishlist_index_copyitem>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -199,7 +199,7 @@
             <controller_action_predispatch_wishlist_index_copyitems>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -207,7 +207,7 @@
             <controller_action_predispatch_wishlist_index_moveitems>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>
@@ -215,7 +215,7 @@
             <controller_action_predispatch_wishlist_index_moveitem>
                 <observers>
                     <enterprise_persistent>
-                        <class>enterprise_persistent/observer</class>
+                        <class>Enterprise_Persistent_Model_Observer</class>
                         <method>emulateWishlist</method>
                     </enterprise_persistent>
                 </observers>

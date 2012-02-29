@@ -43,10 +43,10 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Comment
     {
         return parent::getJs() . "
         function focusComment(obj) {
-            if( obj.value == '" . $this->helper('wishlist')->defaultCommentString() . "' ) {
+            if( obj.value == '" . $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() . "' ) {
                 obj.value = '';
             } else if( obj.value == '' ) {
-                obj.value = '" . $this->helper('wishlist')->defaultCommentString() . "';
+                obj.value = '" . $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() . "';
             }
         }
         ";

@@ -40,7 +40,7 @@ class Enterprise_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Cus
      */
     protected function _getHelper()
     {
-        return $this->helper('enterprise_wishlist');
+        return $this->helper('Enterprise_Wishlist_Helper_Data');
     }
 
     /**

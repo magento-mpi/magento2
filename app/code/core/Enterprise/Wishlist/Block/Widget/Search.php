@@ -115,12 +115,12 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('enterprise_wishlist')->__('Select Search Type'))
+                'label' => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('core/html_select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('search_by')
             ->setId($this->getBlockId() . '-search_by')
             ->setOptions($options);
@@ -136,7 +136,7 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', Mage::helper('core')->uniqHash());
+            $this->setData('id', Mage::helper('Mage_Core_Helper_Data')->uniqHash());
         }
         return $this->getData('id');
     }
@@ -149,7 +149,7 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = Mage::getSingleton('enterprise_wishlist/config_source_search')->getTypes();
+            $allForms = Mage::getSingleton('Enterprise_Wishlist_Model_Config_Source_Search')->getTypes();
             $useForms = $this->_getEnabledFormTypes();
             $codeAll = Enterprise_Wishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
 

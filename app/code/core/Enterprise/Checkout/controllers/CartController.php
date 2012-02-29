@@ -78,7 +78,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     {
         // check empty data
         /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('enterprise_checkout');
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
         $items = $this->getRequest()->getParam('items');
         foreach ($items as $k => $item) {
             if (empty($item['sku'])) {

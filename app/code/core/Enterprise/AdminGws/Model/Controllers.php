@@ -1182,7 +1182,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function promoCatalogIndexAction($controller)
     {
         $controller->setDirtyRulesNoticeMessage(
-            Mage::helper('catalogrule')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
+            Mage::helper('Mage_CatalogRule_Helper_Data')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
         );
         return $this;
     }
@@ -1205,7 +1205,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 return false;
             }
 
-            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')
+            return $this->_redirect($controller, Mage::getSingleton('Mage_Adminhtml_Model_Url')
                 ->getUrl('adminhtml/rma_item_attribute/edit',
                      array('website' => $allowedWebsitesIds[0], '_current' => true))
             );

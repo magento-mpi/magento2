@@ -54,7 +54,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     protected function _toHtml()
     {
-        if (Mage::helper('enterprise_wishlist')->isMultipleEnabled()) {
+        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';
@@ -68,7 +68,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = Mage::getSingleton('customer/session')->getCustomerId();
+            $this->_customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         }
         return $this->_customerId;
     }
@@ -80,7 +80,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function getWishlists()
     {
-        return Mage::helper('enterprise_wishlist')->getCustomerWishlists($this->_getCustomerId());
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getCustomerWishlists($this->_getCustomerId());
     }
 
     /**
@@ -90,7 +90,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('enterprise_wishlist')->getDefaultWishlist();
+        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlist();
     }
 
     /**
@@ -119,11 +119,11 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function getItemCount(Mage_Wishlist_Model_Wishlist $wishlist)
     {
-        $count = Mage::helper('enterprise_wishlist')->getWishlistItemCount($wishlist);
+        $count = Mage::helper('Enterprise_Wishlist_Helper_Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
-            return Mage::helper('enterprise_wishlist')->__('1 item');
+            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('1 item');
         } else {
-            return Mage::helper('enterprise_wishlist')->__('%d items', $count);
+            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('%d items', $count);
         }
     }
 
@@ -207,6 +207,6 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
      */
     public function canCreateWishlists($wishlists)
     {
-        return !Mage::helper('enterprise_wishlist')->isWishlistLimitReached($wishlists);
+        return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlists);
     }
 }

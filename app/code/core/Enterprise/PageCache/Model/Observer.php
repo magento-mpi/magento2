@@ -482,7 +482,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $blockContainer = Mage::getModel('enterprise_pagecache/container_wishlists');
+        $blockContainer = Mage::getModel('Enterprise_PageCache_Model_Container_Wishlists');
         Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($blockContainer->getCacheId());
 
         return $this;

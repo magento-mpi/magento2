@@ -411,7 +411,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         $customer = $this->_getCurrentCustomer();
         $key = $customer->getId().','.$customer->getEmail();
         $params = array(
-            'data' => Mage::helper('core')->urlEncode($key),
+            'data' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($key),
             '_secure' => false,
         );
         if ($wishlistId) {

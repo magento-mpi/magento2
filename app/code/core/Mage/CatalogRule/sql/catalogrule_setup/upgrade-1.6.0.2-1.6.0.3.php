@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->startSetup();
 
-$ruleProductTable = $installer->getTable('catalogrule/rule_product');
+$ruleProductTable = $installer->getTable('catalogrule_product');
 
 $columnOptions = array(
     'TYPE' => Varien_Db_Ddl_Table::TYPE_TEXT,

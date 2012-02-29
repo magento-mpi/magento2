@@ -159,7 +159,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         }
 
         if ($this->_productVisible) {
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection($productCollection);
         }
 
         $productCollection->addPriceData()
@@ -223,7 +223,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     {
         $this->getSelect()
             ->join(
-                array('wishlist' => $this->getTable('wishlist/wishlist')),
+                array('wishlist' => $this->getTable('wishlist')),
                 'main_table.wishlist_id = wishlist.wishlist_id',
                 array()
             )

@@ -169,12 +169,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                     $isBug = true;
                     continue;
                 }
-                $path = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
                 $this->assertTrue(isset(self::$_existingClasses[$class])
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/core/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/community/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/local/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/lib/{$path}")
+                    || Util_Files::codePoolClassFileExists($class)
                 );
                 self::$_existingClasses[$class] = 1;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
