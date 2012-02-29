@@ -143,7 +143,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     {
         $mca = trim($mca, ' /\\');
         $appropriatePages = array();
-        foreach ($this->_uimapData[$area] as &$page) {
+        foreach ($this->_uimapData[$area] as $page) {
             //Get mca without any modifications
             $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
             if ($pageMca === false || $pageMca === null) {
