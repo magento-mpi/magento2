@@ -31,25 +31,43 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
+class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Validate entity.
-     * If fails validation, then this metod return an array of errors
-     * that explain why the validation failed.
+     * Current form mode path
      *
-     * @param array $data
-     * @return array|bool
+     * @var Mage_Eav_Model_Form
      */
-    protected function _validate(array $data)
-    {
-        /** @var $form Mage_Eav_Model_Form */
-        $form = Mage::getModel($this->_getFormPath());
-        $form->setEntity($this->_getEntity())
-            ->setFormCode($this->_getFormCode())
-            ->ignoreInvisible(false);
+    protected $_formPath;
 
-        return $form->validateData($data);
+    /**
+     * Current entity model
+     *
+     * @var Mage_Core_Model_Abstract
+     */
+    protected $_entity;
+
+    /**
+     * Current form code
+     *
+     * @var string
+     */
+    protected $_formCode;
+
+    /**
+     * Construct. Set all depends.
+     *
+     * @param $formPath
+     * @param $entity
+     * @param $formCode
+     */
+    public function __construct($formPath, $entity, $formCode)
+    {
+        // TODO: check
+
+        $this->_formPath = $formPath;
+        $this->_entity = $entity;
+        $this->_formCode = $formCode;
     }
 
     /**
@@ -72,26 +90,21 @@ abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Re
     }
 
     /**
-     * Retrieve form path, which will used to initiate form validation model
+     * Validate entity.
+     * If fails validation, then this metod return an array of errors
+     * that explain why the validation failed.
      *
-     * @abstract
-     * @return string
+     * @param array $data
+     * @return array|bool
      */
-    abstract protected function _getFormPath();
+    protected function _validate(array $data)
+    {
+        /** @var $form Mage_Eav_Model_Form */
+        $form = Mage::getModel($this->_formPath);
+        $form->setEntity($this->_entity)
+            ->setFormCode($this->_formCode)
+            ->ignoreInvisible(false);
 
-    /**
-     * Retrieve form code, which will use for attributes validation
-     *
-     * @abstract
-     * @return string
-     */
-    abstract protected function _getFormCode();
-
-    /**
-     * Retrieve entity, which will be validated
-     *
-     * @abstract
-     * @return Mage_Core_Model_Abstract
-     */
-    abstract protected function _getEntity();
+        return $form->validateData($data);
+    }
 }

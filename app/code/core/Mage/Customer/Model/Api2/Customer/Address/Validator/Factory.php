@@ -31,25 +31,33 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customer_Address_Validator_Persist
-    extends Mage_Api2_Model_Resource_Validator
+class Mage_Customer_Model_Api2_Customer_Address_Validator_Factory
 {
-    /**
-     * Validate data.
-     * If fails validation, then this method returns false, and
-     * getErrors() will return an array of errors that explain why the
-     * validation failed.
-     *
-     * @param  array $data
-     * @void bool
-     */
-    public function isSatisfiedByData(array $data)
-    {
-        return true;
+    const TYPE_PERSIST_ADMIN = 'persist_admin';
 
-        //print_r($data);
-        //exit;
-        //$this->_validate($data, array(), array(
-            //'firstname', 'lastname', 'street', 'city', 'country_id', 'postcode', 'telephone'));
+    const TYPE_PERSIST_CUSTOMER = 'persist_customer';
+
+    public function getValidator($type)
+    {
+        $entity = null;
+        switch ($type) {
+            case self::TYPE_PERSIST_ADMIN:
+                $formPath = null;
+                $formCode = null;
+                break;
+            case self::TYPE_PERSIST_CUSTOMER:
+                $formPath = null;
+                $formCode = null;
+                break;
+            default:
+                throw new Exception;
+        }
+
+        $validator = Mage::getModel('api2/resource_validator_eav', array(
+            'formPath' => $formPath,
+            'entity' => $entity,
+            'formCode' => $formCode,
+        ));
+        return $validator;
     }
 }

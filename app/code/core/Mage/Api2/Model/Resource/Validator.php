@@ -68,7 +68,7 @@ abstract class Mage_Api2_Model_Resource_Validator
     }
 
     /**
-     * Validate entity.
+     * Validate data.
      * If fails validation, then this method returns false, and
      * getErrors() will return an array of errors that explain why the
      * validation failed.
