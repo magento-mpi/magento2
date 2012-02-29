@@ -672,8 +672,8 @@ class Mage_Core_Model_Design_Package
      * @return bool|string
      */
     protected function _mergeFiles(array $srcFiles, $targetFile = false,
-        $mustMerge = false, $beforeMergeCallback = null, $extensionsFilter = array()
-    ) {
+        $mustMerge = false, $beforeMergeCallback = null, $extensionsFilter = array())
+    {
         if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
             if (!file_exists($targetFile)) {
                 Mage::helper('core/file_storage_database')->saveFileToFilesystem($targetFile);
