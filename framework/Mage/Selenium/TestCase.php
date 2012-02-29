@@ -706,6 +706,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loads test data from DataSet, specified in the $dataSource
      *
      * @deprecated
+     * @see loadDataSet()
      *
      * @param string $dataSource Data source (e.g. filename in ../data without .yml extension)
      * @param null|array $override value to override in original data from data source
@@ -759,6 +760,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Remove array elements that have '%noValue%' value
      *
      * @deprecated
+     * @see clearDataArray()
      *
      * @param array $array
      *
@@ -785,6 +787,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Override data with index $key on-fly in the $overrideArray by new value (&$value)
      * @deprecated
+     * @see overrideDataByCondition()
      *
      * @param string $overrideKey Index of the target to override
      * @param string $overrideValue Value for override
@@ -812,6 +815,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @deprecated
+     * @see overrideDataByCondition()
      *
      * @param string $subArray
      * @param string $overrideKey
@@ -853,6 +857,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
      *
      * @deprecated
+     * @see setDataParams()
      *
      * @param string $value Value for randomization (in this case - value will be as a suffix)
      * @param string $key Index of the target to randomize
