@@ -55,14 +55,14 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
      */
     protected function _update(array $data)
     {
-        /* @var $validator Mage_Customer_Model_Api2_Customer_Address_Validator_Persist */
-        $validator = Mage::getModel('customer/api2_customer_address_validator_persist');
+        /* @var $validator Mage_Api2_Model_Resource_Validator */
+        /*$validator = $this->_getValidator();
         if (!$validator->isSatisfiedByData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             return;
-        }
+        }*/
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
@@ -107,5 +107,19 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $customerAddress;
+    }
+
+    /**
+     * Get Validator
+     *
+     * @return Mage_Api2_Model_Resource_Validator
+     */
+    protected function _getValidator()
+    {
+        /* @var $validator Mage_Api2_Model_Resource_Validator */
+        $validator = Mage::getModel('customer/api2_customer_address_validator_persist_factory')->create(
+            Mage_Customer_Model_Api2_Customer_Address_Validator_Persist_Factory::TYPE_PERSIST_ADMIN_UPDATE
+        );
+        return $validator;
     }
 }
