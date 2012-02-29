@@ -574,7 +574,7 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _getElementByXpath($xpath, $context = null)
     {
-        $elements = $this->_xpath->query($xpath, $context);
+        $elements = $this->_findByXpath($xpath, $context);
         if ($elements) {
             return $elements->item(0);
         } else {
