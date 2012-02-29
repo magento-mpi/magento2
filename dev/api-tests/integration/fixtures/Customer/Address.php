@@ -29,15 +29,15 @@ $customerAddress = new Mage_Customer_Model_Address();
 $customerAddress->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',
-    'fax'                 => '56-987-987',
-    'firstname'           => 'Jacklin' . microtime(),
-    'lastname'            => 'Sparrow' . microtime(),
-    'middlename'          => 'John',
+    'fax'                 => '56-987-987' . uniqid(),
+    'firstname'           => 'Jacklin' . uniqid(),
+    'lastname'            => 'Sparrow' . uniqid(),
+    'middlename'          => 'John' . uniqid(),
     'postcode'            => '10012',
     'region'              => 'New York',
     'region_id'           => '43',
     'street'              => 'Main Street',
-    'telephone'           => '718-452-9207',
+    'telephone'           => '718-452-9207' . uniqid(),
     'is_default_billing'  => true,
     'is_default_shipping' => true
 ));
