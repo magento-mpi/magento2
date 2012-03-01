@@ -75,7 +75,7 @@
                     </customer>
                 </exclude_attributes>
                 <validators>
-                    <persist>
+                    <eav>
                         <admin>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
@@ -90,7 +90,7 @@
                                 <update>customer_account_edit</update>
                             </form_code>
                         </customer>
-                    </persist>
+                    </eav>
                 </validators>
             </customer>
             <customers>
@@ -154,7 +154,7 @@
                 <instance>customer</instance>
                 <versions>1</versions>
                 <validators>
-                    <persist>
+                    <eav>
                         <admin>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
@@ -162,7 +162,7 @@
                                 <create>adminhtml_customer</create>
                             </form_code>
                         </admin>
-                    </persist>
+                    </eav>
                 </validators>
             </customers>
             <customer_address>
@@ -185,6 +185,26 @@
                     </customer>
                 </privileges>
                 <exclude_attributes/>
+                <validators>
+                    <eav>
+                        <admin>
+                            <entity_model>customer/address</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>customer_account_create</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </admin>
+                        <customer>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </customer>
+                    </eav>
+                </validators>
                 <routes>
                     <route_main>
                         <mask>/customers/addresses/:id</mask>
@@ -211,6 +231,26 @@
                     </customer>
                 </privileges>
                 <exclude_attributes/>
+                <validators>
+                    <eav>
+                        <admin>
+                            <entity_model>customer/address</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>customer_account_create</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </admin>
+                        <customer>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </customer>
+                    </eav>
+                </validators>
                 <routes>
                     <route_main>
                         <mask>/customers/:id/addresses</mask>
