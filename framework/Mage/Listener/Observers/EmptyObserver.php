@@ -9,7 +9,7 @@
 /**
  * Implementation of the
  */
-class Mage_Listener_EmptyObserver
+class Mage_Listener_Observers_EmptyObserver
 {
     /**
      * @var Mage_Listener_EventListener

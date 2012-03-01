@@ -63,7 +63,7 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
      * Register observer class
      *
      * @static
-     * @param Mage_Listener_EmptyObserver $observerInstance
+     * @param mixed $observerInstance
      *
      * @return bool
      */
@@ -100,8 +100,8 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
         $files = glob($path);
         if (is_array($files)) {
             foreach ($files as $file) {
-                $className = 'Mage_Listener_' . basename($file, '.php');
-                if ($className != __CLASS__ && class_exists($className)) {
+                $className = 'Mage_Listener_Observers_' . basename($file, '.php');
+                if (class_exists($className)) {
                     static::attach(new $className());
                 }
             }
