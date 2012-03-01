@@ -257,8 +257,9 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             if (isset($attr['htmlClass']) && !preg_match(self::HTML_ID_PATTERN, $attr['htmlClass'])) {
                 $nodeErrors[] = 'specified value for "htmlClass" attribute is invalid';
             }
+            $allowedAttributes = array('name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'module', 'output');
             foreach ($attr as $key => $attribute) {
-                if (!in_array($key, array('name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'module'))) {
+                if (!in_array($key, $allowedAttributes)) {
                     $nodeErrors[] = 'unexpected attribute "' . $key . '"';
                 }
             }
