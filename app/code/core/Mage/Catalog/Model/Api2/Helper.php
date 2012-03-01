@@ -585,6 +585,9 @@ class Mage_Catalog_Model_Api2_Helper
     public function prepareDataForSave($product, $productData)
     {
         if (isset($productData['stock_data'])) {
+            if ($this->_isUpdate && !isset($productData['stock_data']['manage_stock'])) {
+                $productData['stock_data']['manage_stock'] = $product->getStockItem()->getManageStock();
+            }
             $this->_filterStockData($productData['stock_data']);
         } else {
             $productData['stock_data'] = array(

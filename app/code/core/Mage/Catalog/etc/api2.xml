@@ -182,6 +182,56 @@
                 </routes>
                 <versions>1</versions>
             </products_grouped>
+            <products_categories>
+                <group>catalog_product</group>
+                <type>products_categories</type>
+                <model>catalog/api2_products_categories</model>
+                <working_model>catalog/category</working_model>
+                <title>Product Categories</title>
+                <sort_order>40</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/products/categories/:id</mask>
+                    </route_main>
+                </routes>
+                <instance>products_category</instance>
+                <versions>1</versions>
+            </products_categories>
+            <products_category>
+                <group>catalog_product</group>
+                <type>products_category</type>
+                <model>catalog/api2_products_category</model>
+                <working_model>catalog/category</working_model>
+                <title>Product Category</title>
+                <sort_order>50</sort_order>
+                <privileges>
+                    <admin>
+                        <delete>1</delete>
+                    </admin>
+                </privileges>
+                <attributes>
+                    <category_id>Category ID</category_id>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/products/categories/:id/category/:categoryId</mask>
+                    </route_main>
+                </routes>
+                <versions>1</versions>
+                <collection>products_categories</collection>
+            </products_category>
         </resources>
     </api2>
 </config>
