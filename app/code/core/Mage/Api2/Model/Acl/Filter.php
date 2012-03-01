@@ -134,9 +134,9 @@ class Mage_Api2_Model_Acl_Filter
             $this->_allowedAttributes = $allowedAttributes;
         }
 
-        if (in_array($this->_resource->getOperation(), array(
-            Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))) {
-            array_push($this->_allowedAttributes, $this->_resource->getIdFieldName());
+        if (in_array($this->_resource->getOperation(),
+            array(Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))) {
+            $this->_allowedAttributes[] = $this->_resource->getIdFieldName();
         }
 
         return $this->_allowedAttributes;
