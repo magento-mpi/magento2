@@ -241,14 +241,14 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      *
      * @return Mage_Core_Model_Abstract
      */
-    protected function _afterSave()
+    public function afterCommitCallback()
     {
         if ($this->getIsNew()) {
             $this->create();
         } else {
             $this->update();
         }
-        return parent::_afterSave();
+        return parent::afterCommitCallback();
     }
 
     /**
