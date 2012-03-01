@@ -103,6 +103,8 @@
                         <customer_account_forgotpasswordpost/>
                         <customer_account_confirm/>
                         <customer_account_confirmation/>
+                        <customer_account_resetpassword/>
+                        <customer_account_resetpasswordpost/>
                         <paypal_ipn_standard/>
                         <paypal_ipn_express/>
                         <paypal_ipn_direct/>
