@@ -63,23 +63,15 @@
 }
 
 .vde_toolbar_row {
-    clear: both;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.vde_toolbar_row .vde_toolbar_cell {
-    float:left;
-    padding-bottom: 5px;
-    padding-top: 5px;
-}
-
-.vde_toolbar_row .vde_toolbar_cell > div {
+.vde_toolbar_cell {
+    float: left;
     padding-left: 10px;
     padding-right: 10px;
     border-left: 1px solid black;
-}
-
-#vde_toolbar .vde_toolbar_clear {
-    clear: both;
 }
 
 .ui-draggable-dragging {

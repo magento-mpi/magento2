@@ -56,17 +56,13 @@
     DesignEditor.prototype._init = function () {
         this._dragged = null;
         this._placeholder = null;
-        this._highlightingSelector = null;
-        this._cbHighlightingClick = null;
-        this._highlightingOn = true;
 
         this._templateWrapper = '<div class="vde_block_wrapper" />';
         this._templateBlockTitle = '<div class="vde_block_title">%BLOCK_NAME%</div>';
         this._templatePlaceholder = '<div class="vde_placeholder"></div>';
 
         this._wrapBlocks()
-            ._enableDragging()
-            ._triggerStartedEvent();
+            ._enableDragging();
         return this;
     }
 
@@ -121,7 +117,7 @@
     }
 
     DesignEditor.prototype._hideDragged = function (dragged) {
-        this._showDragged(); // Maybe some other dragged element was hidden before, just retore it
+        this._showDragged(); // Maybe some other dragged element was hidden before, just restore it
         this._dragged = dragged;
         this._dragged.css('visibility', 'hidden');
         return this;
@@ -160,60 +156,12 @@
         return this;
     }
 
-    DesignEditor.prototype.captureHighlighting = function (highlightingId) {
-        this.uncaptureHighlighting()
-            ._initHighlightingCallback();
-
-        this._highlightingSelector = '#' + highlightingId;
-        $(this._highlightingSelector).on('click', null, this._cbHighlightingClick);
-
-        this._syncHighlightingControl();
-        return this;
-    }
-
-    DesignEditor.prototype.uncaptureHighlighting = function () {
-        if (this._highlightingSelector) {
-            $(this._highlightingSelector).off('click', null, this._cbHighlightingClick);
-            this._highlightingSelector = null;
-        }
-        return this;
-    }
-
-    DesignEditor.prototype._initHighlightingCallback = function () {
-        if (!this._cbHighlightingClick) {
-            var thisObj = this;
-            this._cbHighlightingClick = function (event) {
-                thisObj._onHighlightingClick(event);
-            }
-        }
-        return this;
-    }
-
-    DesignEditor.prototype._syncHighlightingControl = function () {
-        var control = $(this._highlightingSelector);
-        if (control.prop('checked') != this._highlightingOn) {
-            control.prop('checked', this._highlightingOn);
-        }
-        return this;
-    }
-
-    DesignEditor.prototype._onHighlightingClick = function (event) {
-        this.highlight($(this._highlightingSelector).prop('checked'));
-        return this;
-    }
-
     DesignEditor.prototype.highlight = function (isOn) {
-        if (!this._highlightingSelector) {
-            return this;
+        if (isOn) {
+            this._turnHighlightingOn();
+        } else {
+            this._turnHighlightingOff();
         }
-        if (this._highlightingOn != isOn) {
-            if (isOn) {
-                this._turnHighlightingOn();
-            } else {
-                this._turnHighlightingOff();
-            }
-        }
-        this._syncHighlightingControl();
         return this;
     }
 
@@ -224,8 +172,6 @@
             elem.show().append(children).removeProp('vdeChildren');
             elem.children('.vde_block_title').slideDown('fast');
         });
-
-        this._highlightingOn = true;
         return this;
     }
 
@@ -237,8 +183,6 @@
                 elem.after(children).hide().prop('vdeChildren', children);
             });
         });
-
-        this._highlightingOn = false;
         return this;
     }
 })(jQuery);

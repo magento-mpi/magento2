@@ -15,8 +15,8 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
-        jQuery(document).bind('started.vde', function (e, designEditor) {
-            designEditor.captureHighlighting('vde_highlighting');
+        jQuery('#vde_highlighting').on('click', null, function (event) {
+            designEditor.highlight(jQuery(this).prop('checked'));
         });
     });
 </script>
