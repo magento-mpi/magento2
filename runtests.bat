@@ -95,7 +95,12 @@ GOTO :EOF
 for /D %%i in %folders% DO (
 	set conf=%%k
 	set id=%%j
-	xcopy /E/I/Q "%workingDir%\%%i" "%workingDir%\%tufn%\%%k_%%j\%%i"	
+	echo "%%i"
+	if "%%i"=="var" (
+		xcopy /E/I/Q/T "%workingDir%\%%i" "%workingDir%\%tufn%\%%k_%%j\%%i"
+	) else (
+		xcopy /E/I/Q "%workingDir%\%%i" "%workingDir%\%tufn%\%%k_%%j\%%i"
+	)
 )
 GOTO :EOF
 
