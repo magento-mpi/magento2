@@ -41,6 +41,7 @@ if "%PHPBIN%" == "" set PHPBIN=php.exe
 if not exist "%PHPBIN%" if "%PHP_PEAR_PHP_BIN%" neq "" set PHPBIN=%PHP_PEAR_PHP_BIN%
 
 set folders=(config fixture framework testsuite var)
+set tufn=%time:~0,2%%time:~3,2%%time:~6,2%%time:~9,2%
 set Count=0
 set ConfCount=1
 set strArrayNumber=0
@@ -63,7 +64,7 @@ for /l %%a in (1,1,%count%) do (
 
 if "%strArrayName.1%"=="" (
 	set BASEDIR=%~dp0
-	"%PHPBIN%" "%PHP_PEAR_BIN_DIR%\phpunit" --configuration "%BASEDIR%phpunit.xml" >var\logs\PHPUnitReport.txt%*
+	"%PHPBIN%" "%PHP_PEAR_BIN_DIR%\phpunit" --configuration "%BASEDIR%phpunit.xml" >var\logs\PHPUnitReport%tufn%.txt%*
 ) else (
 	call:functionCreateDir
 	call:functionCopy
@@ -79,7 +80,6 @@ set strArrayName.%strArrayNumber%=%config%
 GOTO :EOF
 
 :functionCreateDir
-set tufn=%time:~0,2%%time:~3,2%%time:~6,2%%time:~9,2%
 mkdir %tufn%
 GOTO :EOF
 
@@ -125,7 +125,7 @@ for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%_%counter%\c
 	)
 )
 move %workingDir%\%tufn%\%app%%browser%_%counter%\config\confignew.yml %workingDir%\%tufn%\%app%%browser%_%counter%\config\config.yml
-start cmd /X/V:ON/K "cd /d %workingDir%\%tufn%\%app%%browser%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration phpunit.xml" 
+start cmd /X/V:ON/K "cd /d %workingDir%\%tufn%\%app%%browser%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration phpunit.xml >var\logs\PHPUnitReport.txt"
 GOTO :EOF
 
 :EOF
