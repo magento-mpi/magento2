@@ -115,36 +115,41 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     /**
      * Loads DataSet from specified file.
      *
-     * @param string $fileName
+     * @param string $dataFile - File name or full path to file in fixture folder
+     * (for example: 'default\core\Mage\AdminUser\data\AdminUser') in which DataSet is specified
      * @param string $dataSetName
      *
      * @return array
      * @throws RuntimeException
      */
-    public function loadTestDataSet($fileName, $dataSetName)
+    public function loadTestDataSet($dataFile, $dataSetName)
     {
         $separator = preg_quote(DIRECTORY_SEPARATOR);
+        if (preg_match("|$separator|", $dataFile)) {
+            $condition = preg_quote($dataFile) . '.yml$';
+        } else {
+            $condition = 'data' . $separator . $dataFile . '.yml$';
+        }
+
         foreach ($this->_configFixtures as $codePoolData) {
             if (!array_key_exists('data', $codePoolData)) {
                 continue;
             }
             foreach ($codePoolData['data'] as $file) {
-                if (!preg_match('|data' . $separator . $fileName . '.yml$|', $file)) {
+                if (!preg_match('|' . $condition . '|', $file)) {
                     continue;
                 }
                 $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
                 if (!$dataSets) {
-                    throw new RuntimeException($fileName . ' file is empty');
+                    throw new RuntimeException($dataFile . ' file is empty');
                 }
-                foreach ($dataSets as $dataSetKey => $content) {
-                    if ($dataSetKey == $dataSetName) {
-                        $this->_testData[$dataSetKey] = $content;
-                        return $this->_testData[$dataSetKey];
-                    }
+                if (array_key_exists($dataSetName, $dataSets)) {
+                    $this->_testData[$dataSetName] = $dataSets[$dataSetName];
+                    return $this->_testData[$dataSetName];
                 }
             }
         }
         throw new RuntimeException('DataSet with name "' . $dataSetName
-            . '" is not present in "' . $fileName . '" file.');
+            . '" is not present in "' . $dataFile . '" file.');
     }
 }
