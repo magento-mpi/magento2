@@ -88,9 +88,9 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
     {
         //Open 'Addresses' tab
         $this->openTab('addresses');
-        $addressNumber = $this->addAddressNumber();
+        $this->addAddressNumber();
         $this->clickButton('add_new_address', false);
-        $this->click('//*[@id=\'new_item' . $addressNumber . '\']');
+        $this->waitForAjax();
         //Fill in 'Customer's Address' tab
         $this->fillForm($addressData, 'addresses');
     }

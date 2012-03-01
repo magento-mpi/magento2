@@ -142,4 +142,16 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
     {
         return $this->_elements['form'];
     }
+
+    /**
+     * Get main buttons defined on the current page
+     * @return mixed
+     */
+    public function getMainButtons()
+    {
+        if (isset($this->_elements['buttons'])) {
+            return $this->_elements['buttons'];
+        }
+        return null;
+    }
 }

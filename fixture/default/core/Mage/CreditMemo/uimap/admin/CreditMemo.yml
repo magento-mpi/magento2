@@ -94,14 +94,13 @@ create_credit_memo:
                             qty_to_refund: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            price_totals: //div[./div/h4='Refund Totals' or ./div/h4='Credit Memo Totals']//table/tbody
                             product_line:  //table[@class='data order-tables']/tbody
                 -
                     product_line_to_refund:
                         xpath: //div[@class='grid np']//tbody[@class]
                         fields:
-                            product_sku: //tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']
-                            product_qty: //tr[contains(.//@name,'creditmemo[items')]//td[5]
+                            product_sku: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']"
+                            product_qty: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//td[5]"
                 -
                     credit_memo_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']
@@ -120,6 +119,8 @@ create_credit_memo:
                         checkboxes:
                             append_comments: //input[@name='creditmemo[comment_customer_notify]']
                             email_copy_of_credit_memo: //input[@name='creditmemo[send_email]']
+                        pageelements:
+                            price_totals: //tbody
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
@@ -162,7 +163,6 @@ view_credit_memo:
                         xpath: //div[@id='creditmemo_items_container']/div[@class='grid np']
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            price_totals: //div[@id='history_form']//table/tbody
                             product_line:  //table[@class='data order-tables']/tbody
                 -
                     credit_memo_history:
@@ -174,6 +174,8 @@ view_credit_memo:
                 -
                     credit_memo_totals:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Credit Memo Totals']
+                        pageelements:
+                            price_totals: //tbody
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             send_email: //p[@class='form-buttons']//button[span='Send Email']

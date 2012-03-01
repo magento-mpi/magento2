@@ -73,8 +73,15 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
                 continue;
             }
             foreach ($codePoolData['data'] as $file) {
-                $this->_testData = array_merge($this->getConfig()->getHelper('file')->loadYamlFile($file),
-                                               $this->_testData);
+                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                if (!$dataSets) {
+                    continue;
+                }
+                foreach ($dataSets as $dataSetKey => $content) {
+                    if ($content) {
+                        $this->_testData[$dataSetKey] = $content;
+                    }
+                }
             }
         }
 
@@ -103,5 +110,48 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     public function getDataValue($path = '')
     {
         return $this->getConfig()->_descend($this->_testData, $path);
+    }
+
+    /**
+     * Loads DataSet from specified file.
+     *
+     * @param string $dataFile - File name or full path to file in fixture folder
+     * (for example: 'default\core\Mage\AdminUser\data\AdminUsers') in which DataSet is specified
+     * @param string $dataSetName
+     *
+     * @return array
+     * @throws RuntimeException
+     */
+    public function loadTestDataSet($dataFile, $dataSetName)
+    {
+        if (preg_match('/(\/)|(\\\)/', $dataFile)) {
+            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', DIRECTORY_SEPARATOR, $dataFile));
+        } else {
+            $condition = 'data' . preg_quote(DIRECTORY_SEPARATOR) . $dataFile;
+        }
+        if (!preg_match('|\.yml$|', $condition)) {
+            $condition .= '\.yml$';
+        }
+
+        foreach ($this->_configFixtures as $codePoolData) {
+            if (!array_key_exists('data', $codePoolData)) {
+                continue;
+            }
+            foreach ($codePoolData['data'] as $file) {
+                if (!preg_match('|' . $condition . '|', $file)) {
+                    continue;
+                }
+                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                if (!$dataSets) {
+                    throw new RuntimeException($dataFile . ' file is empty');
+                }
+                if (array_key_exists($dataSetName, $dataSets)) {
+                    $this->_testData[$dataSetName] = $dataSets[$dataSetName];
+                    return $this->_testData[$dataSetName];
+                }
+            }
+        }
+        throw new RuntimeException('DataSet with name "' . $dataSetName
+            . '" is not present in "' . $dataFile . '" file.');
     }
 }

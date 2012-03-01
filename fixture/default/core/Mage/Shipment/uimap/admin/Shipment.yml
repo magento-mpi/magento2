@@ -102,8 +102,8 @@ create_shipment:
                     product_line_to_ship:
                         xpath: //div[@class='grid np']//tbody[@class]
                         fields:
-                            product_sku: //tr[contains(.//@name,'shipment[items')]//*[strong='SKU:' or @class='option-value']
-                            product_qty: //tr[contains(.//@name,'shipment[items')]//input[contains(@name,'shipment[items]')]
+                            product_sku: "[%productNumber%]//tr[contains(.//@name,'shipment[items')]//*[strong='SKU:' or @class='option-value']"
+                            product_qty: "[%productNumber%]//tr[contains(.//@name,'shipment[items')]//input[contains(@name,'shipment[items]')]"
                 -
                     shipment_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Shipment Comments']

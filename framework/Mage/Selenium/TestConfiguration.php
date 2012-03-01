@@ -90,6 +90,12 @@ class Mage_Selenium_TestConfiguration
     protected $_configFixtures = array();
 
     /**
+     * Array of class names for test Helper files
+     * @var array
+     */
+    protected $_testHelperClassNames = array();
+
+    /**
      * Constructor defined as private to implement singleton
      */
     private function __construct()
@@ -123,6 +129,7 @@ class Mage_Selenium_TestConfiguration
     {
         $this->_initConfig();
         $this->_initFixturesPaths();
+        $this->_initTestHelperClassNames();
         $this->_initFixtures();
     }
 
@@ -143,6 +150,16 @@ class Mage_Selenium_TestConfiguration
     protected function _initFixturesPaths()
     {
         $this->getConfigFixtures();
+        return $this;
+    }
+
+    /**
+     * Initialize all class names for test Helper files
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initTestHelperClassNames()
+    {
+        $this->getTestHelperClassNames();
         return $this;
     }
 
@@ -226,6 +243,38 @@ class Mage_Selenium_TestConfiguration
             }
         }
         return $this->_configFixtures;
+    }
+
+    /**
+     * Get all test helper class names
+     * @return array
+     */
+    public function getTestHelperClassNames()
+    {
+        if (!empty($this->_testHelperClassNames)) {
+            return $this->_testHelperClassNames;
+        }
+        //Get initial path to test helpers
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['testsuite_base_path'];
+        //Get test helpers sequence
+        $fallbackOrderHelper = $this->_configHelper->getHelpersFallbackOrder();
+
+        foreach ($fallbackOrderHelper as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $facade = new File_Iterator_Facade();
+            $files = $facade->getFilesAsArray($projectPath, 'Helper.php');
+            foreach ($files as $file) {
+                $className = str_replace($initialPath . DIRECTORY_SEPARATOR, '', $file);
+                $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
+                $helperName = end(explode('_', str_replace('_Helper', '', $className)));
+                $this->_testHelperClassNames[$helperName] = $className;
+            }
+        }
+        return $this->_testHelperClassNames;
     }
 
     /**

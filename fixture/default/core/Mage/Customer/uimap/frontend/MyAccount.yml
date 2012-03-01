@@ -46,7 +46,7 @@ my_orders_history:
                             order_total: //tr[td='%orderId%']/td[span='%orderTotal%']
 
 my_orders_history_index:
-    mca: sales/order/history/%param%/
+    mca: sales/order/history/%orderHistoryParam%/
     title: My Orders
     uimap:
         form: *orderHistory
@@ -134,7 +134,7 @@ my_account_my_tags:
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
 
 my_account_my_tags_after_delete:
-    mca: tag/customer/index/uenc/%id%/
+    mca: tag/customer/index/uenc/%uenc%/
     title: My Tags
     uimap:
         form: *my_tags

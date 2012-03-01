@@ -289,7 +289,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
         if ($productData) {
             $this->clickButton('add_products', false);
-            $xpathProduct = $this->search($productData);
+            $xpathProduct = $this->search($productData, 'select_products_to_add');
             $this->assertNotEquals(null, $xpathProduct, 'Product is not found');
             $this->addParameter('productXpath', $xpathProduct);
             $configurable = false;
@@ -302,7 +302,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $this->pleaseWait();
                 $before = $this->getMessagesOnPage();
                 $this->configureProduct($configure);
-                $this->clickButton('ok', false);
+                $this->click($this->_getControlXpath('button', 'ok',
+                                                     $this->_findUimapElement('fieldset',
+                                                                              'product_composite_configure_form')));
                 $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {

@@ -296,7 +296,7 @@ new_product:
                         xpath: //a[@title='Categories']/span
                         fieldsets:
                             -
-                                product_categories:
+                                select_category:
                                     xpath: //div[contains(div/div/h4,'Product Categories')]
                                     links:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]

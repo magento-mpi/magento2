@@ -52,14 +52,21 @@ shopping_cart:
                         checkboxes:
                             move_to_wishlist: //tr[*//a[text()='%productName%']]//input[@title='Move to Wishlist']
                         links:
-                            remove_item: //a[@title='Remove item']
+                            remove_item: /tbody/tr[%productNumber%]//a[@title='Remove item']
                             product_name: //h2[@class='product-name']/a[text()='%productName%']
                         fields:
-                            product_qty: %productXpath%//input[@title='Qty']
+                            product_qty: /tbody/tr[%productNumber%]//input[@title='Qty']
+                            product_qty_by_name: //tr[*//a[text()='%productName%']]//input[@title='Qty']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
-                            price_totals: //table[@id='shopping-cart-totals-table']
                             product_line:  //table[@id='shopping-cart-table']/tbody/tr
+                -
+                    product_price_totals:
+                        xpath: //div[@class='totals']
+                        pageelements:
+                            price_totals: //table[@id='shopping-cart-totals-table']
+                        buttons:
+                            continue_shopping: //button[span='Proceed to Checkout']
                 -
                     estimate_shipping:
                         xpath: //div[h2='Estimate Shipping and Tax']

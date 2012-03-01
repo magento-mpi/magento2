@@ -78,8 +78,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         foreach ($tags as $tag) {
             $this->addParameter('tagName', $tag);
             $this->clickControl('link', 'tag_name');
-            $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
-            //@todo remove from here
+            $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete', false);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->addParameter('uenc', $this->defineParameterFromUrl('uenc'));
+            $this->validatePage('my_account_my_tags_after_delete');
         }
     }
 

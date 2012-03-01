@@ -85,10 +85,13 @@ edit_attribute_set:
                             set_name: //input[@name='attribute_set_name']
                 -
                     groups:
-                        xpath:  //div[@id='tree-div1']
+                        xpath:  //td[div[@id='tree-div1']]
                         buttons:
                             add_group: //button[span='Add New']
                             delete_group: //button[span='Delete Selected Group']
+                -
+                    groups_content:
+                        xpath:  //div[@id='tree-div1']
                         links:
                             group_folder: //div[contains(@class,'x-tree-node-el folder')]//span[text()='%folderName%']
                             group_attribute: //ul[contains(@class,'x-tree-node-ct')]//span[text()='%attributeName%']

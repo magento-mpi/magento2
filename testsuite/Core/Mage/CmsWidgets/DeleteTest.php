@@ -140,12 +140,14 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * <p>4. Delete opened widget</p>
      * <p>Expected result</p>
      * <p>Widgets are created and deleted successfully</p>
+     *
+     * @param array $dataWidgetType
+     * @param string $category
+     *
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
+     * @depends createProducts
      * @test
-     *
-     * @param $dataWidgetType
-     * @param $category
      */
     public function deleteAllTypesOfWidgets($dataWidgetType, $category)
     {

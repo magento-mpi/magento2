@@ -35,6 +35,8 @@
  */
 class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 {
+    protected static $useTearDown = false;
+
     /**
      * <p>Login as a registered user</p>
      */
@@ -46,7 +48,15 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '0');
+    }
+
+    protected function tearDown()
+    {
+        if (self::$useTearDown) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('not_display_out_of_stock_products');
+        }
     }
 
     /**
@@ -62,7 +72,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         return array('email'    => $userData['email'],
-            'password' => $userData['password']);
+                     'password' => $userData['password']);
     }
 
     /**
@@ -81,22 +91,22 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_category');
 
         return array('name' => $category['name'],
-            'path' => $category['parent_category'] . '/' . $category['name']);
+                     'path' => $category['parent_category'] . '/' . $category['name']);
     }
 
     /**
      * <p>Creating configurable product</p>
      * @return array
+     *
      * @test
      * @group preConditions
      */
     public function preconditionsCreateConfigurableAttribute()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options',
-            null, array('admin_title', 'attribute_code'));
+        $attrData = $this->loadData('product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadData('associated_attributes',
-            array('General' => $attrData['attribute_code']));
+                                                array('General' => $attrData['attribute_code']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -119,7 +129,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @param null|string $productType E.g. 'simple'|'configurable' etc.
      *
      * @return array $productData
-
      */
     protected function _createProduct(array $productData, $productType)
     {
@@ -133,16 +142,14 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Create a simple product within a category</p>
      *
-     * @depends preconditionsCreateCategory
      * @param array $categoryData
      *
      * @test
+     * @depends preconditionsCreateCategory
      */
     public function preconditionsCreateProductSimple($categoryData)
     {
-        $productData = $this->loadData('simple_product_visible',
-            array('categories' => $categoryData['path']),
-            array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_visible', array('categories' => $categoryData['path']));
         $productSimple = $this->_createProduct($productData, 'simple');
         return $productSimple['general_name'];
     }
@@ -150,48 +157,48 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Create products of all types for the tests without custom options</p>
      * SpecialOptions is mean: associated_configurable_data, associated_grouped_data etc
-     * @depends preconditionsCreateConfigurableAttribute
+     *
      * @param array $attrData
      *
      * @return array Array of product names
      * @test
+     * @depends preconditionsCreateConfigurableAttribute
      * @group preConditions
      */
     public function preconditionsCreateAllProductsWithoutSpecialOptions($attrData)
     {
         // Create simple product, so that it can be used in Configurable product.
-        $simpleData = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
+        $simpleData = $this->loadData('simple_product_visible');
         $productSimple = $this->_createProduct($simpleData, 'simple');
         // Create a configurable product
         $productData = $this->loadData('configurable_product_visible',
-            array('associated_configurable_data' => '%noValue%',
-                'configurable_attribute_title'  => $attrData['admin_title']),
-            array('general_sku', 'general_name'));
+                                       array('associated_configurable_data'  => '%noValue%',
+                                             'configurable_attribute_title'  => $attrData['admin_title']),
+                                       array('general_sku', 'general_name'));
         $productConfigurable = $this->_createProduct($productData, 'configurable');
         //Create a virtual product
         $productData = $this->loadData('virtual_product_visible', null, array('general_name', 'general_sku'));
         $productVirtual = $this->_createProduct($productData, 'virtual');
         //Create a downloadable product
         $productData = $this->loadData('downloadable_product_visible',
-            array('downloadable_information_data' => '%noValue%'),
-            array('general_name', 'general_sku'));
+                                       array('downloadable_information_data' => '%noValue%'),
+                                       array('general_name', 'general_sku'));
         $productDownloadable = $this->_createProduct($productData, 'downloadable');
         //Create a grouped product
-        $productData = $this->loadData('grouped_product_visible',
-            array('associated_grouped_data' => '%noValue%'),
-            array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product_visible', array('associated_grouped_data' => '%noValue%'),
+                                       array('general_name', 'general_sku'));
         $productGrouped = $this->_createProduct($productData, 'grouped');
         //Create a bundle product
-        $productData = $this->loadData('fixed_bundle_visible',
-            array('bundle_items_data' => '%noValue%'), array('general_name', 'general_sku'));
+        $productData = $this->loadData('fixed_bundle_visible', array('bundle_items_data' => '%noValue%'),
+                                       array('general_name', 'general_sku'));
         $productBundle = $this->_createProduct($productData, 'bundle');
 
         $allProducts = array('simple'       => $productSimple,
-            'virtual'      => $productVirtual,
-            'downloadable' => $productDownloadable,
-            'grouped'      => $productGrouped,
-            'configurable' => $productConfigurable,
-            'bundle'       => $productBundle);
+                             'virtual'      => $productVirtual,
+                             'downloadable' => $productDownloadable,
+                             'grouped'      => $productGrouped,
+                             'configurable' => $productConfigurable,
+                             'bundle'       => $productBundle);
         return $allProducts;
     }
 
@@ -199,28 +206,27 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Create products of all types for the tests with custom options</p>
      * SpecialOptions is mean: associated_configurable_data, associated_grouped_data etc
      *
-     * @depends preconditionsCreateConfigurableAttribute
      * @param array $attrData
      *
      * @return array Array of product names
      * @test
+     * @depends preconditionsCreateConfigurableAttribute
      */
     public function preconditionsCreateAllProductsWithSpecialOptions($attrData)
     {
         // Create simple product, so that it can be used in Configurable product.
         $simpleData = $this->loadData('simple_product_visible', null, array('general_name', 'general_sku'));
-        $simpleData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-            $attrData['option_1']['admin_option_name'];
+        $simpleData['general_user_attr']['dropdown'][$attrData['attribute_code']] = $attrData['option_1']['admin_option_name'];
         $productSimple = $this->_createProduct($simpleData, 'simple');
         // Create a configurable product
         $productData = $this->loadData('configurable_product_visible',
-            array('configurable_attribute_title' => $attrData['admin_title']),
-            array('general_sku', 'general_name'));
+                                       array('configurable_attribute_title' => $attrData['admin_title']),
+                                       array('general_sku', 'general_name'));
         $productData['associated_configurable_data'] = $this->loadData('associated_configurable_data',
             array('associated_search_sku' => $simpleData['general_sku']));
         $productData['special_options'] = $this->loadData('configurable_options_to_add_to_shopping_cart',
             array('custom_option_dropdown' => $attrData['option_1']['store_view_titles']['Default Store View'],
-                'title' => $attrData['admin_title']));
+                  'title'                  => $attrData['admin_title']));
         $productConfigurable = $this->_createProduct($productData, 'configurable');
         //Create a virtual product
         $productData = $this->loadData('virtual_product_visible', null, array('general_name', 'general_sku'));
@@ -231,9 +237,9 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $productDownloadable = $this->_createProduct($productData, 'downloadable');
         //Create a grouped product
         $productData = $this->loadData('grouped_product_visible',
-            array('associated_search_name'        => $simpleData['general_name'],
-                'associated_product_default_qty' => '3'),
-            array('general_name', 'general_sku'));
+                                       array('associated_search_name'         => $simpleData['general_name'],
+                                             'associated_product_default_qty' => '3'),
+                                       array('general_name', 'general_sku'));
         $productGrouped = $this->_createProduct($productData, 'grouped');
         //Create a bundle product
         $productData = $this->loadData('fixed_bundle_visible', null, array('general_name', 'general_sku'));
@@ -242,20 +248,18 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                   'add_product_2/bundle_items_search_sku' => $productVirtual['general_sku']));
         $productData['special_options'] = $this->loadData('bundle_options_to_add_to_shopping_cart',
             array('custom_option_multiselect' => $productVirtual['general_name'],
-                'option_2' => '%noValue%',
-                'option_3' => '%noValue%',
-                'option_4' => '%noValue%',
-                'option_5' => '%noValue%')
-        );
+                  'option_2'                  => '%noValue%',
+                  'option_3'                  => '%noValue%',
+                  'option_4'                  => '%noValue%',
+                  'option_5'                  => '%noValue%'));
         $productBundle = $this->_createProduct($productData, 'bundle');
 
-        $allProducts = array('simple'       => $productSimple,
-            'virtual'      => $productVirtual,
-            'downloadable' => $productDownloadable,
-            'grouped'      => $productGrouped,
-            'configurable' => $productConfigurable,
-            'bundle'       => $productBundle);
-        return $allProducts;
+        return array('simple'       => $productSimple,
+                     'virtual'      => $productVirtual,
+                     'downloadable' => $productDownloadable,
+                     'grouped'      => $productGrouped,
+                     'configurable' => $productConfigurable,
+                     'bundle'       => $productBundle);
     }
 
     /**
@@ -280,13 +284,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
      */
     public function addProductsWithSpecialOptionsToWishlistFromProductPage($customer, $productDataSet)
     {
@@ -304,9 +307,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->navigate('my_wishlist');
         foreach ($productNameSet as $productName) {
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
-                'Product ' . $productName . ' is not in the wishlist.');
+                              'Product ' . $productName . ' is not in the wishlist.');
         }
-        //Cleanup
     }
 
     /**
@@ -321,13 +323,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Message 'You have no items in your wishlist.' is displayed</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
-     *
      * @param $customer
      * @param $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
      */
     public function removeProductsFromWishlist($customer, $productDataSet)
     {
@@ -347,13 +348,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
             $this->wishlistHelper()->frontRemoveProductsFromWishlist($productName); // Remove all but last
             //Verify
             $this->assertTrue(is_array($this->wishlistHelper()->frontWishlistHasProducts($productName)),
-                'Product ' . $productName . ' is in the wishlist, but should be removed.');
+                              'Product ' . $productName . ' is in the wishlist, but should be removed.');
         }
         //Steps
         $this->wishlistHelper()->frontRemoveProductsFromWishlist($lastProductName); //Remove the last one
         //Verify
         $this->assertTrue($this->controlIsPresent('pageelement', 'no_items'), $this->getParsedMessages());
-        //Cleanup
     }
 
     /**
@@ -364,20 +364,23 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithoutSpecialOptions
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
-     *
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithoutSpecialOptions
      * @group skip_due_to_bug
      */
     public function addProductsWithoutSpecialOptionsToWishlistFromProductPage($customer, $productDataSet)
     {
         //Setup
         $productNameSet = $this->_getProductNames($productDataSet);
+        self::$useTearDown = true;
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('display_out_of_stock_products');
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontClearWishlist();
@@ -385,14 +388,15 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         foreach ($productNameSet as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
             $this->assertMessagePresent('success', 'successfully_added_product');
+            $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
+                              'Product ' . $productName . ' is not added to wishlist.');
         }
         //Verify
         $this->navigate('my_wishlist');
         foreach ($productNameSet as $productName) {
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
-                'Product ' . $productName . ' is not in the wishlist.');
+                              'Product ' . $productName . ' is not in the wishlist.');
         }
-        //Cleanup
     }
 
     /**
@@ -404,15 +408,14 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateCategory
-     * @depends preconditionsCreateProductSimple
-     *
      * @param array $customer
      * @param array $categoryData
      * @param string $simpleProductName
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateCategory
+     * @depends preconditionsCreateProductSimple
      */
     public function addProductToWishlistFromCatalog($customer, $categoryData, $simpleProductName)
     {
@@ -425,8 +428,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Verify
         $this->navigate('my_wishlist');
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($simpleProductName),
-            'Product ' . $simpleProductName . ' is not in the wishlist.');
-        //Cleanup
+                          'Product ' . $simpleProductName . ' is not in the wishlist.');
     }
 
     /**
@@ -438,13 +440,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The product is in the wishlist</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProductSimple
-     *
      * @param array $customer
      * @param string $simpleProductName
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProductSimple
      */
     public function addProductToWishlistFromShoppingCart($customer, $simpleProductName)
     {
@@ -459,8 +460,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         //Verify
         $this->navigate('my_wishlist');
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($simpleProductName),
-            'Product ' . $simpleProductName . ' is not in the wishlist.');
-        //Cleanup
+                          'Product ' . $simpleProductName . ' is not in the wishlist.');
     }
 
     /**
@@ -473,14 +473,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The products are in the shopping cart</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithoutSpecialOptions
-     * @depends addProductsWithoutSpecialOptionsToWishlistFromProductPage
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithoutSpecialOptions
+     * @depends addProductsWithoutSpecialOptionsToWishlistFromProductPage
      */
     public function addProductsWithoutSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -503,9 +502,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
         foreach ($productNameSet as $productName) {
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
-                'Product ' . $productName . ' is not in the shopping cart.');
+                              'Product ' . $productName . ' is not in the shopping cart.');
         }
-        //Cleanup
     }
 
     /**
@@ -518,14 +516,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The products are in the shopping cart</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
-     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      */
     public function addProductsWithSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -551,7 +548,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
         foreach ($productNameSet as $productName) {
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
-                'Product ' . $productName . ' is not in the shopping cart.');
+                              'Product ' . $productName . ' is not in the shopping cart.');
         }
     }
 
@@ -567,14 +564,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Success message for other products is displayed.</p>
      * <p>All products except grouped, configurable and downloadable are in the shopping cart</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
-     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
      */
     public function addAllProductsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -613,16 +609,14 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->navigate('shopping_cart');
         foreach ($productNameSet as $productName) {
             if ($productName == $downloadableProductName || $productName == $configurableProductName
-                || $productName == $groupedProductName || $productName == $bundleProductName
-            ) {
+                    || $productName == $groupedProductName || $productName == $bundleProductName) {
                 $this->assertTrue(is_array($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName)),
-                    'Product ' . $productName . ' is in the shopping cart, but should not be.');
+                                  'Product ' . $productName . ' is in the shopping cart, but should not be.');
             } else {
                 $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
-                    'Product ' . $productName . ' is not in the shopping cart.');
+                                  'Product ' . $productName . ' is not in the shopping cart.');
             }
         }
-        //Cleanup
     }
 
     /**
@@ -635,13 +629,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Grouped product is added as several simple products</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateAllProductsWithSpecialOptions
-     *
      * @param array $customer
      * @param array $productDataSet
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateAllProductsWithSpecialOptions
      */
     public function addGroupedProductToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -661,10 +654,9 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontAddToShoppingCart($groupedName);
         //Verify
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
-        $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($simpleName), 'Product ' .
-            $groupedName . ' is not in the shopping cart.');
-        $this->addParameter('productXpath', $this->_getControlXpath('pageelement', 'product_line'));
-        $productQty = $this->getElementByXpath($this->_getControlXpath('field', 'product_qty'), 'value');
+        $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($simpleName),
+                          'Product ' . $groupedName . ' is not in the shopping cart.');
+        $productQty = $this->getElementByXpath($this->_getControlXpath('field', 'product_qty_by_name'), 'value');
         $this->assertEquals(3, $productQty, "Product quantity is unexpected");
     }
 
@@ -676,11 +668,10 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The wishlist is opened.</p>
      *
-     * @depends preconditionsCreateCustomer
-     *
      * @param array $customer
      *
      * @test
+     * @depends preconditionsCreateCustomer
      */
     public function openMyWishlistViaQuickAccessLink($customer)
     {
@@ -691,7 +682,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->clickControl('link', 'my_wishlist');
         //Verify
         $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->getParsedMessages());
-        //Cleanup
     }
 
     /**
@@ -705,15 +695,14 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The success message is displayed</p>
      *
-     * @dataProvider shareWishlistDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProductSimple
-     *
      * @param array $shareData
      * @param array $customer
      * @param string $simpleProductName
      *
      * @test
+     * @dataProvider shareWishlistDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProductSimple
      */
     public function shareWishlist($shareData, $customer, $simpleProductName)
     {
@@ -723,19 +712,17 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
         $this->assertMessagePresent('success', 'successfully_added_product');
         //Steps
-        $this->navigate('my_wishlist');
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
         $this->assertMessagePresent('success', 'successfully_shared_wishlist');
-        //Cleanup
     }
 
     public function shareWishlistDataProvider()
     {
         return array(
             array(array('emails'  => 'autotest@test.com',
-                'message' => 'autotest message')),
-            array(array('message' => '')),
+                        'message' => 'autotest message')),
+            array(array('message' => ''))
         );
     }
 
@@ -750,16 +737,15 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>An error message is displayed</p>
      *
-     * @dataProvider withInvalidEmailDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProductSimple
-     *
      * @param string $emails
      * @param string $errorMessage
      * @param array $customer
      * @param string $simpleProductName
      *
      * @test
+     * @dataProvider withInvalidEmailDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProductSimple
      */
     public function withInvalidEmail($emails, $errorMessage, $customer, $simpleProductName)
     {
@@ -776,15 +762,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         } else {
             $this->assertMessagePresent('error', $errorMessage);
         }
-        //Cleanup
     }
 
     public function withInvalidEmailDataProvider()
     {
         return array(
             array('email@@domain.com', 'invalid_emails_js'),
-            array('.email@domain.com', 'invalid_emails'),
-        );
+            array('.email@domain.com', 'invalid_emails'));
     }
 
     /**
@@ -798,13 +782,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>An error message is displayed</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProductSimple
-     *
      * @param array $customer
      * @param string $simpleProductName
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProductSimple
      */
     public function shareWishlistWithEmptyEmail($customer, $simpleProductName)
     {
@@ -818,7 +801,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontShareWishlist($shareData);
         //Verify
         $this->assertMessagePresent('validation', 'required_emails');
-        //Cleanup
     }
 
     /**
@@ -839,8 +821,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->clickControl('link', 'my_wishlist');
         //Verify
         $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-        //Cleanup
-        $this->navigate('home'); // So that user is not redirected in further tests.
     }
 
     /**
@@ -866,7 +846,5 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($simpleProductName);
         //Verify
         $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-        //Cleanup
-        $this->navigate('home'); // So that user is not redirected in further tests.
     }
 }

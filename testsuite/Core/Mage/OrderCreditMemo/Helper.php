@@ -45,6 +45,7 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
     {
         $creditMemoData = $this->arrayEmptyClear($creditMemoData);
         $verify = array();
+        $this->addParameter('invoice_id', $this->getParameter('id'));
         $this->clickButton('credit_memo');
         foreach ($creditMemoData as $product => $options) {
             if (is_array($options)) {
@@ -58,17 +59,16 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             }
         }
         if (!$verify) {
-            $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_refund');
-            $skuXpath = $this->_getControlXpath('field', 'product_sku');
-            $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-            $productCount = $this->getXpathCount($setXpath);
+            $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_refund'));
             for ($i = 1; $i <= $productCount; $i++) {
-                $prodSku = $this->getText($setXpath . "[$i]" . $skuXpath);
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $this->addParameter('productNumber', $i);
+                $skuXpath = $this->_getControlXpath('field', 'product_sku');
+                $qtyXpath = $this->_getControlXpath('field', 'product_qty');
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $this->getText($skuXpath)));
                 if ($this->isElementPresent($qtyXpath . "/input")) {
-                    $prodQty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
+                    $prodQty = $this->getAttribute($qtyXpath . '/input/@value');
                 } else {
-                    $prodQty = $this->getText($setXpath . "[$i]" . $qtyXpath);
+                    $prodQty = $this->getText($qtyXpath);
                 }
                 $verify[$prodSku] = $prodQty;
             }

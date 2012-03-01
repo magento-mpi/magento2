@@ -28,13 +28,14 @@
 #
 my_wishlist:
     mca: wishlist/
+    click_xpath: //ul[@class='links']//a[contains(text(),'My Wishlist')]
     title: My Wishlist
     uimap: &myWishlist
         form:
             fieldsets:
                 -
                     wishlist:
-                        xpath: //fieldset[./table[@id='wishlist-table']]
+                        xpath: //div[@class='my-wishlist']
                         buttons:
                             add_to_cart: //table[@id='wishlist-table']//tr[contains(.,'%productName%')]//button[span='Add to Cart']
                             share_wishlist: //button[span='Share Wishlist']
@@ -51,7 +52,7 @@ my_wishlist:
                             remove_item_generic: //a[@title='Remove Item']
                         pageelements:
                             product_table_head: //table[@id='wishlist-table']/thead
-                            no_items: //div[@class='my-wishlist']/p[normalize-space(text())='You have no items in your wishlist.']
+                            no_items: /p[normalize-space(text())='You have no items in your wishlist.']
                             price_regular: //tr[contains(.,'%productName%')]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_old: //tr[contains(.,'%productName%')]//p[@class='old-price']/span[@class='price']
                             price_special: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price']

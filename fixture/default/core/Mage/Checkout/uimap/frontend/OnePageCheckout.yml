@@ -38,7 +38,7 @@ onepage_checkout:
                     checkout_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-login']
                         buttons:
-                            checkout_method_continue: //li[@id='opc-login']//button[span='Continue']
+                            checkout_method_continue: //button[span='Continue']
                             login: //button[span='Login']
                         fields:
                             email_address: //input[@id='login-email']
@@ -52,7 +52,7 @@ onepage_checkout:
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
-                            billing_information_continue: //li[@id='opc-billing']//button[span='Continue']
+                            billing_information_continue: //button[span='Continue']
                         dropdowns:
                             billing_address_choice: //select[@id='billing-address-select']
                             billing_state: //select[@id='billing:region_id']
@@ -81,7 +81,7 @@ onepage_checkout:
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
                         buttons:
-                            shipping_information_continue: //li[@id='opc-shipping']//button[span='Continue']
+                            shipping_information_continue: //button[span='Continue']
                         dropdowns:
                             shipping_address_choice: //select[@id='shipping-address-select']
                             shipping_state: //select[@id='shipping:region_id']
@@ -101,13 +101,13 @@ onepage_checkout:
                             shipping_save_in_address_book: //input[@id='shipping:save_in_address_book']
                             use_billing_address: //input[@id='shipping:same_as_billing']
                         links:
-                            back: //li[@id='opc-shipping']//p[@class='back-link']/a[@href]
+                            back: //p[@class='back-link']/a[@href]
                         required: [shipping_first_name, shipping_last_name, shipping_street_address_1, shipping_city, shipping_state, shipping_country, shipping_zip_code, shipping_telephone]
                 -
                     shipping_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
-                            shipping_method_continue: //li[@id='opc-shipping_method']//button[span='Continue']
+                            shipping_method_continue: //button[span='Continue']
                         checkboxes:
                             add_gift_options: //*[label='Add gift options.']/input
                             gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
@@ -124,12 +124,12 @@ onepage_checkout:
                             gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                         links:
-                            back: //li[@id='opc-shipping_method']//p[@class='back-link']/a[@href]
+                            back: //p[@class='back-link']/a[@href]
                 -
                     payment_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
                         buttons:
-                            payment_method_continue: //li[@id='opc-payment']//button[span='Continue']
+                            payment_method_continue: //button[span='Continue']
                         radiobuttons:
                             check_payment_method: //input[@title='%paymentTitle%']
                             selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
@@ -142,11 +142,14 @@ onepage_checkout:
                             expiration_month: //select[@id='%paymentId%_expiration']
                             expiration_year: //select[@id='%paymentId%_expiration_yr']
                         links:
-                            back: //li[@id='opc-payment']//p[@class='back-link']/a[@href]
+                            back: //p[@class='back-link']/a[@href]
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
-                        xpath: //iframe[@id='centinel_authenticate_iframe']
+                        xpath: //div[@class='authentication']
+                -
+                    3d_secure_card_iframe: &3DSecureCardValidation
+                        xpath: //body/table
                         fields:
                             3d_password: //input[@name='external.field.password']
                         buttons:

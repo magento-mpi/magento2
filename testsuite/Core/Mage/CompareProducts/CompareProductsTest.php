@@ -37,9 +37,6 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
 {
     protected $_useTearDown = false;
 
-    /**
-     *
-     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -47,12 +44,8 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure('default_tax_config');
     }
 
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
-        $this->_useTearDown = true;
         $this->addParameter('id', '0');
     }
 
@@ -62,15 +55,16 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         if ($this->_useTearDown) {
             $this->frontend();
             $this->compareProductsHelper()->frontClearAll();
+            $this->_useTearDown = false;
         }
     }
 
     /**
      * @test
+     * @return array
      */
     public function preconditionsForTests()
     {
-        $this->_useTearDown = false;
         //Data
         $category = $this->loadData('sub_category_required');
         $path = $category['parent_category'] . '/' . $category['name'];
@@ -81,25 +75,25 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
-        //Verifyinging
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        //Verifyinging
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
-        //Verifyinging
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->clearInvalidedCache();
         return array('catName' => $category['name'],
                      'names'   => array($simple['general_name'], $virtual['general_name']),
                      'verify'  => array(
-                                    'product_1/product_name' => $simple['general_name'],
-                                    'product_1/SKU'          => $simple['general_sku'],
-                                    'product_2/product_name' => $virtual['general_name'],
-                                    'product_2/SKU'          => $virtual['general_sku']));
+                         'product_1/product_name' => $simple['general_name'],
+                         'product_1/SKU'          => $simple['general_sku'],
+                         'product_2/product_name' => $virtual['general_name'],
+                         'product_2/SKU'          => $virtual['general_sku']));
     }
 
     /**
@@ -110,10 +104,10 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Success message is displayed.Product is displayed in Compare Products pop-up window</p>
      *
-     * @depends preconditionsForTests
      * @param array $data
      *
      * @test
+     * @depends preconditionsForTests
      */
     public function addProductToCompareListFromProductPage($data)
     {
@@ -123,26 +117,27 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
             $this->compareProductsHelper()->frontAddToCompareFromProductPage($value);
             $this->assertMessagePresent('success', 'product_added_to_comparison');
             $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
-                    'Product is not available in Compare widget');
+                              'Product is not available in Compare widget');
         }
         //Steps
         $this->compareProductsHelper()->frontOpenComparePopup();
         //Verifying
         $this->compareProductsHelper()->frontVerifyProductDataInComparePopup($verify);
+        $this->_useTearDown = true;
     }
 
     /**
-     * <p>Adds a products to Compare Products from Categoty page.</p>
+     * <p>Adds a products to Compare Products from Category page.</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
      * <p>2. Add product to Compare Products</p>
      * <p>Expected result:</p>
      * <p>Success message is displayed.Products displayed in Compare Products pop-up window</p>
      *
-     * @depends preconditionsForTests
      * @param array $data
      *
      * @test
+     * @depends preconditionsForTests
      */
     public function addProductToCompareListFromCatalogPage($data)
     {
@@ -150,15 +145,16 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         $this->frontend();
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage(
-                    $value, $data['catName']);
+                $value, $data['catName']);
             $this->assertMessagePresent('success', 'product_added_to_comparison');
             $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
-                    'Product is not available in Compare widget');
+                              'Product is not available in Compare widget');
             $this->compareProductsHelper()->frontOpenComparePopup();
             $this->assertTrue($this->controlIsPresent('link', 'product_title'),
-                    'There is no expected product in Compare Products popup');
+                              'There is no expected product in Compare Products popup');
             $this->compareProductsHelper()->frontCloseComparePopup();
         }
+        $this->_useTearDown = true;
     }
 
     /**
@@ -169,30 +165,30 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * <p>3. Remove products from Compare Products</p>
      * <p>Expected result:</p>
      * <p>Success message is displayed</p>
-     * <p>Products should not be dispalyed in the Compare Products pop-up</p>
+     * <p>Products should not be displayed in the Compare Products pop-up</p>
      *
-     * @depends preconditionsForTests
      * @param array $data
      *
      * @test
+     * @depends preconditionsForTests
      */
-    public function removeProductFromompareBlockList($data)
+    public function removeProductFromCompareBlockList($data)
     {
         //Steps and Verifying
         $this->frontend();
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage(
-                    $value, $data['catName']);
+                $value, $data['catName']);
             $this->assertMessagePresent('success', 'product_added_to_comparison');
             $this->compareProductsHelper()->frontRemoveProductFromCompareBlock($value);
             $this->assertMessagePresent('success', 'product_removed_from_comparison');
             $this->assertFalse($this->controlIsPresent('link', 'compare_product_link'),
-                    'There is unexpected product in Compare Products widget');
+                               'There is unexpected product in Compare Products widget');
         }
     }
 
     /**
-     * <p>Compare Products block is not dispalyed without products</p>
+     * <p>Compare Products block is not displayed without products</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
      * <p>2. Add product to Compare Products</p>
@@ -200,26 +196,25 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Compare Products block should be empty</p>
      *
-     * @depends preconditionsForTests
      * @param array $data
      *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyCompareListIsNotAvailable($data)
     {
         //Steps
         $this->frontend();
-        $this->compareProductsHelper()->frontAddToCompareFromCatalogPage(
-                    $data['names'][0], $data['catName']);
+        $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($data['names'][0], $data['catName']);
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_comparison');
         $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
-                'Product is not available in Compare widget');
+                          'Product is not available in Compare widget');
         //Steps
         $this->compareProductsHelper()->frontClearAll();
         $this->assertMessagePresent('success', 'compare_list_cleared');
         //Verifying
         $this->assertTrue($this->controlIsPresent('pageelement', 'compare_block_empty'),
-                'There is unexpected product(s) in Compare Products widget');
+                          'There is unexpected product(s) in Compare Products widget');
     }
 }

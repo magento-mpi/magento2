@@ -144,6 +144,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->waitForElement(array(self::$xpathErrorMessage,
                                        self::$xpathValidationMessage,
                                        $setXpath . self::$notActiveTab));
+            sleep(1);
             if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
                 $messages = $this->getMessagesOnPage();
                 if ($messages !== null) {
@@ -295,14 +296,15 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function frontValidate3dSecure($password = '1234')
     {
         if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
+            $this->selectFrame('index=0');
             $xpath = $this->_getControlXpath('field', '3d_password');
             $xpathContinue = $this->_getControlXpath('button', '3d_continue');
             $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
-            if ($this->waitForElement($xpath)) {
+            if ($this->waitForElement($xpath, 5)) {
                 $this->type($xpath, $password);
                 $this->click($xpathSubmit);
                 $this->waitForElementNotPresent($xpathSubmit);
-                if ($this->waitForElement($xpathContinue, 3)) {
+                if ($this->waitForElement($xpathContinue, 5)) {
                     $this->click($xpathContinue);
                     $this->waitForElementNotPresent($xpathContinue);
                 }

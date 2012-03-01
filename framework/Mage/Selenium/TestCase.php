@@ -297,7 +297,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($helper) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
-
                 return $helper;
             }
         }
@@ -373,9 +372,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (empty($testScope)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
-        list($codePool, $nameSpace) = explode('_', get_class($this));
-        $helperClassName = implode('_', array($codePool, $nameSpace, ucwords($testScope), $helperName));
 
+        $helpers = $this->_testConfig->getTestHelperClassNames();
+
+        if (!isset($helpers[ucwords($testScope)])) {
+            throw new UnexpectedValueException('Cannot load helper "' . $testScope . '"');
+        }
+
+        $helperClassName = $helpers[ucwords($testScope)];
         if (!isset(self::$_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
                 self::$_testHelpers[$helperClassName] = new $helperClassName();
@@ -393,6 +397,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return self::$_testHelpers[$helperClassName];
     }
 
+    /**
+     * Retrieve instance of helper
+     * @deprecated
+     * @see _loadHelper()
+     *
+     * @param  string $className
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function helper($className)
+    {
+        $className = str_replace('/', '_', $className);
+        if (strpos($className, '_Helper') === false) {
+            $className .= '_Helper';
+        }
+
+        if (!isset(self::$_testHelpers[$className])) {
+            if (class_exists($className)) {
+                self::$_testHelpers[$className] = new $className;
+            } else {
+                return false;
+            }
+        }
+
+        if (self::$_testHelpers[$className] instanceof Mage_Selenium_TestCase) {
+            self::$_testHelpers[$className]->appendParamsDecorator($this->_paramsHelper);
+        }
+
+        return self::$_testHelpers[$className];
+    }
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -444,6 +478,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                                                                              #
     ################################################################################
     /**
+     * Append parameters decorator object
+     *
+     * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function appendParamsDecorator($paramsHelperObject)
+    {
+        $this->_paramsHelper = $paramsHelperObject;
+
+        return $this;
+    }
+
+    /**
      * Add parameter to params object instance
      *
      * @param string $name
@@ -480,13 +528,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function defineParameterFromUrl($paramName, $url = null)
     {
         if (is_null($url)) {
-            $url = $this->getLocation();
+            $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
         }
         $title_arr = explode('/', $url);
-        $title_arr = array_reverse($title_arr);
+        if (in_array($paramName, $title_arr) && isset($title_arr[array_search($paramName, $title_arr) + 1])) {
+            return $title_arr[array_search($paramName, $title_arr) + 1];
+        }
         foreach ($title_arr as $key => $value) {
-            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key - 1])) {
-                return $title_arr[$key - 1];
+            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key + 1])) {
+                return $title_arr[$key + 1];
             }
         }
         return null;
@@ -567,18 +617,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Loads test data.
      *
-     * @param string $dataSource
+     * @param string $dataFile - File name or full path to file in fixture folder
+     * (for example: 'default\core\Mage\AdminUser\data\AdminUsers') in which DataSet is specified
+     * @param string $dataSource - DataSet name(for example: 'test_data')
+     * or part of DataSet (for example: 'test_data/product')
      * @param array|null $overrideByKey
      * @param array|null $overrideByValueParam
      *
      * @return array
      * @throws PHPUnit_Framework_Exception
      */
-    public function loadDataSet($dataSource, $overrideByKey = null, $overrideByValueParam = null)
+    public function loadDataSet($dataFile, $dataSource, $overrideByKey = null, $overrideByValueParam = null)
     {
         $data = $this->_dataHelper->getDataValue($dataSource);
+
+        if ($data === false) {
+            $dataSetName = array_shift(explode('/', $dataSource));
+            $this->_dataHelper->loadTestDataSet($dataFile, $dataSetName);
+            $data = $this->_dataHelper->getDataValue($dataSource);
+        }
+
         if (!is_array($data)) {
-            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not loaded.');
+            throw new PHPUnit_Framework_Exception('Data "' . $dataSource . '" is not specified.');
         }
 
         if ($overrideByKey) {
@@ -618,7 +678,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function overrideDataByCondition($overrideKey, $overrideValue, &$overrideArray, $condition)
     {
-        $isOverrided = false;
+        $isOverridden = false;
         foreach ($overrideArray as $currentKey => &$currentValue) {
             switch ($condition) {
                 case 'byValueKey':
@@ -633,13 +693,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             if ($isFound) {
                 $currentValue = $overrideValue;
-                $isOverrided = true;
+                $isOverridden = true;
             } elseif (is_array($currentValue)) {
-                $isOverrided = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
-                                                              $condition) || $isOverrided;
+                $isOverridden = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
+                                                              $condition) || $isOverridden;
             }
         }
-        return $isOverrided;
+        return $isOverridden;
     }
 
     /**
@@ -700,6 +760,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loads test data from DataSet, specified in the $dataSource
      *
      * @deprecated
+     * @see loadDataSet()
      *
      * @param string $dataSource Data source (e.g. filename in ../data without .yml extension)
      * @param null|array $override value to override in original data from data source
@@ -753,6 +814,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Remove array elements that have '%noValue%' value
      *
      * @deprecated
+     * @see clearDataArray()
      *
      * @param array $array
      *
@@ -779,6 +841,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Override data with index $key on-fly in the $overrideArray by new value (&$value)
      * @deprecated
+     * @see overrideDataByCondition()
      *
      * @param string $overrideKey Index of the target to override
      * @param string $overrideValue Value for override
@@ -806,6 +869,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @deprecated
+     * @see overrideDataByCondition()
      *
      * @param string $subArray
      * @param string $overrideKey
@@ -847,6 +911,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
      *
      * @deprecated
+     * @see setDataParams()
      *
      * @param string $value Value for randomization (in this case - value will be as a suffix)
      * @param string $key Index of the target to randomize
@@ -981,7 +1046,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $messageLocator = $this->findUimapElement('message', $message);
+        $messageLocator = $this->_getMessageXpath($message);
         return $this->checkMessageByXpath($messageLocator);
     }
 
@@ -1189,6 +1254,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $currentArea;
     }
 
+    /**
+     * Set current area
+     *
+     * @param string $name
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function setArea($name)
+    {
+        $this->_configHelper->setArea($name);
+        return $this;
+    }
+
+    /**
+     * Return current area name
+     * @return string
+     * @throws OutOfRangeException
+     */
+    public function getArea()
+    {
+        return $this->_configHelper->getArea();
+    }
     ################################################################################
     #                                                                              #
     #                       UIMap of Page helper methods                           #
@@ -1383,6 +1470,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get URL of the specified page
+     *
+     * @param string $area Application area
+     * @param string $page UIMap page key
+     *
+     * @return string
+     */
+    public function getPageUrl($area, $page)
+    {
+        return $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
+    }
+
+    /**
+     * Get part of UIMap for specified uimap element(does not use for 'message' element)
+     *
      * @param string $elementType
      * @param string $elementName
      * @param Mage_Selenium_Uimap_Page|null $uimap
@@ -1390,10 +1492,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @return mixed
      * @throw PHPUnit_Framework_Exception
      */
-    public function findUimapElement($elementType, $elementName, $uimap = null)
+    protected function _findUimapElement($elementType, $elementName, $uimap = null)
     {
         if (is_null($uimap)) {
-            $uimap = $this->getCurrentUimapPage();
+            if ($elementType == 'button') {
+                $generalButtons = $this->getCurrentUimapPage()->getMainButtons();
+                if (isset($generalButtons[$elementName])) {
+                    return $generalButtons[$elementName];
+                }
+            }
+            if ($elementType != 'fieldset' && $elementType != 'tab') {
+                $uimap = $this->_getActiveTabUimap();
+                if (is_null($uimap)) {
+                    $uimap = $this->getCurrentUimapPage();
+                }
+            } else {
+                $uimap = $this->getCurrentUimapPage();
+            }
         }
         try {
             $method = 'find' . ucfirst(strtolower($elementType));
@@ -1409,6 +1524,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get part of UIMap for opened tab
+     * @return mixed
+     */
+    protected function _getActiveTabUimap()
+    {
+        $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
+        foreach ($tabData as $tabUimap) {
+            $isTabOpened = '';
+            $tabXpath = $tabUimap->getXpath();
+            if (preg_match('/^css=/', $tabXpath)) {
+                if ($this->isElementPresent($tabXpath . '[class]')) {
+                    $isTabOpened = $this->getAttribute($tabXpath . '@class');
+                }
+            } elseif ($this->isElementPresent($tabXpath . '[@class]')) {
+                $isTabOpened = $this->getAttribute($tabXpath . '@class');
+            } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
+                $isTabOpened = $this->getAttribute($tabXpath . '/parent::*@class');
+            }
+            if (preg_match('/active/', $isTabOpened)) {
+                return $tabUimap;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets XPath of a control with the specified name and type.
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
@@ -1419,12 +1560,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName, $uimap = null)
     {
-        $xpath = $this->findUimapElement($controlType, $controlName, $uimap);
+        if ($controlType === 'message'){
+            return $this->_getMessageXpath($controlName);
+        }
+        $xpath = $this->_findUimapElement($controlType, $controlName, $uimap);
         if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
             $xpath = $xpath->getXPath($this->_paramsHelper);
         }
 
         return $xpath;
+    }
+
+    /**
+     * Gets XPath of a message with the specified name.
+     *
+     * @param string $message Name of a message from UIMap
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function _getMessageXpath($message)
+    {
+        $messages = $this->getCurrentUimapPage()->getAllElements('messages');
+        $messageLocator = $messages->get($message, $this->_paramsHelper);
+        if ($messageLocator === null) {
+            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
+            throw new RuntimeException($errorMessage);
+        }
+        return $messageLocator;
     }
 
     /**
@@ -1453,13 +1616,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
-                            $parent = $fieldset->getXpath($this->_paramsHelper);
-                            if (!is_null($parent) && !$parent == '') {
-                                $uimapFieldValue = str_ireplace('css=', ' ', $uimapFieldValue);
-                            }
                             $dataMap[$dataFieldName] = array(
                                 'type'  => $fieldsType,
-                                'path'  => $parent . $uimapFieldValue,
+                                'path'  => $uimapFieldValue,
                                 'value' => $dataFieldValue
                             );
                             break 3;
@@ -1590,7 +1749,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $buttonXpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->findUimapElement('message', $message);
+            $confirmation = $this->_getMessageXpath($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {
@@ -2097,11 +2256,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $xpath = '';
         $xpathContainer = null;
         if ($fieldSetName) {
-            $xpathContainer = $this->findUimapElement('fieldset', $fieldSetName);
+            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $xpath . $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '/@onclick');
+        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+        $jsName = $this->getAttribute($resetXpath . '@onclick');
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
         if ($this->isElementPresent($scriptXpath)) {
@@ -2352,7 +2511,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->type($fieldData['path'], $fieldData['value']);
             $this->waitForAjax();
         } else {
@@ -2405,7 +2564,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _fillFormDropdown($fieldData)
     {
         $fieldXpath = $fieldData['path'];
-        if ($this->isElementPresent($fieldXpath) && $this->isEditable($fieldXpath)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldXpath)) {
             if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
                 if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
                     $this->select($fieldXpath, 'label=' . $fieldData['value']);

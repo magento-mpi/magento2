@@ -316,7 +316,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         if ($this->isElementPresent($productLine)) {
             $productCount = $this->getXpathCount($productLine);
             for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productXpath', $productLine . "[$i]");
+                $this->addParameter('productNumber', $i);
                 $this->type($this->_getControlXpath('field', 'product_qty'), 0);
             }
             $this->clickButton('update_shopping_cart');

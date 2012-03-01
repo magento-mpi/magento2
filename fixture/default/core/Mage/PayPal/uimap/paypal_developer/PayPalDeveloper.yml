@@ -91,7 +91,7 @@ create_preconfigured_account:
                     navigation_primary: *primaryNavigation
                 -
                     mainframe:
-                        xpath: //div[@id='formfields']
+                        xpath: //*[@id='content']/form
                         dropdowns:
                             country: //select[@name='country']
                             add_credit_card: //select[@name='credit_card']

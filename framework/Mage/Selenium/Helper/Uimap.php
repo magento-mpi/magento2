@@ -75,6 +75,9 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             foreach ($codePoolData['uimap'] as $areaKey => $files) {
                 foreach ($files as $file) {
                     $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                    if (!$pages) {
+                        continue;
+                    }
                     foreach ($pages as $pageKey => $content) {
                         if ($content) {
                             $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
@@ -130,7 +133,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Retrieve Page from UIMap data configuration by MCA
      *
      * @param string $area Application area
-     * @param string $mca
+     * @param string $mca a part of current URL opened in browser
      * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
      * @return mixed
@@ -139,26 +142,36 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
     {
         $mca = trim($mca, ' /\\');
-        $isExpectedPage = false;
-        foreach ($this->_uimapData[$area] as &$page) {
-            // get mca without any modifications
+        $appropriatePages = array();
+        foreach ($this->_uimapData[$area] as $page) {
+            //Get mca without any modifications
             $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
-            if ($pageMca !== false && $pageMca !== null) {
+            if ($pageMca === false || $pageMca === null) {
+                continue;
+            }
+            if ($paramsDecorator) {
+                $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+            }
+            if ($area == 'admin' || $area == 'frontend') {
+                if (preg_match(';^' . $pageMca . '$;', $mca)) {
+                    $appropriatePages[] = $page;
+                }
+            } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
                 if ($paramsDecorator) {
-                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+                    $page->assignParams($paramsDecorator);
                 }
-                if ($area == 'admin' || $area == 'frontend') {
-                    if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                        $isExpectedPage = true;
-                    }
-                } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
-                    $isExpectedPage = true;
-                }
-                if ($isExpectedPage) {
-                    if ($paramsDecorator) {
-                        $page->assignParams($paramsDecorator);
-                    }
-
+                return $page;
+            }
+        }
+        if (!empty($appropriatePages)) {
+            if (count($appropriatePages) == 1) {
+                return array_shift($appropriatePages);
+            }
+            foreach ($appropriatePages as $page) {
+                //Get mca with actual modifications
+                $pageMca = trim($page->getMca($paramsDecorator), ' /\\');
+                if ($pageMca === $mca) {
+                    $page->assignParams($paramsDecorator);
                     return $page;
                 }
             }
