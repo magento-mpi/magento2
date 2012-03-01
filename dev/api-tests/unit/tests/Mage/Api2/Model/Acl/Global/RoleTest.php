@@ -37,17 +37,18 @@ class  Mage_Api2_Model_Acl_Global_RoleTest extends Mage_PHPUnit_TestCase
      */
     public function testGetConfigNodeName()
     {
-        $roleMock = $this->getModelMockBuilder('api2/acl_global_role')
+        $this->getModelMockBuilder('api2/acl_global_role')
             ->setMethods(array('getId'))
             ->getMock()
             ->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID));
+
         /* @var $role Mage_Api2_Model_Acl_Global_Role */
         $role = Mage::getModel('api2/acl_global_role');
         $this->assertEquals($role->getConfigNodeName(), Mage_Api2_Model_Acl_Global_Role::ROLE_CONFIG_NODE_NAME_GUEST);
 
-        $roleMock = $this->getModelMockBuilder('api2/acl_global_role')
+        $this->getModelMockBuilder('api2/acl_global_role')
             ->setMethods(array('getId'))
             ->getMock()
             ->expects($this->once())
@@ -58,7 +59,7 @@ class  Mage_Api2_Model_Acl_Global_RoleTest extends Mage_PHPUnit_TestCase
         $this->assertEquals($role->getConfigNodeName(),
             Mage_Api2_Model_Acl_Global_Role::ROLE_CONFIG_NODE_NAME_CUSTOMER);
 
-        $roleMock = $this->getModelMockBuilder('api2/acl_global_role')
+        $this->getModelMockBuilder('api2/acl_global_role')
             ->setMethods(array('getId'))
             ->getMock()
             ->expects($this->once())
