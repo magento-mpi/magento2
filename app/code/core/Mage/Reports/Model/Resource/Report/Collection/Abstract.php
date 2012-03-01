@@ -129,7 +129,7 @@ class Mage_Reports_Model_Resource_Report_Collection_Abstract extends Mage_Core_M
      */
     protected function _applyDateRangeFilter()
     {
-        // Remember that field PERIOD is a DATE(YYYY-MM-DD) in all databases including Oracle
+        // Remember that field PERIOD is a DATE(YYYY-MM-DD) in all databases
         if ($this->_from !== null) {
             $this->getSelect()->where('period >= ?', $this->_from);
         }

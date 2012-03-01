@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 var AdminBackup = new Class.create();
 AdminBackup.prototype = {
     initialize : function(a, b){
