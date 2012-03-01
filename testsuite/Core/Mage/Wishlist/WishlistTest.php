@@ -35,6 +35,8 @@
  */
 class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 {
+    protected static $useTearDown = false;
+
     /**
      * <p>Login as a registered user</p>
      */
@@ -46,6 +48,15 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+    }
+
+    protected function tearDown()
+    {
+        if (self::$useTearDown) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('not_display_out_of_stock_products');
+        }
     }
 
     /**
@@ -365,6 +376,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     {
         //Setup
         $productNameSet = $this->_getProductNames($productDataSet);
+        self::$useTearDown = true;
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('display_out_of_stock_products');
         $this->reindexInvalidedData();
