@@ -45,7 +45,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
-dev/tests/static/testsuite/Legacy/Enterprise/Invitation/Helper/DataTest.php
+dev/tests/static/testsuite/Legacy/Enterprise
 downloader/Maged/Model/Config/Enterprise.php
 downloader/Maged/Model/Config/Professional.php
 downloader/skin/install/images/enterprise.gif
