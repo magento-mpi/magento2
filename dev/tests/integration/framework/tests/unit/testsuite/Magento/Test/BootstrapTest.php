@@ -104,7 +104,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testGetInstance()
     {
@@ -228,7 +228,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testConstructorCleanupException()
     {
@@ -237,7 +237,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider constructorExceptionDataProvider
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testConstructorException($localXmlFile)
     {
@@ -270,7 +270,8 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @dataProvider cleanupDirExceptionDataProvider
+     * @expectedException Magento_Exception
      */
     public function testCleanupDirException($optionCode)
     {
@@ -283,10 +284,9 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     public function cleanupDirExceptionDataProvider()
     {
         return array(
-            array('etc_dir'),
-            array('var_dir'),
-            array('media_dir'),
-            array('static_dir')
+            'etc'   => array('etc_dir'),
+            'var'   => array('var_dir'),
+            'media' => array('media_dir'),
         );
     }
 }

@@ -52,7 +52,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoConfigFixture current_store dev/css/merge_css_files 1
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testMergeFilesException()
     {
