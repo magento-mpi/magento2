@@ -133,7 +133,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Retrieve Page from UIMap data configuration by MCA
      *
      * @param string $area Application area
-     * @param string $mca
+     * @param string $mca a part of current URL opened in browser
      * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
      * @return mixed
@@ -164,7 +164,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             }
         }
         if (!empty($appropriatePages)) {
-            if (count($appropriatePages) == 1 || $paramsDecorator == null) {
+            if (count($appropriatePages) == 1) {
                 return array_shift($appropriatePages);
             }
             foreach ($appropriatePages as $page) {
