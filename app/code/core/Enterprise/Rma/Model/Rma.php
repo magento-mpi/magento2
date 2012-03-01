@@ -494,10 +494,10 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $name = $item->getProductName();
+                $escapedProductName = Mage::helper('enterprise_rma')->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
-                        $errors[] = Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', Mage::helper('enterprise_rma')->escapeHtml($name));
+                        $errors[] = Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $escapedProductName);
                         $errorKeys[$item->getId()] = $key;
                         $errorKeys['tabs'] = 'items_section';
                         break;
@@ -526,7 +526,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         && $item->getOrigData('status') !== $qtyValue['status']
                         && !$item->getData($qtyKey)
                     ) {
-                        $errors[] = Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], Mage::helper('enterprise_rma')->escapeHtml($name));
+                        $errors[] = Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], $escapedProductName);
                         $errorKeys[$item->getId()] = $qtyKey;
                         $errorKeys['tabs'] = 'items_section';
                     }
@@ -544,12 +544,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $name = $availableItemsArray[$key]['name'];
+            $escapedProductName = Mage::helper('enterprise_rma')->escapeHtml($availableItemsArray[$key]['name']);
             if (!array_key_exists($key, $availableItemsArray)) {
-                $errors[] = Mage::helper('enterprise_rma')->__('You cannot return %s.', Mage::helper('enterprise_rma')->escapeHtml($name));
+                $errors[] = Mage::helper('enterprise_rma')->__('You cannot return %s.', $escapedProductName);
             }
             if (isset($availableItemsArray[$key]) && $availableItemsArray[$key]['qty'] < $qty) {
-                $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', Mage::helper('enterprise_rma')->escapeHtml($name));
+                $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', $escapedProductName);
                 $errorKeys[$key] = 'qty_requested';
                 $errorKeys['tabs'] = 'items_section';
             }

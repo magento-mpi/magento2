@@ -184,36 +184,25 @@ AdminRma.prototype = {
     },
 
     splitLine: function(obj, divId, itemId) {
-        var tr = $(divId).down('tbody').down('tr'),
-            trO = $('rma_info_tabs_items_section_content').select('input'),
-            childId = 'h' + itemId,
-            trOld = trO[0];
-
-        trO.each(function(child) {
-            if (child.id == childId) {
-                trOld = child;
-            }
-        });
-
-        if (trOld) {
-            trOld = trOld.up('tr');
-        } else {
+        var hiddenForItem = $('rma_info_tabs_items_section_content').select('#h' + itemId)[0];
+        if (!hiddenForItem) {
             return false;
         }
 
-        var d = new Date();
-        var timeSuffix = d.getTime();
-        trOld.id = 'old_tr_' + timeSuffix;
-        var trId = 'new_tr_' + timeSuffix;
+        var timeSuffix = new Date().getTime(),
+            trSplit = hiddenForItem.up('tr'),
+            trAdded = new Element('tr', {id: 'new_tr_' + timeSuffix,
+                'class': trSplit.hasClassName('even') ? 'pointer' : 'pointer even'
+            });
+
+        trSplit.id = 'old_tr_' + timeSuffix;
 
         // replace <script to avoid evalScripts() execution, <tr>.innerHTML assignment does not work in IE8 properly
-        var escapedHTML = tr.innerHTML.replace(/<(\/?)script/g, '&lt;$1script');
-        trOld.update(escapedHTML);
-        trOld.insert({after: new Element('tr', {id: trId,
-            'class': trOld.hasClassName('even') ? 'pointer' : 'pointer even'
-        }).insert(escapedHTML)});
+        var escapedHTML = $(divId).down('tbody').down('tr').innerHTML.replace(/<(\/?)script/g, '&lt;$1script');
+        trSplit.update(escapedHTML);
+        trSplit.insert({after: trAdded.insert(escapedHTML)});
 
-        $(trId).descendants().each(function(element){
+        trAdded.descendants().each(function(element){
             if (element.tagName.toLowerCase() == 'input' || element.tagName.toLowerCase() == 'select') {
                 element.name = element.name.replace('[' + itemId + ']', '[' + itemId + '_' + timeSuffix + ']');
                 if (element.id == 'h' + itemId) {
@@ -267,10 +256,12 @@ AdminRma.prototype = {
                 file.name = file.name + '_' + itemId + '_' + timeSuffix;
             })
         }
-        Event.observe(trOld.down('a.item_details'), 'click', this.itemDetailsRowClick.bind(this));
-        Event.observe(trOld.down('a.item_split_line'), 'click', this.itemSplitLineRowClick.bind(this));
-        Event.observe($(trId).down('a.item_details'), 'click', this.itemDetailsRowClick.bind(this, newDetailsDivId));
-        Event.observe($(trId).down('a.item_delete_line'), 'click', this.deleteRowById.bind(this, trId, newDetailsDivId));
+
+        Event.observe(trSplit.down('a.item_details'), 'click', this.itemDetailsRowClick.bind(this));
+        Event.observe(trSplit.down('a.item_split_line'), 'click', this.itemSplitLineRowClick.bind(this));
+        Event.observe(trAdded.down('a.item_details'), 'click', this.itemDetailsRowClick.bind(this, newDetailsDivId));
+        Event.observe(trAdded.down('a.item_delete_line'), 'click', this.deleteRowById.bind(this, trAdded.id, newDetailsDivId));
+
         var obj = this;
         $$('select.reason').findAll(function(obj) {
            return (obj.name == 'items[' + itemId + '][reason]'
@@ -403,8 +394,11 @@ AdminRma.prototype = {
 
         var newRmaItemId = this.newRmaItemId
 
-        var tb = tableRma.down('tbody.newRma') ? tableRma.down('tbody.newRma')
-            : new Element('tbody').addClassName('newRma');
+        var tbody = tableRma.down('tbody.newRma');
+        if (!tbody) {
+            tbody = new Element('tbody').addClassName('newRma');
+        }
+
         var row = new Element('tr', {id: 'id_' + newRmaItemId, 'class': className ? 'even' : 'odd'});
 
         fieldsProduct.each(function(el,i) {
@@ -447,7 +441,7 @@ AdminRma.prototype = {
         column.insert(detailsLink);
         column.insert('<input type="hidden" name="items[' + this.newRmaItemId + '][order_item_id]" value="'+orderItem['item_id']+'"/>');
         row.insert(column);
-        tableRma.insert(tb.insert(row));
+        tableRma.insert(tbody.insert(row));
         this.newRmaItemId++;
     },
 
