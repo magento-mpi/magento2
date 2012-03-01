@@ -37,11 +37,22 @@ $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
 $customer = Mage::getModel('customer/customer');
 $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
+// Get address eav required attributes
+$requiredAttributes = array();
+foreach (Mage::getModel('customer/address')->getAttributes() as $attribute) {
+    if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
+        $requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+    }
+}
+
 // Create addresses
 $addresses = array();
 for ($i = 0; $i < COUNT_CUSTOMER_ADDRESES_FOR_CURRENT_CUSTOMER; $i++) {
     $address = clone $customerAddressFixture;
     $address->setCustomer($customer);
+    foreach ($requiredAttributes as $attributeCode => $$requiredAttribute) {
+        $address->setData($attributeCode, $requiredAttribute . uniqid());
+    }
     $address->save();
     $addresses[] = $address;
 }

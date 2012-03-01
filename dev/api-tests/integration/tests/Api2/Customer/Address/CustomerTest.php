@@ -35,6 +35,13 @@
 class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
+     * Lazy loaded address eav required attributes
+     *
+     * @var null|array
+     */
+    protected $_requiredAttributes = array();
+
+    /**
      * Delete fixtures
      */
     protected function tearDown()
@@ -117,8 +124,6 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function testUpdateCustomerAddress($dataForUpdate)
     {
-        $this->markTestSkipped("Skipped (add validation)");
-
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
@@ -167,22 +172,6 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
-     * Data provider
-     *
-     * @return array
-     */
-    public function providerTestUpdateData()
-    {
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
-        /* @var $customerAddressFixture Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = require $fixturesDir . '/Customer/Address.php';
-        $dataForUpdate = $fixtureCustomerAddress->getData();
-        unset($dataForUpdate['is_default_billing']);
-        unset($dataForUpdate['is_default_shipping']);
-        return array(array($dataForUpdate));
-    }
-
-    /**
      * Test delete address
      *
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
@@ -226,5 +215,44 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
             ->getFirstItem();
         $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Data provider
+     *
+     * @return array
+     */
+    public function providerTestUpdateData()
+    {
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+        /* @var $customerAddressFixture Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = require $fixturesDir . '/Customer/Address.php';
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+        unset($dataForUpdate['is_default_billing']);
+        unset($dataForUpdate['is_default_shipping']);
+        // Get address eav required attributes
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+        }
+
+        return array(array($dataForUpdate));
+    }
+
+    /**
+     * Get address eav required attributes
+     *
+     * @return Api2_Customer_Customers_AdminTest
+     */
+    protected function _getAddressEavRequiredAttributes()
+    {
+        if (null !== $this->_requiredAttributes) {
+            $this->_requiredAttributes = array();
+            foreach (Mage::getModel('customer/address')->getAttributes() as $attribute) {
+                if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
+                    $this->_requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+                }
+            }
+        }
+        return $this->_requiredAttributes;
     }
 }

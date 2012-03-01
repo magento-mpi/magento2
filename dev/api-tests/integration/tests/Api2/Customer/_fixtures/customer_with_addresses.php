@@ -38,12 +38,23 @@ $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
 // Create customer
 $customerFixture->save();
 
+// Get address eav required attributes
+$requiredAttributes = array();
+foreach (Mage::getModel('customer/address')->getAttributes() as $attribute) {
+    if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
+        $requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+    }
+}
+
 // Create addresses
 for ($i = 0; $i < COUNT_CUSTOMER_ADDRESES; $i++) {
     $address = clone $customerAddressFixture;
     $address->setCustomer($customerFixture);
+    foreach ($requiredAttributes as $attributeCode => $$requiredAttribute) {
+        $address->setData($attributeCode, $requiredAttribute . uniqid());
+    }
     $address->save();
 }
 
 Magento_Test_Webservice::setFixture('customer',
-    Mage::getModel('customer/customer')->load($customerFixture->getId()));// for load addresses collection
+    Mage::getModel('customer/customer')->load($customerFixture->getId())); // for load addresses collection
