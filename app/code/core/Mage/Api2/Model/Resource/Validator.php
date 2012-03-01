@@ -33,12 +33,6 @@
  */
 abstract class Mage_Api2_Model_Resource_Validator
 {
-    /**#@+
-     * Validator Types
-     */
-    const TYPE_PERSIST = 'persist';
-    /**#@-*/
-
     /**
      * Array of validation failure errors.
      *

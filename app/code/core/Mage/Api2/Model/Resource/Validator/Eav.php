@@ -34,21 +34,26 @@
 class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Current form mode path
+     * Type of current validator
+     */
+    const TYPE_EAV = 'eav';
+
+    /**
+     * Form path
      *
      * @var string
      */
     protected $_formPath;
 
     /**
-     * Current entity model
+     * Entity model
      *
      * @var Mage_Core_Model_Abstract
      */
     protected $_entity;
 
     /**
-     * Current form code
+     * Form code
      *
      * @var string
      */
@@ -57,17 +62,51 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     /**
      * Construct. Set all depends.
      *
-     * @param $formPath
-     * @param $entity
-     * @param $formCode
+     * Required parameteres for options:
+     * - resource
+     * - operation
+     *
+     * @param $options
+     * @throws Exception If passed parameter 'resource' is wrong
+     * @throws Exception If passed parameter 'operation' is empty
+     * @throws Exception If config parameter 'formPath' is empty
+     * @throws Exception If config parameter 'formCode' is empty
+     * @throws Exception If config parameter 'entity' is wrong
      */
-    public function __construct($formPath, $entity, $formCode)
+    public function __construct($options)
     {
-        // TODO: check
+        if (!isset($options['resource']) || !$options['resource'] instanceof Mage_Api2_Model_Resource) {
+            throw new Exception("Passed parameter 'resource' is wrong.");
+        }
+        $resource = $options['resource'];
+        $resourceType = $resource->getResourceType();
+        $userType = $resource->getUserType();
 
-        $this->_formPath = $formPath;
-        $this->_entity = $entity;
-        $this->_formCode = $formCode;
+        if (!isset($options['operation']) || empty($options['operation'])) {
+            throw new Exception("Passed parameter 'operation' is empty.");
+        }
+        $operation = $options['operation'];
+
+        /* @var $config Mage_Api2_Model_Config */
+        $config = $resource->getConfig();
+
+        $this->_formPath = $config->getResourceValidatorFormModel(
+            $resourceType, self::TYPE_EAV, $userType);
+        if (empty($this->_formPath)) {
+            throw new Exception("Config parameter 'formPath' is empty.");
+        }
+
+        $this->_formCode = $config->getResourceValidatorFormCode(
+            $resourceType, self::TYPE_EAV, $userType, $operation);
+        if (empty($this->_formCode)) {
+            throw new Exception("Config parameter 'formCode' is empty.");
+        }
+
+        $this->_entity = Mage::getModel(
+            $config->getResourceValidatorEntityModel($resourceType, self::TYPE_EAV, $userType));
+        if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
+            throw new Exception("Config parameter 'entity' is wrong.");
+        }
     }
 
     /**
@@ -81,7 +120,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      */
     public function isSatisfiedByData(array $data)
     {
-        $errors = $this->_validate($data);
+        $errors = $this->_validateWithEavForm($data);
         if (true !== $errors) {
             $this->_setErrors($errors);
             return false;
@@ -97,7 +136,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * @param array $data
      * @return array|bool
      */
-    protected function _validate(array $data)
+    protected function _validateWithEavForm($data)
     {
         /** @var $form Mage_Eav_Model_Form */
         $form = Mage::getModel($this->_formPath);
@@ -106,29 +145,5 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
             ->ignoreInvisible(false);
 
         return $form->validateData($data);
-    }
-
-    /**
-     * Create validator instance for specified entity type
-     *
-     * @param Mage_Api2_Model_Resource $resource
-     * @param string $operation
-     * @return Mage_Api2_Model_Resource_Validator_Eav
-     */
-    public static function create(Mage_Api2_Model_Resource $resource, $operation)
-    {
-        /** @var $config Mage_Api2_Model_Config */
-        $config = $resource->getConfig();
-
-        $resourceType = $resource->getResourceType();
-        $userType = $resource->getUserType();
-
-        $formPath = $config->getResourceValidatorFormModel($resource->getResourceType(), self::TYPE_PERSIST,$userType);
-        $formCode = $config->getResourceValidatorFormCode($resourceType, self::TYPE_PERSIST, $userType, $operation);
-        $entity = Mage::getModel(
-            $config->getResourceValidatorEntityModel($resourceType, self::TYPE_PERSIST, $userType)
-        );
-
-        return new self($formPath, $entity, $formCode);
     }
 }
