@@ -10,6 +10,8 @@
 
 /**
  * Table names association between Magento1 and Magento2
+ * key => Magento1 table name
+ * value => Magento2 table name
  */
 
 return array(
