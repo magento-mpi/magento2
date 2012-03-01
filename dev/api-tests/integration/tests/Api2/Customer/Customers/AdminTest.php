@@ -186,6 +186,31 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
     }
 
     /**
+     * Test retrieve customer collection
+     */
+    public function testRetrieve()
+    {
+        $requestParams = array(
+            Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD => 'entity_id',
+            Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
+        );
+        $response = $this->callGet('customers', $requestParams);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+
+        $customerIds = array();
+        foreach ($response->getBody() as $item) {
+            $this->arrayHasKey('entity_id');
+            $customerIds[] = $item['entity_id'];
+        }
+
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = $this->_customer->getCollection();
+        $collection->setOrder('entity_id', Varien_Data_Collection::SORT_ORDER_ASC);
+
+        $this->assertSame($collection->getAllIds(Mage_Api2_Model_Resource_Collection::DEFAULT_PAGE_SIZE), $customerIds);
+    }
+
+    /**
      * Test update customer
      */
     public function testUpdate()
