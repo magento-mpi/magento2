@@ -34,9 +34,9 @@
 class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Type of current validator
+     * Config node key of current validator
      */
-    const TYPE_EAV = 'eav';
+    const CONFIG_NODE_KEY = 'eav';
 
     /**
      * Form path
@@ -66,7 +66,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * - resource
      * - operation
      *
-     * @param $options
+     * @param array $options
      * @throws Exception If passed parameter 'resource' is wrong
      * @throws Exception If passed parameter 'operation' is empty
      * @throws Exception If config parameter 'formPath' is empty
@@ -91,19 +91,19 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         $config = $resource->getConfig();
 
         $this->_formPath = $config->getResourceValidatorFormModel(
-            $resourceType, self::TYPE_EAV, $userType);
+            $resourceType, self::CONFIG_NODE_KEY, $userType);
         if (empty($this->_formPath)) {
             throw new Exception("Config parameter 'formPath' is empty.");
         }
 
         $this->_formCode = $config->getResourceValidatorFormCode(
-            $resourceType, self::TYPE_EAV, $userType, $operation);
+            $resourceType, self::CONFIG_NODE_KEY, $userType, $operation);
         if (empty($this->_formCode)) {
             throw new Exception("Config parameter 'formCode' is empty.");
         }
 
         $this->_entity = Mage::getModel(
-            $config->getResourceValidatorEntityModel($resourceType, self::TYPE_EAV, $userType));
+            $config->getResourceValidatorEntityModel($resourceType, self::CONFIG_NODE_KEY, $userType));
         if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
             throw new Exception("Config parameter 'entity' is wrong.");
         }

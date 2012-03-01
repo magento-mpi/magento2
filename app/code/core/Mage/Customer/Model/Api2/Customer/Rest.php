@@ -54,7 +54,12 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
      */
     protected function _update(array $data)
     {
-        $validator = Mage_Api2_Model_Resource_Validator_Eav::create($this, Mage_Api2_Model_Resource::OPERATION_UPDATE);
+        /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
+        $validator = Mage::getResourceModel('api2/validator_eav', array(
+            'resource'  => $this,
+            'operation' => Mage_Api2_Model_Resource::OPERATION_UPDATE
+        ));
+
         if (true !== $validator->isSatisfiedByData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
