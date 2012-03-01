@@ -642,7 +642,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
                 $result->setMessage(
-                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is available for purchase in increments of %s only.', Mage::helper('Mage_Cataloginventory_Helper_Data')->escapeHtml($this->getProductName()), $qtyIncrements * 1)
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is available for purchase in increments of %s only.', Mage::helper('Mage_CatalogInventory_Helper_Data')->escapeHtml($this->getProductName()), $qtyIncrements * 1)
                 );
             } else {
                 $result->setMessage(
