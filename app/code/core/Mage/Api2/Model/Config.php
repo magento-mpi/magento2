@@ -396,4 +396,15 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
             'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/form_code/' . $operation
         );
     }
+
+    /**
+     * Retrieve id field name for resource
+     *
+     * @param string $resource
+     * @return string
+     */
+    public function getResourceIdFieldName($resource)
+    {
+        return (string) $this->getNode('resources/' . $resource . '/id_field_name');
+    }
 }

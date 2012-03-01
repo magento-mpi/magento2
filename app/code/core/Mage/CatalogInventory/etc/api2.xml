@@ -116,6 +116,7 @@
                 </routes>
                 <instance>stockitem</instance>
                 <versions>1</versions>
+                <id_field_name>item_id</id_field_name>
             </stockitems>
         </resources>
     </api2>

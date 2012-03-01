@@ -553,6 +553,16 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Retrieve name of object id field
+     *
+     * @return string
+     */
+    public function getIdFieldName()
+    {
+        return $this->getConfig()->getResourceIdFieldName($this->getResourceType());
+    }
+
+    /**
      * Get API2 config
      *
      * @return Mage_Api2_Model_Config
