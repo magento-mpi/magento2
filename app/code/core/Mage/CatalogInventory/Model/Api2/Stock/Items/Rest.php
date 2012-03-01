@@ -89,7 +89,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
             $this->_successMessage(
                 self::RESOURCE_UPDATED_SUCCESSFUL,
                 Mage_Api2_Model_Server::HTTP_OK,
-                $data['item_id']
+                $stockItem->getId()
             );
         } catch (Mage_Api2_Exception $e) {
             // pre-validation errors are already added

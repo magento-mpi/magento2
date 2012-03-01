@@ -352,6 +352,19 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve resource subresources
+     *
+     * @param string $node
+     * @return array
+     */
+    public function getResourceSubresources($node)
+    {
+        $subresources = $this->getNode('resources/' . $node . '/subresources');
+
+        return $subresources ? (array)$subresources : array();
+    }
+
+    /**
      * Retrieve validator entity model path
      *
      * @param string $resource

@@ -42,6 +42,7 @@ class Mage_Api2_Model_Server
      * HTTP Response Codes
      */
     const HTTP_OK                 = 200;
+    const HTTP_CREATED            = 201;
     const HTTP_BAD_REQUEST        = 400;
     const HTTP_UNAUTHORIZED       = 401;
     const HTTP_FORBIDDEN          = 403;
@@ -59,7 +60,12 @@ class Mage_Api2_Model_Server
     protected static $_apiTypes = array(self::API_TYPE_REST);
 
     /**
-     * Run server, the only public method of the server
+     * @var Mage_Api2_Model_Auth_User_Abstract
+     */
+    protected $_authUser;
+
+    /**
+     * Run server
      */
     public function run()
     {
@@ -99,13 +105,16 @@ class Mage_Api2_Model_Server
                 ->_allow($request, $apiUser)
                 ->_dispatch($request, $response, $apiUser);
 
+            if ($response->getHttpResponseCode() == self::HTTP_CREATED) {
+                // TODO: Re-factor this after _renderException refactoring
+                throw new Mage_Api2_Exception('Resource was partially created', self::HTTP_CREATED);
+            }
             //NOTE: At this moment Renderer already could have some content rendered, so we should replace it
             if ($response->isException()) {
-                throw new Mage_Api2_Exception('Unhandled simple errors.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+                throw new Mage_Api2_Exception('Unhandled simple errors.', self::HTTP_INTERNAL_ERROR);
             }
         } catch (Exception $e) {
             Mage::logException($e);
-
             $this->_renderException($e, $renderer, $response);
         }
 
@@ -113,8 +122,24 @@ class Mage_Api2_Model_Server
     }
 
     /**
+     * Make internal call to api
+     *
+     * @param Mage_Api2_Model_Request $request
+     * @param Mage_Api2_Model_Response $response
+     * @return Mage_Api2_Model_Response
+     */
+    public function internalCall(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
+    {
+        $apiUser = $this->_getAuthUser();
+        $this->_route($request)
+            ->_allow($request, $apiUser)
+            ->_dispatch($request, $response, $apiUser);
+    }
+
+    /**
      * Authenticate user
      *
+     * @throws Exception
      * @param Mage_Api2_Model_Request $request
      * @return Mage_Api2_Model_Auth_User_Abstract
      */
@@ -123,7 +148,36 @@ class Mage_Api2_Model_Server
         /** @var $authManager Mage_Api2_Model_Auth */
         $authManager = Mage::getModel('api2/auth');
 
-        return $authManager->authenticate($request);
+        $this->_setAuthUser($authManager->authenticate($request));
+        return $this->_getAuthUser();
+    }
+
+    /**
+     * Set auth user
+     *
+     * @throws Exception
+     * @param Mage_Api2_Model_Auth_User_Abstract $authUser
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _setAuthUser(Mage_Api2_Model_Auth_User_Abstract $authUser)
+    {
+        $this->_authUser = $authUser;
+        return $this;
+    }
+
+    /**
+     * Retrieve existing auth user
+     *
+     * @throws Exception
+     * @return Mage_Api2_Model_Auth_User_Abstract
+     */
+    protected function _getAuthUser()
+    {
+        if (!$this->_authUser) {
+            throw new Exception("Mage_Api2_Model_Server::internalCall() seems to be executed "
+                . "before Mage_Api2_Model_Server::run()");
+        }
+        return $this->_authUser;
     }
 
     /**

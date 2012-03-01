@@ -39,5 +39,202 @@
                 </children>
             </catalog>
         </resource_groups>
+        <resources>
+            <products>
+                <group>catalog_product</group>
+                <type>products</type>
+                <model>catalog/api2_products</model>
+                <working_model>catalog/product</working_model>
+                <title>Catalog Products</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <routes>
+                    <route_main>
+                        <mask>/products</mask>
+                    </route_main>
+                </routes>
+                <instance>product</instance>
+                <versions>1</versions>
+                <subresources>
+                    <products_grouped>
+                        <name>products_grouped</name>
+                        <request_param_name>products_grouped</request_param_name>
+                        <type>collection</type>
+                        <create_resource_name>products</create_resource_name>
+                        <id_param_name>simple_product_id</id_param_name>
+                        <parent_resource_id_field_name>id</parent_resource_id_field_name>
+                    </products_grouped>
+                </subresources>
+                <attributes>
+                    <product_id>Product ID</product_id>
+                    <sku>SKU</sku>
+                    <type>Product Type</type>
+                    <set>Attribute Set</set>
+                    <store>Store</store>
+                    <description>Description</description>
+                    <short_description>Short Description</short_description>
+                    <stock_data>Product Inventory</stock_data>
+                    <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
+                    <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
+                    <image_url>Default Image</image_url>
+                    <is_in_stock>Stock Status</is_in_stock>
+                    <is_saleable>Salability Status</is_saleable>
+                    <total_reviews_count>Total Reviews Count</total_reviews_count>
+                    <url>Product URL</url>
+                    <buy_now_url>Buy Now URL</buy_now_url>
+                    <has_custom_options>Has Custom Options</has_custom_options>
+                    <stock_item>Inventory</stock_item>
+                    <regular_price>Regular Price</regular_price>
+                    <final_price>Final Price</final_price>
+                    <final_price_with_tax>Final Price With Tax</final_price_with_tax>
+                    <final_price_without_tax>Final Price Without Tax</final_price_without_tax>
+                    <tier_prices>Tier Prices</tier_prices>
+                </attributes>
+            </products>
+            <product>
+                <group>catalog_product</group>
+                <type>product</type>
+                <model>catalog/api2_product</model>
+                <working_model>catalog/product</working_model>
+                <title>Catalog Product</title>
+                <sort_order>20</sort_order>
+                <privileges>
+                    <admin>
+                        <update>1</update>
+                        <delete>1</delete>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <product_id>Product ID</product_id>
+                    <sku>SKU</sku>
+                    <type>Product Type</type>
+                    <set>Attribute Set</set>
+                    <store>Store</store>
+                    <description>Description</description>
+                    <short_description>Short Description</short_description>
+                    <stock_data>Product Inventory</stock_data>
+                    <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
+                    <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
+                    <image_url>Default Image</image_url>
+                    <is_in_stock>Stock Status</is_in_stock>
+                    <is_saleable>Salability Status</is_saleable>
+                    <total_reviews_count>Total Reviews Count</total_reviews_count>
+                    <url>Product URL</url>
+                    <buy_now_url>Buy Now URL</buy_now_url>
+                    <has_custom_options>Has Custom Options</has_custom_options>
+                    <stock_item>Inventory</stock_item>
+                    <regular_price>Regular Price</regular_price>
+                    <final_price>Final Price</final_price>
+                    <final_price_with_tax>Final Price With Tax</final_price_with_tax>
+                    <final_price_without_tax>Final Price Without Tax</final_price_without_tax>
+                    <tier_prices>Tier Prices</tier_prices>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/products/:id</mask>
+                    </route_main>
+                    <route_with_store>
+                        <mask>/products/:id/store/:store</mask>
+                    </route_with_store>
+                </routes>
+                <versions>1</versions>
+                <collection>products</collection>
+            </product>
+            <products_grouped>
+                <group>catalog_product</group>
+                <type>products_grouped</type>
+                <model>catalog/api2_products_grouped</model>
+                <working_model>catalog/product</working_model>
+                <title>Grouped Products</title>
+                <sort_order>30</sort_order>
+                <privileges>
+                    <!-- For collection only CREATE and retrieve -->
+                    <create>1</create>
+                    <retrieve>1</retrieve>
+                </privileges>
+                <attributes>
+                    <simple_product_id>Simple Product ID</simple_product_id>
+                    <qty>Default Quantity</qty>
+                    <position>Position</position>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/products/grouped/:id</mask>
+                    </route_main>
+                </routes>
+                <versions>1</versions>
+            </products_grouped>
+            <products_categories>
+                <group>catalog_product</group>
+                <type>products_categories</type>
+                <model>catalog/api2_products_categories</model>
+                <working_model>catalog/category</working_model>
+                <title>Product Categories</title>
+                <sort_order>40</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <category_id>Category ID</category_id>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/products/categories/:id</mask>
+                    </route_main>
+                </routes>
+                <instance>products_category</instance>
+                <versions>1</versions>
+            </products_categories>
+            <products_category>
+                <group>catalog_product</group>
+                <type>products_category</type>
+                <model>catalog/api2_products_category</model>
+                <working_model>catalog/category</working_model>
+                <title>Product Category</title>
+                <sort_order>50</sort_order>
+                <privileges>
+                    <admin>
+                        <delete>1</delete>
+                    </admin>
+                </privileges>
+                <attributes>
+                    <category_id>Category ID</category_id>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/products/categories/:id/category/:categoryId</mask>
+                    </route_main>
+                </routes>
+                <versions>1</versions>
+                <collection>products_categories</collection>
+            </products_category>
+        </resources>
     </api2>
 </config>

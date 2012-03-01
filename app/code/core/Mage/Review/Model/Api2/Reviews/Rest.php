@@ -79,17 +79,6 @@ abstract class Mage_Review_Model_Api2_Reviews_Rest extends Mage_Review_Model_Api
     }
 
     /**
-     * Get review location
-     *
-     * @param Mage_Core_Model_Abstract $review
-     * @return string
-     */
-    protected function _getLocation(Mage_Core_Model_Abstract $review)
-    {
-        return $this->getConfig()->getResourceInstance('reviews') . '/' . $review->getId();
-    }
-
-    /**
      * Validate review stores input
      *
      * @throws Mage_Api2_Exception

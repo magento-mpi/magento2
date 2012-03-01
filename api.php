@@ -59,7 +59,7 @@ $apiAlias = Mage::app()->getRequest()->getParam('type');
 // check request could be processed by API2
 if (in_array($apiAlias, Mage_Api2_Model_Server::getApiTypes())) {
     /** @var $server Mage_Api2_Model_Server */
-    $server = Mage::getModel('api2/server');
+    $server = Mage::getSingleton('api2/server');
 
     $server->run();
 } else {

@@ -131,6 +131,11 @@ abstract class Mage_Api2_Model_Resource
     protected $_version;
 
     /**
+     * @var Mage_Api2_Model_Multicall
+     */
+    protected $_multicall;
+
+    /**
      * One of Mage_Api2_Model_Resource::OPERATION_... constant
      *
      * @var string
@@ -302,6 +307,21 @@ abstract class Mage_Api2_Model_Resource
     {
         $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
         return $this;
+    }
+
+    /**
+     * Perform multiple calls to subresources of specified resource
+     *
+     * @param string $resourceInstanceId
+     * @return Mage_Api2_Model_Response
+     */
+    protected function _multicall($resourceInstanceId)
+    {
+        if (!$this->_multicall) {
+            $this->_multicall = Mage::getModel('api2/multicall');
+        }
+        $resourceName = $this->getResourceType();
+        return $this->_multicall->call($resourceInstanceId, $resourceName, $this->getRequest());
     }
 
     /**
