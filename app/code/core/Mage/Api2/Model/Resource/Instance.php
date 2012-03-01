@@ -38,7 +38,7 @@ abstract class Mage_Api2_Model_Resource_Instance extends Mage_Api2_Model_Resourc
      */
     public function dispatch()
     {
-        switch ($this->getRequest()->getOperation()) {
+        switch ($this->getOperation()) {
             case self::OPERATION_CREATE:
                 $this->_create(array());
                 break;

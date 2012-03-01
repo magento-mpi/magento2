@@ -171,7 +171,7 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
      */
     final public function dispatch()
     {
-        switch ($this->getRequest()->getOperation()) {
+        switch ($this->getOperation()) {
             case self::OPERATION_UPDATE:
                 $requestData  = $this->getRequest()->getBodyParams();
                 $filteredData = $this->getFilter()->collectionIn($requestData);

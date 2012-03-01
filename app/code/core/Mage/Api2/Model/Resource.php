@@ -131,6 +131,13 @@ abstract class Mage_Api2_Model_Resource
     protected $_version;
 
     /**
+     * One of Mage_Api2_Model_Resource::OPERATION_... constant
+     *
+     * @var string
+     */
+    protected $_operation;
+
+    /**
      * Internal resource model dispatch
      */
     abstract public function dispatch();
@@ -519,6 +526,30 @@ abstract class Mage_Api2_Model_Resource
     public function setVersion($version)
     {
         $this->_version = (int)$version;
+    }
+
+    /**
+     * Get operation
+     * If not exists get from Request
+     *
+     * @return string One of Mage_Api2_Model_Resource::OPERATION_... constant
+     */
+    public function getOperation()
+    {
+        if (!$this->_operation) {
+            $this->setOperation($this->getRequest()->getOperation());
+        }
+        return $this->_operation;
+    }
+
+    /**
+     * Set operation
+     *
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_... constant
+     */
+    public function setOperation($operation)
+    {
+        $this->_operation = $operation;
     }
 
     /**
