@@ -113,12 +113,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     protected $_currentStore = null;
 
     /**
-     * Don't allow passing disabled product to cart - put it inside error grid instead. Used in saveAffectedProducts()
-     * and _safeAddProduct()
-     */
-    const DONT_PASS_DISABLED_TO_CART = false;
-
-    /**
      * Set context of the cart
      *
      * @param string $context
@@ -1209,19 +1203,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @param Mage_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
      *                                                                      checkout/cart)
      * @param bool                                    $saveQuote            Whether cart quote should be saved
-     * @param bool                                    $doPassDisabledToCart This option for backend only. Whether to try
-     *                                                                      to add disabled product to cart instead of
-     *                                                                      putting it into error grid.
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null,
-        $saveQuote = true, $doPassDisabledToCart = true)
+    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
-                $this->_safeAddProduct($item, $cart, $doPassDisabledToCart);
+                $this->_safeAddProduct($item, $cart);
             }
         }
         $this->setAffectedItems($affectedItems);
@@ -1238,12 +1228,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @param array                              $item
      * @param Mage_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
      *                                                                 checkout/cart
-     * @param bool                               $doPassDisabledToCart This option for backend only. Whether to try
-     *                                                                 to add disabled product to cart instead of
-     *                                                                 putting it into error grid.
+     * @param bool                               $suppressSuperMode
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $doPassDisabledToCart = true)
+    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
     {
         $quote = $cart->getQuote();
 
@@ -1269,8 +1257,14 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 $temporaryItem->setParentItem($parentItem->getClonnedItem());
             }
         }
+
         $cart->setQuote($temporaryQuote);
         $success = true;
+        $skipCheckQty = !$suppressSuperMode && $this->_isCheckout() && !$this->_isFrontend()
+            && empty($item['item']['is_qty_disabled']) && !$cart->getQuote()->getIsSuperMode();
+        if ($skipCheckQty) {
+            $cart->getQuote()->setIsSuperMode(true);
+        }
 
         try {
             $config = $this->getAffectedItemConfig($item['item']['sku']);
@@ -1282,23 +1276,32 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             }
             $cart->addProduct($item['item']['id'], $config);
         } catch (Mage_Core_Exception $e) {
-            if (!Mage::app()->getStore()->isAdmin()) {
-                /*
-                 * We suppress this behavior for back-end to allow adding to cart product with qty which do not comply
-                 * with quantity increments
-                 */
+            if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-                $item['error'] = $e->getMessage();
-            } elseif (!$doPassDisabledToCart && !empty($item['item']['is_disabled'])) {
-                $success = false;
-                $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-                $item['error'] = Mage::helper('adminhtml')->__('This product is currently disabled.');
+                if ($this->_isFrontend()) {
+                    $item['item']['error'] = $e->getMessage();
+                } else {
+                    $item['error'] = $e->getMessage();
+                }
             }
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $item['error'] = Mage::helper('enterprise_checkout')->__('The product cannot be added to cart.');
+            $error = Mage::helper('enterprise_checkout')->__('The product cannot be added to cart.');
+            if ($this->_isFrontend()) {
+                $item['item']['error'] = $error;
+            } else {
+                $item['error'] = $error;
+            }
+        }
+        if ($skipCheckQty) {
+            $cart->getQuote()->setIsSuperMode(false);
+            if ($success) {
+                $cart->setQuote($quote);
+                // we need add products with checking their stock qty
+                return $this->_safeAddProduct($item, $cart, true);
+            }
         }
 
         if ($success) {
