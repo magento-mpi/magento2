@@ -609,7 +609,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loads test data.
      *
      * @param string $dataFile - File name or full path to file in fixture folder
-     * (for example: 'default\core\Mage\AdminUser\data\AdminUser') in which DataSet is specified
+     * (for example: 'default\core\Mage\AdminUser\data\AdminUsers') in which DataSet is specified
      * @param string $dataSource - DataSet name(for example: 'test_data')
      * or part of DataSet (for example: 'test_data/product')
      * @param array|null $overrideByKey

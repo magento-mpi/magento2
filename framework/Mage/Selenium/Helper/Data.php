@@ -116,7 +116,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
      * Loads DataSet from specified file.
      *
      * @param string $dataFile - File name or full path to file in fixture folder
-     * (for example: 'default\core\Mage\AdminUser\data\AdminUser') in which DataSet is specified
+     * (for example: 'default\core\Mage\AdminUser\data\AdminUsers') in which DataSet is specified
      * @param string $dataSetName
      *
      * @return array
@@ -124,11 +124,13 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
      */
     public function loadTestDataSet($dataFile, $dataSetName)
     {
-        $separator = preg_quote(DIRECTORY_SEPARATOR);
-        if (preg_match("|$separator|", $dataFile)) {
-            $condition = preg_quote($dataFile) . '.yml$';
+        if (preg_match('/(\/)|(\\\)/', $dataFile)) {
+            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', DIRECTORY_SEPARATOR, $dataFile));
         } else {
-            $condition = 'data' . $separator . $dataFile . '.yml$';
+            $condition = 'data' . preg_quote(DIRECTORY_SEPARATOR) . $dataFile;
+        }
+        if (!preg_match('|\.yml$|', $condition)) {
+            $condition .= '\.yml$';
         }
 
         foreach ($this->_configFixtures as $codePoolData) {
