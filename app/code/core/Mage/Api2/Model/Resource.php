@@ -660,7 +660,7 @@ abstract class Mage_Api2_Model_Resource
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->load($model, 'entity_model');
 
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($isVisible && !$attribute->getIsVisible()) {
                 continue;
