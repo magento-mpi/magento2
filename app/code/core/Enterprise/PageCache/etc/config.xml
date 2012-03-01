@@ -85,6 +85,14 @@
                     </enterprise_pagecache>
                 </observers>
             </model_delete_commit_after>
+            <controller_action_postdispatch_adminhtml_system_currency_saveRates>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_currency_saveRates>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <enterprise_pagecache>

@@ -79,7 +79,8 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
     protected function _getInfoCacheId()
     {
         return 'CATALOG_PRODUCT_LIST_SHARED_'
-            . md5($this->_placeholder->getName());
+            . md5($this->_placeholder->getName()
+            . $this->_getProductId());
     }
 
     /**

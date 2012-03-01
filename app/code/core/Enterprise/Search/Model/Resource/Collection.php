@@ -58,7 +58,7 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Store engine instance
      *
-     * @var object
+     * @var Enterprise_Search_Model_Resource_Engine
      */
     protected $_engine = null;
 
@@ -111,13 +111,6 @@ class Enterprise_Search_Model_Resource_Collection
      * @var int|bool
      */
     protected $_storedPageSize = false;
-
-    /**
-     * Loaded data by fields
-     *
-     * @var array
-     */
-    protected $_fieldsData = array();
 
     /**
      * Load faceted data if not loaded
@@ -293,6 +286,10 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
 
+        Mage::dispatchEvent('catalog_product_collection_apply_limitations_after', array(
+            'collection'    => $this
+        ));
+
         return $this;
     }
 
@@ -427,16 +424,13 @@ class Enterprise_Search_Model_Resource_Collection
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
-                if ($searchSuggestionsCount < 1) {
-                    $searchSuggestionsCount = 1;
-                }
                 $params['solr_params']['spellcheck.count']  = $searchSuggestionsCount;
                 $params['spellcheck_result_counts']         = (bool) $helper->getSolrConfigData(
                     'server_suggestion_count_results_enabled');
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            if ($searchSuggestionsEnabled) {
+            if ($searchSuggestionsEnabled && !empty($result['suggestions_data'])) {
                 $this->_suggestionsData = $result['suggestions_data'];
             }
 
@@ -532,24 +526,56 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
-     * Get field data from search results
+     * Get prices from search results
      *
-     * @param   string $field
+     * @param   null|float $lowerPrice
+     * @param   null|float $upperPrice
+     * @param   null|int   $limit
+     * @param   null|int   $offset
+     * @param   boolean    $getCount
+     * @param   string     $sort
      * @return  array
      */
-    public function getFieldData($field)
+    public function getPriceData($lowerPrice = null, $upperPrice = null,
+        $limit = null, $offset = null, $getCount = false, $sort = 'asc')
     {
-        if (!array_key_exists($field, $this->_fieldsData)) {
-            list($query, $params) = $this->_prepareBaseParams();
-            $params['fields'] = $field;
-
-            $data = $this->_engine->getResultForRequest($query, $params);
-            $this->_fieldsData[$field] = array();
-            foreach ($data['ids'] as $value) {
-                $this->_fieldsData[$field][] = $value[$field];
+        list($query, $params) = $this->_prepareBaseParams();
+        $priceField = $this->_engine->getSearchEngineFieldName('price');
+        $conditions = null;
+        if (!is_null($lowerPrice) || !is_null($upperPrice)) {
+            $conditions = array();
+            $conditions['from'] = is_null($lowerPrice) ? 0 : $lowerPrice;
+            $conditions['to'] = is_null($upperPrice) ? '' : $upperPrice;
+        }
+        if (!$getCount) {
+            $params['fields'] = $priceField;
+            $params['sort_by'] = array(array('price' => $sort));
+            if (!is_null($limit)) {
+                $params['limit'] = $limit;
             }
+            if (!is_null($offset)) {
+                $params['offset'] = $offset;
+            }
+            if (!is_null($conditions)) {
+                $params['filters'][$priceField] = $conditions;
+            }
+        } else {
+            $params['solr_params']['facet'] = 'on';
+            if (is_null($conditions)) {
+                $conditions = array('from' => 0, 'to' => '');
+            }
+            $params['facet'][$priceField] = array($conditions);
         }
 
-        return $this->_fieldsData[$field];
+        $data = $this->_engine->getResultForRequest($query, $params);
+        if ($getCount) {
+            return array_shift($data['faceted_data'][$priceField]);
+        }
+        $result = array();
+        foreach ($data['ids'] as $value) {
+            $result[] = (float)$value[$priceField];
+        }
+
+        return ($sort == 'asc') ? $result : array_reverse($result);
     }
 }

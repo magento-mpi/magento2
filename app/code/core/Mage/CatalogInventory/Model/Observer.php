@@ -301,6 +301,11 @@ class Mage_CatalogInventory_Model_Observer
                 $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $optionValue;
 
                 $stockItem = $option->getProduct()->getStockItem();
+
+                if ($quoteItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                    $stockItem->setProductName($quoteItem->getName());
+                }
+
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(
@@ -340,6 +345,7 @@ class Mage_CatalogInventory_Model_Observer
                 }
                 if (!is_null($result->getMessage())) {
                     $option->setMessage($result->getMessage());
+                    $quoteItem->setMessage($result->getMessage());
                 }
                 if (!is_null($result->getItemBackorders())) {
                     $option->setBackorders($result->getItemBackorders());

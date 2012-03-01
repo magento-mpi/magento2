@@ -127,6 +127,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     public function wishlistAction()
     {
         $itemId = $this->getRequest()->getParam('item');
+        $redirectParams = array();
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
@@ -136,6 +137,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wishlist item have been added to gift registry.')
                 );
+                $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
@@ -152,7 +154,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             }
         }
 
-        $this->_redirect('wishlist');
+        $this->_redirect('wishlist', $redirectParams);
     }
 
     /**

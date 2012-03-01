@@ -117,6 +117,15 @@ class Magento_Test_Listener_Annotation_FixtureTest extends PHPUnit_Framework_Tes
     }
 
     /**
+     * @magentoDataFixture fixture\path\must\not\contain\backslash.php
+     * @expectedException Magento_Exception
+     */
+    public function testMethodAnnotationInvalidPath()
+    {
+        $this->_annotation->startTest();
+    }
+
+    /**
      * @param Magento_Test_Listener_Annotation_Fixture $annotation
      * @depends testClassAnnotation
      */

@@ -38,7 +38,7 @@
                 <totals>
                     <customerbalance>
                         <class>Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance</class>
-                        <after>wee,discount,tax,tax_subtotal,grand_total,reward,giftcardaccount</after>
+                        <after>weee,discount,tax,tax_subtotal,grand_total,reward,giftcardaccount</after>
                         <renderer>Enterprise_CustomerBalance_Block_Checkout_Total</renderer>
                     </customerbalance>
                 </totals>
@@ -47,6 +47,7 @@
                 <totals>
                     <customerbalance>
                         <class>Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance</class>
+                        <after>grand_total,reward,giftcardaccount</after>
                     </customerbalance>
                 </totals>
             </order_invoice>
@@ -54,6 +55,7 @@
                 <totals>
                     <customerbalance>
                         <class>Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
+                        <after>weee,discount,tax,grand_total,reward,giftcardaccount</after>
                     </customerbalance>
                 </totals>
             </order_creditmemo>

@@ -73,7 +73,7 @@ class Mage_Core_Model_Url extends Varien_Object
     const DEFAULT_ACTION_NAME       = 'index';
 
     /**
-     * Configuration pathes
+     * Configuration paths
      */
     const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
     const XML_PATH_SECURE_URL       = 'web/secure/base_url';
@@ -95,7 +95,7 @@ class Mage_Core_Model_Url extends Varien_Object
     static protected $_encryptedSessionId;
 
     /**
-     * Reserved Route parametr keys
+     * Reserved Route parameter keys
      *
      * @var array
      */
@@ -120,7 +120,7 @@ class Mage_Core_Model_Url extends Varien_Object
     protected $_useSession;
 
     /**
-     * Initailize object
+     * Initialize object
      */
     protected function _construct()
     {
@@ -932,8 +932,8 @@ class Mage_Core_Model_Url extends Varien_Object
         $escapeQuery = false;
 
         /**
-         * All system params should be unseted before we call getRouteUrl
-         * this method has condition for ading default controller anr actions names
+         * All system params should be unset before we call getRouteUrl
+         * this method has condition for adding default controller and action names
          * in case when we have params
          */
         if (isset($routeParams['_fragment'])) {
@@ -955,7 +955,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $noSid = null;
         if (isset($routeParams['_nosid'])) {
-            $noSid = (bool) $routeParams['_nosid'];
+            $noSid = (bool)$routeParams['_nosid'];
             unset($routeParams['_nosid']);
         }
         $url = $this->getRouteUrl($routePath, $routeParams);
@@ -994,22 +994,32 @@ class Mage_Core_Model_Url extends Varien_Object
      * Check and add session id to URL
      *
      * @param string $url
+     *
      * @return Mage_Core_Model_Url
      */
     protected function _prepareSessionUrl($url)
     {
+        return $this->_prepareSessionUrlWithParams($url, array());
+    }
+
+    /**
+     * Check and add session id to URL, session is obtained with parameters
+     *
+     * @param string $url
+     * @param array $params
+     *
+     * @return Mage_Core_Model_Url
+     */
+    protected function _prepareSessionUrlWithParams($url, array $params)
+    {
         if (!$this->getUseSession()) {
             return $this;
         }
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
         /** @var $session Mage_Core_Model_Session */
+        $session = Mage::getSingleton('Mage_Core_Model_Session', $params);
+
         if (Mage::app()->getUseSessionVar() && !$session->getSessionIdForHost($url)) {
-            // secure URL
-            if ($this->getSecure()) {
-                $this->setQueryParam('___SID', 'S');
-            } else {
-                $this->setQueryParam('___SID', 'U');
-            }
+            $this->setQueryParam('___SID', $this->getSecure() ? 'S' : 'U'); // Secure/Unsecure
         } else {
             $sessionId = $session->getSessionIdForHost($url);
             if ($sessionId) {
@@ -1160,5 +1170,26 @@ class Mage_Core_Model_Url extends Varien_Object
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return frontend redirect URL with SID and other session parameters if any
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public function getRedirectUrl($url)
+    {
+        $this->_prepareSessionUrlWithParams($url, array(
+            'name' => Mage_Core_Controller_Front_Action::SESSION_NAMESPACE
+        ));
+
+        $query = $this->getQuery(false);
+        if ($query) {
+            $url .= (strpos($url, '?') === false ? '?' : '&') . $query;
+        }
+
+        return $url;
     }
 }

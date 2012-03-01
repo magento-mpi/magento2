@@ -42,7 +42,7 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Magento_Exception
      */
     public function testGetExternalProgram()
     {

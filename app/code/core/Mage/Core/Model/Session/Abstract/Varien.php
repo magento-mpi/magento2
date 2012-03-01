@@ -18,7 +18,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     const VALIDATOR_REMOTE_ADDR_KEY             = 'remote_addr';
 
     /**
-     * Conigure and start session
+     * Configure and start session
      *
      * @param string $sessionName
      * @return Mage_Core_Model_Session_Abstract_Varien
@@ -353,7 +353,13 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         }
         if ($this->useValidateHttpUserAgent()
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
-            && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
+        ) {
+            $userAgentValidated = $this->getValidateHttpUserAgentSkip();
+            foreach ($userAgentValidated as $agent) {
+                if (preg_match('/' . $agent . '/iu', $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY])) {
+                    return true;
+                }
+            }
             return false;
         }
 

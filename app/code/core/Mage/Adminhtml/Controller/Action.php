@@ -17,7 +17,15 @@
  */
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
+    /**
+     * Name of "is URLs checked" flag
+     */
     const FLAG_IS_URLS_CHECKED = 'check_url_settings';
+
+    /**
+     * Session namespace to refer in other places
+     */
+    const SESSION_NAMESPACE = 'adminhtml';
 
     /**
      * Array of actions which can be processed without secret key validation
@@ -43,7 +51,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      *
      * @var string
      */
-    protected $_sessionNamespace = 'adminhtml';
+    protected $_sessionNamespace = self::SESSION_NAMESPACE;
 
     protected function _isAllowed()
     {

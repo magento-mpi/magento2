@@ -114,11 +114,12 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * @param string|null $if
      * @param string|null $cond
      * @return Mage_Page_Block_Html_Head
+     * @throws Magento_Exception
      */
     protected function _addItem($type, $name, $params = '', $if = null, $cond = null)
     {
         if (empty($name)) {
-            throw new Exception('File name must be not empty.');
+            throw new Magento_Exception('File name must be not empty.');
         }
         $this->_data['items'][$type . '/' . $name] = array(
             'type'   => $type,

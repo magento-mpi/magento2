@@ -26,6 +26,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
     {
         parent::__construct($attributes);
         $this->setId('sku_errors');
+        $this->setRowClickCallback(null);
     }
 
     /**
@@ -39,14 +40,17 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         $removeButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
             'class' => 'delete',
             'label' => '',
-            'onclick' => 'addBySku.removeFailedItem(this)'
+            'onclick' => 'addBySku.removeFailedItem(this)',
+            'type' => 'button',
         ))->toHtml();
         /* @var $parentBlock Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract */
         $parentBlock = $this->getParentBlock();
         foreach ($parentBlock->getFailedItems() as $affectedItem) {
             // Escape user-submitted input
             if (isset($affectedItem['item']['qty'])) {
-                $affectedItem['item']['qty'] = (float)$affectedItem['item']['qty'];
+                $affectedItem['item']['qty'] = empty($affectedItem['item']['qty'])
+                    ? ''
+                    : (float)$affectedItem['item']['qty'];
             }
             $item = new Varien_Object();
             $item->setCode($affectedItem['code']);
@@ -55,9 +59,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             }
             $item->addData($affectedItem['item']);
             $item->setId($item->getSku());
-            if ($item->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU) {
-                $item->unsetData('qty');
-            }
             /* @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('Mage_Catalog_Model_Product');
             if (isset($affectedItem['item']['id'])) {
@@ -164,5 +165,16 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
     public function getWebsiteId()
     {
         return $this->getParentBlock()->getStore()->getWebsiteId();
+    }
+
+    /**
+     * Retrieve empty row urls for the grid
+     *
+     * @param Mage_Catalog_Model_Product|Varien_Object $item
+     * @return string
+     */
+    public function getRowUrl($item)
+    {
+        return '';
     }
 }

@@ -243,10 +243,10 @@ class Mage_Catalog_Model_Observer
     /**
      * Recursively adds categories to top menu
      *
-     * @param Varien_Data_Tree_Node_Collection $categories
+     * @param Varien_Data_Tree_Node_Collection|array $categories
      * @param Varien_Data_Tree_Node $parentCategoryNode
      */
-    protected function _addCategoriesToMenu(Varien_Data_Tree_Node_Collection $categories, $parentCategoryNode)
+    protected function _addCategoriesToMenu($categories, $parentCategoryNode)
     {
         foreach ($categories as $category) {
             if (!$category->getIsActive()) {

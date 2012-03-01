@@ -201,7 +201,6 @@ Enterprise.BundleSummary = {
             offset = this.currentOffsetTop - this.summaryContainer.viewportOffset().top;
         }
 
-
         return offset;
     },
 

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Customer_Sku extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Customer_Sku extends Enterprise_Checkout_Block_Sku_Abstract
 {
     /**
      * Retrieve form action URL

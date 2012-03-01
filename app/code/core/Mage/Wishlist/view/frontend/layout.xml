@@ -61,7 +61,29 @@ Wishlist pages
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Mage_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="view.phtml">
-                <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
+                <action method="setTitle" translate="title">
+                    <title>My Wishlist</title>
+                </action>
+                <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="customer.wishlist.items" as="items" template="item/list.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="item/column/image.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Comment" name="customer.wishlist.item.info" template="item/column/info.phtml">
+                        <action method="setTitle" translate="title">
+                            <title>Product Details and Comment</title>
+                        </action>
+                    </block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart" name="customer.wishlist.item.cart" template="item/column/cart.phtml">
+                        <action method="setTitle" translate="title">
+                            <title>Add to Cart</title>
+                        </action>
+                        <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
+                    </block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml"></block>
+                </block>
+                <block type="Mage_Core_Block_Text_List" name="customer.wishlist.buttons" as="control_buttons">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.share" template="button/share.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.toCart" template="button/tocart.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.update" template="button/update.phtml"></block>
+                </block>
             </block>
         </reference>
         <reference name="right">

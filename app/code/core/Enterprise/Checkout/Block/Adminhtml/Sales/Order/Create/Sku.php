@@ -55,7 +55,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku
     {
         $addButtonData = array(
             'label' => $this->__('Add to Order'),
-            'onclick' => 'addBySku.submitAddForm()',
+            'onclick' => 'addBySku.submitSkuForm()',
             'class' => 'add',
         );
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();

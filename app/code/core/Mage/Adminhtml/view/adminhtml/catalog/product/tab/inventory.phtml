@@ -180,8 +180,7 @@
     {
         if ($('inventory_use_config_manage_stock').checked) {
             var manageStock = $('inventory_manage_stock_default').value;
-        }
-        else {
+        } else {
             var manageStock = $('inventory_manage_stock').value;
         }
         if (el == $('inventory_manage_stock').up(1)) {
@@ -194,21 +193,16 @@
         }
         if (manageStock == 1) {
             el.show();
-        }
-        else {
+        } else {
             el.hide();
         }
         return;
     }
-    Event.observe($('inventory_manage_stock'), 'change', changeManageStockOption);
-    Event.observe($('inventory_use_config_manage_stock'), 'change', changeManageStockOption);
-    changeManageStockOption();
 
     function applyEnableQtyIncrements() {
         if ($('inventory_use_config_enable_qty_increments').checked) {
             var enableQtyIncrements = $('inventory_enable_qty_increments_default').value;
-        }
-        else {
+        } else {
             var enableQtyIncrements = $('inventory_enable_qty_increments').value;
         }
         if (enableQtyIncrements == 1) {
@@ -217,9 +211,6 @@
             $('inventory_qty_increments').up('tr').hide();
         }
     }
-    Event.observe($('inventory_enable_qty_increments'), 'change', applyEnableQtyIncrements);
-    Event.observe($('inventory_use_config_enable_qty_increments'), 'change', applyEnableQtyIncrements);
-    applyEnableQtyIncrements();
 
     function applyEnableDecimalDivided() {
         $('inventory_is_decimal_divided').up('tr').hide();
@@ -234,8 +225,23 @@
             $('inventory_min_sale_qty').addClassName('validate-digits');
         }
     }
-    Event.observe($('inventory_is_qty_decimal'), 'change', applyEnableDecimalDivided);
-    applyEnableDecimalDivided();
+
+    Event.observe(window, 'load', function() {
+        if ($('inventory_manage_stock') && $('inventory_use_config_manage_stock')) {
+            Event.observe($('inventory_manage_stock'), 'change', changeManageStockOption);
+            Event.observe($('inventory_use_config_manage_stock'), 'change', changeManageStockOption);
+            changeManageStockOption();
+        }
+        if ($('inventory_enable_qty_increments') && $('inventory_use_config_enable_qty_increments')) {
+            Event.observe($('inventory_enable_qty_increments'), 'change', applyEnableQtyIncrements);
+            Event.observe($('inventory_use_config_enable_qty_increments'), 'change', applyEnableQtyIncrements);
+            applyEnableQtyIncrements();
+        }
+        if ($('inventory_is_qty_decimal') && $('inventory_qty_increments') && $('inventory_min_sale_qty')) {
+            Event.observe($('inventory_is_qty_decimal'), 'change', applyEnableDecimalDivided);
+            applyEnableDecimalDivided();
+        }
+    });
     //]]>
     </script>
     </fieldset>

@@ -327,8 +327,6 @@ ProductConfigure.prototype = {
      * Triggered when form was submitted and iFrame was loaded. Get response from iFrame and handle it
      */
     onLoadIFrame: function() {
-        varienLoaderHandler.handler.onComplete();
-
         this.blockFormConfirmed.select('[configure_disabled=1]').each(function (element) {
             element.disabled = element.getAttribute('configure_prev_disabled') == '1';
         });
@@ -355,6 +353,8 @@ ProductConfigure.prototype = {
 
             document.fire(this.current.listType + ':afterIFrameLoaded');
         }
+        varienLoaderHandler.handler.onComplete();
+
         this.clean('current');
     },
 

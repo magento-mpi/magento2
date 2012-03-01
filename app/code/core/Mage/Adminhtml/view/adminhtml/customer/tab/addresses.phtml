@@ -130,6 +130,8 @@ addressesModel.prototype = {
 
         this.loader = new varienLoader(true);
         this.regionsUrl = '<?php echo $this->getRegionsUrl() ?>';
+        this.requiredStateForCountries = <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithStatesRequired(true) ?>;
+        this.showAllRegions = <?php echo (string)$this->helper('Mage_Directory_Helper_Data')->getShowNonRequiredState() ? 1 : 0; ?>;
 
         this.reloadItemList(1);
 
@@ -314,6 +316,16 @@ addressesModel.prototype = {
             //new Effect.Appear($('form_'+item.id), {duration : 0.3 });
             //$('form_'+item.id).focus();
             this.addFieldChangeObserver($('form_'+item.id));
+            var regionIdElement = $('_item' + item.id.replace(/address_item_/, '') + 'region_id');
+            var regionElement = $('_item' + item.id.replace(/address_item_/, '') + 'region');
+            this.countryEl = $('_item' + item.id.replace(/address_item_/, '') + 'country_id');
+            if (regionIdElement && regionElement) {
+                var actualId = regionElement.id;
+                if (('select' == regionIdElement.tagName.toLowerCase()) && regionIdElement) {
+                    actualId = regionIdElement.id;
+                }
+                this._checkRegionRequired([regionIdElement, regionElement], actualId);
+            }
         }
 
         this.activeItem = item;
@@ -464,6 +476,7 @@ addressesModel.prototype = {
             var regionElement  = $(countryElement.id.replace(/country_id/, 'region'));
             if(regionElement){
                 this.regionElement = regionElement;
+                this.countryEl = countryElement;
                 if (countryElement.value) {
                     var url = this.regionsUrl + 'parent/' + countryElement.value;
                     this.loader.load(url, {}, this.refreshRegionField.bind(this));
@@ -537,6 +550,61 @@ addressesModel.prototype = {
         var newInput = $(newInputId);
         Event.observe(newInput, 'change', this.onItemFormFieldChange); // Restore observing to update address info
         this.syncFormData(newInput); // Update address info now
+        var activeElementId = regionHtmlId;
+        if (('select' == $(regionIdHtmlId).tagName.toLowerCase()) && regionIdHtmlId) {
+            activeElementId = regionIdHtmlId;
+        }
+        this._checkRegionRequired([$(regionHtmlId), $(regionIdHtmlId)], activeElementId);
+    },
+
+    _checkRegionRequired: function(elements, activeElementId)
+    {
+        var label, wildCard;
+        var that = this;
+        var regionRequired = this.requiredStateForCountries.indexOf(this.countryEl.value) >= 0;
+
+        elements.each(function(currentElement) {
+            Validation.reset(currentElement);
+            label = $$('label[for="' + currentElement.id + '"]')[0];
+            if (label) {
+                wildCard = label.down('em') || label.down('span.required');
+                if (!that.showAllRegions) {
+                    if (regionRequired) {
+                        label.up('tr').show();
+                    } else {
+                        label.up('tr').hide();
+                    }
+                }
+            }
+
+            if (label && wildCard) {
+                if (!regionRequired) {
+                    wildCard.hide();
+                } else {
+                    wildCard.show();
+                }
+            }
+
+            if (!regionRequired) {
+                if (currentElement.hasClassName('required-entry')) {
+                    currentElement.removeClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    currentElement.hasClassName('validate-select')
+                ) {
+                    currentElement.removeClassName('validate-select');
+                }
+            } else if (activeElementId == currentElement.id) {
+                if (!currentElement.hasClassName('required-entry')) {
+                    currentElement.addClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    !currentElement.hasClassName('validate-select')
+                ) {
+                    currentElement.addClassName('validate-select');
+                }
+            }
+        });
     }
 }
 

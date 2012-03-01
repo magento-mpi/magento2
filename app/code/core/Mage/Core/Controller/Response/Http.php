@@ -28,6 +28,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
      *
      * @link  http://bugs.php.net/bug.php?id=36705
      *
+     * @return Mage_Core_Controller_Response_Http
      */
     public function sendHeaders()
     {
@@ -57,7 +58,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
                 }
             }
         }
-        parent::sendHeaders();
+        return parent::sendHeaders();
     }
 
     public function sendResponse()

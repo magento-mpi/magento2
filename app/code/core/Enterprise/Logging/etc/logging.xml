@@ -157,7 +157,7 @@
     </catalog_categories>
 
     <core_urlrewrites translate="label">
-        <label>Urlrewrites</label>
+        <label>URL Rewrites</label>
         <expected_models>
             <Mage_Core_Model_Url_Rewrite/>
         </expected_models>
@@ -1226,7 +1226,7 @@
     </sales_shipments>
 
     <sales_creditmemos translate="label">
-        <label>Sales Creditmemos</label>
+        <label>Sales Credit Memos</label>
         <expected_models>
             <Mage_Sales_Model_Order_Creditmemo>
                 <additional_data>
@@ -1300,7 +1300,7 @@
     </sales_agreement>
 
     <api_roles translate="label">
-        <label>Webservices API Roles</label>
+        <label>Web Services API Roles</label>
         <expected_models>
             <Mage_Api_Model_Roles/>
         </expected_models>
@@ -1323,7 +1323,7 @@
     </api_roles>
 
     <api_users translate="label">
-        <label>Webservices API Users</label>
+        <label>Web Services API Users</label>
         <expected_models>
             <Mage_Api_Model_User>
                 <skip_data>

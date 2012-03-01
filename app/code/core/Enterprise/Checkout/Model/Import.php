@@ -50,47 +50,30 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     /**
      * Upload file
      *
-     * @return bool
+     * @return void
      */
     public function uploadFile()
     {
-        $result = true;
+        /** @var $uploader Mage_Core_Model_File_Uploader */
+        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', self::FIELD_NAME_SOURCE_FILE);
+        $uploader->setAllowedExtensions($this->_allowedExtensions);
+        $uploader->skipDbProcessing(true);
+        if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
+            Mage::throwException($this->_getFileTypeMessageText());
+        }
 
         try {
-            /** @var $uploader Mage_Core_Model_File_Uploader */
-            $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', self::FIELD_NAME_SOURCE_FILE);
-        } catch (Exception $e) {
-            $result = false;
-        }
-
-        if ($result) {
-            try {
-                $uploader->setAllowedExtensions($this->_allowedExtensions);
-                $uploader->skipDbProcessing(true);
-                if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-                    Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Only .csv file format is supported.'));
-                }
-                $result = $uploader->save($this->_getWorkingDir());
-            } catch (Mage_Core_Exception $e) {
-                Mage::throwException($e->getMessage());
-            } catch (Exception $e) {
-                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error while uploading file.'));
-            }
-        }
-
-        if ($result !== false && !empty($result['file'])) {
+            $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
-        } else {
-            return $result;
+        } catch (Exception $e) {
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->getFileGeneralErrorText());
         }
-
-        return true;
     }
 
     /**
      * Get rows from file
      *
-     * @return array|bool
+     * @return array
      */
     public function getRows()
     {
@@ -100,8 +83,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             return $this->$method();
         }
 
-        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Not supported file type.'));
-        return false;
+        Mage::throwException($this->_getFileTypeMessageText());
     }
 
     /**
@@ -112,36 +94,42 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Uploaded file not exists'));
+            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->getFileGeneralErrorText());
         }
 
         $csvData = array();
-        $currentKey = 0;
 
         try {
             $fileHandler = fopen($this->_uploadedFile, 'r');
             if ($fileHandler) {
-                rewind($fileHandler);
                 $colNames = fgetcsv($fileHandler);
-                $num = count($colNames);
-                if ($num != 2) {
-                    Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Uploaded file is invalid'));
+
+                foreach ($colNames as &$colName) {
+                    $colName = trim($colName);
                 }
-                for ($i = 0; $i < 2; $i++) {
-                    // If header columns specified as "sku, qty" - it could cause problems because of the whitespace
-                    $colNames[$i] = trim($colNames[$i]);
+
+                $requiredColumns = array('sku', 'qty');
+                $requiredColumnsPositions = array();
+
+                foreach ($requiredColumns as $columnName) {
+                    $found = array_search($columnName, $colNames);
+                    if (false !== $found) {
+                        $requiredColumnsPositions[] = $found;
+                    } else {
+                        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->getSkuEmptyDataMessageText());
+                    }
                 }
+
                 while (($currentRow = fgetcsv($fileHandler)) !== false) {
-                    $num = count($currentRow);
-                    if ($num != 2) {
-                        continue;
+                    $csvDataRow = array('qty' => '');
+                    foreach ($requiredColumnsPositions as $index) {
+                        if (isset($currentRow[$index])) {
+                            $csvDataRow[$colNames[$index]] = trim($currentRow[$index]);
+                        }
                     }
-                    $csvDataRow = array();
-                    for ($i = 0; $i < 2; $i++) {
-                        $csvDataRow[$colNames[$i]] = trim($currentRow[$i]);
+                    if (isset($csvDataRow['sku']) && $csvDataRow['sku'] !== '') {
+                        $csvData[] = $csvDataRow;
                     }
-                    $csvData[] = $csvDataRow;
-                    $currentKey++;
                 }
                 fclose($fileHandler);
             }
@@ -175,17 +163,17 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
             }
         }
 
-        Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Not supported file type.'));
+        Mage::throwException($this->_getFileTypeMessageText());
         return false;
     }
 
     /**
-     * Whether a file has been submitted by user
+     * Get message text of wrong file type error
      *
-     * @return bool
+     * @return string
      */
-    public function hasAnythingToUpload()
+    protected function _getFileTypeMessageText()
     {
-        return !empty($_FILES);
+        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Only .csv file format is supported.');
     }
 }

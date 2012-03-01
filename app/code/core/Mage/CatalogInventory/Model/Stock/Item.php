@@ -524,6 +524,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setMessage(
                     Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1)
                 )
+                ->setErrorCode('qty_min')
                 ->setQuoteMessage(Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products cannot be ordered in requested quantity.'))
                 ->setQuoteMessageIndex('qty');
             return $result;
@@ -534,6 +535,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setMessage(
                     Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1)
                 )
+                ->setErrorCode('qty_max')
                 ->setQuoteMessage(Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products cannot be ordered in requested quantity.'))
                 ->setQuoteMessageIndex('qty');
             return $result;
@@ -559,7 +561,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
-            $message = Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The requested quantity for "%s" is not available.', $this->getProductName());
+            $message = Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The requested quantity for "%s" is not available.', Mage::helper('Mage_CatalogInventory_Helper_Data')->escapeHtml($this->getProductName()));
             $result->setHasError(true)
                 ->setMessage($message)
                 ->setQuoteMessage($message)
@@ -593,12 +595,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                             );
                         } else {
                             $result->setMessage(
-                               Mage::helper('Mage_CatalogInventory_Helper_Data')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', $this->getProductName(), ($backorderQty * 1))
+                               Mage::helper('Mage_CatalogInventory_Helper_Data')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', Mage::helper('Mage_CatalogInventory_Helper_Data')->escapeHtml($this->getProductName()), ($backorderQty * 1))
                             );
                         }
                     } elseif (Mage::app()->getStore()->isAdmin()) {
                         $result->setMessage(
-                            Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The requested quantity for "%s" is not available.', $this->getProductName())
+                            Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The requested quantity for "%s" is not available.', Mage::helper('Mage_CatalogInventory_Helper_Data')->escapeHtml($this->getProductName()))
                         );
                     }
                 }
@@ -636,10 +638,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setQuoteMessage(
                     Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products cannot be ordered in the requested quantity.')
                 )
+                ->setErrorCode('qty_increments')
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
                 $result->setMessage(
-                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is available for purchase in increments of %s only.',$this->getProductName(), $qtyIncrements * 1)
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('%s is available for purchase in increments of %s only.', Mage::helper('Mage_CatalogInventory_Helper_Data')->escapeHtml($this->getProductName()), $qtyIncrements * 1)
                 );
             } else {
                 $result->setMessage(

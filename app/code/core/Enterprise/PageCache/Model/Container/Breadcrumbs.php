@@ -39,6 +39,10 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
     protected function _renderBlock()
     {
         $productId = $this->_getProductId();
+
+        /** @var $product null|Mage_Catalog_Model_Product */
+        $product = null;
+
         if ($productId) {
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
@@ -48,6 +52,12 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
             }
         }
         $categoryId = $this->_getCategoryId();
+
+        if ($product !== null && !$product->canBeShowInCategory($categoryId)) {
+            $categoryId = null;
+            Mage::unregister('current_category');
+        }
+
         if ($categoryId && !Mage::registry('current_category')) {
             $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
             if ($category) {
@@ -56,7 +66,7 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
         }
 
         //No need breadcrumbs on CMS pages
-        if (!$categoryId) {
+        if (!$productId && !$categoryId) {
             return '';
         }
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();

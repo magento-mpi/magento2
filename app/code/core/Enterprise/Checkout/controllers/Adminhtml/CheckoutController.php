@@ -33,7 +33,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function getCartModel()
     {
         return Mage::getSingleton('Enterprise_Checkout_Model_Cart')
-            ->setSession(Mage::getSingleton('Mage_Adminhtml_Model_Session'));
+            ->setSession(Mage::getSingleton('Mage_Adminhtml_Model_Session'))
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_CHECKOUT)
+            ->setCurrentStore($this->getRequest()->getPost('store'));
     }
 
     /**
@@ -755,7 +757,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $info['sku'] = $itemId;
 
             case Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE:
-                if (empty($info['qty']) || (!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
+                if ((!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
                     return false;
                 }
                 $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
@@ -877,7 +879,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if (is_array($listTypes) && in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
             $cart = $this->getCartModel();
             // We need to save products to enterprise_checkout/cart instead of checkout/cart
-            $cart->saveAffectedProducts($cart, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
+            $cart->saveAffectedProducts($cart, false, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
         }
 
         /**
@@ -944,8 +946,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
     /**
      * Upload and parse CSV file with SKUs and quantity
-     *
-     * @return mixed
      */
     public function uploadSkuCsvAction()
     {
@@ -959,23 +959,35 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if ($this->_redirectFlag) {
             return;
         }
-        /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
-        try {
-            if ($importModel->uploadFile()) {
-                $cart = $this->getCartModel();
-                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts(
-                    $this->getCartModel(),
-                    Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
-                );
-                $cart->saveQuote();
-            } else {
-                Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Error in uploading file.'));
-            }
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+        $rows = $helper->isSkuFileUploaded($this->getRequest())
+            ? $helper->processSkuFileUploading($this->_getSession())
+            : array();
+
+        $items = $this->getRequest()->getPost('add_by_sku');
+        if (!is_array($items)) {
+            $items = array();
         }
+        $result = array();
+        foreach ($items as $sku => $qty) {
+            $result[] = array('sku' => $sku, 'qty' => $qty['qty']);
+        }
+        foreach ($rows as $row) {
+            $result[] = $row;
+        }
+
+        if (!empty($result)) {
+            $cart = $this->getCartModel();
+            $cart->prepareAddProductsBySku($result);
+            $cart->saveAffectedProducts(
+                $this->getCartModel(),
+                true,
+                Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
+            );
+        }
+
         $this->_redirectReferer();
     }
 }

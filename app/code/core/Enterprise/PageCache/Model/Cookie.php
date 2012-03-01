@@ -49,6 +49,11 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const CUSTOMER_SEGMENT_IDS = 'CUSTOMER_SEGMENT_IDS';
 
     /**
+     * Cookie name for users who allowed cookie save
+     */
+    const IS_USER_ALLOWED_SAVE_COOKIE  = 'user_allowed_save_cookie';
+
+    /**
      * Encryption salt value
      *
      * @var sting

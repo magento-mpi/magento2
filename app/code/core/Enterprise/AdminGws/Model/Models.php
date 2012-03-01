@@ -394,6 +394,50 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Save correct website list in giftwrapping
+     *
+     * @param Enterprise_GiftWrapping_Model_Wrapping $model
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function giftWrappingSaveBefore($model)
+    {
+        if (!$model->isObjectNew()) {
+            $roleWebsiteIds = $this->_role->getRelevantWebsiteIds();
+            // Website list that was assigned to current giftwrapping previously
+            $origWebsiteIds = (array)$model->getResource()->getWebsiteIds($model->getId());
+            // Website list that admin is currently trying to assign to current giftwrapping
+            $postWebsiteIds = array_intersect((array)$model->getWebsiteIds(), $roleWebsiteIds);
+
+            $websiteIds = array_merge(array_diff($origWebsiteIds, $roleWebsiteIds), $postWebsiteIds);
+
+            $model->setWebsiteIds($websiteIds);
+        }
+        return $this;
+    }
+
+    /**
+     * Save correct store list in rating (while Managing Ratings)
+     *
+     * @param Mage_Rating_Model_Rating $model
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function ratingSaveBefore($model)
+    {
+        if (!$model->isObjectNew()) {
+            $roleStoreIds = $this->_role->getStoreIds();
+            // Store list that was assigned to current rating previously
+            $origStoreIds = (array)$model->getResource()->getStores($model->getId());
+            // Store list that admin is currently trying to assign to current rating
+            $postStoreIds = array_intersect((array)$model->getStores(), $roleStoreIds);
+
+            $storeIds = array_merge(array_diff($origStoreIds, $roleStoreIds), $postStoreIds);
+
+            $model->setStores($storeIds);
+        }
+
+    }
+
+    /**
      * Validate cms page before delete
      *
      * @param Mage_Cms_Model_Page $model
