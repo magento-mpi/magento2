@@ -143,7 +143,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         $websiteIds = (array)$model->getData('website_ids');
 
-        // Set rule entity model as non-deleteable if role has no exclusive access to assigned to rule entity websites
+        // Set rule entity model as non-deletable if role has no exclusive access to assigned to rule entity websites
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $model->setIsDeleteable(false);
         }
@@ -1320,7 +1320,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment save
      *
-     * @deprecated after 1.11.2.0 use $this->ruleSaveBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1333,7 +1333,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate customer segment before delete
      *
-     * @deprecated after 1.11.2.0 use $this->ruleDeleteBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1346,7 +1346,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment model on after load
      *
-     * @deprecated after 1.11.2.0 use $this->ruleLoadAfter() instead
+     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void

@@ -1213,7 +1213,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
             $block->removeButton('save_apply');
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$websiteIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
                 $block->removeButton('save');
                 $block->removeButton('save_and_continue_edit');
                 $block->removeButton('run_now');
@@ -1233,7 +1233,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     /**
      * Remove add button for users who does not permissions for any site
      *
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
      *
      * @param Varien_Event_Observer $observer
      *
@@ -1248,7 +1248,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     /**
      * Remove control buttons for store-level roles on Catalog Price Rules page
      *
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
      *
      * @param Varien_Event_Observer $observer
      *
@@ -1263,7 +1263,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     /**
      * Remove control buttons for store-level roles on Shopping Cart Price Rules page
      *
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
      *
      * @param Varien_Event_Observer $observer
      *
