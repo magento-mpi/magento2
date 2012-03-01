@@ -277,7 +277,8 @@ class Mage_Selenium_TestConfiguration
             foreach ($files as $file) {
                 $className = str_replace($initialPath . DIRECTORY_SEPARATOR, '', $file);
                 $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
-                $helperName = end(explode('_', str_replace('_Helper', '', $className)));
+                $array = explode('_', str_replace('_Helper', '', $className));
+                $helperName = end($array);
                 $this->_testHelperClassNames[$helperName] = $className;
             }
         }
