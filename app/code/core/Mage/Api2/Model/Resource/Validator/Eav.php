@@ -31,25 +31,82 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
+class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Validate entity.
-     * If fails validation, then this metod return an array of errors
-     * that explain why the validation failed.
-     *
-     * @param array $data
-     * @return array|bool
+     * Config node key of current validator
      */
-    protected function _validate(array $data)
-    {
-        /** @var $form Mage_Eav_Model_Form */
-        $form = Mage::getModel($this->_getFormPath());
-        $form->setEntity($this->_getEntity())
-            ->setFormCode($this->_getFormCode())
-            ->ignoreInvisible(false);
+    const CONFIG_NODE_KEY = 'eav';
 
-        return $form->validateData($data);
+    /**
+     * Form path
+     *
+     * @var string
+     */
+    protected $_formPath;
+
+    /**
+     * Entity model
+     *
+     * @var Mage_Core_Model_Abstract
+     */
+    protected $_entity;
+
+    /**
+     * Form code
+     *
+     * @var string
+     */
+    protected $_formCode;
+
+    /**
+     * Construct. Set all depends.
+     *
+     * Required parameteres for options:
+     * - resource
+     * - operation
+     *
+     * @param array $options
+     * @throws Exception If passed parameter 'resource' is wrong
+     * @throws Exception If passed parameter 'operation' is empty
+     * @throws Exception If config parameter 'formPath' is empty
+     * @throws Exception If config parameter 'formCode' is empty
+     * @throws Exception If config parameter 'entity' is wrong
+     */
+    public function __construct($options)
+    {
+        if (!isset($options['resource']) || !$options['resource'] instanceof Mage_Api2_Model_Resource) {
+            throw new Exception("Passed parameter 'resource' is wrong.");
+        }
+        $resource = $options['resource'];
+        $resourceType = $resource->getResourceType();
+        $userType = $resource->getUserType();
+
+        if (!isset($options['operation']) || empty($options['operation'])) {
+            throw new Exception("Passed parameter 'operation' is empty.");
+        }
+        $operation = $options['operation'];
+
+        /* @var $config Mage_Api2_Model_Config */
+        $config = $resource->getConfig();
+
+        $this->_formPath = $config->getResourceValidatorFormModel(
+            $resourceType, self::CONFIG_NODE_KEY, $userType);
+        if (empty($this->_formPath)) {
+            throw new Exception("Config parameter 'formPath' is empty.");
+        }
+
+        $this->_formCode = $config->getResourceValidatorFormCode(
+            $resourceType, self::CONFIG_NODE_KEY, $userType, $operation);
+        if (empty($this->_formCode)) {
+            throw new Exception("Config parameter 'formCode' is empty.");
+        }
+
+        $this->_entity = Mage::getModel(
+            $config->getResourceValidatorEntityModel($resourceType, self::CONFIG_NODE_KEY, $userType));
+        if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
+            throw new Exception("Config parameter 'entity' is wrong.");
+        }
     }
 
     /**
@@ -63,7 +120,7 @@ abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Re
      */
     public function isSatisfiedByData(array $data)
     {
-        $errors = $this->_validate($data);
+        $errors = $this->_validateWithEavForm($data);
         if (true !== $errors) {
             $this->_setErrors($errors);
             return false;
@@ -72,26 +129,21 @@ abstract class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Re
     }
 
     /**
-     * Retrieve form path, which will used to initiate form validation model
+     * Validate entity.
+     * If fails validation, then this metod return an array of errors
+     * that explain why the validation failed.
      *
-     * @abstract
-     * @return string
+     * @param array $data
+     * @return array|bool
      */
-    abstract protected function _getFormPath();
+    protected function _validateWithEavForm($data)
+    {
+        /** @var $form Mage_Eav_Model_Form */
+        $form = Mage::getModel($this->_formPath);
+        $form->setEntity($this->_entity)
+            ->setFormCode($this->_formCode)
+            ->ignoreInvisible(false);
 
-    /**
-     * Retrieve form code, which will use for attributes validation
-     *
-     * @abstract
-     * @return string
-     */
-    abstract protected function _getFormCode();
-
-    /**
-     * Retrieve entity, which will be validated
-     *
-     * @abstract
-     * @return Mage_Core_Model_Abstract
-     */
-    abstract protected function _getEntity();
+        return $form->validateData($data);
+    }
 }

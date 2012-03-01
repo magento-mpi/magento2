@@ -59,6 +59,8 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      */
     public function testCreateCustomerAddress($dataForUpdate)
     {
+        $this->markTestSkipped("Skipped (add validation)");
+
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);

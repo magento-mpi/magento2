@@ -73,7 +73,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
      */
     public function getDbAttributes()
     {
-        $available     = array();
+        $available = array();
         /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
         $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
         if (method_exists($resource, 'getEntityTable')) {

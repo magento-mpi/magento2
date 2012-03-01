@@ -71,30 +71,56 @@
                     <customer>
                         <read>
                             <password />
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <group_id />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                            <website_id />
                         </read>
+                        <write>
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <disable_auto_group_change />
+                            <group_id />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                            <website_id />
+                        </write>
                     </customer>
                 </exclude_attributes>
                 <validators>
-                    <persist>
+                    <eav>
                         <admin>
-                            <model>customer/api2_customer_validator_persist</model>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
-                            <form_key>
-                                <create>customer_account_create</create>
-                                <update>customer_account_edit</update>
-                            </form_key>
+                            <form_code>
+                                <update>adminhtml_customer</update>
+                            </form_code>
                         </admin>
                         <customer>
-                            <model>customer/api2_customer_validator_persist</model>
                             <entity_model>customer/customer</entity_model>
                             <form_model>customer/form</form_model>
-                            <form_key>
-                                <create>adminhtml_customer</create>
-                                <update>adminhtml_customer</update>
-                            </form_key>
+                            <form_code>
+                                <update>customer_account_edit</update>
+                            </form_code>
                         </customer>
-                    </persist>
+                    </eav>
                 </validators>
             </customer>
             <customers>
@@ -157,6 +183,17 @@
                 </routes>
                 <instance>customer</instance>
                 <versions>1</versions>
+                <validators>
+                    <eav>
+                        <admin>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                            </form_code>
+                        </admin>
+                    </eav>
+                </validators>
             </customers>
             <customer_address>
                 <group>customer</group>
@@ -178,6 +215,26 @@
                     </customer>
                 </privileges>
                 <exclude_attributes/>
+                <validators>
+                    <eav>
+                        <admin>
+                            <entity_model>customer/address</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>customer_account_create</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </admin>
+                        <customer>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </customer>
+                    </eav>
+                </validators>
                 <routes>
                     <route_main>
                         <mask>/customers/addresses/:id</mask>
@@ -204,6 +261,26 @@
                     </customer>
                 </privileges>
                 <exclude_attributes/>
+                <validators>
+                    <eav>
+                        <admin>
+                            <entity_model>customer/address</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>customer_account_create</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </admin>
+                        <customer>
+                            <entity_model>customer/customer</entity_model>
+                            <form_model>customer/form</form_model>
+                            <form_code>
+                                <create>adminhtml_customer</create>
+                                <update>customer_address_edit</update>
+                            </form_code>
+                        </customer>
+                    </eav>
+                </validators>
                 <routes>
                     <route_main>
                         <mask>/customers/:id/addresses</mask>

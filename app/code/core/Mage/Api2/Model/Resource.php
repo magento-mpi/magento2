@@ -136,6 +136,13 @@ abstract class Mage_Api2_Model_Resource
     protected $_multicall;
 
     /**
+     * One of Mage_Api2_Model_Resource::OPERATION_... constant
+     *
+     * @var string
+     */
+    protected $_operation;
+
+    /**
      * Internal resource model dispatch
      */
     abstract public function dispatch();
@@ -542,6 +549,40 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Get operation
+     * If not exists get from Request
+     *
+     * @return string One of Mage_Api2_Model_Resource::OPERATION_... constant
+     */
+    public function getOperation()
+    {
+        if (!$this->_operation) {
+            $this->setOperation($this->getRequest()->getOperation());
+        }
+        return $this->_operation;
+    }
+
+    /**
+     * Set operation
+     *
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_... constant
+     */
+    public function setOperation($operation)
+    {
+        $this->_operation = $operation;
+    }
+
+    /**
+     * Retrieve name of object id field
+     *
+     * @return string
+     */
+    public function getIdFieldName()
+    {
+        return $this->getConfig()->getResourceIdFieldName($this->getResourceType());
+    }
+
+    /**
      * Get API2 config
      *
      * @return Mage_Api2_Model_Config
@@ -616,7 +657,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getDbAttributes()
     {
-        $available     = array();
+        $available = array();
         /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
         $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
         if (method_exists($resource, 'getMainTable')) {
@@ -639,7 +680,7 @@ abstract class Mage_Api2_Model_Resource
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->load($model, 'entity_model');
 
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($isVisible && !$attribute->getIsVisible()) {
                 continue;

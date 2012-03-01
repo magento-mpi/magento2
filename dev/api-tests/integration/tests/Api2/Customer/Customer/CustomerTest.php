@@ -49,6 +49,19 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     protected $_otherCustomer;
 
     /**
+     * Customer attributes
+     *
+     * @var array
+     */
+    protected $_attributes;
+
+    /**
+     * Required customer attributes
+     * @var array
+     */
+    protected $_requiredAttributes;
+
+    /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
@@ -62,6 +75,52 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
         $this->_otherCustomer->save();
 
         $this->addModelToDelete($this->_otherCustomer, true);
+    }
+
+    /**
+     * Init customer model instance
+     *
+     * @return Api2_Customer_Customers_AdminTest
+     */
+    protected function _initCustomer()
+    {
+        if (null === $this->_customer) {
+            $this->_customer = $this->getDefaultCustomer();
+        }
+        return $this;
+    }
+
+    /**
+     * Get customer attributes and filter required attributes in it
+     * Set attributes to class properties
+     *
+     * @return Api2_Customer_Customers_AdminTest
+     */
+    protected function _initAttributes()
+    {
+        if (null === $this->_customer) {
+            throw new Exception('A customer was not instantiated.');
+        }
+        if (null === $this->_requiredAttributes) {
+            /** @var $config Mage_Api2_Model_Config */
+            $config = Mage::getModel('api2/config');
+            $excludedAttributes = $config->getResourceExcludedAttributes(
+                'customer',
+                'customer',
+                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
+            );
+
+            $this->_attributes = $this->_customer->getAttributes();
+            foreach ($this->_attributes as $attribute) {
+                $label = $attribute->getFrontendLabel();
+                if (!in_array($attribute->getAttributeCode(), $excludedAttributes) && $attribute->getIsRequired()
+                    && $attribute->getIsVisible()) {
+
+                    $this->_requiredAttributes[$attribute->getAttributeCode()] = $label;
+                }
+            }
+        }
+        return $this;
     }
 
     /**
@@ -131,51 +190,64 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     }
 
     /**
-     * Test update customer
+     * Test update customer with empty required fields
      *
-     * @param array $data
-     * @param string $fieldName
-     * @dataProvider providerTestUpdateEmptyField
+     * @param string $attributeCode
+     * @dataProvider providerRequiredAttributes
      */
-    public function testUpdateEmptyField($data, $fieldName)
+    public function testUpdateEmptyRequiredField($attributeCode)
     {
-        $response = $this->callPut('customers/' . $this->_customer->getId(), $data);
+        $this->_customer->setData($attributeCode, '');
 
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
         $responseData = $response->getBody();
 
         $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
         $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
 
-        $this->assertSame(array(
-            array(
-                'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                'message' => 'Empty value for "' . $fieldName . '" in request.',
-            ),
-            array(
-                'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                'message' => Mage_Api2_Model_Resource::RESOURCE_DATA_PRE_VALIDATION_ERROR
-            )
-        ), $responseData['messages']['error']);
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
     }
 
     /**
-     * Data provider for testUpdateEmptyField
+     * Test update customer withous required fields
+     *
+     * @param string $attributeCode
+     * @dataProvider providerRequiredAttributes
+     */
+    public function testUpdateWithoutRequiredField($attributeCode)
+    {
+        $this->_customer->unsetData($attributeCode);
+
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $responseData = $response->getBody();
+
+        $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
+    }
+
+    /**
+     * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
      *
      * @return array
      */
-    public function providerTestUpdateEmptyField()
+    public function providerRequiredAttributes()
     {
-        $fields = array('email', 'firstname', 'lastname', 'password');
+        $this->_initCustomer()
+            ->_initAttributes();
+
+        $fields = array_keys($this->_requiredAttributes);
         $output = array();
 
         foreach ($fields as $field) {
-            $output[] = array(
-                array(
-                    $field => ''
-                ),
-                $field
-            );
+            $output[] = array($field);
         }
 
         return $output;

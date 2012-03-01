@@ -14,6 +14,7 @@
                 <instance>product</instance>
                 <working_model>catalog/product</working_model>
                 <versions>1,2,5</versions>
+                <id_field_name>test_item_id</id_field_name>
             </products>
             <product>
                 <type>product</type><!-- used in ACL -->

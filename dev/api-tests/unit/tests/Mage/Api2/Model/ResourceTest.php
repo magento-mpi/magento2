@@ -260,6 +260,43 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         );
     }
 
+    /**
+     * Test operation setter and getter
+     */
+    public function testOperationAccessors()
+    {
+        // test default operation
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $this->_resource->setRequest($this->_request);
+        $this->assertEquals($this->_request->getOperation(), $this->_resource->getOperation());
+
+        // test preset operation getting
+        $this->_resource->setOperation(Mage_Api2_Model_Resource::OPERATION_DELETE);
+        $this->assertEquals(Mage_Api2_Model_Resource::OPERATION_DELETE, $this->_resource->getOperation());
+    }
+
+    /**
+     * Test IdFieldName getter
+     */
+    public function testGetIdFieldName()
+    {
+        $idFieldName = 'testIdFieldName';
+        $resourceType = 'testResourceType';
+
+        $this->_resource->setResourceType($resourceType);
+
+        $configMock = $this->getModelMockBuilder('api2/config')
+            ->setMethods(array('getResourceIdFieldName'))
+            ->getMock();
+
+        $configMock->expects($this->once())
+            ->method('getResourceIdFieldName')
+            ->with($resourceType)
+            ->will($this->returnValue($idFieldName));
+
+        $this->assertEquals($this->_resource->getIdFieldName(), $idFieldName);
+    }
+
     public function testGetEavAttributes()
     {
         $this->markTestSkipped('Core changes broke test');
