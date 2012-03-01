@@ -39,8 +39,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_wishlist>
-                    <file>enterprise/wishlist.xml</file>
+                <enterprise_wishlist module="Enterprise_Wishlist">
+                    <file>layout.xml</file>
                 </enterprise_wishlist>
             </updates>
         </layout>
@@ -73,8 +73,8 @@
         </routers>
         <layout>
             <updates>
-                <enterprise_wishlist>
-                    <file>enterprise_wishlist.xml</file>
+                <enterprise_wishlist module="Enterprise_Wishlist">
+                    <file>layout.xml</file>
                 </enterprise_wishlist>
             </updates>
         </layout>

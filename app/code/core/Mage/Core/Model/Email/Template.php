@@ -102,7 +102,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
                 return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
         }
-        return Mage::getDesign()->getSkinUrl('images/logo_email.gif');
+        return Mage::getDesign()->getSkinUrl('Mage_Core::logo_email.gif');
     }
 
     /**

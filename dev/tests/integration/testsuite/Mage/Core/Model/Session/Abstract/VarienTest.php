@@ -22,6 +22,8 @@ class Mage_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_Test
      */
     public function testSessionSaveMethod($saveMethod, $iniValue)
     {
+        $this->markTestIncomplete('Bug MAGE-5487');
+
         // depending on configuration some values cannot be set as default save session handlers.
         $origSessionHandler = ini_set('session.save_handler', $iniValue);
         if ($iniValue && (ini_get('session.save_handler') != $iniValue)) {

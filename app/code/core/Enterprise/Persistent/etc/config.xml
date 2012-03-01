@@ -261,5 +261,12 @@
                 </observers>
             </persistent_session_expired>
         </events>
+        <layout>
+            <updates>
+                <enterprise_persistent module="Enterprise_Persistent">
+                    <file>layout.xml</file>
+                </enterprise_persistent>
+            </updates>
+        </layout>
     </frontend>
 </config>

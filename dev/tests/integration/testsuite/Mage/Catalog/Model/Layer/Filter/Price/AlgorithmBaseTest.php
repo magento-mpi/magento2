@@ -55,8 +55,8 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
 
         for ($i = 0; $i < count($intervalItems); ++$i) {
             $this->assertInternalType('array', $items[$i]);
-            $this->assertEquals($intervalItems[$i]['from'],  $items[$i]['from']);
-            $this->assertEquals($intervalItems[$i]['to'],    $items[$i]['to']);
+            $this->assertEquals($intervalItems[$i]['from'], $items[$i]['from']);
+            $this->assertEquals($intervalItems[$i]['to'], $items[$i]['to']);
             $this->assertEquals($intervalItems[$i]['count'], $items[$i]['count']);
         }
     }

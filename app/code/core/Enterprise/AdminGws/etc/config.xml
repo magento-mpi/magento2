@@ -542,7 +542,7 @@
                     <mage_adminhtml_block_catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</mage_adminhtml_block_catalog_category_edit_form>
                     <mage_adminhtml_block_newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</mage_adminhtml_block_newsletter_queue_edit_form>
                     <mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</mage_adminhtml_block_catalog_product_edit_action_attribute_tab_websites>
-                    <mage_adminhtml_block_catalog_product_grid_block_preparemassaction>catalogProductPrepareMassaction</mage_adminhtml_block_catalog_product_grid_block_preparemassaction>
+                    <mage_adminhtml_block_catalog_product_grid>catalogProductPrepareMassaction</mage_adminhtml_block_catalog_product_grid>
                     <mage_adminhtml_block_cms_page_edit>removeCmsPageButtons</mage_adminhtml_block_cms_page_edit>
                     <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
                     <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
@@ -572,7 +572,6 @@
                     <enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>
                     <mage_widget_block_adminhtml_widget_instance_edit>removeWidgetInstanceButtons</mage_widget_block_adminhtml_widget_instance_edit>
                     <enterprise_banner_block_adminhtml_banner_edit>validateBannerPermissions</enterprise_banner_block_adminhtml_banner_edit>
-                    <enterprise_banner_block_adminhtml_banner_new>validateBannerPermissions</enterprise_banner_block_adminhtml_banner_new>
                     <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
                     <enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>
                     <mage_adminhtml_block_customer_group>removeCustomerGroupAddButton</mage_adminhtml_block_customer_group>
