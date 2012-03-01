@@ -201,6 +201,9 @@
                         <retrieve>1</retrieve>
                     </guest>
                 </privileges>
+                <attributes>
+                    <category_id>Category ID</category_id>
+                </attributes>
                 <routes>
                     <route_main>
                         <mask>/products/categories/:id</mask>

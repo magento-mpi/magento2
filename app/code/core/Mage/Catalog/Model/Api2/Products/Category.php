@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Api2_Products_Category extends Mage_Api2_Model_Resource
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         return $this->getAvailableAttributesFromConfig();
     }
