@@ -35,6 +35,11 @@
 class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     /**
+     * Customer count of collection
+     */
+    const CUSTOMER_COLLECTION_COUNT = 5;
+
+    /**
      * Customer model instance
      *
      * @var Mage_Customer_Model_Customer
@@ -104,6 +109,23 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
             }
         }
         return $this;
+    }
+
+    /**
+     * Generate customers to test collection
+     */
+    protected function _generateCustomers()
+    {
+        $counter = 0;
+        while ($counter++ < self::CUSTOMER_COLLECTION_COUNT) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer');
+            $customer->setData($this->_customer)
+                ->setEmail(mt_rand() . 'customer.example.com')
+                ->save();
+
+            $this->addModelToDelete($customer, true);
+        }
     }
 
     /**
@@ -190,6 +212,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
      */
     public function testRetrieve()
     {
+        $this->_generateCustomers();
+
         $requestParams = array(
             Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD => 'entity_id',
             Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
