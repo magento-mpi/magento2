@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Api2_Model_Resource_Collection
+abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Catalog_Model_Api2_Products
 {
 
 }

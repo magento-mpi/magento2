@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource_Instance
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
         $attributes = $this->getAvailableAttributesFromConfig();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
@@ -49,6 +49,12 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource_Instance
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($this->_isAttributeVisible($attribute, $userType)) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        foreach ($attributes as $code => $label) {
+            if (in_array($code, $excludedAttrs)) {
+                unset($attributes[$code]);
             }
         }
 

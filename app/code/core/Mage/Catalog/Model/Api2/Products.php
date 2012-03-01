@@ -34,24 +34,47 @@
 class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collection
 {
     /**
-     * Add visible EAV attributes to available attributes
+     * Get available attributes of API resource
      *
      * @param string $userType
      * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType = null, $operation = null)
+    public function getAvailableAttributes($userType, $operation)
     {
-        $attributes = parent::getAvailableAttributes($userType, $operation);
+        $attributes = $this->getAvailableAttributesFromConfig();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
-            if ($attribute->getIsVisible()) {
+            if ($this->_isAttributeVisible($attribute, $userType)) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
+        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        foreach ($attributes as $code => $label) {
+            if (in_array($code, $excludedAttrs)) {
+                unset($attributes[$code]);
             }
         }
 
         return $attributes;
+    }
+
+    /**
+     * Define if attribute should be visible for passed user type
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param string $userType
+     * @return bool
+     */
+    protected function _isAttributeVisible(Mage_Catalog_Model_Resource_Eav_Attribute $attribute, $userType)
+    {
+        if ($userType == Mage_Api2_Model_Auth_User_Admin::USER_TYPE || !$attribute->getIsUserDefined()) {
+            $isAttributeVisible = $attribute->getIsVisible();
+        } else {
+            $isAttributeVisible = $attribute->getIsVisibleOnFront();
+        }
+        return (bool)$isAttributeVisible;
     }
 }
