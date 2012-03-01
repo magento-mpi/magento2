@@ -459,8 +459,8 @@ class Enterprise_CustomerBalance_Model_Observer
                     $creditmemo->setCustomerBalTotalRefunded($amount);
                     //setting flag to make actual refund to customer balance after creditmemo save
                     $creditmemo->setCustomerBalanceRefundFlag(true);
-
-                    $creditmemo->setPaymentRefundDisallowed(true);
+                    //allow online refund
+                    $creditmemo->setPaymentRefundDisallowed(false);
                 }
             }
         }
