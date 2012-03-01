@@ -388,6 +388,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return self::$_testHelpers[$helperClassName];
     }
 
+    /**
+     * Retrieve instance of helper
+     * @deprecated
+     * @see _loadHelper()
+     *
+     * @param  string $className
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function helper($className)
+    {
+        $className = str_replace('/', '_', $className);
+        if (strpos($className, '_Helper') === false) {
+            $className .= '_Helper';
+        }
+
+        if (!isset(self::$_testHelpers[$className])) {
+            if (class_exists($className)) {
+                self::$_testHelpers[$className] = new $className;
+            } else {
+                return false;
+            }
+        }
+
+        if (self::$_testHelpers[$className] instanceof Mage_Selenium_TestCase) {
+            self::$_testHelpers[$className]->appendParamsDecorator($this->_paramsHelper);
+        }
+
+        return self::$_testHelpers[$className];
+    }
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -438,6 +468,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                            Parameter helper methods                          #
     #                                                                              #
     ################################################################################
+    /**
+     * Append parameters decorator object
+     *
+     * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function appendParamsDecorator($paramsHelperObject)
+    {
+        $this->_paramsHelper = $paramsHelperObject;
+
+        return $this;
+    }
+
     /**
      * Add parameter to params object instance
      *
@@ -1201,6 +1245,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $currentArea;
     }
 
+    /**
+     * Set current area
+     *
+     * @param string $name
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function setArea($name)
+    {
+        $this->_configHelper->setArea($name);
+        return $this;
+    }
+
+    /**
+     * Return current area name
+     * @return string
+     * @throws OutOfRangeException
+     */
+    public function getArea()
+    {
+        return $this->_configHelper->getArea();
+    }
     ################################################################################
     #                                                                              #
     #                       UIMap of Page helper methods                           #
@@ -1392,6 +1458,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = preg_replace('|/index/?$|', '/', $mca);
         }
         return preg_replace('|^/|', '', $mca);
+    }
+
+    /**
+     * Get URL of the specified page
+     *
+     * @param string $area Application area
+     * @param string $page UIMap page key
+     *
+     * @return string
+     */
+    public function getPageUrl($area, $page)
+    {
+        return $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
     }
 
     /**
