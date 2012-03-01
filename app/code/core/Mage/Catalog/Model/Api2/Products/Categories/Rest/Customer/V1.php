@@ -31,7 +31,8 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Api2_Products_Categories_Rest_Customer_V1 extends Mage_Catalog_Model_Api2_Products_Categories_Rest
+class Mage_Catalog_Model_Api2_Products_Categories_Rest_Customer_V1
+    extends Mage_Catalog_Model_Api2_Products_Categories_Rest
 {
     /**
      * Product category assign is not available
