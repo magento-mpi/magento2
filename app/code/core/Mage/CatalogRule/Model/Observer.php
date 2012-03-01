@@ -75,7 +75,9 @@ class Mage_CatalogRule_Model_Observer
     {
         $resource = Mage::getResourceSingleton('catalogrule/rule');
         $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
-        Mage::getModel('catalogrule/flag')->loadSelf()->setState(0)->save();
+        Mage::getModel('catalogrule/flag')->loadSelf()
+            ->setState(0)
+            ->save();
 
         return $this;
     }

@@ -163,7 +163,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
                 } else {
-                    Mage::getModel('catalogrule/flag')->loadSelf()->setState(1)->save();
+                    Mage::getModel('catalogrule/flag')->loadSelf()
+                        ->setState(1)
+                        ->save();
                     if ($this->getRequest()->getParam('back')) {
                         $this->_redirect('*/*/edit', array('id' => $model->getId()));
                         return;
@@ -193,7 +195,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $model = Mage::getModel('catalogrule/rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getModel('catalogrule/flag')->loadSelf()->setState(1)->save();
+                Mage::getModel('catalogrule/flag')->loadSelf()
+                    ->setState(1)
+                    ->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('catalogrule')->__('The rule has been deleted.')
                 );
@@ -291,7 +295,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $errorMessage = Mage::helper('catalogrule')->__('Unable to apply rules.');
         try {
             Mage::getModel('catalogrule/rule')->applyAll();
-            Mage::getModel('catalogrule/flag')->loadSelf()->setState(0)->save();
+            Mage::getModel('catalogrule/flag')->loadSelf()
+                ->setState(0)
+                ->save();
             $this->_getSession()->addSuccess(Mage::helper('catalogrule')->__('The rules have been applied.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($errorMessage . ' ' . $e->getMessage());
