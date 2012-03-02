@@ -169,7 +169,6 @@
                 <exclude_attributes>
                     <admin>
                         <read>
-                            <last_logged_in>Last Logged In</last_logged_in>
                             <password />
                             <password_hash />
                             <reward_warning_notification />
