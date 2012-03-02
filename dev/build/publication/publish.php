@@ -58,12 +58,10 @@ try {
 
     // Copy files from source repository to our working tree and index
     execVerbose("$gitCmd checkout source/$sourceBranch -- .");
-    execVerbose("$gitCmd status");
     // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
     execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
 
     // remove files that must not be published
-    execVerbose("$gitCmd status");
     $extruderDir = __DIR__ . '/extruder';
     execVerbose(
         'php -f %s -- -w %s -l %s -l %s -l %s -g -v',
@@ -75,7 +73,6 @@ try {
     );
 
     // replace license notices
-    execVerbose("$gitCmd status");
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
         'php -f %s -- -w %s -e ce -v -0',
@@ -85,7 +82,7 @@ try {
 
     // commit and push
     execVerbose("$gitCmd status");
-    execVerbose("$gitCmd add --update");
+    execVerbose("$gitCmd add --update -v");
     execVerbose("$gitCmd status");
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
     if ($canPush) {
