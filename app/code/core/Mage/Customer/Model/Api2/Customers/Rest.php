@@ -47,7 +47,7 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
             'operation' => Mage_Api2_Model_Resource::OPERATION_CREATE
         ));
 
-        if (!$validator->isSatisfiedByData($data)) {
+        if (!$validator->isSatisfiedByData($validator->filter($data))) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
