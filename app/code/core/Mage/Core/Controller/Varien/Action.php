@@ -684,7 +684,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _redirect($path, $arguments = array())
     {
-        return $this->setRedirectWithSessionId($path, $arguments);
+        return $this->setRedirectWithCookieCheck($path, $arguments);
     }
 
     /**
@@ -695,7 +695,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   array $arguments
      * @return  Mage_Core_Controller_Varien_Action
      */
-    public function setRedirectWithSessionId($path, array $arguments = array())
+    public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace));

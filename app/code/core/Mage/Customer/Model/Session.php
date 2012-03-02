@@ -273,7 +273,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $action->setRedirectWithSessionId(Mage_Customer_Helper_Data::ROUTE_ACCOUNT_LOGIN,
+            $action->setRedirectWithCookieCheck(Mage_Customer_Helper_Data::ROUTE_ACCOUNT_LOGIN,
                 Mage::helper('customer')->getLoginUrlParams()
             );
         }
