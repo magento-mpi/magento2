@@ -53,7 +53,7 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      */
     public function get($name = null)
     {
-        return isset($this->_cookies[$name])? $this->_cookies[$name] : null;
+        return isset($this->_cookies[$name])? $this->_cookies[$name] : parent::get($name);
     }
 
     /**
