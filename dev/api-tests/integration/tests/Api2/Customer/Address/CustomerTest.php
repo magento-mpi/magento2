@@ -120,7 +120,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerUpdateData
      */
     public function testUpdateCustomerAddress($dataForUpdate)
     {
@@ -146,7 +146,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test update not existing customer address
      *
      * @param array $dataForUpdate
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerUpdateData
      */
     public function testUpdateUnavailableCustomerAddress($dataForUpdate)
     {
@@ -155,10 +155,76 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
+     * Test unsuccessful address update with missing required fields
+     *
+     * @param string $attributeCode
+     * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
+     * @dataProvider providerRequiredAttributes
+     */
+    public function testUpdateCustomerAddressMissingRequired($attributeCode)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $customer
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+
+        // Remove required field
+        unset($dataForUpdate[$attributeCode]);
+
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+        $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
+
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
+    }
+
+    /**
+     * Test unsuccessful address update with empty required fields
+     *
+     * @param string $attributeCode
+     * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
+     * @dataProvider providerRequiredAttributes
+     */
+    public function testUpdateCustomerAddressEmptyRequired($attributeCode)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $customer
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+
+        // Set required field empty
+        $dataForUpdate[$attributeCode] = NULL;
+
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+        $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
+
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
+    }
+
+    /**
      * Test delete address if customer is not owner
      *
      * @param array $dataForUpdate
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerUpdateData
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      */
     public function testUpdateCustomerAddressIfCustomerIsNotOwner($dataForUpdate)
@@ -222,7 +288,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @return array
      */
-    public function providerTestUpdateData()
+    public function providerUpdateData()
     {
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
@@ -239,6 +305,20 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
+     * Data provider required attributes
+     *
+     * @return array
+     */
+    public function providerRequiredAttributes()
+    {
+        $output = array();
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            $output[] = array($attributeCode);
+        }
+        return $output;
+    }
+
+    /**
      * Get address eav required attributes
      *
      * @return Api2_Customer_Customers_AdminTest
@@ -247,7 +327,12 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     {
         if (null !== $this->_requiredAttributes) {
             $this->_requiredAttributes = array();
-            foreach (Mage::getModel('customer/address')->getAttributes() as $attribute) {
+            /* @var $address Mage_Customer_Model_Address */
+            $address = Mage::getModel('customer/address');
+            /* @var $addressForm Mage_Customer_Model_Form */
+            $addressForm = Mage::getModel('customer/form');
+            $addressForm->setFormCode('customer_address_edit')->setEntity($address);
+            foreach ($addressForm->getAttributes() as $attribute) {
                 if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
                     $this->_requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
                 }

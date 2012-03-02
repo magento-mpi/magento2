@@ -241,15 +241,13 @@
                             <entity_model>customer/address</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>customer_account_create</create>
-                                <update>customer_address_edit</update>
+                                <update>adminhtml_customer_address</update>
                             </form_code>
                         </admin>
                         <customer>
-                            <entity_model>customer/customer</entity_model>
+                            <entity_model>customer/address</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>adminhtml_customer</create>
                                 <update>customer_address_edit</update>
                             </form_code>
                         </customer>
@@ -287,16 +285,14 @@
                             <entity_model>customer/address</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>customer_account_create</create>
-                                <update>customer_address_edit</update>
+                                <create>adminhtml_customer_address</create>
                             </form_code>
                         </admin>
                         <customer>
-                            <entity_model>customer/customer</entity_model>
+                            <entity_model>customer/address</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>adminhtml_customer</create>
-                                <update>customer_address_edit</update>
+                                <create>customer_account_create</create>
                             </form_code>
                         </customer>
                     </eav>
