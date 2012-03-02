@@ -55,8 +55,10 @@ try {
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
     execVerbose("$gitCmd checkout $targetBranch");
+
+    // Copy files from source repository to our working tree and index
     execVerbose("$gitCmd checkout source/$sourceBranch -- .");
-    // workaround for not tracking removed files when merging with '--no-commit' or '--squash', seems to be a Git bug
+    // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
     execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
 
     // remove files that must not be published
