@@ -134,12 +134,40 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
     public function testCreate()
     {
         $response = $this->callPost('customers', $this->_customer->getData());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
         list($customerId) = array_reverse(explode('/', $response->getHeader('Location')));
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer')->load($customerId);
         $this->assertGreaterThan(0, $customer->getId());
 
+        $this->addModelToDelete($customer, true);
+    }
+
+    /**
+     * Test filter data in create customer
+     */
+    public function testCreateFilter()
+    {
+        /** @var $attribute Mage_Customer_Model_Entity_Attribute */
+        $attribute = $this->_customer->getAttribute('firstname');
+        $attribute->setInputFilter('striptags')->save();
+
+        $originalFirstname = $this->_customer->getFirstname();
+
+        $this->_customer->setFirstname($this->_customer->getFirstname() . '<b>Test</b>');
+        $response = $this->callPost('customers/' . $this->_customer->getId(), $this->_customer->getData());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+        list($customerId) = array_reverse(explode('/', $response->getHeader('Location')));
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $this->assertGreaterThan(0, $customer->getId());
+
+        $this->assertEquals($originalFirstname . 'Test', $customer->getFirstname());
+
+        // Restore attribute filter value
+        $attribute->setInputFilter(null)->save();
         $this->addModelToDelete($customer, true);
     }
 
