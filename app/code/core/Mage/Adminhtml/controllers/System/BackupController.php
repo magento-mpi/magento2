@@ -106,7 +106,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                 if (!$turnedOn) {
                     $response->setError(
                         Mage::helper('backup')->__('You do not have sufficient permissions to enable Maintenance Mode during this operation.')
-                        . ' ' . Mage::helper('backup')->__('Please either unselect the "Put store on the maintenance mode" checkbox or update your permissions to proceed with the backup."')
+                            . ' ' . Mage::helper('backup')->__('Please either unselect the "Put store on the maintenance mode" checkbox or update your permissions to proceed with the backup."')
                     );
                     $backupManager->setErrorMessage(Mage::helper('backup')->__("System couldn't put store on the maintenance mode"));
                     return $this->getResponse()->setBody($response->toJson());
@@ -234,7 +234,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                 if (!$turnedOn) {
                     $response->setError(
                         Mage::helper('backup')->__('You do not have sufficient permissions to enable Maintenance Mode during this operation.')
-                        . ' ' . Mage::helper('backup')->__('Please either unselect the "Put store on the maintenance mode" checkbox or update your permissions to proceed with the rollback."')
+                            . ' ' . Mage::helper('backup')->__('Please either unselect the "Put store on the maintenance mode" checkbox or update your permissions to proceed with the rollback."')
                     );
                     $backupManager->setErrorMessage(Mage::helper('backup')->__("System couldn't put store on the maintenance mode"));
                     return $this->getResponse()->setBody($response->toJson());
