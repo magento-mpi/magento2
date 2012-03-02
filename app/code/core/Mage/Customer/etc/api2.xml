@@ -53,6 +53,8 @@
                     </customer>
                 </privileges>
                 <attributes>
+                    <entity_id>Customer ID</entity_id>
+                    <last_logged_in>Last Logged In</last_logged_in>
                     <password>Password</password>
                 </attributes>
                 <routes>
@@ -66,10 +68,33 @@
                     <admin>
                         <read>
                             <password />
+                            <password_hash />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
                         </read>
+                        <write>
+                            <entity_id />
+                            <password_hash />
+                            <confirmation />
+                            <created_at />
+                            <created_in />
+                            <reward_warning_notification />
+                            <reward_update_notification />
+                            <default_billing />
+                            <default_shipping />
+                            <rp_token />
+                            <rp_token_created_at />
+                            <store_id />
+                        </write>
                     </admin>
                     <customer>
                         <read>
+                            <entity_id />
                             <password />
                             <password_hash />
                             <confirmation />
@@ -87,6 +112,7 @@
                             <website_id />
                         </read>
                         <write>
+                            <entity_id />
                             <password_hash />
                             <confirmation />
                             <created_at />
@@ -143,17 +169,13 @@
                 <exclude_attributes>
                     <admin>
                         <read>
+                            <last_logged_in>Last Logged In</last_logged_in>
                             <password />
                             <password_hash />
-                            <confirmation />
-                            <created_at />
-                            <created_in />
                             <reward_warning_notification />
                             <reward_update_notification />
                             <default_billing />
                             <default_shipping />
-                            <disable_auto_group_change />
-                            <group_id />
                             <rp_token />
                             <rp_token_created_at />
                             <store_id />
@@ -161,15 +183,13 @@
                         </read>
                         <write>
                             <entity_id />
+                            <password />
                             <password_hash />
                             <confirmation />
-                            <created_at />
-                            <created_in />
                             <reward_warning_notification />
                             <reward_update_notification />
                             <default_billing />
                             <default_shipping />
-                            <disable_auto_group_change />
                             <rp_token />
                             <rp_token_created_at />
                             <store_id />
