@@ -177,6 +177,39 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     }
 
     /**
+     * Test filter data in update customer
+     */
+    public function testUpdateFilter()
+    {
+        /** @var $attribute Mage_Customer_Model_Entity_Attribute */
+        $attribute = $this->_customer->getAttribute('firstname');
+        $attribute->setInputFilter('striptags')->save();
+
+        $putData = array(
+            'firstname'  => 'testFirstname<b>Test</b>',
+            'lastname'   => $this->_customer->getLastname(),
+            'email'      => $this->_customer->getEmail()
+        );
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $putData);
+
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+
+        /** @var $model Mage_Customer_Model_Customer */
+        $model = Mage::getModel('customer/customer');
+
+        // Reload customer
+        $model->load($this->_customer->getId());
+
+        $this->assertEquals($model->getFirstname(), 'testFirstnameTest');
+
+        // Restore middlename
+        $model->setFirstname($this->_customer->getFirstname())->save();
+
+        // Restore attribute filter value
+        $attribute->setInputFilter(null)->save();
+    }
+
+    /**
      * Test update customer with empty required fields
      *
      * @param string $attributeCode

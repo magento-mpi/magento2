@@ -71,32 +71,21 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
     }
 
     /**
-     * Retrieve collection instance for customers
-     *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
-     */
-    protected function _getCollectionForRetrieve()
-    {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('customer/customer_collection');
-
-        $collection->addAttributeToSelect(array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
-        ));
-
-        $this->_applyCollectionModifiers($collection);
-
-        return $collection;
-    }
-
-    /**
      * Get customers list
      *
      * @return array
      */
     protected function _retrieve()
     {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+
+        $this->_applyCollectionModifiers($collection);
+
+        $data = $collection->load()->toArray();
         return isset($data['items']) ? $data['items'] : $data;
     }
 }
