@@ -77,4 +77,32 @@ class Mage_PageCache_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Temporary disabling full page caching if Desigh Editor was launched.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function launchDesignEditor(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('Mage_Core_Model_Session')
+            ->getCookie()
+            ->set('NO_CACHE', true, 0);
+        return $this;
+    }
+
+    /**
+     * Activating full page cache after Design Editor was deactivated
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function exitDesignEditor(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('Mage_Core_Model_Session')
+            ->getCookie()
+            ->delete('NO_CACHE');
+        return $this;
+    }
 }

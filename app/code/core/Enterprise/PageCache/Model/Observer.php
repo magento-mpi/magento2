@@ -584,9 +584,8 @@ class Enterprise_PageCache_Model_Observer
      */
     public function launchDesignEditor(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Core_Model_Session')
-            ->getCookie()
-            ->set('NO_CACHE', true, 0);
+        Mage::getSingleton('Mage_PageCache_Model_Observer')
+            ->launchDesignEditor();
         return $this;
     }
 
@@ -598,9 +597,8 @@ class Enterprise_PageCache_Model_Observer
      */
     public function exitDesignEditor(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Core_Model_Session')
-            ->getCookie()
-            ->delete('NO_CACHE');
+        Mage::getSingleton('Mage_PageCache_Model_Observer')
+            ->exitDesignEditor();
         return $this;
     }
 }

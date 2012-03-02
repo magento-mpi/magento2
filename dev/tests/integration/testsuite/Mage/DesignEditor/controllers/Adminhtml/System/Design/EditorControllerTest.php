@@ -86,6 +86,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
         $this->_requireSessionId();
         $this->assertRedirect('http://localhost/index.php/?SID=' . $this->_session->getSessionId());
+
+        $this->assertTrue(
+            Mage::getSingleton('Mage_DesignEditor_Model_Session')->getCookie()->get('NO_CACHE')
+        );
     }
 
     /**
@@ -106,6 +110,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertRedirect(
             'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore'
         );
+
+        $this->assertTrue(
+            Mage::getSingleton('Mage_DesignEditor_Model_Session')->getCookie()->get('NO_CACHE')
+        );
     }
 
     /**
@@ -121,6 +129,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains(
             '<script type="text/javascript">window.close();</script>',
             $this->getResponse()->getBody()
+        );
+
+        $this->assertNull(
+            Mage::getSingleton('Mage_Core_Model_Session')->getCookie()->get('NO_CACHE')
         );
     }
 }

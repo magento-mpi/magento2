@@ -15,8 +15,16 @@
 class Magento_Test_Cookie extends Mage_Core_Model_Cookie
 {
     /**
-     * Dummy function instead of original that sets cookie. This one does nothing - in test environment we cannot
-     * set cookies.
+     * Cookies collection
+     *
+     * @var array
+     */
+    protected $_cookies = array();
+
+    /**
+     * Dummy function instead of original that sets cookie.
+     * This one does nothing - in test environment we cannot set cookies.
+     * Function only collects them
      *
      * @param string $name The cookie name
      * @param string $value The cookie value
@@ -31,7 +39,21 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      */
     public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
+        $this->_cookies[$name] = $value;
         return $this;
+    }
+
+    /**
+     * Dummy function instead of original that gets cookie.
+     * This one does nothing - in test environment we cannot get cookies.
+     * Function only retrieve data from collected cookies
+     *
+     * @param string $name The cookie name
+     * @return mixed
+     */
+    public function get($name = null)
+    {
+        return isset($this->_cookies[$name])? $this->_cookies[$name] : null;
     }
 
     /**
@@ -49,6 +71,7 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      */
     public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
     {
+        unset($this->_cookies[$name]);
         return $this;
     }
 }
