@@ -100,7 +100,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
         $helper = Mage::helper('api2');
         if ($helper->isApiTypeSupported($apiType)) {
             $routes = array();
-            foreach ($this->getResources() as $resource) {
+            foreach ($this->getResources() as $resourceKey => $resource) {
                 if (!$resource->routes) {
                     continue;
                 }
@@ -110,7 +110,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                         Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string) $route->mask,
                         Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
                             'model' => (string) $resource->model,
-                            'type'  => (string) $resource->type
+                            'type'  => (string) $resourceKey
                         )
                     );
 
@@ -143,8 +143,8 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         $list = array();
 
-        foreach ($this->getResources() as $resourceCfg) {
-            $list[] = (string) $resourceCfg->type;
+        foreach ($this->getResources() as $resourceType => $resourceCfg) {
+            $list[] = (string) $resourceType;
         }
         return $list;
     }
@@ -278,15 +278,39 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceExcludedAttributes($resource, $userType, $operation)
     {
         $node = $this->getNode('resources/' . $resource . '/exclude_attributes/' . $userType . '/' . $operation);
+        $exclAttributes = array();
 
-        $attributes = array();
         if ($node) {
-            foreach ($node->children() as $attribute=>$useless) {
-                $attributes[] = $attribute;
+            foreach ($node->children() as $attribute => $status) {
+                if (true || (string) $status) { // TODO: remove true when config xml files is actualized
+                    $exclAttributes[] = $attribute;
+                }
             }
         }
+        return $exclAttributes;
+    }
 
-        return $attributes;
+    /**
+     * Get included attributes
+     *
+     * @param string $resource API resource ID
+     * @param string $userType API user type
+     * @param string $operationType Type of operation: one of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @return array
+     */
+    public function getResourceIncludedAttributes($resource, $userType, $operationType)
+    {
+        $node = $this->getNode('resources/' . $resource . '/include_attributes/' . $userType . '/' . $operationType);
+        $inclAttributes = array();
+
+        if ($node) {
+            foreach ($node->children() as $attribute => $status) {
+                if ((string) $status) {
+                    $inclAttributes[] = $attribute;
+                }
+            }
+        }
+        return $inclAttributes;
     }
 
     /**

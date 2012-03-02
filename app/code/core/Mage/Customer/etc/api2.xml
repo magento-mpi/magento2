@@ -37,7 +37,6 @@
             <customer>
                 <group>customer</group>
                 <sort_order>90</sort_order>
-                <type>customer</type>
                 <model>customer/api2_customer</model>
                 <working_model>customer/customer</working_model>
                 <title>Customer</title>
@@ -152,7 +151,6 @@
             <customers>
                 <group>customer</group>
                 <sort_order>100</sort_order>
-                <type>customers</type>
                 <model>customer/api2_customers</model>
                 <working_model>customer/customer</working_model>
                 <title>Customers</title>
@@ -217,7 +215,6 @@
             <customer_address>
                 <group>customer</group>
                 <sort_order>110</sort_order>
-                <type>customer_address</type>
                 <model>customer/api2_customer_address</model>
                 <working_model>customer/address</working_model>
                 <title>Customer Address</title>
@@ -263,7 +260,6 @@
             <customer_addresses>
                 <group>customer</group>
                 <sort_order>110</sort_order>
-                <type>customer_addresses</type>
                 <model>customer/api2_customer_addresses</model>
                 <working_model>customer/address</working_model>
                 <title>Customer Addresses</title>

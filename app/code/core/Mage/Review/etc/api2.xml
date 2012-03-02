@@ -30,13 +30,11 @@
         <resources>
             <reviews>
                 <group>catalog_product</group>
-                <type>reviews</type>
                 <model>review/api2_reviews</model>
                 <working_model>review/review</working_model>
                 <title>Product Reviews</title>
                 <sort_order>110</sort_order>
                 <privileges>
-                    <!-- For collection only CREATE and retrieve -->
                     <guest>
                         <create>1</create>
                         <retrieve>1</retrieve>
@@ -60,7 +58,6 @@
             </reviews>
             <review>
                 <group>catalog_product</group>
-                <type>review</type>
                 <model>review/api2_review</model>
                 <working_model>review/review</working_model>
                 <title>Product Review</title>

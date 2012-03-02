@@ -36,7 +36,6 @@
         <resources>
             <stockitem>
                 <group>cataloginventory</group>
-                <type>stockitem</type>
                 <model>cataloginventory/api2_stock_item</model>
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Item</title>
@@ -91,7 +90,6 @@
             </stockitem>
             <stockitems>
                 <group>cataloginventory</group>
-                <type>stockitems</type>
                 <model>cataloginventory/api2_stock_items</model>
                 <working_model>cataloginventory/stock_item</working_model>
                 <title>Stock Items</title>

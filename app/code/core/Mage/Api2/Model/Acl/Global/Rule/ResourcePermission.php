@@ -80,14 +80,13 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
             //set permissions to resources
             /** @var $config Mage_Api2_Model_Config */
             $config = Mage::getModel('api2/config');
-            $resources = $config->getResources();
             /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
             $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
             $privileges = array_keys($privilegeSource->toArray());
 
             /** @var $node Varien_Simplexml_Element */
-            foreach ($resources as $node) {
-                $resourceId = (string)$node->type;
+            foreach ($config->getResources() as $resourceType => $node) {
+                $resourceId = (string)$resourceType;
                 $allowedRoles = (array)$node->privileges;
                 $allowedPrivileges = array();
                 if (isset($allowedRoles[$roleConfigNodeName])) {
