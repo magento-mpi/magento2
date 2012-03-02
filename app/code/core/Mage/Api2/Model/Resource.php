@@ -705,7 +705,7 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Get EAV attributes of working model
      *
-     * @param bool $isVisible Show only the attributes which are visible on frontend
+     * @param bool $onlyVisible Show only the attributes which are visible on frontend
      * @return array
      */
     public function getEavAttributes($onlyVisible = false)
