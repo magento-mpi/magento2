@@ -55,7 +55,7 @@ try {
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
     execVerbose("$gitCmd checkout $targetBranch");
-    execVerbose("$gitCmd merge --squash --strategy-option=theirs source/$sourceBranch");
+    execVerbose("$gitCmd checkout source/$sourceBranch -- .");
     // workaround for not tracking removed files when merging with '--no-commit' or '--squash', seems to be a Git bug
     execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
 
