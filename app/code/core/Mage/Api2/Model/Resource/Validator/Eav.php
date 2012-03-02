@@ -129,7 +129,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * Filter request data.
      *
      * @param  array $data
-     * @void array Filtered data
+     * @return array Filtered data
      */
     public function filter(array $data)
     {
