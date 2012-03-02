@@ -42,7 +42,6 @@
         <resources>
             <products>
                 <group>catalog_product</group>
-                <type>products</type>
                 <model>catalog/api2_products</model>
                 <working_model>catalog/product</working_model>
                 <title>Catalog Products</title>
@@ -76,35 +75,9 @@
                         <parent_resource_id_field_name>id</parent_resource_id_field_name>
                     </products_grouped>
                 </subresources>
-                <attributes>
-                    <product_id>Product ID</product_id>
-                    <sku>SKU</sku>
-                    <type>Product Type</type>
-                    <set>Attribute Set</set>
-                    <store>Store</store>
-                    <description>Description</description>
-                    <short_description>Short Description</short_description>
-                    <stock_data>Product Inventory</stock_data>
-                    <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
-                    <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
-                    <image_url>Default Image</image_url>
-                    <is_in_stock>Stock Status</is_in_stock>
-                    <is_saleable>Salability Status</is_saleable>
-                    <total_reviews_count>Total Reviews Count</total_reviews_count>
-                    <url>Product URL</url>
-                    <buy_now_url>Buy Now URL</buy_now_url>
-                    <has_custom_options>Has Custom Options</has_custom_options>
-                    <stock_item>Inventory</stock_item>
-                    <regular_price>Regular Price</regular_price>
-                    <final_price>Final Price</final_price>
-                    <final_price_with_tax>Final Price With Tax</final_price_with_tax>
-                    <final_price_without_tax>Final Price Without Tax</final_price_without_tax>
-                    <tier_prices>Tier Prices</tier_prices>
-                </attributes>
             </products>
             <product>
                 <group>catalog_product</group>
-                <type>product</type>
                 <model>catalog/api2_product</model>
                 <working_model>catalog/product</working_model>
                 <title>Catalog Product</title>
@@ -160,7 +133,6 @@
             </product>
             <products_grouped>
                 <group>catalog_product</group>
-                <type>products_grouped</type>
                 <model>catalog/api2_products_grouped</model>
                 <working_model>catalog/product</working_model>
                 <title>Grouped Products</title>
@@ -184,7 +156,6 @@
             </products_grouped>
             <products_categories>
                 <group>catalog_product</group>
-                <type>products_categories</type>
                 <model>catalog/api2_products_categories</model>
                 <working_model>catalog/category</working_model>
                 <title>Product Categories</title>
@@ -214,7 +185,6 @@
             </products_categories>
             <products_category>
                 <group>catalog_product</group>
-                <type>products_category</type>
                 <model>catalog/api2_products_category</model>
                 <working_model>catalog/category</working_model>
                 <title>Product Category</title>

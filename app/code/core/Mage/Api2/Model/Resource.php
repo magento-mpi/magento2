@@ -40,14 +40,14 @@ abstract class Mage_Api2_Model_Resource
     const OPERATION_RETRIEVE = 'retrieve';
     const OPERATION_UPDATE   = 'update';
     const OPERATION_DELETE   = 'delete';
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      * Common operations for attributes
      */
     const OPERATION_ATTRIBUTE_READ  = 'read';
     const OPERATION_ATTRIBUTE_WRITE = 'write';
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      *  Default error messages
@@ -59,13 +59,13 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.'; //error while pre-validating
     const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      *  Default success messages
      */
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
-    /**#@- */
+    /**#@-*/
 
     /**
      * Api user
@@ -265,6 +265,16 @@ abstract class Mage_Api2_Model_Resource
             self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
             self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
         );
+    }
+
+    /**
+     * Resource specific method to retrieve attributes' codes. May be overriden in child.
+     *
+     * @return array
+     */
+    protected function _getResourceAttributes()
+    {
+        return $this->getDbAttributes();
     }
 
     /**
@@ -589,7 +599,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getConfig()
     {
-        return Mage::getModel('api2/config');
+        return Mage::getSingleton('api2/config');
     }
 
     /**
@@ -611,19 +621,20 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getAvailableAttributes($userType, $operation)
     {
-        $available     = array();
-        $configAttrs   = $this->getAvailableAttributesFromConfig();
+        $available     = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
-        $dbAttrs = $this->getDbAttributes();
-        $attrsCodes = array_merge(array_keys($configAttrs), $dbAttrs);
+        $includedAttrs = $this->getIncludedAttributes($userType, $operation);
 
-        foreach ($attrsCodes as $code) {
-            if (in_array($code, $excludedAttrs)) {
-                continue;
+        foreach ($this->_getResourceAttributes() as $attrCode) {
+            if (!isset($available[$attrCode])) {
+                $available[$attrCode] = $attrCode;
             }
-            $available[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $code;
         }
-
+        foreach (array_keys($available) as $code) {
+            if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))) {
+                unset($available[$code]);
+            }
+        }
         return $available;
     }
 
@@ -640,6 +651,18 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Retrieve list of included attributes
+     *
+     * @param string $userType API user type
+     * @param string $operationType Type of operation: one of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @return array
+     */
+    public function getIncludedAttributes($userType, $operationType)
+    {
+        return $this->getConfig()->getResourceIncludedAttributes($this->getResourceType(), $userType, $operationType);
+    }
+
+    /**
      * Get available attributes of API resource from configuration file
      *
      * @return array
@@ -647,7 +670,20 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getAvailableAttributesFromConfig()
     {
-        return $this->getConfig()->getResourceAttributes($this->getResourceType());
+        $available = $this->getConfig()->getResourceAttributes($this->getResourceType());
+
+        if (!$available) { // try to get from partner
+            if ($this instanceof Mage_Api2_Model_Resource_Instance) {
+                if (($collectionNode = $this->getConfig()->getResourceCollection($this->getResourceType()))) {
+                    $available = $this->getConfig()->getResourceAttributes($collectionNode);
+                }
+            } elseif ($this instanceof Mage_Api2_Model_Resource_Collection) {
+                if (($instanceNode = $this->getConfig()->getResourceInstance($this->getResourceType()))) {
+                    $available = $this->getConfig()->getResourceAttributes($instanceNode);
+                }
+            }
+        }
+        return $available;
     }
 
     /**

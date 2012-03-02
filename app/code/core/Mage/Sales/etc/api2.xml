@@ -36,7 +36,6 @@
         <resources>
             <orders>
                 <group>sales</group>
-                <type>orders</type>
                 <model>sales/api2_orders</model>
                 <working_model>sales/order</working_model>
                 <title>Orders</title>
@@ -55,10 +54,30 @@
                 </routes>
                 <instance>order</instance>
                 <versions>1</versions>
+                <include_attributes>
+                    <customer>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <increment_id>1</increment_id>
+                            <created_at>1</created_at>
+                            <status>1</status>
+                            <shipping_description>1</shipping_description>
+                            <base_currency_code>1</base_currency_code>
+                            <store_currency_code>1</store_currency_code>
+                            <subtotal>1</subtotal>
+                            <subtotal_incl_tax>1</subtotal_incl_tax>
+                            <discount_amount>1</discount_amount>
+                            <base_grand_total>1</base_grand_total>
+                            <grand_total>1</grand_total>
+                            <shipping_amount>1</shipping_amount>
+                            <shipping_incl_tax>1</shipping_incl_tax>
+                            <tax_amount>1</tax_amount>
+                        </read>
+                    </customer>
+                </include_attributes>
             </orders>
             <order>
                 <group>sales</group>
-                <type>order</type>
                 <model>sales/api2_order</model>
                 <working_model>sales/order</working_model>
                 <title>Order</title>
@@ -81,7 +100,6 @@
             <order_items>
                 <group>order</group>
                 <sort_order>110</sort_order>
-                <type>order_items</type>
                 <model>sales/api2_order_items</model>
                 <working_model>sales/order_item</working_model>
                 <title>Order Items</title>
@@ -98,12 +116,10 @@
                         <mask>/orders/:id/items</mask>
                     </route_main>
                 </routes>
-                <instance>orders_item</instance>
                 <versions>1</versions>
             </order_items>
             <address>
                 <group>sales</group>
-                <type>address</type>
                 <model>sales/api2_order_address</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Address</title>
@@ -160,7 +176,6 @@
             </address>
             <addresses>
                 <group>sales</group>
-                <type>addresses</type>
                 <model>sales/api2_order_addresses</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Addresses</title>
