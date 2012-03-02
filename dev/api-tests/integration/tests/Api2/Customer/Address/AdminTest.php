@@ -96,7 +96,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerUpdateData
      */
     public function testUpdateCustomerAddress($dataForUpdate)
     {
@@ -110,7 +110,14 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('customer/address')
             ->load($fixtureCustomerAddress->getId());
+
+        $updatedData = $updatedCustomerAddress->getData();
         foreach ($dataForUpdate as $field => $value) {
+            if ($field == 'street') {
+                $this->assertEquals($dataForUpdate['street'],
+                    explode("\n", $updatedCustomerAddress->getData('street')));
+                continue;
+            }
             $this->assertEquals($value, $updatedCustomerAddress->getData($field));
         }
     }
@@ -119,12 +126,72 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test update not existing customer address
      *
      * @param array $dataForUpdate
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerUpdateData
      */
     public function testUpdateUnavailableCustomerAddress($dataForUpdate)
     {
         $response = $this->callPut('customers/addresses/invalid_id', $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+    }
+
+    /**
+     * Test unsuccessful address update with missing required fields
+     *
+     * @param string $attributeCode
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     * @dataProvider providerRequiredAttributes
+     */
+    public function testUpdateCustomerAddressMissingRequired($attributeCode)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+
+        // Remove required field
+        unset($dataForUpdate[$attributeCode]);
+
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+        $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
+
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
+    }
+
+    /**
+     * Test unsuccessful address update with empty required fields
+     *
+     * @param string $attributeCode
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     * @dataProvider providerRequiredAttributes
+     */
+    public function testUpdateCustomerAddressEmptyRequired($attributeCode)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $dataForUpdate = $fixtureCustomerAddress->getData();
+
+        // Set required field empty
+        $dataForUpdate[$attributeCode] = NULL;
+
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
+        $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
+
+        foreach ($responseData['messages']['error'] as $error) {
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+        }
     }
 
     /**
@@ -156,11 +223,11 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Data provider
+     * Data provider update data
      *
      * @return array
      */
-    public function providerTestUpdateData()
+    public function providerUpdateData()
     {
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
@@ -170,10 +237,26 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['is_default_shipping']);
         // Get address eav required attributes
         foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            if (!isset($dataForUpdate[$attributeCode])) {
+                $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            }
         }
 
         return array(array($dataForUpdate));
+    }
+
+    /**
+     * Data provider required attributes
+     *
+     * @return array
+     */
+    public function providerRequiredAttributes()
+    {
+        $output = array();
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            $output[] = array($attributeCode);
+        }
+        return $output;
     }
 
     /**
@@ -185,7 +268,9 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         if (null !== $this->_requiredAttributes) {
             $this->_requiredAttributes = array();
-            foreach (Mage::getModel('customer/address')->getAttributes() as $attribute) {
+            /* @var $address Mage_Customer_Model_Address */
+            $address = Mage::getModel('customer/address');
+            foreach ($address->getAttributes() as $attribute) {
                 if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
                     $this->_requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
                 }

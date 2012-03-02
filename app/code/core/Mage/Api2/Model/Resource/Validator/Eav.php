@@ -60,6 +60,13 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     protected $_formCode;
 
     /**
+     * Eav form model
+     *
+     * @var Mage_Eav_Model_Form
+     */
+    protected $_eavForm;
+
+    /**
      * Construct. Set all depends.
      *
      * Required parameteres for options:
@@ -72,6 +79,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * @throws Exception If config parameter 'formPath' is empty
      * @throws Exception If config parameter 'formCode' is empty
      * @throws Exception If config parameter 'entity' is wrong
+     * @throws Exception If eav form is not found
      */
     public function __construct($options)
     {
@@ -107,6 +115,26 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
             throw new Exception("Config parameter 'entity' is wrong.");
         }
+
+        $this->_eavForm = Mage::getModel($this->_formPath);
+        if (empty($this->_eavForm) || !$this->_eavForm instanceof Mage_Eav_Model_Form) {
+            throw new Exception("Eav form '{$this->_formPath}' is not found.");
+        }
+        $this->_eavForm->setEntity($this->_entity)
+            ->setFormCode($this->_formCode)
+            ->ignoreInvisible(false);
+    }
+
+    /**
+     * Filter request data.
+     *
+     * @param  array $data
+     * @return array Filtered data
+     */
+    public function filter(array $data)
+    {
+        $data = $this->_eavForm->extractData($this->_eavForm->prepareRequest($data));
+        return $data;
     }
 
     /**
@@ -120,30 +148,11 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      */
     public function isSatisfiedByData(array $data)
     {
-        $errors = $this->_validateWithEavForm($data);
+        $errors = $this->_eavForm->validateData($data);
         if (true !== $errors) {
             $this->_setErrors($errors);
             return false;
         }
         return true;
-    }
-
-    /**
-     * Validate entity.
-     * If fails validation, then this metod return an array of errors
-     * that explain why the validation failed.
-     *
-     * @param array $data
-     * @return array|bool
-     */
-    protected function _validateWithEavForm($data)
-    {
-        /** @var $form Mage_Eav_Model_Form */
-        $form = Mage::getModel($this->_formPath);
-        $form->setEntity($this->_entity)
-            ->setFormCode($this->_formCode)
-            ->ignoreInvisible(false);
-
-        return $form->validateData($data);
     }
 }

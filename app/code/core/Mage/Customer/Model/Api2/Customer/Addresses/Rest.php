@@ -44,8 +44,10 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
         /* @var $validator Mage_Api2_Model_Resource_Validator */
         $validator = Mage::getModel('api2/resource_validator_eav', array(
             'resource' => $this,
-            'operation' => self::OPERATION_UPDATE
+            'operation' => self::OPERATION_CREATE
         ));
+
+        $data = $validator->filter($data);
         if (!$validator->isSatisfiedByData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
