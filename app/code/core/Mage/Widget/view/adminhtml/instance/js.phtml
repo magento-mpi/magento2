@@ -13,7 +13,7 @@
 function setSettings(urlTemplate, typeElement, packageThemeElement) {
     templateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
     var template = new Template(urlTemplate, templateSyntax);
-    typeElement = $F(typeElement).replace(/\//g, "-");
+    typeElement = $F(typeElement);
     packageThemeElement = $F(packageThemeElement).replace(/\//g, "-");
     setLocation(template.evaluate({
         'type':    typeElement,
@@ -21,7 +21,7 @@ function setSettings(urlTemplate, typeElement, packageThemeElement) {
     }));
 }
 function saveAndContinueEdit(){
-    editForm.submit($('edit_form').action+'back/edit/');
+    editForm.submit($('edit_form').action + 'back/edit/');
 }
 //]]>
 </script>
