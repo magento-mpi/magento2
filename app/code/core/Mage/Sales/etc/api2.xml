@@ -111,6 +111,78 @@
                         <retrieve>1</retrieve>
                     </customer>
                 </privileges>
+                <attributes>
+                    <item_id>Order Item ID</item_id>
+                    <name>Product and Custom Options Name</name>
+                    <parent_item_id>Parent Order Item ID</parent_item_id>
+                    <sku>SKU</sku>
+                    <price>Price</price>
+                    <price_incl_tax>Price Including Tax</price_incl_tax>
+                    <qty_ordered>Ordered Qty</qty_ordered>
+                    <qty_shipped>Shipped Qty</qty_shipped>
+                    <qty_canceled>Canceled Qty</qty_canceled>
+                    <qty_refunded>Refunded Qty</qty_refunded>
+                    <row_total>Item Subtotal</row_total>
+                    <row_total_incl_tax>Item Subtotal Including Tax</row_total_incl_tax>
+                    <status>Item Status</status>
+                    <base_price>Base Price</base_price>
+                    <original_price>Original Price</original_price>
+                    <base_original_price>Base Original Price</base_original_price>
+                    <base_price_incl_tax>Base Price Including Tax</base_price_incl_tax>
+                    <tax_percent>Tax Percent</tax_percent>
+                    <tax_amount>Tax Amount</tax_amount>
+                    <base_tax_amount>Base Tax Amount</base_tax_amount>
+                    <discount_amount>Discount Amount</discount_amount>
+                    <base_discount_amount>Base Discount Amount</base_discount_amount>
+                    <base_row_total>Base Item Subtotal</base_row_total>
+                    <base_row_total_incl_tax>Base Item Subtotal Including Tax</base_row_total_incl_tax>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <item_id>1</item_id>
+                            <name>1</name>
+                            <parent_item_id>1</parent_item_id>
+                            <sku>1</sku>
+                            <price>1</price>
+                            <price_incl_tax>1</price_incl_tax>
+                            <qty_ordered>1</qty_ordered>
+                            <qty_shipped>1</qty_shipped>
+                            <qty_canceled>1</qty_canceled>
+                            <qty_refunded>1</qty_refunded>
+                            <row_total>1</row_total>
+                            <row_total_incl_tax>1</row_total_incl_tax>
+                            <status>1</status>
+                            <base_price>1</base_price>
+                            <original_price>1</original_price>
+                            <base_original_price>1</base_original_price>
+                            <base_price_incl_tax>1</base_price_incl_tax>
+                            <tax_percent>1</tax_percent>
+                            <tax_amount>1</tax_amount>
+                            <base_tax_amount>1</base_tax_amount>
+                            <discount_amount>1</discount_amount>
+                            <base_discount_amount>1</base_discount_amount>
+                            <base_row_total>1</base_row_total>
+                            <base_row_total_incl_tax>1</base_row_total_incl_tax>
+                        </read>
+                    </admin>
+                    <customer>
+                        <read>
+                            <item_id>1</item_id>
+                            <name>1</name>
+                            <parent_item_id>1</parent_item_id>
+                            <sku>1</sku>
+                            <price>1</price>
+                            <price_incl_tax>1</price_incl_tax>
+                            <qty_ordered>1</qty_ordered>
+                            <qty_shipped>1</qty_shipped>
+                            <qty_canceled>1</qty_canceled>
+                            <qty_refunded>1</qty_refunded>
+                            <row_total>1</row_total>
+                            <row_total_incl_tax>1</row_total_incl_tax>
+                        </read>
+                    </customer>
+                </include_attributes>
                 <routes>
                     <route_main>
                         <mask>/orders/:id/items</mask>
@@ -141,19 +213,19 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <entity_id />
-                            <parent_id />
-                            <customer_address_id />
-                            <quote_address_id />
-                            <region_id />
-                            <customer_id />
-                            <vat_id />
-                            <vat_is_valid />
-                            <vat_request_id />
-                            <vat_request_date />
-                            <vat_request_success />
-                            <fax />
-                            <giftregistry_item_id />
+                            <entity_id/>
+                            <parent_id/>
+                            <customer_address_id/>
+                            <quote_address_id/>
+                            <region_id/>
+                            <customer_id/>
+                            <vat_id/>
+                            <vat_is_valid/>
+                            <vat_request_id/>
+                            <vat_request_date/>
+                            <vat_request_success/>
+                            <fax/>
+                            <giftregistry_item_id/>
                             <!--
                             <address_type />
                             <region />

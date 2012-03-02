@@ -40,8 +40,14 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
      */
     protected function _retrieve()
     {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-        return isset($data['items']) ? $data['items'] : $data;
+        $data = array();
+        /* @var $item Mage_Sales_Model_Order_Item */
+        foreach ($this->_getCollectionForRetrieve() as $item) {
+            $itemData = $item->toArray();
+            $itemData['status'] = $item->getStatus();
+            $data[] = $itemData;
+        }
+        return $data;
     }
     /**
      * Retrieve collection instance
