@@ -210,7 +210,9 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
         unset($dataForUpdate['is_default_shipping']);
         // Get address eav required attributes
         foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            if (!isset($dataForUpdate[$attributeCode])) {
+                $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            }
         }
 
         return array(array($dataForUpdate));

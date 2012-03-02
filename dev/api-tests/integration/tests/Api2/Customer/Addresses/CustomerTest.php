@@ -62,14 +62,14 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      * Test create customer address
      *
      * @param array $dataForUpdate
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerTestCreateData
      */
-    public function testCreateCustomerAddress($dataForUpdate)
+    public function testCreateCustomerAddress($dataForCreate)
     {
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
-        $restResponse = $this->callPost('customers/' . $customer->getId() . '/addresses', $dataForUpdate);
+        $restResponse = $this->callPost('customers/' . $customer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
@@ -150,7 +150,7 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      * Test gcreate customer address if customer is not owner
      *
      * @param array $dataForUpdate
-     * @dataProvider providerTestUpdateData
+     * @dataProvider providerTestCreateData
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      */
     public function testCreateCustomerAddressIfCustomerIsNotOwner()
@@ -216,7 +216,7 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      *
      * @return array
      */
-    public function providerTestUpdateData()
+    public function providerTestCreateData()
     {
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
@@ -226,7 +226,9 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
         unset($dataForUpdate['is_default_shipping']);
         // Get address eav required attributes
         foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            if (!isset($dataForUpdate[$attributeCode])) {
+                $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            }
         }
 
         return array(array($dataForUpdate));

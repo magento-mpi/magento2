@@ -36,7 +36,7 @@ $customerAddress->setData(array(
     'postcode'            => '10012',
     'region'              => 'New York',
     'region_id'           => '43',
-    'street'              => 'Main Street',
+    'street'              => array('Main Street' . uniqid(), 'Addithional Street' . uniqid()),
     'telephone'           => '718-452-9207' . uniqid(),
     'is_default_billing'  => true,
     'is_default_shipping' => true

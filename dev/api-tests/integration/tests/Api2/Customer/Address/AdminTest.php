@@ -110,7 +110,14 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('customer/address')
             ->load($fixtureCustomerAddress->getId());
+
+        $updatedData = $updatedCustomerAddress->getData();
         foreach ($dataForUpdate as $field => $value) {
+            if ($field == 'street') {
+                $this->assertEquals($dataForUpdate['street'],
+                    explode("\n", $updatedCustomerAddress->getData('street')));
+                continue;
+            }
             $this->assertEquals($value, $updatedCustomerAddress->getData($field));
         }
     }
@@ -230,7 +237,9 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['is_default_shipping']);
         // Get address eav required attributes
         foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            if (!isset($dataForUpdate[$attributeCode])) {
+                $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
+            }
         }
 
         return array(array($dataForUpdate));
