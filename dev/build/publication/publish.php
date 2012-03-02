@@ -81,8 +81,7 @@ try {
     );
 
     // commit and push
-    execVerbose("$gitCmd status");
-    execVerbose("$gitCmd add --update -v");
+    execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
     if ($canPush) {
