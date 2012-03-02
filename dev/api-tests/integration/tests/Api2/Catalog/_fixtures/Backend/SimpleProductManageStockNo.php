@@ -46,6 +46,7 @@ return array(
     // thus invalid value should not raise error
     'stock_data' => array(
         'manage_stock' => 0,
+        'use_config_manage_stock' => 0,
         'qty' => 100,
         'min_qty' => -10,
         'use_config_min_qty' => 0,

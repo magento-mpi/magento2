@@ -34,11 +34,21 @@ if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
         )
     );
     $website->save();
-    Magento_Test_Webservice::setFixture('website', $store);
+    Magento_Test_Webservice::setFixture('website', $website);
+
+    $defaultCategoryId = 2;
+    $storeGroup = new Mage_Core_Model_Store_Group();
+    $storeGroup->setData(array(
+        'website_id' => $website->getId(),
+        'name' => 'Test Store' . uniqid(),
+        'code' => 'store_group_' . uniqid(),
+        'root_category_id' => $defaultCategoryId
+    ))->save();
+    Magento_Test_Webservice::setFixture('store_group', $storeGroup);
 
     $store = new Mage_Core_Model_Store();
     $store->setData(array(
-        'group_id' => $website->getDefaultGroupId(),
+        'group_id' => $storeGroup->getId(),
         'name' => 'Test Store View',
         'code' => 'store_' . uniqid(),
         'is_active' => true,

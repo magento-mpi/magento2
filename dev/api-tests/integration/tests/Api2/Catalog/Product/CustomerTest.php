@@ -46,6 +46,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     public static function tearDownAfterClass()
     {
         Magento_TestCase::deleteFixture('store_on_new_website', true);
+        Magento_TestCase::deleteFixture('store_group', true);
         Magento_TestCase::deleteFixture('website', true);
         parent::tearDownAfterClass();
     }

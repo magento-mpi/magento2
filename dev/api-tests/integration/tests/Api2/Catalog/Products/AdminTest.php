@@ -367,9 +367,11 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostInventoryManageStockUseConfig()
     {
+        $this->markTestSkipped("Test does not work with stores in " .
+            "'Api2/Catalog/_fixtures/store_on_new_website.php' fixture");
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
 
-        $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0);
+        $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
         $restResponse = $this->callPost('products', $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
