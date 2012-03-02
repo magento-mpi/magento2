@@ -694,10 +694,15 @@ abstract class Mage_Api2_Model_Resource
     public function getDbAttributes()
     {
         $available = array();
-        /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
-        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-        if (method_exists($resource, 'getMainTable')) {
-            $available = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
+        $workModel = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
+
+        if ($workModel) {
+            /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
+            $resource = Mage::getResourceModel($workModel);
+
+            if (method_exists($resource, 'getMainTable')) {
+                $available = array_keys($resource->getReadConnection()->describeTable($resource->getMainTable()));
+            }
         }
         return $available;
     }

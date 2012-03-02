@@ -37,7 +37,6 @@
             <orders>
                 <group>sales</group>
                 <model>sales/api2_orders</model>
-                <working_model>sales/order</working_model>
                 <title>Orders</title>
                 <privileges>
                     <admin>
@@ -54,6 +53,48 @@
                 </routes>
                 <instance>order</instance>
                 <versions>1</versions>
+                <attributes>
+                    <entity_id>Order ID (internal)</entity_id>
+                    <increment_id>Order ID</increment_id>
+                    <created_at>Order Date</created_at>
+                    <status>Order Status</status>
+                    <shipping_description>Shipping Method</shipping_description>
+                    <payment_method>Payment Method</payment_method>
+                    <base_currency_code>Base Currency</base_currency_code>
+                    <store_currency_code>Order Currency</store_currency_code>
+                    <store_name>Store Name</store_name>
+                    <remote_ip>Placed from IP</remote_ip>
+                    <store_to_order_rate>Store Currency to Base Currency Rate</store_to_order_rate>
+                    <subtotal>Subtotal</subtotal>
+                    <subtotal_incl_tax>Subtotal Including Tax</subtotal_incl_tax>
+                    <discount_amount>Discount</discount_amount>
+                    <base_grand_total>Grand Total to Be Charged</base_grand_total>
+                    <grand_total>Grand Total</grand_total>
+                    <shipping_amount>Shipping</shipping_amount>
+                    <shipping_tax_amount>Shipping Including Tax</shipping_tax_amount>
+                    <shipping_incl_tax>Shipping Tax</shipping_incl_tax>
+                    <tax_amount>Tax Amount</tax_amount>
+                    <tax_name>Tax Name</tax_name>
+                    <tax_rate>Tax Rate</tax_rate>
+                    <coupon_code>Coupon Code</coupon_code>
+                    <base_discount_amount>Base Discount</base_discount_amount>
+                    <base_subtotal>Base Subtotal</base_subtotal>
+                    <base_shipping_amount>Base Shipping</base_shipping_amount>
+                    <base_shipping_tax_amount>Base Shipping Tax</base_shipping_tax_amount>
+                    <base_tax_amount>Base Tax Amount</base_tax_amount>
+                    <total_paid>Total Paid</total_paid>
+                    <base_total_paid>Base Total Paid</base_total_paid>
+                    <total_refunded>Total Refunded</total_refunded>
+                    <base_total_refunded>Base Total Refunded</base_total_refunded>
+                    <base_subtotal_incl_tax>Base Subtotal Including Tax</base_subtotal_incl_tax>
+                    <base_total_due>Base Total Due</base_total_due>
+                    <total_due>Total Due</total_due>
+                    <shipping_discount_amount>Shipping Discount</shipping_discount_amount>
+                    <base_shipping_discount_amount>Base Shipping Discount</base_shipping_discount_amount>
+                    <discount_description>Discount Description</discount_description>
+                    <customer_balance_amount>Customer Balance</customer_balance_amount>
+                    <base_customer_balance_amount>Base Customer Balance</base_customer_balance_amount>
+                </attributes>
                 <include_attributes>
                     <customer>
                         <read>
@@ -62,6 +103,7 @@
                             <created_at>1</created_at>
                             <status>1</status>
                             <shipping_description>1</shipping_description>
+                            <payment_method>1</payment_method>
                             <base_currency_code>1</base_currency_code>
                             <store_currency_code>1</store_currency_code>
                             <subtotal>1</subtotal>
@@ -70,6 +112,7 @@
                             <base_grand_total>1</base_grand_total>
                             <grand_total>1</grand_total>
                             <shipping_amount>1</shipping_amount>
+                            <shipping_tax_amount>1</shipping_tax_amount>
                             <shipping_incl_tax>1</shipping_incl_tax>
                             <tax_amount>1</tax_amount>
                         </read>
@@ -79,8 +122,30 @@
             <order>
                 <group>sales</group>
                 <model>sales/api2_order</model>
-                <working_model>sales/order</working_model>
                 <title>Order</title>
+                <include_attributes>
+                    <customer>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <increment_id>1</increment_id>
+                            <created_at>1</created_at>
+                            <status>1</status>
+                            <shipping_description>1</shipping_description>
+                            <payment_method>1</payment_method>
+                            <base_currency_code>1</base_currency_code>
+                            <store_currency_code>1</store_currency_code>
+                            <subtotal>1</subtotal>
+                            <subtotal_incl_tax>1</subtotal_incl_tax>
+                            <discount_amount>1</discount_amount>
+                            <base_grand_total>1</base_grand_total>
+                            <grand_total>1</grand_total>
+                            <shipping_amount>1</shipping_amount>
+                            <shipping_tax_amount>1</shipping_tax_amount>
+                            <shipping_incl_tax>1</shipping_incl_tax>
+                            <tax_amount>1</tax_amount>
+                        </read>
+                    </customer>
+                </include_attributes>
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
