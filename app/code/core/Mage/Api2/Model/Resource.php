@@ -708,7 +708,7 @@ abstract class Mage_Api2_Model_Resource
      * @param bool $isVisible Show only the attributes which are visible on frontend
      * @return array
      */
-    public function getEavAttributes($isVisible = false)
+    public function getEavAttributes($onlyVisible = false)
     {
         $attributes = array();
         $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
@@ -718,7 +718,7 @@ abstract class Mage_Api2_Model_Resource
 
         /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
-            if ($isVisible && !$attribute->getIsVisible()) {
+            if ($onlyVisible && !$attribute->getIsVisible()) {
                 continue;
             }
             $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
