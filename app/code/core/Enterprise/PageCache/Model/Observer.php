@@ -585,7 +585,7 @@ class Enterprise_PageCache_Model_Observer
     public function launchDesignEditor(Varien_Event_Observer $observer)
     {
         Mage::getSingleton('Mage_PageCache_Model_Observer')
-            ->launchDesignEditor();
+            ->launchDesignEditor($observer);
         return $this;
     }
 
@@ -598,7 +598,7 @@ class Enterprise_PageCache_Model_Observer
     public function exitDesignEditor(Varien_Event_Observer $observer)
     {
         Mage::getSingleton('Mage_PageCache_Model_Observer')
-            ->exitDesignEditor();
+            ->exitDesignEditor($observer);
         return $this;
     }
 }
