@@ -241,12 +241,12 @@ abstract class Mage_Core_Controller_Varien_Action
     /**
      * Load layout by handles(s)
      *
-     * @param   string $handles
+     * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
      * @return  Mage_Core_Controller_Varien_Action
      */
-    public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
+    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         // if handles were specified in arguments load them first
         if (false!==$handles && ''!==$handles) {
