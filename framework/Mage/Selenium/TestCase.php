@@ -111,6 +111,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     private $_urlPostfix = '';
 
     /**
+     * Testcase error
+     * @var boolean
+     * @deprecated
+     */
+    protected $_error = false;
+
+    /**
      * Type of uimap elements
      * @var string
      */
@@ -424,6 +431,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return self::$_testHelpers[$className];
+    }
+
+    /**
+     * Checks if there was error during last operations
+     * @return boolean
+     * @deprecated
+     */
+    public function hasError()
+    {
+        return $this->_error;
     }
     ################################################################################
     #                                                                              #
