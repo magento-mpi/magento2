@@ -49,13 +49,6 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     protected $_otherCustomer;
 
     /**
-     * Customer attributes
-     *
-     * @var array
-     */
-    protected $_attributes;
-
-    /**
      * Required customer attributes
      * @var array
      */
@@ -80,7 +73,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Init customer model instance
      *
-     * @return Api2_Customer_Customers_AdminTest
+     * @return Api2_Customer_Customer_CustomerTest
      */
     protected function _initCustomer()
     {
@@ -91,32 +84,26 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     }
 
     /**
-     * Get customer attributes and filter required attributes in it
+     * Get customer required attributes
      * Set attributes to class properties
      *
      * @return Api2_Customer_Customers_AdminTest
      */
-    protected function _initAttributes()
+    protected function _initRequiredAttributes()
     {
         if (null === $this->_customer) {
             throw new Exception('A customer was not instantiated.');
         }
         if (null === $this->_requiredAttributes) {
-            /** @var $config Mage_Api2_Model_Config */
-            $config = Mage::getModel('api2/config');
-            $excludedAttributes = $config->getResourceExcludedAttributes(
-                'customer',
-                'customer',
-                Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE
-            );
+            /* @var $customerForm Mage_Customer_Model_Form */
+            $customerForm = Mage::getModel('customer/form');
+            // when customer edit his/her own information used customer_account_edit
+            $customerForm->setFormCode('customer_account_create')->setEntity($this->_customer);
 
-            $this->_attributes = $this->_customer->getAttributes();
-            foreach ($this->_attributes as $attribute) {
-                $label = $attribute->getFrontendLabel();
-                if (!in_array($attribute->getAttributeCode(), $excludedAttributes) && $attribute->getIsRequired()
-                    && $attribute->getIsVisible()) {
-
-                    $this->_requiredAttributes[$attribute->getAttributeCode()] = $label;
+            $this->_requiredAttributes = array();
+            foreach ($customerForm->getAttributes() as $attribute) {
+                if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
+                    $this->_requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
                 }
             }
         }
@@ -241,7 +228,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     public function providerRequiredAttributes()
     {
         $this->_initCustomer()
-            ->_initAttributes();
+            ->_initRequiredAttributes();
 
         $fields = array_keys($this->_requiredAttributes);
         $output = array();

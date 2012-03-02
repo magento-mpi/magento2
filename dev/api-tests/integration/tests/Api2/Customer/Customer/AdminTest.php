@@ -68,7 +68,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     /**
      * Init customer model instance
      *
-     * @return Api2_Customer_Customers_AdminTest
+     * @return Api2_Customer_Customer_AdminTest
      */
     protected function _initCustomer()
     {
@@ -89,7 +89,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      * Get customer attributes and filter required attributes in it
      * Set attributes to class properties
      *
-     * @return Api2_Customer_Customers_AdminTest
+     * @return Api2_Customer_Customer_AdminTest
      */
     protected function _initAttributes()
     {
