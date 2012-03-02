@@ -122,6 +122,41 @@
                 </routes>
                 <collection>addresses</collection>
                 <versions>1</versions>
+                <exclude_attributes>
+                    <customer>
+                        <read>
+                            <entity_id />
+                            <parent_id />
+                            <customer_address_id />
+                            <quote_address_id />
+                            <region_id />
+                            <customer_id />
+                            <vat_id />
+                            <vat_is_valid />
+                            <vat_request_id />
+                            <vat_request_date />
+                            <vat_request_success />
+                            <fax />
+                            <giftregistry_item_id />
+                            <!--
+                            <address_type />
+                            <region />
+                            <postcode />
+                            <company />
+                            <street />
+                            <city />
+                            <email />
+                            <telephone />
+                            <country_id />
+                            <firstname />
+                            <middlename />
+                            <lastname />
+                            <prefix />
+                            <suffix />
+                            -->
+                        </read>
+                    </customer>
+                </exclude_attributes>
             </address>
             <addresses>
                 <group>sales</group>

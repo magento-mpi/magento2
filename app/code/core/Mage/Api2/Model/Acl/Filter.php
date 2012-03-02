@@ -112,23 +112,24 @@ class Mage_Api2_Model_Acl_Filter
     /**
      * Fetch array of allowed attributes for given resource type, operation and user type.
      *
-     * @param string $operationType One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
      * @throw Exception
      */
-    public function getAllowedAttributes($operationType)
+    public function getAllowedAttributes($operation)
     {
         if (null === $this->_allowedAttributes) {
             /** @var $helper Mage_Api2_Helper_Data */
             $helper = Mage::helper('api2/data');
 
             if ($helper->isAllAttributesAllowed($this->_resource->getUserType())) {
-                $allowedAttributes = array_keys(
-                    $this->_resource->getAvailableAttributes($this->_resource->getUserType(), $operationType)
-                );
+                $allowedAttributes = array_keys($this->_resource->getAvailableAttributes(
+                    $this->_resource->getUserType(),
+                    $operation
+                ));
             } else {
                 $allowedAttributes = $helper->getAllowedAttributes(
-                    $this->_resource->getUserType(), $this->_resource->getResourceType(), $operationType
+                    $this->_resource->getUserType(), $this->_resource->getResourceType(), $operation
                 );
             }
             $this->_allowedAttributes = $allowedAttributes;
