@@ -376,9 +376,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);
-            if ($pathSize > 2) {
+            if ($pathSize > 1) {
                 $path = array();
-                for ($i = 2; $i < $pathSize; $i++) {
+                for ($i = 1; $i < $pathSize; $i++) {
                     $path[] = $collection->getItemById($structure[$i])->getName();
                 }
                 $this->_categories[implode('/', $path)] = $category->getId();
