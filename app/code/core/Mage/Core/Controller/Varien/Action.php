@@ -392,9 +392,8 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Magento_Profiler::start('layout_render');
 
-
         if (''!==$output) {
-            $this->getLayout()->addOutputBlock($output);
+            $this->getLayout()->addOutputElement($output);
         }
 
         Mage::dispatchEvent('controller_action_layout_render_before');

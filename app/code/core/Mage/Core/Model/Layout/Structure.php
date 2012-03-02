@@ -472,17 +472,30 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Mark elements for output
-     *
-     * Containers are output marked by default. Only root elements can be market as output
+     * Add output mark for the element
      *
      * @param $name
      * @return bool
      */
-    public function markOutput($name)
+    public function markOutputElement($name)
     {
-        if ($this->isBlock($name) && $element = $this->_getElementByXpath("/layout/element[@name='$name']")) {
+        if ($element = $this->_getElementByXpath("//element[@name='$name']")) {
             $element->setAttribute('output', '1');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Remove output mark for the element
+     *
+     * @param $name
+     * @return bool
+     */
+    public function unmarkOutputElement($name)
+    {
+        if ($element = $this->_getElementByXpath("//element[@name='$name']")) {
+            $element->removeAttribute('output');
             return true;
         }
         return false;
@@ -495,7 +508,7 @@ class Mage_Core_Model_Layout_Structure
     public function getOutputList()
     {
         $names = array();
-        foreach ($this->_findByXpath("/layout/element[@type='container' or @output='1']") as $element) {
+        foreach ($this->_findByXpath("/layout/element[@output='1']") as $element) {
             $names[] = $element->getAttribute('name');
         }
         return $names;

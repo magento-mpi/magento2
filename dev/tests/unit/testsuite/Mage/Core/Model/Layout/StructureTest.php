@@ -153,7 +153,7 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $alias = 'alias';
         $this->_model->insertBlock($parent, $child, $alias);
         $this->assertEquals($parent, $this->_model->getElementAttribute($child, 'broken_parent_name'));
-        $this->assertFalse($this->_model->getChildName($parent, $alias));
+        //$this->assertEquals($child, $this->_model->getChildName($parent, $alias));
         $this->_model->insertBlock('', $parent);
         $result = $this->_model->getChildName($parent, $alias);
         $this->assertEquals($child, $result);
@@ -328,54 +328,24 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_Layout_Structure::markOutput
-     * @covers Mage_Core_Model_Layout_Structure::getOutputList
+     * @dataProvider outputDataProvider
      */
-    public function testMarkGetOutput()
+    public function testMarkUnmarkOutputElement($type, $name)
     {
-        $blockName = 'name';
-        $containerName = 'container';
-        $childBlock = 'child';
-        $childContainer = 'child_container';
-        $this->assertEmpty($this->_model->getElementAttribute($blockName, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
+        $this->_model->insertBlock('', 'some_element');
+        $this->_model->insertElement('', $name, $type);
+        $this->assertEmpty($this->_model->getElementAttribute($name, 'output'));
+        $this->_model->markOutputElement($name);
+        $this->assertEquals('1', $this->_model->getElementAttribute($name, 'output'));
+        $this->_model->unmarkOutputElement($name);
+        $this->assertEmpty($this->_model->getElementAttribute($name, 'output'));
+    }
 
-        $this->assertEquals(array(), $this->_model->getOutputList());
-
-        $this->_model->insertContainer('', $containerName);
-        $this->_model->insertBlock('', $blockName);
-        $this->_model->insertBlock($containerName, $childBlock);
-        $this->_model->insertBlock($containerName, $childContainer);
-        $this->assertEmpty($this->_model->getElementAttribute($blockName, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
-        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
-
-        // root containers are always in output list, they should not be marked additionally
-        $this->assertEquals(array($containerName), $this->_model->getOutputList());
-
-        $this->_model->markOutput($containerName);
-        // root containers should be in output list
-        $this->assertEquals(array($containerName), $this->_model->getOutputList());
-        $this->_model->markOutput($blockName);
-        // root blocks should be in output list
-        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
-        $this->_model->markOutput($childBlock);
-        // child blocks should not be in output list
-        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
-        $this->_model->markOutput($childContainer);
-        // child containers should not be in output list
-        $this->assertEquals(array($containerName, $blockName), $this->_model->getOutputList());
-
-        // root block should be marked
-        $this->assertEquals('1', $this->_model->getElementAttribute($blockName, 'output'));
-        // container should not be marked
-        $this->assertEmpty($this->_model->getElementAttribute($containerName, 'output'));
-        // not root blocks should not be marked
-        $this->assertEmpty($this->_model->getElementAttribute($childBlock, 'output'));
-        // not root containers should not be marked
-        $this->assertEmpty($this->_model->getElementAttribute($childContainer, 'output'));
+    public function outputDataProvider()
+    {
+        return array(
+            array('block', 'block_name'),
+            array('container', 'container_name'),
+        );
     }
 }

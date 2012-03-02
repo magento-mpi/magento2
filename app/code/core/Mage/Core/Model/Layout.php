@@ -285,6 +285,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
 
+        if (!empty($node['output'])) {
+            $this->addOutputElement($elementName);
+        }
+
         Magento_Profiler::stop($_profilerKey);
 
         return $this;
@@ -373,12 +377,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
-        }
-
-        // TODO: remove output directive
-        if (!empty($node['output'])) {
-            $method = (string)$node['output'];
-            $this->addOutputBlock($elementName, $method);
         }
 
         return $block;
@@ -847,20 +845,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Add a block to output
      *
-     * @param string $blockName
-     * @param string $method
+     * @param string $name
+     * @return Mage_Core_Model_Layout
      */
-    public function addOutputBlock($blockName, $method='toHtml')
+    public function addOutputElement($name)
     {
-        //$this->_output[] = array($blockName, $method);
-        $this->_output[$blockName] = array($blockName, $method);
+        $this->_structure->markOutputElement($name);
         return $this;
     }
 
-    public function removeOutputBlock($blockName)
+    public function removeOutputElement($name)
     {
-        unset($this->_output[$blockName]);
-        return $this;
+        $this->_structure->unmarkOutputElement($name);
     }
 
     /**
@@ -871,10 +867,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getOutput()
     {
         $out = '';
-        if (!empty($this->_output)) {
-            foreach ($this->_output as $callback) {
-                $out .= $this->renderElement($callback[0]);
-            }
+        foreach ($this->_structure->getOutputList() as $name) {
+            $out .= $this->renderElement($name);
         }
 
         return $out;

@@ -187,10 +187,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_model->insertBlock('', $blockName, '');
         $block->setText($expectedText);
 
-        $this->_model->addOutputBlock($blockName);
+        $this->_model->addOutputElement($blockName);
         $this->assertEquals($expectedText, $this->_model->getOutput());
 
-        $this->_model->removeOutputBlock($blockName);
+        $this->_model->removeOutputElement($blockName);
         $this->assertEmpty($this->_model->getOutput());
     }
 
