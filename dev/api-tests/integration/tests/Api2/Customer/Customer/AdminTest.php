@@ -174,6 +174,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     {
         /** @var $attribute Mage_Customer_Model_Entity_Attribute */
         $attribute = $this->_customer->getAttribute('firstname');
+        $oldFilterValue = $attribute->getInputFilter('striptags');
         $attribute->setInputFilter('striptags')->save();
 
         $putData = array(
@@ -195,11 +196,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
         $this->assertEquals($model->getFirstname(), 'testFirstnameTest');
 
-        // Restore middlename
-        $model->setFirstname($this->_customer->getFirstname())->save();
-
         // Restore attribute filter value
-        $attribute->setInputFilter(null)->save();
+        $attribute->setInputFilter($oldFilterValue)->save();
     }
 
     /**

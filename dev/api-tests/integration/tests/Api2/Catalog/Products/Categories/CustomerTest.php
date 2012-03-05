@@ -140,7 +140,7 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
     public function testDelete()
     {
         $restResponse = $this->callDelete('products/categories/1/category/1');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -148,7 +148,7 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
      */
     public function testCreate()
     {
-        $restResponse = $this->callPost('products/categories');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $restResponse = $this->callPost('products/categories', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 }

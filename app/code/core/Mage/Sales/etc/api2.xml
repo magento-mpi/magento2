@@ -45,6 +45,9 @@
                     <customer>
                         <retrieve>1</retrieve>
                     </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
@@ -59,7 +62,7 @@
                     <created_at>Order Date</created_at>
                     <status>Order Status</status>
                     <shipping_description>Shipping Method</shipping_description>
-                    <payment_method>Payment Method</payment_method>
+                    <_payment_method>Payment Method</_payment_method>
                     <base_currency_code>Base Currency</base_currency_code>
                     <store_currency_code>Order Currency</store_currency_code>
                     <store_name>Store Name</store_name>
@@ -94,6 +97,34 @@
                     <discount_description>Discount Description</discount_description>
                     <customer_balance_amount>Customer Balance</customer_balance_amount>
                     <base_customer_balance_amount>Base Customer Balance</base_customer_balance_amount>
+                    <_shipping_address>Shipping Address</_shipping_address>
+                    <_billing_address>Billing Address</_billing_address>
+                    <_item_item_id>Order Item ID</_item_item_id>
+                    <_item_name>Product and Custom Options Name</_item_name>
+                    <_item_parent_item_id>Parent Order Item ID</_item_parent_item_id>
+                    <_item_sku>SKU</_item_sku>
+                    <_item_price>Price</_item_price>
+                    <_item_price_incl_tax>Price Including Tax</_item_price_incl_tax>
+                    <_item_qty_ordered>Ordered Qty</_item_qty_ordered>
+                    <_item_qty_shipped>Shipped Qty</_item_qty_shipped>
+                    <_item_qty_canceled>Canceled Qty</_item_qty_canceled>
+                    <_item_qty_refunded>Refunded Qty</_item_qty_refunded>
+                    <_item_row_total>Item Subtotal</_item_row_total>
+                    <_item_row_total_incl_tax>Item Subtotal Including Tax</_item_row_total_incl_tax>
+                    <!--<_item_?>Item Status</_item_?>-->
+                    <_item_base_price>Base Price</_item_base_price>
+                    <_item_original_price>Original Price</_item_original_price>
+                    <_item_base_original_price>Base Original Price</_item_base_original_price>
+                    <_item_base_price_incl_tax>Base Price Including Tax</_item_base_price_incl_tax>
+                    <_item_tax_percent>Tax Percent</_item_tax_percent>
+                    <_item_tax_amount>Tax Amount</_item_tax_amount>
+                    <_item_base_tax_amount>Base Tax Amount</_item_base_tax_amount>
+                    <_item_discount_amount>Discount Amount</_item_discount_amount>
+                    <_item_base_discount_amount>Base Discount Amount</_item_base_discount_amount>
+                    <_item_base_row_total>Base Item Subtotal</_item_base_row_total>
+                    <_item_base_row_total_incl_tax>Base Item Subtotal Including Tax</_item_base_row_total_incl_tax>
+                    <_gift_message>Gift Message</_gift_message>
+                    <_order_comments>Order Comments</_order_comments>
                 </attributes>
                 <include_attributes>
                     <customer>
@@ -103,7 +134,7 @@
                             <created_at>1</created_at>
                             <status>1</status>
                             <shipping_description>1</shipping_description>
-                            <payment_method>1</payment_method>
+                            <_payment_method>1</_payment_method>
                             <base_currency_code>1</base_currency_code>
                             <store_currency_code>1</store_currency_code>
                             <subtotal>1</subtotal>
@@ -115,6 +146,22 @@
                             <shipping_tax_amount>1</shipping_tax_amount>
                             <shipping_incl_tax>1</shipping_incl_tax>
                             <tax_amount>1</tax_amount>
+                            <_shipping_address>1</_shipping_address>
+                            <_billing_address>1</_billing_address>
+                            <_item_item_id>1</_item_item_id>
+                            <_item_name>1</_item_name>
+                            <_item_parent_item_id>1</_item_parent_item_id>
+                            <_item_sku>1</_item_sku>
+                            <_item_price>1</_item_price>
+                            <_item_price_incl_tax>1</_item_price_incl_tax>
+                            <_item_qty_ordered>1</_item_qty_ordered>
+                            <_item_qty_shipped>1</_item_qty_shipped>
+                            <_item_qty_canceled>1</_item_qty_canceled>
+                            <_item_qty_refunded>1</_item_qty_refunded>
+                            <_item_row_total>1</_item_row_total>
+                            <_item_row_total_incl_tax>1</_item_row_total_incl_tax>
+                            <_gift_message>Gift Message</_gift_message>
+                            <_order_comments>Order Comments</_order_comments>
                         </read>
                     </customer>
                 </include_attributes>
@@ -131,7 +178,7 @@
                             <created_at>1</created_at>
                             <status>1</status>
                             <shipping_description>1</shipping_description>
-                            <payment_method>1</payment_method>
+                            <_payment_method>1</_payment_method>
                             <base_currency_code>1</base_currency_code>
                             <store_currency_code>1</store_currency_code>
                             <subtotal>1</subtotal>
@@ -143,6 +190,22 @@
                             <shipping_tax_amount>1</shipping_tax_amount>
                             <shipping_incl_tax>1</shipping_incl_tax>
                             <tax_amount>1</tax_amount>
+                            <_shipping_address>1</_shipping_address>
+                            <_billing_address>1</_billing_address>
+                            <_item_item_id>1</_item_item_id>
+                            <_item_name>1</_item_name>
+                            <_item_parent_item_id>1</_item_parent_item_id>
+                            <_item_sku>1</_item_sku>
+                            <_item_price>1</_item_price>
+                            <_item_price_incl_tax>1</_item_price_incl_tax>
+                            <_item_qty_ordered>1</_item_qty_ordered>
+                            <_item_qty_shipped>1</_item_qty_shipped>
+                            <_item_qty_canceled>1</_item_qty_canceled>
+                            <_item_qty_refunded>1</_item_qty_refunded>
+                            <_item_row_total>1</_item_row_total>
+                            <_item_row_total_incl_tax>1</_item_row_total_incl_tax>
+                            <_gift_message>Gift Message</_gift_message>
+                            <_order_comments>Order Comments</_order_comments>
                         </read>
                     </customer>
                 </include_attributes>
@@ -203,34 +266,6 @@
                     <base_row_total_incl_tax>Base Item Subtotal Including Tax</base_row_total_incl_tax>
                 </attributes>
                 <include_attributes>
-                    <admin>
-                        <read>
-                            <item_id>1</item_id>
-                            <name>1</name>
-                            <parent_item_id>1</parent_item_id>
-                            <sku>1</sku>
-                            <price>1</price>
-                            <price_incl_tax>1</price_incl_tax>
-                            <qty_ordered>1</qty_ordered>
-                            <qty_shipped>1</qty_shipped>
-                            <qty_canceled>1</qty_canceled>
-                            <qty_refunded>1</qty_refunded>
-                            <row_total>1</row_total>
-                            <row_total_incl_tax>1</row_total_incl_tax>
-                            <status>1</status>
-                            <base_price>1</base_price>
-                            <original_price>1</original_price>
-                            <base_original_price>1</base_original_price>
-                            <base_price_incl_tax>1</base_price_incl_tax>
-                            <tax_percent>1</tax_percent>
-                            <tax_amount>1</tax_amount>
-                            <base_tax_amount>1</base_tax_amount>
-                            <discount_amount>1</discount_amount>
-                            <base_discount_amount>1</base_discount_amount>
-                            <base_row_total>1</base_row_total>
-                            <base_row_total_incl_tax>1</base_row_total_incl_tax>
-                        </read>
-                    </admin>
                     <customer>
                         <read>
                             <item_id>1</item_id>
@@ -275,41 +310,24 @@
                 </routes>
                 <collection>addresses</collection>
                 <versions>1</versions>
-                <exclude_attributes>
+                <include_attributes>
                     <customer>
                         <read>
-                            <entity_id/>
-                            <parent_id/>
-                            <customer_address_id/>
-                            <quote_address_id/>
-                            <region_id/>
-                            <customer_id/>
-                            <vat_id/>
-                            <vat_is_valid/>
-                            <vat_request_id/>
-                            <vat_request_date/>
-                            <vat_request_success/>
-                            <fax/>
-                            <giftregistry_item_id/>
-                            <!--
-                            <address_type />
-                            <region />
-                            <postcode />
-                            <company />
-                            <street />
-                            <city />
-                            <email />
-                            <telephone />
-                            <country_id />
-                            <firstname />
-                            <middlename />
-                            <lastname />
-                            <prefix />
-                            <suffix />
-                            -->
+                            <lastname>1</lastname>
+                            <firstname>1</firstname>
+                            <middlename>1</middlename>
+                            <prefix>1</prefix>
+                            <suffix>1</suffix>
+                            <company>1</company>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <telephone>1</telephone>
                         </read>
                     </customer>
-                </exclude_attributes>
+                </include_attributes>
             </address>
             <addresses>
                 <group>sales</group>

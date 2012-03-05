@@ -54,6 +54,9 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
      */
     protected function _update(array $data)
     {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
         $validator = Mage::getResourceModel('api2/validator_eav', array(
             'resource'  => $this,
@@ -68,8 +71,6 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
         $customer->addData($data);
 
         try {

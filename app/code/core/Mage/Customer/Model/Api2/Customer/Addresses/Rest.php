@@ -38,14 +38,28 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
      * Create customer address
      *
      * @param array $data
+     * @throws Mage_Api2_Exception
      */
     protected function _create(array $data)
     {
-        /* @var $validator Mage_Api2_Model_Resource_Validator */
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+
+        /* @var $validator Mage_Api2_Model_Resource_Validator_Eav */
         $validator = Mage::getModel('api2/resource_validator_eav', array(
             'resource' => $this,
             'operation' => self::OPERATION_CREATE
         ));
+
+        // If the array contains more than two elements, then combine the extra elements in a string
+        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
+            $data['street'][1] .= Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR
+                . implode(
+                    Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR,
+                    array_slice($data['street'], 2)
+                );
+            $data['street'] = array_slice($data['street'], 0, 2);
+        }
 
         $data = $validator->filter($data);
         if (!$validator->isSatisfiedByData($data)) {
@@ -54,9 +68,6 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
-
-        /* @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('customer/address');
@@ -81,9 +92,16 @@ abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
      */
     protected function _retrieve()
     {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-        return isset($data['items']) ? $data['items'] : $data;
+        $data = array();
+        /* @var $address Mage_Customer_Model_Customer */
+        foreach ($this->_getCollectionForRetrieve() as $address) {
+            $addressData = $address->getData();
+            $addressData['street'] = $address->getStreet();
+            $data[] = $addressData;
+        }
+        return $data;
     }
+
     /**
      * Retrieve collection instances
      *

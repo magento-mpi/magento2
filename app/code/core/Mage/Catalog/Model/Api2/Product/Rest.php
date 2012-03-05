@@ -75,7 +75,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     {
         $store = $this->getRequest()->getParam('store');
         try {
-            if (is_null($store)) {
+            if (!$store) {
                 $store = Mage::app()->getDefaultStoreView();
             } else {
                 $store = Mage::app()->getStore($store);

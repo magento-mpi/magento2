@@ -57,7 +57,7 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
 
         $helperMock->expects($this->any())
             ->method('getAllowedAttributes')
-            ->with($userType)
+            ->with($userType, $resourceType, $operationType)
             ->will($this->returnValue($allowedAttrs));
 
         $resourceMock = $this->getMockForAbstractClass('Mage_Api2_Model_Resource', array(), '', false, true, true,
@@ -69,7 +69,7 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
 
         $resourceMock->expects($this->any())
             ->method('getResourceType')
-            ->will($this->returnValue($userType, $resourceType, $operationType));
+            ->will($this->returnValue($resourceType));
 
         $resourceMock->expects($this->any())
             ->method('getOperation')
@@ -79,8 +79,8 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
             ->method('getIdFieldName')
             ->will($this->returnValue($idFieldName));
 
-        $allowedAttrsForMultiactions = $filter = Mage::getModel('api2/acl_filter', $resourceMock)
-            ->getAllowedAttributes($operation);
+        $allowedAttrsForMultiactions = Mage::getModel('api2/acl_filter', $resourceMock)
+            ->getAllowedAttributes($operationType);
 
         $this->assertEquals(count($allowedAttrsForMultiactions), count($allowedAttrs) + 1);
         $this->assertContains($idFieldName, $allowedAttrsForMultiactions);

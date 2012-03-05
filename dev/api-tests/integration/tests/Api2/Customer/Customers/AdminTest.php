@@ -151,6 +151,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
     {
         /** @var $attribute Mage_Customer_Model_Entity_Attribute */
         $attribute = $this->_customer->getAttribute('firstname');
+        $oldFilterValue = $attribute->getInputFilter('striptags');
         $attribute->setInputFilter('striptags')->save();
 
         $originalFirstname = $this->_customer->getFirstname();
@@ -167,7 +168,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $this->assertEquals($originalFirstname . 'Test', $customer->getFirstname());
 
         // Restore attribute filter value
-        $attribute->setInputFilter(null)->save();
+        $attribute->setInputFilter($oldFilterValue)->save();
         $this->addModelToDelete($customer, true);
     }
 

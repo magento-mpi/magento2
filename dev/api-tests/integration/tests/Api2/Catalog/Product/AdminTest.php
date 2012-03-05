@@ -155,6 +155,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $updatedProduct = Mage::getModel('catalog/product')
             ->load($product->getId())
             ->clearInstance()
+            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
         $productDataForUpdate['url_key'] = '123-abc';
@@ -220,7 +221,9 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
         }
 
         /** @var $origProduct Mage_Catalog_Model_Product */
-        $origProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $origProduct = Mage::getModel('catalog/product')
+            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->load($product->getId());
         $this->_checkProductData($origProduct, $origProductData);
     }
 

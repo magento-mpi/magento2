@@ -119,4 +119,24 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
     }
+
+    /**
+     * Check if store exist by its code or ID
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = $this->getRequest()->getParam('store');
+        try {
+            if (is_null($store)) {
+                $store = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            }
+            $store = Mage::app()->getStore($store);
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            // store does not exist
+            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $store;
+    }
 }

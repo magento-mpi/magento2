@@ -34,13 +34,78 @@
 class Mage_Api2_Model_Acl extends Zend_Acl
 {
     /**
-     * Constructor
+     * REST ACL roles collection
+     *
+     * @var Mage_Api2_Model_Resource_Acl_Global_Role_Collection
      */
-    public function __construct()
+    protected $_rolesCollection;
+
+    /**
+     * Retrieve API2 config model instance
+     *
+     * @var Mage_Api2_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Retrieve resource type of request
+     *
+     * @var string
+     */
+    protected $_resourceType;
+
+    /**
+     * Retrieve operation of request
+     *
+     * @var string
+     */
+    protected $_operation;
+
+    /**
+     * Constructor
+     *
+     * @param array $options
+     */
+    public function __construct($options)
     {
+        if (!isset($options['resource_type']) || empty($options['resource_type'])) {
+            throw new Exception("Passed parameter 'resource_type' is wrong.");
+        }
+        if (!isset($options['operation']) || empty($options['operation'])) {
+            throw new Exception("Passed parameter 'operation' is wrong.");
+        }
+        $this->_resourceType = $options['resource_type'];
+        $this->_operation = $options['operation'];
+
         $this->_setResources();
         $this->_setRoles();
         $this->_setRules();
+    }
+
+    /**
+     * Retrieve REST ACL roles collection
+     *
+     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection
+     */
+    protected function _getRolesCollection()
+    {
+        if (null === $this->_rolesCollection) {
+            $this->_rolesCollection = Mage::getResourceModel('api2/acl_global_role_collection');
+        }
+        return $this->_rolesCollection;
+    }
+
+    /**
+     * Retrieve API2 config model instance
+     *
+     * @return Mage_Api2_Model_Config
+     */
+    protected function _getConfig()
+    {
+        if (null === $this->_config) {
+            $this->_config = Mage::getModel('api2/config');
+        }
+        return $this->_config;
     }
 
     /**
@@ -50,10 +115,7 @@ class Mage_Api2_Model_Acl extends Zend_Acl
      */
     protected function _setResources()
     {
-        /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
-
-        foreach ($config->getResourcesTypes() as $type) {
+        foreach ($this->_getConfig()->getResourcesTypes() as $type) {
             $this->addResource($type);
         }
         return $this;
@@ -66,11 +128,8 @@ class Mage_Api2_Model_Acl extends Zend_Acl
      */
     protected function _setRoles()
     {
-        /** @var $rolesCollection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
-        $rolesCollection = Mage::getResourceModel('api2/acl_global_role_collection');
-
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        foreach ($rolesCollection as $role) {
+        foreach ($this->_getRolesCollection() as $role) {
             $this->addRole($role->getId());
         }
         return $this;
@@ -88,6 +147,19 @@ class Mage_Api2_Model_Acl extends Zend_Acl
 
         /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
         foreach ($rulesCollection as $rule) {
+            if (in_array($rule->getRoleId(), Mage_Api2_Model_Acl_Global_Role::getSystemRoles())) {
+                /** @var $role Mage_Api2_Model_Acl_Global_Role */
+                $role = $this->_getRolesCollection()->getItemById($rule->getRoleId());
+                $privileges = $this->_getConfig()->getResourceUserPrivileges(
+                    $this->_resourceType,
+                    $role->getConfigNodeName()
+                );
+
+                if (!array_key_exists($this->_operation, $privileges)) {
+                    continue;
+                }
+            }
+
             if (Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL === $rule->getResourceId()) {
                 $this->allow($rule->getRoleId());
             } else {

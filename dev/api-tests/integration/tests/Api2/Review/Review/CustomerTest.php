@@ -74,7 +74,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         if ($withStore) {
             $params['store_id'] = $storeId;
         }
-        $restResponse = $this->callGet('review/' . $review->getId(), $params);
+        $restResponse = $this->callGet('reviews/' . $review->getId(), $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
@@ -109,7 +109,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
      */
     public function testGetUnavailableResource()
     {
-        $restResponse = $this->callGet('review/' . 'invalid_id');
+        $restResponse = $this->callGet('reviews/' . 'invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -124,7 +124,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $storeId = 0;
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
-        $restResponse = $this->callGet('review/' . $review->getId(), array('store_id' => $storeId));
+        $restResponse = $this->callGet('reviews/' . $review->getId(), array('store_id' => $storeId));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -146,7 +146,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $store = $this->getFixture('store');
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
-        $restResponse = $this->callGet('review/' . $review->getId(), array('store_id' => $store->getId()));
+        $restResponse = $this->callGet('reviews/' . $review->getId(), array('store_id' => $store->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -163,7 +163,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $review = $this->getFixture('review');
         $review->setStatusId($status)->save();
 
-        $restResponse = $this->callGet('review/' . $review->getId());
+        $restResponse = $this->callGet('reviews/' . $review->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -180,7 +180,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $review = $this->getFixture('review_customer');
         $review->setStatusId($status)->save();
 
-        $restResponse = $this->callGet('review/' . $review->getId());
+        $restResponse = $this->callGet('reviews/' . $review->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
     }
 
@@ -202,8 +202,8 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
      */
     public function testDelete()
     {
-        $restResponse = $this->callDelete('review/any_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $restResponse = $this->callDelete('reviews/any_id');
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -211,8 +211,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
      */
     public function testUpdate()
     {
-        $restResponse = $this->callPut('review/any_id', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $restResponse = $this->callPut('reviews/any_id', array());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 }
-

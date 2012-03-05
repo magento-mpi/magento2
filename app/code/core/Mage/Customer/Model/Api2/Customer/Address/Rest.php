@@ -42,9 +42,11 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
      */
     protected function _retrieve()
     {
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
-        return $customerAddress->getData();
+        /* @var $address Mage_Customer_Model_Address */
+        $address = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
+        $addressData = $address->getData();
+        $addressData['street'] = $address->getStreet();
+        return $addressData;
     }
 
     /**
@@ -55,11 +57,24 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
      */
     protected function _update(array $data)
     {
+        /* @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
+
         /* @var $validator Mage_Api2_Model_Resource_Validator */
         $validator = Mage::getModel('api2/resource_validator_eav', array(
-           'resource' => $this,
-           'operation' => self::OPERATION_UPDATE
+            'resource' => $this,
+            'operation' => self::OPERATION_UPDATE
         ));
+
+        // If the array contains more than two elements, then combine the extra elements in a string
+        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
+            $data['street'][1] .= Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR
+                . implode(
+                    Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR,
+                    array_slice($data['street'], 2)
+                );
+            $data['street'] = array_slice($data['street'], 0, 2);
+        }
 
         $data = $validator->filter($data);
         if (!$validator->isSatisfiedByData($data)) {
@@ -69,8 +84,6 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
         $customerAddress->addData($data);
         try {
             $customerAddress->save();

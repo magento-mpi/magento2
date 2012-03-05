@@ -274,7 +274,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _getResourceAttributes()
     {
-        return $this->getDbAttributes();
+        return array();
     }
 
     /**
@@ -624,10 +624,15 @@ abstract class Mage_Api2_Model_Resource
         $available     = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
         $includedAttrs = $this->getIncludedAttributes($userType, $operation);
+        $resourceAttrs = $this->_getResourceAttributes();
 
-        foreach ($this->_getResourceAttributes() as $attrCode) {
+        // if resource returns not-associative array - attributes' codes only
+        if (0 === key($resourceAttrs)) {
+            $resourceAttrs = array_combine($resourceAttrs, $resourceAttrs);
+        }
+        foreach ($resourceAttrs as $attrCode => $attrLabel) {
             if (!isset($available[$attrCode])) {
-                $available[$attrCode] = $attrCode;
+                $available[$attrCode] = $attrLabel;
             }
         }
         foreach (array_keys($available) as $code) {

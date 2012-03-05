@@ -282,7 +282,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
 
         if ($node) {
             foreach ($node->children() as $attribute => $status) {
-                if (true || (string) $status) { // TODO: remove true when config xml files is actualized
+                if ((string) $status) {
                     $exclAttributes[] = $attribute;
                 }
             }
