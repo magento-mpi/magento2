@@ -45,8 +45,9 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
         $available     = array();
         $configAttrs   = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $includedAttrs = $this->getIncludedAttributes($userType, $operation);
         $dbAttrs = $this->getDbAttributes();
-        $eavAttrs = $this->getEavAttributes();
+        $eavAttrs = $this->getEavAttributes($userType == Mage_Api2_Model_Auth_User_Customer::USER_TYPE);
         $attrsCodes = array_merge(array_keys($configAttrs), $dbAttrs, array_keys($eavAttrs));
 
         foreach ($attrsCodes as $code) {
@@ -60,6 +61,13 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
                 $available[$code] = $eavAttrs[$code];
             } else {
                 $available[$code] = $code;
+            }
+        }
+
+        foreach (array_keys($available) as $code) {
+            if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))
+                && !isset($eavAttrs[$code])) {
+                unset($available[$code]);
             }
         }
 

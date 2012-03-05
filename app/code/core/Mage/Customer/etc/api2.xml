@@ -230,7 +230,69 @@
                         <delete>1</delete>
                     </customer>
                 </privileges>
-                <exclude_attributes/>
+                <attributes>
+                    <entity_id>Customer Address ID</entity_id>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </read>
+                        <write>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </write>
+                    </admin>
+                    <customer>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </read>
+                        <write>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </write>
+                    </customer>
+                </include_attributes>
                 <validators>
                     <eav>
                         <admin>
@@ -273,7 +335,69 @@
                         <retrieve>1</retrieve>
                     </customer>
                 </privileges>
-                <exclude_attributes/>
+                <attributes>
+                    <entity_id>Customer Address ID</entity_id>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </read>
+                        <write>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </write>
+                    </admin>
+                    <customer>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </read>
+                        <write>
+                            <firstname>1</firstname>
+                            <lastname>1</lastname>
+                            <company>1</company>
+                            <telephone>1</telephone>
+                            <fax>1</fax>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <vat_id>1</vat_id>
+                        </write>
+                    </customer>
+                </include_attributes>
                 <validators>
                     <eav>
                         <admin>
@@ -287,7 +411,7 @@
                             <entity_model>customer/address</entity_model>
                             <form_model>customer/form</form_model>
                             <form_code>
-                                <create>customer_account_create</create>
+                                <create>customer_address_edit</create>
                             </form_code>
                         </customer>
                     </eav>

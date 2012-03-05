@@ -55,22 +55,44 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
      * Test create customer address
      *
      * @param array $dataForCreate
-     * @dataProvider providerCreateData
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     * @dataProvider providerCreateData
      */
     public function testCreateCustomerAddress($dataForCreate)
     {
+        $dataForCreate['street'] = array(
+            'Main Street' . uniqid(),
+            'Addithional Street 1' . uniqid(),
+            'Addithional Street 2' . uniqid()
+        );
+
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
-        /* @var $createdAddress Mage_Customer_Model_Address */
-        $createdAddress = Mage::getModel('customer/address')->load($addressId);
-        $this->assertGreaterThan(0, $createdAddress->getId());
+        /* @var $createdCustomerAddress Mage_Customer_Model_Address */
+        $createdCustomerAddress = Mage::getModel('customer/address')->load($addressId);
+        $this->assertGreaterThan(0, $createdCustomerAddress->getId());
 
-        $this->addModelToDelete($createdAddress, true);
+        foreach ($dataForCreate as $field => $value) {
+            if ('street' == $field) {
+                $streets = explode("\n", $createdCustomerAddress->getData('street'));
+                $this->assertEquals($dataForCreate['street'][0], $streets[0]);
+                $this->assertEquals(
+                    implode(
+                        Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR,
+                        array_slice($dataForCreate['street'], 1)
+                    ),
+                    $streets[1]
+                );
+                continue;
+            }
+            $this->assertEquals($value, $createdCustomerAddress->getData($field));
+        }
+
+        $this->addModelToDelete($createdCustomerAddress, true);
     }
 
     /**
@@ -82,16 +104,14 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
      */
     public function testCreateCustomerAddressMissingRequired($attributeCode)
     {
-        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->getFixture('customer')
-            ->getAddressesCollection()
-            ->getFirstItem();
-        $dataForCreate = $fixtureCustomerAddress->getData();
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getCreateData();
 
         // Remove required field
         unset($dataForCreate[$attributeCode]);
 
-        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForCreate);
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
@@ -112,16 +132,14 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
      */
     public function testCreateCustomerAddressEmptyRequired($attributeCode)
     {
-        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->getFixture('customer')
-            ->getAddressesCollection()
-            ->getFirstItem();
-        $dataForCreate = $fixtureCustomerAddress->getData();
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getCreateData();
 
-        // Set required field empty
+        // Set required field as empty
         $dataForCreate[$attributeCode] = NULL;
 
-        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForCreate);
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
@@ -134,6 +152,39 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     }
 
     /**
+     * Test filter data in create customer address
+     *
+     * @param $dataForCreate
+     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
+     * @dataProvider providerCreateData
+     */
+    public function testFilteringInCreateCustomerAddress($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+
+        /* @var $attribute Mage_Customer_Model_Entity_Attribute */
+        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'firstname');
+        $currentInputFilter = $attribute->getInputFilter('customer_address', 'firstname');
+        $attribute->setInputFilter('striptags')->save();
+
+        // Set data for filtering
+        $dataForCreate['firstname'] = 'testFirstname<b>Test</b>';
+
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
+        /* @var $createdCustomerAddress Mage_Customer_Model_Address */
+        $createdCustomerAddress = Mage::getModel('customer/address')
+            ->load($addressId);
+        $this->assertEquals($createdCustomerAddress->getData('firstname'), 'testFirstnameTest');
+
+        // Restore data
+        $attribute->setInputFilter($currentInputFilter)->save();
+    }
+
+    /**
      * Test get customer addresses for admin
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
@@ -142,6 +193,7 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
+
         $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -155,67 +207,48 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /* @var $fixtureCustomerAddresses Mage_Customer_Model_Resource_Address_Collection */
         $fixtureCustomerAddresses = $fixtureCustomer->getAddressesCollection();
         foreach ($fixtureCustomerAddresses as $fixtureCustomerAddress) {
-            $this->assertContains($fixtureCustomerAddress->getId(), $customerAddressesIds,
-                'Address item should be in response');
+            $this->assertContains($fixtureCustomerAddress->getId(), $customerAddressesIds);
         }
     }
 
     /**
-     * Test retrieving addresses for not existing customer
+     * Test actions for not existing resources
      */
-    public function testGetUnavailableCustomerAddresses()
+    public function testActionsForUnavailableResorces()
     {
+        // get
         $restResponse = $this->callGet('customers/invalid_id/addresses');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
-     * Test update customer address
+     * Test not allowed actions with customer address
      *
      * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
      */
-    public function testUpdateCustomerAddress()
+    public function testNotAllowedActionsWithCustomerAddress()
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
+
+        // put
         $restResponse = $this->callPut('customers/' . $fixtureCustomer->getId() . '/addresses', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
-    }
 
-    /**
-     * Test delete customer address
-     *
-     * @magentoDataFixture Api2/Customer/_fixtures/customer_with_addresses.php
-     */
-    public function testDeleteCustomerAddress()
-    {
-        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
-        $fixtureCustomer = $this->getFixture('customer');
+        // delete
         $restResponse = $this->callDelete('customers/' . $fixtureCustomer->getId() . '/addresses', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 
     /**
      * Data provider create data
+     * Support for custom eav attributes are not implemented
      *
      * @return array
      */
     public function providerCreateData()
     {
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
-        /* @var $customerAddressFixture Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = require $fixturesDir . '/Customer/Address.php';
-        $dataForUpdate = $fixtureCustomerAddress->getData();
-        unset($dataForUpdate['is_default_billing']);
-        unset($dataForUpdate['is_default_shipping']);
-        // Get address eav required attributes
-        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            if (!isset($dataForUpdate[$attributeCode])) {
-                $dataForUpdate[$attributeCode] = $requiredAttribute . uniqid();
-            }
-        }
-
-        return array(array($dataForUpdate));
+        return array(array($this->_getCreateData()));
     }
 
     /**
@@ -233,9 +266,32 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
     }
 
     /**
+     * Get create data
+     *
+     * @return array
+     */
+    protected function _getCreateData()
+    {
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+        /* @var $customerAddressFixture Mage_Customer_Model_Address */
+        $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
+        $data = $customerAddressFixture->getData();
+        unset($data['is_default_billing']);
+        unset($data['is_default_shipping']);
+
+        // Get address eav required attributes
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            if (!isset($data[$attributeCode])) {
+                $data[$attributeCode] = $requiredAttribute . uniqid();
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Get address eav required attributes
      *
-     * @return Api2_Customer_Customers_AdminTest
+     * @return array
      */
     protected function _getAddressEavRequiredAttributes()
     {
@@ -244,7 +300,8 @@ class Api2_Customer_Addresses_AdminTest extends Magento_Test_Webservice_Rest_Adm
             /* @var $address Mage_Customer_Model_Address */
             $address = Mage::getModel('customer/address');
             foreach ($address->getAttributes() as $attribute) {
-                if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
+                // admin can see all attributes
+                if ($attribute->getIsRequired()) {
                     $this->_requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
                 }
             }
