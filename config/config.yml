@@ -107,10 +107,10 @@ applications:
                 password: 'paypal_sandbox_password'
             paypal_developer: &paypalDeveloper
                 url: 'https://developer.paypal.com/'
-                base_page_uimap: 'home'
+                base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'paypal_developer_login'
-                password: 'paypal_developer_password'
+                login: 'ashugayev@ebay.com'
+                password: 'magento123'
     enterprise: &enterprise
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'

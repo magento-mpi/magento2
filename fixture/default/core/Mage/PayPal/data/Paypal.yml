@@ -25,11 +25,6 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-
-paypal_developer_login:
-    login_email: ashugayev@ebay.com
-    login_password: magento123
-
 paypal_sandbox_new_buyer_account_visa:
     country: United States
     account_type_buyer: Yes
