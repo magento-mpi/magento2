@@ -69,7 +69,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
 
         // check if all possible fields are in request
         $requiredFields = array('type', 'sku', 'name', 'description', 'short_description',
-            'regular_price', 'final_price', 'final_price_with_tax', 'final_price_without_tax', 'tier_prices',
+            'regular_price', 'final_price', 'final_price_with_tax', 'final_price_without_tax', 'tier_price',
             'image_url', 'is_in_stock', 'is_saleable', 'total_reviews_count', 'url', 'buy_now_url',
             'has_custom_options');
         foreach($requiredFields as $field) {
@@ -103,10 +103,10 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
      */
     protected function _checkGetTierPrices($responseData)
     {
-        $this->assertInternalType('array', $responseData['tier_prices'], "'tier_prices' expected to be an array");
-        $this->assertCount(2, $responseData['tier_prices']);
+        $this->assertInternalType('array', $responseData['tier_price'], "'tier_price' expected to be an array");
+        $this->assertCount(2, $responseData['tier_price']);
         $requiredFields = array('qty', 'price', 'price_with_tax', 'price_without_tax');
-        foreach ($responseData['tier_prices'] as $tierPrice) {
+        foreach ($responseData['tier_price'] as $tierPrice) {
             foreach($requiredFields as $field) {
                 $this->assertArrayHasKey($field, $tierPrice);
                 $this->assertGreaterThanOrEqual(0, $tierPrice[$field], "Tier price seems to be invalid");
@@ -300,7 +300,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $attributesToGet = array('sku', 'name', 'visibility', 'status', 'price');
+        $attributesToGet = array('sku', 'name', 'is_in_stock');
         $params = array('attrs' => implode(',', $attributesToGet));
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 

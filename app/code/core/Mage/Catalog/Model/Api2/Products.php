@@ -52,8 +52,9 @@ class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collecti
             }
         }
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
+        $includedAttrs = $this->getIncludedAttributes($userType, $operation);
         foreach ($attributes as $code => $label) {
-            if (in_array($code, $excludedAttrs)) {
+            if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))) {
                 unset($attributes[$code]);
             }
         }
@@ -70,10 +71,16 @@ class Mage_Catalog_Model_Api2_Products extends Mage_Api2_Model_Resource_Collecti
      */
     protected function _isAttributeVisible(Mage_Catalog_Model_Resource_Eav_Attribute $attribute, $userType)
     {
-        if ($userType == Mage_Api2_Model_Auth_User_Admin::USER_TYPE || !$attribute->getIsUserDefined()) {
+        $isAttributeVisible = false;
+        if ($userType == Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
             $isAttributeVisible = $attribute->getIsVisible();
         } else {
-            $isAttributeVisible = $attribute->getIsVisibleOnFront();
+            $systemAttributesForNonAdmin = array('sku', 'name', 'short_description', 'description', 'tier_price');
+            if ($attribute->getIsUserDefined()) {
+                $isAttributeVisible = $attribute->getIsVisibleOnFront();
+            } else if (in_array($attribute->getAttributeCode(), $systemAttributesForNonAdmin)) {
+                $isAttributeVisible = true;
+            }
         }
         return (bool)$isAttributeVisible;
     }

@@ -42,6 +42,7 @@ return array(
     'news_to_date' => '16.02.2012',
     'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
     'url_key' => '123!"№;%:?*()_+{}[]\|<>,.?/abc',
+    'url_key_create_redirect' => 1,
     'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
     'price' => 25.50,
     'special_price' => 11.2,

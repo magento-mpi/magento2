@@ -108,12 +108,12 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                             $resourceModel->setResourceType($resource);
 
                             foreach ($operations as $operation => $operationLabel) {
-                                $avalaibleAttributes = $resourceModel->getAvailableAttributes(
+                                $availableAttributes = $resourceModel->getAvailableAttributes(
                                     $this->_userType,
                                     $operation
                                 );
-
-                                foreach ($avalaibleAttributes as $attribute => $attributeLabel) {
+                                sort($availableAttributes);
+                                foreach ($availableAttributes as $attribute => $attributeLabel) {
                                     $status = isset($allowedAttributes[$resource][$operation])
                                         && in_array($attribute, $allowedAttributes[$resource][$operation])
                                             ? Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW

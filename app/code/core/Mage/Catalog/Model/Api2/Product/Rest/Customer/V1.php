@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
 
         // customer group is required in product for correct tier prices calculation
         $product->setCustomerGroupId($this->_getCustomer()->getGroupId());
-        $productData['tier_prices'] = $this->_getTierPrices();
+        $productData['tier_price'] = $this->_getTierPrices();
 
         // calculate prices
         $productData['regular_price'] = $product->getPrice();

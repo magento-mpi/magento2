@@ -602,6 +602,10 @@ class Mage_Catalog_Model_Api2_Helper
         if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
             $product->setWebsiteIds($productData['website_ids']);
         }
+        // Create Permanent Redirect for old URL key
+        if ($this->_isUpdate && isset($productData['url_key']) && isset($productData['url_key_create_redirect'])) {
+            $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
+        }
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store

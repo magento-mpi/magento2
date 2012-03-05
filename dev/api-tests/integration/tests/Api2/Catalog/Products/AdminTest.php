@@ -96,7 +96,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         }
 
         $exclude = array_merge($dateAttributes, array('type', 'set', 'group_price', 'tier_price', 'stock_data',
-            'url_key'));
+            'url_key', 'url_key_create_redirect'));
         // Validate URL Key - all special chars should be replaced with dash sign
         $this->assertEquals('123-abc', $product->getUrlKey());
         $productAttributes = array_diff_key($productData, array_flip($exclude));

@@ -158,6 +158,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->load($product->getId());
         // Validate URL Key - all special chars should be replaced with dash sign
         $productDataForUpdate['url_key'] = '123-abc';
+        unset($productDataForUpdate['url_key_create_redirect']);
         $this->_checkProductData($updatedProduct, $productDataForUpdate);
     }
 
