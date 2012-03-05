@@ -56,30 +56,29 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
-        if ($customer->getId()) {
-            /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-            $validator = Mage::getResourceModel('api2/validator_eav', array(
-                'resource'  => $this,
-                'operation' => Mage_Api2_Model_Resource::OPERATION_UPDATE
-            ));
 
-            $data = $validator->filter($data);
-            if (!$validator->isSatisfiedByData($data)) {
-                foreach ($validator->getErrors() as $error) {
-                    $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-                }
-                $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
+        $validator = Mage::getResourceModel('api2/validator_eav', array(
+            'resource'  => $this,
+            'operation' => Mage_Api2_Model_Resource::OPERATION_UPDATE
+        ));
+
+        $data = $validator->filter($data);
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
 
-            $customer->addData($data);
+        $customer->addData($data);
 
-            try {
-                $customer->save();
-            } catch (Mage_Core_Exception $e) {
-                $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-            } catch (Exception $e) {
-                $this->_critical(self::RESOURCE_INTERNAL_ERROR);
-            }
+        try {
+            $customer->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
     }
 
