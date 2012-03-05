@@ -43,7 +43,7 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource_Instanc
     public function getAvailableAttributes($userType, $operation)
     {
         $configAttrs = $this->getAvailableAttributesFromConfig();
-        $eavAttrs    = $this->getEavAttributes(true);
+        $eavAttrs    = $this->getEavAttributes($userType == Mage_Api2_Model_Auth_User_Customer::USER_TYPE);
         $attrsCodes  = array_merge(array_keys($configAttrs), array_keys($eavAttrs));
 
         $attributes    = array();
