@@ -34,21 +34,21 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <created_at />
+                            <created_at>1</created_at>
                         </read>
                         <write>
-                            <review_id />
-                            <created_at />
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
                         </write>
                     </customer>
                     <guest>
                         <read>
-                            <review_id />
-                            <created_at />
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
                         </read>
                         <write>
-                            <review_id />
-                            <created_at />
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
                         </write>
                     </guest>
                 </exclude_attributes>

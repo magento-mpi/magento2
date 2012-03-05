@@ -34,26 +34,12 @@
 class Mage_Customer_Model_Api2_Customers extends Mage_Api2_Model_Resource_Collection
 {
     /**
-     * Get available attributes of API resource
+     * Resource specific method to retrieve attributes' codes. May be overriden in child.
      *
-     * @param string $userType
-     * @param string $operation
      * @return array
      */
-    public function getAvailableAttributes($userType, $operation)
+    protected function _getResourceAttributes()
     {
-        $configAttrs = $this->getAvailableAttributesFromConfig();
-        $eavAttrs    = $this->getEavAttributes($userType == Mage_Api2_Model_Auth_User_Customer::USER_TYPE);
-        $attrsCodes  = array_merge(array_keys($configAttrs), array_keys($eavAttrs));
-
-        $attributes    = array();
-        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
-        foreach ($attrsCodes as $code) {
-            if (!in_array($code, $excludedAttrs)) {
-                $attributes[$code] = isset($configAttrs[$code]) ? $configAttrs[$code] : $eavAttrs[$code];
-            }
-        }
-
-        return $attributes;
+        return $this->getEavAttributes(true);
     }
 }
