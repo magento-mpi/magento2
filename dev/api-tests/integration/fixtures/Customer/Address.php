@@ -32,6 +32,7 @@ $customerAddress->setData(array(
     'fax'                 => '56-987-987' . uniqid(),
     'firstname'           => 'Jacklin' . uniqid(),
     'lastname'            => 'Sparrow' . uniqid(),
+    'middlename'          => 'John' . uniqid(),
     'postcode'            => '10012',
     'region'              => 'New York',
     'region_id'           => '43',

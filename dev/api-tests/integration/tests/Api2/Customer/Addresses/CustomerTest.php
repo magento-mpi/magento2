@@ -82,12 +82,6 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
      */
     public function testCreateCustomerAddress($dataForCreate)
     {
-        $dataForCreate['street'] = array(
-            'Main Street' . uniqid(),
-            'Addithional Street 1' . uniqid(),
-            'Addithional Street 2' . uniqid()
-        );
-
         $restResponse = $this->callPost('customers/' . $this->_currentCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -298,9 +292,14 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
         $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
-        $data = $customerAddressFixture->getData();
-        unset($data['is_default_billing']);
-        unset($data['is_default_shipping']);
+        $data = array_intersect_key($customerAddressFixture->getData(), array_reverse(array(
+            'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'region_id', 'street', 'telephone'
+        )));
+        $data['street'] = array(
+            'Main Street' . uniqid(),
+            'Addithional Street 1' . uniqid(),
+            'Addithional Street 2' . uniqid()
+        );
 
         // Get address eav required attributes
         foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
