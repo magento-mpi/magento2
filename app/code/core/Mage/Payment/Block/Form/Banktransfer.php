@@ -37,6 +37,9 @@ class Mage_Payment_Block_Form_Banktransfer extends Mage_Payment_Block_Form
      */
     protected $_instructions;
 
+    /**
+     * Block construction. Set block template.
+     */
     protected function _construct()
     {
         parent::_construct();

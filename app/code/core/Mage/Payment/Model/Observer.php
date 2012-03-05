@@ -51,8 +51,7 @@ class Mage_Payment_Model_Observer
             return $this;
         }
 
-        if ($order->isCanceled() ||
-            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+        if ($order->isCanceled() || $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED) {
             return $this;
         }
         /**
@@ -119,8 +118,7 @@ class Mage_Payment_Model_Observer
     {
         /** @var Mage_Sales_Model_Order_Payment $payment */
         $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() ===
-            Mage_Payment_Model_Method_Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
+        if($payment->getMethod() === Mage_Payment_Model_Method_Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
             $payment->setAdditionalInformation('instructions',
                 $payment->getMethodInstance()->getInstructions());
         }
