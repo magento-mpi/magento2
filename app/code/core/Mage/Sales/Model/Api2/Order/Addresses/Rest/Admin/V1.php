@@ -40,11 +40,18 @@ class Mage_Sales_Model_Api2_Order_Addresses_Rest_Admin_V1 extends Mage_Sales_Mod
      */
     public function _retrieve()
     {
+        $orderId = $this->getRequest()->getParam('order_id');
+
         /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
         $collection = Mage::getResourceModel('sales/order_address_collection');
+        $collection->addAttributeToFilter('parent_id', $orderId);
 
         $this->_applyCollectionModifiers($collection);
         $data = $collection->load()->toArray();
+
+        if (count($data['items'])==0) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
 
         return $data['items'];
     }
