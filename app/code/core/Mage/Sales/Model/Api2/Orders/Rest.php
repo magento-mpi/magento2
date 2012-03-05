@@ -70,15 +70,4 @@ abstract class Mage_Sales_Model_Api2_Orders_Rest extends Mage_Sales_Model_Api2_O
 
         return isset($data['items']) ? $data['items'] : $data;
     }
-
-    /**
-     * Fetch resource type
-     * Resource type should correspond to api2.xml config nodes under "config/api2/resources/"
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return 'orders';
-    }
 }

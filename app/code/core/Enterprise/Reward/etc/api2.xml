@@ -32,7 +32,7 @@
                 <attributes>
                     <reward_points_balance>Reward Points Balance</reward_points_balance>
                     <reward_currency_amount>Reward Currency Amount</reward_currency_amount>
-                    <base_rewards_currencty_amount>Base Rewards Currency Amount</base_rewards_currencty_amount>
+                    <base_reward_currency_amount>Base Rewards Currency Amount</base_reward_currency_amount>
                 </attributes>
                 <include_attributes>
                     <customer>

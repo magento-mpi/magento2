@@ -138,8 +138,16 @@ class Mage_Api2_Model_Acl_Filter
                 array(Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))) {
                 $this->_allowedAttributes[] = $this->_resource->getIdFieldName();
             }
+            // find out attributes with special syntax for sub-resources
+            foreach ($this->_allowedAttributes as $attrKey => $attrCode) {
+                if (preg_match('/^_([a-z]+)__.*$/', $attrCode, $matches)) {
+                    if (!in_array($matches[1], $this->_allowedAttributes)) {
+                        $this->_allowedAttributes[] = $matches[1];
+                    }
+                    unset($this->_allowedAttributes[$attrKey]);
+                }
+            }
         }
-
         return $this->_allowedAttributes;
     }
 
