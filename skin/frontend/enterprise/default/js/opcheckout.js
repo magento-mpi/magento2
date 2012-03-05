@@ -558,7 +558,7 @@ ShippingMethod.prototype = {
                 return true;
             }
         }
-        alert(Translator.translate('Please specify shipping method.'));
+        alert(Translator.translate('Please specify shipping method.').stripTags());
         return false;
     },
 
@@ -733,7 +733,7 @@ Payment.prototype = {
         }
         var methods = document.getElementsByName('payment[method]');
         if (methods.length==0) {
-            alert(Translator.translate('Your order cannot be completed at this time as there is no payment methods available for it.'));
+            alert(Translator.translate('Your order cannot be completed at this time as there is no payment methods available for it.').stripTags());
             return false;
         }
         for (var i=0; i<methods.length; i++) {
@@ -745,7 +745,7 @@ Payment.prototype = {
         if (result) {
             return true;
         }
-        alert(Translator.translate('Please specify payment method.'));
+        alert(Translator.translate('Please specify payment method.').stripTags());
         return false;
     },
 
