@@ -181,8 +181,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
         }
-        $this->_result = Mage::getModel('shipping/rate_result');
-
         $this->setRequest($request);
 
         $this->_getQuotes();
@@ -431,10 +429,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Do remote request for and handle errors
      *
-     * @return void
+     * @return Mage_Shipping_Model_Rate_Result
      */
     protected function _getQuotes()
     {
+        $this->_result = Mage::getModel('shipping/rate_result');
         // make separate request for Smart Post method
         $allowedMethods = explode(',', $this->getConfigData('allowed_methods'));
         if (in_array(self::RATE_REQUEST_SMARTPOST, $allowedMethods)) {
@@ -450,6 +449,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if (!$preparedGeneral->getError() || ($this->_result->getError() && $preparedGeneral->getError())) {
             $this->_result->append($preparedGeneral);
         }
+        return $this->_result;
     }
 
     /**
