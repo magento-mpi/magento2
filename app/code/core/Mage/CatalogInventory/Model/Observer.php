@@ -972,4 +972,17 @@ class Mage_CatalogInventory_Model_Observer
             Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
         );
     }
+
+    /**
+     * Detects whether product status should be shown
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogInventory_Model_Observer
+     */
+    public function displayProductStatusInfo($observer)
+    {
+        $info = $observer->getEvent()->getStatus();
+        $info->setDisplayStatus(Mage::helper('cataloginventory')->isDisplayProductStockStatus());
+        return $this;
+    }
 }
