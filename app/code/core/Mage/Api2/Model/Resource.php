@@ -576,10 +576,12 @@ abstract class Mage_Api2_Model_Resource
      * Set operation
      *
      * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_... constant
+     * @return Mage_Api2_Model_Resource
      */
     public function setOperation($operation)
     {
         $this->_operation = $operation;
+        return $this;
     }
 
     /**

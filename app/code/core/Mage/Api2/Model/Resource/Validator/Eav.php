@@ -133,8 +133,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      */
     public function filter(array $data)
     {
-        $data = $this->_eavForm->extractData($this->_eavForm->prepareRequest($data));
-        return $data;
+        return $this->_eavForm->extractData($this->_eavForm->prepareRequest($data));
     }
 
     /**

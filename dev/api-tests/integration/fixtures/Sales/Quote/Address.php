@@ -43,4 +43,3 @@ $address->setData(array(
     'shipping_method'     => 'freeshipping_freeshipping'
 ));
 return $address;
-

@@ -73,7 +73,7 @@ abstract class Mage_Api2_Model_Resource_Validator
      * getErrors() will return an array of errors that explain why the
      * validation failed.
      *
-     * @param  array $data
+     * @param array $data
      * @void bool
      */
     abstract public function isSatisfiedByData(array $data);

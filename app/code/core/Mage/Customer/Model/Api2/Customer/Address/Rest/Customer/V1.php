@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Customer
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,8 +31,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customer_Address_Rest_Customer_V1
-    extends Mage_Customer_Model_Api2_Customer_Address_Rest
+class Mage_Customer_Model_Api2_Customer_Address_Rest_Customer_V1 extends Mage_Customer_Model_Api2_Customer_Address_Rest
 {
     /**
      * Load customer address by id
@@ -44,10 +43,8 @@ class Mage_Customer_Model_Api2_Customer_Address_Rest_Customer_V1
     protected function _loadCustomerAddressById($id)
     {
         /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::getModel('customer/address')->load($id);
-        if (!$customerAddress->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
+        $customerAddress = parent::_loadCustomerAddressById($id);
+
         // check owner
         if ($this->getApiUser()->getUserId() != $customerAddress->getCustomerId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);

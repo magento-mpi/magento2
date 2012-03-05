@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Customer
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,14 +31,14 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest
-    extends Mage_Customer_Model_Api2_Customer_Addresses
+abstract class Mage_Customer_Model_Api2_Customer_Addresses_Rest extends Mage_Customer_Model_Api2_Customer_Addresses
 {
     /**
      * Create customer address
      *
      * @param array $data
      * @throws Mage_Api2_Exception
+     * @return string
      */
     protected function _create(array $data)
     {
