@@ -57,6 +57,20 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->_loadStockItemById($this->getRequest()->getParam('id'));
+
+        /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Persist */
+        $validator = Mage::getModel('catalogInventory/api2_stock_item_validator_persist', array(
+            'resource' => $this
+        ));
+
+        $data = $validator->filter($data);
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
+
         $stockItem->addData($data);
         try {
             $stockItem->save();

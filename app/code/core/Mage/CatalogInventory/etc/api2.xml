@@ -75,6 +75,7 @@
                 <exclude_attributes>
                     <admin>
                         <write>
+                            <item_id>1</item_id>
                             <product_id>1</product_id>
                             <stock_id>1</stock_id>
                         </write>
@@ -102,6 +103,7 @@
                 <exclude_attributes>
                     <admin>
                         <write>
+                            <item_id>1</item_id>
                             <product_id>1</product_id>
                             <stock_id>1</stock_id>
                         </write>

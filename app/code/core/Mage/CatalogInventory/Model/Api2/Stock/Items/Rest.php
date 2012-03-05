@@ -78,11 +78,36 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
     protected function _updateItem($data)
     {
         try {
-            $this->_validate($data, array('item_id'), array('item_id'));
+            if (!is_array($data)) {
+                $this->_errorMessage(self::RESOURCE_DATA_INVALID, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            }
+
+            /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Persist */
+            $validator = Mage::getModel('catalogInventory/api2_stock_item_validator_persist', array(
+                'resource' => $this
+            ));
+
+            $data = $validator->filter($data);
+
+            if (!$validator->idFieldIsSatisfiedByData($data)) {
+                foreach ($validator->getErrors() as $error) {
+                    $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                }
+                $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            }
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-            $stockItem = $this->_loadStockItemById($data['item_id']);
-            unset($data['item_id']); // item_id is not for update
+            $stockItem = $this->_loadStockItemById($data[$this->getIdFieldName()]);
+            unset($data[$this->getIdFieldName()]); // item_id is not for update
+
+            if (!$validator->isSatisfiedByData($data)) {
+                foreach ($validator->getErrors() as $error) {
+                    $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                }
+                $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            }
+
             $stockItem->addData($data);
             $stockItem->save();
 
@@ -97,55 +122,15 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
                 $this->_errorMessage(
                     $e->getMessage(),
                     $e->getCode(),
-                    isset($data['item_id']) ? $data['item_id'] : null
+                    isset($data[$this->getIdFieldName()]) ? $data['item_id'] : null
                 );
             }
         } catch (Exception $e) {
             $this->_errorMessage(
                 Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR,
                 Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-                isset($data['item_id']) ? $data['item_id'] : null
+                isset($data[$this->getIdFieldName()]) ? $data[$this->getIdFieldName()] : null
             );
-        }
-    }
-
-    /**
-     * Validate input data for self::create() or self::update() depends on the kind of resource:
-     *   Mage_Api2_Model_Resource_Collection::create()
-     *   Mage_Api2_Model_Resource_Collection::update()
-     *
-     * @param array $data
-     * @param array $required
-     * @param array $notEmpty
-     * @throws Mage_Api2_Exception
-     */
-    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
-    {
-        $isValid = true;
-        foreach ($required as $key) {
-            if (!array_key_exists($key, $data)) {
-                $this->_errorMessage(
-                    sprintf('Missing "%s" in request.', $key),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                    isset($data['item_id']) ? $data['item_id'] : null
-                );
-                $isValid = false;
-            }
-        }
-
-        foreach ($notEmpty as $key) {
-            if (array_key_exists($key, $data) && trim($data[$key]) == '') {
-                $this->_errorMessage(
-                    sprintf('Empty value for "%s" in request.', $key),
-                    Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                    isset($data['item_id']) ? $data['item_id'] : null
-                );
-                $isValid = false;
-            }
-        }
-
-        if (!$isValid) {
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
     }
 
