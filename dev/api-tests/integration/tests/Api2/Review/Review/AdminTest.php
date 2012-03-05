@@ -56,7 +56,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
-        $restResponse = $this->callGet('review/' . $review->getId());
+        $restResponse = $this->callGet('reviews/' . $review->getId());
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
@@ -76,7 +76,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testGetUnavailableResource()
     {
-        $restResponse = $this->callGet('review/' . 'invalid_id');
+        $restResponse = $this->callGet('reviews/' . 'invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -94,7 +94,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $existingReview->load($review->getId());
         $this->assertNotEmpty($existingReview->getId());
         // delete review using API
-        $restResponse = $this->callDelete('review/' . $review->getId());
+        $restResponse = $this->callDelete('reviews/' . $review->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // check if review item was deleted
         $removedReview = Mage::getModel('review/review');
@@ -107,7 +107,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testDeleteUnavailableResource()
     {
-        $restResponse = $this->callDelete('review/' . 'invalid_id');
+        $restResponse = $this->callDelete('reviews/' . 'invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -123,7 +123,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $product Mage_Review_Model_Review */
         $review = $this->getFixture('review');
         // update review using API
-        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $restResponse = $this->callPut('reviews/' . $review->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         // check if review item was updated
         $updatedReview = Mage::getModel('review/review');
@@ -162,7 +162,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testUpdateUnavailableResource()
     {
-        $restResponse = $this->callPut('review/' . 'invalid_id', array());
+        $restResponse = $this->callPut('reviews/' . 'invalid_id', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -180,7 +180,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['product_id']);
 
         // update review using API
-        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $restResponse = $this->callPut('reviews/' . $review->getId(), $dataForUpdate);
 
         // check error code
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
@@ -212,7 +212,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['product_id']);
 
         // update review using API
-        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $restResponse = $this->callPut('reviews/' . $review->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -236,7 +236,7 @@ class Api2_Review_Review_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['product_id']);
 
         // update review using API
-        $restResponse = $this->callPut('review/' . $review->getId(), $dataForUpdate);
+        $restResponse = $this->callPut('reviews/' . $review->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $error = reset($body['messages']['error']);

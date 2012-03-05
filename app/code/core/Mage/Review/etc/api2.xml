@@ -87,7 +87,7 @@
                 </attributes>
                 <routes>
                     <route_main>
-                        <mask>/review/:id</mask>
+                        <mask>/reviews/:id</mask>
                     </route_main>
                 </routes>
                 <collection>reviews</collection>
