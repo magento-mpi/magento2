@@ -310,25 +310,24 @@
                 </routes>
                 <collection>addresses</collection>
                 <versions>1</versions>
-                <exclude_attributes>
+                <include_attributes>
                     <customer>
                         <read>
-                            <entity_id>1</entity_id>
-                            <parent_id>1</parent_id>
-                            <customer_address_id>1</customer_address_id>
-                            <quote_address_id>1</quote_address_id>
-                            <region_id>1</region_id>
-                            <customer_id>1</customer_id>
-                            <vat_id>1</vat_id>
-                            <vat_is_valid>1</vat_is_valid>
-                            <vat_request_id>1</vat_request_id>
-                            <vat_request_date>1</vat_request_date>
-                            <vat_request_success>1</vat_request_success>
-                            <fax>1</fax>
-                            <giftregistry_item_id>1</giftregistry_item_id>
+                            <lastname>1</lastname>
+                            <firstname>1</firstname>
+                            <middlename>1</middlename>
+                            <prefix>1</prefix>
+                            <suffix>1</suffix>
+                            <company>1</company>
+                            <street>1</street>
+                            <city>1</city>
+                            <region>1</region>
+                            <postcode>1</postcode>
+                            <country_id>1</country_id>
+                            <telephone>1</telephone>
                         </read>
                     </customer>
-                </exclude_attributes>
+                </include_attributes>
             </address>
             <addresses>
                 <group>sales</group>
