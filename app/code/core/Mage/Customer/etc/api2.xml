@@ -89,6 +89,7 @@
                             <rp_token>1</rp_token>
                             <rp_token_created_at>1</rp_token_created_at>
                             <store_id>1</store_id>
+                            <last_logged_in>1</last_logged_in>
                         </write>
                     </admin>
                     <customer>
@@ -100,7 +101,7 @@
                             <created_at>1</created_at>
                             <created_in>1</created_in>
                             <reward_warning_notification>1</reward_warning_notification>
-                            <reward_update_notification >1</reward_update_notification>
+                            <reward_update_notification>1</reward_update_notification>
                             <default_billing>1</default_billing>
                             <default_shipping>1</default_shipping>
                             <disable_auto_group_change>1</disable_auto_group_change>
@@ -126,6 +127,7 @@
                             <rp_token_created_at>1</rp_token_created_at>
                             <store_id>1</store_id>
                             <website_id>1</website_id>
+                            <last_logged_in>1</last_logged_in>
                         </write>
                     </customer>
                 </exclude_attributes>
