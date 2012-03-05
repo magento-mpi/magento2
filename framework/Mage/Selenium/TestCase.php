@@ -2888,20 +2888,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function onNotSuccessfulTest(Exception $e)
     {
-        if (($e instanceof PHPUnit_Framework_AssertionFailedError
-            || $e instanceof PHPUnit_Framework_ExpectationFailedException)
-        ) {
-            $this->selectWindow('null');
-            if ($this->_saveHtmlPageOnFailure) {
-                $this->saveHtmlPage();
-            }
-            if ($this->captureScreenshotOnFailure) {
-                $this->takeScreenshot();
-            }
+        if ($this->_saveHtmlPageOnFailure) {
+            $this->saveHtmlPage();
         }
-        try {
-            $this->drivers[0]->stop();
-        } catch (RuntimeException $e) {
+        if ($this->captureScreenshotOnFailure) {
+            $this->takeScreenshot();
         }
         throw $e;
     }
