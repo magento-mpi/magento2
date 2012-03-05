@@ -250,11 +250,11 @@ class Api2_Customer_Addresses_CustomerTest extends Magento_Test_Webservice_Rest_
     {
         // put
         $restResponse = $this->callPut('customers/' . $this->_currentCustomer->getId() . '/addresses', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
 
         // delete
         $restResponse = $this->callDelete('customers/' . $this->_currentCustomer->getId() . '/addresses', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**

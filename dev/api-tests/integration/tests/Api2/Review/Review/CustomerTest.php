@@ -203,7 +203,7 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     public function testDelete()
     {
         $restResponse = $this->callDelete('reviews/any_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -212,7 +212,6 @@ class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     public function testUpdate()
     {
         $restResponse = $this->callPut('reviews/any_id', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 }
-

@@ -41,6 +41,6 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
         $restResponse = $this->callPost('products', $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 }

@@ -40,7 +40,7 @@ class Api2_Customer_Customers_GuestTest extends Magento_Test_Webservice_Rest_Gue
     public function testCreate()
     {
         $response = $this->callPost('customers', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -49,7 +49,7 @@ class Api2_Customer_Customers_GuestTest extends Magento_Test_Webservice_Rest_Gue
     public function testRetrieve()
     {
         $response = $this->callGet('customers');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -58,7 +58,7 @@ class Api2_Customer_Customers_GuestTest extends Magento_Test_Webservice_Rest_Gue
     public function testUpdate()
     {
         $response = $this->callPut('customers', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -67,6 +67,6 @@ class Api2_Customer_Customers_GuestTest extends Magento_Test_Webservice_Rest_Gue
     public function testDelete()
     {
         $response = $this->callDelete('customers');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

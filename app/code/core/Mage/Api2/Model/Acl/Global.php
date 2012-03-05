@@ -49,7 +49,10 @@ class Mage_Api2_Model_Acl_Global
             return true;
         }
         /** @var $aclInstance Mage_Api2_Model_Acl */
-        $aclInstance = Mage::getSingleton('api2/acl');
+        $aclInstance = Mage::getSingleton(
+            'api2/acl',
+            array('resource_type' => $resourceType, 'operation' => $operation)
+        );
 
         if (!$aclInstance->hasRole($apiUser->getRole())) {
             throw new Mage_Api2_Exception('Role not found', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
