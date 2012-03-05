@@ -1225,56 +1225,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         return $this;
     }
 
-
-
-
-
-
-    /**
-     * Remove add button for users who does not permissions for any site
-     *
-     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
-     *
-     * @param Varien_Event_Observer $observer
-     *
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeCustomerSegmentAddButton($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for store-level roles on Catalog Price Rules page
-     *
-     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
-     *
-     * @param Varien_Event_Observer $observer
-     *
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removePromoCatalogButtons($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
-     *
-     * @deprecated after 1.12.0.0 use $this->removeRuleEntityGridButtons() instead
-     *
-     * @param Varien_Event_Observer $observer
-     *
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removePromoQuoteButtons($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
     /**
      * Remove button "Add RMA Attribute" for all GWS limited users
      *
@@ -1313,6 +1263,55 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $deleteButton->setDisabled(true);
         }
 
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * Remove add button for users who does not permissions for any site
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCustomerSegmentAddButton($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for store-level roles on Catalog Price Rules page
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePromoCatalogButtons($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
+     *
+     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePromoQuoteButtons($observer)
+    {
+        $this->removeRuleEntityGridButtons($observer);
         return $this;
     }
 }
