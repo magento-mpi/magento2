@@ -117,6 +117,30 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test that, regarding of the current area, page types hierarchy getter retrieves the front-end page types
+     */
+    public function testGetPageTypesHierarchyFromBackend()
+    {
+        $area = Mage::getDesign()->getArea();
+        $this->assertEquals('frontend', $area, 'Test assumes that front-end is the current area.');
+
+        /* use new instance to ensure that in-memory caching, if any, won't affect test results */
+        $model = new Mage_Core_Model_Layout_Update();
+        $frontendPageTypes = $model->getPageTypesHierarchy();
+        $this->assertNotEmpty($frontendPageTypes);
+
+        Mage::getDesign()->setArea('adminhtml');
+        try {
+            $backendPageTypes = $this->_model->getPageTypesHierarchy();
+            $this->assertSame($frontendPageTypes, $backendPageTypes);
+        } catch (Exception $e) {
+            Mage::getDesign()->setArea($area);
+            throw $e;
+        }
+        Mage::getDesign()->setArea($area);
+    }
+
+    /**
      * @dataProvider pageTypeExistsDataProvider
      */
     public function testPageTypeExists($inputPageType, $expectedResult)
