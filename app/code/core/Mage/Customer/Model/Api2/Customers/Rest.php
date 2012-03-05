@@ -44,7 +44,7 @@ abstract class Mage_Customer_Model_Api2_Customers_Rest extends Mage_Customer_Mod
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
         $validator = Mage::getResourceModel('api2/validator_eav', array(
             'resource'  => $this,
-            'operation' => Mage_Api2_Model_Resource::OPERATION_CREATE
+            'operation' => self::OPERATION_CREATE
         ));
 
         $data = $validator->filter($data);
