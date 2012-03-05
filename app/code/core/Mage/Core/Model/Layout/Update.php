@@ -24,9 +24,11 @@ class Mage_Core_Model_Layout_Update
     protected $_elementClass;
 
     /**
-     * @var SimpleXMLElement
+     * In-memory cache for loaded layout updates per area/package/theme/store
+     *
+     * @var array
      */
-    protected $_packageLayout;
+    protected $_layoutUpdatesCache = array();
 
     /**
      * Cache key
@@ -229,6 +231,20 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
+     * Retrieve all layout updates for the default frontend theme
+     *
+     * @return SimpleXMLElement
+     */
+    protected function _getFrontendLayout()
+    {
+        return $this->getFileLayoutUpdatesXml(
+            Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            Mage_Core_Model_Design_Package::DEFAULT_PACKAGE,
+            Mage_Core_Model_Design_Package::DEFAULT_THEME
+        );
+    }
+
+    /**
      * Retrieve recursively all children of a page type
      *
      * @param string $parentName
@@ -238,7 +254,7 @@ class Mage_Core_Model_Layout_Update
     {
         $result = array();
         $xpath = '/layouts/*[@type="page" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ']';
-        $pageTypeNodes = $this->getPackageLayout()->xpath($xpath) ?: array();
+        $pageTypeNodes = $this->_getFrontendLayout()->xpath($xpath) ?: array();
         /** @var $pageTypeNode Varien_Simplexml_Element */
         foreach ($pageTypeNodes as $pageTypeNode) {
             $pageTypeName = $pageTypeNode->getName();
@@ -258,10 +274,10 @@ class Mage_Core_Model_Layout_Update
     protected function _getPageTypeNode($pageTypeName)
     {
         /* quick validation for non-existing page types */
-        if (!$pageTypeName || !isset($this->getPackageLayout()->$pageTypeName)) {
+        if (!$pageTypeName || !isset($this->_getFrontendLayout()->$pageTypeName)) {
             return null;
         }
-        $nodes = $this->getPackageLayout()->xpath("/layouts/{$pageTypeName}[@type='page'][1]");
+        $nodes = $this->_getFrontendLayout()->xpath("/layouts/{$pageTypeName}[@type='page'][1]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -440,30 +456,13 @@ class Mage_Core_Model_Layout_Update
      */
     public function getPackageLayout()
     {
-        if ($this->_packageLayout) {
-            return $this->_packageLayout;
-        }
-        $storeId = Mage::app()->getStore()->getId();
+        /** @var $design Mage_Core_Model_Design_Package */
         $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
-        $cacheKey = 'LAYOUT_' . $design->getArea() . '_STORE' . $storeId . '_' . $design->getPackageName() . '_'
-            . $design->getTheme('layout');
-
-        $cacheTags = array(self::LAYOUT_GENERAL_CACHE_TAG);
-        if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
-            $this->_packageLayout = simplexml_load_string($layoutStr, $this->getElementClass());
-        } else {
-            $this->_packageLayout = $this->getFileLayoutUpdatesXml(
-                $design->getArea(),
-                $design->getPackageName(),
-                $design->getTheme('layout'),
-                $storeId
-            );
-            if (Mage::app()->useCache('layout')) {
-                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
-            }
-        }
-
-        return $this->_packageLayout;
+        return $this->getFileLayoutUpdatesXml(
+            $design->getArea(),
+            $design->getPackageName(),
+            $design->getTheme()
+        );
     }
 
     public function fetchPackageLayoutUpdates($handle)
@@ -522,7 +521,37 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Collect and merge layout updates from file
+     * Retrieve already merged layout updates from files for specified area/theme/package/store
+     *
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param integer|null $storeId
+     * @return Mage_Core_Model_Layout_Element
+     */
+    public function getFileLayoutUpdatesXml($area, $package, $theme, $storeId = null)
+    {
+        $storeId = $storeId ?: Mage::app()->getStore()->getId();
+        $cacheKey = "LAYOUT_{$area}_STORE{$storeId}_{$package}_{$theme}";
+        if (array_key_exists($cacheKey, $this->_layoutUpdatesCache)) {
+            return $this->_layoutUpdatesCache[$cacheKey];
+        }
+        $canCacheLayout = Mage::app()->useCache('layout');
+        $cachedLayoutStr = $canCacheLayout ? Mage::app()->loadCache($cacheKey) : null;
+        if ($cachedLayoutStr) {
+            $result = simplexml_load_string($cachedLayoutStr, $this->getElementClass());
+        } else {
+            $result = $this->_loadFileLayoutUpdatesXml($area, $package, $theme, $storeId);
+            if ($canCacheLayout) {
+                Mage::app()->saveCache($result->asXml(), $cacheKey, array(self::LAYOUT_GENERAL_CACHE_TAG), null);
+            }
+        }
+        $this->_layoutUpdatesCache[$cacheKey] = $result;
+        return $result;
+    }
+
+    /**
+     * Collect and merge layout updates from files
      *
      * @param string $area
      * @param string $package
@@ -531,11 +560,8 @@ class Mage_Core_Model_Layout_Update
      * @return Mage_Core_Model_Layout_Element
      * @throws Magento_Exception
      */
-    public function getFileLayoutUpdatesXml($area, $package, $theme, $storeId = null)
+    protected function _loadFileLayoutUpdatesXml($area, $package, $theme, $storeId)
     {
-        if (null === $storeId) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
         /* @var $design Mage_Core_Model_Design_Package */
         $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
 
