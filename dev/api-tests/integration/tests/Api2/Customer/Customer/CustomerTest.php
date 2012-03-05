@@ -116,7 +116,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     public function testCreate()
     {
         $response = $this->callPost('customers/1', array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -183,6 +183,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     {
         /** @var $attribute Mage_Customer_Model_Entity_Attribute */
         $attribute = $this->_customer->getAttribute('firstname');
+        $oldFilterValue = $attribute->getInputFilter('striptags');
         $attribute->setInputFilter('striptags')->save();
 
         $putData = array(
@@ -206,7 +207,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
         $model->setFirstname($this->_customer->getFirstname())->save();
 
         // Restore attribute filter value
-        $attribute->setInputFilter(null)->save();
+        $attribute->setInputFilter($oldFilterValue)->save();
     }
 
     /**
@@ -288,6 +289,6 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     public function testDelete()
     {
         $response = $this->callDelete('customers/1');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 }
