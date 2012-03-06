@@ -105,6 +105,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static $_messages = array();
 
     /**
+     * Name of last testcase in test class
+     * @var array
+     */
+    protected static $_lastTestNameInClass = null;
+
+    /**
      * Additional params for navigation URL
      * @var string
      */
@@ -329,9 +335,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
-     * @staticvar $error Identifies if an error happend during setup. In case of an error, the tests won't be run.
+     * @staticvar $error Identifies if an error happened during setup. In case of an error, the tests won't be run.
      */
-    public function setUp()
+    final function setUp()
     {
         // Clear messages before running test
         $this->clearMessages();
@@ -345,6 +351,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             try {
                 $error = null;
+                $this->setLastTestNameInClass();
                 $this->setUpBeforeTests();
             } catch (Exception $e) {
                 $error = $e;
@@ -360,6 +367,59 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * and can be used for some precondition(s) for all tests
      */
     public function setUpBeforeTests()
+    {
+    }
+
+    /**
+     * Define name of last testcase in test class
+     */
+    private function setLastTestNameInClass()
+    {
+        $testMethods = array();
+        $className = get_class($this);
+        $class = new ReflectionClass($className);
+        foreach ($class->getMethods() as $method) {
+            if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
+                $testMethods[] = $method->getName();
+            }
+        }
+        $testName = end($testMethods);
+        $data = PHPUnit_Util_Test::getProvidedData($className, $testName);
+        if ($data) {
+            $testName .= sprintf(' with data set #%d', count($data) - 1);
+        }
+        self::$_lastTestNameInClass = $testName;
+    }
+
+    /**
+     * Implementation of tearDownAfterAllTests() method in the object context, called as tearDownAfterAllTests()<br>
+     * Used ONLY one time after execution of last test in test class
+     * Implementation of tearDownAfterEachTest() method in the object context, called as tearDownAfterEachTest()<br>
+     * Used after execution of each test in test class
+     */
+    final function tearDown()
+    {
+        if ($this->hasFailed()) {
+            if ($this->_saveHtmlPageOnFailure) {
+                $this->saveHtmlPage();
+            }
+            if ($this->captureScreenshotOnFailure) {
+                $this->takeScreenshot();
+            }
+        } else {
+            $this->assertEmptyVerificationErrors();
+        }
+        $this->tearDownAfterEachTest();
+        if ($this->getName() == self::$_lastTestNameInClass) {
+            $this->tearDownAfterAllTests();
+        }
+    }
+
+    public function tearDownAfterAllTests()
+    {
+    }
+
+    public function tearDownAfterEachTest()
     {
     }
 
@@ -2888,12 +2948,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function onNotSuccessfulTest(Exception $e)
     {
-        if ($this->_saveHtmlPageOnFailure) {
-            $this->saveHtmlPage();
-        }
-        if ($this->captureScreenshotOnFailure) {
-            $this->takeScreenshot();
-        }
         throw $e;
     }
 }
