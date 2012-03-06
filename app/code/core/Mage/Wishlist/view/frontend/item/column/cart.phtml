@@ -28,13 +28,11 @@ $product = $item->getProduct();
         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
     <?php endif; ?>
 <?php endif; ?>
-
 </div>
-<?php echo $this->getDetailsHtml($item);?>
-<?php if ($product->isVisibleInSiteVisibility()): ?>
-    <p><a class="link-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('Edit') ?></a></p>
-<?php endif ?>
 <?php foreach($this->getSortedChildren() as $childName):?>
     <?php echo $this->getChildHtml($childName, false);?>
 <?php endforeach;?>
+<?php if ($product->isVisibleInSiteVisibility()): ?>
+    <p><a class="link-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('Edit') ?></a></p>
+<?php endif ?>
 </div>

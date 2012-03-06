@@ -11,5 +11,7 @@
 
 <?php $_product = $this->getProduct() ?>
 <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+<div>
     <button class="button btn-gr btn-cart" onclick="Enterprise.Bundle.start();" type="button"><span><span><?php echo $this->__('Customize and Add to Gift Registry'); ?></span></span></button>
+</div>
 <?php endif;?>

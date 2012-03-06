@@ -50,12 +50,10 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    var parentAreasLoaded = <?php echo $this->getJsOrderObject() ?>.areasLoaded;
 
-    <?php echo $this->getJsOrderObject() ?>.areasLoaded = function() {
+    function initSku() {
         addBySku = new AddBySku(<?php echo $this->getJsOrderObject() ?>, <?php echo $this->getAddBySkuDataJson() ?>);
-        AddBySku.prototype.add = function()
-        {
+        AddBySku.prototype.add = function() {
             var id = ++this.lastId;
             $(this.dataContainerId).insert(
                 '<td><input id="sku_' + id + '" type="text" value="" name="sku" class="input-text"></td>'
@@ -69,10 +67,11 @@
             for (var i = 0; i < fields.length; i++) {
                 Event.observe(fields[i], 'keypress', this.formKeyPress.bind(this));
             }
-        }
+        };
         <?php echo $this->getAdditionalJavascript() ?>
-        parentAreasLoaded();
-    };
+    }
+
+    <?php echo $this->getContextSpecificJs(); ?>
 
 //]]>
 </script>

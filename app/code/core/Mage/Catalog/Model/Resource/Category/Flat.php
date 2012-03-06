@@ -1077,7 +1077,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
      *  'field_name' => 'value'
      * )
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Varien_Object $category
      * @param array $replaceFields
      * @return array
      */
@@ -1087,8 +1087,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
         $this->_getWriteAdapter()->resetDdlCache($table);
         $table = $this->_getWriteAdapter()->describeTable($table);
         $data = array();
-        foreach ($table as $column=>$columnData) {
-            if (null !== $category->getData($column)) {
+        $idFieldName = Mage::getSingleton('Mage_Catalog_Model_Category')->getIdFieldName();
+        foreach ($table as $column => $columnData) {
+            if ($column != $idFieldName || null !== $category->getData($column)) {
                 if (key_exists($column, $replaceFields)) {
                     $value = $category->getData($replaceFields[$column]);
                 } else {

@@ -161,7 +161,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $message = $this->__('Please enter a valid number in the "Qty" field.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
-                $message = $this->__('The products is assigned to another website.');
+                $message = $this->__('The product is assigned to another website.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_DISABLED:
                 $message = $this->__('Disabled products cannot be added.');

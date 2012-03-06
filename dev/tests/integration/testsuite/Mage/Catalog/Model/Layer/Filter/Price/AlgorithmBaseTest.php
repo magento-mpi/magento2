@@ -34,6 +34,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
      */
     public function testPricesSegmentation($categoryId, $intervalsNumber, $intervalItems)
     {
+        // ini_set('memory_limit', '128M');
         $layer = new Mage_Catalog_Model_Layer();
         $layer->setCurrentCategory($categoryId);
         $filter = new Mage_Catalog_Model_Layer_Filter_Price();
@@ -59,6 +60,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
             $this->assertEquals($intervalItems[$i]['to'], $items[$i]['to']);
             $this->assertEquals($intervalItems[$i]['count'], $items[$i]['count']);
         }
+        // ini_restore('memory_limit');
     }
 
     public function pricesSegmentationDataProvider()

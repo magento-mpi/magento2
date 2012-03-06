@@ -243,4 +243,28 @@ class Enterprise_Search_Model_Observer
             Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Search_Layer'));
         }
     }
+
+    /**
+     * Reindex data after price reindex
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function runFulltextReindexAfterPriceReindex(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+            return;
+        }
+
+        /* @var Enterprise_Search_Model_Indexer_Indexer $indexer */
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+        if (empty($indexer)) {
+            return;
+        }
+
+        if ('process' == strtolower(Mage::app()->getRequest()->getControllerName())) {
+            $indexer->reindexAll();
+        } else {
+            $indexer->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        }
+    }
 }

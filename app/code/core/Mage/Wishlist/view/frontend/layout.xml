@@ -75,7 +75,7 @@ Wishlist pages
                         <action method="setTitle" translate="title">
                             <title>Add to Cart</title>
                         </action>
-                        <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
+                        <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
                     </block>
                     <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml"></block>
                 </block>

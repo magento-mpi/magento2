@@ -39,6 +39,7 @@ $_product = $this->getProduct();
                         <?php echo $this->getChildHtml('alert_urls') ?>
                     </div>
                     <?php echo $this->getChildHtml('tierprices') ?>
+                    <?php echo $this->getChildHtml('extrahint') ?>
                     <?php echo $this->getChildHtml('customize_button') ?>
                     <?php if (!$this->hasOptions()):?>
                         <?php if($_product->isSaleable()): ?>

@@ -848,7 +848,7 @@ class Mage_Core_Model_Url extends Varien_Object
     }
 
     /**
-     * Retrurn Query Params
+     * Return Query Params
      *
      * @return array
      */
@@ -1018,13 +1018,11 @@ class Mage_Core_Model_Url extends Varien_Object
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('Mage_Core_Model_Session', $params);
 
-        if (Mage::app()->getUseSessionVar() && !$session->getSessionIdForHost($url)) {
+        $sessionId = $session->getSessionIdForHost($url);
+        if (Mage::app()->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->getSecure() ? 'S' : 'U'); // Secure/Unsecure
-        } else {
-            $sessionId = $session->getSessionIdForHost($url);
-            if ($sessionId) {
-                $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
-            }
+        } else if ($sessionId) {
+            $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
         }
         return $this;
     }

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Order Shipment PDF model
  *
@@ -21,7 +20,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
     /**
      * Format pdf file
      *
-     * @param null $shipment
+     * @param  null $shipment
      * @return Zend_Pdf
      */
     public function getPdf($shipment = null)
@@ -30,8 +29,8 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
         $this->_initRenderer('shipment');
 
         $pdf = new Zend_Pdf();
-        $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
-        $pdf->pages[] = $page;
+        $this->_setPdf($pdf);
+        $page = $this->newPage();
 
         if ($shipment->getStoreId()) {
             Mage::app()->getLocale()->emulate($shipment->getStoreId());
@@ -55,7 +54,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
     /**
      * Draw header block
      *
-     * @param Zend_Pdf_Page $page
+     * @param  Zend_Pdf_Page $page
      * @return Mage_Sales_Model_Order_Pdf_Shipment_Packaging
      */
     protected function _drawHeaderBlock(Zend_Pdf_Page $page) {
@@ -73,7 +72,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
     /**
      * Draw packages block
      *
-     * @param Zend_Pdf_Page $page
+     * @param  Zend_Pdf_Page $page
      * @return Mage_Sales_Model_Order_Pdf_Shipment_Packaging
      */
     protected function _drawPackageBlock(Zend_Pdf_Page $page)

@@ -17,22 +17,6 @@
  */
 class Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart extends Mage_Wishlist_Block_Customer_Wishlist_Item_Column
 {
-    /*
-     * List of product type configuration to render options list
-     *
-     * @var array
-     */
-    protected $_optionsCfg = array();
-
-    /**
-     * Init options renderer
-     */
-    public function _construct()
-    {
-        parent::_construct();
-        $this->addOptionsRenderCfg('default', 'Mage_Catalog_Helper_Product_Configuration', 'wishlist/options_list.phtml');
-    }
-
     /**
      * Returns qty to show visually to user
      *
@@ -70,75 +54,5 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart extends Mage_Wishli
 
         $js .= parent::getJs();
         return $js;
-    }
-
-    /*
-    * Adds config for rendering product type options
-    * If template is null - later default will be used
-    *
-    * @param string $productType
-    * @param string $helperName
-    * @param null|string $template
-    * @return Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart
-    */
-    public function addOptionsRenderCfg($productType, $helperName, $template = null)
-    {
-        $this->_optionsCfg[$productType] = array('helper' => $helperName, 'template' => $template);
-        return $this;
-    }
-
-    /**
-     * Get item options renderer config
-     *
-     * @param string $productType
-     * @return array|null
-     */
-    public function getOptionsRenderCfg($productType)
-    {
-        if (isset($this->_optionsCfg[$productType])) {
-            return $this->_optionsCfg[$productType];
-        } elseif (isset($this->_optionsCfg['default'])) {
-            return $this->_optionsCfg['default'];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns html for showing item options
-     *
-     * @param Mage_Wishlist_Model_Item $item
-     * @return string
-     */
-    public function getDetailsHtml(Mage_Wishlist_Model_Item $item)
-    {
-        $cfg = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
-        if (!$cfg) {
-            return '';
-        }
-
-        $helper = Mage::helper($cfg['helper']);
-        if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException($this->__("Helper for wishlist options rendering doesn't implement required interface."));
-        }
-
-        $block = $this->getChild('item_options');
-        if (!$block) {
-            return '';
-        }
-
-        if ($cfg['template']) {
-            $template = $cfg['template'];
-        } else {
-            $cfgDefault = $this->getOptionsRenderCfg('default');
-            if (!$cfgDefault) {
-                return '';
-            }
-            $template = $cfgDefault['template'];
-        }
-
-        return $block->setTemplate($template)
-            ->setOptionList($helper->getOptions($item))
-            ->toHtml();
     }
 }

@@ -196,7 +196,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $messages[] = Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Cannot add the item to shopping cart.');
+                    $messages[] = Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Could not add item to shopping cart.');
                 }
             }
         }
@@ -212,7 +212,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Unable to add the following product(s) to shopping cart: %s.', join(', ', $products));
+            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -220,7 +220,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each of them can be added to cart separately only.', join(', ', $products));
+            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {

@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     /**
      * Minimal possible price
      */
-    const MIN_POSSIBLE_PRICE = .01;
+    const MIN_POSSIBLE_PRICE = .0001;
 
     /**
      * Initialize connection and define main table name
@@ -204,9 +204,9 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     {
         $currencyRate = $filter->getLayer()->getProductCollection()->getCurrencyRate();
         if ($decrease) {
-            return ($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
+            return round(($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
         }
-        return ($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
+        return round(($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
     }
 
     /**
@@ -382,8 +382,11 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         $select = $filter->getLayer()->getProductCollection()->getSelect();
         $priceExpr = $this->_getPriceExpression($filter, $select, false);
 
-        if ($from == $to && !empty($to)) {
-            $to += self::MIN_POSSIBLE_PRICE;
+        if ($to !== '') {
+            $to = (float)$to;
+            if ($from == $to) {
+                $to += self::MIN_POSSIBLE_PRICE;
+            }
         }
 
         if ($from !== '') {

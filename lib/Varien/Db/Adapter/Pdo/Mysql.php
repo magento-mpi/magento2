@@ -163,6 +163,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     );
 
     /**
+     * All possible DDL statements
+     * First 3 symbols for each statement
+     *
+     * @var array
+     */
+    protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
+
+    /**
      * Allowed interval units array
      *
      * @var array
@@ -366,6 +374,22 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Check transaction level in case of DDL query
+     *
+     * @param string|Zend_Db_Select $sql
+     * @throws Zend_Db_Adapter_Exception
+     */
+    protected function _checkDdlTransaction($sql)
+    {
+        if (is_string($sql) && $this->getTransactionLevel() > 0) {
+            $startSql = strtolower(substr(ltrim($sql), 0, 3));
+            if (in_array($startSql, $this->_ddlRoutines)) {
+                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+            }
+        }
+    }
+
+    /**
      * Special handling for PDO query().
      * All bind parameter names must begin with ':'.
      *
@@ -378,6 +402,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         $this->_debugTimer();
         try {
+            $this->_checkDdlTransaction($sql);
             $this->_prepareQuery($sql, $bind);
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {

@@ -71,15 +71,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Mage_Payment_Model_M
     /**
      * Check whether payment method can be used
      *
-     * This method is available only if Payment bridge is on. So we must check this own method's
-     * settings and pbridge's settings
-     *
+     * @param Mage_Sales_Model_Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
     {
-        $storeId = $quote ? $quote->getStoreId() : null;
-        return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($storeId) && parent::isAvailable();
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
+            && Mage_Payment_Model_Method_Abstract::isAvailable($quote);
     }
 
     /**

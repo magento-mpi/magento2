@@ -122,11 +122,12 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testObsoleteMethodArguments($content)
     {
-        $suggestion = 'Remove arguments, refactor code to treat returned type instance as a singleton.';
-        $this->assertNotRegExp(
-            '/[^a-z\d_]getTypeInstance\s*\(\s*[^\)]+/iS',
-            $content,
-            "Method 'getTypeInstance' is called with obsolete arguments. $suggestion"
+        $this->assertNotRegExp('/[^a-z\d_]getTypeInstance\s*\(\s*[^\)]+/iS', $content,
+            'Backwards-incompatible change: method getTypeInstance() is not supposed to be invoked with any arguments.'
+        );
+        $this->assertNotRegExp('/\->getUsedProductIds\(([^\)]+,\s*[^\)]+)?\)/', $content,
+            'Backwards-incompatible change: method getUsedProductIds($product)'
+            . ' must be invoked with one and only one argument - product model object'
         );
     }
 

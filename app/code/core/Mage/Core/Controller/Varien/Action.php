@@ -136,7 +136,6 @@ abstract class Mage_Core_Controller_Varien_Action
 
     protected function _construct()
     {
-
     }
 
     public function hasAction($action)
@@ -231,12 +230,12 @@ abstract class Mage_Core_Controller_Varien_Action
     /**
      * Load layout by handles(s)
      *
-     * @param   string $handles
-     * @param   string $cacheId
-     * @param   boolean $generateBlocks
+     * @param   string|null|bool $handles
+     * @param   bool $generateBlocks
+     * @param   bool $generateXml
      * @return  Mage_Core_Controller_Varien_Action
      */
-    public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
+    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         // if handles were specified in arguments load them first
         if (false!==$handles && ''!==$handles) {
@@ -464,7 +463,7 @@ abstract class Mage_Core_Controller_Varien_Action
     /**
      * Dispatch event before action
      *
-     * @return null
+     * @return void
      */
     public function preDispatch()
     {
@@ -486,13 +485,24 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
-            $checkCookie = $checkCookie && !$this->getRequest()->getParam('nocookie', false);
+            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
+                && !$this->getRequest()->getParam('nocookie', false);
             $cookies = Mage::getSingleton('Mage_Core_Model_Cookie')->get();
-            if ($checkCookie && empty($cookies)) {
-                $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+            /** @var $session Mage_Core_Model_Session */
+            $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace))->start();
+
+            if (empty($cookies)) {
+                if ($session->getCookieShouldBeReceived()) {
+                    $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+                    $session->unsCookieShouldBeReceived();
+                } else {
+                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()) {
+                        $session->setCookieShouldBeReceived(true);
+                    } elseif ($checkCookie) {
+                        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+                    }
+                }
             }
-            Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace))->start();
         }
 
         Mage::app()->loadArea($this->getLayout()->getArea());
@@ -591,7 +601,6 @@ abstract class Mage_Core_Controller_Varien_Action
             $this->renderLayout();
         } else {
             $status->setForwarded(true);
-            #$this->_forward('cmsNoRoute', 'index', 'cms');
             $this->_forward(
                 $status->getForwardAction(),
                 $status->getForwardController(),
@@ -628,7 +637,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param string $action
      * @param string|null $controller
      * @param string|null $module
-     * @param string|null $params
+     * @param array|null $params
      */
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
@@ -636,15 +645,15 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $request->initForward();
 
-        if (!is_null($params)) {
+        if (isset($params)) {
             $request->setParams($params);
         }
 
-        if (!is_null($controller)) {
+        if (isset($controller)) {
             $request->setControllerName($controller);
 
             // Module should only be reset if controller has been specified
-            if (!is_null($module)) {
+            if (isset($module)) {
                 $request->setModuleName($module);
             }
         }
@@ -654,7 +663,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Inits layout messages by message storage(s), loading and adding messages to layout messages block
+     * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
      * @return Mage_Core_Controller_Varien_Action
@@ -682,7 +691,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Inits layout messages by message storage(s), loading and adding messages to layout messages block
+     * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
      * @return Mage_Core_Controller_Varien_Action
@@ -709,17 +718,40 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @param   string $path
      * @param   array $arguments
+     * @return  Mage_Core_Controller_Varien_Action
      */
-    protected function _redirect($path, $arguments=array())
+    protected function _redirect($path, $arguments = array())
     {
+        return $this->setRedirectWithCookieCheck($path, $arguments);
+    }
+
+    /**
+     * Set redirect into response with session id in URL if it is enabled.
+     * It allows to distinguish primordial request from browser with cookies disabled.
+     *
+     * @param   string $path
+     * @param   array $arguments
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    public function setRedirectWithCookieCheck($path, array $arguments = array())
+    {
+        /** @var $session Mage_Core_Model_Session */
+        $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace));
+        if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()) {
+            $arguments += array('_query' => array(
+                $session->getSessionIdQueryParam() => $session->getSessionId()
+            ));
+        }
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
         return $this;
     }
+
 
     /**
      * Redirect to success page
      *
      * @param string $defaultUrl
+     * @return Mage_Core_Controller_Varien_Action
      */
     protected function _redirectSuccess($defaultUrl)
     {
@@ -738,6 +770,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * Redirect to error page
      *
      * @param string $defaultUrl
+     * @return  Mage_Core_Controller_Varien_Action
      */
     protected function _redirectError($defaultUrl)
     {
@@ -753,7 +786,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Set referer url for redirect in responce
+     * Set referer url for redirect in response
      *
      * @param   string $defaultUrl
      * @return  Mage_Core_Controller_Varien_Action
@@ -923,6 +956,7 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @see self::_renderTitles()
      * @param string|false|-1|null $text
+     * @param bool $resetIfExists
      * @return Mage_Core_Controller_Varien_Action
      */
     protected function _title($text = null, $resetIfExists = true)
@@ -1028,7 +1062,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Declare headers and content file in responce for file download
+     * Declare headers and content file in response for file download
      *
      * @param string $fileName
      * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in

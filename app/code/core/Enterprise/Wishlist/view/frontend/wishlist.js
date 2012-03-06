@@ -26,7 +26,7 @@ Enterprise.Wishlist.Widget.Form = Class.create(Enterprise.Widget, {
     initialize: function($super, action) {
         var _templateString = '<ul class="form-list">' +
                 '<li><label for="wishlist-name">' + Translator.translate('Wishlist Name') + '</label><div class="input-box"><input type="text" id="wishlist-name" maxlength="255" class="input-text required-entry validate-length maximum-length-255" name="name"/></div>' +
-                '<li class="control"><div class="input-box"><input type="checkbox" id="wishlist-public" name="visibility"></div><label for="wishlist-public">' + Translator.translate('Make this wishlist public') + '</label></li>' +
+                '<li class="control"><div class="input-box"><input type="checkbox" id="wishlist-public" name="visibility"></div><label for="wishlist-public">' + Translator.translate('Make This Wishlist Public') + '</label></li>' +
             '</ul>' +
             '<div class="buttons-set form-buttons"><button type="submit" class="button btn-save"><span><span>' + Translator.translate('Save') + '</span></span></button><button type="button" class="button btn-cancel"><span><span>' + Translator.translate('Cancel') + '</span></span></button></div>';
 
@@ -299,7 +299,7 @@ Event.observe(document, 'dom:loaded', function() {
                     (onclick.bind({
                         href: buildUrl(url, wishlist)
                     }))();
-                }, false);
+                }, link.hasClassName('use-ajax'));
                 wishlistSplitButton.addOption(option);
             }
 

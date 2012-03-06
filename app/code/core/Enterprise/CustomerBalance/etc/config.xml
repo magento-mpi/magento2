@@ -55,7 +55,7 @@
                 <totals>
                     <customerbalance>
                         <class>Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
-                        <after>weee,discount,tax,grand_total,reward,giftcardaccount</after>
+                        <after>weee,discount,tax,grand_total</after>
                     </customerbalance>
                 </totals>
             </order_creditmemo>
