@@ -387,6 +387,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .columns .form-list td.value    { width:280px; padding-right:5px !important; }
 .columns .form-list td.value  { white-space:nowrap; }
 .columns .form-list td.value > * { white-space:normal; }
+.columns .form-list td.value .attribute-change-checkbox { white-space:nowrap; }
 .columns .form-list td.value > strong,
 .columns .form-list td.value > button { display:block; }
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
