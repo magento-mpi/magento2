@@ -76,8 +76,7 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
         }
         $this->_resource = $options['resource'];
 
-        $validationConfig = $this->_resource->getConfig()->getValidationConfig(
-            $this->_resource->getResourceType(), self::CONFIG_NODE_KEY);
+        $validationConfig = $this->_resource->getConfig()->getValidationConfig($this->_resource, self::CONFIG_NODE_KEY);
         $this->_buildValidatorsChain($validationConfig);
     }
 
@@ -100,7 +99,6 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
                             $this->_requiredFields[] = $field;
                             continue;
                         }
-
                         // instantiation of the validator class
                         if (!isset($validatorConfig['type'])) {
                             throw new Exception("Validator type is not set for {$validatorName}");
@@ -109,12 +107,10 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
                             $validatorConfig['type'],
                             count($validatorConfig['options']) ? $validatorConfig['options'] : array()
                         );
-
                         // set custom message
                         if (isset($validatorConfig['message'])) {
                             $validator->setMessage($validatorConfig['message']);
                         }
-
                         // add to list of validators
                         $chainForOneField->addValidator($validator);
                     }

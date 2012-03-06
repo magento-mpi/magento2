@@ -82,7 +82,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      *
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
-    public function testUpdate()
+    public function testUpdateStockItem()
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
@@ -103,9 +103,30 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test updating not existing stock item
      */
-    public function testUpdateUnavailableResource()
+    public function testUpdateUnavailableStockItem()
     {
         $restResponse = $this->callPut('stockitems/invalid_id', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful stock items update with invalid data
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     */
+    public function testUpdateStockItemWithInvalidData()
+    {
+        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = $this->getFixture('stockItem');
+        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_invalid_data.php';
+
+        $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['messages']['error'];
+        $countOfErrorsInDataForUpdate = count($dataForUpdate) - 1;
+        // Several errors can be returned because of one invalid position
+        $this->assertGreaterThanOrEqual($countOfErrorsInDataForUpdate, count($errors));
     }
 }

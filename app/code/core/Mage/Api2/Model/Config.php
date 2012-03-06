@@ -389,61 +389,44 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve validator entity model path
+     * Get validation config by validator type
      *
-     * @param string $resource
-     * @param string $validator
-     * @param string $userType
-     * @return string
+     * @param Mage_Api2_Model_Resource $resource
+     * @param string $validatorType
+     * @return array
      */
-    public function getResourceValidatorEntityModel($resource, $validator, $userType)
+    public function getValidationConfig(Mage_Api2_Model_Resource $resource, $validatorType)
     {
-        return (string) $this->getNode(
-            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/entity_model'
-        );
+        $resourceType = $resource->getResourceType();
+
+        $config = $this->getValidationConfigByResourceType($resourceType, $validatorType);
+        if (!$config) { // try to get from partner
+            if ($resource instanceof Mage_Api2_Model_Resource_Instance) {
+                $collectionNode = $this->getResourceCollection($resourceType);
+                if ($collectionNode) {
+                    $config = $this->getValidationConfigByResourceType($collectionNode, $validatorType);
+                }
+            } elseif ($resource instanceof Mage_Api2_Model_Resource_Collection) {
+                $instanceNode = $this->getResourceInstance($resourceType);
+                if ($instanceNode) {
+                    $config = $this->getValidationConfig($instanceNode, $validatorType);
+                }
+            }
+        }
+        return $config;
     }
 
     /**
-     * Retrieve validator form model path
+     * Get validation config by resource type
      *
-     * @param string $resource
-     * @param string $validator
-     * @param string $userType
-     * @return string
+     * @param string $resourceType
+     * @param string $validatorType
+     * @return array
      */
-    public function getResourceValidatorFormModel($resource, $validator, $userType)
+    public function getValidationConfigByResourceType($resourceType, $validatorType)
     {
-        return (string) $this->getNode(
-            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/form_model'
-        );
-    }
-
-    /**
-     * Retrieve validator form code
-     *
-     * @param string $resource
-     * @param string $validator
-     * @param string $userType
-     * @param string $operation
-     * @return string
-     */
-    public function getResourceValidatorFormCode($resource, $validator, $userType, $operation)
-    {
-        return (string) $this->getNode(
-            'resources/' . $resource . '/validators/' . $validator . '/' . $userType . '/form_code/' . $operation
-        );
-    }
-
-    /**
-     * Retrieve validator form code
-     *
-     * @param string $resource
-     * @param string $validator
-     * @return string
-     */
-    public function getValidationConfig($resource, $validator)
-    {
-        return $this->getNode('resources/' . $resource . '/validators/' . $validator)->asArray();
+        $config = $this->getNode('resources/' . $resourceType . '/validators/' . $validatorType);
+        return $config ? $config->asArray() : array();
     }
 
     /**

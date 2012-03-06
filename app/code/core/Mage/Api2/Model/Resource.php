@@ -677,7 +677,6 @@ abstract class Mage_Api2_Model_Resource
      * Get available attributes of API resource from configuration file
      *
      * @return array
-     * @throw Exception
      */
     public function getAvailableAttributesFromConfig()
     {

@@ -79,6 +79,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * @throws Exception If config parameter 'formPath' is empty
      * @throws Exception If config parameter 'formCode' is empty
      * @throws Exception If config parameter 'entity' is wrong
+     * @throws Exception If entity is not model
      * @throws Exception If eav form is not found
      */
     public function __construct($options)
@@ -95,25 +96,24 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         }
         $operation = $options['operation'];
 
-        /* @var $config Mage_Api2_Model_Config */
-        $config = $resource->getConfig();
+        $validationConfig = $resource->getConfig()->getValidationConfig($resource, self::CONFIG_NODE_KEY);
 
-        $this->_formPath = $config->getResourceValidatorFormModel(
-            $resourceType, self::CONFIG_NODE_KEY, $userType);
-        if (empty($this->_formPath)) {
+        if (!isset($validationConfig[$userType]['form_model'])) {
             throw new Exception("Config parameter 'formPath' is empty.");
         }
+        $this->_formPath = $validationConfig[$userType]['form_model'];
 
-        $this->_formCode = $config->getResourceValidatorFormCode(
-            $resourceType, self::CONFIG_NODE_KEY, $userType, $operation);
-        if (empty($this->_formCode)) {
+        if (!isset($validationConfig[$userType]['form_code'])) {
             throw new Exception("Config parameter 'formCode' is empty.");
         }
+        $this->_formCode = $validationConfig[$userType]['form_code'];
 
-        $this->_entity = Mage::getModel(
-            $config->getResourceValidatorEntityModel($resourceType, self::CONFIG_NODE_KEY, $userType));
-        if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
+        if (!isset($validationConfig[$userType]['entity_model'])) {
             throw new Exception("Config parameter 'entity' is wrong.");
+        }
+        $this->_entity = Mage::getModel($validationConfig[$userType]['entity_model']);
+        if (empty($this->_entity) || !$this->_entity instanceof Mage_Core_Model_Abstract) {
+            throw new Exception("Entity is not model.");
         }
 
         $this->_eavForm = Mage::getModel($this->_formPath);
