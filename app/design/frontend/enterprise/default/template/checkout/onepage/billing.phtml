@@ -191,7 +191,9 @@
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
             </ul>
         </div>
-     </li>
+    </li>
+    <?php /* Extensions placeholder */ ?>
+    <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
     <?php if ($this->canShip()): ?>
         <li class="control">
             <div class="input-box">
