@@ -356,7 +356,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyAllCardFieldsInSavedCCVisa($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate', array('filter_sku' => $simpleSku));
         $orderData['payment_data']['payment_info'] = $this->loadData('saved_empty_all');
         $emptyFields = array('field' => 'name_on_card', 'dropdown' => 'card_type',
             'dropdown' => 'expiration_year', 'field' => 'card_verification_number');
@@ -384,7 +384,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyNameOnCardFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'name_on_card' => ''));
         //Steps
         $this->navigate('system_configuration');
@@ -408,7 +408,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyCardTypeFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'card_type' => ''));
         //Steps
         $this->navigate('system_configuration');
@@ -435,7 +435,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyCardNumberFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'card_number' => ''));
         //Steps
         $this->navigate('system_configuration');
@@ -459,7 +459,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyExpirationYearFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'expiration_year' => ''));
         //Steps
         $this->navigate('system_configuration');
@@ -483,7 +483,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyCardVerificationNumberFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'card_verification_number' => ''));
         //Steps
         $this->navigate('system_configuration');
@@ -507,7 +507,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyExpirationMonthFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
+        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'expiration_month' => ''));
         //Steps
         $this->navigate('system_configuration');

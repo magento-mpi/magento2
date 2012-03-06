@@ -1055,7 +1055,7 @@ order_newcustomer_checkmoney_flatrate_france:
     billing_addr_data: *billingReqFrance
 
 #<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_savedcc_flatrate:
+order_newcustomer_savedcc_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -1073,7 +1073,7 @@ order_newcustmoer_savedcc_flatrate:
     shipping_data: *flatRate
 
 #<------------New Customer, PaypalDirectUk, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_paypaldirectuk_flatrate:
+order_newcustomer_paypaldirectuk_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -1091,7 +1091,7 @@ order_newcustmoer_paypaldirectuk_flatrate:
     shipping_data: *flatRate
 
 #<------------New Customer, PaypalDirect, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_paypaldirect_flatrate:
+order_newcustomer_paypaldirect_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -1109,7 +1109,7 @@ order_newcustmoer_paypaldirect_flatrate:
     shipping_data: *flatRate
 
 #<------------New Customer, PayflowPro, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_payflowpro_flatrate:
+order_newcustomer_payflowpro_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -1127,7 +1127,7 @@ order_newcustmoer_payflowpro_flatrate:
     shipping_data: *flatRate
 
 #<------------New Customer, Authorize.net, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_authorizenet_flatrate:
+order_newcustomer_authorizenet_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General

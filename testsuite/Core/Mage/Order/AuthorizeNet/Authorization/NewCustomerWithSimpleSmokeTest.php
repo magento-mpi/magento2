@@ -82,7 +82,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustomer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
