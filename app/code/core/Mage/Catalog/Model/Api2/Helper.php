@@ -597,7 +597,14 @@ class Mage_Catalog_Model_Api2_Helper
             );
         }
         $product->setStockData($productData['stock_data']);
+        // save gift options
         $this->_filterConfigValueUsed($productData, array('gift_message_available', 'gift_wrapping_available'));
+        if (isset($productData['use_config_gift_message_available'])) {
+            $product->setData('use_config_gift_message_available', $productData['use_config_gift_message_available']);
+        }
+        if (isset($productData['use_config_gift_wrapping_available'])) {
+            $product->setData('use_config_gift_wrapping_available', $productData['use_config_gift_wrapping_available']);
+        }
 
         if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
             $product->setWebsiteIds($productData['website_ids']);
