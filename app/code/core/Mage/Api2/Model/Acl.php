@@ -147,20 +147,20 @@ class Mage_Api2_Model_Acl extends Zend_Acl
 
         /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
         foreach ($rulesCollection as $rule) {
-            if (in_array($rule->getRoleId(), Mage_Api2_Model_Acl_Global_Role::getSystemRoles())) {
-                /** @var $role Mage_Api2_Model_Acl_Global_Role */
-                $role = $this->_getRolesCollection()->getItemById($rule->getRoleId());
-                $privileges = $this->_getConfig()->getResourceUserPrivileges(
-                    $this->_resourceType,
-                    $role->getConfigNodeName()
-                );
-
-                if (!array_key_exists($this->_operation, $privileges)) {
-                    continue;
-                }
-            }
-
             if (Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL === $rule->getResourceId()) {
+                if (in_array($rule->getRoleId(), Mage_Api2_Model_Acl_Global_Role::getSystemRoles())) {
+                    /** @var $role Mage_Api2_Model_Acl_Global_Role */
+                    $role = $this->_getRolesCollection()->getItemById($rule->getRoleId());
+                    $privileges = $this->_getConfig()->getResourceUserPrivileges(
+                        $this->_resourceType,
+                        $role->getConfigNodeName()
+                    );
+
+                    if (!array_key_exists($this->_operation, $privileges)) {
+                        continue;
+                    }
+                }
+
                 $this->allow($rule->getRoleId());
             } else {
                 $this->allow($rule->getRoleId(), $rule->getResourceId(), $rule->getPrivilege());
