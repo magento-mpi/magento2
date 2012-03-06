@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     /**
      * Minimal possible price
      */
-    const MIN_POSSIBLE_PRICE = .0001;
+    const MIN_POSSIBLE_PRICE = .01;
 
     /**
      * Initialize connection and define main table name
@@ -225,9 +225,9 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     {
         $currencyRate = $filter->getLayer()->getProductCollection()->getCurrencyRate();
         if ($decrease) {
-            return round(($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
+            return ($price - (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
         }
-        return round(($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate, 3);
+        return ($price + (self::MIN_POSSIBLE_PRICE / 2)) / $currencyRate;
     }
 
     /**
@@ -265,7 +265,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
             $range = 1;
         }
         $countExpr = new Zend_Db_Expr('COUNT(*)');
-        $rangeExpr = new Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
+        $rangeExpr = new Zend_Db_Expr("ROUND(({$priceExpression}) / {$range}) + 1");
 
         $select->columns(array(
             'range' => $rangeExpr,
