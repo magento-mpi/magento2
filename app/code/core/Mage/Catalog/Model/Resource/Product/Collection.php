@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @var int
      */
-    protected $_pricesCount = 0;
+    protected $_pricesCount = null;
 
     /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event

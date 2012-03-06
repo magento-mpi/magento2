@@ -45,7 +45,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
             array('legend'=>Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA Item Details'))
         );
 
-        $fieldset->setProductName($item->getProductAdminName());
+        $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
         $okButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('OK'),

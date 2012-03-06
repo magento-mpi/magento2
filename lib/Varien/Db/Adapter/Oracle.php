@@ -178,6 +178,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     );
 
     /**
+     * All possible DDL statements
+     * First 3 symbols for each statement
+     *
+     * @var array
+     */
+    protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru', 'com');
+
+    /**
      * Allowed interval units array
      *
      * @var array
@@ -264,6 +272,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
+     * Check transaction level in case of DDL query
+     *
+     * @param string|Zend_Db_Select $sql
+     * @throws Zend_Db_Adapter_Exception
+     */
+    protected function _checkDdlTransaction($sql)
+    {
+        if (is_string($sql) && $this->getTransactionLevel() > 0) {
+            $startSql = strtolower(substr(ltrim($sql), 0, 3));
+            if (in_array($startSql, $this->_ddlRoutines)) {
+                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+            }
+        }
+    }
+
+    /**
      * Prepares and executes an SQL statement with bound data.
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
@@ -276,6 +300,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $this->_debugTimer();
         try {
+            $this->_checkDdlTransaction($sql);
             $this->_prepareQuery($sql, $bind);
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {

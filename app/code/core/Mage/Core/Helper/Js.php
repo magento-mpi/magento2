@@ -68,7 +68,9 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function getScript($script)
     {
-        return '<script type="text/javascript">'.$script.'</script>';
+        return '<script type="text/javascript">//<![CDATA[
+        '.$script.'
+        //]]></script>';
     }
 
     /**

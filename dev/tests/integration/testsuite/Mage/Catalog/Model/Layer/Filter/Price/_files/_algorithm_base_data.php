@@ -186,6 +186,19 @@ $testCases = array(
             ),
         )
     ),
+    // large numbers test
+    array(array(100000, 400000, 600000, 900000), 2, array(
+        array(
+            'from'  => 0,
+            'to'    => 500000,
+            'count' => 2,
+        ),
+        array(
+            'from'  => 500000,
+            'to'    => '',
+            'count' => 2,
+        ),
+    )),
 );
 
 return $testCases;

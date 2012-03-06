@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Order Invoice Pdf grouped items renderer
  *
@@ -18,6 +17,9 @@
  */
 class Mage_Sales_Model_Order_Pdf_Items_Invoice_Grouped extends Mage_Sales_Model_Order_Pdf_Items_Invoice_Default
 {
+    /**
+     * Draw process
+     */
     public function draw()
     {
         $type = $this->getItem()->getOrderItem()->getRealProductType();

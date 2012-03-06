@@ -231,7 +231,28 @@ class Mage_CatalogInventory_Model_Observer
         }
 
         $quote = $item->getQuote();
-        if ($quote->getHasError()) {
+        $quoteItems = $quote->getItemsCollection();
+        $canRemoveErrorFromQuote = true;
+
+        foreach ($quoteItems as $quoteItem) {
+            if ($quoteItem->getItemId() == $item->getItemId()) {
+                continue;
+            }
+
+            $errorInfos = $quoteItem->getErrorInfos();
+            foreach ($errorInfos as $errorInfo) {
+                if ($errorInfo['code'] == $code) {
+                    $canRemoveErrorFromQuote = false;
+                    break;
+                }
+            }
+
+            if (!$canRemoveErrorFromQuote) {
+                break;
+            }
+        }
+
+        if ($quote->getHasError() && $canRemoveErrorFromQuote) {
             $params = array(
                 'origin' => 'cataloginventory',
                 'code' => $code

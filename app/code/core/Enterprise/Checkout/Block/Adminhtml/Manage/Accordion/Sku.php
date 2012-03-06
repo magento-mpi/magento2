@@ -73,4 +73,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku extends Enterpris
     {
         return $this->getUrl('*/checkout/uploadSkuCsv');
     }
+
+    /**
+     * Retrieve context specific JavaScript
+     *
+     * @return string
+     */
+    public function getContextSpecificJs()
+    {
+        return 'Event.observe(window, \'load\', initSku);';
+    }
 }

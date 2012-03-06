@@ -815,6 +815,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
          */
         $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
         if ($listTypes) {
+            $skuListTypes = array(
+                Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
+                Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE,
+            );
             /* @var $productHelper Mage_Catalog_Helper_Product */
             $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
             $listTypes = array_filter(explode(',', $listTypes));
@@ -860,7 +864,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $config = $productHelper->addParamsToBuyRequest($info, $params)
                             ->toArray();
                     }
-                    if ($listType == Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE) {
+                    if (in_array($listType, $skuListTypes)) {
                         // Items will be later added to cart using saveAffectedItems()
                         $this->getCartModel()->setAffectedItemConfig($itemId, $config);
                     } else {
@@ -876,10 +880,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             }
         }
 
-        if (is_array($listTypes) && in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, $listTypes)) {
+
+        if (is_array($listTypes) &&  array_intersect($listTypes, $skuListTypes)) {
             $cart = $this->getCartModel();
             // We need to save products to enterprise_checkout/cart instead of checkout/cart
-            $cart->saveAffectedProducts($cart, false, Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART);
+            $cart->saveAffectedProducts($cart, false);
         }
 
         /**
@@ -981,11 +986,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         if (!empty($result)) {
             $cart = $this->getCartModel();
             $cart->prepareAddProductsBySku($result);
-            $cart->saveAffectedProducts(
-                $this->getCartModel(),
-                true,
-                Enterprise_Checkout_Model_Cart::DONT_PASS_DISABLED_TO_CART
-            );
+            $cart->saveAffectedProducts($this->getCartModel(), true);
         }
 
         $this->_redirectReferer();

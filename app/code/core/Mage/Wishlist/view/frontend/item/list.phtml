@@ -20,13 +20,17 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->getItems() as $item): ?>
-            <tr id="item_<?php echo $item->getId();?>">
-                <?php foreach ($columns as $column): ?>
-                    <td><?php $column->setItem($item); echo $column->toHtml($item);?></td>
-                <?php endforeach; ?>
-            </tr>
-        <?php endforeach ?>
+        <?php if (count($this->getItems())): ?>
+            <?php foreach ($this->getItems() as $item): ?>
+                <tr id="item_<?php echo $item->getId();?>">
+                    <?php foreach ($columns as $column): ?>
+                        <td><?php $column->setItem($item); echo $column->toHtml($item);?></td>
+                    <?php endforeach; ?>
+                </tr>
+            <?php endforeach ?>
+        <?php else: ?>
+            <td colspan="<?php echo count($columns);?>" class="wishlist-empty"><?php echo $this->__('This Wishlist has no Items');?></td>
+        <?php endif; ?>
     </tbody>
 </table>
 <?php foreach ($columns as $column): ?>

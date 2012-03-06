@@ -111,12 +111,6 @@
         </reference>
     </sales_order_creditmemo>
 
-    <wishlist_index_index>
-        <reference name="customer.wishlist.item.cart">
-            <action method="addOptionsRenderCfg"><type>downloadable</type><helper>Mage_Downloadable_Helper_Catalog_Product_Configuration</helper></action>
-        </reference>
-    </wishlist_index_index>
-
 <!--
 Print pages
 -->

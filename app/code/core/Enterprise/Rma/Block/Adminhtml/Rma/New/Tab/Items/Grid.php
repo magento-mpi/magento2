@@ -83,21 +83,22 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('Enterprise_Rma_Model_Item_Status');
         $this->addColumn('product_name', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'product_name',
-            'sortable' => false
+            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            'width'    => '80px',
+            'type'     => 'text',
+            'index'    => 'product_name',
+            'sortable' => false,
+            'escape'   => true,
         ));
 
         $this->addColumn('product_sku', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'product_sku',
-            'sortable' => false
+            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
+            'width'    => '80px',
+            'type'     => 'text',
+            'index'    => 'product_sku',
+            'sortable' => false,
+            'escape'   => true,
         ));
 
         //Renderer puts available quantity instead of order_item_id

@@ -263,7 +263,7 @@
                             <label>Recovery Link Expiration Period (days)</label>
                             <comment>Please enter a number 1 or greater in this field.</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-digits validate-digits-range digits-range-1-</validate>
+                            <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
                             <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Password_Link_Expirationperiod</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>

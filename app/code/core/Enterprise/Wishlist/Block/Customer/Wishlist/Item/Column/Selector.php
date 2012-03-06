@@ -49,6 +49,9 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector
             var selector = $('select-all'),
                 checkboxes = $(selector).up('#wishlist-table').select('.select'),
                 counter = 0;
+            if (!checkboxes.length) {
+                selector.hide();
+            }
             selector.setCounter = function (newVal) {
                 counter = newVal;
                 this.checked = (counter >= checkboxes.length);

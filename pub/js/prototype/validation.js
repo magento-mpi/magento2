@@ -442,8 +442,8 @@ Validation.addAllThese([
                     var m = reRange.exec(name);
                     if (m) {
                         result = result
-                            && (m[1] == null || numValue >= parseNumber(m[1]))
-                            && (m[2] == null || numValue <= parseNumber(m[2]));
+                            && (m[1] == null || m[1] == '' || numValue >= parseNumber(m[1]))
+                            && (m[2] == null || m[2] == '' || numValue <= parseNumber(m[2]));
                     }
                 });
 
@@ -469,8 +469,8 @@ Validation.addAllThese([
                     var m = reRange.exec(name);
                     if (m) {
                         result = result
-                            && (m[1] == null || numValue >= parseNumber(m[1]))
-                            && (m[2] == null || numValue <= parseNumber(m[2]));
+                            && (m[1] == null || m[1] == '' || numValue >= parseNumber(m[1]))
+                            && (m[2] == null || m[2] == '' || numValue <= parseNumber(m[2]));
                     }
                 });
 

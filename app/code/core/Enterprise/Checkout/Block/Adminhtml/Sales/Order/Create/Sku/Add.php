@@ -47,4 +47,19 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Add
     {
         return $this->getUrl('*/sales_order_create/processData');
     }
+
+    /**
+     * Retrieve context specific JavaScript
+     *
+     * @return string
+     */
+    public function getContextSpecificJs()
+    {
+        return '
+            var parentAreasLoaded = ' . $this->getJsOrderObject() . '.areasLoaded;
+            ' . $this->getJsOrderObject() . '.areasLoaded = function () {
+                initSku();
+                parentAreasLoaded();
+            };';
+    }
 }

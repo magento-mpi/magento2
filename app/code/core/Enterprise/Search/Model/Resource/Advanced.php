@@ -69,8 +69,13 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      */
     protected function _getSearchParam($collection, $attribute, $value)
     {
-        if (empty($value) || (is_string($value) && strlen(trim($value)) == 0)
-            || (isset($value['from']) && empty($value['from']) && isset($value['to']) && empty($value['to']))
+        if ((!is_string($value) && empty($value))
+            || (is_string($value) && strlen(trim($value)) == 0)
+            || (is_array($value)
+                && isset($value['from'])
+                && empty($value['from'])
+                && isset($value['to'])
+                && empty($value['to']))
         ) {
             return array();
         }

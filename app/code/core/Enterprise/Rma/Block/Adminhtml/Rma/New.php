@@ -59,6 +59,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
     /**
      * Get header text for RMA edit page
      *
+     * @return string
      */
     public function getHeaderText()
     {
@@ -68,6 +69,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
     /**
      * Get form action URL
      *
+     * @return string
      */
     public function getFormActionUrl()
     {

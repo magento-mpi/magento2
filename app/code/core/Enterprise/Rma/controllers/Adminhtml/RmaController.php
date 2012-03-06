@@ -35,7 +35,6 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $model = Mage::getModel('Enterprise_Rma_Model_Rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
-        $orderId = 0;
         $rmaId = $this->getRequest()->getParam($requestParam);
         if ($rmaId) {
             $model->load($rmaId);
@@ -47,6 +46,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } else {
             $orderId = $this->getRequest()->getParam('order_id');
         }
+
         if ($orderId) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if (!$order->getId()) {
@@ -100,8 +100,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->_redirect('*/*/chooseorder', array('customer_id' => $customerId));
         } else {
             try {
-                $createModel = $this->_initCreateModel();
-                $model = $this->_initModel();
+                $this->_initCreateModel();
+                $this->_initModel();
                 if (!Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
                     Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
                         Mage::helper('Enterprise_Rma_Helper_Data')->__('There are no applicable items for return in this order')
@@ -358,37 +358,37 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      * Add RMA comment action
      *
      * @throws Mage_Core_Exception
+     * @return void
      */
     public function addCommentAction()
     {
-        $response = false;
         try {
-            $model = $this->_initModel();
+            $this->_initModel();
 
             $data = $this->getRequest()->getPost('comment');
             $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
             $visible = isset($data['is_visible_on_front']) ? $data['is_visible_on_front'] : false;
-            $comment = trim(strip_tags($data['comment']));
 
             $rma = Mage::registry('current_rma');
             if (!$rma) {
                 Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid RMA.'));
             }
 
-            if (!empty($comment)) {
-                /** @var $history Enterprise_Rma_Model_Rma_Status_History */
-                $history = Mage::getModel('Enterprise_Rma_Model_Rma_Status_History');
-                $history->setRmaEntityId((int)$rma->getId())
-                    ->setComment($comment)
-                    ->setIsVisibleOnFront($visible)
-                    ->setIsCustomerNotified($notify)
-                    ->setStatus($rma->getStatus())
-                    ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
-                    ->setIsAdmin(1)
-                    ->save();
-            } else {
+            $comment = trim($data['comment']);
+            if (!$comment) {
                 Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Enter valid message.'));
             }
+
+            /** @var $history Enterprise_Rma_Model_Rma_Status_History */
+            $history = Mage::getModel('enterprise_rma/rma_status_history');
+            $history->setRmaEntityId((int)$rma->getId())
+                ->setComment($comment)
+                ->setIsVisibleOnFront($visible)
+                ->setIsCustomerNotified($notify)
+                ->setStatus($rma->getStatus())
+                ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                ->setIsAdmin(1)
+                ->save();
 
             if ($notify && $history) {
                 $history->setRma($rma);
@@ -406,15 +406,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Cannot add RMA history.')
+                'message'   => $this->__('Cannot add RMA history.'),
             );
         }
         if (is_array($response)) {
             $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
         }
+        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -551,10 +549,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
         if (is_array($response)) {
             $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
         }
+        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -636,10 +632,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
         if (is_array($response)) {
             $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
         }
+        $this->getResponse()->setBody($response);
     }
 
 
