@@ -798,4 +798,15 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
     {
         // empty code
     }
+
+    /**
+     * Empty method
+     *
+     * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
+     * @return Zend_Db_Expr
+     */
+    public function getStandardDeviationSql($expressionField)
+    {
+        // empty code
+    }
 }
