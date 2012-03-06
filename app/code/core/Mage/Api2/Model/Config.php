@@ -435,6 +435,18 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve validator form code
+     *
+     * @param string $resource
+     * @param string $validator
+     * @return string
+     */
+    public function getValidationConfig($resource, $validator)
+    {
+        return $this->getNode('resources/' . $resource . '/validators/' . $validator)->asArray();
+    }
+
+    /**
      * Retrieve id field name for resource
      *
      * @param string $resource

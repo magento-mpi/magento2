@@ -77,7 +77,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         }
     }
 
-
     /**
      * Test update customer address
      *

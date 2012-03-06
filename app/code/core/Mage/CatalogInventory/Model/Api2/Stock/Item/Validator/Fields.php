@@ -31,37 +31,8 @@
  * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Persist extends Mage_Api2_Model_Resource_Validator
+class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields extends Mage_Api2_Model_Resource_Validator_Fields
 {
-    /**
-     * The greatest value which could be stored in CatalogInventory Qty field
-     */
-    const MAX_QTY_VALUE = 99999999.9999;
-
-    /**
-     * Resource
-     *
-     * @var Mage_Api2_Model_Resource
-     */
-    protected $_resource;
-
-    /**
-     * Construct. Set all depends.
-     *
-     * Required parameteres for options:
-     * - resource
-     *
-     * @param array $options
-     * @throws Exception If passed parameter 'resource' is wrong
-     */
-    public function __construct($options)
-    {
-        if (!isset($options['resource']) || !$options['resource'] instanceof Mage_Api2_Model_Resource) {
-            throw new Exception("Passed parameter 'resource' is wrong.");
-        }
-        $this->_resource = $options['resource'];
-    }
-
     /**
      * Filter request data.
      *
@@ -72,12 +43,6 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Persist extends Mage
     {
         if (!isset($data['use_config_manage_stock'])) {
             $data['use_config_manage_stock'] = 0;
-        }
-        if (isset($data['qty']) && (float)$data['qty'] > self::MAX_QTY_VALUE) {
-            $data['qty'] = self::MAX_QTY_VALUE;
-        }
-        if (isset($data['min_qty']) && (int)$data['min_qty'] < 0) {
-            $data['min_qty'] = 0;
         }
         if (!isset($data['is_decimal_divided']) || $data['is_qty_decimal'] == 0) {
             $data['is_decimal_divided'] = 0;
@@ -109,23 +74,6 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Persist extends Mage
             }
         }
 
-        return !$hasError;
-    }
-
-    /**
-     * Validate data.
-     * If fails validation, then this method returns false, and
-     * getErrors() will return an array of errors that explain why the
-     * validation failed.
-     *
-     * TODO: implement validation (https://jira.magento.com/browse/APIA-318)
-     *
-     * @param  array $data
-     * @void bool
-     */
-    public function isSatisfiedByData(array $data)
-    {
-        $hasError = false;
         return !$hasError;
     }
 }

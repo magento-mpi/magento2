@@ -53,6 +53,33 @@ abstract class Mage_Api2_Model_Resource_Validator
     }
 
     /**
+     * Add errors
+     *
+     * @param array $errors
+     * @return Mage_Api2_Model_Resource_Validator
+     */
+    protected function _addErrors($errors)
+    {
+        foreach ($errors as $error) {
+            $this->_addError($error);
+        }
+        return $this;
+    }
+
+
+    /**
+     * Add error
+     *
+     * @param string $error
+     * @return Mage_Api2_Model_Resource_Validator
+     */
+    protected function _addError($error)
+    {
+        $this->_errors[] = $error;
+        return $this;
+    }
+
+    /**
      * Returns an array of errors that explain why the most recent isSatisfiedByData()
      * call returned false. The array keys are validation failure error identifiers,
      * and the array values are the corresponding human-readable error strings.
