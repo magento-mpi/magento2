@@ -325,7 +325,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Get resource allowed versions
+     * Get resource allowed versions sorted in reverse order
      *
      * @param string $node
      * @return array
@@ -438,5 +438,29 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceIdFieldName($resource)
     {
         return (string) $this->getNode('resources/' . $resource . '/id_field_name');
+    }
+
+    /**
+     * Get latest version of resource model. If second arg is specified - use it as a limiter
+     *
+     * @param string $resourceType Resource type
+     * @param int $lowerOrEqualsTo OPTIONAL If specified - return version equal or lower to
+     * @return int
+     * @throws Mage_Api2_Exception
+     */
+    public function getResourceLastVersion($resourceType, $lowerOrEqualsTo = null)
+    {
+        $availVersions = $this->getVersions($resourceType); // already ordered in reverse order
+        $useVersion    = reset($availVersions);
+
+        if (null !== $lowerOrEqualsTo) {
+            foreach ($availVersions as $availVersion) {
+                if ($availVersion <= $lowerOrEqualsTo) {
+                    $useVersion = $availVersion;
+                    break;
+                }
+            }
+        }
+        return (int) $useVersion;
     }
 }
