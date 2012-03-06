@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,28 +31,6 @@
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order_Addresses_Rest_Admin_V1 extends Mage_Sales_Model_Api2_Order_Addresses
+class Mage_Sales_Model_Api2_Order_Addresses_Rest_Admin_V1 extends Mage_Sales_Model_Api2_Order_Addresses_Rest
 {
-    /**
-     * Retrieve order addresses collection
-     *
-     * @return mixed
-     */
-    public function _retrieve()
-    {
-        $orderId = $this->getRequest()->getParam('order_id');
-
-        /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
-        $collection = Mage::getResourceModel('sales/order_address_collection');
-        $collection->addAttributeToFilter('parent_id', $orderId);
-
-        $this->_applyCollectionModifiers($collection);
-        $data = $collection->load()->toArray();
-
-        if (count($data['items'])==0) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-
-        return $data['items'];
-    }
 }

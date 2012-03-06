@@ -25,21 +25,41 @@
  */
 
 /**
- * API2 class for order address
+ * Abstract API2 class for order address
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order_Address extends Mage_Api2_Model_Resource_Instance
+abstract class Mage_Sales_Model_Api2_Order_Address_Rest extends Mage_Sales_Model_Api2_Order_Address
 {
     /**
-     * Resource specific method to retrieve attributes codes. May be overriden in child.
+     * Retrieve order address
      *
      * @return array
      */
-    protected function _getResourceAttributes()
+    protected function _retrieve()
     {
-        return $this->getDbAttributes();
+        /** @var $address Mage_Sales_Model_Order_Address */
+        $address = $this->_getCollectionForRetrieve()->getFirstItem();
+        if (!$address->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $address->getData();
+    }
+
+    /**
+     * Retrieve collection instances
+     *
+     * @return Mage_Sales_Model_Resource_Order_Address_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
+        $collection = Mage::getResourceModel('sales/order_address_collection');
+        $collection->addAttributeToFilter('parent_id', $this->getRequest()->getParam('order_id'))
+            ->addAttributeToFilter('address_type', $this->getRequest()->getParam('address_type'));
+
+        return $collection;
     }
 }

@@ -19,13 +19,13 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for order addresses (admin)
+ * API2 class for order addresses
  *
  * @category   Mage
  * @package    Mage_Sales
@@ -34,7 +34,7 @@
 class Mage_Sales_Model_Api2_Order_Addresses extends Mage_Api2_Model_Resource_Collection
 {
     /**
-     * Resource specific method to retrieve attributes' codes. May be overriden in child.
+     * Resource specific method to retrieve attributes codes. May be overriden in child.
      *
      * @return array
      */

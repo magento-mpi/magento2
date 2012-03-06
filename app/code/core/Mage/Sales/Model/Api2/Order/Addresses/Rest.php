@@ -25,12 +25,44 @@
  */
 
 /**
- * API2 class for order address (admin)
+ * Abstract API2 class for order addresses
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order_Address_Rest_Admin_V1 extends Mage_Sales_Model_Api2_Order_Address_Rest
+abstract class Mage_Sales_Model_Api2_Order_Addresses_Rest extends Mage_Sales_Model_Api2_Order_Addresses
 {
+    /**
+     * Retrieve order addresses
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $collection = $this->_getCollectionForRetrieve();
+
+        $this->_applyCollectionModifiers($collection);
+        $data = $collection->load()->toArray();
+
+        if (0 == count($data['items'])) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $data['items'];
+    }
+
+    /**
+     * Retrieve collection instances
+     *
+     * @return Mage_Sales_Model_Resource_Order_Address_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
+        $collection = Mage::getResourceModel('sales/order_address_collection');
+        $collection->addAttributeToFilter('parent_id', $this->getRequest()->getParam('order_id'));
+
+        return $collection;
+    }
 }
