@@ -274,7 +274,7 @@ class Mage_Downloadable_Model_Observer
     public function initOptionRenderer(Varien_Event_Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('downloadable', 'downloadable/catalog_product_configuration');
+        $block->addOptionsRenderCfg('downloadable', 'Mage_Downloadable_Helper_Catalog_Product_Configuration');
         return $this;
     }
 }

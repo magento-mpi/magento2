@@ -36,36 +36,36 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
         //columns headers
         $lines[0][] = array(
-            'text' => Mage::helper('sales')->__('Products'),
+            'text' => Mage::helper('Mage_Sales_Helper_Data')->__('Products'),
             'feed' => 35
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('SKU'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'feed'  => 290,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('Qty'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('Qty'),
             'feed'  => 435,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('Price'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
             'feed'  => 360,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('Tax'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
             'feed'  => 495,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('Subtotal'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
             'feed'  => 565,
             'align' => 'right'
         );

@@ -27,7 +27,7 @@
                 <children>
                     <promo>
                         <children>
-                            <quote translate="title" module="salesrule">
+                            <quote translate="title" module="Mage_SalesRule">
                                 <title>Shopping Cart Price Rules</title>
                             </quote>
                         </children>

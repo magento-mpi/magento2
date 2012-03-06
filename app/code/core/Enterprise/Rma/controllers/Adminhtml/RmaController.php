@@ -380,13 +380,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             }
 
             /** @var $history Enterprise_Rma_Model_Rma_Status_History */
-            $history = Mage::getModel('enterprise_rma/rma_status_history');
+            $history = Mage::getModel('Enterprise_Rma_Model_Rma_Status_History');
             $history->setRmaEntityId((int)$rma->getId())
                 ->setComment($comment)
                 ->setIsVisibleOnFront($visible)
                 ->setIsCustomerNotified($notify)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('core/date')->gmtDate())
+                ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
 

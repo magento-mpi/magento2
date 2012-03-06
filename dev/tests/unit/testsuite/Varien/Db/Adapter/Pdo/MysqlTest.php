@@ -23,14 +23,14 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      * Adapter for test
      * @var Varien_Db_Adapter_Pdo_Mysql
      */
-    private $adapter;
+    private $_adapter;
 
     /**
      * Setup
      */
     protected function setUp()
     {
-        $this->adapter = new Varien_Db_Adapter_Pdo_Mysql(
+        $this->_adapter = new Varien_Db_Adapter_Pdo_Mysql(
             array(
                 'dbname' => 'not_exists',
                 'username' => 'not_valid',
@@ -46,7 +46,7 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      */
     public function testPrepareColumnValueForBigint($value, $expectedResult)
     {
-        $result = $this->adapter->prepareColumnValue(
+        $result = $this->_adapter->prepareColumnValue(
             array('DATA_TYPE' => 'bigint'),
             $value
         );

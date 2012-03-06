@@ -133,7 +133,7 @@
             <product_option_renderer_init>
                 <observers>
                     <giftcard_observer>
-                        <class>enterprise_giftcard/observer</class>
+                        <class>Enterprise_GiftCard_Model_Observer</class>
                         <method>initOptionRenderer</method>
                     </giftcard_observer>
                 </observers>

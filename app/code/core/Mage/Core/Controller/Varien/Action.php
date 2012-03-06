@@ -736,7 +736,7 @@ abstract class Mage_Core_Controller_Varien_Action
     public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace));
+        $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace));
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()

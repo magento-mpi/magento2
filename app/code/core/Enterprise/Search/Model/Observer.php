@@ -251,12 +251,12 @@ class Enterprise_Search_Model_Observer
      */
     public function runFulltextReindexAfterPriceReindex(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
         /* @var Enterprise_Search_Model_Indexer_Indexer $indexer */
-        $indexer = Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext');
+        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }

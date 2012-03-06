@@ -165,7 +165,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
         }
-        $this->_result = Mage::getModel('shipping/rate_result');
+        $this->_result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
 
         $this->setRequest($request);
 

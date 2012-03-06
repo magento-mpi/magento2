@@ -194,7 +194,7 @@
             <product_option_renderer_init>
                 <observers>
                     <downloadable_observer>
-                        <class>downloadable/observer</class>
+                        <class>Mage_Downloadable_Model_Observer</class>
                         <method>initOptionRenderer</method>
                     </downloadable_observer>
                 </observers>

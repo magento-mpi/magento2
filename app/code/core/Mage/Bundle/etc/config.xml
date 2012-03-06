@@ -139,7 +139,7 @@
             <product_option_renderer_init>
                 <observers>
                     <bundle_observer>
-                        <class>bundle/observer</class>
+                        <class>Mage_Bundle_Model_Observer</class>
                         <method>initOptionRenderer</method>
                     </bundle_observer>
                 </observers>

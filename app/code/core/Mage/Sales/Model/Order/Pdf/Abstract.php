@@ -188,7 +188,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(trim(strip_tags($_value)),
                         $this->getAlignRight($_value, 130, 440, $font, 10),
                         $top,
@@ -232,7 +232,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         foreach ($address as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (Mage::helper('core/string')->str_split($value, 55, true, true) as $_value) {
+                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 55, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -341,7 +341,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         foreach ($billingAddress as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -358,7 +358,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             foreach ($shippingAddress as $value){
                 if ($value!=='') {
                     $text = array();
-                    foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
+                    foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -400,7 +400,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             if (trim($value) != '') {
                 //Printing "Payment Method" lines
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (Mage::helper('core/string')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
                     $yPayments -= 15;
                 }
@@ -420,13 +420,13 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $methodStartY = $this->y;
             $this->y     -= 15;
 
-            foreach (Mage::helper('core/string')->str_split($shippingMethod, 45, true, true) as $_value) {
+            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($shippingMethod, 45, true, true) as $_value) {
                 $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
                 $this->y -= 15;
             }
 
             $yShipments = $this->y;
-            $totalShippingChargesText = "(" . Mage::helper('sales')->__('Total Shipping Charges') . " "
+            $totalShippingChargesText = "(" . Mage::helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges') . " "
                 . $order->formatPriceTxt($order->getShippingAmount()) . ")";
 
             $page->drawText($totalShippingChargesText, 285, $yShipments - $topMargin, 'UTF-8');
@@ -445,7 +445,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
                 $this->_setFontRegular($page, 9);
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-                //$page->drawText(Mage::helper('sales')->__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
+                //$page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
                 $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Title'), 290, $yShipments - 7, 'UTF-8');
                 $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Number'), 410, $yShipments - 7, 'UTF-8');
 

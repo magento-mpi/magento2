@@ -479,7 +479,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $escapedProductName = Mage::helper('enterprise_rma')->escapeHtml($item->getProductName());
+                $escapedProductName = Mage::helper('Enterprise_Rma_Helper_Data')->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
                         $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %s.', $escapedProductName);
@@ -529,7 +529,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = Mage::helper('enterprise_rma')->escapeHtml($availableItemsArray[$key]['name']);
+            $escapedProductName = Mage::helper('Enterprise_Rma_Helper_Data')->escapeHtml($availableItemsArray[$key]['name']);
             if (!array_key_exists($key, $availableItemsArray)) {
                 $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot return %s.', $escapedProductName);
             }

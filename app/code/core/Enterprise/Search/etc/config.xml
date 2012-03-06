@@ -148,7 +148,7 @@
             <after_reindex_process_catalog_product_price>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>runFulltextReindexAfterPriceReindex</method>
                     </enterprise_search>
                 </observers>

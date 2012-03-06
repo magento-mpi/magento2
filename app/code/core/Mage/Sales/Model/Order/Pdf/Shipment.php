@@ -36,17 +36,17 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
         //columns headers
         $lines[0][] = array(
-            'text' => Mage::helper('sales')->__('Products'),
+            'text' => Mage::helper('Mage_Sales_Helper_Data')->__('Products'),
             'feed' => 100,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('Qty'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('Qty'),
             'feed'  => 35
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('sales')->__('SKU'),
+            'text'  => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'feed'  => 565,
             'align' => 'right'
         );

@@ -301,7 +301,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     public function initOptionRenderer(Varien_Event_Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('giftcard', 'enterprise_giftcard/catalog_product_configuration');
+        $block->addOptionsRenderCfg('giftcard', 'Enterprise_GiftCard_Helper_Catalog_Product_Configuration');
         return $this;
     }
 }
