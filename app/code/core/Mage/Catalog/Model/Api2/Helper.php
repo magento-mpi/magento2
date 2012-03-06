@@ -302,7 +302,6 @@ class Mage_Catalog_Model_Api2_Helper
                 $this->_validateBoolean($stockData, $fieldSet, 'manage_stock');
             }
             if ($this->_isManageStockEnabled($stockData)) {
-
                 $this->_validateNumeric($stockData, $fieldSet, 'qty');
                 $this->_validatePositiveNumber($stockData, $fieldSet, 'min_qty', false, true, true);
                 $this->_validateNumeric($stockData, $fieldSet, 'notify_stock_qty', false, true);
@@ -319,8 +318,6 @@ class Mage_Catalog_Model_Api2_Helper
                         'cataloginventory/source_backorders', true);
                     $this->_validateSource($stockData, $fieldSet, 'is_in_stock', 'cataloginventory/source_stock');
                 }
-
-
             }
 
             $this->_validatePositiveInteger($stockData, $fieldSet, 'min_sale_qty', false, true);
