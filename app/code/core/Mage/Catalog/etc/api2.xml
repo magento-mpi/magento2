@@ -78,70 +78,70 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <product_id/>
-                            <set/>
-                            <stock_data/>
-                            <use_config_gift_message_available/>
-                            <use_config_gift_wrapping_available/>
-                            <url_key_create_redirect/>
+                            <product_id>1</product_id>
+                            <set>1</set>
+                            <stock_data>1/</stock_data>
+                            <use_config_gift_message_available>1</use_config_gift_message_available>
+                            <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
+                            <url_key_create_redirect>1</url_key_create_redirect>
                         </read>
                     </customer>
                     <guest>
                         <read>
-                            <product_id/>
-                            <set/>
-                            <stock_data/>
-                            <use_config_gift_message_available/>
-                            <use_config_gift_wrapping_available/>
-                            <url_key_create_redirect/>
+                            <product_id>1</product_id>
+                            <set>1</set>
+                            <stock_data>1</stock_data>
+                            <use_config_gift_message_available>1</use_config_gift_message_available>
+                            <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
+                            <url_key_create_redirect>1</url_key_create_redirect>
                         </read>
                     </guest>
                     <admin>
                         <read>
-                            <allow_open_amount/>
-                            <giftcard_amounts/>
-                            <open_amount_min/>
-                            <open_amount_max/>
-                            <image/>
-                            <is_recurring/>
-                            <gallery/>
-                            <media_gallery/>
-                            <price_view/>
-                            <small_image/>
-                            <image_url/>
-                            <is_saleable/>
-                            <total_reviews_count/>
-                            <url/>
-                            <buy_now_url/>
-                            <has_custom_options/>
-                            <is_in_stock/>
-                            <regular_price/>
-                            <final_price/>
-                            <final_price_with_tax/>
-                            <final_price_without_tax/>
+                            <allow_open_amount>1</allow_open_amount>
+                            <giftcard_amounts>1</giftcard_amounts>
+                            <open_amount_min>1</open_amount_min>
+                            <open_amount_max>1</open_amount_max>
+                            <image>1</image>
+                            <is_recurring>1</is_recurring>
+                            <gallery>1</gallery>
+                            <media_gallery>1</media_gallery>
+                            <price_view>1</price_view>
+                            <small_image>1</small_image>
+                            <image_url>1</image_url>
+                            <is_saleable>1</is_saleable>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
+                            <regular_price>1</regular_price>
+                            <final_price>1</final_price>
+                            <final_price_with_tax>1</final_price_with_tax>
+                            <final_price_without_tax>1</final_price_without_tax>
                         </read>
                         <write>
-                            <allow_open_amount/>
-                            <giftcard_amounts/>
-                            <open_amount_min/>
-                            <open_amount_max/>
-                            <image/>
-                            <is_recurring/>
-                            <gallery/>
-                            <media_gallery/>
-                            <price_view/>
-                            <small_image/>
-                            <image_url/>
-                            <is_saleable/>
-                            <total_reviews_count/>
-                            <url/>
-                            <buy_now_url/>
-                            <has_custom_options/>
-                            <is_in_stock/>
-                            <regular_price/>
-                            <final_price/>
-                            <final_price_with_tax/>
-                            <final_price_without_tax/>
+                            <allow_open_amount>1</allow_open_amount>
+                            <giftcard_amounts>1</giftcard_amounts>
+                            <open_amount_min>1</open_amount_min>
+                            <open_amount_max>1</open_amount_max>
+                            <image>1</image>
+                            <is_recurring>1</is_recurring>
+                            <gallery>1</gallery>
+                            <media_gallery>1</media_gallery>
+                            <price_view>1</price_view>
+                            <small_image>1</small_image>
+                            <image_url>1</image_url>
+                            <is_saleable>1</is_saleable>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
+                            <regular_price>1</regular_price>
+                            <final_price>1</final_price>
+                            <final_price_with_tax>1</final_price_with_tax>
+                            <final_price_without_tax>1</final_price_without_tax>
                         </write>
                     </admin>
                 </exclude_attributes>
@@ -188,70 +188,70 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <product_id/>
-                            <set/>
-                            <stock_data/>
-                            <use_config_gift_message_available/>
-                            <use_config_gift_wrapping_available/>
-                            <url_key_create_redirect/>
+                            <product_id>1</product_id>
+                            <set>1</set>
+                            <stock_data>1/</stock_data>
+                            <use_config_gift_message_available>1</use_config_gift_message_available>
+                            <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
+                            <url_key_create_redirect>1</url_key_create_redirect>
                         </read>
                     </customer>
                     <guest>
                         <read>
-                            <product_id/>
-                            <set/>
-                            <stock_data/>
-                            <use_config_gift_message_available/>
-                            <use_config_gift_wrapping_available/>
-                            <url_key_create_redirect/>
+                            <product_id>1</product_id>
+                            <set>1</set>
+                            <stock_data>1</stock_data>
+                            <use_config_gift_message_available>1</use_config_gift_message_available>
+                            <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
+                            <url_key_create_redirect>1</url_key_create_redirect>
                         </read>
                     </guest>
                     <admin>
                         <read>
-                            <allow_open_amount/>
-                            <giftcard_amounts/>
-                            <open_amount_min/>
-                            <open_amount_max/>
-                            <image/>
-                            <is_recurring/>
-                            <gallery/>
-                            <media_gallery/>
-                            <price_view/>
-                            <small_image/>
-                            <image_url/>
-                            <is_saleable/>
-                            <total_reviews_count/>
-                            <url/>
-                            <buy_now_url/>
-                            <has_custom_options/>
-                            <is_in_stock/>
-                            <regular_price/>
-                            <final_price/>
-                            <final_price_with_tax/>
-                            <final_price_without_tax/>
+                            <allow_open_amount>1</allow_open_amount>
+                            <giftcard_amounts>1</giftcard_amounts>
+                            <open_amount_min>1</open_amount_min>
+                            <open_amount_max>1</open_amount_max>
+                            <image>1</image>
+                            <is_recurring>1</is_recurring>
+                            <gallery>1</gallery>
+                            <media_gallery>1</media_gallery>
+                            <price_view>1</price_view>
+                            <small_image>1</small_image>
+                            <image_url>1</image_url>
+                            <is_saleable>1</is_saleable>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
+                            <regular_price>1</regular_price>
+                            <final_price>1</final_price>
+                            <final_price_with_tax>1</final_price_with_tax>
+                            <final_price_without_tax>1</final_price_without_tax>
                         </read>
                         <write>
-                            <allow_open_amount/>
-                            <giftcard_amounts/>
-                            <open_amount_min/>
-                            <open_amount_max/>
-                            <image/>
-                            <is_recurring/>
-                            <gallery/>
-                            <media_gallery/>
-                            <price_view/>
-                            <small_image/>
-                            <image_url/>
-                            <is_saleable/>
-                            <total_reviews_count/>
-                            <url/>
-                            <buy_now_url/>
-                            <has_custom_options/>
-                            <is_in_stock/>
-                            <regular_price/>
-                            <final_price/>
-                            <final_price_with_tax/>
-                            <final_price_without_tax/>
+                            <allow_open_amount>1</allow_open_amount>
+                            <giftcard_amounts>1</giftcard_amounts>
+                            <open_amount_min>1</open_amount_min>
+                            <open_amount_max>1</open_amount_max>
+                            <image>1</image>
+                            <is_recurring>1</is_recurring>
+                            <gallery>1</gallery>
+                            <media_gallery>1</media_gallery>
+                            <price_view>1</price_view>
+                            <small_image>1</small_image>
+                            <image_url>1</image_url>
+                            <is_saleable>1</is_saleable>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
+                            <regular_price>1</regular_price>
+                            <final_price>1</final_price>
+                            <final_price_with_tax>1</final_price_with_tax>
+                            <final_price_without_tax>1</final_price_without_tax>
                         </write>
                     </admin>
                 </exclude_attributes>
