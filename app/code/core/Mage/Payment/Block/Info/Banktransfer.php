@@ -39,7 +39,7 @@ class Mage_Payment_Block_Info_Banktransfer extends Mage_Payment_Block_Info
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payment/info/banktransfer.phtml');
+        $this->setTemplate('info/banktransfer.phtml');
     }
 
     /**
