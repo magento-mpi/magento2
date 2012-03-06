@@ -236,9 +236,9 @@
             var billingRememberMe = $('co-billing-form').select('#remember-me-box');
             if (billingRememberMe.length > 0) {
                 if ($('login:guest') && $('login:guest').checked) {
-                    billingRememberMe.hide();
+                    billingRememberMe[0].hide();
                 } else if ($('login:register') && ($('login:register').checked || $('login:register').type == 'hidden')) {
-                    billingRememberMe.show();
+                    billingRememberMe[0].show();
                 }
             }
         });
