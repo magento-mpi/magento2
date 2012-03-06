@@ -62,6 +62,9 @@
                     <route_main>
                         <mask>/products</mask>
                     </route_main>
+                    <route_with_store>
+                        <mask>/products/store/:store</mask>
+                    </route_with_store>
                 </routes>
                 <instance>product</instance>
                 <versions>1</versions>

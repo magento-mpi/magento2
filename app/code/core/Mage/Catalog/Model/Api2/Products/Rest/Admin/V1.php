@@ -55,8 +55,11 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     protected function _create(array $data)
     {
         $this->_validate($data);
-
         $type = $data['type'];
+        if ($type !== 'simple') {
+            $this->_critical("Creation of products with type '$type' is not implemented",
+                Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
+        }
         $set = $data['set'];
         $sku = $data['sku'];
 
@@ -85,6 +88,32 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     }
 
     /**
+     * Retrieve list of products
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        // TODO: Check category filter
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('catalog/product_collection');
+        $store = $this->_getStore();
+        $collection->setStoreId($store->getId());
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+        $this->_applyCollectionModifiers($collection);
+
+        $products = $collection->load()->toArray();
+        foreach($products as &$productData) {
+            $productData['set'] = $productData['attribute_set_id'];
+            $productData['type'] = $productData['type_id'];
+            $productData['product_id'] = $productData['entity_id'];
+        }
+        return $products;
+    }
+
+    /**
      * Pre-validate request data
      *
      * @param array $data
@@ -101,5 +130,25 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
         if ($this->getResponse()->isException()) {
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
+    }
+
+    /**
+     * Check if store exist by its code or ID
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = $this->getRequest()->getParam('store');
+        try {
+            if (is_null($store)) {
+                $store = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            }
+            $store = Mage::app()->getStore($store);
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            // store does not exist
+            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $store;
     }
 }

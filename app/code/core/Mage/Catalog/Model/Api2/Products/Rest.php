@@ -33,5 +33,24 @@
  */
 abstract class Mage_Catalog_Model_Api2_Products_Rest extends Mage_Catalog_Model_Api2_Products
 {
-
+    /**
+     * Check if store exist by its code or ID
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = $this->getRequest()->getParam('store');
+        try {
+            if (!$store) {
+                $store = Mage::app()->getDefaultStoreView();
+            } else {
+                $store = Mage::app()->getStore($store);
+            }
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            // store does not exist
+            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $store;
+    }
 }
