@@ -799,7 +799,11 @@
                 if ($(f) != undefined) {
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
                     if ($(f).tagName.toLowerCase() == 'select') {
-                        $(f).value = value;
+                        if (value == '') {
+                            $(f).selectedIndex = 1;
+                        } else {
+                            $(f).value = value;
+                        }
                     } else {
                         $(f).value = (value == '0' ? '' : value);
                     }

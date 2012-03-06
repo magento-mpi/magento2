@@ -74,7 +74,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                        <p><a href="#" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <p><a href="<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>" onclick="setPLocation(this.href, true); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
             <?php endforeach; ?>
@@ -126,7 +126,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                        <p><a href="#" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <p><a href="<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>" onclick="setPLocation(this.href, true); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
                 <?php endforeach; ?>

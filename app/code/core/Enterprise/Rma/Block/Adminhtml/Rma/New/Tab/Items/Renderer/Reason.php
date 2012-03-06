@@ -42,5 +42,4 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Renderer_Reason
     {
         $this->setTemplate('enterprise/rma/new/items/renderer/reason.phtml');
     }
-
 }

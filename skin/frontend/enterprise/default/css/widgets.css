@@ -162,14 +162,5 @@
 .sidebar .widget-cms-hierarchy-link a:hover { color:#333; text-decoration:none; }
 
 /* Widget SKU */
-.widget-sku .block .block-content { padding-right:21px; }
-.widget-sku .sku-table { table-layout:fixed; margin-bottom:20px; width:100%; }
-.widget-sku .sku-table th,
-.widget-sku .sku-table td { padding:2px 5px 2px 2px; }
-.widget-sku .sku-table th { font-weight:bold; }
-.widget-sku .sku-table td input { width:98%; }
-.widget-sku .actions { text-align:right; }
-.widget-sku .add-row       { cursor:pointer; display:inline-block; text-decoration:underline; }
-.widget-sku .add-row:hover { text-decoration:none; }
-.widget-sku .remove-row    { background:url(../images/btn_remove.gif) no-repeat right; cursor:pointer; display:inline-block; height:12px; vertical-align:middle; width:13px; text-indent:-999em; }
+/* .widget-sku {} */
 /* ======================================================================================= */

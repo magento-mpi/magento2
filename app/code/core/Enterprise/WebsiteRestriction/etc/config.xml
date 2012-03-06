@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_WebsiteRestriction>
-            <version>1.11.0.0</version>
+            <version>1.11.0.0.1</version>
         </Enterprise_WebsiteRestriction>
     </modules>
     <global>
@@ -103,6 +103,8 @@
                         <customer_account_forgotpasswordpost/>
                         <customer_account_confirm/>
                         <customer_account_confirmation/>
+                        <customer_account_resetpassword/>
+                        <customer_account_resetpasswordpost/>
                         <paypal_ipn_standard/>
                         <paypal_ipn_express/>
                         <paypal_ipn_direct/>

@@ -376,6 +376,10 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             return $attributeCode;
         }
 
+        if ($attributeCode == 'price') {
+            return $this->getPriceFieldName();
+        }
+
         $backendType    = $attribute->getBackendType();
         $frontendInput  = $attribute->getFrontendInput();
 

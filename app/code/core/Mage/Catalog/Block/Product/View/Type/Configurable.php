@@ -87,10 +87,11 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
+            $skipSaleableCheck = Mage::helper('catalog/product')->getSkipSaleableCheck();
             $allProducts = $this->getProduct()->getTypeInstance(true)
                 ->getUsedProducts(null, $this->getProduct());
             foreach ($allProducts as $product) {
-                if ($product->isSaleable()) {
+                if ($product->isSaleable() || $skipSaleableCheck) {
                     $products[] = $product;
                 }
             }

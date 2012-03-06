@@ -568,18 +568,23 @@ class Mage_Core_Model_Locale
     {
         Varien_Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
+            $options = array();
             try {
                 $currencyObject = new Zend_Currency($currency, $this->getLocale());
             } catch (Exception $e) {
                 $currencyObject = new Zend_Currency($this->getCurrency(), $this->getLocale());
-                $options = array(
-                        'name'      => $currency,
-                        'currency'  => $currency,
-                        'symbol'    => $currency
-                );
-                $currencyObject->setFormat($options);
+                $options['name'] = $currency;
+                $options['currency'] = $currency;
+                $options['symbol'] = $currency;
             }
 
+            $options = new Varien_Object($options);
+            Mage::dispatchEvent('currency_display_options_forming', array(
+                'currency_options' => $options,
+                'base_code' => $currency
+            ));
+
+            $currencyObject->setFormat($options->toArray());
             self::$_currencyCache[$this->getLocaleCode()][$currency] = $currencyObject;
         }
         Varien_Profiler::stop('locale/currency');

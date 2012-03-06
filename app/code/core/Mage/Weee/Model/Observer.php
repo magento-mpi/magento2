@@ -143,8 +143,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 ->where("{$quotedTableAlias}.attribute_id = ?", $attributeId)
                 ->where("{$quotedTableAlias}.website_id IN(?)", array($websiteId, 0))
                 ->where("{$quotedTableAlias}.country = ?", $rateRequest->getCountryId())
-                ->where("{$quotedTableAlias}.state IN(?)", array($rateRequest->getRegionId(), '*'))
-                ->limit(1);
+                ->where("{$quotedTableAlias}.state IN(?)", array($rateRequest->getRegionId(), '*'));
 
             $order = array(
                 sprintf('%s.state %s', $tableAlias, Varien_Db_Select::SQL_DESC),

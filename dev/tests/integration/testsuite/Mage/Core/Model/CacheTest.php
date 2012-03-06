@@ -44,26 +44,46 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expectedBackendClass, $backend);
     }
 
+    /**
+     * @return array
+     */
     public function constructorDataProvider()
     {
-        $data = array(
+        return array(
             array(array(), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File'), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'File', 'backend_options' => array()), 'Zend_Cache_Backend_File'),
             array(array('backend' => 'Database'), 'Varien_Cache_Backend_Database'),
         );
+    }
 
-        $expectedMemcacheClass = null;
-        if (extension_loaded('memcached')) {
-            $expectedMemcacheClass = 'Zend_Cache_Backend_Libmemcached';
-        } elseif (extension_loaded('memcache')) {
-            $expectedMemcacheClass = 'Zend_Cache_Backend_Memcached';
-        }
-        if ($expectedMemcacheClass) {
-            $data[] = array(array('backend' => 'Memcached'), $expectedMemcacheClass);
-        }
+    /**
+     * @param string $optionCode
+     * @param string $extensionRequired
+     * @dataProvider backendTwoLevelsDataProvider
+     */
+    public function testBackendTwoLevels($optionCode, $extensionRequired)
+    {
+        if ($extensionRequired) {
+            if (!extension_loaded($extensionRequired)) {
+                $this->markTestSkipped("The PHP extension '{$extensionRequired}' is required for this test.");
 
-        return $data;
+            }
+        }
+        $model = new Mage_Core_Model_Cache(array('backend' => $optionCode));
+        $backend = $model->getFrontend()->getBackend();
+        $this->assertInstanceOf('Zend_Cache_Backend_TwoLevels', $backend);
+    }
+
+    /**
+     * @return array
+     */
+    public function backendTwoLevelsDataProvider()
+    {
+        return array(
+            array('Memcached', 'memcached'),
+            array('Memcached', 'memcache'),
+        );
     }
 
     public function testGetFrontend()

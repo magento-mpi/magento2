@@ -56,7 +56,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku extends Enterpris
         $js = $this->getJsOrderObject() . ".addSourceGrid({htmlId: \"{$this->getId()}\", "
             . "listType: \"{$this->getListType()}\"});";
         $js .= $this->getJsOrderObject() . ".addNoCleanSource('{$this->getId()}');";
-        $js .= 'addBySku.observeAddToCart()';
+        $js .= 'addBySku.observeAddToCart();';
         return $js;
     }
 
@@ -88,5 +88,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku extends Enterpris
     public function getFileUploadUrl()
     {
         return $this->getUrl('*/checkout/uploadSkuCsv');
+    }
+
+    /**
+     * Retrieve context specific JavaScript
+     *
+     * @return string
+     */
+    public function getContextSpecificJs()
+    {
+        return 'Event.observe(window, \'load\', initSku);';
     }
 }

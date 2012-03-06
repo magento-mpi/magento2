@@ -264,7 +264,7 @@ class Mage_Shipping_Model_Shipping
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
                         $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
-                        $qty        = ($item->getWeight() / $itemWeight) * $qty;
+                        $qty        = round(($item->getWeight() / $itemWeight) * $qty);
                         $changeQty  = false;
                    } else {
                        $itemWeight = $itemWeight * $item->getQty();
@@ -338,19 +338,18 @@ class Mage_Shipping_Model_Shipping
                         unset($items[$key]);
                         $sumWeight += $weight;
                     } elseif (($sumWeight + $weight) > $maxWeight) {
-                        $pieces[] = (string)$sumWeight;
+                        $pieces[] = (string)(float)$sumWeight;
                         break;
                     } else {
                         unset($items[$key]);
-                        $sumWeight += $weight;
-                        $pieces[] = (string)$sumWeight;
+                        $pieces[] = (string)(float)($sumWeight + $weight);
                         $sumWeight = 0;
                         break;
                     }
                 }
             }
             if ($sumWeight > 0) {
-                $pieces[] = (string)$sumWeight;
+                $pieces[] = (string)(float)$sumWeight;
             }
             $pieces = array_count_values($pieces);
         }

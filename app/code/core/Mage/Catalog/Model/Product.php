@@ -1313,7 +1313,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function isAvailable()
     {
-        return $this->getTypeInstance(true)->isSalable($this);
+        return $this->getTypeInstance(true)->isSalable($this)
+            || Mage::helper('catalog/product')->getSkipSaleableCheck();
     }
 
     /**

@@ -97,9 +97,8 @@ $parameters = $this->getParameters();
     var changeHierarchyArray = [];
     function changeHierarchy()
     {
-        changeHierarchyArray = $F('store_ids');
+        changeHierarchyArray = $('store_ids') ? $F('store_ids') : storesArray;
         showHierarchy();
-
     }
 
     function addClassEnable(storeId)
@@ -177,7 +176,9 @@ $parameters = $this->getParameters();
         $('<?php echo $uniqueHash; ?>_0').insert({after:$('individual_<?php echo $uniqueHash; ?>').up()});
         hideOldHierarchy();
 
-        $('store_ids').observe('change', changeHierarchy);
+        if ($('store_ids')) {
+            $('store_ids').observe('change', changeHierarchy);
+        }
 
         <?php if (isset($parameters['radio']) && $parameters['radio']): ?>
             $('individual_<?php echo $uniqueHash; ?>').checked = true;

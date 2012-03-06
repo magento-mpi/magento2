@@ -170,6 +170,16 @@
         <secure_url>
             <giftcard_customer>/giftcard/customer/</giftcard_customer>
         </secure_url>
+        <events>
+            <product_option_renderer_init>
+                <observers>
+                    <giftcard_observer>
+                        <class>enterprise_giftcard/observer</class>
+                        <method>initOptionRenderer</method>
+                    </giftcard_observer>
+                </observers>
+            </product_option_renderer_init>
+        </events>
     </frontend>
     <adminhtml>
         <layout>

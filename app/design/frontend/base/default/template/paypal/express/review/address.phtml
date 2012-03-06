@@ -39,7 +39,7 @@
                             <input type="text" id="<?php echo $prefix ?>:company" name="<?php echo $prefix ?>[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" />
                         </div>
                     </div>
-        <?php if(!$this->isCustomerLoggedIn()): ?>
+        <?php if(!$this->isCustomerLoggedIn() && !$this->getHideEmailAddress()): ?>
                     <div class="field">
                         <label for="<?php echo $prefix ?>:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                         <div class="input-box">
@@ -119,12 +119,12 @@
                 </li>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
                 <?php if ($this->getShowAsShippingCheckbox()): ?>
-                    <li class="fields">
+                    <li class="control">
                         <div class="field">
-                            <label for="<?php echo $prefix ?>:as_shipping"><?php echo $this->__('Same as shipping') ?></label>
                             <div class="input-box">
-                                <input type="checkbox" name="<?php echo $prefix ?>[as_shipping]" value="1" title="<?php echo $this->__('Same as shipping') ?>" id="<?php echo $prefix ?>:as_shipping" />
+                                <input type="checkbox" name="<?php echo $prefix ?>[as_shipping]" class="checkbox" value="1" title="<?php echo $this->__('Same as shipping') ?>" id="<?php echo $prefix ?>:as_shipping" <?php if ($this->getAddress()->getSameAsShipping()):?>checked="checked"<?php endif;?>/>
                             </div>
+                            <label for="<?php echo $prefix ?>:as_shipping"><?php echo $this->__('Same as shipping') ?></label>
                         </div>
                     </li>
                 <?php endif; ?>

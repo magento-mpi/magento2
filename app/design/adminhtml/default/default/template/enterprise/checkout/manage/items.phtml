@@ -409,7 +409,16 @@
                                 <option value=""></option>
                                 <option value="remove"><?php echo $this->helper('enterprise_checkout')->__('Remove') ?></option>
                                 <?php if ($this->isMoveToWishlistAllowed($_item)): ?>
-                                    <option value="wishlist"><?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?></option>
+                                    <?php $wishlists = $this->getCustomerWishlists();?>
+                                    <?php if (count($wishlists) <= 1):?>
+                                        <option value="wishlist"><?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?></option>
+                                    <?php else: ?>
+                                        <optgroup label="<?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?>">
+                                        <?php foreach ($wishlists as $wishlist):?>
+                                            <option value="wishlist_<?php echo $wishlist->getId();?>"><?php echo $this->escapeHtml($wishlist->getName());?></option>
+                                        <?php endforeach;?>
+                                        </optgroup>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </select>
                         </td>

@@ -311,7 +311,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $session    = Mage::getSingleton('adminhtml/session');
 
         if ($data = $this->getRequest()->getPost()) {
-            if(isset($data['select_stores'])) {
+            if (Mage::app()->isSingleStoreMode()) {
+                $data['stores'] = array(Mage::app()->getStore(true)->getId());
+            } else  if (isset($data['select_stores'])) {
                 $data['stores'] = $data['select_stores'];
             }
 

@@ -54,19 +54,16 @@
                     </div>
                 </li>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
-                <li>
-                    <label></label>
-                    <div class="input-box">
-                        <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
-                    </div>
+                <li class="note">
+                    <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
                 </li>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                <li class="buttons-set">
+                    <input name="context" type="hidden" value="checkout" />
+                    <button type="button" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                </li>
             </ul>
-            <input name="context" type="hidden" value="checkout" />
         </fieldset>
-        <div class="buttons-set form-buttons btn-only">
-            <button type="button" class="button shift-up" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
-        </div>
         </form>
     </div>
     <?php if ( $this->getQuote()->isAllowedGuestCheckout() || $this->helper('customer')->isRegistrationAllowed() ): ?>

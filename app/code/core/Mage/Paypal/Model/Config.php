@@ -107,6 +107,14 @@ class Mage_Paypal_Model_Config
     const AUTHORIZATION_AMOUNT_FULL = 2;
 
     /**
+     * Require Billing Address
+     * @var int
+     */
+    const REQUIRE_BILLING_ADDRESS_NO = 0;
+    const REQUIRE_BILLING_ADDRESS_ALL = 1;
+    const REQUIRE_BILLING_ADDRESS_VIRTUAL = 2;
+
+    /**
      * Fraud management actions
      * @var string
      */
@@ -853,6 +861,20 @@ class Mage_Paypal_Model_Config
             $paymentActions[self::PAYMENT_ACTION_ORDER] = Mage::helper('paypal')->__('Order');
         }
         return $paymentActions;
+    }
+
+    /**
+     * Require Billing Address source getter
+     *
+     * @return array
+     */
+    public function getRequireBillingAddressOptions()
+    {
+        return array(
+            self::REQUIRE_BILLING_ADDRESS_ALL       => Mage::helper('paypal')->__('Yes'),
+            self::REQUIRE_BILLING_ADDRESS_NO        => Mage::helper('paypal')->__('No'),
+            self::REQUIRE_BILLING_ADDRESS_VIRTUAL   => Mage::helper('paypal')->__('For Virtual Quotes Only'),
+        );
     }
 
     /**

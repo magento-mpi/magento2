@@ -241,6 +241,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     );
 
     /**
+     * All possible DDL statements
+     * First 3 symbols for each statement
+     *
+     * @var array
+     */
+    protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
+
+    /**
      * Allowed interval units array
      *
      * @var array
@@ -1343,14 +1351,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName,
+            throw new Zend_Db_Exception(sprintf(
+                'Column "%s" does not exists on table "%s"',
+                $oldColumnName,
                 $tableName
             ));
         }
 
         if ($this->tableColumnExists($tableName, $newColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" already exists on table "%s"',
-                $newColumnName, $tableName
+            throw new Zend_Db_Exception(sprintf(
+                'Column "%s" already exists on table "%s"',
+                $newColumnName,
+                $tableName
             ));
         }
 
@@ -1878,8 +1890,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $onDelete
      * @return Varien_Db_Adapter_Pdo_Mysql
      */
-    public function purgeOrphanRecords($tableName, $columnName, $refTableName, $refColumnName,
-        $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE)
+    public function purgeOrphanRecords($tableName, $columnName, $refTableName,
+        $refColumnName, $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE)
     {
         // quote table and column
         $tableName = $this->quoteIdentifier($tableName);
@@ -2024,25 +2036,27 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'SUBSTRING(trigger_script, 0, start_teg_pos)',
                 'NULL'
             ),
-            $this->getCheckSql('finish_teg_pos != 0',
-                "SUBSTRING(trigger_script, finish_teg_pos + LEN('/* /ACTION ADDED BY '+ :tablename1 + '*/'), "
-                    . "DATALENGTH(trigger_script))",
+            $this->getCheckSql(
+                'finish_teg_pos != 0',
+                "SUBSTRING(trigger_script, finish_teg_pos + LEN('/* /ACTION ADDED BY '+ :tablename1 + '*/'),"
+                    . " DATALENGTH(trigger_script))",
                 'NULL'
             )
         );
 
         $subSelect = $this->select();
-        $subSelect->from(array('t' => 'sys.triggers'),
+        $subSelect->from(
+            array('t' => 'sys.triggers'),
             array(
-                'trigger_script' => new Zend_Db_Expr('OBJECT_DEFINITION(t.object_id)'),
-                'start_teg_pos' => new Zend_Db_Expr("CHARINDEX('/*ACTION ADDED BY '+ :tablename2 + '*/',"
-                        . " OBJECT_DEFINITION(t.object_id))"),
-                'finish_teg_pos' => new Zend_Db_Expr("CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/',"
-                        . " OBJECT_DEFINITION(t.object_id))")
+                'trigger_script'=> new Zend_Db_Expr('OBJECT_DEFINITION(t.object_id)'),
+                'start_teg_pos'=> new Zend_Db_Expr(
+                    "CHARINDEX('/*ACTION ADDED BY '+ :tablename2 + '*/', OBJECT_DEFINITION(t.object_id))"
+                ),
+                'finish_teg_pos'=> new Zend_Db_Expr(
+                    "CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/', OBJECT_DEFINITION(t.object_id))"
+                )
             )
         )->where("t.parent_id = OBJECT_ID(:tablename4)");
-
-        // "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
 
         $select = $this->select();
         $select->from(array('r' => new Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
@@ -2541,6 +2555,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Check transaction level in case of DDL query
+     *
+     * @param string|Zend_Db_Select $sql
+     * @throws Zend_Db_Adapter_Exception
+     */
+    protected function _checkDdlTransaction($sql)
+    {
+        if (is_string($sql) && $this->getTransactionLevel() > 0) {
+            $startSql = strtolower(substr(ltrim($sql), 0, 3));
+            if (in_array($startSql, $this->_ddlRoutines)) {
+                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+            }
+        }
+    }
+
+    /**
      * Prepares and executes an SQL statement with bound data.
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
@@ -2553,6 +2583,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $this->_debugTimer();
         try {
+            $this->_checkDdlTransaction($sql);
             if ($this->_pdoType == 'sqlsrv') {
                 // This pdo has some problems with different binds - so convert them to non-buggy ones
                 $this->_prepareQuery($sql, $bind);
@@ -3572,6 +3603,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Prepare standard deviation sql function
+     *
+     * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
+     * @return Zend_Db_Expr
+     */
+    public function getStandardDeviationSql($expressionField)
+    {
+        return new Zend_Db_Expr(sprintf('STDEV(%s)', $expressionField));
+    }
+
+    /**
      * Quotes an identifier.
      *
      * Accepts a string representing a qualified indentifier. For Example:
@@ -3778,8 +3820,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $level1ObjectType = 'table';
             $level1ObjectName = $object;
         } else {
-            // sp_%extendedproperty has only 3 levels: fist schema|user
-            // second object third depended object (like column)
+            // sp_%extendedproperty has only 3 levels:
+            // fist schema|user second object third depended object (like column)
 
             reset($object);
             $level1ObjectType = key($object);
@@ -4682,7 +4724,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function __destruct()
     {
-        if ($this->_transactionLevel > 0 && Mage::getIsDeveloperMode()) {
+        if ($this->_transactionLevel > 0) {
             trigger_error('Some transactions have not been committed or rolled back', E_USER_ERROR);
         }
     }

@@ -434,17 +434,16 @@ final class Mage
      * Dispatch event
      *
      * Calls all observer callbacks registered for this event
-     * and multiobservers matching event name pattern
+     * and multiple observers matching event name pattern
      *
      * @param string $name
-     * @param array $args
+     * @param array $data
      * @return Mage_Core_Model_App
      */
     public static function dispatchEvent($name, array $data = array())
     {
         Varien_Profiler::start('DISPATCH EVENT:'.$name);
         $result = self::app()->dispatchEvent($name, $data);
-        #$result = self::registry('events')->dispatch($name, $data);
         Varien_Profiler::stop('DISPATCH EVENT:'.$name);
         return $result;
     }
@@ -584,6 +583,7 @@ final class Mage
      *
      * @param string $message
      * @param string $messageStorage
+     * @throws Mage_Core_Exception
      */
     public static function throwException($message, $messageStorage = null)
     {

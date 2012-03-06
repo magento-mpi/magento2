@@ -30,11 +30,28 @@ $connection = $installer->getConnection();
 
 $installer->startSetup();
 
-$targetRuleCustomerSegmentTable = $this->getTable('enterprise_targetrule/customersegment');
-if ($connection->isTableExists($targetRuleCustomerSegmentTable)) {
-    $connection->dropTable($targetRuleCustomerSegmentTable);
-}
-$connection->dropColumn($installer->getTable('enterprise_targetrule/rule'), 'use_customer_segment');
-$connection->dropColumn($installer->getTable('enterprise_targetrule/product'), 'store_id');
+$connection->modifyColumn(
+        $installer->getTable('enterprise_targetrule/rule'),
+        'use_customer_segment',
+        array(
+            'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'default'   => '0',
+            'comment'  => 'Deprecated after 1.11.2.0'
+        )
+);
+
+$connection->modifyColumn(
+        $installer->getTable('enterprise_targetrule/product'),
+        'store_id',
+        array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'primary'   => true,
+            'comment'   => 'Deprecated after 1.11.2.0'
+        )
+);
 
 $installer->endSetup();

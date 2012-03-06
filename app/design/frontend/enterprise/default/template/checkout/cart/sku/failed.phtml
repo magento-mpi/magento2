@@ -31,9 +31,7 @@
  */
 ?>
 <div class="failed-products">
-    <div class="page-title title-buttons">
-        <h1><?php echo $this->__('Products Requiring Attention') ?></h1>
-    </div>
+    <h2 class="sub-title"><?php echo $this->__('Products Requiring Attention') ?></h2>
     <form action="<?php echo $this->getFormActionUrl() ?>" method="post">
         <fieldset>
             <table id="failed-products-table" class="data-table cart-table">
@@ -112,7 +110,7 @@ $$('.sku-out-of-stock').each(function(e) {
     }
 });
 
-$$('input[id^="sku_failed_qty_"]').each(function(e) {
+$$('input.sku_failed_qty').each(function(e) {
     var qtyElement = $(e.ancestors()[1]).select('td input.qty')[0];
     if (qtyElement) {
         qtyElement.observe('change', function() {
@@ -127,6 +125,10 @@ var validateErrorGrid = function (event)
     if ($errorTable) {
         $errorTable.select('input.qty').each(function ($qty)
         {
+            if ($qty.disabled) {
+                $qty.removeClassName('validation-failed');
+                return;
+            }
             var tr = $qty.up('tr');
             var $maxAllowed = tr.select('.qty_max_allowed');
             var $minAllowed = tr.select('.qty_min_allowed');
@@ -134,8 +136,8 @@ var validateErrorGrid = function (event)
             var qty = parseFloat($qty.value);
             var isMaxAllowedValid = !$maxAllowed.length || (qty <= parseFloat($maxAllowed[0].value));
             var isMinAllowedValid = !$minAllowed.length || (qty >= parseFloat($minAllowed[0].value));
-            var isQtyIncrementsValid = !$qtyIncrements.length || modulo(qty, parseFloat($qtyIncrements[0].value)) == 0;
-            if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid) {
+            var isQtyIncrementsValid = !$qtyIncrements.length || (modulo(qty, parseFloat($qtyIncrements[0].value)) == 0);
+            if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid && qty > 0) {
                 $qty.removeClassName('validation-failed');
             } else {
                 $qty.addClassName('validation-failed');

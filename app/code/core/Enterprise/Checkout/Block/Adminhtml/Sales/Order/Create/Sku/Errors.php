@@ -68,4 +68,14 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
         $storeId = $this->getCart()->getSession()->getStoreId();
         return Mage::app()->getStore($storeId);
     }
+
+    /**
+     * Get title of button, that adds products to order
+     *
+     * @return string
+     */
+    public function getAddButtonTitle()
+    {
+        return $this->__('Add Products to Order');
+    }
 }

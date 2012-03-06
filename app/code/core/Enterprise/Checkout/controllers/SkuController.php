@@ -83,43 +83,22 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
      */
     public function uploadFileAction()
     {
-        $data = $this->getRequest()->getPost();
-        $rows = array();
-        $uploadError = false;
-        if ($data) {
-            /** @var $importModel Enterprise_Checkout_Model_Import */
-            $importModel = Mage::getModel('enterprise_checkout/import');
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('enterprise_checkout');
+        $rows = $helper->isSkuFileUploaded($this->getRequest())
+            ? $helper->processSkuFileUploading($this->_getSession())
+            : array();
 
-            try {
-                if ($importModel->uploadFile()) {
-                    $rows = $importModel->getRows();
-                }
-            } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addException($e, $e->getMessage());
-                $uploadError = true;
-            } catch (Exception $e) {
-                $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_checkout')->__('File upload error.')
-                );
-                $uploadError = true;
-            }
-
-            if (!empty($data['items'])) {
-                foreach ($data['items'] as $item) {
-                    if (!empty($item['sku']) && !empty($item['qty'])) {
-                        $rows[] = $item;
-                    }
-                }
-            }
-            if (empty($rows) && !$uploadError) {
-                $this->_getSession()->addError(Mage::helper('enterprise_checkout')->__('File is empty.'));
-            } else {
-                $this->getRequest()->setParam('items', $rows);
-                $this->_forward('advancedAdd', 'cart');
-                return;
-            }
+        $items = $this->getRequest()->getPost('items');
+        if (!is_array($items)) {
+            $items = array();
         }
-        $this->_redirect('*/*/index');
+        foreach ($rows as $row) {
+            $items[] = $row;
+        }
+
+        $this->getRequest()->setParam('items', $items);
+        $this->_forward('advancedAdd', 'cart');
     }
 
     /**

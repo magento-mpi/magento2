@@ -69,4 +69,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     {
         return Mage::registry('checkout_current_store');
     }
+
+    /**
+     * Get title of button, that adds products to shopping cart
+     *
+     * @return string
+     */
+    public function getAddButtonTitle()
+    {
+        return $this->__('Add to Shopping Cart');
+    }
 }

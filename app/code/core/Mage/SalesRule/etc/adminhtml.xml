@@ -41,19 +41,26 @@
         <resources>
             <admin>
                 <children>
-                    <system>
+                    <promo>
                         <children>
-                            <config>
-                                <children>
-                                    <promo  translate="title" module="salesrule">
-                                        <title>Shopping Cart Price Rules</title>
-                                    </promo>
-                                </children>
-                            </config>
+                            <quote translate="title" module="salesrule">
+                                <title>Shopping Cart Price Rules</title>
+                            </quote>
                         </children>
-                    </system>
+                    </promo>
+                   <system>
+                       <children>
+                           <config>
+                               <children>
+                                   <promo translate="title" module="salesrule">
+                                       <title>Shopping Cart Price Rules</title>
+                                   </promo>
+                               </children>
+                           </config>
+                       </children>
+                   </system>
                 </children>
             </admin>
         </resources>
-     </acl>
+    </acl>
 </config>

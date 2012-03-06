@@ -21,7 +21,9 @@
  * @copyright   Copyright (c) 2010 Magento, Inc.
  * @license     http://www.magentocommerce.com/license/commercial-edition
  */
+
+/* @var $this Enterprise_Reward_Block_Checkout_Payment_Additional */
 ?>
-<?php if ((float)$this->getCanUseRewardPoints()): ?>
+<?php if ($this->getCanUseRewardPoints()): ?>
 quoteBaseGrandTotal = <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>;
 <?php endif; ?>

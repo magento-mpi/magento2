@@ -40,6 +40,8 @@
             <?php endif; ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php /* Extensions placeholder */ ?>
+    <?php echo $this->getChildHtml('customer.form.login.extra')?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <div class="fieldset">
             <div class="col2-set">
@@ -60,11 +62,13 @@
                             </div>
                         </li>
                         <?php echo $this->getChildHtml('form.additional.info'); ?>
+                        <li class="note">
+                            <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+                        </li>
+                        <li class="buttons-set">
+                            <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                        </li>
                     </ul>
-                    <div class="buttons-set form-buttons btn-only">
-                        <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
-                        <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
-                    </div>
                     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 </div>
                 <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>

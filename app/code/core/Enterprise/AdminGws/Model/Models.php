@@ -143,7 +143,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         $websiteIds = (array)$model->getData('website_ids');
 
-        // Set rule entity model as non-deleteable if role has no exclusive access to assigned to rule entity websites
+        // Set rule entity model as non-deletable if role has no exclusive access to assigned to rule entity websites
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $model->setIsDeleteable(false);
         }
@@ -407,6 +407,50 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
             $this->_throwDelete();
         }
+    }
+
+    /**
+     * Save correct website list in giftwrapping
+     *
+     * @param Enterprise_GiftWrapping_Model_Wrapping $model
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function giftWrappingSaveBefore($model)
+    {
+        if (!$model->isObjectNew()) {
+            $roleWebsiteIds = $this->_role->getRelevantWebsiteIds();
+            // Website list that was assigned to current giftwrapping previously
+            $origWebsiteIds = (array)$model->getResource()->getWebsiteIds($model->getId());
+            // Website list that admin is currently trying to assign to current giftwrapping
+            $postWebsiteIds = array_intersect((array)$model->getWebsiteIds(), $roleWebsiteIds);
+
+            $websiteIds = array_merge(array_diff($origWebsiteIds, $roleWebsiteIds), $postWebsiteIds);
+
+            $model->setWebsiteIds($websiteIds);
+        }
+        return $this;
+    }
+
+    /**
+     * Save correct store list in rating (while Managing Ratings)
+     *
+     * @param Mage_Rating_Model_Rating $model
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function ratingSaveBefore($model)
+    {
+        if (!$model->isObjectNew()) {
+            $roleStoreIds = $this->_role->getStoreIds();
+            // Store list that was assigned to current rating previously
+            $origStoreIds = (array)$model->getResource()->getStores($model->getId());
+            // Store list that admin is currently trying to assign to current rating
+            $postStoreIds = array_intersect((array)$model->getStores(), $roleStoreIds);
+
+            $storeIds = array_merge(array_diff($origStoreIds, $roleStoreIds), $postStoreIds);
+
+            $model->setStores($storeIds);
+        }
+
     }
 
     /**
@@ -1276,7 +1320,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment save
      *
-     * @deprecated after 1.11.2.0 use $this->ruleSaveBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1289,7 +1333,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate customer segment before delete
      *
-     * @deprecated after 1.11.2.0 use $this->ruleDeleteBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1302,7 +1346,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment model on after load
      *
-     * @deprecated after 1.11.2.0 use $this->ruleLoadAfter() instead
+     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void

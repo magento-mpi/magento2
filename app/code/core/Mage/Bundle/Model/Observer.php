@@ -257,6 +257,19 @@ class Mage_Bundle_Model_Observer
     }
 
     /**
+     * Initialize product options renderer with bundle specific params
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function initOptionRenderer(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getBlock();
+        $block->addOptionsRenderCfg('bundle', 'bundle/catalog_product_configuration');
+        return $this;
+    }
+
+    /**
      * Add price index to bundle product after load
      *
      * @deprecated since 1.4.0.0
@@ -288,22 +301,6 @@ class Mage_Bundle_Model_Observer
     {
         $products = $observer->getEvent()->getProducts();
         Mage::getSingleton('bundle/price_index')->reindex($products);
-
-        return $this;
-    }
-
-    /**
-     * Force calculate Discount to Parent Item for Bundle products
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Bundle_Model_Observer
-     */
-    public function forceCalculateDiscountForParent(Varien_Event_Observer $observer)
-    {
-        $item = $observer->getEvent()->getItem();
-        if ($item->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            $item->setForceCalculateDiscountForParent('true');
-        }
 
         return $this;
     }

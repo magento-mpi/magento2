@@ -41,6 +41,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
      */
 
     protected $_defaultSort = 'added_at';
+
     /**
      * Parent template name
      *
@@ -79,20 +80,26 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     }
 
     /**
+     * Create customer wishlist item collection
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    protected function _createCollection()
+    {
+        return Mage::getModel('wishlist/item')->getCollection();
+    }
+
+    /**
      * Prepare customer wishlist product collection
      *
      * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist
      */
     protected function _prepareCollection()
     {
-        $wishlist = Mage::getModel('wishlist/wishlist');
-        $collection = $wishlist->loadByCustomer($this->_getCustomer())
-            ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
-            ->getItemCollection()
+        $collection = $this->_createCollection()->addCustomerIdFilter($this->_getCustomer()->getId())
             ->resetSortOrder()
             ->addDaysInWishlist()
             ->addStoreData();
-
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

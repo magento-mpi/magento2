@@ -580,6 +580,48 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove buttons from gift wrapping edit form for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeGiftWrappingEditButtons($observer)
+    {
+        // Remove delete button
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
+
+    /**
+     * Remove 'delete' action from Gift Wrapping grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeGiftWrappingForbiddenMassactions($observer)
+    {
+        $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
+        /** @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        if ($massBlock) {
+            $massBlock->removeItem('delete');
+        }
+        return $this;
+    }
+
+    /**
+     * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRatingEditButtons($observer)
+    {
+        // Remove delete button
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
+
+    /**
      * Remove action column and massaction functionality
      * from grid for users with limited permissions.
      *
@@ -1171,7 +1213,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
             $block->removeButton('save_apply');
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$websiteIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
                 $block->removeButton('save');
                 $block->removeButton('save_and_continue_edit');
                 $block->removeButton('run_now');
@@ -1183,6 +1225,46 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         return $this;
     }
 
+    /**
+     * Remove button "Add RMA Attribute" for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaAddAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+        return $this;
+    }
+
+    /**
+     * Remove "Delete Attribute" button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaDeleteAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
+
+    /**
+     * Disable "Delete Attribute Option" Button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableRmaAttributeDeleteOptionButton($observer)
+    {
+        $deleteButton = $observer->getEvent()->getBlock()->getChild('delete_button');
+
+        if ($deleteButton) {
+            $deleteButton->setDisabled(true);
+        }
+
+        return $this;
+    }
 
 
 

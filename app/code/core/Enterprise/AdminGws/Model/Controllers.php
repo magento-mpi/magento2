@@ -886,11 +886,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
 
-        foreach ($productsWebsites as $productWebsites) {
-            if (!$this->_role->hasExclusiveAccess(explode(',', $productWebsites['website_ids']))) {
-                $productNotExclusiveIds[]  = $productWebsites['product_id'];
+        foreach ($productsWebsites as $productId => $productWebsiteIds) {
+            if (!$this->_role->hasExclusiveAccess($productWebsiteIds)) {
+                $productNotExclusiveIds[]  = $productId;
             } else {
-                $productExclusiveIds[]     = $productWebsites['product_id'];
+                $productExclusiveIds[] = $productId;
             }
         }
 
@@ -1201,5 +1201,72 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             Mage::helper('catalogrule')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
         );
         return $this;
+    }
+
+    /**
+     * Block editing of RMA attributes on disallowed websites
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool|void
+     */
+    public function validateRmaAttributeEditAction($controller)
+    {
+        $websiteCode = $controller->getRequest()->getParam('website');
+
+        if (!$websiteCode) {
+            $allowedWebsitesIds = $this->_role->getWebsiteIds();
+
+            if (!count($allowedWebsitesIds)) {
+                $this->_forward();
+                return false;
+            }
+
+            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')
+                ->getUrl('adminhtml/rma_item_attribute/edit',
+                     array('website' => $allowedWebsitesIds[0], '_current' => true))
+            );
+        }
+
+        try {
+            $website = Mage::app()->getWebsite($websiteCode);
+
+            if (!$website || !$this->_role->hasWebsiteAccess($website->getId(), true)) {
+                $this->_forward();
+                return false;
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_forward();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Block RMA attributes deleting for all GWS enabled users
+     *
+     * @return bool
+     */
+    public function validateRmaAttributeDeleteAction()
+    {
+        $this->_forward();
+        return false;
+    }
+
+    /**
+     * Block deleting of options of attributes for all GWS enabled users
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool
+     */
+    public function validateRmaAttributeSaveAction($controller)
+    {
+        $option = $controller->getRequest()->getPost('option');
+        if (!empty($option['delete'])) {
+            unset($option['delete']);
+            $controller->getRequest()->setPost('option', $option);
+        }
+
+        return $this->validateRmaAttributeEditAction($controller);
     }
 }

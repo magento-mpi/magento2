@@ -216,14 +216,14 @@
                     </bundle_observer>
                 </observers>
             </catalog_product_collection_load_after>
-            <sales_quote_address_discount_item>
+            <product_option_renderer_init>
                 <observers>
                     <bundle_observer>
                         <class>bundle/observer</class>
-                        <method>forceCalculateDiscountForParent</method>
+                        <method>initOptionRenderer</method>
                     </bundle_observer>
                 </observers>
-            </sales_quote_address_discount_item>
+            </product_option_renderer_init>
         </events>
     </frontend>
     <admin>

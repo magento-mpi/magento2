@@ -53,11 +53,14 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
      */
     public function getConfigureButtonHtml()
     {
-        $canConfigure = $this->getProduct()->canConfigure();
+        $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
+        $productId = $this->escapeHtml(Mage::helper('core')->jsonEncode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml(Mage::helper('core')->jsonEncode($this->getItem()->getSku()));
+
         /* @var $button Mage_Adminhtml_Block_Widget_Button */
         $button = $this->getLayout()->createBlock('adminhtml/widget_button', '', array(
             'class'    => $canConfigure ? '' : 'disabled',
-            'onclick'  => $canConfigure ? "addBySku.configure({$this->getProduct()->getId()})" : '',
+            'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
             'disabled' => !$canConfigure,
             'label'    => Mage::helper('enterprise_checkout')->__('Configure'),
             'type'     => 'button',

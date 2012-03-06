@@ -43,6 +43,13 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     protected $_divisible = true;
 
     /**
+     * Ranges faceted data
+     *
+     * @var array
+     */
+    protected $_facets = array();
+
+    /**
      * Return cache tag for layered price filter
      *
      * @return string
@@ -77,7 +84,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         }
 
         $isAuto = (Mage::app()->getStore()
-                      ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO);
+            ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED);
         if (!$isAuto && $this->getInterval()) {
             return array();
         }
@@ -97,18 +104,31 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
             $i = 0;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
+            $lastSeparator = null;
             foreach ($facets as $key => $count) {
                 ++$i;
                 preg_match('/\[([\d\.\\\*]+) TO ([\d\.\\\*]+)\]$/', $key, $separator);
+                $separator[1] = str_replace('\\*', '*', $separator[1]);
+                $separator[2] = str_replace('\\*', '*', $separator[2]);
+
+                $label = null;
+                $value = null;
+                if (isset($this->_facets[$separator[1] . '_' . $separator[2]])) {
+                    $separatorLabelValues = $this->_facets[$separator[1] . '_' . $separator[2]];
+                    if ($i <= max(1, $maxIntervalsNumber)) {
+                        $lastSeparator = $separatorLabelValues[0];
+                    }
+                    $label = $this->_renderRangeLabel($separatorLabelValues[0], $separatorLabelValues[1]);
+                    $value = (empty($separatorLabelValues[0]) ? '' : $separatorLabelValues[0])
+                        . '-' . $separatorLabelValues[1];
+                }
 
                 if ($isAuto) {
-                    if ($separator[1] == '\\*') {
+                    if ($separator[1] == '*') {
                         $separator[1] = '';
                     }
-                    if ($separator[2] == '\\*') {
+                    if ($separator[2] == '*') {
                         $separator[2] = '';
-                    } else {
-                        $separator[2] = round($separator[2], 2);
                     }
                 } else {
                     $rangeKey = $separator[2] / $range;
@@ -121,12 +141,20 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                         --$i;
                         $count += $data[$i - 1]['count'];
                         $separator[1] = $data[$i - 1]['from'];
+                        $label = $value = null;
+                    } elseif (!empty($separator[2]) && $separator[2] > $this->getMaxPriceInt()) {
+                        $label = $value = null;
+                        $separator[2] = '';
                     }
                 }
 
                 $data[$i - 1] = array(
-                    'label' => $this->_renderRangeLabel(empty($separator[1]) ? 0 : $separator[1], $separator[2]),
-                    'value' => $separator[1] . '-' . $separator[2] . $this->_getAdditionalRequestData(),
+                    'label' => is_null($label) ? $this->_renderRangeLabel(
+                            empty($separator[1]) ? 0 : ($separator[1] * $this->getCurrencyRate()),
+                            empty($separator[2]) ? $separator[2] : $separator[2]  * $this->getCurrencyRate()
+                        ) : $label,
+                    'value' => (is_null($value) ? ($separator[1] . '-' . $separator[2]) : $value)
+                        . $this->_getAdditionalRequestData(),
                     'count' => $count,
                     'from'  => $separator[1],
                     'to'    => $separator[2],
@@ -139,12 +167,16 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                 if ($appliedInterval) {
                     $upperIntervalLimit = $appliedInterval[1];
                 }
-                $data[$i - 1]['value'] = $data[$i - 1]['from'] . '-' . $upperIntervalLimit
-                    . $this->_getAdditionalRequestData();
-                $data[$i - 1]['label'] = $this->_renderRangeLabel(
-                    empty($separator[1]) ? 0 : $separator[1],
-                    $upperIntervalLimit
-                );
+                if (is_null($value)) {
+                    $data[$i - 1]['value'] = $lastSeparator . '-' . $upperIntervalLimit
+                        . $this->_getAdditionalRequestData();
+                }
+                if (is_null($label)) {
+                    $data[$i - 1]['label'] = $this->_renderRangeLabel(
+                        empty($lastSeparator) ? 0 : $lastSeparator,
+                        $upperIntervalLimit
+                    );
+                }
             }
         }
 
@@ -159,7 +191,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     public function getMaxPriceInt()
     {
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $uniquePart = strtoupper(md5(serialize($searchParams)));
+        $uniquePart = strtoupper(md5(serialize($searchParams . '_' . $this->getCurrencyRate())));
         $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = Mage::app()->loadCache($cacheKey);
@@ -169,9 +201,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $max = $stats[$this->_getFilterField()]['max'];
             if (!is_numeric($max)) {
                 $max = parent::getMaxPriceInt();
+            } else {
+                $max = floor($max * $this->getCurrencyRate());
             }
 
-            $cachedData = (float) $max;
+            $cachedData = $max;
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
             Mage::app()->saveCache($cachedData, $cacheKey, $tags);
@@ -188,25 +222,35 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     protected function _getSeparators()
     {
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $uniquePart = strtoupper(md5(serialize($searchParams)));
+        $intervalParams = $this->getInterval();
+        $intervalParams = $intervalParams ? ($intervalParams[0] . '-' . $intervalParams[1]) : '';
+        $uniquePart = strtoupper(md5(serialize($searchParams . '_'
+            . $this->getCurrencyRate() . '_' . $intervalParams)));
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = Mage::app()->loadCache($cacheKey);
         if (!$cachedData) {
-            $prices = $this->getLayer()->getProductCollection()->getFieldData($this->_getFilterField());
             /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
             $algorithmModel = Mage::getSingleton('catalog/layer_filter_price_algorithm');
+            $statistics = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
+            $statistics = $statistics[$this->_getFilterField()];
+
             $appliedInterval = $this->getInterval();
-            if ($appliedInterval
-                && (count($prices) <= $this->getIntervalDivisionLimit() || $appliedInterval[0] == $appliedInterval[1])
+            if ($statistics['count'] <= $this->getIntervalDivisionLimit() ||
+               ($appliedInterval && $appliedInterval[0] == $appliedInterval[1])
             ) {
-                $algorithmModel->setPrices(array());
+                $algorithmModel->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
             } else {
                 if ($appliedInterval) {
                     $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
                 }
-                $algorithmModel->setPrices($prices);
+                $algorithmModel->setPricesModel($this)->setStatistics(
+                    round($statistics['min'] * $this->getCurrencyRate(), 2),
+                    round($statistics['max'] * $this->getCurrencyRate(), 2),
+                    $statistics['stddev'] * $this->getCurrencyRate(),
+                    $statistics['count']
+                );
             }
 
             $cachedData = array();
@@ -233,6 +277,33 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     }
 
     /**
+     * Prepare faceted value
+     *
+     * @param float $value
+     * @param bool $decrease
+     * @return float
+     */
+    protected function _prepareFacetedValue($value, $decrease = true) {
+        // rounding issue
+        if ($this->getCurrencyRate() > 1) {
+            if ($decrease) {
+                $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            } else {
+                $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            }
+            $value /= $this->getCurrencyRate();
+        } else {
+            $value /= $this->getCurrencyRate();
+            if ($decrease) {
+                $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            } else {
+                $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            }
+        }
+        return round($value, 3);
+    }
+
+    /**
      * Prepare price range to be added to facet conditions
      *
      * @param string|float $from
@@ -244,10 +315,19 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         if (empty($from)) {
             $from = '*';
         }
-        if (empty($to)) {
+
+        if ($to === '') {
             $to = '*';
-        } elseif ($to != $from) {
-            $to -= .001;
+        } else {
+            if ($to == $from || ($to == 0 && $from == '*')) {
+                $to = $this->_prepareFacetedValue($to, false);
+            } else {
+                $to = $this->_prepareFacetedValue($to);
+            }
+        }
+
+        if ($from != '*') {
+            $from = $this->_prepareFacetedValue($from);
         }
         return array('from' => $from, 'to' => $to);
     }
@@ -260,8 +340,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     protected function _addCalculatedFacetCondition()
     {
         $priceFacets = array();
+        $this->_facets = array();
         foreach ($this->_getSeparators() as $separator) {
-            $priceFacets[] = $this->_prepareFacetRange($separator[0], $separator[1]);
+            $facetedRange = $this->_prepareFacetRange($separator[0], $separator[1]);
+            $this->_facets[$facetedRange['from'] . '_' . $facetedRange['to']] = $separator;
+            $priceFacets[] = $facetedRange;
         }
         $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
     }
@@ -273,10 +356,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     public function addFacetCondition()
     {
-        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_AUTO) {
+        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED) {
             return $this->_addCalculatedFacetCondition();
         }
 
+        $this->_facets = array();
         $range    = $this->getPriceRange();
         $maxPrice = $this->getMaxPriceInt();
         if ($maxPrice > 0) {
@@ -284,14 +368,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $facetCount  = ceil($maxPrice / $range);
 
             for ($i = 0; $i < $facetCount + 1; $i++) {
-                $to = ($i + 1) * $range;
-                if ($i < $facetCount) {
-                    $to -= 0.001;
-                }
-                $priceFacets[] = array(
-                    'from' => $i * $range,
-                    'to'   => $to
-                );
+                $separator = array($i * $range, ($i + 1) * $range);
+                $facetedRange = $this->_prepareFacetRange($separator[0], $separator[1]);
+                $this->_facets[$facetedRange['from'] . '_' . $facetedRange['to']] = $separator;
+                $priceFacets[] = $facetedRange;
             }
 
             $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
@@ -312,7 +392,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     {
         $to = $range * $index;
         if ($to < $this->getMaxPriceInt()) {
-            $to -= 0.001;
+            $to -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
 
         $value = array(
@@ -340,5 +420,123 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         ));
 
         return $this;
+    }
+
+    /**
+     * Get comparing value according to currency rate
+     *
+     * @param float|null $value
+     * @param bool $decrease
+     * @return float|null
+     */
+    protected function _prepareComparingValue($value, $decrease = true)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if ($decrease) {
+            $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
+        } else {
+            $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
+        }
+
+        $value /= $this->getCurrencyRate();
+        if ($value < 0) {
+            $value = null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Load range of product prices
+     *
+     * @param int $limit
+     * @param null|int $offset
+     * @param null|int $lowerPrice
+     * @param null|int $upperPrice
+     * @return array|false
+     */
+    public function loadPrices($limit, $offset = null, $lowerPrice = null, $upperPrice = null)
+    {
+        $lowerPrice = $this->_prepareComparingValue($lowerPrice);
+        $upperPrice = $this->_prepareComparingValue($upperPrice);
+        if (!is_null($upperPrice)) {
+            $upperPrice -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+        }
+        $result = $this->getLayer()->getProductCollection()->getPriceData($lowerPrice, $upperPrice, $limit, $offset);
+        if (!$result) {
+            return $result;
+        }
+        foreach ($result as &$v) {
+            $v = round((float)$v * $this->getCurrencyRate(), 2);
+        }
+        return $result;
+    }
+
+    /**
+     * Load range of product prices, preceding the price
+     *
+     * @param float $price
+     * @param int $index
+     * @param null|int $lowerPrice
+     * @return array|false
+     */
+    public function loadPreviousPrices($price, $index, $lowerPrice = null)
+    {
+        $originLowerPrice = $lowerPrice;
+        $lowerPrice = $this->_prepareComparingValue($lowerPrice);
+        $price = $this->_prepareComparingValue($price);
+        if (!is_null($price)) {
+            $price -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+        }
+        $countLess = $this->getLayer()->getProductCollection()->getPriceData($lowerPrice, $price, null, null, true);
+        if (!$countLess) {
+            return false;
+        }
+
+        return $this->loadPrices($index - $countLess + 1, $countLess - 1, $originLowerPrice);
+    }
+
+    /**
+     * Load range of product prices, next to the price
+     *
+     * @param float $price
+     * @param int $rightIndex
+     * @param null|int $upperPrice
+     * @return array|false
+     */
+    public function loadNextPrices($price, $rightIndex, $upperPrice = null)
+    {
+        $lowerPrice = $this->_prepareComparingValue($price);
+        $price = $this->_prepareComparingValue($price, false);
+        $upperPrice = $this->_prepareComparingValue($upperPrice);
+        if (!is_null($price)) {
+            $price += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+        }
+        if (!is_null($upperPrice)) {
+            $upperPrice -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+        }
+        $countGreater = $this->getLayer()->getProductCollection()->getPriceData($price, $upperPrice, null, null, true);
+        if (!$countGreater) {
+            return false;
+        }
+
+        $result = $this->getLayer()->getProductCollection()->getPriceData(
+            $lowerPrice,
+            $upperPrice,
+            $rightIndex - $countGreater + 1,
+            $countGreater - 1,
+            false,
+            'desc'
+        );
+        if (!$result) {
+            return $result;
+        }
+        foreach ($result as &$v) {
+            $v = round((float)$v * $this->getCurrencyRate(), 2);
+        }
+        return $result;
     }
 }

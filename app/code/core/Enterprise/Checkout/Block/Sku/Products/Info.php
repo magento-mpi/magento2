@@ -133,7 +133,13 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('productalert')->setProduct($this->getItem()->getProduct());
+                $helper = Mage::helper('productalert');
+
+                if (!$helper->isStockAlertAllowed()) {
+                    return '';
+                }
+
+                $helper->setProduct($this->getItem()->getProduct());
                 $signUpLabel = $this->escapeHtml($this->__('Get notified when back in stock'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))
@@ -141,5 +147,37 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
             default:
                 return '';
         }
+    }
+
+    /**
+     * Get html of tier price
+     *
+     * @return string
+     */
+    public function getTierPriceHtml()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getItem()->getProduct();
+        if (!$product || !$product->getId()) {
+            return '';
+        }
+
+        $productTierPrices = $product->getData('tier_price');
+        if (!is_array($productTierPrices)) {
+            $productAttributes = $product->getAttributes();
+            if (!isset($productAttributes['tier_price'])
+                || !($productAttributes['tier_price'] instanceof Mage_Catalog_Model_Resource_Eav_Attribute)
+            ) {
+                return '';
+            }
+            $productAttributes['tier_price']->getBackend()->afterLoad($product);
+        }
+
+        Mage::unregister('product');
+        Mage::register('product', $product);
+        if (!$this->hasProductViewBlock()) {
+            $this->setProductViewBlock($this->getLayout()->createBlock('catalog/product_view'));
+        }
+        return $this->getProductViewBlock()->getTierPriceHtml();
     }
 }
