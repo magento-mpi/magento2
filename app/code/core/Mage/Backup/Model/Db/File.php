@@ -24,40 +24,68 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Class to work with database backups
+ * Database backup file model
  *
  * @category    Mage
  * @package     Mage_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup_Db extends Mage_Backup_Abstract
+class Mage_Backup_Model_Db_File extends SplFileObject
 {
     /**
-     * Implementation Rollback functionality for Db
+     * The statement that was last read durring iteration
      *
+     * @var string
+     */
+    protected $_currentStatement = '';
+
+    /**
+     * Return current sql statement
+     *
+     * @return string
+     */
+    public function current ()
+    {
+        return $this->_currentStatement;
+    }
+
+    /**
+     * Iterate to next sql statement in file
+     */
+    public function next ()
+    {
+        $this->_currentStatement = '';
+        while(!$this->eof()) {
+            $line = $this->fgets();
+            if (strlen(trim($line))) {
+                $this->_currentStatement .= $line;
+                if ($this->_isLineLastInCommand($line)){
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Return to first statement
+     */
+    public function rewind()
+    {
+        parent::rewind();
+        $this->next();
+    }
+
+    /**
+     * Check whether provided string is comment
+     *
+     * @param string $line
      * @return bool
      */
-    public function rollback()
+    protected function _isComment($line)
     {
-        set_time_limit(0);
-        ignore_user_abort(true);
-
-        $this->_lastOperationSucceed = false;
-
-        $archiveManager = new Mage_Archive();
-        $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
-
-        $file = Mage::getModel("backup/db_file", $source);
-        foreach ($file as $statement) {
-            $this->getResourceModel()->runCommand($statement);
-        }
-        fclose($file);
-        @unlink($source);
-
-        $this->_lastOperationSucceed = true;
-
-        return true;
+        return $line[0] == '#' || substr($line, 0, 2) == '--';
     }
 
     /**
@@ -80,41 +108,5 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
         }
 
         return $returnResult;
-    }
-
-    /**
-     * Implementation Create Backup functionality for Db
-     *
-     * @return boolean
-     */
-    public function create()
-    {
-        set_time_limit(0);
-        ignore_user_abort(true);
-
-        $this->_lastOperationSucceed = false;
-
-        $backup = Mage::getModel('backup/backup')
-            ->setTime($this->getTime())
-            ->setType($this->getType())
-            ->setPath($this->getBackupsDir())
-            ->setName($this->getName());
-
-        $backupDb = Mage::getModel('backup/db');
-        $backupDb->createBackup($backup);
-
-        $this->_lastOperationSucceed = true;
-
-        return true;
-    }
-
-    /**
-     * Get Backup Type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return "db";
     }
 }
