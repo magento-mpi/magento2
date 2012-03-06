@@ -34,7 +34,7 @@
 class Mage_Sales_Model_Api2_Order_Address extends Mage_Api2_Model_Resource_Instance
 {
     /**
-     * Resource specific method to retrieve attributes codes. May be overriden in child.
+     * Resource specific method to retrieve attributes' codes. May be overriden in child.
      *
      * @return array
      */
