@@ -45,9 +45,6 @@
                     <customer>
                         <retrieve>1</retrieve>
                     </customer>
-                    <guest>
-                        <retrieve>1</retrieve>
-                    </guest>
                 </privileges>
                 <routes>
                     <route_main>
