@@ -123,7 +123,6 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
     protected function _checkGetUrls(&$responseData, $product)
     {
         $this->assertNotEmpty($responseData['image_url'], 'Image url is not set');
-//        $this->_testUrlWithCurl($responseData, 'image_url');
         unset($responseData['image_url']);
 
         $this->assertContains($product->getId(), $responseData['url'], 'Product url seems to be invalid');
@@ -153,8 +152,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         curl_setopt($channel, CURLOPT_NOBODY, true);
         curl_exec($channel);
         $responseCode = curl_getinfo($channel, CURLINFO_HTTP_CODE);
-        // TODO: uncomment line below after fix of URLs generation in core
-        //$this->assertEquals($expectedResponseCode, $responseCode, "'$urlField' is not accessible with cURL");
+        $this->assertEquals($expectedResponseCode, $responseCode, "'$urlField' is not accessible with cURL");
     }
 
 
