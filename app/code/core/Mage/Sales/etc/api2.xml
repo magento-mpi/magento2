@@ -190,12 +190,12 @@
                     <price>Price</price>
                     <price_incl_tax>Price Including Tax</price_incl_tax>
                     <qty_ordered>Ordered Qty</qty_ordered>
+                    <qty_invoiced>Invoiced Qty</qty_invoiced>
                     <qty_shipped>Shipped Qty</qty_shipped>
                     <qty_canceled>Canceled Qty</qty_canceled>
                     <qty_refunded>Refunded Qty</qty_refunded>
                     <row_total>Item Subtotal</row_total>
                     <row_total_incl_tax>Item Subtotal Including Tax</row_total_incl_tax>
-                    <status>Item Status</status>
                     <base_price>Base Price</base_price>
                     <original_price>Original Price</original_price>
                     <base_original_price>Base Original Price</base_original_price>
@@ -218,6 +218,7 @@
                             <price>1</price>
                             <price_incl_tax>1</price_incl_tax>
                             <qty_ordered>1</qty_ordered>
+                            <qty_invoiced>1</qty_invoiced>
                             <qty_shipped>1</qty_shipped>
                             <qty_canceled>1</qty_canceled>
                             <qty_refunded>1</qty_refunded>
@@ -234,7 +235,7 @@
                 <versions>1</versions>
             </order_items>
             <address>
-                <group>sales</group>
+                <group>order</group>
                 <model>sales/api2_order_address</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Address</title>
@@ -253,27 +254,24 @@
                 </routes>
                 <collection>addresses</collection>
                 <versions>1</versions>
-                <include_attributes>
-                    <customer>
-                        <read>
-                            <lastname>1</lastname>
-                            <firstname>1</firstname>
-                            <middlename>1</middlename>
-                            <prefix>1</prefix>
-                            <suffix>1</suffix>
-                            <company>1</company>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <telephone>1</telephone>
-                        </read>
-                    </customer>
-                </include_attributes>
+                <attributes>
+                    <lastname>Customer Last Name</lastname>
+                    <firstname>Customer First Name</firstname>
+                    <middlename>Customer Middle Name</middlename>
+                    <prefix>Customer Prefix</prefix>
+                    <suffix>Customer Suffix</suffix>
+                    <company>Company</company>
+                    <street>Street</street>
+                    <city>City</city>
+                    <region>State</region>
+                    <postcode>ZIP/Postal Code</postcode>
+                    <country_id>Country</country_id>
+                    <telephone>Phone Number</telephone>
+                    <address_type>Address Type</address_type>
+                </attributes>
             </address>
             <addresses>
-                <group>sales</group>
+                <group>order</group>
                 <model>sales/api2_order_addresses</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Addresses</title>
