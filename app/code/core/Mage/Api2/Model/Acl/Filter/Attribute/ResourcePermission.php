@@ -105,7 +105,8 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                         /** @var $resourceModel Mage_Api2_Model_Resource_Instance */
                         $resourceModel = Mage::getModel($config->getResourceModel($resource));
                         if ($resourceModel) {
-                            $resourceModel->setResourceType($resource);
+                            $resourceModel->setResourceType($resource)
+                                ->setUserType($this->_userType);
 
                             foreach ($operations as $operation => $operationLabel) {
                                 $availableAttributes = $resourceModel->getAvailableAttributes(

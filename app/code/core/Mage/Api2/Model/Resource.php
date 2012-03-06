@@ -479,10 +479,12 @@ abstract class Mage_Api2_Model_Resource
      * Set resource type
      *
      * @param string $resourceType
+     * @return Mage_Api2_Model_Resource
      */
     public function setResourceType($resourceType)
     {
         $this->_resourceType = $resourceType;
+        return $this;
     }
 
     /**
@@ -528,10 +530,12 @@ abstract class Mage_Api2_Model_Resource
      * Set user type
      *
      * @param string $userType
+     * @return Mage_Api2_Model_Resource
      */
     public function setUserType($userType)
     {
         $this->_userType = $userType;
+        return $this;
     }
 
     /**
