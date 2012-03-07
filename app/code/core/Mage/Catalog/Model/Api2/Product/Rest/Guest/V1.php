@@ -33,11 +33,26 @@
  */
 class Mage_Catalog_Model_Api2_Product_Rest_Guest_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
-    protected function _retrieve()
+    /**
+     * Get customer group
+     *
+     * @return int
+     */
+    protected function _getCustomerGroupId()
     {
-        // TODO: Implement
-        $product = $this->_getProduct();
-        return $product->getData();
+        return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    }
+
+    /**
+     * Define product price with or without taxes
+     *
+     * @param float $price
+     * @param bool $withTax
+     * @return float
+     */
+    protected function _applyTaxToPrice($price, $withTax = true)
+    {
+        return $this->_getPrice($price, $withTax);
     }
 
     /**

@@ -34,10 +34,114 @@
  */
 class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
 {
+    protected $_origConfigValues = array();
+
     protected function tearDown()
     {
         $this->deleteFixture('product_simple', true);
+        $rule = $this->getFixture('catalog_price_rule');
+        if ($rule) {
+            $this->deleteFixture('catalog_price_rule', true);
+            Mage::getModel('catalogrule/rule')->applyAll();
+        }
+        $this->_restoreAppConfig();
         parent::tearDown();
+    }
+
+    /**
+     * Restore config values changed during tests
+     */
+    protected function _restoreAppConfig()
+    {
+        Mage::getConfig()->reinit();
+        foreach ($this->_origConfigValues as $configPath => $origValue) {
+            $currentValue = (string) Mage::getConfig()->getNode($configPath, 'default');
+            if ($currentValue != $origValue) {
+                $this->_updateAppConfig($configPath, $origValue);
+            }
+        }
+    }
+
+    /**
+     * Test get product price with and without taxes with applied catalog price ruleÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/catalog_price_rule.php
+     */
+    public function testGetWithCatalogPriceRule()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        /** @var $rule Mage_CatalogRule_Model_Rule */
+        $rule = $this->getFixture('catalog_price_rule');
+        // default tax rate
+        $taxRate = 0.0825;
+        $finalPrice = $product->getPrice() - $rule->getDiscountAmount();
+        $priceIncludesTax = Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX;
+        $basedOn = Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON;
+
+        $testConfigurations = array(
+            array(
+                'config' => array(
+                    $priceIncludesTax => 0,
+                    $basedOn => 'origin',
+                ),
+                'expected_prices' => array(
+                    'regular_price' => $product->getPrice()  * (1 + $taxRate),
+                    'final_price'   => $finalPrice,
+                    'final_price_with_tax' => $finalPrice * (1 + $taxRate),
+                    'final_price_without_tax' => $finalPrice
+                )
+            ),
+            array(
+                'config' => array(
+                    $priceIncludesTax => 1,
+                    $basedOn => 'origin',
+                ),
+                'expected_prices' => array(
+                    'regular_price' => $product->getPrice(),
+                    'final_price'   => $finalPrice,
+                    'final_price_with_tax' => $finalPrice,
+                    'final_price_without_tax' =>$finalPrice / (1 + $taxRate)
+                )
+            ),
+        );
+
+        foreach ($testConfigurations as $dataProvider) {
+            $this->_checkTaxCalculation($product, $dataProvider['expected_prices'], $dataProvider['config']);
+        }
+    }
+
+    /**
+     * Check if tax is applied correctly to product price. Specific tax config is applied during test
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $expectedPrices
+     * @param array $config
+     */
+    protected function _checkTaxCalculation($product, $expectedPrices, $config)
+    {
+        foreach ($config as $configPath => $configValue) {
+            if (!isset($this->_origConfigValues[$configPath])) {
+                $this->_origConfigValues[$configPath] = (string) Mage::getConfig()->getNode($configPath, 'default');
+            }
+            $this->_updateAppConfig($configPath, $configValue);
+        }
+
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
+        $assertMessage = "Tested configuration: ";
+        foreach ($config as $configPath => $configValue) {
+            $assertMessage .= " $configPath = $configValue;";
+        }
+
+        foreach ($expectedPrices as $key => $value) {
+            $this->assertTrue(isset($responseData[$key]), $key . ' not present in response.');
+            $this->assertEquals($value, $responseData[$key], $assertMessage . 'key = ' .$key, 0.01);
+        }
     }
 
     /**
