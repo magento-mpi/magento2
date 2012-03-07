@@ -107,9 +107,9 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Get select count sql
+     * Get SQL for get record count
      *
-     * @return string
+     * @return Varien_Db_Select
      */
     public function getSelectCountSql()
     {
