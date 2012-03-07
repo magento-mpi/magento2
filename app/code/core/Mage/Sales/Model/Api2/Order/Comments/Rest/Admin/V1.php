@@ -19,37 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Customer
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for customer addresses (customer)
+ * API2 class for sales order comments (admin)
  *
  * @category   Mage
- * @package    Mage_Customer
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customer_Addresses_Rest_Customer_V1
-    extends Mage_Customer_Model_Api2_Customer_Addresses_Rest
+class Mage_Sales_Model_Api2_Order_Comments_Rest_Admin_V1 extends Mage_Sales_Model_Api2_Order_Comments_Rest
 {
-    /**
-     * Load customer by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Customer_Model_Customer
-     */
-    protected function _loadCustomerById($id)
-    {
-        /* @var $customer Mage_Customer_Model_Customer */
-        $customer = parent::_loadCustomerById($id);
-
-        // check customer account owner
-        if ($this->getApiUser()->getUserId() != $customer->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $customer;
-    }
 }

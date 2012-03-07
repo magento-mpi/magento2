@@ -36,6 +36,7 @@
         <resources>
             <orders>
                 <group>sales</group>
+                <sort_order>20</sort_order>
                 <model>sales/api2_orders</model>
                 <title>Orders</title>
                 <privileges>
@@ -125,6 +126,7 @@
             </orders>
             <order>
                 <group>sales</group>
+                <sort_order>10</sort_order>
                 <model>sales/api2_order</model>
                 <title>Order</title>
                 <include_attributes>
@@ -170,7 +172,7 @@
             </order>
             <order_items>
                 <group>order</group>
-                <sort_order>110</sort_order>
+                <sort_order>30</sort_order>
                 <model>sales/api2_order_items</model>
                 <working_model>sales/order_item</working_model>
                 <title>Order Items</title>
@@ -236,6 +238,7 @@
             </order_items>
             <address>
                 <group>order</group>
+                <sort_order>40</sort_order>
                 <model>sales/api2_order_address</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Address</title>
@@ -272,6 +275,7 @@
             </address>
             <addresses>
                 <group>order</group>
+                <sort_order>50</sort_order>
                 <model>sales/api2_order_addresses</model>
                 <working_model>sales/order_address</working_model>
                 <title>Order Addresses</title>
@@ -291,6 +295,35 @@
                 <instance>address</instance>
                 <versions>1</versions>
             </addresses>
+            <order_comments>
+                <group>order</group>
+                <sort_order>60</sort_order>
+                <model>sales/api2_order_comments</model>
+                <working_model>sales/order_status_history</working_model>
+                <title>Order Comments</title>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                </privileges>
+                <attributes>
+                    <created_at>Comment Date</created_at>
+                    <comment>Comment Text</comment>
+                    <is_customer_notified>Is Customer Notified</is_customer_notified>
+                    <is_visible_on_front>Is Comment Visible on Frontend</is_visible_on_front>
+                    <status>Comment Status</status>
+                </attributes>
+                <routes>
+                    <route_main>
+                        <mask>/orders/:id/comments</mask>
+                    </route_main>
+                </routes>
+                <versions>1</versions>
+            </order_comments>
         </resources>
     </api2>
 </config>
