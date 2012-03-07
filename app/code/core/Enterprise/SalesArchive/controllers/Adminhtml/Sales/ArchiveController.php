@@ -266,8 +266,23 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function exportCsvAction()
     {
-        $fileName   = 'orders_archive.csv';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $action = strtolower((string)$this->getRequest()->getParam('action'));
+        if (!empty($action) && $action == 'invoice') {
+            $fileName = 'invoice_archive.csv';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_invoice_grid');
+        } elseif (!empty($action) && $action == 'shipment') {
+            $fileName = 'shipment_archive.csv';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_shipment_grid');
+        } elseif (!empty($action) && $action == 'creditmemo') {
+            $fileName = 'creditmemo_archive.csv';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo_grid');
+        } else {
+            $fileName = 'orders_archive.csv';
+            $grid = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        }
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -276,8 +291,23 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function exportExcelAction()
     {
-        $fileName   = 'orders_archive.xml';
-        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $action = strtolower((string)$this->getRequest()->getParam('action'));
+        if (!empty($action) && $action == 'invoice') {
+            $fileName = 'invoice_archive.xml';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_invoice_grid');
+        } elseif (!empty($action) && $action == 'shipment') {
+            $fileName = 'shipment_archive.xml';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_shipment_grid');
+        } elseif (!empty($action) && $action == 'creditmemo') {
+            $fileName = 'creditmemo_archive.xml';
+            $grid = $this->getLayout()
+                ->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo_grid');
+        } else {
+            $fileName = 'orders_archive.xml';
+            $grid = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        }
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
