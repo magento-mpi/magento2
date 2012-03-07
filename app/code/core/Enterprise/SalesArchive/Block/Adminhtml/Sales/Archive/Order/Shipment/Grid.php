@@ -62,7 +62,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     /**
      * Retrieve grid export types
      *
-     * @return array
+     * @return array|false
      */
     public function getExportTypes()
     {
