@@ -82,7 +82,7 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
         $allowedAttrsForMultiactions = Mage::getModel('api2/acl_filter', $resourceMock)
             ->getAllowedAttributes($operationType);
 
-        $this->assertEquals(count($allowedAttrsForMultiactions), count($allowedAttrs) + 1);
+        $this->assertCount(count($allowedAttrs) + 1, $allowedAttrsForMultiactions);
         $this->assertContains($idFieldName, $allowedAttrsForMultiactions);
     }
 }

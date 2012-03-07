@@ -79,16 +79,9 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testVersionAccessors()
     {
-        // test default version getter
-        $versionFromRequest = 4;
-        $_SERVER['HTTP_VERSION'] = $versionFromRequest;
-        $this->_resource->setRequest($this->_request);
-        $this->assertEquals($versionFromRequest, $this->_resource->getVersion());
+        $resource = new Mage_Sales_Model_Api2_Order_Rest_Admin_V1;
 
-        // test preset version getting
-        $version = 5;
-        $this->_resource->setVersion($version);
-        $this->assertEquals($version, $this->_resource->getVersion());
+        $this->assertEquals(1, $resource->getVersion());
     }
 
     /**
