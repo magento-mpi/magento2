@@ -170,6 +170,8 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
 
     /**
      * Internal "collection" resource model dispatch
+     *
+     * @return mixed
      */
     final public function dispatch()
     {
@@ -195,6 +197,9 @@ abstract class Mage_Api2_Model_Resource_Collection extends Mage_Api2_Model_Resou
                 $retrievedData = $this->_retrieve();
                 $filteredData  = $this->getFilter()->collectionOut($retrievedData);
 
+                if ($this->_returnData) {
+                    return $filteredData;
+                }
                 $this->_render($filteredData);
                 break;
             default:
