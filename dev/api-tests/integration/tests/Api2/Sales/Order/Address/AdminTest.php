@@ -65,8 +65,8 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
         $this->assertNotEmpty($responseData);
 
         $this->assertEquals(
-            $order->getBillingAddress()->getId(),
-            $responseData['entity_id']
+            $order->getBillingAddress()->getCity(),
+            $responseData['city']
         );
 
         //test shipping
@@ -77,8 +77,8 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
         $this->assertNotEmpty($responseData);
 
         $this->assertEquals(
-            $order->getShippingAddress()->getId(),
-            $responseData['entity_id']
+            $order->getShippingAddress()->getCity(),
+            $responseData['city']
         );
     }
 
@@ -118,13 +118,13 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
         }
 
         $this->assertEquals(
-            $order->getShippingAddress()->getId(),
-            $addressByType[Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING]['entity_id']
+            $order->getShippingAddress()->getCity(),
+            $addressByType[Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING]['city']
         );
 
         $this->assertEquals(
-            $order->getBillingAddress()->getId(),
-            $addressByType[Mage_Customer_Model_Address_Abstract::TYPE_BILLING]['entity_id']
+            $order->getBillingAddress()->getCity(),
+            $addressByType[Mage_Customer_Model_Address_Abstract::TYPE_BILLING]['city']
         );
 
 
