@@ -22,7 +22,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         if (!Mage::registry('current_rma')) {
             return;
         }
-        $this->setTemplate('rma/return/view.phtml');
+        $this->setTemplate('return/view.phtml');
 
         $this->setRma(Mage::registry('current_rma'));
         $this->setOrder(Mage::registry('current_order'));

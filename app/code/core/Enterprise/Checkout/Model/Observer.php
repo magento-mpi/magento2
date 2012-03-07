@@ -86,22 +86,6 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
-     * Create handle for sku failed products
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function createSkuErrorHandleLayout(Varien_Event_Observer $observer)
-    {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = $observer->getEvent()->getLayout();
-
-        $affectedItems = $this->_getCart()->getFailedItems();
-        if (!empty($affectedItems)) {
-            $layout->getUpdate()->addHandle(Enterprise_Checkout_Helper_Data::SKU_FAILED_PRODUCTS_HANDLE);
-        }
-    }
-
-    /**
      * Copy real address to the quote
      *
      * @param Mage_Sales_Model_Quote $quote

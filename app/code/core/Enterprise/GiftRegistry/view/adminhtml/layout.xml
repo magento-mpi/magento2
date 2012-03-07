@@ -39,9 +39,9 @@
    </adminhtml_giftregistry_customer_edit>
 
    <adminhtml_giftregistry_customer_grid>
-        <block type="Mage_Core_Block_Text_List" name="root" output="toHtml">
+        <container name="root" label="Root" output="1">
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
-        </block>
+        </container>
     </adminhtml_giftregistry_customer_grid>
 
 </layout>

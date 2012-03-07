@@ -50,7 +50,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
-                $this->getParentBlock()->getChild('form')
+                $this->getParentBlock()->getChildBlock('form')
                     ->addAdditionalButton('edit_event', array(
                         'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Edit Event...'),
                         'class' => 'save',
@@ -61,7 +61,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));
-                $this->getParentBlock()->getChild('form')
+                $this->getParentBlock()->getChildBlock('form')
                     ->addAdditionalButton('add_event', array(
                         'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Add Event...'),
                         'class' => 'add',

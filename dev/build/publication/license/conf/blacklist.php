@@ -19,6 +19,7 @@ return array(
     'app/design/frontend/enterprise/default/skin/default/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/customization/performance/dev/build/database_dump.sql',
+    'dev/tests/functional',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpcs',

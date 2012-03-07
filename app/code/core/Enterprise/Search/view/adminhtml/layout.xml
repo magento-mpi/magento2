@@ -37,6 +37,6 @@
     </adminhtml_catalog_search_edit>
     <adminhtml_catalog_search_relatedgrid>
         <remove name="root" />
-        <block type="Enterprise_Search_Block_Adminhtml_Search_Grid" name="relatedGrid" output="toHtml" />
+        <block type="Enterprise_Search_Block_Adminhtml_Search_Grid" name="relatedGrid" output="1" />
     </adminhtml_catalog_search_relatedgrid>
 </layout>

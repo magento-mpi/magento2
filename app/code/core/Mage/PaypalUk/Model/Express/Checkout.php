@@ -19,7 +19,7 @@ class Mage_PaypalUk_Model_Express_Checkout extends Mage_Paypal_Model_Express_Che
      *
      * @var string
      */
-    protected $_apiType = 'paypaluk/api_nvp';
+    protected $_apiType = 'Mage_PaypalUk_Model_Api_Nvp';
 
     /**
      * Payment method tpye

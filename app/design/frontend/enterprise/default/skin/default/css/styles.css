@@ -540,6 +540,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 .header-panel { text-align:center; z-index:994; background:#fff url(../images/bkg_header-panel-bg.gif) repeat-x 0 100%; /* border-bottom:1px solid #c8c8c8; */ /* height:28px; */ line-height:28px; padding:0 0 0 11px; }
 .header-panel .welcome-msg { font-weight:bold; display:inline; float:left; line-height:28px; margin-right:5px; }
+.header-panel .welcome-msg a { font-weight:normal; color:#1e75b4;}
 .header-panel .links { float:left; line-height:28px; margin-right:11px; white-space:nowrap; }
 .header-panel .links li a { color:#1e75b4; }
 .header-panel .links li a:hover { color:#d33911; }
@@ -2146,6 +2147,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .sidebar .block-gr-search .form-alt input.input-text { width:142px; }
 .sidebar .block-gr-search .form-alt select { width:148px; }
 .block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
+
+.widget-sku .remove-row    { background:url(../images/btn_remove.gif) no-repeat right; cursor:pointer; display:inline-block; height:12px; vertical-align:middle; width:13px; text-indent:-999em; }
 
 /* Order By SKU */
 .order-by-sku .widget-sku .block .block-content { padding:0; }

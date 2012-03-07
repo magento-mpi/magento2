@@ -24,9 +24,11 @@ class Mage_Core_Model_Layout_Update
     protected $_elementClass;
 
     /**
-     * @var Simplexml_Element
+     * In-memory cache for loaded layout updates per area/package/theme/store
+     *
+     * @var array
      */
-    protected $_packageLayout;
+    protected $_layoutUpdatesCache = array();
 
     /**
      * Cache key
@@ -57,12 +59,22 @@ class Mage_Core_Model_Layout_Update
     protected $_handles = array();
 
     /**
+     * Page handle names sorted by from parent to child
+     *
+     * @var array
+     */
+    protected $_pageHandles = array();
+
+    /**
      * Substitution values in structure array('from'=>array(), 'to'=>array())
      *
      * @var array
      */
     protected $_subst = array();
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         $subst = Mage::getConfig()->getPathVars();
@@ -72,6 +84,11 @@ class Mage_Core_Model_Layout_Update
         }
     }
 
+    /**
+     * XML element class name getter
+     *
+     * @return string
+     */
     public function getElementClass()
     {
         if (!$this->_elementClass) {
@@ -80,34 +97,66 @@ class Mage_Core_Model_Layout_Update
         return $this->_elementClass;
     }
 
+    /**
+     * Reset all registered updates
+     *
+     * @return Mage_Core_Model_Layout_Update
+     */
     public function resetUpdates()
     {
         $this->_updates = array();
         return $this;
     }
 
+    /**
+     * Add update
+     *
+     * @param string $update
+     * @return Mage_Core_Model_Layout_Update
+     */
     public function addUpdate($update)
     {
         $this->_updates[] = $update;
         return $this;
     }
 
+    /**
+     * Get all registered updates as array
+     *
+     * @return array
+     */
     public function asArray()
     {
         return $this->_updates;
     }
 
+    /**
+     * Get all registered updates as string
+     *
+     * @return string
+     */
     public function asString()
     {
         return implode('', $this->_updates);
     }
 
+    /**
+     * Reset all registered layout handles
+     *
+     * @return Mage_Core_Model_Layout_Update
+     */
     public function resetHandles()
     {
         $this->_handles = array();
         return $this;
     }
 
+    /**
+     * Add handle(s) to update
+     *
+     * @param array|string $handle
+     * @return Mage_Core_Model_Layout_Update
+     */
     public function addHandle($handle)
     {
         if (is_array($handle)) {
@@ -129,6 +178,171 @@ class Mage_Core_Model_Layout_Update
     public function getHandles()
     {
         return array_keys($this->_handles);
+    }
+
+    /**
+     * Add the first existing (declared in layout updates) page handle along with all parents to the update.
+     * Return whether any page handles have been added or not.
+     *
+     * @param array $handlesToTry
+     * @return bool
+     */
+    public function addPageHandles(array $handlesToTry)
+    {
+        foreach ($handlesToTry as $pageHandle) {
+            $handleWithParents = $this->getPageLayoutHandles($pageHandle);
+            if ($handleWithParents) {
+                /* replace existing page handles with the new ones */
+                foreach ($this->_pageHandles as $pageHandle) {
+                    $this->removeHandle($pageHandle);
+                }
+                $this->_pageHandles = $handleWithParents;
+                $this->addHandle($handleWithParents);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieve page handle names sorted from parent to child
+     *
+     * @return array
+     */
+    public function getPageHandles()
+    {
+        return $this->_pageHandles;
+    }
+
+    /**
+     * Retrieve the page layout handle along with all parent handles ordered from parent to child
+     *
+     * @param string $pageHandle
+     * @return array
+     */
+    public function getPageLayoutHandles($pageHandle)
+    {
+        $result = array();
+        while ($this->pageTypeExists($pageHandle)) {
+            array_unshift($result, $pageHandle);
+            $pageHandle = $this->getPageTypeParent($pageHandle);
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve all layout updates for the default frontend theme
+     *
+     * @return SimpleXMLElement
+     */
+    protected function _getFrontendLayout()
+    {
+        return $this->getFileLayoutUpdatesXml(
+            Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            Mage_Core_Model_Design_Package::DEFAULT_PACKAGE,
+            Mage_Core_Model_Design_Package::DEFAULT_THEME
+        );
+    }
+
+    /**
+     * Retrieve recursively all children of a page type
+     *
+     * @param string $parentName
+     * @return array
+     */
+    protected function _getPageTypeChildren($parentName)
+    {
+        $result = array();
+        $xpath = '/layouts/*[@type="page" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ']';
+        $pageTypeNodes = $this->_getFrontendLayout()->xpath($xpath) ?: array();
+        /** @var $pageTypeNode Varien_Simplexml_Element */
+        foreach ($pageTypeNodes as $pageTypeNode) {
+            $pageTypeName = $pageTypeNode->getName();
+            $result[$pageTypeName] = array(
+                'name'     => $pageTypeName,
+                'label'    => (string)$pageTypeNode->label,
+                'children' => $this->_getPageTypeChildren($pageTypeName),
+            );
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $pageTypeName
+     * @return Varien_Simplexml_Element
+     */
+    protected function _getPageTypeNode($pageTypeName)
+    {
+        /* quick validation for non-existing page types */
+        if (!$pageTypeName || !isset($this->_getFrontendLayout()->$pageTypeName)) {
+            return null;
+        }
+        $nodes = $this->_getFrontendLayout()->xpath("/layouts/{$pageTypeName}[@type='page'][1]");
+        return $nodes ? reset($nodes) : null;
+    }
+
+    /**
+     * Retrieve all page types in the system represented as a hierarchy
+     *
+     * Result format:
+     * array(
+     *     'page_type_1' => array(
+     *         'name'     => 'page_type_1',
+     *         'label'    => 'Page Type 1',
+     *         'children' => array(
+     *             'page_type_2' => array(
+     *                 'name'     => 'page_type_2',
+     *                 'label'    => 'Page Type 2',
+     *                 'children' => array(
+     *                     // ...
+     *                 )
+     *             ),
+     *             // ...
+     *         )
+     *     ),
+     *     // ...
+     * )
+     *
+     * @return array
+     */
+    public function getPageTypesHierarchy()
+    {
+        return $this->_getPageTypeChildren('');
+    }
+
+    /**
+     * Whether a page type is declared in the system or not
+     *
+     * @param string $pageType
+     * @return bool
+     */
+    public function pageTypeExists($pageType)
+    {
+        return (bool)$this->_getPageTypeNode($pageType);
+    }
+
+    /**
+     * Retrieve the label for a page type
+     *
+     * @param string $pageType
+     * @return string|bool
+     */
+    public function getPageTypeLabel($pageType)
+    {
+        $pageTypeNode = $this->_getPageTypeNode($pageType);
+        return $pageTypeNode ? (string)$pageTypeNode->label : false;
+    }
+
+    /**
+     * Retrieve the name of the parent for a page type
+     *
+     * @param string $pageType
+     * @return string|null|false
+     */
+    public function getPageTypeParent($pageType)
+    {
+        $pageTypeNode = $this->_getPageTypeNode($pageType);
+        return $pageTypeNode ? $pageTypeNode->getAttribute('parent') : false;
     }
 
     /**
@@ -228,111 +442,35 @@ class Mage_Core_Model_Layout_Update
      */
     public function merge($handle)
     {
-        $packageUpdatesStatus = $this->fetchPackageLayoutUpdates($handle);
+        $this->fetchPackageLayoutUpdates($handle);
         if (Mage::isInstalled()) {
             $this->fetchDbLayoutUpdates($handle);
         }
-//        if (!$this->fetchPackageLayoutUpdates($handle)
-//            && !$this->fetchDbLayoutUpdates($handle)) {
-//            #$this->removeHandle($handle);
-//        }
         return $this;
     }
 
-    public function fetchFileLayoutUpdates()
+    /**
+     * Get all layout updates for active design theme
+     *
+     * @return Mage_Core_Model_Layout_Element
+     */
+    public function getPackageLayout()
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $elementClass = $this->getElementClass();
+        /** @var $design Mage_Core_Model_Design_Package */
         $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
-        $cacheKey = 'LAYOUT_' . $design->getArea() . '_STORE' . $storeId . '_' . $design->getPackageName() . '_'
-            . $design->getTheme('layout');
-
-        $cacheTags = array(self::LAYOUT_GENERAL_CACHE_TAG);
-        if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
-            $this->_packageLayout = simplexml_load_string($layoutStr, $elementClass);
-        }
-        if (empty($layoutStr)) {
-            $this->_packageLayout = $this->getFileLayoutUpdatesXml(
-                $design->getArea(),
-                $design->getPackageName(),
-                $design->getTheme('layout'),
-                $storeId
-            );
-            if (Mage::app()->useCache('layout')) {
-                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
-            }
-        }
-
-
-
-//        $elementClass = $this->getElementClass();
-//
-//        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
-//        $area = $design->getArea();
-//        $storeId = Mage::app()->getStore()->getId();
-//        $cacheKey = 'LAYOUT_'.$area.'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
-//#echo "TEST:".$cacheKey;
-//        $cacheTags = array('layout');
-//
-//        if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
-//            $this->_packageLayout = simplexml_load_string($layoutStr, $elementClass);
-//        }
-//
-//        if (empty($layoutStr)) {
-//            $updatesRoot = Mage::app()->getConfig()->getNode($area.'/layout/updates');
-//            Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
-//            $updateFiles = array();
-//            foreach ($updatesRoot->children() as $updateNode) {
-//                if ($updateNode->file) {
-//                    $module = $updateNode->getAttribute('module');
-//                    if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module)) {
-//                        continue;
-//                    }
-//                    $updateFiles[] = (string)$updateNode->file;
-//                }
-//            }
-//
-//            // custom local layout updates file - load always last
-//            $updateFiles[] = 'local.xml';
-//
-//            $layoutStr = '';
-//            #$layoutXml = new $elementClass('<layouts/>');
-//            foreach ($updateFiles as $file) {
-//                $filename = $design->getLayoutFilename($file);
-//                if (!is_readable($filename)) {
-//                    continue;
-//                }
-//                $fileStr = file_get_contents($filename);
-//                $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
-//                $fileXml = simplexml_load_string($fileStr, $elementClass);
-//                if (!$fileXml instanceof SimpleXMLElement) {
-//                    continue;
-//                }
-//                $layoutStr .= $fileXml->innerXml();
-//
-//                #$layoutXml->appendChild($fileXml);
-//            }
-//            $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
-//
-//            $this->_packageLayout = $layoutXml;
-//
-//            if (Mage::app()->useCache('layout')) {
-//                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
-//            }
-//        }
-
-        return $this;
+        return $this->getFileLayoutUpdatesXml(
+            $design->getArea(),
+            $design->getPackageName(),
+            $design->getTheme()
+        );
     }
 
     public function fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_package_update:' . $handle;
         Magento_Profiler::start($_profilerKey);
-        if (empty($this->_packageLayout)) {
-            $this->fetchFileLayoutUpdates();
-        }
-        foreach ($this->_packageLayout->$handle as $updateXml) {
-#echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
+        $layout = $this->getPackageLayout();
+        foreach ($layout->$handle as $updateXml) {
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
@@ -343,12 +481,18 @@ class Mage_Core_Model_Layout_Update
 
     public function fetchDbLayoutUpdates($handle)
     {
-        $_profilerKey = 'layout_db_update: '.$handle;
+        $_profilerKey = 'layout_db_update: '. $handle;
         Magento_Profiler::start($_profilerKey);
         $updateStr = $this->_getUpdateString($handle);
         if (!$updateStr) {
             return false;
         }
+        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+        $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
+        $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
+        $this->fetchRecursiveUpdates($updateXml);
+        $this->addUpdate($updateXml->innerXml());
+
         Magento_Profiler::stop($_profilerKey);
         return (bool)$updateStr;
     }
@@ -377,7 +521,7 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Collect and merge layout updates from file
+     * Retrieve already merged layout updates from files for specified area/theme/package/store
      *
      * @param string $area
      * @param string $package
@@ -388,9 +532,37 @@ class Mage_Core_Model_Layout_Update
      */
     public function getFileLayoutUpdatesXml($area, $package, $theme, $storeId = null)
     {
-        if (null === $storeId) {
-            $storeId = Mage::app()->getStore()->getId();
+        $storeId = $storeId ?: Mage::app()->getStore()->getId();
+        $cacheKey = "LAYOUT_{$area}_STORE{$storeId}_{$package}_{$theme}";
+        if (array_key_exists($cacheKey, $this->_layoutUpdatesCache)) {
+            return $this->_layoutUpdatesCache[$cacheKey];
         }
+        $canCacheLayout = Mage::app()->useCache('layout');
+        $cachedLayoutStr = $canCacheLayout ? Mage::app()->loadCache($cacheKey) : null;
+        if ($cachedLayoutStr) {
+            $result = simplexml_load_string($cachedLayoutStr, $this->getElementClass());
+        } else {
+            $result = $this->_loadFileLayoutUpdatesXml($area, $package, $theme, $storeId);
+            if ($canCacheLayout) {
+                Mage::app()->saveCache($result->asXml(), $cacheKey, array(self::LAYOUT_GENERAL_CACHE_TAG), null);
+            }
+        }
+        $this->_layoutUpdatesCache[$cacheKey] = $result;
+        return $result;
+    }
+
+    /**
+     * Collect and merge layout updates from files
+     *
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param integer|null $storeId
+     * @return Mage_Core_Model_Layout_Element
+     * @throws Magento_Exception
+     */
+    protected function _loadFileLayoutUpdatesXml($area, $package, $theme, $storeId)
+    {
         /* @var $design Mage_Core_Model_Design_Package */
         $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
 

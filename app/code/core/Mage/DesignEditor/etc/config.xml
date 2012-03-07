@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_DesignEditor>
+            <version>1.0.0.0</version>
+        </Mage_DesignEditor>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <designeditor module="Mage_DesignEditor">
+                    <file>layout.xml</file>
+                </designeditor>
+            </updates>
+        </layout>
+        <routers>
+            <designeditor>
+                <use>standard</use>
+                <args>
+                    <module>Mage_DesignEditor</module>
+                    <frontName>design</frontName>
+                </args>
+            </designeditor>
+        </routers>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>applyCustomSkin</method>
+                    </designeditor>
+                </observers>
+            </controller_action_predispatch>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>setDesignEditorFlag</method>
+                    </designeditor>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>wrapHtmlWithBlockInfo</method>
+                    </designeditor>
+                </observers>
+            </core_block_abstract_to_html_after>
+        </events>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <designeditor module="Mage_DesignEditor">
+                    <file>layout.xml</file>
+                </designeditor>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

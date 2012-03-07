@@ -105,7 +105,7 @@
                             </div>
                         </div>
                     </li>
-                    <?php $addressAttributes = $this->getChild('customer_form_shipping_address_user_defined_attributes');?>
+                    <?php $addressAttributes = $this->getChildBlock('customer_form_shipping_address_user_defined_attributes');?>
                     <?php if ($addressAttributes): ?>
                         <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
                         <?php $addressAttributes->setFieldIdFormat('shipping:%1$s')->setFieldNameFormat('shipping[%1$s]');?>

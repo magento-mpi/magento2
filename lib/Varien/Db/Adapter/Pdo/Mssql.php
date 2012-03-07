@@ -1476,8 +1476,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $idxName = $idxData['KEY_NAME'];
                 $this->dropIndex($tableName, $idxName, $schemaName);
                 unset($idxColumns[$idxColumnKey]);
-                /* re-create a multi-column index */
-                if ($idxColumns) {
+                /* re-create a multiple-column index, if it doesn't coincide with existing index by indexed columns */
+                if ($idxColumns && !$this->_getIndexByColumns($tableName, $idxColumns, $schemaName)) {
                     $this->addIndex($tableName, $idxName, $idxColumns, $idxData['INDEX_TYPE'], $schemaName);
                 }
             }
@@ -1492,6 +1492,24 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
+    }
+
+    /**
+     * Retrieve index information by indexed columns or return NULL, if there is no index for a given column list
+     *
+     * @param string $tableName
+     * @param array $columns
+     * @param string|null $schemaName
+     * @return array|null
+     */
+    protected function _getIndexByColumns($tableName, array $columns, $schemaName)
+    {
+        foreach ($this->getIndexList($tableName, $schemaName) as $idxData) {
+            if ($idxData['COLUMNS_LIST'] === $columns) {
+                return $idxData;
+            }
+        }
+        return null;
     }
 
     /**

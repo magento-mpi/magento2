@@ -429,7 +429,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getGridJsObject()
     {
-        return $this->getParentBlock()->getChild('cms_page_grid')->getJsObjectName();
+        return $this->getParentBlock()->getChildBlock('cms_page_grid')->getJsObjectName();
     }
 
     /**

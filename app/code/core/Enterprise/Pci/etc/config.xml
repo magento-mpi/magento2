@@ -127,7 +127,7 @@
     <default>
         <admin>
             <security>
-                <session_cookie_lifetime>900</session_cookie_lifetime>
+                <session_lifetime>900</session_lifetime>
                 <lockout_failures>6</lockout_failures>
                 <lockout_threshold>30</lockout_threshold>
                 <password_lifetime>90</password_lifetime>

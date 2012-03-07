@@ -45,7 +45,7 @@
 -->
     <adminhtml_cms_page_versions>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions"  output="toHtml" name="cms_page_edit_versions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions"  output="1" name="cms_page_edit_versions" />
         <update handle="formkey" />
     </adminhtml_cms_page_versions>
 
@@ -78,11 +78,11 @@
         <reference name="root">
             <action method="setTemplate"><template>Enterprise_Cms::page/preview.phtml</template></action>
             <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form" name="preview_form" />
-            <block type="Mage_Core_Block_Text_List" name="tools" as="tools">
+            <container name="tools" as="tools" label="Tools">
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store" name="store_switcher" template="page/preview/store.phtml" />
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision" name="revision_switcher" template="page/preview/revision.phtml" />
                 <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons" name="preview_control_buttons" />
-            </block>
+            </container>
         </reference>
     </adminhtml_cms_page_revision_preview>
 
@@ -102,7 +102,7 @@
 -->
     <adminhtml_cms_page_version_revisions>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions"  output="toHtml" name="cms_page_edit_version_edit_revisions" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions"  output="1" name="cms_page_edit_version_edit_revisions" />
     </adminhtml_cms_page_version_revisions>
 
 <!--
@@ -135,7 +135,7 @@
 -->
     <adminhtml_cms_hierarchy_pagegrid>
         <remove name="root" />
-        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="toHtml" />
+        <block type="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="1" />
     </adminhtml_cms_hierarchy_pagegrid>
 
 </layout>

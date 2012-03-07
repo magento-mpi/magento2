@@ -11,9 +11,9 @@
 -->
 <layout>
     <adminhtml_scheduled_operation_getfilter>
-        <block type="Mage_Core_Block_Text_List" name="root">
+        <container name="root" label="Root">
             <block type="Enterprise_ImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
-        </block>
+        </container>
     </adminhtml_scheduled_operation_getfilter>
     <adminhtml_scheduled_operation_index>
         <reference name="content">

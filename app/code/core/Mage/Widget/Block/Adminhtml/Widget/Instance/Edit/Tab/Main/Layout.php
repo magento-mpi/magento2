@@ -216,7 +216,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
                 'label' => 'Products',
                 'code' => 'products',
                 'name' => $typeId . '_products',
-                'layout_handle' => 'default,catalog_product_view,PRODUCT_TYPE_'.$typeId,
+                'layout_handle' => 'default,catalog_product_view,catalog_product_view_type_'.$typeId,
                 'is_anchor_only' => '',
                 'product_type_id' => $typeId
             );
@@ -231,13 +231,15 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      */
     public function getLayoutsChooser()
     {
-        $layouts = $this->getLayout()
+        $chooserBlock = $this->getLayout()
             ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout')
-            ->setSelectName('widget_instance[{{id}}][pages][layout_handle]')
-            ->setArea($this->getWidgetInstance()->getArea())
-            ->setPackage($this->getWidgetInstance()->getPackage())
-            ->setTheme($this->getWidgetInstance()->getTheme());
-        return $layouts->toHtml();
+            ->setName('widget_instance[{{id}}][pages][layout_handle]')
+            ->setId('layout_handle')
+            ->setClass('required-entry select')
+            ->setExtraParams("onchange=\"WidgetInstance.loadSelectBoxByType(\'block_reference\', "
+                . "this.up(\'div.pages\'), this.value)\"")
+        ;
+        return $chooserBlock->toHtml();
     }
 
     /**

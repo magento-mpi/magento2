@@ -31,8 +31,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     const DEFAULT_LAYOUT_HANDLE            = 'default';
     const PRODUCT_LAYOUT_HANDLE            = 'catalog_product_view';
-    const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'PRODUCT_{{ID}}';
-    const PRODUCT_TYPE_LAYOUT_HANDLE       = 'PRODUCT_TYPE_{{TYPE}}';
+    const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'catalog_product_view_id_{{ID}}';
+    const PRODUCT_TYPE_LAYOUT_HANDLE       = 'catalog_product_view_type_{{TYPE}}';
     const ANCHOR_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_layered';
     const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_default';
     const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'CATEGORY_{{ID}}';
@@ -85,7 +85,6 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         $pageGroups = $this->getData('page_groups');
         if ($pageGroups) {
             foreach ($pageGroups as $pageGroup) {
-                $tmpPageGroup = array();
                 if (isset($pageGroup[$pageGroup['page_group']])) {
                     $pageGroupData = $pageGroup[$pageGroup['page_group']];
                     if ($pageGroupData['page_id']) {
@@ -167,7 +166,6 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function setType($type)
     {
         $this->setData('instance_type', $type);
-        $this->_prepareType();
         return $this;
     }
 
@@ -179,21 +177,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function getType()
     {
-        $this->_prepareType();
         return $this->_getData('instance_type');
-    }
-
-    /**
-     * Replace '-' to '/', if was passed from request(GET request)
-     *
-     * @return Mage_Widget_Model_Widget_Instance
-     */
-    protected function _prepareType()
-    {
-        if (strpos($this->_getData('instance_type'), '-') >= 0) {
-            $this->setData('instance_type', str_replace('-', '/', $this->_getData('instance_type')));
-        }
-        return $this;
     }
 
     /**
@@ -383,39 +367,39 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve blocks that widget support
+     * Get list of containers that widget is limited to be in
      *
      * @return array
      */
-    public function getWidgetSupportedBlocks()
+    public function getWidgetSupportedContainers()
     {
-        $blocks = array();
-        if ($this->getWidgetConfig() && ($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
-            foreach ($supportedBlocks->children() as $block) {
-                $blocks[] = (string)$block->block_name;
+        $containers = array();
+        if ($this->getWidgetConfig() && ($configNodes = $this->getWidgetConfig()->supported_containers)) {
+            foreach ($configNodes->children() as $node) {
+                $containers[] = (string)$node->container_name;
             }
         }
-        return $blocks;
+        return $containers;
     }
 
     /**
-     * Retrieve widget templates that supported by given block reference
+     * Retrieve widget templates that supported by specified container name
      *
-     * @param string $blockReference
+     * @param string $containerName
      * @return array
      */
-    public function getWidgetSupportedTemplatesByBlock($blockReference)
+    public function getWidgetSupportedTemplatesByContainer($containerName)
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
         if ($this->getWidgetConfig()) {
-            if (!($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
+            if (!($configNodes = $this->getWidgetConfig()->supported_containers)) {
                 return $widgetTemplates;
             }
-            foreach ($supportedBlocks->children() as $block) {
-                if ((string)$block->block_name == $blockReference) {
-                    if ($block->template && $block->template->children()) {
-                        foreach ($block->template->children() as $template) {
+            foreach ($configNodes->children() as $node) {
+                if ((string)$node->container_name == $containerName) {
+                    if ($node->template && $node->template->children()) {
+                        foreach ($node->template->children() as $template) {
                             if (isset($widgetTemplates[(string)$template])) {
                                 $templates[] = $widgetTemplates[(string)$template];
                             }
@@ -434,16 +418,17 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     /**
      * Generate layout update xml
      *
-     * @param string $blockReference
-     * @param string $position
+     * @param string $container
+     * @param string $templatePath
      * @return string
      */
-    public function generateLayoutUpdateXml($blockReference, $templatePath = '')
+    public function generateLayoutUpdateXml($container, $templatePath = '')
     {
         $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_Package')->getTemplateFilename($templatePath, array(
             '_area'    => $this->getArea(),
             '_package' => $this->getPackage(),
-            '_theme'   => $this->getTheme()
+            '_theme'   => $this->getTheme(),
+            '_module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
         ));
         if (!$this->getId() && !$this->isCompleteToCreate()
             || ($templatePath && !is_readable($templateFilename)))
@@ -451,7 +436,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             return '';
         }
         $parameters = $this->getWidgetParameters();
-        $xml = '<reference name="' . $blockReference . '">';
+        $xml = '<reference name="' . $container . '">';
         $template = '';
         if (isset($parameters['template'])) {
             unset($parameters['template']);

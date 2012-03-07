@@ -52,9 +52,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetSetDirectOutput()
     {
-        $this->assertFalse($this->_model->getDirectOutput());
+        $this->assertFalse($this->_model->isDirectOutput());
         $this->_model->setDirectOutput(true);
-        $this->assertTrue($this->_model->getDirectOutput());
+        $this->assertTrue($this->_model->isDirectOutput());
     }
 
     /**
@@ -110,7 +110,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_model->setBlock($expectedBlockName, $expectedBlock);
         $this->assertSame($expectedBlock, $this->_model->getBlock($expectedBlockName));
 
-        $this->_model->unsetBlock($expectedBlockName);
+        $this->_model->unsetElement($expectedBlockName);
         $this->assertFalse($this->_model->getBlock($expectedBlockName));
     }
 
@@ -155,10 +155,21 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreateBlockNotExists()
+    /**
+     * @dataProvider blockNotExistsDataProvider
+     * @expectedException Mage_Core_Exception
+     */
+    public function testCreateBlockNotExists($name)
     {
-        $this->assertFalse($this->_model->createBlock(''));
-        $this->assertFalse($this->_model->createBlock('block_not_exists'));
+        $this->_model->createBlock($name);
+    }
+
+    public function blockNotExistsDataProvider()
+    {
+        return array(
+            array(''),
+            array('block_not_exists'),
+        );
     }
 
     /**
@@ -172,14 +183,14 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $blockName = 'block_' . __METHOD__;
         $expectedText = "some_text_for_$blockName";
 
-        $block = new Mage_Core_Block_Text();
+        $block = $this->_model->addBlock('Mage_Core_Block_Text', $blockName);
+        $this->_model->insertBlock('', $blockName, '');
         $block->setText($expectedText);
-        $this->_model->addBlock($block, $blockName);
 
-        $this->_model->addOutputBlock($blockName);
+        $this->_model->addOutputElement($blockName);
         $this->assertEquals($expectedText, $this->_model->getOutput());
 
-        $this->_model->removeOutputBlock($blockName);
+        $this->_model->removeOutputElement($blockName);
         $this->assertEmpty($this->_model->getOutput());
     }
 

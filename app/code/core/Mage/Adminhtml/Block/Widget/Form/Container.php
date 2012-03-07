@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
     public function getFormHtml()
     {
-        $this->getChild('form')->setData('action', $this->getSaveUrl());
+        $this->getChildBlock('form')->setData('action', $this->getSaveUrl());
         return $this->getChildHtml('form');
     }
 
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
      */
     public function setDataObject($object)
     {
-        $this->getChild('form')->setDataObject($object);
+        $this->getChildBlock('form')->setDataObject($object);
         return $this->setData('data_object', $object);
     }
 

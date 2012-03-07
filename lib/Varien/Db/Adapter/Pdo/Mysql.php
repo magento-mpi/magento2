@@ -791,6 +791,18 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             }
         }
 
+        /* drop index that after column removal would coincide with the existing index by indexed columns */
+        foreach ($this->getIndexList($tableName, $schemaName) as $idxData) {
+            $idxColumns = $idxData['COLUMNS_LIST'];
+            $idxColumnKey = array_search($columnName, $idxColumns);
+            if ($idxColumnKey !== false) {
+                unset($idxColumns[$idxColumnKey]);
+                if ($idxColumns && $this->_getIndexByColumns($tableName, $idxColumns, $schemaName)) {
+                    $this->dropIndex($tableName, $idxData['KEY_NAME'], $schemaName);
+                }
+            }
+        }
+
         $alterDrop[] = 'DROP COLUMN ' . $this->quoteIdentifier($columnName);
         $sql = sprintf('ALTER TABLE %s %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
@@ -800,6 +812,24 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
+    }
+
+    /**
+     * Retrieve index information by indexed columns or return NULL, if there is no index for a column list
+     *
+     * @param string $tableName
+     * @param array $columns
+     * @param string|null $schemaName
+     * @return array|null
+     */
+    protected function _getIndexByColumns($tableName, array $columns, $schemaName)
+    {
+        foreach ($this->getIndexList($tableName, $schemaName) as $idxData) {
+            if ($idxData['COLUMNS_LIST'] === $columns) {
+                return $idxData;
+            }
+        }
+        return null;
     }
 
     /**

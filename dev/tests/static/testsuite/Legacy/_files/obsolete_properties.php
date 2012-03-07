@@ -13,6 +13,9 @@ return array(
     'decoratedIsEven' => array('suggestion' => 'getDecoratedIsEven'),
     'decoratedIsOdd' => array('suggestion' => 'getDecoratedIsOdd'),
     'decoratedIsLast' => array('suggestion' => 'getDecoratedIsLast'),
+    '_alias' => array('class_scope' => 'Mage_Core_Block_Abstract'),
+    '_childrenHtmlCache' => array('class_scope' => 'Mage_Core_Block_Abstract'),
+    '_childGroups' => array('class_scope' => 'Mage_Core_Block_Abstract'),
     '_currencyNameTable',
     '_combineHistory',
     '_searchTextFields',
@@ -41,4 +44,5 @@ return array(
     '_track_id',
     '_order_id',
     '_ship_id',
+    '_sortInstructions' => array('class_scope' => 'Mage_Core_Block_Abstract'),
 );

@@ -56,7 +56,7 @@
             <?php if ($_gender->isEnabled()): ?>
                 <li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
             <?php endif ?>
-            <?php $customerAttributes = $this->getChild('customer_form_user_attributes');?>
+            <?php $customerAttributes = $this->getChildBlock('customer_form_user_attributes');?>
             <?php if ($customerAttributes): ?>
                 <?php $customerAttributes->setShowContainer(false);?>
                 <?php $this->restoreSessionData($customerAttributes->getForm());?>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                 </li>
-                <?php $addressAttributes = $this->getChild('customer_form_address_user_attributes');?>
+                <?php $addressAttributes = $this->getChildBlock('customer_form_address_user_attributes');?>
                 <?php if ($addressAttributes): ?>
                     <?php $addressAttributes->setEntity($this->getAddress());?>
                     <?php $addressAttributes->setFieldIdFormat('address:%1$s')->setFieldNameFormat('address[%1$s]');?>

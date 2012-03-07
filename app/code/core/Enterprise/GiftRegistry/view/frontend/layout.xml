@@ -26,14 +26,16 @@
         </block>
     </wishlist_index_index>
 
-    <enterprise_giftregistry_index_index>
+    <enterprise_giftregistry_index_index translate="label" type="page" parent="customer_account_index">
+        <label>Customer GiftRegistry</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Enterprise_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_index>
 
-    <enterprise_giftregistry_index_share>
+    <enterprise_giftregistry_index_share translate="label" type="page" parent="enterprise_giftregistry_index_index">
+        <label>Customer GiftRegistry Share</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
@@ -43,7 +45,8 @@
         </reference>
     </enterprise_giftregistry_index_share>
 
-    <enterprise_giftregistry_index_items>
+    <enterprise_giftregistry_index_items translate="label" type="page" parent="enterprise_giftregistry_index_share">
+        <label>Customer GiftRegistry Items List</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
@@ -69,7 +72,8 @@
         </block>
     </customer_account>
 
-    <enterprise_giftregistry_search_index>
+    <enterprise_giftregistry_search_index translate="label" type="page" parent="enterprise_giftregistry_index_index">
+        <label>Customer GiftRegistry Search Form</label>
         <update handle="calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
@@ -79,7 +83,8 @@
         </reference>
     </enterprise_giftregistry_search_index>
 
-    <enterprise_giftregistry_search_results>
+    <enterprise_giftregistry_search_results translate="label" type="page" parent="enterprise_giftregistry_search_index">
+        <label>Customer GiftRegistry Search Results List</label>
         <update handle="calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
@@ -90,11 +95,14 @@
         </reference>
     </enterprise_giftregistry_search_results>
 
-    <enterprise_giftregistry_search_advanced>
+
+    <enterprise_giftregistry_search_advanced translate="label" type="page" parent="enterprise_giftregistry_search_index">
+        <label>Customer GiftRegistry Advanced Search Form</label>
         <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" template="search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
-    <enterprise_giftregistry_view_index>
+    <enterprise_giftregistry_view_index translate="label" type="page" parent="enterprise_giftregistry_index_share">
+        <label>Customer GiftRegistry Gift View</label>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
@@ -115,12 +123,12 @@
         </reference>
         <update handle="MAP_popup" />
         <reference name="product.tooltip">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Mage_Paypal">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
     </enterprise_giftregistry_view_index>
 
@@ -167,7 +175,7 @@
         </reference>
     </checkout_multishipping_overview>
 
-    <enterprise_giftregistry_index_addselect translate="label" module="Enterprise_GiftRegistry">
+    <enterprise_giftregistry_index_addselect translate="label" module="Enterprise_GiftRegistry" type="page" parent="enterprise_giftregistry_view_index">
         <label>Customer My Account GiftRegistry Add</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
@@ -178,7 +186,7 @@
         </reference>
     </enterprise_giftregistry_index_addselect>
 
-    <enterprise_giftregistry_index_edit translate="label" module="Enterprise_GiftRegistry">
+    <enterprise_giftregistry_index_edit translate="label" module="Enterprise_GiftRegistry" type="page" parent="enterprise_giftregistry_view_index">
         <label>Customer My Account GiftRegistry Edit</label>
         <update handle="customer_account"/>
         <update handle="calendar"/>
@@ -202,7 +210,8 @@
         </reference>
     </checkout_onepage_review>
 
-    <enterprise_giftregistry_email_entity_items>
+    <enterprise_giftregistry_email_entity_items translate="label" type="page" parent="enterprise_giftregistry_index_items">
+        <label>Customer GiftRegistry Email Items List</label>
         <block type="Enterprise_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"></block>
     </enterprise_giftregistry_email_entity_items>
 </layout>

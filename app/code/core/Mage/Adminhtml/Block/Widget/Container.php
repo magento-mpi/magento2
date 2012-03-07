@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
         foreach ($this->_buttons as $level => $buttons) {
             if (isset($buttons[$id])) {
                 if (!empty($key)) {
-                    if ($child = $this->getChild($id . '_button')) {
+                    if ($child = $this->getChildBlock($id . '_button')) {
                         $child->setData($key, $data);
                     }
                     if ('level' == $key) {
@@ -218,7 +218,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
                     continue;
                 }
                 $childId = $this->_prepareButtonBlockId($id);
-                $child = $this->getChild($childId);
+                $child = $this->getChildBlock($childId);
 
                 if (!$child) {
                     $child = $this->_addButtonChildBlock($childId);

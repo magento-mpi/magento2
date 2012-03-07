@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     selenium
+ * @subpackage  runner
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="framework/bootstrap.php">
+    <testsuites>
+        <testsuite name="All Tests">
+            <directory suffix="Test.php">testsuite</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <const name="SELENIUM_TESTS_INSTALLATION" value="enabled"/>
+        <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
+    </php>
+    <logging>
+        <log type="tap" target="tests-functional.tap"/>
+        <log type="junit" target="tests-functional.xml"/>
+    </logging>
+</phpunit>

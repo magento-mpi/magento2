@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Toolbar_Breadcrumbs */ ?>
+<div>
+    <span><?php echo $this->__('Current Location:'); ?></span>
+    <?php $isFirstItem = true; ?>
+    <?php foreach ($this->getBreadcrumbs() as $breadcrumb) : ?>
+        <?php if (!$isFirstItem) : ?>
+            <span>/</span>
+        <?php endif; ?>
+        <?php if ($breadcrumb['url']) : ?>
+            <a href="<?php echo $breadcrumb['url']; ?>"><?php echo $breadcrumb['label']; ?></a>
+        <?php else : ?>
+            <span><?php echo $breadcrumb['label']; ?></span>
+        <?php endif; ?>
+        <?php $isFirstItem = false; ?>
+    <?php endforeach; ?>
+</div>

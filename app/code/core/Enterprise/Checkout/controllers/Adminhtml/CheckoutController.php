@@ -644,20 +644,16 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     {
         $criticalException = false;
         try {
-            $this->_initData(false)
-                ->_processData();
+            $this->_initData(false)->_processData();
+        } catch (Enterprise_Checkout_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $criticalException = true;
+        } catch (Mage_Core_Exception $e) {
+            $this->_reloadQuote();
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            if ($e instanceof Enterprise_Checkout_Exception) {
-                $this->_getSession()->addError($e->getMessage());
-                $criticalException = true;
-            } else {
-                $this->_reloadQuote();
-                if ($e instanceof Mage_Core_Exception) {
-                    $this->_getSession()->addError($e->getMessage());
-                } else {
-                    $this->_getSession()->addException($e, $e->getMessage());
-                }
-            }
+            $this->_reloadQuote();
+            $this->_getSession()->addException($e, $e->getMessage());
         }
 
         $asJson = $this->getRequest()->getParam('json');
@@ -685,7 +681,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         }
 
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->getBlock('content')->toHtml();
+        $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');

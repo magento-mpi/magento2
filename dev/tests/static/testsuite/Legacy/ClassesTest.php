@@ -16,7 +16,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
-     * @dataProvider Util_Files::getPhpFiles
+     * @dataProvider Utility_Files::getPhpFiles
      */
     public function testPhpCode($file)
     {
@@ -33,7 +33,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public static function collectPhpCodeClasses($contents, &$classes = array())
     {
-        Util_Classes::getAllMatches($contents, '/
+        Utility_Classes::getAllMatches($contents, '/
             # ::getModel ::getSingleton ::getResourceModel ::getResourceSingleton
             \:\:get(?:Resource)?(?:Model | Singleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 
@@ -58,7 +58,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 
             # misc
             | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_\/]+)[\'"]
-            | _parentResourceModelName\s*=\s*\'([a-z\d_\/]+)\'
+            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_\/]+)\'
 
             /Uix',
             $classes
@@ -68,7 +68,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         $skipForInit = implode('|',
             array('id', '[\w\d_]+_id', 'pk', 'code', 'status', 'serial_number', 'entity_pk_value', 'currency_code')
         );
-        Util_Classes::getAllMatches($contents, '/
+        Utility_Classes::getAllMatches($contents, '/
             (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*\)
             | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' . $skipForInit . '))[^\'"]+)[\'"]\s*\)
             /Uix',
@@ -85,10 +85,10 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($path);
 
-        $classes = Util_Classes::collectClassesInConfig($xml);
+        $classes = Utility_Classes::collectClassesInConfig($xml);
         $this->_assertNonFactoryName($classes);
 
-        $modules = Util_Classes::getXmlAttributeValues($xml, '//@module', 'module');
+        $modules = Utility_Classes::getXmlAttributeValues($xml, '//@module', 'module');
         $this->_assertNonFactoryName(array_unique($modules));
     }
 
@@ -97,7 +97,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Util_Files::getConfigFiles();
+        return Utility_Files::getConfigFiles();
     }
 
     /**
@@ -107,11 +107,11 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     public function testLayouts($path)
     {
         $xml = simplexml_load_file($path);
-        $classes = Util_Classes::collectLayoutClasses($xml);
-        foreach (Util_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
-            $classes[] = Util_Classes::getCallbackClass($class);
+        $classes = Utility_Classes::collectLayoutClasses($xml);
+        foreach (Utility_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
+            $classes[] = Utility_Classes::getCallbackClass($class);
         }
-        $classes = array_merge($classes, Util_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module'));
+        $classes = array_merge($classes, Utility_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module'));
         $this->_assertNonFactoryName(array_unique($classes));
     }
 
@@ -120,7 +120,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Util_Files::getLayoutFiles();
+        return Utility_Files::getLayoutFiles();
     }
 
     /**

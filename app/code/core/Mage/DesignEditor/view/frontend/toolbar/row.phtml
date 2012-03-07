@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_Core_Block_Template */ ?>
+<div class="vde_toolbar_row clearer">
+    <?php foreach ($this->getChildNames() as $name): ?>
+    <div class="vde_toolbar_cell">
+        <?php echo $this->getLayout()->renderElement($name) ?>
+    </div>
+    <?php endforeach; ?>
+</div>

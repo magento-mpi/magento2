@@ -262,23 +262,44 @@ abstract class Mage_Core_Controller_Varien_Action
         return $this;
     }
 
+    /**
+     * Retrieve the default layout handle name for the current action
+     *
+     * @return string
+     */
+    public function getDefaultLayoutHandle()
+    {
+        return strtolower($this->getFullActionName());
+    }
+
+    /**
+     * Add layout handle by full controller action name
+     *
+     * @return Mage_Core_Controller_Varien_Action
+     */
     public function addActionLayoutHandles()
     {
-        $update = $this->getLayout()->getUpdate();
-
-        // load store handle
-        $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
-
-        // load theme handle
-        $package = Mage::getSingleton('Mage_Core_Model_Design_Package');
-        $update->addHandle(
-            'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme()
-        );
-
-        // load action handle
-        $update->addHandle(strtolower($this->getFullActionName()));
-
+        /*
+         * @todo Use addPageLayoutHandles() as soon as page type inheritance declarations are correct
+         */
+        $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         return $this;
+    }
+
+    /**
+     * Add layout updates handles associated with the action page
+     *
+     * @param array $parameters page parameters
+     * @return bool
+     */
+    public function addPageLayoutHandles(array $parameters = array())
+    {
+        $handle = $this->getDefaultLayoutHandle();
+        $pageHandles = array($handle);
+        foreach ($parameters as $key => $value) {
+            $pageHandles[] = $handle . '_' . $key . '_' . $value;
+        }
+        return $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
     }
 
     public function loadLayoutUpdates()
@@ -371,9 +392,8 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Magento_Profiler::start('layout_render');
 
-
         if (''!==$output) {
-            $this->getLayout()->addOutputBlock($output);
+            $this->getLayout()->addOutputElement($output);
         }
 
         Mage::dispatchEvent('controller_action_layout_render_before');

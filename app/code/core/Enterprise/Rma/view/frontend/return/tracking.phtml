@@ -35,10 +35,11 @@
             <a href="javascript://" onclick="deleteTrackNumber(<?php echo $number->getEntityId()?>)">
                 <?php echo $this->__('Delete') ?>
             </a>
-        <?php endif ?>
+        <?php endif; ?>
     </td>
 </tr>
-<?php endforeach ?>
+<?php endforeach; ?>
+<?php if ($this->getDeleteLabelUrl()): ?>
 <script type="text/javascript">
 //<![CDATA[
     function deleteTrackNumber(number) {
@@ -56,3 +57,4 @@
     }
 //]]>
 </script>
+<?php endif; ?>

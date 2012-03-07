@@ -575,4 +575,30 @@ class Enterprise_PageCache_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Temporary disabling full page caching if Desigh Editor was launched.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function launchDesignEditor(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('Mage_PageCache_Model_Observer')
+            ->launchDesignEditor($observer);
+        return $this;
+    }
+
+    /**
+     * Activating full page cache after Design Editor was deactivated
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function exitDesignEditor(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('Mage_PageCache_Model_Observer')
+            ->exitDesignEditor($observer);
+        return $this;
+    }
 }

@@ -35,14 +35,14 @@ class Enterprise_Banner_Block_Adminhtml_Permission_Monitor extends Mage_Adminhtm
                 $promoQuoteEditTabsBlock = $layout->getBlock('promo_quote_edit_tabs');
                 if ($promoQuoteEditTabsBlock !== false) {
                     $promoQuoteEditTabsBlock->removeTab('banners_section');
-                    $layout->unsetBlock('salesrule.related.banners');
+                    $layout->unsetElement('salesrule.related.banners');
                 }
             } elseif ($layout->getBlock('catalogrule.related.banners') !== false) {
                 /** @var $promoCatalogEditTabsBlock Mage_Adminhtml_Block_Widget_Tabs */
                 $promoCatalogEditTabsBlock = $layout->getBlock('promo_catalog_edit_tabs');
                 if ($promoCatalogEditTabsBlock !== false) {
                     $promoCatalogEditTabsBlock->removeTab('banners_section');
-                    $layout->unsetBlock('catalogrule.related.banners');
+                    $layout->unsetElement('catalogrule.related.banners');
                 }
             }
         }

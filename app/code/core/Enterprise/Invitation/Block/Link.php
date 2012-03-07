@@ -27,14 +27,21 @@ class Enterprise_Invitation_Block_Link extends Mage_Core_Block_Template
      * @param array $urlParams
      * @return Enterprise_Invitation_Block_Customer_Link
      */
-    public function addAccountLink($block, $label, $url='', $title='', $prepare=false, $urlParams=array(),
-        $position=null, $liParams=null, $aParams=null, $beforeText='', $afterText='')
+    public function addAccountLink()
     {
-        if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()) {
-            $blockInstance = $this->getLayout()->getBlock($block);
+        if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()
+            && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $blockInstance = $this->getLayout()->getBlock('account.links');
             if ($blockInstance) {
-                $blockInstance->addLink($label, $url, $title, $prepare, $urlParams,
-                    $position, $liParams, $aParams, $beforeText, $afterText);
+                $blockInstance->addLink(
+                    $this->__('Send Invitations'),
+                    Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl(),
+                    $this->__('Send Invitations'),
+                    '',
+                    '',
+                    1,
+                    'id="invitation-send-link"'
+                );
             }
         }
         return $this;

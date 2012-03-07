@@ -11,9 +11,9 @@
 -->
 <layout version="0.1.0">
     <!-- stub-page for a closed website -->
-    <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction">
+    <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction" type="page" parent="cms_page_view">
         <label>Website Closed Stub Page</label>
-        <block type="Mage_Page_Block_Html" name="root" output="toHtml" template="1column.phtml">
+        <block type="Mage_Page_Block_Html" name="root" output="1" template="1column.phtml">
             <block type="Mage_Page_Block_Html_Head" name="head" as="head">
                 <action method="addJs"><file>prototype/prototype.js</file></action>
                 <action method="addJs"><file>prototype/validation.js</file></action>
@@ -22,14 +22,11 @@
             </block>
             <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
-            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
-                <label>Main Content Area</label>
-                <block type="Mage_Page_Block_Html_Wrapper" name="cms.wrapper" translate="label">
-                    <label>CMS Content Wrapper</label>
-                    <action method="setElementClass"><value>std</value></action>
+            <container name="content" as="content" label="Main Content Area">
+                <container name="cms.wrapper" label="CMS Content Wrapper" htmlTag="div" htmlClass="std">
                     <block type="Enterprise_WebsiteRestriction_Block_Cms_Stub" name="cms_page" />
-                </block>
-            </block>
+                </container>
+            </container>
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml"/>
         </block>
     </restriction_index_stub>

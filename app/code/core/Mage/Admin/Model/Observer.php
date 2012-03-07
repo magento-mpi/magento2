@@ -45,7 +45,7 @@ class Mage_Admin_Model_Observer
             if($user) {
                 $user->reload();
             }
-            if (!$user || !$user->getId()) {
+            if (!$session->isLoggedIn()) {
                 if ($request->getPost('login')) {
                     $postLogin  = $request->getPost('login');
                     $username   = isset($postLogin['username']) ? $postLogin['username'] : '';

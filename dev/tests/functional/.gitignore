@@ -1,0 +1,4 @@
+/config/browsers.yml
+/config/install.php
+/phpunit.xml
+/framework/tests/unit/phpunit.xml

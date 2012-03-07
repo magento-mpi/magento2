@@ -46,7 +46,7 @@ class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
         $paths =  array(
             $rootFolderName . '/[^/]+\.' . $extensions,
             $rootFolderName . '/app/.+\.' . $extensions,
-            $rootFolderName . '/dev/(?!tests/integration/tmp).+\.' . $extensions,
+            $rootFolderName . '/dev/(?!tests/integration/tmp|tests/functional).+\.' . $extensions,
             $rootFolderName . '/downloader/.+\.' . $extensions,
             $rootFolderName . '/lib/(Mage|Magento|Varien)/.+\.' . $extensions,
             $rootFolderName . '/pub/.+\.' . $extensions,

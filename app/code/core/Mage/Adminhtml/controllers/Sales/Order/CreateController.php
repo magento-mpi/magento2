@@ -386,7 +386,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             }
         }
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->getBlock('content')->toHtml();
+        $result = $this->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');

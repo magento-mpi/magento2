@@ -86,17 +86,49 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Abstract', $this->_model->getLayout()->getBlock('root'));
     }
 
+    public function testGetDefaultLayoutHandle()
+    {
+        $this->_model->getRequest()
+            ->setRouteName('Test')
+            ->setControllerName('Controller')
+            ->setActionName('Action');
+        $this->assertEquals('test_controller_action', $this->_model->getDefaultLayoutHandle());
+    }
+
     /**
      * @magentoAppIsolation enabled
      */
     public function testAddActionLayoutHandles()
     {
-        $this->_model->getRequest()->setRouteName('test')
-            ->setControllerName('controller')
-            ->setActionName('action');
+        $this->_model->getRequest()
+            ->setRouteName('Test')
+            ->setControllerName('Controller')
+            ->setActionName('Action');
         $this->_model->addActionLayoutHandles();
         $handles = $this->_model->getLayout()->getUpdate()->getHandles();
         $this->assertContains('test_controller_action', $handles);
+        $this->assertNotContains('STORE_' . Mage::app()->getStore()->getCode(), $handles);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testAddPageLayoutHandles()
+    {
+        $this->_model->getRequest()->setRouteName('test')
+            ->setControllerName('controller')
+            ->setActionName('action');
+        $this->_model->addPageLayoutHandles(array());
+        $this->assertEmpty($this->_model->getLayout()->getUpdate()->getHandles());
+
+        $this->_model->getRequest()->setRouteName('catalog')
+            ->setControllerName('product')
+            ->setActionName('view');
+        $this->_model->addPageLayoutHandles(array('type' => 'simple'));
+        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        $this->assertContains('default', $handles);
+        $this->assertContains('catalog_product_view', $handles);
+        $this->assertContains('catalog_product_view_type_simple', $handles);
     }
 
     /**

@@ -46,6 +46,6 @@ class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Util_Files::getConfigFiles('config.xml');
+        return Utility_Files::getConfigFiles('config.xml');
     }
 }
