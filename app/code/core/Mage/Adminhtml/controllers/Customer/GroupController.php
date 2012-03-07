@@ -63,9 +63,8 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
         $this->_title($currentGroup->getId() ? $currentGroup->getCode() : $this->__('New Group'));
 
-        $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Group_Edit', 'group')
+        $this->getLayout()->addBlock('Mage_Adminhtml_Block_Customer_Group_Edit', 'group', 'content')
             ->setEditMode((bool)Mage::registry('current_group')->getId());
-        $this->getLayout()->insertBlock('content', 'group', 'group');
 
         $this->renderLayout();
     }

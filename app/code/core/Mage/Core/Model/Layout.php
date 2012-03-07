@@ -40,7 +40,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_blocks = array();
 
     /**
-     * Cache of block callbacks to output during rendering
+     * Cache of elements to output during rendering
      *
      * @var array
      */
@@ -304,9 +304,24 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $sibling
      * @return bool|string
      */
-    public function insertBlock($parentName, $name, $alias, $after = true, $sibling = '')
+    public function insertBlock($parentName, $name, $alias = '', $after = true, $sibling = '')
     {
         return $this->_structure->insertBlock($parentName, $name, $alias, $after, $sibling);
+    }
+
+    /**
+     * Insert container into layout structure
+     *
+     * @param $parentName
+     * @param $name
+     * @param string $alias
+     * @param bool $after
+     * @param string $sibling
+     * @return bool|string
+     */
+    public function insertContainer($parentName, $name, $alias = '', $after = true, $sibling = '')
+    {
+        return $this->_structure->insertContainer($parentName, $name, $alias, $after, $sibling);
     }
 
     /**
@@ -371,7 +386,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         $elementName = $node->getAttribute('name');
 
-        $block = $this->addBlock($className, $elementName);
+        $block = $this->_createBlock($className, $elementName);
         if (!$block) {
             return $this;
         }
@@ -643,6 +658,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->_structure->hasElement($name);
     }
 
+    public function isContainer($name)
+    {
+        return $this->_structure->isContainer($name);
+    }
+
     /**
      * Translate layout node
      *
@@ -697,21 +717,30 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Block Factory
      *
      * @param     string $type
-     * @param     string $name
+     * @param     string $origName
      * @param     array $attributes
      * @return    Mage_Core_Block_Abstract
      */
-    public function createBlock($type, $name='', array $attributes = array())
+    public function createBlock($type, $origName='', array $attributes = array())
+    {
+        $name = ('.' === $origName{0}) ? '' : $origName;
+        $name = $this->_structure->insertBlock('', $name);
+        $block = $this->_createBlock($type, $name, $attributes);
+        $this->_updateAnonymousBlock($block, $origName, $name);
+        return $block;
+    }
+
+    /**
+     * Creates block and add to layout
+     *
+     * @param $type
+     * @param string $name
+     * @param array $attributes
+     * @return mixed
+     */
+    protected function _createBlock($type, $name='', array $attributes = array())
     {
         $block = $this->_getBlockInstance($type, $attributes);
-
-        if (empty($name) || '.'===$name{0}) {
-            $block->setIsAnonymous(true);
-            if (!empty($name)) {
-                $block->setAnonSuffix(substr($name, 1));
-            }
-            $name = 'ANONYMOUS_' . $this->_nameIncrement++;
-        }
 
         $block->setType($type);
         $block->setNameInLayout($name);
@@ -727,12 +756,44 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Add a block to registry, create new object if needed
      *
      * @param string|Mage_Core_Block_Abstract $block
-     * @param string $blockName
+     * @param string $origName
+     * @param string $parent
+     * @param string $alias
+     * @param bool $after
+     * @param string $sibling
      * @return Mage_Core_Block_Abstract
      */
-    public function addBlock($block, $blockName)
+    public function addBlock($block, $origName = '', $parent = '', $alias = '', $after = true, $sibling = '')
     {
-        return $this->createBlock($block, $blockName);
+        $name = ('.' === $origName{0}) ? '' : $origName;
+        if (is_string($block)) {
+            $name = $this->_structure->insertBlock($parent, $name, $alias, $after, $sibling);
+        } elseif (empty($name)) {
+            $name = $block->getNameInLayout();
+        }
+        $block = $this->_createBlock($block, $name);
+        $this->_updateAnonymousBlock($block, $origName, $name);
+        $block->setLayout($this);
+        return $block;
+    }
+
+    /**
+     * Mark block as anonymous depending on its name
+     *
+     * @param Mage_Core_Block_Abstract $block
+     * @param $origName
+     * @param $name
+     * @return mixed
+     */
+    protected function _updateAnonymousBlock(Mage_Core_Block_Abstract $block, $origName, $name)
+    {
+        if (!preg_match('/^' . Mage_Core_Model_Layout_Structure::TMP_NAME_PREFIX . '/', $name)) {
+            return;
+        }
+        $block->setIsAnonymous(true);
+        if (!empty($origName)) {
+            $block->setAnonSuffix(substr($origName, 1));
+        }
     }
 
     /**
@@ -753,8 +814,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (!($block instanceof Mage_Core_Block_Abstract)) {
             return false;
         }
-
-        $this->_structure->insertBlock($parentName, $block->getNameInLayout());
+        $this->insertBlock($parentName, $block->getNameInLayout());
 
         return true;
     }
@@ -843,20 +903,27 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Add a block to output
+     * Add an element to output
      *
      * @param string $name
      * @return Mage_Core_Model_Layout
      */
     public function addOutputElement($name)
     {
-        $this->_structure->markOutputElement($name);
+        $this->_output[$name] = $name;
         return $this;
     }
 
+    /**
+     * Remove an element from output
+     *
+     * @param $name
+     */
     public function removeOutputElement($name)
     {
-        $this->_structure->unmarkOutputElement($name);
+        if (false !== ($key = array_search($name, $this->_output))) {
+            unset($this->_output[$key]);
+        }
     }
 
     /**
@@ -867,7 +934,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getOutput()
     {
         $out = '';
-        foreach ($this->_structure->getOutputList() as $name) {
+        foreach ($this->_output as $name) {
             $out .= $this->renderElement($name);
         }
 

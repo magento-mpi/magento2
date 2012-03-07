@@ -140,7 +140,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->createBlock($params['class'], $params['name']);
         if (isset($params['container'])) {
-            $layout->getStructure()->insertContainer('', $params['container']);
+            $layout->insertContainer('', $params['container']);
             $layout->insertBlock($params['container'], $params['name'], $params['name']);
         }
 

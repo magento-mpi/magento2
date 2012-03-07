@@ -26,6 +26,6 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
         $parentName = $layout->getParentName($block->getNameInLayout());
-        return $layout->getStructure()->isContainer($parentName);
+        return $layout->isContainer($parentName);
     }
 }

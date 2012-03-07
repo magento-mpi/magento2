@@ -64,6 +64,21 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($child, $this->_model->getChildName($parent, $alias));
     }
 
+    public function testGetChildBeforeParent()
+    {
+        $parent = 'parent';
+        $child = 'child';
+        $alias = 'alias';
+        $this->_model->insertBlock($parent, $child, $alias);
+        $this->assertEmpty($this->_model->getElementAttribute($parent, 'type'));
+        $this->assertEquals($parent, $this->_model->getParentName($child));
+        $this->assertEquals($child, $this->_model->getChildName($parent, $alias));
+        $this->_model->insertBlock('', $parent);
+        $result = $this->_model->getChildName($parent, $alias);
+        $this->assertEquals($child, $result);
+        $this->assertInternalType('string', $result);
+    }
+
     public function testGetElementAlias()
     {
         $alias = 'alias';
@@ -124,6 +139,16 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getChildNames($parent2));
     }
 
+    public function testUnsetChild()
+    {
+        $parent = 'parent';
+        $child = 'child';
+        $this->_model->insertBlock($parent, $child);
+        $this->_model->unsetChild($parent, $child);
+        $this->_model->insertBlock('', $parent);
+        $this->assertEmpty($this->_model->getParentName($child));
+    }
+
     public function testUnsetElement()
     {
         $name = 'name';
@@ -144,21 +169,6 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->getChildName($parent, $alias);
         $this->assertEquals($child, $result);
         $this->assertInternalType('string', $result);
-    }
-
-    public function testGetChildNameWithBrokenRef()
-    {
-        $parent = 'parent';
-        $child = 'child';
-        $alias = 'alias';
-        $this->_model->insertBlock($parent, $child, $alias);
-        $this->assertEquals($parent, $this->_model->getElementAttribute($child, 'broken_parent_name'));
-        //$this->assertEquals($child, $this->_model->getChildName($parent, $alias));
-        $this->_model->insertBlock('', $parent);
-        $result = $this->_model->getChildName($parent, $alias);
-        $this->assertEquals($child, $result);
-        $this->assertInternalType('string', $result);
-        $this->assertEmpty($this->_model->getElementAttribute($child, 'broken_parent_name'));
     }
 
     /**
@@ -325,27 +335,5 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isContainer($block));
         $this->assertTrue($this->_model->isContainer($container));
         $this->assertFalse($this->_model->isContainer($invalidType));
-    }
-
-    /**
-     * @dataProvider outputDataProvider
-     */
-    public function testMarkUnmarkOutputElement($type, $name)
-    {
-        $this->_model->insertBlock('', 'some_element');
-        $this->_model->insertElement('', $name, $type);
-        $this->assertEmpty($this->_model->getElementAttribute($name, 'output'));
-        $this->_model->markOutputElement($name);
-        $this->assertEquals('1', $this->_model->getElementAttribute($name, 'output'));
-        $this->_model->unmarkOutputElement($name);
-        $this->assertEmpty($this->_model->getElementAttribute($name, 'output'));
-    }
-
-    public function outputDataProvider()
-    {
-        return array(
-            array('block', 'block_name'),
-            array('container', 'container_name'),
-        );
     }
 }

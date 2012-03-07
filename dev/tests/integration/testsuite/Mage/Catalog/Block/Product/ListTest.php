@@ -52,17 +52,17 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
      */
     public function testToolbarCoverage()
     {
-        $this->_block->setLayout($this->_getLayout());
+        $parent = $this->_getLayout()->createBlock('Mage_Catalog_Block_Product_List', 'parent');
 
         /* Prepare toolbar block */
-        $toolbar = $this->_block->getToolbarBlock();
+        $toolbar = $parent->getToolbarBlock();
         $this->assertInstanceOf('Mage_Catalog_Block_Product_List_Toolbar', $toolbar, 'Default Toolbar');
 
-        $this->_block->setChild('toolbar', $toolbar);
+        $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */
-        $this->assertEmpty($this->_block->toHtml(), 'Block HTML'); /* Template not specified */
-        $this->assertEquals('grid', $this->_block->getMode(), 'Default Mode'); /* default mode */
-        $this->assertNotEmpty($this->_block->getToolbarHtml(), 'Toolbar HTML'); /* toolbar for one simple product */
+        $this->assertEmpty($parent->toHtml(), 'Block HTML'); /* Template not specified */
+        $this->assertEquals('grid', $parent->getMode(), 'Default Mode'); /* default mode */
+        $this->assertNotEmpty($parent->getToolbarHtml(), 'Toolbar HTML'); /* toolbar for one simple product */
     }
 
 
@@ -75,12 +75,10 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     public function testGetAdditionalHtml()
     {
         $layout = $this->_getLayout();
-        $this->_block->setLayout($layout);
-        $name = $this->_block->getNameInLayout();
-        $layout->insertBlock('', $name, '');
+        $parent = $layout->createBlock('Mage_Catalog_Block_Product_List');
         $childBlock = $layout->createBlock('Mage_Core_Block_Text', 'test', array('text' => 'test'));
-        $layout->insertBlock($name, $childBlock->getNameInLayout(), 'additional');
-        $this->assertEquals('test', $this->_block->getAdditionalHtml());
+        $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
+        $this->assertEquals('test', $parent->getAdditionalHtml());
     }
 
     public function testSetCollection()

@@ -25,7 +25,7 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Prefix for temporary names of elements
      */
-    const TMP_NAME_PREFIX = 'STRUCTURE_TMP_NAME_';
+    const TMP_NAME_PREFIX = 'ANONYMOUS_';
 
     /**
      * Page structure as DOM document
@@ -68,9 +68,13 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getParentName($name)
     {
-        $element = $this->_getElementByXpath("//element[@name='$name']");
-        if ($element) {
-            $this->_fixBrokenRefByName($name);
+        $elements = $this->_findByXpath("//element[@name='$name']");
+        $length = $elements->length;
+        if ($length) {
+            if ($length > 1) {
+                Mage::logException(new Magento_Exception("Too many parents found: " . $length));
+            }
+            $element = $elements->item($length - 1);
             return $element->parentNode->getAttribute('name');
         }
         return false;
@@ -84,7 +88,6 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildNames($parentName)
     {
-        $this->_fixBrokenRef($parentName);
         $children = array();
         /** @var $child DOMElement */
         foreach ($this->_findByXpath("//element[@name='$parentName']/element") as $child) {
@@ -253,34 +256,21 @@ class Mage_Core_Model_Layout_Structure
             return false;
         }
 
-        if (empty($name)) {
+        if (empty($name) || '.' === $name{0}) {
             $name = self::TMP_NAME_PREFIX . ($this->_nameIncrement++);
         }
         if ($alias == '') {
             $alias = $name;
         }
 
-        $child = $this->_dom->createElement('element');
+        $child = $this->_getChildNode($name);
         $child->setAttribute('type', $type);
-        $child->setAttribute('name', $name);
         $child->setAttribute('alias', $alias);
         foreach ($options as $optName => $value) {
             $child->setAttribute($optName, $value);
         }
 
-        $parentNode = false;
-        if ($parentName) {
-            $parentNode = $this->_getElementByName($parentName);
-            if (!$parentNode) {
-                $child->setAttribute('broken_parent_name', $parentName);
-                $sibling = '';
-                $after = true;
-            }
-        }
-        if (!$parentNode) {
-            $parentNode = $this->_dom->firstChild;
-        }
-
+        $parentNode = $this->_getParentNode($parentName);
         $this->_clearExistingChild($parentNode, $alias);
 
         $siblingNode = $this->_getSiblingElement($parentNode, $after, $sibling);
@@ -291,6 +281,48 @@ class Mage_Core_Model_Layout_Structure
         }
 
         return $child->getAttribute('name');
+    }
+
+    /**
+     * Get child node with specified name, create new if doesn't exist
+     *
+     * @param $name
+     * @return DOMElement|null
+     */
+    protected function _getChildNode($name)
+    {
+        $child = $this->_getElementByXpath("//element[not(@type) and @name='$name']");
+        if (!$child) {
+            if ($length = $this->_findByXpath("//element[@name='$name']")->length) {
+                Mage::logException(new Magento_Exception("Element with name [$name] already exists (" . $length . ')'));
+            }
+            $child = $this->_dom->createElement('element');
+            $child->setAttribute('name', $name);
+        }
+        return $child;
+    }
+
+    /**
+     * Get parent node with specified name, create new if doesn't exist
+     *
+     * @param $parentName
+     * @return bool|DOMElement|DOMNode
+     */
+    protected function _getParentNode($parentName)
+    {
+        $parentNode = false;
+        if ($parentName) {
+            $parentNode = $this->_getElementByName($parentName);
+            if (!$parentNode) {
+                $parentNode = $this->_dom->createElement('element');
+                $parentNode->setAttribute('name', $parentName);
+                $this->_dom->appendChild($parentNode);
+            }
+        }
+        if (!$parentNode) {
+            $parentNode = $this->_dom->firstChild;
+        }
+        return $parentNode;
     }
 
     /**
@@ -333,7 +365,7 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _clearExistingChild(DOMElement $parentNode, $alias)
     {
-        $exist = $this->_getChildElement($parentNode->getAttribute('name'), $alias);
+        $exist = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
         if ($exist) {
             $parentNode->removeChild($exist);
             return true;
@@ -392,7 +424,6 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getChildrenCount($parentName)
     {
-        $this->_fixBrokenRef($parentName);
         return $this->_findByXpath("//element[@name='$parentName']/element")->length;
     }
 
@@ -472,49 +503,6 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Add output mark for the element
-     *
-     * @param $name
-     * @return bool
-     */
-    public function markOutputElement($name)
-    {
-        if ($element = $this->_getElementByXpath("//element[@name='$name']")) {
-            $element->setAttribute('output', '1');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Remove output mark for the element
-     *
-     * @param $name
-     * @return bool
-     */
-    public function unmarkOutputElement($name)
-    {
-        if ($element = $this->_getElementByXpath("//element[@name='$name']")) {
-            $element->removeAttribute('output');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get elements marked for output
-     * @return array
-     */
-    public function getOutputList()
-    {
-        $names = array();
-        foreach ($this->_findByXpath("/layout/element[@output='1']") as $element) {
-            $names[] = $element->getAttribute('name');
-        }
-        return $names;
-    }
-
-    /**
      * Get child node from a parent
      *
      * @param string $parentName
@@ -526,9 +514,7 @@ class Mage_Core_Model_Layout_Structure
         if (!$alias) {
             return false;
         }
-        $this->_fixBrokenRef($parentName, $alias);
-        $parentName = $this->_getElementByXpath("//element[@name='$parentName']");
-        return $this->_getElementByXpath("element[@alias='$alias']", $parentName);
+        return $this->_getElementByXpath("//element[@name='$parentName']/element[@alias='$alias']");
     }
 
     /**
@@ -547,6 +533,7 @@ class Mage_Core_Model_Layout_Structure
             $parentNode = $this->_dom->firstChild;
         }
 
+        $this->_clearExistingChild($parentNode, $element->getAttribute('alias'));
         $parentNode->appendChild($element);
     }
 
@@ -593,40 +580,5 @@ class Mage_Core_Model_Layout_Structure
         } else {
             return null;
         }
-    }
-
-    /**
-     * A shortcut to _fixBrokenRef in case if parent name is unknown
-     *
-     * @param string $elementName
-     */
-    protected function _fixBrokenRefByName($elementName)
-    {
-        $element = $this->_getElementByXpath("//element[@name='{$elementName}' and @broken_parent_name]");
-        if (!$element) {
-            return;
-        }
-        $this->_fixBrokenRef($element->getAttribute('broken_parent_name'), $element->getAttribute('alias'));
-    }
-
-    /**
-     * Move an element by specified parent and alias, if it is not found on proper place (crutch-fix)
-     *
-     * @param string $parentName
-     * @param string $alias
-     * @return bool
-     */
-    protected function _fixBrokenRef($parentName, $alias = null)
-    {
-        if (!$this->_getElementByName($parentName)) {
-            return false;
-        }
-        $xpath = (null === $alias) ? "//element[@broken_parent_name='$parentName']"
-            : "//element[@broken_parent_name='$parentName' and @alias='$alias']";
-        foreach ($this->_findByXpath($xpath) as $element) {
-            $this->setChild($parentName, $element->getAttribute('name'), $element->getAttribute('alias'));
-            $element->removeAttribute('broken_parent_name');
-        }
-        return true;
     }
 }

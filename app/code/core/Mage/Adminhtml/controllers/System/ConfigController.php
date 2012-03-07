@@ -79,9 +79,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
             $this->getUrl('*/system'));
 
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Tabs')->initTabs();
-        $name = $block->getNameInLayout();
-        $this->getLayout()->insertBlock('left', $name, $name);
+        $this->getLayout()->addBlock('Mage_Adminhtml_Block_System_Config_Tabs', '', 'left')->initTabs();
 
         if ($this->_isSectionAllowedFlag) {
             $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Edit')->initForm());
