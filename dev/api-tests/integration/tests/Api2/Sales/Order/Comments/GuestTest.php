@@ -39,7 +39,7 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
      */
     public function testCreate()
     {
-        $response = $this->callPost('customers', array());
+        $response = $this->callPost('orders/1/comments', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -48,7 +48,7 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
      */
     public function testRetrieve()
     {
-        $response = $this->callGet('customers');
+        $response = $this->callGet('orders/1/comments');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -57,7 +57,7 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
      */
     public function testUpdate()
     {
-        $response = $this->callPut('customers', array());
+        $response = $this->callPut('orders/1/comments', array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -66,7 +66,7 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
      */
     public function testDelete()
     {
-        $response = $this->callDelete('customers');
+        $response = $this->callDelete('orders/1/comments');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

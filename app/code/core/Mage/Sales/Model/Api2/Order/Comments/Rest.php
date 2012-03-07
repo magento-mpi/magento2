@@ -41,9 +41,7 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
     protected function _retrieve()
     {
         $collection = $this->_getCollectionForRetrieve();
-        $collection->addFieldToSelect(array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
-        ));
+        $collection->addFieldToSelect($this->getForcedAttributes());
 
         $this->_applyCollectionModifiers($collection);
 
