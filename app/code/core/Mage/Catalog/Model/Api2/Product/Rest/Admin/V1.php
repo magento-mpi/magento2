@@ -55,9 +55,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     {
         $product = $this->_getProduct();
         $productData = $product->getData();
-        $productData['product_id'] = $product->getId();
-        $productData['type'] = $product->getTypeId();
-        $productData['set'] = $product->getAttributeSetId();
         return $productData;
     }
 

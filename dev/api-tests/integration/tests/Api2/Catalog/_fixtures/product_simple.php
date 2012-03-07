@@ -26,10 +26,7 @@
  */
 $productData = require dirname(__FILE__) . '/Backend/SimpleProductData.php';
 $product = new Mage_Catalog_Model_Product();
-$product->setAttributeSetId($productData['set'])
-    ->setTypeId($productData['type'])
-    ->setSku($productData['sku'])
-    ->setStoreId(0)
+$product->setStoreId(0)
     ->setStockData(array(
         'use_config_manage_stock' => 0,
         'manage_stock' => 1,
@@ -60,10 +57,6 @@ $product->setAttributeSetId($productData['set'])
         )
     )
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()));
-
-unset($productData['set']);
-unset($productData['type']);
-unset($productData['sku']);
 
 $product->addData($productData)->save();
 

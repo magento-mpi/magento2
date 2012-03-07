@@ -81,8 +81,8 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <product_id>1</product_id>
-                            <set>1</set>
+                            <entity_id>1</entity_id>
+                            <attribute_set_id>1</attribute_set_id>
                             <stock_data>1/</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>
                             <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
@@ -91,8 +91,8 @@
                     </customer>
                     <guest>
                         <read>
-                            <product_id>1</product_id>
-                            <set>1</set>
+                            <entity_id>1</entity_id>
+                            <attribute_set_id>1</attribute_set_id>
                             <stock_data>1</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>
                             <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
@@ -169,9 +169,9 @@
                     </guest>
                 </privileges>
                 <attributes>
-                    <product_id>Product ID</product_id>
-                    <type>Product Type</type>
-                    <set>Attribute Set</set>
+                    <entity_id>Product ID</entity_id>
+                    <type_id>Product Type</type_id>
+                    <attribute_set_id>Attribute Set</attribute_set_id>
                     <stock_data>Inventory Data</stock_data>
                     <image_url>Default Image</image_url>
                     <is_saleable>Salability Status</is_saleable>
@@ -191,8 +191,8 @@
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <product_id>1</product_id>
-                            <set>1</set>
+                            <entity_id>1</entity_id>
+                            <attribute_set_id>1</attribute_set_id>
                             <stock_data>1/</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>
                             <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>
@@ -201,8 +201,8 @@
                     </customer>
                     <guest>
                         <read>
-                            <product_id>1</product_id>
-                            <set>1</set>
+                            <entity_id>1</entity_id>
+                            <attribute_set_id>1</attribute_set_id>
                             <stock_data>1</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>
                             <use_config_gift_wrapping_available>1</use_config_gift_wrapping_available>

@@ -63,8 +63,8 @@ class Mage_Catalog_Model_Api2_Helper
     {
         if (!is_null($product) && $product->getId()) {
             $this->_isUpdate = true;
-            $data['set'] = $product->getAttributeSetId();
-            $data['type'] = $product->getTypeId();
+            $data['attribute_set_id'] = $product->getAttributeSetId();
+            $data['type_id'] = $product->getTypeId();
         }
 
         $this->_validateProductType($data);
@@ -90,11 +90,11 @@ class Mage_Catalog_Model_Api2_Helper
      */
     protected function _validateAttributes($data, $productEntity)
     {
-        if (!isset($data['set']) || empty($data['set'])) {
-            $this->_critical('Missing "set" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        if (!isset($data['attribute_set_id']) || empty($data['attribute_set_id'])) {
+            $this->_critical('Missing "attribute_set_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-        if (!isset($data['type']) || empty($data['type'])) {
-            $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        if (!isset($data['type_id']) || empty($data['type_id'])) {
+            $this->_critical('Missing "type_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         // Validate weight
         if (isset($data['weight']) && !empty($data['weight']) && $data['weight'] > 0
@@ -107,10 +107,10 @@ class Mage_Catalog_Model_Api2_Helper
         if (isset($data['msrp_display_actual_price_type'])) {
             $data['msrp_display_actual_price_type'] = (string) $data['msrp_display_actual_price_type'];
         }
-        $requiredAttributes = array('set');
+        $requiredAttributes = array('attribute_set_id');
         $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($productEntity->getAttributeCollection($data['set']) as $attribute) {
+        foreach ($productEntity->getAttributeCollection($data['attribute_set_id']) as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $value = false;
             $isSet = false;
@@ -119,14 +119,14 @@ class Mage_Catalog_Model_Api2_Helper
                 $isSet = true;
             }
             $applicable = false;
-            if (!$attribute->getApplyTo() || in_array($data['type'], $attribute->getApplyTo())) {
+            if (!$attribute->getApplyTo() || in_array($data['type_id'], $attribute->getApplyTo())) {
                 $applicable = true;
             }
 
             if (!$applicable && !$attribute->isStatic() && $isSet) {
                 $productTypes = Mage_Catalog_Model_Product_Type::getTypes();
                 $this->_error(sprintf('Attribute "%s" is not applicable for product type "%s"', $attributeCode,
-                    $productTypes[$data['type']]['label']), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                    $productTypes[$data['type_id']]['label']), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
 
             if ($applicable && $isSet) {
@@ -190,10 +190,10 @@ class Mage_Catalog_Model_Api2_Helper
         if ($this->_isUpdate) {
             return true;
         }
-        if (!isset($data['type']) || empty($data['type'])) {
-            $this->_critical('Missing "type" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        if (!isset($data['type_id']) || empty($data['type_id'])) {
+            $this->_critical('Missing "type_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-        if (!array_key_exists($data['type'], Mage_Catalog_Model_Product_Type::getTypes())) {
+        if (!array_key_exists($data['type_id'], Mage_Catalog_Model_Product_Type::getTypes())) {
             $this->_critical('Invalid product type.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
@@ -210,11 +210,11 @@ class Mage_Catalog_Model_Api2_Helper
         if ($this->_isUpdate) {
             return true;
         }
-        if (!isset($data['set']) || empty($data['set'])) {
-            $this->_critical('Missing "set" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        if (!isset($data['attribute_set_id']) || empty($data['attribute_set_id'])) {
+            $this->_critical('Missing "attribute_set_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($data['set']);
+        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($data['attribute_set_id']);
         if (!$attributeSet->getId() || $productEntity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
             $this->_critical('Invalid attribute set.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
@@ -688,15 +688,11 @@ class Mage_Catalog_Model_Api2_Helper
      */
     protected function _isAllowedAttribute($attribute, $attributes = null)
     {
+        $isAllowed = true;
         if (is_array($attributes) && !(in_array($attribute->getAttributeCode(), $attributes)
             || in_array($attribute->getAttributeId(), $attributes))) {
-            return false;
+            $isAllowed = false;
         }
-
-        $ignoredAttributeTypes = array();
-        $ignoredAttributeCodes = array('entity_id', 'attribute_set_id', 'entity_type_id');
-
-        return !in_array($attribute->getFrontendInput(), $ignoredAttributeTypes)
-            && !in_array($attribute->getAttributeCode(), $ignoredAttributeCodes);
+        return $isAllowed;
     }
 }

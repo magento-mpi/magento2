@@ -55,12 +55,12 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
     protected function _create(array $data)
     {
         $this->_validate($data);
-        $type = $data['type'];
+        $type = $data['type_id'];
         if ($type !== 'simple') {
             $this->_critical("Creation of products with type '$type' is not implemented",
                 Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
         }
-        $set = $data['set'];
+        $set = $data['attribute_set_id'];
         $sku = $data['sku'];
 
         /** @var $product Mage_Catalog_Model_Product */
@@ -103,13 +103,7 @@ class Mage_Catalog_Model_Api2_Products_Rest_Admin_V1 extends Mage_Catalog_Model_
             $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
         ));
         $this->_applyCollectionModifiers($collection);
-
         $products = $collection->load()->toArray();
-        foreach($products as &$productData) {
-            $productData['set'] = $productData['attribute_set_id'];
-            $productData['type'] = $productData['type_id'];
-            $productData['product_id'] = $productData['entity_id'];
-        }
         return $products;
     }
 

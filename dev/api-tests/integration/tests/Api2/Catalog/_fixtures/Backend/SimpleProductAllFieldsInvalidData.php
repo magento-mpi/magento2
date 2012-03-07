@@ -31,8 +31,8 @@ $taxClasses = Mage::getResourceModel('tax/class_collection')->toArray();
 $taxClass = reset($taxClasses['items']);
 
 return array(
-    'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-    'set' => $entityType->getDefaultAttributeSetId(),
+    'type_id' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+    'attribute_set_id' => $entityType->getDefaultAttributeSetId(),
     'name' => '\'Test Name Sql',
     'description' => 'Test \' description',
     'short_description' => 'Test Short description Sql \'',

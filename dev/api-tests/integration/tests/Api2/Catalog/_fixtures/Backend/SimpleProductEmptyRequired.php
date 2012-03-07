@@ -28,8 +28,8 @@
 $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
 
 return array(
-    'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-    'set' => $entityType->getDefaultAttributeSetId(),
+    'type_id' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+    'attribute_set_id' => $entityType->getDefaultAttributeSetId(),
     'name' => '',
     'description' => '',
     'short_description' => '',

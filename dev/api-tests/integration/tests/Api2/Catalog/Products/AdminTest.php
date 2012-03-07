@@ -60,11 +60,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
         $this->_deleteProductAfterTest($product);
-        $this->assertEquals($product->getTypeId(), $productData['type']);
-        $this->assertEquals($product->getAttributeSetId(), $productData['set']);
-
-        $productAttributes = array_diff_key($productData, array_flip(array('type', 'set')));
-        foreach ($productAttributes as $attribute => $value) {
+        foreach ($productData as $attribute => $value) {
             $this->assertEquals($product->getData($attribute), $value);
         }
     }
@@ -86,8 +82,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $product = Mage::getModel('catalog/product')->load($productId);
         $this->assertNotNull($product->getId());
         $this->_deleteProductAfterTest($product);
-        $this->assertEquals($product->getTypeId(), $productData['type']);
-        $this->assertEquals($product->getAttributeSetId(), $productData['set']);
 
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
@@ -95,7 +89,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $this->assertEquals(strtotime($productData[$attribute]), strtotime($product->getData($attribute)));
         }
 
-        $exclude = array_merge($dateAttributes, array('type', 'set', 'group_price', 'tier_price', 'stock_data',
+        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data',
             'url_key', 'url_key_create_redirect'));
         // Validate URL Key - all special chars should be replaced with dash sign
         $this->assertEquals('123-abc', $product->getUrlKey());
@@ -320,8 +314,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
-        unset($productData['type']);
-        unset($productData['set']);
+        unset($productData['type_id']);
+        unset($productData['attribute_set_id']);
         unset($productData['stock_data']);
         $expectedErrors = array(
             'Resource data pre-validation error.',

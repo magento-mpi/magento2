@@ -83,7 +83,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
         $productData['total_reviews_count'] = $reviewModel->getTotalReviews($product->getId(), true,
             $this->_getStore()->getId());
 
-        $productData['type'] = $product->getTypeId();
         $productData['is_saleable'] = $product->getIsSalable();
         $productData['has_custom_options'] = $product->hasCustomOptions();
 

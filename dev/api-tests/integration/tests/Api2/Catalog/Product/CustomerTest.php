@@ -68,7 +68,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $originalData = $product->getData();
 
         // check if all possible fields are in request
-        $requiredFields = array('type', 'sku', 'name', 'description', 'short_description',
+        $requiredFields = array('type_id', 'sku', 'name', 'description', 'short_description',
             'regular_price', 'final_price', 'final_price_with_tax', 'final_price_without_tax', 'tier_price',
             'image_url', 'is_in_stock', 'is_saleable', 'total_reviews_count', 'url', 'buy_now_url',
             'has_custom_options');
@@ -85,11 +85,7 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $originalData['final_price'] = 99.95;
         $originalData['final_price_with_tax'] = 99.95;
         $originalData['final_price_without_tax'] = 99.95;
-        $fieldsMap = array('type' => 'type_id');
         foreach ($responseData as $field => $value) {
-            if (isset($fieldsMap[$field])) {
-                $field = $fieldsMap[$field];
-            }
             if (!is_array($value)) {
                 $this->assertEquals($originalData[$field], $value, "'$field' has invalid value");
             }
