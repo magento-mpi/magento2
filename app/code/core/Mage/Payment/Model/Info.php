@@ -78,10 +78,9 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
                     return $instance;
-                } else {
-                    Mage::throwException(Mage::helper('payment')->__('The requested Payment Method is not available.'));
                 }
             }
+            Mage::throwException(Mage::helper('payment')->__('The requested Payment Method is not available.'));
         }
 
         return $this->_getData('method_instance');
