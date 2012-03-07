@@ -123,6 +123,16 @@
                         </read>
                     </customer>
                 </include_attributes>
+                <force_attributes>
+                    <customer>
+                        <addresses>1</addresses>
+                        <order_items>1</order_items>
+                    </customer>
+                    <admin>
+                        <addresses>1</addresses>
+                        <order_items>1</order_items>
+                    </admin>
+                </force_attributes>
             </orders>
             <order>
                 <group>sales</group>
@@ -154,6 +164,16 @@
                         </read>
                     </customer>
                 </include_attributes>
+                <force_attributes>
+                    <customer>
+                        <addresses>1</addresses>
+                        <order_items>1</order_items>
+                    </customer>
+                    <admin>
+                        <addresses>1</addresses>
+                        <order_items>1</order_items>
+                    </admin>
+                </force_attributes>
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
