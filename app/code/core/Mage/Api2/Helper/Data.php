@@ -175,4 +175,24 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $resource->isAllAttributesAllowed($userType);
     }
+
+    /**
+     * Get operation type for specified operation
+     *
+     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_... constant
+     * @return string One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @throws Exception
+     */
+    public function getTypeOfOperation($operation)
+    {
+        if (Mage_Api2_Model_Resource::OPERATION_RETRIEVE === $operation) {
+            return Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
+        } elseif (Mage_Api2_Model_Resource::OPERATION_CREATE === $operation) {
+            return Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE;
+        } elseif (Mage_Api2_Model_Resource::OPERATION_UPDATE === $operation) {
+            return Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE;
+        } else {
+            throw new Exception('Can not determine operation type');
+        }
+    }
 }
