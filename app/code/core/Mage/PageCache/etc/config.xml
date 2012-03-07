@@ -45,18 +45,18 @@
         <events>
             <design_editor_launch_action>
                 <observers>
-                    <enterprise_pagecache>
+                    <mage_pagecache>
                         <class>Mage_PageCache_Model_Observer</class>
                         <method>launchDesignEditor</method>
-                    </enterprise_pagecache>
+                    </mage_pagecache>
                 </observers>
             </design_editor_launch_action>
             <design_editor_exit_action>
                 <observers>
-                    <enterprise_pagecache>
+                    <mage_pagecache>
                         <class>Mage_PageCache_Model_Observer</class>
                         <method>exitDesignEditor</method>
-                    </enterprise_pagecache>
+                    </mage_pagecache>
                 </observers>
             </design_editor_exit_action>
         </events>

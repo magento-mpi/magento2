@@ -79,16 +79,14 @@ class Mage_PageCache_Model_Observer
     }
 
     /**
-     * Temporary disabling full page caching if Desigh Editor was launched.
+     * Temporary disabling full page caching if Design Editor was launched.
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
     public function launchDesignEditor(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Core_Model_Session')
-            ->getCookie()
-            ->set('NO_CACHE', true, 0);
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE, '1', 0);
         return $this;
     }
 
@@ -100,9 +98,7 @@ class Mage_PageCache_Model_Observer
      */
     public function exitDesignEditor(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Core_Model_Session')
-            ->getCookie()
-            ->delete('NO_CACHE');
+        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE);
         return $this;
     }
 }
