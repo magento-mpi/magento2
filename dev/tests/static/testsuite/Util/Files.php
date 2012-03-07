@@ -48,10 +48,10 @@ class Util_Files
         $pool = $namespace = $module = $area = $package = $theme = '*';
         $files = array_merge(
             glob($root . '/{app,pub}/*.php', GLOB_NOSORT | GLOB_BRACE),
-            self::_getFiles(array("{$root}/app/code/{$pool}/{$namespace}/{$module}"), '*.{php,phtml}'),
-            self::_getFiles(array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'),
-            self::_getFiles(array("{$root}/downloader"), '*.php'),
-            self::_getFiles(array("{$root}/lib/{Mage,Magento,Varien}"), '*.php')
+            self::getFiles(array("{$root}/app/code/{$pool}/{$namespace}/{$module}"), '*.{php,phtml}'),
+            self::getFiles(array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'),
+            self::getFiles(array("{$root}/downloader"), '*.php'),
+            self::getFiles(array("{$root}/lib/{Mage,Magento,Varien}"), '*.php')
         );
         $result = self::composeDataSets($files);
         self::$_cache[__METHOD__] = $result;
@@ -107,7 +107,7 @@ class Util_Files
         $root = PATH_TO_SOURCE_CODE;
         $pool = $namespace = $module = $area = $package = $theme = '*';
         $files = array_merge(
-            self::_getFiles(
+            self::getFiles(
                 array(
                     "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
                     "{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}",
@@ -133,7 +133,7 @@ class Util_Files
         }
         $root = PATH_TO_SOURCE_CODE;
         $pool = $namespace = $module = $area = $package = $theme = $skin = '*';
-        $files = self::_getFiles(
+        $files = self::getFiles(
             array(
                 "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
                 "{$root}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
@@ -156,7 +156,7 @@ class Util_Files
         if (isset(self::$_cache[__METHOD__])) {
             return self::$_cache[__METHOD__];
         }
-        $files = self::_getFiles(array(PATH_TO_SOURCE_CODE . '/app/code/*/*/*/view/email'), '*.html');
+        $files = self::getFiles(array(PATH_TO_SOURCE_CODE . '/app/code/*/*/*/view/email'), '*.html');
         $result = self::composeDataSets($files);
         self::$_cache[__METHOD__] = $result;
         return $result;
@@ -169,13 +169,13 @@ class Util_Files
      * @param string $fileNamePattern
      * @return array
      */
-    protected static function _getFiles(array $dirPatterns, $fileNamePattern)
+    public static function getFiles(array $dirPatterns, $fileNamePattern)
     {
         $result = array();
         foreach ($dirPatterns as $oneDirPattern) {
             $filesInDir = glob("$oneDirPattern/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
             $subDirs = glob("$oneDirPattern/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
-            $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
+            $filesInSubDir = self::getFiles($subDirs, $fileNamePattern);
             $result = array_merge($result, $filesInDir, $filesInSubDir);
         }
         return $result;

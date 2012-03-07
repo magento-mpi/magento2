@@ -23,7 +23,7 @@ $options = getopt($shortOpts);
 
 if (isset($options['h'])) {
     print USAGE;
-    exit(1);
+    exit(0);
 }
 
 $outputWithErrors = isset($options['e']);
@@ -31,20 +31,17 @@ $isDryRunMode = isset($options['d']);
 $isSearchTables = isset($options['s']);
 
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
-$tablesAssociation = include_once(dirname(__FILE__) . '/factory_table_names/replace.php');
+$tablesAssociation = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'replace_*.php');
+$blackList = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'blacklist_*.php');
 
-$phpFiles = Util_Files::getPhpFiles();
-
-
+$phpFiles = Util_Files::getFiles(array(dirname(dirname(dirname(__DIR__))) . '/app/code'), '*.php');
 
 $replacementResult = false;
-if (!$isSearchTables) {
-    $replacementResult = replaceTableNames($phpFiles, $tablesAssociation, $outputWithErrors, $isDryRunMode);
-} else if($isSearchTables && $isDryRunMode) {
+if (!$isSearchTables || $isDryRunMode) {
     $replacementResult = replaceTableNames($phpFiles, $tablesAssociation, $outputWithErrors, $isDryRunMode);
 }
 
-$searchResult = $isSearchTables? searchTableNamesNotInReplacedList($phpFiles, $tablesAssociation) : false;
+$searchResult = $isSearchTables? searchTableNamesNotInReplacedList($phpFiles, $tablesAssociation, $blackList) : false;
 
 if ($replacementResult || $searchResult) {
     exit(1);
@@ -52,16 +49,20 @@ if ($replacementResult || $searchResult) {
 exit(0);
 
 /**
- * Check if file in /app/code directory or contain template extension
- * Avoiding checking additional files
+ * Get combined array from similar files by pattern
  *
- * @param $filePath
- * @return bool
+ * @param $dirPath
+ * @param $filePattern
+ * @return array
  */
-function isFileShouldBeReplaced($filePath)
+function getFilesCombinedArray($dirPath, $filePattern)
 {
-    return (false !== strpos(str_replace('\\', '/', $filePath), '/app/code/'))
-            && ('phtml' != pathinfo($filePath, PATHINFO_EXTENSION));
+    $result = array();
+    foreach (glob($dirPath . '/' . $filePattern, GLOB_NOSORT | GLOB_BRACE) as $filePath) {
+        $arrayFromFile = include_once($filePath);
+        $result = array_merge($result, $arrayFromFile);
+    }
+    return $result;
 }
 
 /**
@@ -78,10 +79,6 @@ function replaceTableNames(array &$files, array &$tablesAssociation, $outputWith
     $isErrorsFound = false;
     $errors = array();
     foreach (array_keys($files) as $filePath) {
-        if (!isFileInAppCode($filePath)) {
-            continue;
-        }
-
         $search = $replace = array();
 
         $tables = Legacy_TableTest::extractTables($filePath);
@@ -145,16 +142,16 @@ function replaceTableNamesInFile($filePath, $search, $replace, $isDryRunMode)
  *
  * @param array $files
  * @param array $tablesAssociation
+ * @param array $blackList
  * @return bool
  */
-function searchTableNamesNotInReplacedList(array &$files, array &$tablesAssociation)
+function searchTableNamesNotInReplacedList(array &$files, array &$tablesAssociation, array &$blackList)
 {
     $search = array();
-    $skippedList = include_once(dirname(__FILE__) . '/factory_table_names/blacklist.php');
     foreach (array_keys($files) as $filePath) {
         $tables = Legacy_TableTest::extractTables($filePath);
         foreach ($tables as $table) {
-            if (in_array($table['name'], $skippedList)) {
+            if (in_array($table['name'], $blackList)) {
                 continue;
             }
             if (!in_array($table['name'], array_values($tablesAssociation)) && !in_array($table['name'], $search)) {
