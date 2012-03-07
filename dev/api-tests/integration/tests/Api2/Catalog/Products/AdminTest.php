@@ -41,6 +41,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     protected function tearDown()
     {
         $this->deleteFixture('product_simple', true);
+
+        if ($this->getFixture('products')) {
+            foreach ($this->getFixture('products') as $product) {
+                $this->addModelToDelete($product, true);
+            }
+        }
         parent::tearDown();
     }
 
@@ -51,7 +57,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -73,7 +79,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostSimpleAllFieldsValid($productData)
     {
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -130,7 +136,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testPostSimpleAllFieldsInvalid()
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $body = $restResponse->getBody();
@@ -205,7 +211,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInvalidQtyUsesDecimals.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -230,7 +236,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInvalidManageStock.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -255,7 +261,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -285,7 +291,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
         $productData['sku'] = $product->getSku();
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -309,7 +315,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductEmptyRequired.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -337,7 +343,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInventoryUseConfig.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -367,7 +373,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -389,7 +395,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockNo.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -412,7 +418,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductGiftOptionsUseConfig.php';
 
-        $restResponse = $this->callPost('products', $productData);
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
@@ -424,13 +430,117 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test successful product collection get
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     */
+    public function testGet()
+    {
+        $products = $this->getFixture('products');
+        $firstProduct = reset($products);
+        $this->_checkProductGet($products, $firstProduct->getData());
+    }
+
+    /**
+     * Test successful product collection get with specified store
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     */
+    public function testGetFromSpecifiedStore()
+    {
+        // prepare product with different field values on different stores
+        $originalProducts = $this->getFixture('products');
+        /** @var $firstProduct Mage_Catalog_Model_Product */
+        $firstProduct = reset($originalProducts);
+        $firstProductDefaultValues = $firstProduct->getData();
+        /** @var $store Mage_Core_Model_Store */
+        $store = $this->getFixture('store_on_new_website');
+        $firstProduct->setStoreId($store->getId())->load();
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductUpdateData.php';
+        unset($productDataForUpdate['type_id']);
+        unset($productDataForUpdate['attribute_set_id']);
+        unset($productDataForUpdate['stock_data']);
+        foreach ($productDataForUpdate as $field => $value) {
+            $firstProduct->setData($field, $value);
+        }
+        $firstProduct->save();
+
+        // test collection get from specific store
+        $firstProductDataAfterUpdate = $firstProduct->getData();
+        $this->_checkProductGet($originalProducts, $firstProductDataAfterUpdate, $store->getCode());
+        // test collection get with default values
+        $globalAttributes = array('price', 'special_price', 'msrp', 'gift_wrapping_price');
+        foreach ($globalAttributes as $globalAttribute) {
+            $firstProductDefaultValues[$globalAttribute] = $firstProductDataAfterUpdate[$globalAttribute];
+        }
+        $this->_checkProductGet($originalProducts, $firstProductDefaultValues);
+    }
+
+    /**
+     * Perform collection get with data check
+     *
+     * @param array $products
+     * @param array $firstProductExpectedData
+     * @param string $storeCode
+     */
+    protected function _checkProductGet($products, $firstProductExpectedData, $storeCode = null)
+    {
+        // find all products created after one with id = $firstProductId
+        $requestParams = array(
+            'filter[0][attribute]' => "entity_id",
+            'filter[0][gteq][0]' => $firstProductExpectedData['entity_id'],
+        );
+        $restResponse = $this->callGet($this->_getResourcePath($storeCode), $requestParams);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $resultProducts = $restResponse->getBody();
+        $this->assertEquals(count($products), count($resultProducts), "Not all products were found in response");
+
+        $isFirstProductFoundInResponse = false;
+        // check only first product data
+        foreach ($resultProducts as $resultProductData) {
+            if ($resultProductData['entity_id'] == $firstProductExpectedData['entity_id']) {
+                $isFirstProductFoundInResponse = true;
+                foreach ($resultProductData as $key => $resultProductValue) {
+                    $this->assertEquals($firstProductExpectedData[$key], $resultProductValue, "'$key' is invalid");
+                }
+            }
+        }
+        $this->assertEquals(true, $isFirstProductFoundInResponse,
+            "Product with id={$firstProductExpectedData['entity_id']} was not found in response");
+    }
+
+    /**
+     * Test unsuccessful get using invalid store code
+     */
+    public function testGetFromInvalidStore()
+    {
+        $restResponse = $this->callGet($this->_getResourcePath('INVALID_STORE'));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+    }
+
+    /**
      * Mark product for removal in tear down
      *
      * @param $product
      */
     protected function _deleteProductAfterTest($product)
     {
-        $this->setFixture('product_simple', $product);
+        $this->addModelToDelete($product, true);
+    }
+
+    /**
+     * Create path to resource
+     *
+     * @param string $storeId
+     * @return string
+     */
+    protected function _getResourcePath($storeId = null)
+    {
+        $path = "products";
+        if ($storeId) {
+            $path .= "/store/$storeId";
+        }
+        return $path;
     }
 }
 
