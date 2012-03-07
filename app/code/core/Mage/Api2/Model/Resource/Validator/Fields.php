@@ -87,35 +87,33 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
      * @throws Exception If validator type is not set
      * @throws Exception If validator is not exist
      */
-    protected function _buildValidatorsChain($validationConfig)
+    protected function _buildValidatorsChain(array $validationConfig)
     {
-        if (count($validationConfig) > 0) {
-            foreach ($validationConfig as $field => $validatorsConfig) {
-                if (count($validatorsConfig) > 0) {
-                    $chainForOneField = new Zend_Validate();
-                    foreach ($validatorsConfig as $validatorName => $validatorConfig) {
-                        // it is required field
-                        if ('required' == $validatorName && 1 == $validatorConfig) {
-                            $this->_requiredFields[] = $field;
-                            continue;
-                        }
-                        // instantiation of the validator class
-                        if (!isset($validatorConfig['type'])) {
-                            throw new Exception("Validator type is not set for {$validatorName}");
-                        }
-                        $validator = $this->_getValidatorInstance(
-                            $validatorConfig['type'],
-                            count($validatorConfig['options']) ? $validatorConfig['options'] : array()
-                        );
-                        // set custom message
-                        if (isset($validatorConfig['message'])) {
-                            $validator->setMessage($validatorConfig['message']);
-                        }
-                        // add to list of validators
-                        $chainForOneField->addValidator($validator);
+        foreach ($validationConfig as $field => $validatorsConfig) {
+            if (count($validatorsConfig) > 0) {
+                $chainForOneField = new Zend_Validate();
+                foreach ($validatorsConfig as $validatorName => $validatorConfig) {
+                    // it is required field
+                    if ('required' == $validatorName && 1 == $validatorConfig) {
+                        $this->_requiredFields[] = $field;
+                        continue;
                     }
-                    $this->_validators[$field] = $chainForOneField;
+                    // instantiation of the validator class
+                    if (!isset($validatorConfig['type'])) {
+                        throw new Exception("Validator type is not set for {$validatorName}");
+                    }
+                    $validator = $this->_getValidatorInstance(
+                        $validatorConfig['type'],
+                        !empty($validatorConfig['options']) ? $validatorConfig['options'] : array()
+                    );
+                    // set custom message
+                    if (isset($validatorConfig['message'])) {
+                        $validator->setMessage($validatorConfig['message']);
+                    }
+                    // add to list of validators
+                    $chainForOneField->addValidator($validator);
                 }
+                $this->_validators[$field] = $chainForOneField;
             }
         }
     }
