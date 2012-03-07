@@ -112,39 +112,38 @@ class Mage_Api2_Model_Acl_Filter
     /**
      * Fetch array of allowed attributes for given resource type, operation and user type.
      *
-     * @param string $operationType One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @param string $operationType OPTIONAL One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
      * @throw Exception
      */
-    public function getAllowedAttributes($operationType)
+    public function getAllowedAttributes($operationType = null)
     {
         if (null === $this->_allowedAttributes) {
             /** @var $helper Mage_Api2_Helper_Data */
             $helper = Mage::helper('api2/data');
 
+            if (null === $operationType) {
+                $operationType = $helper->getTypeOfOperation($this->_resource->getOperation());
+            }
             if ($helper->isAllAttributesAllowed($this->_resource->getUserType())) {
-                $allowedAttributes = array_keys($this->_resource->getAvailableAttributes(
-                    $this->_resource->getUserType(),
-                    $operationType
+                $this->_allowedAttributes = array_keys($this->_resource->getAvailableAttributes(
+                    $this->_resource->getUserType(), $operationType
                 ));
             } else {
-                $allowedAttributes = $helper->getAllowedAttributes(
+                $this->_allowedAttributes = $helper->getAllowedAttributes(
                     $this->_resource->getUserType(), $this->_resource->getResourceType(), $operationType
                 );
             }
-            $this->_allowedAttributes = $allowedAttributes;
-
-            if (in_array($this->_resource->getOperation(),
-                array(Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))) {
+            if (($idFieldName = $this->_resource->getIdFieldName())
+                && in_array($idFieldName, array(
+                    Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE)
+                )) {
                 $this->_allowedAttributes[] = $this->_resource->getIdFieldName();
             }
-            // find out attributes with special syntax for sub-resources
-            foreach ($this->_allowedAttributes as $attrKey => $attrCode) {
-                if (preg_match('/^_([a-z]+)__.*$/', $attrCode, $matches)) {
-                    if (!in_array($matches[1], $this->_allowedAttributes)) {
-                        $this->_allowedAttributes[] = $matches[1];
-                    }
-                    unset($this->_allowedAttributes[$attrKey]);
+            // force attributes to be no filtered
+            foreach ($this->_resource->getForcedAttributes() as $forcedAttr) {
+                if (!in_array($forcedAttr, $this->_allowedAttributes)) {
+                    $this->_allowedAttributes[] = $forcedAttr;
                 }
             }
         }

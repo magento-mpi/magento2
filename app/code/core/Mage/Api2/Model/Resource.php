@@ -110,6 +110,13 @@ abstract class Mage_Api2_Model_Resource
     protected $_resourceType;
 
     /**
+     * If TRUE - no rendering will be done and dispatch will return data. Otherwise, by default
+     *
+     * @var bool
+     */
+    protected $_returnData = false;
+
+    /**
      * Api type
      *
      * @var string
@@ -126,9 +133,9 @@ abstract class Mage_Api2_Model_Resource
     /**
      * API Version
      *
-     * @var string
+     * @var int
      */
-    protected $_version;
+    protected $_version = null;
 
     /**
      * @var Mage_Api2_Model_Multicall
@@ -275,6 +282,38 @@ abstract class Mage_Api2_Model_Resource
     protected function _getResourceAttributes()
     {
         return array();
+    }
+
+    /**
+     * Create model of specified resource and configure it with current object attributes
+     *
+     * @param string $resourceId Resource identifier
+     * @param array $requestParams Parameters to be set to request
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _getSubModel($resourceId, array $requestParams)
+    {
+        $resourceModel = Mage_Api2_Model_Dispatcher::loadResourceModel(
+            $this->getConfig()->getResourceModel($resourceId),
+            $this->getApiType(),
+            $this->getUserType(),
+            $this->getVersion()
+        );
+
+        /** @var $request Mage_Api2_Model_Request */
+        $request = Mage::getModel('api2/request');
+
+        $request->setParams($requestParams);
+
+        $resourceModel
+            ->setRequest($request) // request MUST be set first
+            ->setUserType($this->getUserType())
+            ->setApiType($this->getApiType())
+            ->setResourceType($resourceId)
+            ->setOperation($this->getOperation())
+            ->setReturnData(true);
+
+        return $resourceModel;
     }
 
     /**
@@ -428,14 +467,16 @@ abstract class Mage_Api2_Model_Resource
      * Set request
      *
      * @param Mage_Api2_Model_Request $request
+     * @return Mage_Api2_Model_Resource
      */
     public function setRequest(Mage_Api2_Model_Request $request)
     {
         $this->setResourceType($request->getResourceType());
         $this->setApiType($request->getApiType());
-        $this->setVersion($request->getVersion());
 
         $this->_request = $request;
+
+        return $this;
     }
 
     /**
@@ -459,6 +500,19 @@ abstract class Mage_Api2_Model_Resource
     public function setResponse(Mage_Api2_Model_Response $response)
     {
         $this->_response = $response;
+    }
+
+    /**
+     * Set 'returnData' flag
+     *
+     * @param boolean $flag
+     * @return Mage_Api2_Model_Resource
+     */
+    public function setReturnData($flag)
+    {
+        $this->_returnData = $flag;
+
+        return $this;
     }
 
     /**
@@ -506,10 +560,13 @@ abstract class Mage_Api2_Model_Resource
      * Set API type
      *
      * @param string $apiType
+     * @return Mage_Api2_Model_Resource
      */
     public function setApiType($apiType)
     {
         $this->_apiType = $apiType;
+
+        return $this;
     }
 
     /**
@@ -539,15 +596,18 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Get API version
-     * If not exists get from Request
+     * Determine version from class name
      *
      * @return int
      */
     public function getVersion()
     {
-        if (!$this->_version) {
-            $this->setVersion($this->getRequest()->getVersion());
+        if (null === $this->_version) {
+            if (preg_match('/^.+([1-9]\d*)$/', get_class($this), $matches) ) {
+                $this->setVersion($matches[1]);
+            } else {
+                throw new Exception('Can not determine version from class name');
+            }
         }
         return $this->_version;
     }
@@ -659,6 +719,16 @@ abstract class Mage_Api2_Model_Resource
     public function getExcludedAttributes($userType, $operation)
     {
         return $this->getConfig()->getResourceExcludedAttributes($this->getResourceType(), $userType, $operation);
+    }
+
+    /**
+     * Get forced attributes
+     *
+     * @return array
+     */
+    public function getForcedAttributes()
+    {
+        return $this->getConfig()->getResourceForcedAttributes($this->getResourceType(), $this->getUserType());
     }
 
     /**

@@ -291,6 +291,28 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Get forced attributes of API resource
+     *
+     * @param string $resource
+     * @param string $userType
+     * @return array
+     */
+    public function getResourceForcedAttributes($resource, $userType)
+    {
+        $node = $this->getNode('resources/' . $resource . '/force_attributes/' . $userType);
+        $forcedAttributes = array();
+
+        if ($node) {
+            foreach ($node->children() as $attribute => $status) {
+                if ((string) $status) {
+                    $forcedAttributes[] = $attribute;
+                }
+            }
+        }
+        return $forcedAttributes;
+    }
+
+    /**
      * Get included attributes
      *
      * @param string $resource API resource ID
