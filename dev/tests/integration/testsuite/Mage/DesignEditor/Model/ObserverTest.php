@@ -30,7 +30,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
-    public function testApplyCustomSkin()
+    public function testApplyCustomSkinActive()
     {
         $newSkin = 'default/default/blank';
         $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
@@ -57,7 +57,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      */
-    public function testApplyCustomSkinDesignNotActive()
+    public function testApplyCustomSkinInactive()
     {
         $newSkin = 'default/default/blank';
         $oldSkin = Mage::getDesign()->getDesignTheme();
@@ -72,13 +72,34 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     */
+    public function testDisableBlocksOutputCachingInactive()
+    {
+        Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
+        $this->_observer->disableBlocksOutputCaching(new Varien_Event_Observer());
+        $this->assertTrue(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testDisableBlocksOutputCachingActive()
+    {
+        Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
+        $this->_observer->disableBlocksOutputCaching(new Varien_Event_Observer());
+        $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
+    }
+
+    /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testWrapHtmlWithBlockInfo()
     {
         $params = array(
-            'name'   => 'block.name',
-            'html'   => '<div>Any text</div>',
+            'name'      => 'block.name',
+            'html'      => '<div>Any text</div>',
             'container' => 'parent'
         );
         $observerData = $this->_buildObserverData($params);

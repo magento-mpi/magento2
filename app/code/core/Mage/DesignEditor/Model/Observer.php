@@ -10,6 +10,8 @@
 
 /**
  * Observer for design editor module
+ *
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Mage_DesignEditor_Model_Observer
 {
@@ -23,12 +25,10 @@ class Mage_DesignEditor_Model_Observer
     /**
      * Applies custom skin to store, if design editor is active and custom skin is chosen
      *
-     * @param   Varien_Event_Observer $observer
-     * @return  Mage_DesignEditor_Model_Observer
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param Varien_Event_Observer $observer
+     * @return Mage_DesignEditor_Model_Observer
      */
-    public function applyCustomSkin($observer)
+    public function applyCustomSkin(Varien_Event_Observer $observer)
     {
         $session = $this->_getSession();
         if (!$session->isDesignEditorActive()) {
@@ -37,6 +37,22 @@ class Mage_DesignEditor_Model_Observer
         if ($session->getSkin()) {
             Mage::getDesign()->setDesignTheme($session->getSkin());
         }
+        return $this;
+    }
+
+    /**
+     * Disable blocks HTML output caching, if the design editor is active
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_DesignEditor_Model_Observer
+     */
+    public function disableBlocksOutputCaching(Varien_Event_Observer $observer)
+    {
+        $session = $this->_getSession();
+        if (!$session->isDesignEditorActive()) {
+            return $this;
+        }
+        Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP);
         return $this;
     }
 
@@ -52,13 +68,8 @@ class Mage_DesignEditor_Model_Observer
         if (!$block) {
             return $this;
         }
-
         $session = $this->_getSession();
         if ($session->isDesignEditorActive()) {
-
-            // disable using cache (no save, no load)
-            Mage::app()->getCacheInstance()->banUse('block_html');
-
             $block->setDesignEditorActive(true);
         }
         return $this;

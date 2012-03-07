@@ -109,7 +109,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Block_Abstract::getSortedChildren
+     * @covers Mage_Core_Block_Abstract::getChildNames
      * @covers Mage_Core_Block_Abstract::insert
      */
     public function testGetChildNames()
