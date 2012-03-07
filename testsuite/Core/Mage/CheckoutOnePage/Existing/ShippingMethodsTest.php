@@ -39,33 +39,41 @@ class Core_Mage_CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Seleni
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('ShippingSettings', 'store_information');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('store_information');
+        $this->systemConfigurationHelper()->configure($config);
     }
-
 
     protected function assertPreConditions()
     {
-        $this->addParameter('id', '');
+        $this->loginAdminUser();
     }
 
-    protected function tearDown()
+    public function tearDownAfterAllTests()
     {
+        //Data
+        $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
+        $settings = $this->loadDataSet('ShippingSettings', 'shipping_settings_default');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure($settings);
     }
 
     /**
      * <p>Creating Simple product</p>
-     * @test
+     *
      * @return string
+     * @test
      */
     public function preconditionsForTests()
     {
         //Data
-        $simple = $this->loadData('simple_product_for_order');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -101,23 +109,26 @@ class Core_Mage_CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Seleni
      * @param string $shippingDestination
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     * @dataProvider shipmentDataProvider
      * @test
+     * @dataProvider shipmentDataProvider
+     * @depends preconditionsForTests
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
-        $userData = $this->loadData('customer_account_register');
-        $checkoutData = $this->loadData('exist_flatrate_checkmoney_' . $shippingDestination,
-                                        array('general_name' => $simpleSku,
-                                             'email_address' => $userData['email'],
-                                             'shipping_data' => $this->loadData('front_shipping_' . $shipping)));
+        //Data
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
+        $shippingData = $this->loadDataSet('OnePageCheckout', 'front_shipping_' . $shipping);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_' . $shippingDestination,
+                                           array('general_name'   => $simpleSku,
+                                                 'shipping_data'  => $shippingData));
         //Steps
         $this->navigate('system_configuration');
-        if($shippingOrigin) {
-            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if ($shippingOrigin) {
+            $config = $this->loadDataSet('ShippingSettings', 'shipping_settings_' . strtolower($shippingOrigin));
+            $this->systemConfigurationHelper()->configure($config);
         }
-        $this->systemConfigurationHelper()->configure($shipping . '_enable');
+        $this->systemConfigurationHelper()->configure($shippingMethod);
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -139,7 +150,7 @@ class Core_Mage_CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Seleni
             array('upsxml', 'usa', 'usa'),
             array('usps', 'usa', 'usa'),
             array('fedex', 'usa', 'usa'),
-            array('dhl', 'usa', 'france'),
+            array('dhl', 'usa', 'france')
         );
     }
 }

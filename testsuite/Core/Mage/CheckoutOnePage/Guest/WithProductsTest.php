@@ -35,21 +35,17 @@
  */
 class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '');
-    }
-
     /**
      * <p>Creating Simple and Virtual products</p>
-     * @test
+     *
      * @return array
+     * @test
      */
     public function preconditionsForTests()
     {
         //Data
-        $simple = $this->loadData('simple_product_for_order');
-        $virtual = $this->loadData('virtual_product_for_order');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         //Steps and Verification
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -58,10 +54,8 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array(
-            'simple'  => $simple['general_name'],
-            'virtual' => $virtual['general_name'],
-        );
+        return array('simple'  => $simple['general_name'],
+                     'virtual' => $virtual['general_name']);
     }
 
     /**
@@ -87,12 +81,13 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
      *
      * @param array $data
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
      */
     public function withSimpleProduct($data)
     {
-        $checkoutData = $this->loadData('guest_flatrate_checkmoney', array('general_name' => $data['simple']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+                                           array('general_name' => $data['simple']));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -127,7 +122,8 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
     public function withVirtualProduct($data)
     {
         //Data
-        $checkoutData = $this->loadData('guest_flatrate_checkmoney_virtual', array('general_name' => $data['virtual']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_virtual',
+                                           array('general_name' => $data['virtual']));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();

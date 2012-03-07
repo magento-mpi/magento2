@@ -488,9 +488,16 @@ front_saved_visa: &visaSavedCC
 front_else_visa: &visaElse
     card_type: 'Visa'
     #card_number: '4832011527418035'
-    card_number: '4111111111111111'
+    card_number: '4000000000000002'
     expiration_month: '07 - July'
     expiration_year: '2020'
+    card_verification_number: '111'
+
+front_else_visa_direct: &visaElseDirect
+    card_type: 'Visa'
+    card_number: '4832011527418035'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
     card_verification_number: '111'
 
 front_else_mastercard: &mastercardElse
@@ -518,7 +525,7 @@ front_payment_paypaldirectuk: &paypalDirectUkMastercard
 
 front_payment_paypaldirect: &paypalDirectMastercard
     payment_method: PayPal Direct Payment
-    payment_info: *mastercardElse
+    payment_info: *visaElseDirect
 
 front_payment_payflowpro: &payfloProVisa
     payment_method: Payflow Pro

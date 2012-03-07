@@ -35,38 +35,42 @@
  */
 class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-    protected static $useTearDown = false;
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '');
     }
 
-    protected function tearDown()
+    public function tearDownAfterAllTests()
     {
-        if (!empty(self::$useTearDown)) {
-            $this->loginAdminUser();
-            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        }
+        $this->loginAdminUser();
+        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $this->paypalHelper()->deleteAllAccounts();
     }
 
     /**
      * <p>Creating Simple product</p>
-     * @test
+     *
      * @return string
+     * @test
      */
     public function preconditionsForTests()
     {
         //Data
-        $simple = $this->loadData('simple_product_for_order');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
+        $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+        return array('sku' => $simple['general_name'],
+                     'api' => $api,
+                     'visa'=> $accounts['visa']['credit_card']);
     }
 
     /**
@@ -91,23 +95,30 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      * <p>Checkout is successful.</p>
      *
      * @param string $payment
-     * @param string $simpleSku
+     * @param array $testData
      *
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @test
      */
-    public function differentPaymentMethodsWithout3D($payment, $simpleSku)
+    public function differentPaymentMethodsWithout3D($payment, $testData)
     {
-        $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
-                                        array('general_name' => $simpleSku,
-                                             'payment_data'  => $this->loadData('front_payment_' . $payment)));
+        //Data
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+                                           array('general_name'  => $testData['sku'],
+                                                 'payment_data'  => $this->loadDataSet('OnePageCheckout',
+                                                                                       'front_payment_' . $payment)));
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
+        if ($payment == 'paypaldirect_without_3Dsecure') {
+            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byValueKey');
+            $paymentConfig = $this->loadDataSet('PaymentMethod', $payment, $testData['api']);
+        }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($payment);
+        $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -150,23 +161,27 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      * <p>Checkout is successful.</p>
      *
      * @param string $payment
-     * @param string $simpleSku
+     * @param array $testData
      *
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
      */
-    public function differentPaymentMethodsWith3D($payment, $simpleSku)
+    public function differentPaymentMethodsWith3D($payment, $testData)
     {
-        if ($payment == 'authorizenet') {
-            self::$useTearDown = TRUE;
-        }
-        $checkoutData = $this->loadData('with_register_flatrate_checkmoney',
-                                        array('general_name' => $simpleSku,
-                                             'payment_data'  => $this->loadData('front_payment_' . $payment)));
+        //Data
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+                                           array('general_name'  => $testData['sku'],
+                                                 'payment_data'  => $this->loadDataSet('OnePageCheckout',
+                                                                                       'front_payment_' . $payment)));
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
-        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
-        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+        if ($payment == 'paypaldirect') {
+            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+            $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
+        }
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
