@@ -44,8 +44,9 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
      */
     protected function tearDown()
     {
+        Magento_Test_Webservice::deleteFixture('customer_products', true);
+        Magento_Test_Webservice::deleteFixture('customer_products', true);
         Magento_Test_Webservice::deleteFixture('customer_order', true);
-        Magento_Test_Webservice::deleteFixture('order', true);
 
         parent::tearDown();
     }
