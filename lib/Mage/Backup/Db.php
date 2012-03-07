@@ -34,7 +34,7 @@
 class Mage_Backup_Db extends Mage_Backup_Abstract
 {
     /**
-     * Implementation Rollback functionality for Db
+     * Implements Rollback functionality for Db
      *
      * @return bool
      */
@@ -48,7 +48,7 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
         $archiveManager = new Mage_Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = Mage::getModel("backup/db_file", $source);
+        $file = Mage::getModel('backup/db_file', $source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }
@@ -61,7 +61,7 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
     }
 
     /**
-     * Check is line a last in sql command
+     * Checks whether the line is last in sql command
      *
      * @param $line
      * @return bool
@@ -83,9 +83,9 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
     }
 
     /**
-     * Implementation Create Backup functionality for Db
+     * Implements Create Backup functionality for Db
      *
-     * @return boolean
+     * @return bool
      */
     public function create()
     {
@@ -115,6 +115,6 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
      */
     public function getType()
     {
-        return "db";
+        return 'db';
     }
 }

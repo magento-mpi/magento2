@@ -35,7 +35,7 @@
 class Mage_Backup_Model_Db_File extends SplFileObject
 {
     /**
-     * The statement that was last read durring iteration
+     * The statement that was last read during iteration
      *
      * @var string
      */
@@ -46,7 +46,7 @@ class Mage_Backup_Model_Db_File extends SplFileObject
      *
      * @return string
      */
-    public function current ()
+    public function current()
     {
         return $this->_currentStatement;
     }
@@ -54,14 +54,14 @@ class Mage_Backup_Model_Db_File extends SplFileObject
     /**
      * Iterate to next sql statement in file
      */
-    public function next ()
+    public function next()
     {
         $this->_currentStatement = '';
-        while(!$this->eof()) {
+        while (!$this->eof()) {
             $line = $this->fgets();
             if (strlen(trim($line))) {
                 $this->_currentStatement .= $line;
-                if ($this->_isLineLastInCommand($line)){
+                if ($this->_isLineLastInCommand($line)) {
                     break;
                 }
             }
@@ -91,7 +91,7 @@ class Mage_Backup_Model_Db_File extends SplFileObject
     /**
      * Check is line a last in sql command
      *
-     * @param $line
+     * @param string $line
      * @return bool
      */
     protected function _isLineLastInCommand($line)
@@ -100,9 +100,9 @@ class Mage_Backup_Model_Db_File extends SplFileObject
         $lineLength = strlen($cleanLine);
 
         $returnResult = false;
-        if ($lineLength > 0){
-            $lastSymbolIndex = $lineLength-1;
-            if ($cleanLine[$lastSymbolIndex] == ';'){
+        if ($lineLength > 0) {
+            $lastSymbolIndex = $lineLength - 1;
+            if ($cleanLine[$lastSymbolIndex] == ';') {
                 $returnResult = true;
             }
         }
