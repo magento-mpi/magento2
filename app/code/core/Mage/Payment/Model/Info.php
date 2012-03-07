@@ -71,8 +71,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function getMethodInstance()
     {
         if (!$this->hasMethodInstance()) {
-            $method = $this->getMethod();
-            if ($method) {
+            if ($this->getMethod()) {
                 $instance = Mage::helper('payment')->getMethodInstance($this->getMethod());
                 if ($instance) {
                     $instance->setInfoInstance($this);
