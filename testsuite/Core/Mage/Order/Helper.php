@@ -37,8 +37,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 {
     /**
      * Generates array of strings for filling customer's billing/shipping form
+     *
      * @param string $charsType :alnum:, :alpha:, :digit:, :lower:, :upper:, :punct:
-     * @param string $addrType Gets two values: 'billing' and 'shipping'.
+     * @param string $addressType Gets two values: 'billing' and 'shipping'.
      *                         Default is 'billing'
      * @param int $symNum min = 5, default value = 32
      * @param bool $required
@@ -46,24 +47,25 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * @throws Exception
      *
      * @return array
-     * 
+     *
      * @uses DataGenerator::generate()
      * @see DataGenerator::generate()
      */
-    public function customerAddressGenerator($charsType, $addrType = 'billing', $symNum = 32, $required = false)
+    public function customerAddressGenerator($charsType, $addressType = 'billing', $symNum = 32, $required = false)
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
-        if (!in_array($charsType, $type) || ($addrType != 'billing' && $addrType != 'shipping')
-            || $symNum < 5 || !is_int($symNum)) {
+        if (!in_array($charsType, $type)
+                || ($addressType != 'billing' && $addressType != 'shipping')
+                || $symNum < 5 || !is_int($symNum)) {
             throw new Exception('Incorrect parameters');
         }
         $return = array();
         $page = $this->getUimapPage('admin', 'create_order_for_existing_customer');
-        $fieldset = $page->findFieldset('order_' . $addrType . '_address');
+        $fieldset = $page->findFieldset('order_' . $addressType . '_address');
         $fields = $fieldset->getAllFields();
         $requiredFields = $fieldset->getAllRequired();
         $req = array();
-        foreach ($requiredFields as $key => $value) {
+        foreach ($requiredFields as $value) {
             $req[] = $value;
         }
         if ($required) {
@@ -79,15 +81,16 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $return[$fieldsKey] = $this->generate('string', $symNum, $charsType);
             }
         }
-        $return[$addrType . '_country'] = 'Ukraine';
+        $return[$addressType . '_country'] = 'Ukraine';
         $return['address_choice'] = 'new';
         return $return;
     }
 
     /**
      * Creates order
-     * @param array|string $orderData        Array or string with name of dataset to load
-     * @param bool         $validate         If $validate == TRUE 'Submit Order' button will not be pressed
+     *
+     * @param array|string $orderData Array or string with name of dataset to load
+     * @param bool $validate If $validate == TRUE 'Submit Order' button will not be pressed
      *
      * @return bool|string
      */
@@ -99,8 +102,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
         $products = (isset($orderData['products_to_add'])) ? $orderData['products_to_add'] : array();
         $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : null;
-        $billingAddr = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : null;
-        $shippingAddr = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : null;
+        $billingAddress = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : null;
+        $shippingAddress = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : null;
         $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : null;
         $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : null;
         $giftMessages = (isset($orderData['gift_messages'])) ? $orderData['gift_messages'] : array();
@@ -116,13 +119,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($coupons) {
             $this->applyCoupon($coupons, $validate);
         }
-        if ($billingAddr) {
-            $billingChoice = $billingAddr['address_choice'];
-            $this->fillOrderAddress($billingAddr, $billingChoice, 'billing');
+        if ($billingAddress) {
+            $billingChoice = $billingAddress['address_choice'];
+            $this->fillOrderAddress($billingAddress, $billingChoice, 'billing');
         }
-        if ($shippingAddr) {
-            $shippingChoice = $shippingAddr['address_choice'];
-            $this->fillOrderAddress($shippingAddr, $shippingChoice, 'shipping');
+        if ($shippingAddress) {
+            $shippingChoice = $shippingAddress['address_choice'];
+            $this->fillOrderAddress($shippingAddress, $shippingChoice, 'shipping');
         }
         if ($shippingMethod) {
             $this->clickControl('link', 'get_shipping_methods_and_rates', false);
@@ -139,13 +142,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($verPrTotal) {
             $this->verifyProductsTotal($verPrTotal);
         }
-        $this->submitOreder();
+        $this->submitOrder();
     }
 
     /**
-     *
+     * Submit Order
      */
-    public function submitOreder()
+    public function submitOrder()
     {
         $this->saveForm('submit_order', false);
         $this->defineOrderId();
@@ -155,9 +158,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     /**
      * Fills customer's addresses at the order page.
      *
-     * @param string $addressType   'new', 'exist', 'sameAsBilling'
-     * @param string $addressChoice       'billing' or 'shipping'
-     * @param array  $addressData
+     * @param string $addressType 'new', 'exist', 'sameAsBilling'
+     * @param string $addressChoice 'billing' or 'shipping'
+     * @param array $addressData
      */
     public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
@@ -203,10 +206,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     /**
      * Returns address that was found and can be selected from existing customer addresses.
      *
-     * @param array  $addressData
+     * @param array $addressData
      * @param string $addressType
      *
-     * @return bool|string                 The most suitable address found by using keywords
+     * @return bool|string The most suitable address found by using keywords
      */
     public function defineAddressToChoose(array $addressData, $addressType = 'billing')
     {
@@ -302,9 +305,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $this->pleaseWait();
                 $before = $this->getMessagesOnPage();
                 $this->configureProduct($configure);
-                $this->click($this->_getControlXpath('button', 'ok',
-                                                     $this->_findUimapElement('fieldset',
-                                                                              'product_composite_configure_form')));
+                $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
+                $this->click($this->_getControlXpath('button', 'ok', $uimap));
                 $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {
@@ -316,14 +318,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                     }
                 }
                 if ($result) {
-                    $this->fail("Error(s) when configure product '$productSku':\n" .
-                                implode("\n", $result));
+                    $this->fail("Error(s) when configure product '$productSku':\n" . implode("\n", $result));
                 }
             }
             $this->clickButton('add_selected_products_to_order', false);
             $this->pleaseWait();
             if ($additionalData) {
-                $this->reconfigProduct($productSku, $additionalData);
+                $this->reconfigureProduct($productSku, $additionalData);
             }
         }
     }
@@ -337,11 +338,11 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $set = $this->getCurrentUimapPage()->findFieldset('product_composite_configure_form');
 
-        foreach ($configureData as $key => $value) {
+        foreach ($configureData as $value) {
             if (is_array($value)) {
                 $optionTitle = (isset($value['title'])) ? $value['title'] : '';
                 $this->addParameter('optionTitle', $optionTitle);
-                foreach ($value as $k => $v) {
+                foreach ($value as $v) {
                     if (is_array($v)) {
                         $type = (isset($v['fieldType'])) ? $v['fieldType'] : '';
                         $parameter = (isset($v['fieldParameter'])) ? $v['fieldParameter'] : '';
@@ -419,9 +420,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-//            $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
-//                                                  " and normalize-space(@style)='display: block;']");
-//            $this->waitForElement("//body[@onbeforeunload and @onload]");
             if ($this->waitForElement($xpathPassword)) {
                 $this->type($xpathPassword, $password);
                 $this->click($xpathSubmit);
@@ -520,7 +518,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * @param string $productSku
      * @param array $productData Array with the products and data to reconfigure
      */
-    public function reconfigProduct($productSku, array $productData)
+    public function reconfigureProduct($productSku, array $productData)
     {
         $this->addParameter('sku', $productSku);
         $this->fillForm($productData);
@@ -539,7 +537,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fillForm($giftMessages['entire_order']);
         }
         if (array_key_exists('individual', $giftMessages)) {
-            foreach ($giftMessages['individual'] as $product => $options) {
+            foreach ($giftMessages['individual'] as $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
                     $this->clickControl('link', 'gift_options', false);
@@ -563,7 +561,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->verifyForm($giftMessages['entire_order']);
         }
         if (array_key_exists('individual', $giftMessages)) {
-            foreach ($giftMessages['individual'] as $product => $options) {
+            foreach ($giftMessages['individual'] as $options) {
                 if (is_array($options) && isset($options['sku_product'])) {
                     $this->addParameter('sku', $options['sku_product']);
                     $this->clickControl('link', 'gift_options', false);
@@ -637,6 +635,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * @param string $httpHelperPath
      * @param string $logFileName
      * @param array $inputArray
+     *
      * @return bool|array
      */
     public function compareArraysFromLog($httpHelperPath, $logFileName, $inputArray)
@@ -651,6 +650,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Define correct array for compare
      *
      * @param string $subject
+     *
      * @return array
      */
     protected function getParamsArray($subject)
@@ -670,12 +670,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Define request array
      *
      * @param string $subject
+     *
      * @return array
      */
     protected function getRequest($subject)
     {
         $requestSubject = substr($subject, strpos($subject, '[request]'),
-                          strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+                                 strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $requestSubject = substr($requestSubject, strpos($requestSubject, "(\n"), strpos($requestSubject, ")"));
         return $this->getParamsArray($requestSubject);
     }
@@ -684,14 +685,15 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Define response array
      *
      * @param string $subject
+     *
      * @return array
      */
     protected function getResponse($subject)
     {
         $responseSubject = substr($subject, strpos($subject, '[response]'),
-                           strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+                                  strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $responseSubject = substr($responseSubject, strpos($responseSubject, "(\n"),
-                           strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
+                                  strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
         return $this->getParamsArray($responseSubject);
     }
 
@@ -700,13 +702,14 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      *
      * @param string $httpHelperPath
      * @param string $logFileName
+     *
      * @return string
      */
     protected function getLastRecord($httpHelperPath, $logFileName)
     {
         $arrayResult = file_get_contents($httpHelperPath . '?log_file_name=' . $logFileName);
         $pathVerification = strcmp(trim($arrayResult), 'Could not open File');
-        if ($pathVerification == 0){
+        if ($pathVerification == 0) {
             $this->fail("Log file could not be opened");
         }
         return $arrayResult;
@@ -716,21 +719,20 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * 3D Secure log verification
      *
      * @param array $verificationData
+     *
      * @return bool
      */
     public function verify3DSecureLog($verificationData)
     {
         $this->setArea('frontend');
         $fileUrl = preg_replace('|/index.php/?|', '/',
-                   $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
+                                $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
-        if(is_array($result))
-        {
+        if (is_array($result)) {
             $this->fail("Arrays are not identical:\n" . var_export($result, true));
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**

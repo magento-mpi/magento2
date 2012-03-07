@@ -456,6 +456,7 @@ simple_product_visible:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
+    custom_options_data: %noValue%
 
 simple_product:
     product_attribute_set: Default
@@ -611,6 +612,7 @@ virtual_product_visible:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
+    custom_options_data: %noValue%
 
 virtual_product:
     product_attribute_set: Default
@@ -1279,10 +1281,10 @@ downloadable_product_required:
 # Product that has all needed fields set to be visible in frontend.
 downloadable_product_visible:
     product_attribute_set: Default
-    general_name: Downloadable Product Visible
+    general_name: Downloadable Product Visible(%randomize%)
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku.req
+    general_sku: downloadable_visible_sku_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 98.99

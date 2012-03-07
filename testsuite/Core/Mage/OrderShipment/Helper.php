@@ -46,7 +46,7 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
         $verify = array();
 
         $this->clickButton('ship');
-        foreach ($shipmentData as $product => $options) {
+        foreach ($shipmentData as $options) {
             if (is_array($options)) {
                 $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : null;
                 $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';

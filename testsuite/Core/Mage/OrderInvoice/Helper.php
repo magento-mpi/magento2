@@ -46,7 +46,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
         $invoiceData = $this->arrayEmptyClear($invoiceData);
         $verify = array();
         $this->clickButton('invoice');
-        foreach ($invoiceData as $product => $options) {
+        foreach ($invoiceData as $options) {
             if (is_array($options)) {
                 $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : null;
                 $productQty = (isset($options['qty_to_invoice'])) ? $options['qty_to_invoice'] : '%noValue%';
@@ -97,7 +97,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
     /**
      * Opens invoice
      *
-     * @param type $searchData
+     * @param array|string $searchData
      */
     public function openInvoice($searchData)
     {

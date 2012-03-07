@@ -44,29 +44,23 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
-    }
-
     /**
-     * <p>Create Simple Product for tests</p>
+     * <p>Creating Simple product</p>
      *
-     * @group preConditions
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $simpleSku = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simpleSku);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simpleSku['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
@@ -89,21 +83,23 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>New customer successfully created without address.
      *    Order is created for the new customer</p>
      *
-     * @group skip_due_to_bug
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
+     * @group skip_due_to_bug
      */
     public function newCustomerWithoutAddress($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical',
-                array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
-        $param = $orderData['billing_addr_data']['billing_first_name'] . ' '
-                . $orderData['billing_addr_data']['billing_last_name'];
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
+                                        array('filter_sku'     => $simpleSku,
+                                              'customer_email' => $this->generate('email', 32, 'valid')));
+        $param = $orderData['billing_addr_data']['billing_first_name']
+            . ' ' . $orderData['billing_addr_data']['billing_last_name'];
         $this->addParameter('customer_first_last_name', $param);
-        $searchCustomer = $this->loadData('search_customer',
-                array('email' => $orderData['account_data']['customer_email']));
+        $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
+                                             array('email' => $orderData['account_data']['customer_email']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -136,25 +132,27 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is created with addresses. Order is created for the new customer;</p>
      *
-     * @group skip_due_to_bug
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
+     * @group skip_due_to_bug
      */
     public function newCustomerWithAddress($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical',
-                array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
-        $orderData['billing_addr_data'] = $this->loadData('billing_address_all');
-        $orderData['shipping_addr_data'] = $this->loadData('shipping_address_all');
-        $param = $orderData['billing_addr_data']['billing_first_name'] . ' '
-                . $orderData['billing_addr_data']['billing_last_name'];
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
+                                     array('filter_sku'     => $simpleSku,
+                                           'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_all');
+        $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_all');
+        $param = $orderData['billing_addr_data']['billing_first_name']
+            . ' ' . $orderData['billing_addr_data']['billing_last_name'];
         $this->addParameter('customer_first_last_name', $param);
-        $searchCustomer = $this->loadData('search_customer',
-                array('email' => $orderData['account_data']['customer_email']));
-        $addressVerify[] = $this->loadData('billing');
-        $addressVerify[] = $this->loadData('shipping');
+        $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
+                                          array('email' => $orderData['account_data']['customer_email']));
+        $addressVerify[] = $this->loadDataSet('SalesOrder', 'billing');
+        $addressVerify[] = $this->loadDataSet('SalesOrder', 'shipping');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -188,16 +186,18 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function newCustomerWithExistEmail($simpleSku)
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'customer_email' => $userData['email']));
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                     array('filter_sku'     => $simpleSku,
+                                           'customer_email' => $userData['email']));
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -228,16 +228,18 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function newCustomerWithLongEmail($simpleSku)
     {
         //Data
         $email = $this->generate('string', 129, ':alnum:') . '@example.com';
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'customer_email' => $email));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                     array('filter_sku'     => $simpleSku,
+                                           'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -263,16 +265,20 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
+     * @depends preconditionsForTests
+     *
      * @test
      */
     public function newCustomerWithNotCorrectEmail($simpleSku)
     {
         //Data
-        $email = $this->generate('string', 23, ':alnum:') . '@' . $this->generate('string', 65, ':alnum:') . '.org';
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'customer_email' => $email));
+        $email = $this->generate('string', 23, ':alnum:') . '@'
+            . $this->generate('string', 65, ':alnum:') . '.org';
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                     array('filter_sku'     => $simpleSku,
+                                           'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -300,15 +306,16 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function newCustomerWithNotValidEmail($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 23, 'invalid')));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                     array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -335,15 +342,16 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>New customer is not created. Order is not created for the new customer;</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function orderCompleteReqFields($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 22, 'valid')));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                     array('filter_sku' => $simpleSku));
         $orderData['billing_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'billing', 255);
         $orderData['shipping_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'shipping', 255);
         //Steps

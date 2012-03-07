@@ -46,63 +46,38 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->loginAdminUser();
     }
 
-    protected function assertPreConditions()
-    {
-        $this->navigate('manage_products');
-        $this->addParameter('id', '0');
-    }
-
     /**
-     * <p>Creating order with virtual product with custom options</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select virtual product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information.
-     *       Shipping address fill and shipping methods should be disabled;</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
+     * Create all types of products
+     * @return array
      * @test
      */
-    public function withCustomOptions()
+    public function preconditionsForTests()
     {
         //Data
-        $virtual = $this->loadData('virtual_product_for_order',
-                array('custom_options_data' => $this->loadData('custom_options_data')));
-        $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku'],
-            'configurable_options' => $this->loadData('config_option_custom_options')));
-        //Steps and Verifying
-        $this->productHelper()->createProduct($virtual, 'virtual');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-    }
-
-    /**
-     * <p>Test Realizing precondition for creating configurable product</p>
-     *
-     * @return array $attrData
-     * @test
-     */
-    public function createConfigurableAttribute()
-    {
-        //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options');
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        //Steps and Verifying
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $attrCode = $attrData['attribute_code'];
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+                                                   array('General' => $attrData['attribute_code']));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
+        $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
+        $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
+                                       array('downloadable_links_purchased_separately' => 'No'));
+        $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
+        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', null,
+                                     array('add_product_1' => $simple['general_sku'],
+                                           'add_product_2' => $virtual['general_sku']));
+        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
+                                           array('configurable_attribute_title' => $attrData['admin_title']),
+                                           array('associated_1' => $simple['general_sku'],
+                                                 'associated_2' => $virtual['general_sku'],
+                                                 'associated_3' => $download['general_sku']));
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
+                                      array('associated_1' => $simple['general_sku'],
+                                            'associated_2' => $virtual['general_sku'],
+                                            'associated_3' => $download['general_sku']));
+        //Steps and Verification
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -111,54 +86,58 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return $attrData;
-    }
-
-    /**
-     * <p>Creating order with simple products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select simple product and add it to the order;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
-     * @depends createConfigurableAttribute
-     * @param array $attrData
-     * @return array
-     * @test
-     */
-    public function withSimpleProduct($attrData)
-    {
-        //Data
-        $simple = $this->loadData('simple_product_for_order');
-        $attrCode = $attrData['attribute_code'];
-        $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simple['general_sku']));
-        //Steps and Verifying
+        $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundle, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($grouped, 'grouped');
+        $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple;
+        return array('simple_name'         => $simple['general_name'],
+                     'simple_sku'          => $simple['general_sku'],
+                     'simple_option'       => $attrData['option_1']['admin_option_name'],
+                     'downloadable_name'   => $download['general_name'],
+                     'downloadable_sku'    => $download['general_sku'],
+                     'downloadable_option' => $attrData['option_3']['admin_option_name'],
+                     'virtual_name'        => $virtual['general_name'],
+                     'virtual_sku'         => $virtual['general_sku'],
+                     'virtual_option'      => $attrData['option_2']['admin_option_name'],
+                     'bundle_name'         => $bundle['general_name'],
+                     'bundle_sku'          => $bundle['general_sku'],
+                     'configurable_name'   => $configurable['general_name'],
+                     'configurable_sku'    => $configurable['general_sku'],
+                     'grouped_name'        => $grouped['general_name'],
+                     'grouped_sku'         => $grouped['general_sku'],
+                     'title'               => $attrData['admin_title']);
     }
 
     /**
-     * <p>Creating order with virtual products</p>
+     * @param string $productType
+     * @param string $order
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider withoutOptionsDataProvider
+     * @depends preconditionsForTests
+     */
+    public function withoutOptions($productType, $order, $testData)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', $order,
+                                        array('filter_sku' => $testData[$productType . '_sku']));
+        //Steps and Verifying
+        $this->orderWorkflow($orderData, $productType);
+    }
+
+    /**
+     * <p>Creating order with virtual(simple) product with custom options</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
@@ -170,33 +149,27 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @depends createConfigurableAttribute
-     * @param array $attrData
-     * @return array
+     * @param string $productType
+     * @param string $order
+     *
      * @test
+     * @dataProvider productDataProvider
      */
-    public function withVirtualProduct($attrData)
+    public function withCustomOptions($productType, $order)
     {
         //Data
-        $virtual = $this->loadData('virtual_product_for_order');
-        $attrCode = $attrData['attribute_code'];
-        $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
-        $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku']));
+        $customOption = $this->loadDataSet('Product', 'custom_options_data');
+        $orderCustomOption = $this->loadDataSet('SalesOrder', 'config_option_custom_options');
+        $product = $this->loadDataSet('Product', $productType . '_product_visible',
+                                      array('custom_options_data' => $customOption));
+        $orderData = $this->loadDataSet('SalesOrder', $order,
+                                        array('filter_sku'           => $product['general_sku'],
+                                              'configurable_options' => $orderCustomOption));
         //Steps and Verifying
-        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($product, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-        return $virtual;
+        $this->orderWorkflow($orderData, $productType);
     }
 
     /**
@@ -216,65 +189,16 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
     public function withDownloadableConfigProduct()
     {
         //Data
-        $downloadable = $this->loadData('downloadable_product_for_order');
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $downloadable['general_sku'],
-                      'configurable_options' => $this->loadData('config_option_download')));
+        $downloadable = $this->loadDataSet('Product', 'downloadable_product_visible');
+        $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_download');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_virtual',
+                                        array('filter_sku'           => $downloadable['general_sku'],
+                                              'configurable_options' => $orderProductOption));
         //Steps and Verifying
+        $this->navigate('manage_products');
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-    }
-
-    /**
-     * <p>Creating order with downloadable products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select downloadable product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information; Shipping methods and address should be disabled;</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
-     * @depends createConfigurableAttribute
-     * @param array $attrData
-     * @return array
-     * @test
-     */
-    public function withDownloadableNotConfigProduct($attrData)
-    {
-        //Data
-        $downloadable = $this->loadData('downloadable_product_for_order',
-                array('downloadable_links_purchased_separately' => 'No'));
-        $attrCode = $attrData['attribute_code'];
-        $downloadable['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
-        $orderData = $this->loadData('order_virtual', array('filter_sku' => $downloadable['general_sku']));
-        //Steps and Verifying
-        $this->productHelper()->createProduct($downloadable, 'downloadable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-        return $downloadable;
+        $this->orderWorkflow($orderData, 'downloadable');
     }
 
     /**
@@ -289,92 +213,39 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @depends withSimpleProduct
-     * @depends withVirtualProduct
-     * @param array $simple
-     * @param array $virtual
-     * @return array
+     * @param string $productType
+     * @param string $order
+     * @param array $testData
+     *
      * @test
+     * @dataProvider productDataProvider
+     * @depends preconditionsForTests
      */
-    public function bundleWithSimple($simple, $virtual)
+    public function withBundleProduct($productType, $order, $testData)
     {
-        //Data
-        //Bundle Product Data
-        $product1 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $simple['general_sku']));
-        $product2 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $virtual['general_sku']));
-        $bundle = $this->loadData('fixed_bundle_for_order',
-                array('add_product_1' => $product1, 'add_product_2' => $product2));
         //Order Data
-        $multiSelect = $this->loadData('configure_field_multiselect', array('fieldsValue' => $simple['general_name']));
-        $dropDown = $this->loadData('configure_field_dropdown', array('fieldsValue' => $simple['general_name']));
-        $checkBox = $this->loadData('configure_field_checkbox', array('fieldParameter' => $simple['general_name']));
-        $radio = $this->loadData('configure_field_radiobutton', array('fieldParameter' => $simple['general_name']));
-        $configurable = $this->loadData('config_option_bundle',
-                array('field_checkbox'    => $checkBox,    'field_dropdow' => $dropDown,
-                      'field_multiselect' => $multiSelect, 'field_radio'   => $radio));
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $bundle['general_sku'], 'configurable_options' => $configurable));
+        $multiSelect = $this->loadDataSet('SalesOrder', 'configure_field_multiselect',
+                                          array('fieldsValue' => $testData[$productType . '_name']));
+        $dropDown = $this->loadDataSet('SalesOrder', 'configure_field_dropdown',
+                                       array('fieldsValue' => $testData[$productType . '_name']));
+        $checkBox = $this->loadDataSet('SalesOrder', 'configure_field_checkbox',
+                                       array('fieldParameter' => $testData[$productType . '_name']));
+        $radio = $this->loadDataSet('SalesOrder', 'configure_field_radiobutton',
+                                    array('fieldParameter' => $testData[$productType . '_name']));
+        $configurable = $this->loadDataSet('SalesOrder', 'config_option_bundle',
+                                           array('field_checkbox'    => $checkBox,
+                                                 'field_dropdow'     => $dropDown,
+                                                 'field_multiselect' => $multiSelect,
+                                                 'field_radio'       => $radio));
+        $orderData = $this->loadDataSet('SalesOrder', $order,
+                                        array('filter_sku'           => $testData['bundle_sku'],
+                                              'configurable_options' => $configurable));
         //Steps and Verifying
-        $this->productHelper()->createProduct($bundle, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-        return array('bundle_sku' => $bundle['general_sku'], 'virtual_name' => $virtual['general_name']);
+        $this->orderWorkflow($orderData, $productType);
     }
 
     /**
-     * <p>Creating order with bundle product</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select bundled product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
-     * @depends bundleWithSimple
-     * @param array $data
-     * @test
-     */
-    public function bundleWithVirtual($data)
-    {
-        //Data
-        $multiSelect = $this->loadData('configure_field_multiselect', array('fieldsValue' => $data['virtual_name']));
-        $dropDown = $this->loadData('configure_field_dropdown', array('fieldsValue' => $data['virtual_name']));
-        $checkBox = $this->loadData('configure_field_checkbox', array('fieldParameter' => $data['virtual_name']));
-        $radio = $this->loadData('configure_field_radiobutton', array('fieldParameter' => $data['virtual_name']));
-        $configurable = $this->loadData('config_option_bundle',
-                array('field_dropdow' => $dropDown, 'field_multiselect' => $multiSelect,
-                      'field_radio'   => $radio,    'field_checkbox'    => $checkBox));
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $data['bundle_sku'], 'configurable_options' => $configurable));
-        //Steps and Verifying
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-    }
-
-    /**
-     * <p>Creating order with configurable product with simple</p>
+     * <p>Creating order with configurable product</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
@@ -385,184 +256,29 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @depends createConfigurableAttribute
-     * @depends withSimpleProduct
-     * @depends withVirtualProduct
-     * @depends withDownloadableNotConfigProduct
-     * @param array $attrData
-     * @param array $simple
-     * @param array $virtual
-     * @param array $download
-     * @return array
-     * @test
-     */
-    public function configurableProductWithSimple($attrData, $simple, $virtual, $download)
-    {
-        //Data
-        $pr1 = $this->loadData('associated', array('associated_search_sku' => $simple['general_sku']));
-        $pr2 = $this->loadData('associated', array('associated_search_sku' => $virtual['general_sku']));
-        $pr3 = $this->loadData('associated', array('associated_search_sku' => $download['general_sku']));
-        $configurable = $this->loadData('configurable_product_for_order',
-                array('configurable_attribute_title' => $attrData['admin_title'],
-                      'associated_configurable_1'    => $pr1,
-                      'associated_configurable_2'    => $pr2,
-                      'associated_configurable_3'    => $pr3));
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku'                   => $configurable['general_sku'],
-                      'configurable_options'         => $this->loadData('config_option_configurable',
-                                                  array('title'       => $attrData['admin_title'],
-                                                        'fieldsValue' => $attrData['option_1']['admin_option_name']))));
-        //Steps and Verifying
-        $this->productHelper()->createProduct($configurable, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-        return $configurable;
-    }
-
-    /**
-     * <p>Creating order with configurable product with virtual</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select configurable product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
+     * @param string $productType
+     * @param string $order
+     * @param array $testData
      *
-     * @depends createConfigurableAttribute
-     * @depends configurableProductWithSimple
-     * @param array $attrData
-     * @param array $configurable
      * @test
+     * @dataProvider withoutOptionsDataProvider
+     * @depends preconditionsForTests
      */
-    public function configurableProductWithVirtual($attrData, $configurable)
+    public function withConfigurableProduct($productType, $order, $testData)
     {
         //Data
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku'           => $configurable['general_sku'],
-                      'configurable_options' => $this->loadData('config_option_configurable',
-                                                  array('title'       => $attrData['admin_title'],
-                                                        'fieldsValue' => $attrData['option_2']['admin_option_name']))));
+        $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
+                                                 array('title'       => $testData['title'],
+                                                       'fieldsValue' => $testData[$productType . '_option']));
+        $orderData = $this->loadDataSet('SalesOrder', $order,
+                                        array('filter_sku'          => $testData['configurable_sku'],
+                                              'configurable_options'=> $orderProductOption));
         //Steps and Verifying
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-    }
-
-    /**
-     * <p>Creating order with configurable product with downloadable</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select configurable product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
-     * @depends createConfigurableAttribute
-     * @depends configurableProductWithSimple
-     * @param array $attrData
-     * @param array $configurable
-     * @test
-     */
-    public function configurableProductWithDownloadable($attrData, $configurable)
-    {
-        //Data
-        $configOpt = $this->loadData('config_option_configurable',
-                array('title'                => $attrData['admin_title'],
-                      'fieldsValue'          => $attrData['option_3']['admin_option_name']));
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku'           => $configurable['general_sku'],
-                      'configurable_options' => $configOpt));
-        //Steps and Verifying
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
+        $this->orderWorkflow($orderData, $productType);
     }
 
     /**
      * <p>Creating order with grouped products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select group product and add it to the order. Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
-     *
-     * @depends withSimpleProduct
-     * @depends withVirtualProduct
-     * @depends withDownloadableNotConfigProduct
-     * @param array $simple
-     * @param array $virtual
-     * @param array $download
-     * @return string
-     * @test
-     */
-    public function groupedWithSimple($simple, $virtual, $download)
-    {
-        //Data
-        $prod1 = $this->loadData('associated_grouped', array('associated_search_sku' => $simple['general_sku']));
-        $prod2 = $this->loadData('associated_grouped', array('associated_search_sku' => $virtual['general_sku']));
-        $prod3 = $this->loadData('associated_grouped', array('associated_search_sku' => $download['general_sku']));
-        $grouped = $this->loadData('grouped_product_for_order',
-                array('associated_grouped_1' => $prod1,
-                      'associated_grouped_2' => $prod2,
-                      'associated_grouped_3' => $prod3));
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku'           => $grouped['general_sku'],
-                      'configurable_options' => $this->loadData('config_option_grouped',
-                                                                array('fieldParameter' => $simple['general_sku']))));
-        //Steps and Verifying
-        $this->productHelper()->createProduct($grouped, 'grouped');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
-        $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
-
-        return $grouped['general_sku'];
-    }
-
-    /**
-     * <p>Creating order with grouped products using virtual products</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
@@ -573,32 +289,61 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @depends withVirtualProduct
-     * @depends withDownloadableNotConfigProduct
-     * @depends groupedWithSimple
-     * @param array $virtual
-     * @param array $download
-     * @param array $grouped
+     * @param string $productType
+     * @param string $order
+     * @param array $testData
+     *
      * @test
+     * @dataProvider withoutOptionsDataProvider
+     * @depends preconditionsForTests
      */
-    public function groupedWithVirtualTypesOfProducts($virtual, $download, $grouped)
+    public function withGroupedProduct($productType, $order, $testData)
     {
         //Data
-        $option2 = $this->loadData('config_option_grouped/option_1',
-                array('fieldParameter'       => $download['general_sku']));
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku'           => $grouped,
-                      'configurable_options' => $this->loadData('config_option_grouped',
-                                                       array('fieldParameter' => $virtual['general_sku'],
-                                                             'option_2'       => $option2))));
+        $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_grouped',
+                                                 array('fieldParameter' => $testData[$productType . '_sku']));
+        $orderData = $this->loadDataSet('SalesOrder', $order,
+                                        array('filter_sku'           => $testData['grouped_sku'],
+                                              'configurable_options' => $orderProductOption));
         //Steps and Verifying
+        $this->orderWorkflow($orderData, $productType);
+    }
+
+    public function productDataProvider()
+    {
+        return array(
+            array('simple', 'order_physical'),
+            array('virtual', 'order_virtual')
+        );
+    }
+
+    public function withoutOptionsDataProvider()
+    {
+        return array(
+            array('simple', 'order_physical'),
+            array('virtual', 'order_virtual'),
+            array('downloadable', 'order_virtual')
+        );
+    }
+
+    /**
+     * Helper method
+     *
+     * @param array $orderData
+     * @param string $productType
+     */
+    private function orderWorkflow($orderData, $productType)
+    {
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+        if ($productType == 'simple') {
+            $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
+        }
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');

@@ -43,11 +43,6 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->loginAdminUser();
     }
 
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
-    }
-
     /**
      * <p>Order creation with product that contains validation message</p>
      * <p>Steps:</p>
@@ -64,22 +59,23 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
      * <p>Expected result:</p>
      * <p>Warning message appears before submitting order. Order is created</p>
      *
-     * @dataProvider orderWithProductWithValidationMessageDataProvider
      * @param string $productData
      * @param string $message
      * @param integer $productQty
+     *
      * @test
+     * @dataProvider orderWithProductWithValidationMessageDataProvider
      */
     public function orderWithProductWithValidationMessage($productData, $message, $productQty)
     {
         //Data
-        $simple = $this->loadData($productData, null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('SalesOrder', $productData);
 
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simple['general_sku'], 'product_qty' => $productQty));
-        $orderData = $this->arrayEmptyClear($orderData);
-        $billingAddr = $orderData['billing_addr_data'];
-        $shippingAddr = $orderData['shipping_addr_data'];
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $simple['general_sku'],
+                                              'product_qty' => $productQty));
+        $billingAddress = $orderData['billing_addr_data'];
+        $shippingAddress = $orderData['shipping_addr_data'];
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -92,13 +88,13 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->addParameter('sku', $simple['general_name']);
         $this->addParameter('qty', 10);
         $this->assertMessagePresent('validation', $message);
-        $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
-        $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
+        $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
+        $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'], 'shipping');
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
         $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
@@ -106,11 +102,6 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
-    /**
-     * <p>Data provider for orderWithProductWithValidationMessage test</p>
-     *
-     * @return array
-     */
     public function orderWithProductWithValidationMessageDataProvider()
     {
         return array(

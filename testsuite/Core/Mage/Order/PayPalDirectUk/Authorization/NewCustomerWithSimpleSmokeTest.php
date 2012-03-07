@@ -56,7 +56,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_without_3Dsecure');
-        $productData = $this->loadDataSet('SalesOrder', 'simple_product_for_order');
+        $productData = $this->loadDataSet('SalesOrder', 'simple_product_visible');
         //Steps and Verifying
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($settings);
@@ -407,7 +407,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->clickButton('reorder');
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($cardData);
         $this->fillForm($cardData);
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();

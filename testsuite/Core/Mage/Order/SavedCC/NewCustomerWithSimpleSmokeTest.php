@@ -41,14 +41,12 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
-    }
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
@@ -57,31 +55,33 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
      * <p>Smoke test for order without 3D secure</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @return array
      * @test
+     * @depends preconditionsForTests
      */
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -94,16 +94,17 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     /**
      * <p>Create order with Saved CC using all types of credit card</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider cardSavedCCDataProvider
      * @param string $card
      * @param array $orderData
+     *
      * @test
+     * @dataProvider cardSavedCCDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function differentCardInSavedCC($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -111,11 +112,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for differentCardInSavedCC test</p>
-     *
-     * @return array
-     */
     public function cardSavedCCDataProvider()
     {
         return array(
@@ -125,7 +121,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
             array('saved_jcb'),
             array('saved_discover'),
             array('saved_solo'),
-            array('saved_other'),
+            array('saved_other')
         );
     }
 
@@ -149,9 +145,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullInvoiceWithSavedCC($orderData)
     {
@@ -184,16 +181,18 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @depends preconditionsForTests
      */
-    public function partialInvoiceWithCreditCard($orderData)
+    public function partialInvoiceWithCreditCard($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadData('products_to_invoice',
-                array('invoice_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $invoice = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -204,7 +203,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-319:Credit Memo for whole invoce<p>
+     * <p>TL-MAGE-319:Credit Memo for whole invoice<p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -224,9 +223,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullCreditMemoWithCreditCard($orderData)
     {
@@ -239,7 +239,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-418:Credit Memo for part of invoce</p>
+     * <p>TL-MAGE-418:Credit Memo for part of invoice</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -259,16 +259,18 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @depends preconditionsForTests
      */
-    public function partialCreditMemoWithCreditCard($orderData)
+    public function partialCreditMemoWithCreditCard($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadData('products_to_refund',
-                array('return_filter_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -298,9 +300,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -334,16 +337,18 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @depends preconditionsForTests
      */
-    public function partialShipmentForOrderWithoutInvoice($orderData)
+    public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $shipment = $this->loadData('products_to_ship',
-                array('ship_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $shipment = $this->loadDataSet('SalesOrder', 'products_to_ship', array('ship_product_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -360,14 +365,15 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is holden;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
+     * <p>Order is unholden;</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -384,9 +390,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -421,11 +428,11 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Bug MAGE-5802</p>
      *
-     * @group skip_due_to_bug
-     *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
@@ -440,7 +447,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $emptyFields = array('card_verification_number' => $data['card_verification_number']);
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($emptyFields);
         $this->fillForm($data);
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
@@ -464,21 +471,23 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider createOrderWith3DSecureDataProvider
      * @param string $card
      * @param bool $needSetUp
-     * @param array $orderData
+     * @param array $orderData                                                                              l
+     *
      * @test
+     * @dataProvider createOrderWith3DSecureDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $this->systemConfigurationHelper()->configure('savedcc_with_3Dsecure');
+            $config = $this->loadDataSet('PaymentMethod', 'savedcc_with_3Dsecure');
+            $this->systemConfigurationHelper()->configure($config);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -486,17 +495,12 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for createOrderWith3DSecure test</p>
-     *
-     * @return array
-     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
             array('saved_jcb', true),
             array('saved_visa', false),
-            array('saved_mastercard', false),
+            array('saved_mastercard', false)
         );
     }
 }

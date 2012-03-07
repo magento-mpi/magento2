@@ -89,9 +89,9 @@ create_credit_memo:
                         buttons:
                             update_qty: //button[span[contains(.,'Update Qty')]]
                         checkboxes:
-                            return_to_stock: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[back_to_stock]')]
+                            return_to_stock: "//tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[back_to_stock]')]"
                         fields:
-                            qty_to_refund: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]
+                            qty_to_refund: "//tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[qty]')]"
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_line:  //table[@class='data order-tables']/tbody

@@ -41,14 +41,12 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('PaymentMethod', 'checkmoney');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('checkmoney');
-    }
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
@@ -57,31 +55,33 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
      * <p>Smoke tests for order creation</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @return array
      * @test
+     * @depends preconditionsForTests
      */
     public function orderSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -111,9 +111,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function fullInvoice($orderData)
     {
@@ -146,16 +147,18 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderSmoke
+     * @depends preconditionsForTests
      */
-    public function partialInvoice($orderData)
+    public function partialInvoice($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadData('products_to_invoice',
-                array('invoice_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice', array('invoice_product_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -166,7 +169,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-319:Credit Memo for whole invoce<p>
+     * <p>TL-MAGE-319:Credit Memo for whole invoice<p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -186,9 +189,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function fullCreditMemoWithCheck($orderData)
     {
@@ -201,7 +205,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-418:Credit Memo for part of invoce</p>
+     * <p>TL-MAGE-418:Credit Memo for part of invoice</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -221,16 +225,18 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderSmoke
+     * @depends preconditionsForTests
      */
-    public function partialCreditMemoWithCheck($orderData)
+    public function partialCreditMemoWithCheck($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadData('products_to_refund',
-                array('return_filter_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -259,9 +265,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is shipped successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -294,16 +301,18 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is shipped successfully</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderSmoke
+     * @depends preconditionsForTests
      */
-    public function partialShipmentForOrderWithoutInvoice($orderData)
+    public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $shipment = $this->loadData('products_to_ship',
-                array('ship_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $shipment = $this->loadDataSet('SalesOrder', 'products_to_ship', array('ship_product_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -316,9 +325,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -340,14 +350,15 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is holden;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>ss
+     * <p>Order is unholden;</p>ss
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -388,9 +399,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
      *
-     * @depends orderSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderSmoke
      */
     public function reorderPendingOrder($orderData)
     {

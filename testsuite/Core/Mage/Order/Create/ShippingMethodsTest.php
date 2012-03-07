@@ -40,39 +40,48 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('ShippingSettings', 'store_information');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('store_information');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     protected function assertPreConditions()
     {
-        $this->addParameter('id', '0');
+        $this->loginAdminUser();
     }
 
-    protected function tearDown()
+    public function tearDownAfterAllTests()
     {
+        //Data
+        $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
+        $settings = $this->loadDataSet('ShippingSettings', 'shipping_settings_default');
+        //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('shipping_disable');
+        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure($settings);
     }
 
     /**
-     * <p>Create Simple Product for tests</p>
+     * <p>Creating Simple product</p>
      *
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
@@ -88,30 +97,30 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created;</p>
      *
-     * @param $shipment
-     * @param $shippingOrigin
-     * @param $shippingDestination
-     * @param $simpleSku
-     *
-     * @depends createSimpleProduct
-     * @dataProvider shipmentDataProvider
      * @param string $shipment
      * @param string $shippingOrigin
+     * @param string $shippingDestination
      * @param string $simpleSku
+     *
      * @test
+     * @dataProvider shipmentDataProvider
+     * @depends preconditionsForTests
      */
     public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
-                               array('filter_sku' => $simpleSku));
-        $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
+        $shippingData = $this->loadDataSet('SalesOrder', 'shipping_' . $shipment);
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
+                                        array('filter_sku'    => $simpleSku,
+                                              'shipping_data' => $shippingData));
+        $shipmentEnable = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Steps And Verifying
         $this->navigate('system_configuration');
-        if($shippingOrigin) {
-            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if ($shippingOrigin) {
+            $config = $this->loadDataSet('ShippingSettings', 'shipping_settings_' . strtolower($shippingOrigin));
+            $this->systemConfigurationHelper()->configure($config);
         }
-        $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        $this->systemConfigurationHelper()->configure($shipmentEnable);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -119,17 +128,12 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
-    /**
-     * <p>Data provider differentShipmentMethods test</p>
-     *
-     * @return array
-     */
     public function shipmentDataProvider()
     {
         return array(
@@ -139,7 +143,7 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
             array('upsxml', 'usa', 'usa'),
             array('usps', 'usa', 'usa'),
             array('fedex', 'usa', 'usa'),
-            array('dhl', 'usa', 'france'),
+            array('dhl', 'usa', 'france')
         );
     }
 }

@@ -43,48 +43,29 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
-    }
-
     /**
-     * <p>Create Simple Product for tests</p>
-     *
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $addressData = $this->loadDataSet('Customers', 'all_fields_address');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $productData['general_sku'];
-    }
-
-    /**
-     * <p>Create customer for tests</p>
-     *
-     * @return string
-     * @test
-     */
-    public function createCustomer()
-    {
-        //Data
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $addressData = $this->loadData('all_fields_address');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return $userData['email'];
+        return array('sku'   => $simple['general_name'],
+                     'email' => $userData['email']);
     }
 
     /**
@@ -93,21 +74,23 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order and choose existing customer from the list;</p>
      * <p>3. Choose existing address for billing and shipping;</p>
-     * <p>4. Fill in all required fields (add products, add payment method information, choose shipping method, etc);</p>
+     * <p>4. Fill in all required fields
+     * (add products, add payment method information, choose shipping method, etc);</p>
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
-     * @depends createSimpleProduct
-     * @depends createCustomer
-     * @param string $simpleSku
-     * @param string $customer
+     * @param array $testData
+     *
      * @test
+     * @depends preconditionsForTests
      */
-    public function existingCustomerWithAddress($simpleSku, $customer)
+    public function existingCustomerWithAddress($testData)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'email' => $customer));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
+                                        array('filter_sku' => $testData['sku'],
+                                              'email'      => $testData['email']));
         unset($orderData['billing_addr_data']);
         unset($orderData['shipping_addr_data']);
         //Steps And Verifying
@@ -118,7 +101,7 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
         $this->clickButton('reorder');
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');

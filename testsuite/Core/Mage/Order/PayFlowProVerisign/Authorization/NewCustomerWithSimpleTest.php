@@ -41,14 +41,12 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('PaymentMethod', 'payflowpro_without_3Dsecure');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('payflowpro_without_3Dsecure');
-    }
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
@@ -57,31 +55,33 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
      * <p>Smoke test for order without 3D secure</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @return array
      * @test
+     * @depends preconditionsForTests
      */
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_payflowpro_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_payflowpro_flatrate',
+                                        array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -94,16 +94,17 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     /**
      * <p>Create order with PayFlowPro Verisign using all types of credit card</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider cardPayFlowProVerisignDataProvider
      * @param string $card
      * @param array $orderData
+     *
      * @test
+     * @dataProvider cardPayFlowProVerisignDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function orderWithDifferentCreditCard($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -111,11 +112,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for orderWithDifferentCreditCard test</p>
-     *
-     * @return array
-     */
     public function cardPayFlowProVerisignDataProvider()
     {
         return array(
@@ -146,11 +142,12 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider captureTypeDataProvider
      * @param string $captureType
      * @param array $orderData
+     *
      * @test
+     * @dataProvider captureTypeDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -161,11 +158,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    /**
-     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
-     *
-     * @return array
-     */
     public function captureTypeDataProvider()
     {
         return array(
@@ -195,17 +187,17 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider creditMemoDataProvider
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
+     *
      * @test
+     * @dataProvider creditMemoDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
         //Steps and Verifying
-        $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -216,17 +208,12 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
     }
 
-    /**
-     * <p>Data provider for fullCreditMemo test</p>
-     *
-     * @return array
-     */
     public function creditMemoDataProvider()
     {
         return array(
             array('Capture Online', 'refund'),
             array('Capture Online', 'refund_offline'),
-            array('Capture Offline', 'refund_offline'),
+            array('Capture Offline', 'refund_offline')
         );
     }
 
@@ -251,9 +238,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -271,14 +259,15 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is holden;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
+     * <p>Order is unholden;</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -295,9 +284,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     /**
      * Cancel Pending Order From Order Page
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -332,11 +322,11 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Bug MAGE-5802</p>
      *
-     * @group skip_due_to_bug
-     *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
@@ -350,9 +340,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $data = $orderData['payment_data']['payment_info'];
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($data);
         $this->fillForm($data);
-        $this->saveForm('submit_order', false);
-        $this->orderHelper()->defineOrderId();
-        $this->validatePage();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
@@ -377,9 +365,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -412,21 +401,23 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @depends orderWithout3DSecureSmoke
-     * @dataProvider createOrderWith3DSecureDataProvider
      * @param string $card
      * @param bool $needSetUp
      * @param array $orderData
+     *
      * @test
+     * @dataProvider createOrderWith3DSecureDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $this->systemConfigurationHelper()->configure('payflowpro_with_3Dsecure');
+            $config = $this->loadDataSet('PaymentMethod', 'payflowpro_with_3Dsecure');
+            $this->systemConfigurationHelper()->configure($config);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -434,11 +425,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for createOrderWith3DSecure test</p>
-     *
-     * @return array
-     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(

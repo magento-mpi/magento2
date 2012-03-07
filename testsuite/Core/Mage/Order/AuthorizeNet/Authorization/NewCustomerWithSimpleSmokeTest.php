@@ -41,48 +41,47 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('PaymentMethod', 'authorizenet_without_3Dsecure');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
-    }
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create Simple Product for tests</p>
+     * <p>Creating Simple product</p>
      *
      * @return string
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
      * <p>Order with 3D secure</p>
      *
-     * @depends createSimpleProduct
      * @param string $simpleSku
+     *
      * @return array
      * @test
+     * @depends preconditionsForTests
      */
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_authorizenet_flatrate',
+                                        array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -95,16 +94,17 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     /**
      * <p>Create order with AuthorizeNet using all types of credit card</p>
      *
-     * @dataProvider cardAuthorizeNetDataProvider
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
      * @param string $card
+     *
      * @test
+     * @dataProvider differentCardInAuthorizeNetDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function differentCardInAuthorizeNet($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -112,12 +112,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for differentCardInAuthorizeNet test</p>
-     *
-     * @return array
-     */
-    public function cardAuthorizeNetDataProvider()
+    public function differentCardInAuthorizeNetDataProvider()
     {
         return array(
             array('else_american_express'),
@@ -147,12 +142,12 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
-     * @dataProvider captureTypeDataProvider
-     * @depends orderWithout3DSecureSmoke
      * @param string $captureType
      * @param array $orderData
      *
      * @test
+     * @dataProvider captureTypeDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -197,18 +192,17 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
-     * @dataProvider refundDataProvider
-     * @depends orderWithout3DSecureSmoke
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
      *
      * @test
+     * @dataProvider refundDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
         //Steps
-        $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -230,21 +224,22 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     /**
      * <p>Partial refund test</p>
      *
-     * @dataProvider refundDataProvider
-     * @depends orderWithout3DSecureSmoke
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @dataProvider refundDataProvider
+     * @depends orderWithout3DSecureSmoke
+     * @depends preconditionsForTests
      */
-    public function partialRefund($captureType, $refundType, $orderData)
+    public function partialRefund($captureType, $refundType, $orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadData('products_to_refund',
-                array('return_filter_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps
-        $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -258,9 +253,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         } else {
             $this->addParameter('invoice_id', $this->getParameter('id'));
             $this->clickButton('credit_memo');
-            $sku = $creditMemo['product_1']['return_filter_sku'];
-            $productQty = $creditMemo['product_1']['qty_to_refund'];
-            $this->addParameter('sku', $sku);
+            $this->addParameter('sku', $creditMemo['product_1']['return_filter_sku']);
             $this->fillForm($creditMemo['product_1']);
             $this->clickButton('update_qty', false);
             $this->pleaseWait();
@@ -269,11 +262,6 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         }
     }
 
-    /**
-     * <p>Data provider for partialRefund test</p>
-     *
-     * @return array
-     */
     public function refundDataProvider()
     {
         return array(
@@ -304,9 +292,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -329,9 +318,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Expected result:</p>
      * <p>Order is unhold;</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -348,9 +338,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -385,11 +376,11 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Bug MAGE-5802</p>
      *
-     * @group skip_due_to_bug
-     *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
+     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
@@ -403,9 +394,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $data = $orderData['payment_data']['payment_info'];
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($data);
         $this->fillForm($data);
-        $this->saveForm('submit_order', false);
-        $this->orderHelper()->defineOrderId();
-        $this->validatePage();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
@@ -430,9 +419,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
-     * @depends orderWithout3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithout3DSecureSmoke
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -465,12 +455,13 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @dataProvider createOrderWith3DSecureDataProvider
-     * @depends orderWithout3DSecureSmoke
      * @param string $card
      * @param bool $needSetUp
      * @param array $orderData
+     *
      * @test
+     * @dataProvider createOrderWith3DSecureDataProvider
+     * @depends orderWithout3DSecureSmoke
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
@@ -479,7 +470,8 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $this->systemConfigurationHelper()->configure('authorizenet_with_3Dsecure');
+            $config = $this->loadDataSet('PaymentMethod', 'authorizenet_with_3Dsecure');
+            $this->systemConfigurationHelper()->configure($config);
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -487,10 +479,6 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
-    /**
-     * <p>Data provider for createOrderWith3DSecure test</p>
-     * @return array
-     */
     public function createOrderWith3DSecureDataProvider()
     {
         return array(

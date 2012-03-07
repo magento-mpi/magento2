@@ -66,7 +66,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->navigate('system_configuration');
         $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_without_3Dsecure', $api);
         $this->systemConfigurationHelper()->configure($settings);
-        $productData = $this->loadDataSet('SalesOrder', 'simple_product_for_order');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -88,7 +88,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithout3DSecureSmoke($testData)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirectuk_flatrate',
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirect_flatrate',
                                         array('filter_sku'   => $testData['sku'],
                                               'payment_info' => $testData['cards']['mastercard']));
         //Steps
@@ -409,7 +409,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->clickButton('reorder');
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($cardData);
         $this->fillForm($cardData);
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();

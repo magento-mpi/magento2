@@ -44,31 +44,28 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-    }
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('id', '0');
+        $config = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
-     * <p>Create Simple Product for tests</p>
+     * <p>Creating Simple product</p>
      *
-     * @group preConditions
      * @return string
      * @test
      */
-    public function createSimple()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
+        $this->productHelper()->createProduct($simple);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $productData['general_sku'];
+        return $simple['general_name'];
     }
 
     /**
@@ -89,23 +86,24 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>New customer is not created. Order is not created for the new customer.
      *    Message with "Empty required field" appears.</p>
      *
-     * @depends createSimple
-     * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
-     *
      * @param string $emptyField
      * @param string $simpleSku
-     * @test
      *
+     * @test
+     * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
+     * @depends preconditionsForTests
      */
     public function emptyRequiredFieldsInBillingAddress($emptyField, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'billing_country') {
-            $orderData['billing_addr_data'] = $this->loadData('billing_address_req', array($emptyField => ''));
+            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
+                                                                 array($emptyField => ''));
         } else {
-            $orderData['billing_addr_data'] = $this->loadData('billing_address_req',
-                    array($emptyField => '', 'billing_state' => '%noValue%'));
+            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
+                                                                 array($emptyField     => '',
+                                                                       'billing_state' => '%noValue%'));
         }
         //Steps
         $this->navigate('manage_sales_orders');
@@ -127,11 +125,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    /**
-     * <p>Data provider for emptyRequiredFieldsInBillingAddress test</p>
-     *
-     * @return array
-     */
     public function emptyRequiredFieldsInBillingAddressDataProvider()
     {
         return array(
@@ -165,23 +158,25 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>New customer is not created. Order is not created for the new customer.
      *    Message with "Empty required field" appears.</p>
      *
-     * @depends createSimple
-     * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
-     *
      * @param string $emptyField
      * @param string $simpleSku
-     * @group skip_due_to_bug
+     *
      * @test
+     * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
+     * @depends preconditionsForTests
+     * @group skip_due_to_bug
      */
     public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'shipping_country') {
-            $orderData['shipping_addr_data'] = $this->loadData('shipping_address_req', array($emptyField => ''));
+            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
+                                                                  array($emptyField => ''));
         } else {
-            $orderData['shipping_addr_data'] = $this->loadData('shipping_address_req',
-                    array($emptyField => '', 'shipping_state' => '%noValue%'));
+            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
+                                                                  array($emptyField      => '',
+                                                                        'shipping_state' => '%noValue%'));
         }
         //Steps
         $this->navigate('manage_sales_orders');
@@ -203,11 +198,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
-    /**
-     * <p>Data provider for emptyRequiredFieldsInShippingAddress test</p>
-     *
-     * @return array
-     */
     public function emptyRequiredFieldsInShippingAddressDataProvider()
     {
         return array(
@@ -234,14 +224,16 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
-     * @depends createSimple
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function withoutGotShippingMethod($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku' => $simpleSku));
         unset($orderData['shipping_data']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -266,27 +258,29 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
-     * @depends createSimple
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function withGotShippingMethod($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
-        $orderData = $this->arrayEmptyClear($orderData);
-        $billingAddr = $orderData['billing_addr_data'];
-        $shippingAddr = $orderData['shipping_addr_data'];
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku' => $simpleSku));
+        $billingAddress = $orderData['billing_addr_data'];
+        $shippingAddress = $orderData['shipping_addr_data'];
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
-        $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
-        $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
+        $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
+        $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'],
+                                               'shipping');
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('error', 'shipping_must_be_specified');
     }
@@ -303,13 +297,13 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Order cannot be created. Message 'You need to specify order items.' appears.</p>
      *
-     * @depends createSimple
      * @test
+     * @depends preconditionsForTests
      */
     public function noProductsChosen()
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -330,14 +324,16 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>Expected result:</p>
      * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
      *
-     * @depends createSimple
      * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function noPaymentMethodChosen($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_checkmoney_flatrate_usa', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku' => $simpleSku));
         unset($orderData['payment_data']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -349,20 +345,22 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for credit card with all empty fields</p>
      *
-     * @depends createSimple
-     * @param type $simpleSku
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyAllCardFieldsInSavedCCVisa($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate', array('filter_sku' => $simpleSku));
-        $orderData['payment_data']['payment_info'] = $this->loadData('saved_empty_all');
-        $emptyFields = array('field' => 'name_on_card', 'dropdown' => 'card_type',
-            'dropdown' => 'expiration_year', 'field' => 'card_verification_number');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku' => $simpleSku));
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', 'saved_empty_all');
+        $emptyFields = array('field'    => 'name_on_card',
+                             'dropdown' => 'card_type',
+                             'dropdown' => 'expiration_year',
+                             'field'    => 'card_verification_number');
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -377,18 +375,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Name On Card' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyNameOnCardFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'name_on_card' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'   => $simpleSku,
+                                              'name_on_card' => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -401,18 +399,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Card Type' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyCardTypeFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'card_type' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku' => $simpleSku,
+                                              'card_type'  => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -428,18 +426,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Card Number' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyCardNumberFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'card_number' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'  => $simpleSku,
+                                              'card_number' => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -452,18 +450,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Expiration Year' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyExpirationYearFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'expiration_year' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'      => $simpleSku,
+                                              'expiration_year' => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -476,18 +474,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Card Verification Number' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyCardVerificationNumberFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'card_verification_number' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'               => $simpleSku,
+                                              'card_verification_number' => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
@@ -500,18 +498,18 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Test for empty 'Expiration Month' field in credit card visa</p>
      *
-     * @param type $simpleSku
-     * @depends createSimple
+     * @param string $simpleSku
+     *
      * @test
+     * @depends preconditionsForTests
      */
     public function emptyExpirationMonthFieldInSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate',
-                array('filter_sku' => $simpleSku, 'expiration_month' => ''));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'       => $simpleSku,
+                                              'expiration_month' => ''));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
