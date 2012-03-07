@@ -307,7 +307,7 @@ abstract class Mage_Api2_Model_Resource
 
         $resourceModel
             ->setRequest($request) // request MUST be set first
-            ->setUserType($this->getUserType())
+            ->setApiUser($this->getApiUser())
             ->setApiType($this->getApiType())
             ->setResourceType($resourceId)
             ->setOperation($this->getOperation())
@@ -443,10 +443,13 @@ abstract class Mage_Api2_Model_Resource
      * Set API user
      *
      * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
+     * @return Mage_Api2_Model_Resource
      */
     public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
         $this->_apiUser = $apiUser;
+
+        return $this;
     }
 
     /**
