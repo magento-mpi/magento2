@@ -138,17 +138,14 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Determine if specified address config value can show
+     * Determine if specified address config value can be shown
      *
+     * @param string $key
      * @return bool
      */
     public function canShowConfig($key)
     {
-        $value = $this->getConfig($key);
-        if (empty($value)) {
-            return false;
-        }
-        return true;
+        return (bool)$this->getConfig($key);
     }
 
     /**
@@ -177,19 +174,24 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
      */
     public function getAttributeValidationClass($attributeCode)
     {
-        if (isset($this->_attributes[$attributeCode])) {
-            $attribute = $this->_attributes[$attributeCode];
+        /** @var $attribute Mage_Customer_Model_Attribute */
+        $attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
+            : Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
+        $class = $attribute ? $attribute->getFrontend()->getClass() : '';
+
+        if ($attributeCode === 'firstname' || $attributeCode === 'middlename' || $attributeCode === 'lastname') {
+            if (!$attribute->getIsVisible()) {
+                $class = ''; // address attribute is not visible thus its validation rules are not applied
+            }
+
+            /** @var $customerAttribute Mage_Customer_Model_Attribute */
+            $customerAttribute = Mage::getSingleton('eav/config')->getAttribute('customer', $attributeCode);
+            $class .= $customerAttribute && $customerAttribute->getIsVisible()
+                ? $customerAttribute->getFrontend()->getClass() : '';
+            $class = implode(' ', array_unique(array_filter(explode(' ', $class))));
         }
 
-        if (!isset($attribute)) {
-            $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
-        }
-
-        if (!$attribute) {
-            return '';
-        }
-
-        return $attribute->getFrontend()->getClass();
+        return $class;
     }
 
     /**
