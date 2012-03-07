@@ -511,7 +511,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($block instanceof Mage_Core_Block_Abstract) {
             $block = $block->getNameInLayout();
         }
-        $this->_getLayoutStructure()->insertBlock($this->getNameInLayout(), $block, $alias, $after, $siblingName);
+        $this->getLayout()->insertBlock($this->getNameInLayout(), $block, $alias, $after, $siblingName);
         return $this;
     }
 
@@ -1085,13 +1085,5 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         $module = $module ?: $this->getModuleName();
         return Mage::getDesign()->getViewConfig()->getVarValue($module, $name);
-    }
-
-    protected function _getLayoutStructure()
-    {
-        if ($this->getLayout()) {
-            return $this->getLayout()->getStructure();
-        }
-        throw new Magento_Exception('Can not get layout structure: there is no layout for block');
     }
 }

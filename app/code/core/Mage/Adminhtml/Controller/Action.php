@@ -95,22 +95,19 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _addContent(Mage_Core_Block_Abstract $block)
     {
-        $name = $block->getNameInLayout();
-        $this->getLayout()->insertBlock('content', $name, $name);
+        $this->getLayout()->insertBlock('content', $block->getNameInLayout());
         return $this;
     }
 
     protected function _addLeft(Mage_Core_Block_Abstract $block)
     {
-        $name = $block->getNameInLayout();
-        $this->getLayout()->insertBlock('left', $name, $name);
+        $this->getLayout()->insertBlock('left', $block->getNameInLayout());
         return $this;
     }
 
     protected function _addJs(Mage_Core_Block_Abstract $block)
     {
-        $name = $block->getNameInLayout();
-        $this->getLayout()->insertBlock('js', $name, $name);
+        $this->getLayout()->insertBlock('js', $block->getNameInLayout());
         return $this;
     }
 

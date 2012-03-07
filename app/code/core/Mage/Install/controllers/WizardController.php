@@ -57,8 +57,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             $step->setActive(true);
         }
 
-        $this->getLayout()->createBlock('Mage_Install_Block_State', 'install.state');
-        $this->getLayout()->insertBlock('left', 'install.state', 'install.state');
+        $this->getLayout()->addBlock('Mage_Install_Block_State', 'install.state', 'left');
         return $this;
     }
 
@@ -97,8 +96,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->createBlock('Mage_Install_Block_Begin', 'install.begin');
-        $this->getLayout()->insertBlock('content', 'install.begin', 'install.begin');
+        $this->getLayout()->addBlock('Mage_Install_Block_Begin', 'install.begin', 'content');
 
         $this->renderLayout();
     }
@@ -130,8 +128,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->createBlock('Mage_Install_Block_Locale', 'install.locale');
-        $this->getLayout()->insertBlock('content', 'install.locale', 'install.locale');
+        $this->getLayout()->addBlock('Mage_Install_Block_Locale', 'install.locale', 'content');
 
         $this->renderLayout();
     }
@@ -178,8 +175,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->createBlock('Mage_Install_Block_Download', 'install.download');
-        $this->getLayout()->getStructure()->insertBlock('content', 'install.download', 'install.download');
+        $this->getLayout()->addBlock('Mage_Install_Block_Download', 'install.download', 'content');
 
         $this->renderLayout();
     }
@@ -275,8 +271,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
-        $this->getLayout()->createBlock('Mage_Install_Block_Config', 'install.config');
-        $this->getLayout()->getStructure()->insertBlock('content', 'install.config', 'install.config');
+        $this->getLayout()->addBlock('Mage_Install_Block_Config', 'install.config', 'content');
 
         $this->renderLayout();
     }
@@ -347,8 +342,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->createBlock('Mage_Install_Block_Admin', 'install.administrator');
-        $this->getLayout()->getStructure()->insertBlock('content', 'install.administrator', 'install.administrator');
+        $this->getLayout()->addBlock('Mage_Install_Block_Admin', 'install.administrator', 'content');
         $this->renderLayout();
     }
 
@@ -416,8 +410,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('Mage_Install_Model_Session');
 
-        $this->getLayout()->createBlock('Mage_Install_Block_End', 'install.end');
-        $this->getLayout()->getStructure()->insertBlock('content', 'install.end', 'install.end');
+        $this->getLayout()->addBlock('Mage_Install_Block_End', 'install.end', 'content');
         $this->renderLayout();
         Mage::getSingleton('Mage_Install_Model_Session')->clear();
     }
