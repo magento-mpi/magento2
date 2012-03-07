@@ -60,26 +60,13 @@ class Mage_Api2_Model_Dispatcher
                 'Request does not contains all necessary data', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
-
-        $version = $this->getVersion($request->getResourceType(), $request->getVersion());
-
-        $replace = array(
-            ':resource' => $request->getModel(),
-            ':api'      => $request->getApiType(),
-            ':user'     => $this->getApiUser()->getType(),
-            ':version'  => $version
+        $model = self::loadResourceModel(
+            $request->getModel(),
+            $request->getApiType(),
+            $this->getApiUser()->getType(),
+            $this->getVersion($request->getResourceType(), $request->getVersion())
         );
-        $class = strtr(self::RESOURCE_CLASS_TEMPLATE, $replace);
 
-        try {
-            /** @var $model Mage_Api2_Model_Resource */
-            $model = Mage::getModel($class);
-        } catch (Exception $e) {
-            // getModel() throws exception when in application is in development mode - skip it to next check
-        }
-        if (empty($model) || !$model instanceof Mage_Api2_Model_Resource) {
-            throw new Mage_Api2_Exception('Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
-        }
         $model->setRequest($request);
         $model->setResponse($response);
         $model->setApiUser($this->getApiUser());
@@ -87,6 +74,36 @@ class Mage_Api2_Model_Dispatcher
         $model->dispatch();
 
         return $this;
+    }
+
+    /**
+     * Pack resource model class path from components and try to load it
+     *
+     * @static
+     * @param string $model Model prefix (usually from <model> config node)
+     * @param string $apiType API type
+     * @param string $userType API User type (e.g. admin, customer, guest)
+     * @param int $version Requested version
+     * @return Mage_Api2_Model_Resource
+     * @throws Mage_Api2_Exception
+     */
+    public static function loadResourceModel($model, $apiType, $userType, $version)
+    {
+        $class = strtr(
+            self::RESOURCE_CLASS_TEMPLATE,
+            array(':resource' => $model, ':api' => $apiType, ':user' => $userType, ':version' => $version)
+        );
+
+        try {
+            /** @var $modelObj Mage_Api2_Model_Resource */
+            $modelObj = Mage::getModel($class);
+        } catch (Exception $e) {
+            // getModel() throws exception when in application is in development mode - skip it to next check
+        }
+        if (empty($modelObj) || !$modelObj instanceof Mage_Api2_Model_Resource) {
+            throw new Mage_Api2_Exception('Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+        }
+        return $modelObj;
     }
 
     /**
@@ -132,16 +149,7 @@ class Mage_Api2_Model_Dispatcher
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
-        $availVersions = $this->getConfig()->getVersions($resourceType);
-        $useVersion    = reset($availVersions);
-
-        foreach ($availVersions as $version) {
-            if ($version <= $requestedVersion) {
-                $useVersion = $version;
-                break;
-            }
-        }
-        return (int) $useVersion;
+        return $this->getConfig()->getResourceLastVersion($resourceType, $requestedVersion);
     }
 
     /**

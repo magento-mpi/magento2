@@ -53,6 +53,18 @@
                     </guest>
                 </exclude_attributes>
                 <working_model>catalog/product</working_model>
+                <validators>
+                    <validatorType>
+                        <field_name>
+                            <required>1</required>
+                            <regex>
+                                <type>Regex</type>
+                                <options><pattern>/^[0,1]$/</pattern></options>
+                                <message>The "field_name" field must be set to 0 or 1.</message>
+                            </regex>
+                        </field_name>
+                    </validatorType>
+                </validators>
             </product>
             <test1 />
             <test2><versions /></test2>

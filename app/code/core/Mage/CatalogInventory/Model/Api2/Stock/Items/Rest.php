@@ -84,7 +84,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
             }
 
             /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields */
-            $validator = Mage::getModel('catalogInventory/api2_stock_item_validator_fields', array(
+            $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_fields', array(
                 'resource' => $this
             ));
 
@@ -100,16 +100,17 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
 
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $this->_loadStockItemById($data[$this->getIdFieldName()]);
-            unset($data[$this->getIdFieldName()]); // item_id is not for update
 
             // check data
             if (!$validator->isSatisfiedByData($data)) {
                 foreach ($validator->getErrors() as $error) {
-                    $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                    $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+                        $data[$this->getIdFieldName()]);
                 }
                 $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
             }
 
+            unset($data[$this->getIdFieldName()]); // item_id is not for update
             $stockItem->addData($data);
             $stockItem->save();
 

@@ -267,6 +267,42 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     {
         $this->assertEquals('test_item_id', $this->_config->getResourceIdFieldName('products'));
     }
+
+    /**
+     * Test get validation config by resource type
+     *
+     * @param array $validationConfig
+     * @dataProvider providerValidationConfig
+     */
+    public function testGetValidationConfigByResourceType($validationConfig)
+    {
+        $this->assertEquals(
+            $validationConfig,
+            $this->_config->getValidationConfigByResourceType('product', 'validatorType')
+        );
+    }
+
+    /**
+     * Data provider validation config
+     *
+     * @return array
+     */
+    public function providerValidationConfig()
+    {
+        $validationConfig = array(
+            'field_name' => array(
+                'required' => 1,
+                'regex' => array(
+                    'type' => 'Regex',
+                    'options' => array(
+                        'pattern' => '/^[0,1]$/'
+                    ),
+                    'message' => 'The "field_name" field must be set to 0 or 1.'
+                )
+            )
+        );
+        return array(array($validationConfig));
+    }
 }
 
 /**
