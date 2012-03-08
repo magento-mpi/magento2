@@ -27,16 +27,34 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Mark test skipped, if environment doesn't allow to send headers
      */
-    protected function _requireSendCookieHeaders()
+    protected function _requireSendingCookieHeaders()
     {
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Test requires to send cookie headers.');
         }
     }
 
+    /**
+     * Retrieve array items that contain specific substring
+     *
+     * @param array $items
+     * @param $substring
+     * @return array
+     */
+    protected function _findItemsContainingText(array $items, $substring)
+    {
+        $result = array();
+        foreach ($items as $oneItem) {
+            if (strpos($oneItem, $substring) !== false) {
+                $result[] = $oneItem;
+            }
+        }
+        return $result;
+    }
+
     public function testLaunchDesignEditor()
     {
-        $this->_requireSendCookieHeaders();
+        $this->_requireSendingCookieHeaders();
         $noCacheCookieHeader = sprintf(
             'Set-Cookie: %s=1; path=/; httponly',
             Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE
@@ -48,13 +66,13 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testExitDesignEditor()
     {
-        $this->_requireSendCookieHeaders();
+        $this->_requireSendingCookieHeaders();
         $noCacheCookieHeader = sprintf(
-            'Set-Cookie: %s=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; httponly',
+            'Set-Cookie: %s=deleted; expires=',
             Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE
         );
-        $this->assertNotContains($noCacheCookieHeader, xdebug_get_headers());
+        $this->assertEmpty($this->_findItemsContainingText(xdebug_get_headers(), $noCacheCookieHeader));
         $this->_observer->exitDesignEditor(new Varien_Event_Observer());
-        $this->assertContains($noCacheCookieHeader, xdebug_get_headers());
+        $this->assertNotEmpty($this->_findItemsContainingText(xdebug_get_headers(), $noCacheCookieHeader));
     }
 }

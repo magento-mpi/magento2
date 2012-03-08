@@ -52,6 +52,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
+     * Mark test skipped, if environment doesn't allow to send headers
+     */
+    protected function _requireSendingHeaders()
+    {
+        if (!Magento_Test_Bootstrap::canTestHeaders()) {
+            $this->markTestSkipped('Test requires to send headers.');
+        }
+    }
+
+    /**
      * @magentoDataFixture Mage/Admin/_files/user.php
      */
     public function testIndexActionSingleStore()
@@ -79,6 +89,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testLaunchActionSingleStore()
     {
+        $this->_requireSendingHeaders();
+
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
         $this->dispatch('admin/system_design_editor/launch');
@@ -95,6 +107,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testLaunchActionMultipleStores()
     {
+        $this->_requireSendingHeaders();
+
         $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
 
         $session = new Mage_DesignEditor_Model_Session();
@@ -113,6 +127,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testExitAction()
     {
+        $this->_requireSendingHeaders();
+
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertTrue($session->isDesignEditorActive());
         $this->dispatch('admin/system_design_editor/exit');

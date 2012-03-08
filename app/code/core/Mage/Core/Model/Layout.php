@@ -750,7 +750,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $origName='', array $attributes = array())
     {
-        $name = ('.' === $origName{0}) ? '' : $origName;
+        $name = ('.' === substr($origName, 0, 1)) ? '' : $origName;
         $name = $this->_structure->insertBlock('', $name);
         $block = $this->_createBlock($type, $name, $attributes);
         $this->_updateAnonymousBlock($block, $origName, $name);
@@ -792,7 +792,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function addBlock($block, $origName = '', $parent = '', $alias = '', $after = true, $sibling = '')
     {
-        $name = ('.' === $origName{0}) ? '' : $origName;
+        $name = ('.' === substr($origName, 0, 1)) ? '' : $origName;
         if (is_string($block)) {
             $name = $this->_structure->insertBlock($parent, $name, $alias, $after, $sibling);
         } elseif (empty($name)) {
