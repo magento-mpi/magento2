@@ -33,14 +33,11 @@ class Mage_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 
-    /**
-     * @depends testLaunchDesignEditor
-     */
     public function testExitDesignEditor()
     {
         /** @var $cookie Mage_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Mage_Core_Model_Cookie');
-        $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $cookie->set(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE, '1');
         $this->_observer->exitDesignEditor(new Varien_Event_Observer());
         $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
