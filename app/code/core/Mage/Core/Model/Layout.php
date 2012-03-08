@@ -24,6 +24,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
     const CONTAINER_OPT_HTML_ID    = 'htmlId';
+    const CONTAINER_OPT_LABEL      = 'label';
 
     /**
      * Layout Update module
@@ -76,6 +77,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         self::CONTAINER_OPT_HTML_CLASS,
         self::CONTAINER_OPT_HTML_ID,
         self::CONTAINER_OPT_HTML_TAG,
+        self::CONTAINER_OPT_LABEL,
     );
 
     /**
