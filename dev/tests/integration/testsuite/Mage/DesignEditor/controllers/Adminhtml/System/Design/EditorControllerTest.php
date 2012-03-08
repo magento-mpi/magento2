@@ -12,21 +12,8 @@
 /**
  * @group module:Mage_DesignEditor
  */
-class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Adminhtml_Utility_Controller
 {
-    /**
-     * @var Mage_Admin_Model_Session
-     */
-    protected  $_session;
-
-    protected function setUp()
-    {
-        parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
-        $this->_session = new Mage_Admin_Model_Session();
-        $this->_session->login('user', 'password');
-    }
-
     /**
      * Assert that a page content contains the design editor form
      *
@@ -51,9 +38,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         }
     }
 
-    /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
-     */
     public function testIndexActionSingleStore()
     {
         $this->dispatch('admin/system_design_editor/index');
@@ -61,7 +45,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Core/_files/store.php
      */
     public function testIndexActionMultipleStores()
@@ -74,9 +57,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Fixture Store</option>', $responseBody);
     }
 
-    /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
-     */
     public function testLaunchActionSingleStore()
     {
         $session = new Mage_DesignEditor_Model_Session();
@@ -89,7 +69,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */

@@ -26,8 +26,16 @@ class Mage_Adminhtml_Rss_CatalogController extends Mage_Adminhtml_Controller_Act
         } elseif ($this->getRequest()->getActionName() == 'notifystock') {
             $path = 'catalog/products';
         }
-        Mage::helper('Mage_Adminhtml_Helper_Rss')->authAdmin($path);
+
+        $user = Mage::helper('Mage_Adminhtml_Helper_Rss')->authAdmin($path);
+        if (!is_object($user)) {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return $this;
+        }
+
         parent::preDispatch();
+
+        $this->getRequest()->setDispatched(true);
         return $this;
     }
 

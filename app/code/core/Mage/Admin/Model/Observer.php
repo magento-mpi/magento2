@@ -46,32 +46,36 @@ class Mage_Admin_Model_Observer
                 $user->reload();
             }
             if (!$session->isLoggedIn()) {
+                $isRedirectNeeded = false;
                 if ($request->getPost('login')) {
                     $postLogin  = $request->getPost('login');
                     $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
                     $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
-                    $session->login($username, $password, $request);
                     $request->setPost('login', null);
+                    $user = $session->login($username, $password, $request);
+                    $isRedirectNeeded = $user === true;
                 }
-                if (!$request->getParam('forwarded')) {
-                    if ($request->getParam('isIframe')) {
-                        $request->setParam('forwarded', true)
-                            ->setControllerName('index')
-                            ->setActionName('deniedIframe')
-                            ->setDispatched(false);
-                    } elseif($request->getParam('isAjax')) {
-                        $request->setParam('forwarded', true)
-                            ->setControllerName('index')
-                            ->setActionName('deniedJson')
-                            ->setDispatched(false);
-                    } else {
-                        $request->setParam('forwarded', true)
-                            ->setRouteName('adminhtml')
-                            ->setControllerName('index')
-                            ->setActionName('login')
-                            ->setDispatched(false);
+                if (!$isRedirectNeeded) {
+                    if (!$request->getParam('forwarded')) {
+                        if ($request->getParam('isIframe')) {
+                            $request->setParam('forwarded', true)
+                                ->setControllerName('index')
+                                ->setActionName('deniedIframe')
+                                ->setDispatched(false);
+                        } elseif($request->getParam('isAjax')) {
+                            $request->setParam('forwarded', true)
+                                ->setControllerName('index')
+                                ->setActionName('deniedJson')
+                                ->setDispatched(false);
+                        } else {
+                            $request->setParam('forwarded', true)
+                                ->setRouteName('adminhtml')
+                                ->setControllerName('index')
+                                ->setActionName('login')
+                                ->setDispatched(false);
+                        }
+                        return false;
                     }
-                    return false;
                 }
             }
         }
