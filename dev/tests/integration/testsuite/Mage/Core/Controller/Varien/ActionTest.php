@@ -147,6 +147,8 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatch()
     {
+        $this->markTestIncomplete('MAGETWO-753');
+
         $request = new Magento_Test_Request();
         $request->setDispatched();
 
@@ -193,6 +195,8 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchDetectDesign($controllerClass, $expectedArea, $expectedDesign)
     {
+        $this->markTestIncomplete('MAGETWO-753');
+
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
         $controller->preDispatch();

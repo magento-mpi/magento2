@@ -11,6 +11,12 @@
 
 /**
  * Core session model
+ *
+ * @todo extend from Mage_Core_Model_Session_Abstract
+ *
+ * @method null|bool getCookieShouldBeReceived()
+ * @method Mage_Core_Model_Session setCookieShouldBeReceived(bool $flag)
+ * @method Mage_Core_Model_Session unsCookieShouldBeReceived()
  */
 class Mage_Core_Model_Session extends Mage_Core_Model_Session_Abstract
 {

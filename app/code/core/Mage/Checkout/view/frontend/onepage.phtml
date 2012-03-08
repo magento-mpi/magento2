@@ -13,7 +13,6 @@
 </div>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('Mage_Checkout::onepage/accordion.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('Mage_Checkout::opcheckout.js') ?>"></script>
-<script type="text/javascript">countryRegions = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?></script>
 <ol class="opc" id="checkoutSteps">
 <?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
 <?php if (!$this->getChildBlock($_stepId) || !$this->getChildBlock($_stepId)->isShow()): continue; endif; $i++ ?>

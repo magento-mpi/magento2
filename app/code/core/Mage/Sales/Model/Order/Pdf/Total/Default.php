@@ -8,6 +8,13 @@
  * @license     {license_link}
  */
 
+/**
+ * Sales Order Total PDF model
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
 {
     /**

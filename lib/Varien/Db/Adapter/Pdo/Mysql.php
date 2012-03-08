@@ -163,6 +163,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     );
 
     /**
+     * All possible DDL statements
+     * First 3 symbols for each statement
+     *
+     * @var array
+     */
+    protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
+
+    /**
      * Allowed interval units array
      *
      * @var array
@@ -366,6 +374,22 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Check transaction level in case of DDL query
+     *
+     * @param string|Zend_Db_Select $sql
+     * @throws Zend_Db_Adapter_Exception
+     */
+    protected function _checkDdlTransaction($sql)
+    {
+        if (is_string($sql) && $this->getTransactionLevel() > 0) {
+            $startSql = strtolower(substr(ltrim($sql), 0, 3));
+            if (in_array($startSql, $this->_ddlRoutines)) {
+                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+            }
+        }
+    }
+
+    /**
      * Special handling for PDO query().
      * All bind parameter names must begin with ':'.
      *
@@ -378,6 +402,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         $this->_debugTimer();
         try {
+            $this->_checkDdlTransaction($sql);
             $this->_prepareQuery($sql, $bind);
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {
@@ -589,7 +614,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     protected function _splitMultiQuery($sql)
     {
-        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+        );
 
         $q      = false;
         $c      = false;
@@ -850,7 +877,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf(
+                'Column "%s" does not exists on table "%s"',
+                $oldColumnName,
+                $tableName
+            ));
         }
 
         if (is_array($definition)) {
@@ -2939,6 +2970,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Prepare standard deviation sql function
+     *
+     * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
+     * @return Zend_Db_Expr
+     */
+    public function getStandardDeviationSql($expressionField)
+    {
+        return new Zend_Db_Expr(sprintf('STDDEV_SAMP(%s)', $expressionField));
+    }
+
+    /**
      * Extract part of a date
      *
      * @see INTERVAL_* constants for $unit
@@ -3489,5 +3531,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function decodeVarbinary($value)
     {
         return $value;
+    }
+
+    /**
+     * Check if all transactions have been committed
+     */
+    public function __destruct()
+    {
+        if ($this->_transactionLevel > 0) {
+            trigger_error('Some transactions have not been committed or rolled back', E_USER_ERROR);
+        }
     }
 }

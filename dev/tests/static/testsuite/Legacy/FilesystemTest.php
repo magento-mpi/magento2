@@ -20,7 +20,7 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testRelocations($path)
     {
-        $this->assertFileNotExists(realpath(__DIR__ . '/../../../../..') . DIRECTORY_SEPARATOR . $path);
+        $this->assertFileNotExists(PATH_TO_SOURCE_CODE . DIRECTORY_SEPARATOR . $path);
     }
 
     public function relocationsDataProvider()
@@ -32,6 +32,34 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
             array('Relocated to pub/media' => 'media'),
             array('Eliminated as not needed' => 'pkginfo'),
             array('Dissolved into themes under app/design ' => 'skin'),
+            array('Dissolved into different modules\' view/frontend' => 'app/design/frontend/base'),
         );
+    }
+
+    public function testObsoleteDirectories()
+    {
+        $area    = '*';
+        $package = '*';
+        $theme   = '*';
+        $dirs = glob(PATH_TO_SOURCE_CODE . "/app/design/{$area}/{$package}/{$theme}/template", GLOB_ONLYDIR);
+        $msg = array();
+        if ($dirs) {
+            $msg[] = 'Theme "template" directories are obsolete. Relocate files as follows:';
+            foreach ($dirs as $dir) {
+                $msg[] = str_replace(PATH_TO_SOURCE_CODE, '',
+                    "{$dir} => " . realpath($dir . '/..') . '/Namespace_Module/*'
+                );
+            }
+        }
+
+        $dirs = glob(PATH_TO_SOURCE_CODE . "/app/design/{$area}/{$package}/{$theme}/layout", GLOB_ONLYDIR);
+        if ($dirs) {
+            $msg[] = 'Theme "layout" directories are obsolete. Relocate layout files into the root of theme directory.';
+            $msg = array_merge($msg, $dirs);
+        }
+
+        if ($msg) {
+            $this->fail(implode(PHP_EOL, $msg));
+        }
     }
 }

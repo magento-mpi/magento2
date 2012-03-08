@@ -189,7 +189,7 @@ Enterprise.Staging.Mapper.prototype = {
         try {
             var row = $(btn).up().up();
             var websiteRow     = row.fromElement.websiteRow;
-            websiteRow.stores.unset(row.fromStore);
+            websiteRow.stores.unset(row.toStore);
             row.remove();
 
             this.enableBtn(row.addNewRow.btn);

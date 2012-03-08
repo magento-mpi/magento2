@@ -11,23 +11,53 @@
 /**
  * Admin Checkout processing model
  *
+ * @method bool hasErrorMessage()
+ * @method string getErrorMessage()
+ * @method setErrorMessage(string $message)
+ *
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
 class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
-     * @var Mage_Sales_Model_Quote
+     * Context of the cart - admin order
+     */
+    const CONTEXT_ADMIN_ORDER = 'admin_order';
+    /**
+     * Context of the cart - admin checkout
+     */
+    const CONTEXT_ADMIN_CHECKOUT = 'admin_checkout';
+    /**
+     * Context of the cart - frontend
+     */
+    const CONTEXT_FRONTEND = 'frontend';
+
+    /**
+     * Context of the cart
+     *
+     * @var string
+     */
+    protected $_context;
+
+    /**
+     * Quote instance
+     *
+     * @var Mage_Sales_Model_Quote|null
      */
     protected $_quote;
 
     /**
-     * @var Mage_Customer_Model_Customer
+     * Customer model instance
+     *
+     * @var Mage_Customer_Model_Customer|null
      */
     protected $_customer;
 
     /**
-     * @var Mage_Customer_Model_Customer
+     * List of result errors
+     *
+     * @var array
      */
     protected $_resultErrors = array();
 
@@ -51,6 +81,32 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @var Mage_Checkout_Model_Cart
      */
     protected $_cart;
+
+    /**
+     * Product options for configuring
+     *
+     * @var array
+     */
+    protected $_successOptions = array();
+
+    /**
+     * Instance of current store
+     *
+     * @var null|Mage_Core_Model_Store
+     */
+    protected $_currentStore = null;
+
+    /**
+     * Set context of the cart
+     *
+     * @param string $context
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setContext($context)
+    {
+        $this->_context = $context;
+        return $this;
+    }
 
     /**
      * Setter for $_customer
@@ -205,7 +261,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function getPreferredStoreId()
     {
-        $storeId = false;
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
 
@@ -237,7 +292,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   mixed $product
-     * @param   Varien_Object|array|float $config
+     * @param   array|float|int|Varien_Object $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
@@ -297,6 +352,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * Add new item to quote based on existing order Item
      *
      * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param int|float $qty
      * @return Mage_Sales_Model_Quote_Item
      * @throws Mage_Core_Exception
      */
@@ -476,23 +532,33 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     {
         $item = $this->_getQuoteItem($item);
         if ($item) {
-            switch ($moveTo) {
-                case 'wishlist':
-                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true)
-                        ->setStore($this->getStore())
-                        ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
-                    if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
-                        $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
-                        if (is_string($wishlistItem)) {
-                            $this->_addResultError($wishlistItem);
-                        } else if ($wishlistItem->getId()) {
-                            $this->getQuote()->removeItem($item->getId());
-                        }
+            $moveTo = explode('_', $moveTo);
+            if ($moveTo[0] == 'wishlist') {
+                $wishlist = null;
+                if (!isset($moveTo[1])) {
+                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
+                } else {
+                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                    if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
+                        $wishlist = null;
                     }
-                    break;
-                default:
-                    $this->getQuote()->removeItem($item->getId());
-                    break;
+                }
+                if (!$wishlist) {
+                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("Could not find such wishlist"));
+                    return $this;
+                }
+                $wishlist->setStore($this->getStore())
+                    ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
+                if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
+                    $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
+                    if (is_string($wishlistItem)) {
+                        $this->_addResultError($wishlistItem);
+                    } else if ($wishlistItem->getId()) {
+                        $this->getQuote()->removeItem($item->getId());
+                    }
+                }
+            } else {
+                $this->getQuote()->removeItem($item->getId());
             }
         }
         return $this;
@@ -529,7 +595,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             $newParentItemIds[$oldItemId] = $newItem->getId();
         }
 
-        // save childs with new parent id
+        // save children with new parent id
         foreach ($quote->getItemsCollection() as $item) {
             if (!$item->getParentItem() || !isset($newParentItemIds[$item->getParentItemId()])) {
                 continue;
@@ -584,6 +650,24 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function prepareAddProductBySku($sku, $qty, $config = array())
     {
+        $affectedItems = $this->getAffectedItems();
+
+        if (isset($affectedItems[$sku])) {
+            /*
+             * This condition made for case when user inputs same SKU in several rows. We need to update qty, otherwise
+             * getQtyStatus() may return invalid result. If there's already such SKU in affected items array it means
+             * that both came from add form (not from error grid as the case when there is several products with same
+             * SKU requiring attention is not possible), so there could be no config.
+             */
+            if (empty($qty) || empty($affectedItems[$sku]['item']['qty'])) {
+                $qty = '';
+            } else {
+                $qty += $affectedItems[$sku]['item']['qty'];
+            }
+            unset($affectedItems[$sku]);
+            $this->setAffectedItems($affectedItems);
+        }
+
         $checkedItem = $this->checkItem($sku, $qty, $config);
         $code = $checkedItem['code'];
         unset($checkedItem['code']);
@@ -597,16 +681,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      * @param array $items Example: [['sku' => 'simple1', 'qty' => 2], ['sku' => 'simple2', 'qty' => 3], ...]
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function prepareAddProductsBySku($items)
+    public function prepareAddProductsBySku(array $items)
     {
         foreach ($items as $item) {
-            if (!isset($item['sku']) || $item['sku'] == '' || empty($item['qty'])) {
-                $this->setErrorMessage(
-                    Mage::helper('Enterprise_Checkout_Helper_Data')->__('SKU or quantity of some product(s) is empty.')
-                );
-                continue;
+            $item += array('sku' => '', 'qty' => '');
+            $item = $this->_getValidatedItem($item['sku'], $item['qty']);
+
+            if ($item['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
+                $this->prepareAddProductBySku($item['sku'], $item['qty']);
             }
-            $this->prepareAddProductBySku($item['sku'], $item['qty']);
         }
         return $this;
     }
@@ -630,53 +713,34 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         Mage_Catalog_Model_Product $product,
         $requestedQty
     ) {
-        if (!$stockItem->getManageStock()) {
-            return true;
-        }
-        if ($stockItem->getBackorders() != Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
-            return true;
-        }
-        $quoteItem = $this->getActualQuote()->getItemByProduct($product);
-        $isAdmin = Mage::app()->getStore()->isAdmin();
+        $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
+        if ($result->getHasError()) {
+            $return = array();
 
-        if ($stockItem->getMinSaleQty() && !$isAdmin) {
-            $minAllowedQty = $stockItem->getMinSaleQty();
-            $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-        } else {
-            $minAllowedQty = 1;
-        }
-
-        if ($requestedQty < $minAllowedQty) {
-            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
-            return array('status' => $status, 'qty_min_allowed' => $minAllowedQty);
-        }
-
-        if ($stockItem->getMaxSaleQty() && !$isAdmin) {
-            $stockQty = $stockItem->getStockQty();
-            $maxSaleQty = $stockItem->getMaxSaleQty();
-            if ($stockQty < $maxSaleQty) {
-                $maxAllowedQty = $stockQty;
-                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
-            } else {
-                $maxAllowedQty = $maxSaleQty;
-                $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+            switch ($result->getErrorCode()) {
+                case 'qty_increments':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS;
+                    $return['qty_increments'] = $stockItem->getQtyIncrements();
+                    break;
+                case 'qty_min':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_min_allowed'] = $stockItem->getMinSaleQty();
+                    break;
+                case 'qty_max':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
+                    break;
+                default:
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+                    $return['qty_max_allowed'] = $stockItem->getStockQty();
             }
-        } else {
-            $maxAllowedQty = $stockItem->getStockQty();
-        }
 
-        $allowedQty = $quoteItem ? ($maxAllowedQty - $quoteItem->getQty()) : $maxAllowedQty;
+            $return['status'] = $status;
+            $return['error'] = $result->getMessage();
 
-        if ($allowedQty <= 0 || $allowedQty < $minAllowedQty) {
-            // All available quantity already added to quote
-            return array('status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
-        } else if ($requestedQty > $allowedQty) {
-            $status = empty($status) ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED : $status;
-            // Quantity added to quote and requested quantity exceeds available in stock or maximum salable quantity
-            return array('status' => $status, 'qty_max_allowed' => $allowedQty);
-        } else {
-            return true;
+            return $return;
         }
+        return true;
     }
 
     /**
@@ -690,6 +754,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     {
         // If below POST fields were submitted - this is product's options, it has been already configured
         switch ($product->getTypeId()) {
+            case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
+            case Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL:
+                return isset($config['options']);
             case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 return isset($config['super_attribute']);
             case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
@@ -705,6 +772,196 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     }
 
     /**
+     * Load product by specified sku
+     *
+     * @param string $sku
+     * @return bool|Mage_Catalog_Model_Product
+     */
+    protected function _loadProductBySku($sku)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
+            ->setStore($this->getCurrentStore())
+            ->loadByAttribute('sku', $sku);
+        if ($product && $product->getId()) {
+            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->assignProduct($product);
+        }
+
+        return $product;
+    }
+
+    /**
+     * Check whether required option is not missed, add values to configuration
+     *
+     * @param array $skuParts
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return bool
+     */
+    protected function _processProductOption(array &$skuParts, Mage_Catalog_Model_Product_Option $option)
+    {
+        $missedRequired = true;
+        $optionValues = $option->getValues();
+        if (empty($optionValues)) {
+            if ($option->hasSku()) {
+                $found = array_search($option->getSku(), $skuParts);
+                if ($found !== false) {
+                    unset($skuParts[$found]);
+                }
+            }
+            // we are not able to configure such option automatically
+            return !$missedRequired;
+        }
+
+        foreach ($optionValues as $optionValue) {
+            $found = array_search($optionValue->getSku(), $skuParts);
+            if ($found !== false) {
+                $this->_addSuccessOption($option, $optionValue);
+                unset($skuParts[$found]);
+                // we've found the value of required option
+                $missedRequired = false;
+                if (!$this->_isOptionMultiple($option)) {
+                    break 1;
+                }
+            }
+        }
+
+        return !$missedRequired;
+    }
+
+    /**
+     * Load product with its options by specified sku
+     *
+     * @param string $sku
+     * @param array $config
+     * @return bool|Mage_Catalog_Model_Product
+     */
+    protected function _loadProductWithOptionsBySku($sku, $config = array())
+    {
+        $product = $this->_loadProductBySku($sku);
+        if ($product && $product->getId()) {
+            return $product;
+        }
+
+        $skuParts = explode('-', $sku);
+        $primarySku = array_shift($skuParts);
+
+        if (empty($primarySku) || $primarySku == $sku) {
+            return false;
+        }
+
+        $product = $this->_loadProductBySku($primarySku);
+
+        if ($product && $this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
+            return $product;
+        }
+
+        if ($product && $product->getId()) {
+            $missedRequiredOption = false;
+            $this->_successOptions = array();
+
+            /** @var $option Mage_Catalog_Model_Product_Option */
+            $option = Mage::getModel('Mage_Catalog_Model_Product_Option')
+                ->setAddRequiredFilter(true)
+                ->setAddRequiredFilterValue(true);
+
+            foreach ($option->getProductOptionCollection($product) as $requiredOption) {
+                $missedRequiredOption = !$this->_processProductOption($skuParts, $requiredOption)
+                    || $missedRequiredOption;
+            }
+
+            $option->setAddRequiredFilterValue(false);
+            foreach ($option->getProductOptionCollection($product) as $productOption) {
+                $this->_processProductOption($skuParts, $productOption);
+            }
+
+            if (!empty($skuParts)) {
+                return false;
+            }
+
+            if (!$missedRequiredOption && !empty($this->_successOptions)) {
+                $product->setConfiguredOptions($this->_successOptions);
+                $this->setAffectedItemConfig($sku, array('options' => $this->_successOptions));
+                $this->_successOptions = array();
+            }
+        }
+
+        return $product;
+    }
+
+    /**
+     * Check whether specified option could have multiple values
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return bool
+     */
+    protected function _isOptionMultiple($option)
+    {
+        switch ($option->getType()) {
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Add product option for configuring
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Mage_Catalog_Model_Product_Option_Value $value
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _addSuccessOption($option, $value)
+    {
+        if ($this->_isOptionMultiple($option)) {
+            if (isset($this->_successOptions[$option->getOptionId()])
+                && is_array($this->_successOptions[$option->getOptionId()])
+            ) {
+                $this->_successOptions[$option->getOptionId()][] = $value->getOptionTypeId();
+            } else {
+                $this->_successOptions[$option->getOptionId()] = array($value->getOptionTypeId());
+            }
+        } else {
+            $this->_successOptions[$option->getOptionId()] = $value->getOptionTypeId();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check whether current context is checkout
+     *
+     * @return bool
+     */
+    protected function _isCheckout()
+    {
+        return in_array($this->_context, array(self::CONTEXT_FRONTEND, self::CONTEXT_ADMIN_CHECKOUT));
+    }
+
+    /**
+     * Check whether current context is frontend
+     *
+     * @return bool
+     */
+    protected function _isFrontend()
+    {
+        return $this->_context == self::CONTEXT_FRONTEND;
+    }
+
+    /**
+     * Update item with assigning the code to it
+     *
+     * @param array $item
+     * @param string $code
+     * @return array
+     */
+    protected function _updateItem($item, $code)
+    {
+        $item['code'] = $code;
+        return $item;
+    }
+
+    /**
      * Check item before adding by SKU
      *
      * @param string $sku
@@ -714,59 +971,71 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     public function checkItem($sku, $qty, $config = array())
     {
-        $item = array('sku' => $sku, 'qty' => is_array($qty) ? (float)$qty['qty'] : ($qty ? (float)$qty : 1));
-        if ($item['qty'] < 0) {
-            $item['qty'] = 1;
+        $item = $this->_getValidatedItem($sku, $qty);
+        if ($item['code'] == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
+            return $item;
+        }
+        $prevalidateStatus = $item['code'];
+        unset($item['code']);
+
+        if (!empty($config)) {
+            $this->setAffectedItemConfig($sku, $config);
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->loadByAttribute('sku', $item['sku']);
-        $store = Mage::app()->getStore();
-        $isAdmin = $store->isAdmin();
+        $product = $this->_loadProductWithOptionsBySku($item['sku'], $config);
 
-        if ($product && $product->getId()
-            && ($isAdmin || in_array($store->getWebsiteId(), $product->getWebsiteIds()))
-        ) {
+        if ($product && $product->hasConfiguredOptions()) {
+            $config['options'] = $product->getConfiguredOptions();
+        }
+
+        if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
-            // FRONTEND
-            if (!$isAdmin) {
-                if (true === $product->getDisableAddToCart()) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS;
-                    return $item;
-                }
+            $item['is_qty_disabled'] = $product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
 
-                if ($product->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
-                    return $item;
-                }
-
-                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
-                $stockItem->loadByProduct($product);
-                $stockItem->setProduct($product);
-                if (!$stockItem->getIsInStock()) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
-                    return $item;
-                }
+            if ($this->_isCheckout() && $product->isDisabled()) {
+                $item['is_configure_disabled'] = true;
+                $failCode = $this->_context == self::CONTEXT_FRONTEND
+                    ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU
+                    : Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_DISABLED;
+                return $this->_updateItem($item, $failCode);
             }
 
-            // FRONTEND & BACKEND
+            if ($this->_isFrontend() && true === $product->getDisableAddToCart()) {
+                return $this->_updateItem($item, Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS);
+            }
+
+            $productWebsiteValidationResult = $this->_validateProductWebsite($product);
+            if ($productWebsiteValidationResult !== true) {
+                $item['is_configure_disabled'] = true;
+                return $this->_updateItem($item, $productWebsiteValidationResult);
+            }
+
+            if ($this->_isCheckout() && $this->_isProductOutOfStock($product)) {
+                $item['is_configure_disabled'] = true;
+                return $this->_updateItem($item, Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
+            }
+
             if ($this->_shouldBeConfigured($product)) {
-                if ($this->_isConfigured($product, $config)) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+                if (!$this->_isConfigured($product, $config)) {
+                    $failCode = (!$this->_isFrontend() || $product->isVisibleInSiteVisibility())
+                        ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
+                        : Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+                    return $this->_updateItem($item, $failCode);
                 } else {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_CONFIGURE;
+                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
                 }
-                return $item;
             }
 
-            // FRONTEND
-            if (!$isAdmin) {
-                $qtyStatus = $this->getQtyStatus($stockItem, $product, $item['qty']);
+            if ($prevalidateStatus != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+                return $this->_updateItem($item, $prevalidateStatus);
+            }
+
+            if ($this->_isFrontend() && !$item['is_qty_disabled']) {
+                $qtyStatus = $this->getQtyStatus($product->getStockItem(), $product, $item['qty']);
                 if ($qtyStatus === true) {
-                    $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
-                    return $item;
+                    return $this->_updateItem($item, Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS);
                 } else {
                     $item['code'] = $qtyStatus['status'];
                     unset($qtyStatus['status']);
@@ -776,12 +1045,93 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 }
             }
         } else {
-            $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
-            return $item;
+            return $this->_updateItem($item, Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU);
         }
 
-        $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
-        return $item;
+        return $this->_updateItem($item, Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS);
+    }
+
+    /**
+     * Check product availability for current website
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool|string
+     */
+    protected function _validateProductWebsite($product)
+    {
+        if (in_array($this->getCurrentStore()->getWebsiteId(), $product->getWebsiteIds())) {
+            return true;
+        }
+
+        return (Mage::app()->getStore()->isAdmin())
+            ? Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_WEBSITE
+            : Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
+    }
+
+    /**
+     * Returns validated item
+     *
+     * @param $sku string|array
+     * @param $qty string|int|float
+     *
+     * @return array
+     */
+    protected function _getValidatedItem($sku, $qty)
+    {
+        $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS;
+        if ($sku == '') {
+            $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY;
+        } else {
+            if (!Zend_Validate::is($qty, 'Float')) {
+                $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER;
+            } else {
+                $qty = Mage::app()->getLocale()->getNumber($qty);
+                if ($qty <= 0) {
+                    $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE;
+                } elseif ($qty < 0.0001 || $qty > 99999999.9999) {
+                    // same as app/design/frontend/enterprise/default/template/checkout/widget/sku.phtml
+                    $code = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE;
+                }
+            }
+        }
+
+        if ($code != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
+            $qty = '';
+        }
+
+        return array('sku' => $sku, 'qty' => $qty, 'code' => $code);
+    }
+
+    /**
+     * Check whether specified product is out of stock
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    protected function _isProductOutOfStock($product)
+    {
+        if ($product->isComposite()) {
+            if (!$product->getStockItem()->getIsInStock()) {
+                return true;
+            }
+            $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
+            foreach ($productsByGroups as $productsInGroup) {
+                foreach ($productsInGroup as $childProduct) {
+                    if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
+                        && !$childProduct->isDisabled()
+                    ) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        $stockItem->loadByProduct($product);
+        $stockItem->setProduct($product);
+        return !$stockItem->getIsInStock();
     }
 
     /**
@@ -834,10 +1184,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     /**
      * Add products previously successfully processed by prepareAddProductsBySku() to cart
      *
-     * @param Mage_Checkout_Model_Cart_Interface|null $cart Custom cart model (different from checkout/cart)
+     * @param Mage_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
+     *                                                                      checkout/cart)
+     * @param bool                                    $saveQuote            Whether cart quote should be saved
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null)
+    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
@@ -847,32 +1199,56 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             }
         }
         $this->setAffectedItems($affectedItems);
-        $cart->saveQuote();
         $this->removeSuccessItems();
+        if ($saveQuote) {
+            $cart->saveQuote();
+        }
         return $this;
     }
 
     /**
      * Safely add product to cart, revert cart in error case
      *
-     * @param array $item
-     * @param Mage_Checkout_Model_Cart_Interface $cart If we need to add product to different cart from checkout/cart
+     * @param array                              $item
+     * @param Mage_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
+     *                                                                 checkout/cart
+     * @param bool                               $suppressSuperMode
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart)
+    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
     {
         $quote = $cart->getQuote();
 
         // copy data to temporary quote
         /** @var $temporaryQuote Mage_Sales_Model_Quote */
         $temporaryQuote = Mage::getModel('Mage_Sales_Model_Quote');
+        $temporaryQuote->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
             $temporaryItem->setQuote($temporaryQuote);
             $temporaryQuote->addItem($temporaryItem);
+            $quoteItem->setClonnedItem($temporaryItem);
+
+            //Check for parent item
+            $parentItem = null;
+            if ($quoteItem->getParentItem()) {
+                $parentItem = $quoteItem->getParentItem();
+                $temporaryItem->setParentProductId(null);
+            } elseif ($quoteItem->getParentProductId()) {
+                $parentItem = $quote->getItemById($quoteItem->getParentProductId());
+            }
+            if ($parentItem && $parentItem->getClonnedItem()) {
+                $temporaryItem->setParentItem($parentItem->getClonnedItem());
+            }
         }
+
         $cart->setQuote($temporaryQuote);
         $success = true;
+        $skipCheckQty = !$suppressSuperMode && $this->_isCheckout() && !$this->_isFrontend()
+            && empty($item['item']['is_qty_disabled']) && !$cart->getQuote()->getIsSuperMode();
+        if ($skipCheckQty) {
+            $cart->getQuote()->setIsSuperMode(true);
+        }
 
         try {
             $config = $this->getAffectedItemConfig($item['item']['sku']);
@@ -884,26 +1260,37 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
             }
             $cart->addProduct($item['item']['id'], $config);
         } catch (Mage_Core_Exception $e) {
-            if (!Mage::app()->getStore()->isAdmin()) {
-                /*
-                 * We suppress this behavior for back-end to allow adding to cart product with qty which do not comply
-                 * with quantity increments
-                 */
+            if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-                $item['error'] = $e->getMessage();
+                if ($this->_isFrontend()) {
+                    $item['item']['error'] = $e->getMessage();
+                } else {
+                    $item['error'] = $e->getMessage();
+                }
             }
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $item['error'] = Mage::helper('Enterprise_Checkout_Helper_Data')->__('The product cannot be added to cart.');
+            $error = Mage::helper('Enterprise_Checkout_Helper_Data')->__('The product cannot be added to cart.');
+            if ($this->_isFrontend()) {
+                $item['item']['error'] = $error;
+            } else {
+                $item['error'] = $error;
+            }
+        }
+        if ($skipCheckQty) {
+            $cart->getQuote()->setIsSuperMode(false);
+            if ($success) {
+                $cart->setQuote($quote);
+                // we need add products with checking their stock qty
+                return $this->_safeAddProduct($item, $cart, true);
+            }
         }
 
         if ($success) {
             // copy temporary data to real quote
-            foreach ($quote->getAllItems() as $quoteItem) {
-                $quote->removeItem($quoteItem->getId());
-            }
+            $quote->removeAllItems();
             foreach ($temporaryQuote->getAllItems() as $quoteItem) {
                 $quoteItem->setQuote($quote);
                 $quote->addItem($quoteItem);
@@ -990,8 +1377,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $currentlyFailedItemsCount = 0;
 
         foreach ($this->_currentlyAffectedItems as $sku) {
-            if (!isset($affectedItems[$sku])
-                || $affectedItems[$sku]['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS
+            if (isset($affectedItems[$sku])
+                && $affectedItems[$sku]['code'] != Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_SUCCESS
             ) {
                 $currentlyFailedItemsCount++;
             }
@@ -1042,7 +1429,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      *      'id'              => int (optional, if product does exist),
      *      'qty_max_allowed' => int (optional, if 'code'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
      *  ],
-     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*)
+     *  'code' => string (see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_*),
+     *  'orig_qty' => string|int|float
      * ]
      *
      * @param array $item
@@ -1051,21 +1439,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _addAffectedItem($item, $code)
     {
-        if (!isset($item['sku'])) {
+        if (!isset($item['sku']) || $code == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_EMPTY) {
             return $this;
         }
         $sku = $item['sku'];
         $affectedItems = $this->getAffectedItems();
-
-        if (isset($affectedItems[$item['sku']])) {
-            $affectedItems[$sku]['item']['qty'] += $item['qty'];
-            $affectedItems[$sku]['code'] = $code;
-            unset($item['qty']);
-            $affectedItems[$sku]['item'] = array_merge($affectedItems[$sku]['item'], $item);
-        } else {
-            $affectedItems[$sku] = array('item' => $item, 'code' => $code);
-        }
-
+        $affectedItems[$sku] = array('item' => $item, 'code' => $code, 'orig_qty' => $item['qty']);
         $this->_currentlyAffectedItems[] = $sku;
         $this->setAffectedItems($affectedItems);
         return $affectedItems[$sku];
@@ -1173,5 +1552,32 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
     public function getSession()
     {
         return $this->_getHelper()->getSession();
+    }
+
+    /**
+     * Retrieve instance of current store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getCurrentStore()
+    {
+        if (is_null($this->_currentStore)) {
+            return Mage::app()->getStore();
+        }
+        return $this->_currentStore;
+    }
+
+    /**
+     * Set current store
+     *
+     * @param mixed $store
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function setCurrentStore($store)
+    {
+        if (!is_null($store)) {
+            $this->_currentStore = Mage::app()->getStore($store);
+        }
+        return $this;
     }
 }

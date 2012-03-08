@@ -212,7 +212,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Context menu options
          */
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
-            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Navigation Menu Options')
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Page Navigation Menu Options')
         ));
 
         $menuFieldset->addField('menu_excluded', 'select', array(
@@ -225,7 +225,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enable Navigation Menu'),
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in Navigation Menu'),
             'name'      => 'menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
@@ -280,6 +280,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_list_type',
             'tabindex'  => '150'
+        ));
+
+        /**
+         * Top menu options
+         */
+        $menuFieldset   = $form->addFieldset('top_menu_fieldset', array(
+            'legend'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Main Navigation Menu Options')
+        ));
+
+        $menuFieldset->addField('top_menu_excluded', 'select', array(
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Exclude from Navigation Menu'),
+            'name'      => 'top_menu_excluded',
+            'values'    => $yesNoOptions,
+            'onchange'   => "hierarchyNodes.nodeChanged()",
+            'container_id' => 'field_top_menu_excluded',
+            'tabindex'  => '170'
+        ));
+
+        $menuFieldset->addField('top_menu_visibility', 'select', array(
+            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Show in Navigation Menu'),
+            'name'      => 'top_menu_visibility',
+            'values'    => $yesNoOptions,
+            'onchange'   => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
+            'container_id' => 'field_top_menu_visibility',
+            'tabindex'  => '160'
         ));
 
         $form->setUseContainer(true);

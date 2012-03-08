@@ -49,30 +49,63 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
     }
 
     /**
+     * Get cart model instance
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    protected function _getCart()
+    {
+        return Mage::getSingleton('Mage_Checkout_Model_Cart');
+    }
+
+    /**
+     * Get failed items cart model instance
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _getFailedItemsCart()
+    {
+        return Mage::getSingleton('Enterprise_Checkout_Model_Cart')
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_FRONTEND);
+    }
+
+    /**
      * Add to cart products, which SKU specified in request
      *
      * @return void
      */
     public function advancedAddAction()
     {
+        // check empty data
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+        $items = $this->getRequest()->getParam('items');
+        foreach ($items as $k => $item) {
+            if (empty($item['sku'])) {
+                unset($items[$k]);
+            }
+        }
+        if (empty($items) && !$helper->isSkuFileUploaded($this->getRequest())) {
+            $this->_getSession()->addError($helper->getSkuEmptyDataMessageText());
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
         try {
-            /** @var $cart Enterprise_Checkout_Model_Cart */
-            $cart = Mage::getModel('Enterprise_Checkout_Model_Cart');
-            $cart->prepareAddProductsBySku($this->getRequest()->getParam('items'));
-            $cart->saveAffectedProducts();
+            // perform data
+            $cart = $this->_getFailedItemsCart()
+                ->prepareAddProductsBySku($items)
+                ->saveAffectedProducts();
+
             $this->_getSession()->addMessages($cart->getMessages());
-            $cart->removeSuccessItems();
 
             if ($cart->hasErrorMessage()) {
-                $this->_getSession()->addError(
-                    $cart->getErrorMessage()
-                );
+                Mage::throwException($cart->getErrorMessage());
             }
-        } catch (Enterprise_Checkout_Exception $e) {
-            $this->_getSession()->addError(
-                $e->getMessage()
-            );
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
         }
+
         $this->_redirect('checkout/cart');
     }
 
@@ -83,19 +116,10 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function addFailedItemsAction()
     {
+        $failedItemsCart = $this->_getFailedItemsCart()->removeAllAffectedItems();
         $failedItems = $this->getRequest()->getParam('failed', array());
-
-        /** @var $cart Mage_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
-
-        /** @var $failedItemsCart Enterprise_Checkout_Model_Cart */
-        $failedItemsCart = Mage::getModel('Enterprise_Checkout_Model_Cart');
-        $failedItemsCart->removeAllAffectedItems();
-
         foreach ($failedItems as $data) {
-            if (!isset($data['qty']) || !isset($data['sku'])) {
-                continue;
-            }
+            $data += array('sku' => '', 'qty' => '');
             $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
         }
         $failedItemsCart->saveAffectedProducts();
@@ -109,7 +133,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function removeFailedAction()
     {
-        $removed = Mage::getModel('Enterprise_Checkout_Model_Cart')->removeAffectedItem(
+        $removed = $this->_getFailedItemsCart()->removeAffectedItem(
             Mage::helper('Mage_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
@@ -129,7 +153,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function removeAllFailedAction()
     {
-        Mage::getModel('Enterprise_Checkout_Model_Cart')->removeAllAffectedItems();
+        $this->_getFailedItemsCart()->removeAllAffectedItems();
         $this->_getSession()->addSuccess(
             $this->__('Items were successfully removed.')
         );
@@ -143,7 +167,7 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function configureFailedAction()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
@@ -178,23 +202,19 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
      */
     public function updateFailedItemOptionsAction()
     {
+        $hasError = false;
+        $id = (int)$this->getRequest()->getParam('id');
+        $buyRequest = new Varien_Object($this->getRequest()->getParams());
         try {
-            $id = (int) $this->getRequest()->getParam('id');
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
-
-            /** @var $cart Mage_Checkout_Model_Cart */
-            $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+            $cart = $this->_getCart();
 
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($id);
 
-            $cart->addProduct($product, $buyRequest);
-            $cart->save();
+            $cart->addProduct($product, $buyRequest)->save();
 
-            Mage::getModel('Enterprise_Checkout_Model_Cart')->removeAffectedItem(
-                $this->getRequest()->getParam('sku')
-            );
+            $this->_getFailedItemsCart()->removeAffectedItem($this->getRequest()->getParam('sku'));
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
@@ -205,10 +225,17 @@ class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Acti
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+            $hasError = true;
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot add product'));
             Mage::logException($e);
+            $hasError = true;
         }
-        $this->_redirect('checkout/cart');
+
+        if ($hasError) {
+            $this->_redirect('checkout/cart/configureFailed', array('id' => $id, 'sku' => $buyRequest->getSku()));
+        } else {
+            $this->_redirect('checkout/cart');
+        }
     }
 }

@@ -30,12 +30,14 @@
                     </div>
                 </li>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
+                <li class="note">
+                    <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
+                </li>
+                <li class="buttons-set">
+                    <button type="button" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                </li>
             </ul>
         </fieldset>
-        <div class="buttons-set form-buttons btn-only">
-            <button type="button" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
-            <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
-        </div>
         </form>
     </div>
     <?php if ( $this->isAllowedGuestCheckout() || $this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>

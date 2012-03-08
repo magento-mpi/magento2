@@ -96,6 +96,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         return $this->getChildHtml('deleteButton');
     }
 
+    /**
+     * Returns URL to which CSV file should be submitted
+     *
+     * @abstract
+     * @return string
+     */
     abstract public function getFileUploadUrl();
 
     /**
@@ -108,12 +114,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         $data = array(
             'dataContainerId'  => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
+            'fileUploaded'     => Enterprise_Checkout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
             // All functions requiring listType affects error grid only
             'listType'         => Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
             'errorGridId'      => $this->getErrorGridId(),
             'fileFieldName'    => Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE,
             'fileUploadUrl'    => $this->getFileUploadUrl(),
-            'skuFieldName'     => $this->getId(),
         );
 
         $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
@@ -135,4 +141,24 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
      * @return string
      */
     abstract public function getErrorGridId();
+
+    /**
+     * Retrieve context specific JavaScript
+     *
+     * @return string
+     */
+    public function getContextSpecificJs()
+    {
+        return '';
+    }
+
+    /**
+     * Retrieve additional JavaScript
+     *
+     * @return string
+     */
+    public function getAdditionalJavascript()
+    {
+        return '';
+    }
 }

@@ -40,7 +40,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {
@@ -62,8 +62,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->load();
-                $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+                    ->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+
+                Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
+                    ->addIsInStockFilterToCollection($productCollection);
+                $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')
+                    ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }
             $this->setData('items_collection', $productCollection);

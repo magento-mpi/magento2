@@ -90,7 +90,13 @@ class Mage_Core_Model_Date
             $format = 'Y-m-d H:i:s';
         }
 
-        $result = date($format, $this->gmtTimestamp($input));
+        $date = $this->gmtTimestamp($input);
+
+        if ($date === false) {
+            return false;
+        }
+
+        $result = date($format, $date);
         return $result;
     }
 
@@ -126,6 +132,11 @@ class Mage_Core_Model_Date
             $result = $input;
         } else {
             $result = strtotime($input);
+        }
+
+        if ($result === false) {
+            // strtotime() unable to parse string (it's not a date or has incorrect format)
+            return false;
         }
 
         $date      = Mage::app()->getLocale()->date($result);

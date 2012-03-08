@@ -235,11 +235,22 @@ class Enterprise_PageCache_Model_Observer
 
     /**
      * Clean full page cache
+     *
      * @return Enterprise_PageCache_Model_Observer
      */
     public function cleanCache()
     {
         Enterprise_PageCache_Model_Cache::getCacheInstance()->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
+        return $this;
+    }
+
+    /**
+     * Clean expired entities in full page cache
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function cleanExpiredCache()
+    {
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
         return $this;
     }
 
@@ -267,7 +278,7 @@ class Enterprise_PageCache_Model_Observer
         $block = $observer->getEvent()->getBlock();
         $transport = $observer->getEvent()->getTransport();
         $placeholder = $this->_config->getBlockPlaceholder($block);
-        if ($transport && $placeholder) {
+        if ($transport && $placeholder && !$block->getSkipRenderTag()) {
             $blockHtml = $transport->getHtml();
             $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();
             $transport->setHtml($blockHtml);
@@ -460,6 +471,24 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Clear wishlist list
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function registerWishlistListChange(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+
+        $blockContainer = Mage::getModel('Enterprise_PageCache_Model_Container_Wishlists');
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($blockContainer->getCacheId());
+
+        return $this;
+    }
+
+    /**
      * Set poll hash in cookie on poll vote
      *
      * @param Varien_Event_Observer $observer
@@ -543,6 +572,10 @@ class Enterprise_PageCache_Model_Observer
      */
     public function updateProductInfo(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+
         $paramsObject = $observer->getEvent()->getParams();
         if ($paramsObject instanceof Varien_Object) {
             if (array_key_exists(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, $_COOKIE)) {
@@ -574,6 +607,18 @@ class Enterprise_PageCache_Model_Observer
             ));
         }
         return $this;
+    }
+
+    /**
+     * Observer on changed Customer SegmentIds
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function changedCustomerSegmentIds(Varien_Event_Observer $observer)
+    {
+        $segmentIds = is_array($observer->getSegmentIds()) ? $observer->getSegmentIds() : array();
+        $segmentsIdsString= implode(',', $segmentIds);
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
     }
 
     /**

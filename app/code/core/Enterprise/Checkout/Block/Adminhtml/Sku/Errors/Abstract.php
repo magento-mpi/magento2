@@ -30,12 +30,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      *
      * @var null|array
      */
-    protected $_failedItems = null;
+    protected $_failedItems;
 
     /**
      * Cart instance
      *
-     * @var null|Enterprise_Checkout_Model_Cart
+     * @var Enterprise_Checkout_Model_Cart|null
      */
     protected $_cart;
 
@@ -134,7 +134,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      */
     public function getCart()
     {
-        if (!$this->_cart) {
+        if (!isset($this->_cart)) {
             $this->_cart =  Mage::getModel('Enterprise_Checkout_Model_Cart');
         }
         return $this->_cart;
@@ -147,4 +147,12 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      * @return Mage_Core_Model_Store
      */
     abstract public function getStore();
+
+    /**
+     * Get title of button, that adds products from grid
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getAddButtonTitle();
 }

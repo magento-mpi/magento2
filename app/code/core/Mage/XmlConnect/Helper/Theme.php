@@ -366,7 +366,7 @@ EOT;
         $result = false;
         $ioFile = new Varien_Io_File();
         $ioFile->cd($this->getMediaThemePath());
-        $themeFile = $themeId . '.xml';
+        $themeFile = basename($themeId . '.xml');
         if ($ioFile->fileExists($themeFile)) {
             $result = $ioFile->rm($themeFile);
         }

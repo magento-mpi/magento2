@@ -10,12 +10,6 @@
  */
 -->
 <layout version="0.1.0">
-    <default>
-        <reference name="head">
-            <action method="addCss"><file>Enterprise_Checkout::widgets.css</file></action>
-        </reference>
-    </default>
-
     <checkout_cart_index>
         <reference name="checkout.cart">
             <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">

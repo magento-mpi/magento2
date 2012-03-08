@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_TargetRule>
-            <version>1.11.0.0.2</version>
+            <version>1.11.0.0.3</version>
         </Enterprise_TargetRule>
     </modules>
     <global>
@@ -50,6 +50,14 @@
                     </enterprise_targetrule>
                 </observers>
             </catalog_product_save_commit_after>
+            <core_config_data_save_commit_after>
+                <observers>
+                    <enterprise_targetrule>
+                        <class>Enterprise_TargetRule_Model_Observer</class>
+                        <method>coreConfigSaveCommitAfter</method>
+                    </enterprise_targetrule>
+                </observers>
+            </core_config_data_save_commit_after>
         </events>
         <translate>
             <modules>

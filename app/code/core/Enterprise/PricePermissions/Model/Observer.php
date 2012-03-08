@@ -307,6 +307,7 @@ class Enterprise_PricePermissions_Model_Observer
             $product->lockAttribute('price');
             $product->lockAttribute('special_price');
             $product->lockAttribute('tier_price');
+            $product->lockAttribute('group_price');
             $product->lockAttribute('special_from_date');
             $product->lockAttribute('special_to_date');
             $product->lockAttribute('is_recurring');
@@ -612,9 +613,9 @@ class Enterprise_PricePermissions_Model_Observer
 
         if (!$this->_canEditProductPrice) {
             $excludedFieldList = array(
-                'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
-                'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
-                'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
+                'price', 'special_price', 'tier_price', 'group_price', 'special_from_date', 'special_to_date',
+                'is_recurring', 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount',
+                'giftcard_amounts', 'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -638,9 +639,9 @@ class Enterprise_PricePermissions_Model_Observer
 
         if (!$this->_canEditProductPrice) {
             $excludedAttributes = array(
-                'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
-                'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
-                'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
+                'price', 'special_price', 'tier_price', 'group_price', 'special_from_date', 'special_to_date',
+                'is_recurring', 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount',
+                'giftcard_amounts', 'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -691,6 +692,7 @@ class Enterprise_PricePermissions_Model_Observer
             $priceElementIds = array(
                 'special_price',
                 'tier_price',
+                'group_price',
                 'special_from_date',
                 'special_to_date',
                 'cost',

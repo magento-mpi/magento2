@@ -43,13 +43,6 @@ class Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared
      */
     protected function _renderBlock()
     {
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-
-        $block = new $block;
-        $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
-
-        return $block->toHtml();
+        return $this->_getPlaceHolderBlock()->toHtml();
     }
 }

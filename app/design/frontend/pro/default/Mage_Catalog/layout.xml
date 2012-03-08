@@ -29,9 +29,6 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Catalog -->
-        <reference name="top.menu">
-            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="navigation/top.phtml"/>
-        </reference>
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="Mage_Catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="Mage_Catalog_Helper_Map::getCategoryUrl" /><title>Site Map</title></action>
         </reference>

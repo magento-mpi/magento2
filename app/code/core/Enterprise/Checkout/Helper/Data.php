@@ -45,17 +45,28 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER = 'failed_qty_invalid_number';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE = 'failed_qty_invalid_non_positive';
+    const ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE = 'failed_qty_invalid_range';
     const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
+    const ADD_ITEM_STATUS_FAILED_WEBSITE = 'failed_website';
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
+    const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
+    const ADD_ITEM_STATUS_FAILED_DISABLED = 'failed_disabled';
+
+    /**
+     * Request parameter name, which indicates, whether file was uploaded
+     */
+    const REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG = 'sku_file_uploaded';
 
     /**
      * Customer Groups that allow Order by SKU
      *
      * @var array|null
      */
-    protected $_allowedGroups = null;
+    protected $_allowedGroups;
 
     /**
      * Contains session object to which data is saved
@@ -109,10 +120,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMessageByItem(Varien_Object $item)
     {
         $message = $this->getMessage($item->getCode());
-        if (empty($message)) {
-            $message = $item->getError();
-        }
-        return $message;
+        return $message ? $message : $item->getError();
     }
 
     /**
@@ -125,22 +133,33 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($code) {
             case self::ADD_ITEM_STATUS_FAILED_SKU:
-                $message = $this->__('SKU not found in catalog');
+                $message = $this->__('SKU not found in catalog.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = $this->__('Out of stock');
+                $message = $this->__('Availability: Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->__('Requested quantity is not available');
+                $message = $this->__('Requested quantity is not available.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $message = $this->__('The product cannot be added to cart in requested quantity.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $message = $this->__("Please specify the product's options");
+                $message = $this->__('Please specify the product\'s options.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
-                $message = $this->__("The product cannot be added to cart.");
+                $message = $this->__('The product cannot be added to cart.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
+            case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
+                $message = $this->__('Please enter a valid number in the "Qty" field.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
+                $message = $this->__('The product is assigned to another website.');
+                break;
+            case self::ADD_ITEM_STATUS_FAILED_DISABLED:
+                $message = $this->__('Disabled products cannot be added.');
                 break;
             default:
                 $message = '';
@@ -209,7 +228,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFailedItems($all = true)
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
-            $failedItems = Mage::getModel('Enterprise_Checkout_Model_Cart')->getFailedItems();
+            $failedItems = Mage::getSingleton('Enterprise_Checkout_Model_Cart')->getFailedItems();
             $collection = Mage::getResourceSingleton('Enterprise_Checkout_Model_Resource_Product_Collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
@@ -223,11 +242,15 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             foreach ($failedItems as $item) {
                 if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
-                    $itemsToLoad[$id] = $item['item'];
-                    $itemsToLoad[$id]['code'] = $item['code'];
-                    $itemsToLoad[$id]['error'] = isset($item['error']) ? $item['error'] : '';
+                    if (!isset($itemsToLoad[$id])) {
+                        $itemsToLoad[$id] = array();
+                    }
+                    $itemToLoad = $item['item'];
+                    $itemToLoad['code'] = $item['code'];
+                    $itemToLoad['error'] = isset($item['item']['error']) ? $item['item']['error'] : '';
                     // Avoid collisions of product ID with quote item ID
-                    unset($itemsToLoad[$id]['id']);
+                    unset($itemToLoad['id']);
+                    $itemsToLoad[$id][] = $itemToLoad;
                 } elseif ($all && in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
@@ -245,34 +268,43 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
                 $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
 
-                /** @var $product Mage_Catalog_Model_Product */
+                /** @var $itemProduct Mage_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
-                    $product->addData($itemsToLoad[$product->getId()]);
-                    if (!$product->getOptionsByCode()) {
-                        $product->setOptionsByCode(array());
-                    }
-                    // Create a new quote item and import data to it
-                    $quoteItem = clone $emptyQuoteItem;
-                    $quoteItem->addData($product->getData())
-                        ->setQuote($quote)
-                        ->setProduct($product)
-                        ->setOptions($product->getOptions())
-                        ->setRedirectUrl($product->getUrlModel()->getUrl($product));
+                    $itemsCount = count($itemsToLoad[$product->getId()]);
+                    foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
+                        $itemProduct = ($index == $itemsCount - 1) ? $product : (clone $product);
+                        $itemProduct->addData($itemToLoad);
+                        if (!$itemProduct->getOptionsByCode()) {
+                            $itemProduct->setOptionsByCode(array());
+                        }
+                        // Create a new quote item and import data to it
+                        $quoteItem = clone $emptyQuoteItem;
+                        $quoteItem->addData($itemProduct->getData())
+                            ->setQuote($quote)
+                            ->setProduct($itemProduct)
+                            ->setOptions($itemProduct->getOptions())
+                            ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
-                    $product->setCustomOptions($product->getOptionsByCode());
-                    if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
-                        $quoteItem->setCanApplyMsrp(true);
-                        $product->setRealPriceHtml(
-                            Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
-                            ))
-                        );
-                        $product->setAddToCartUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getAddUrl($product));
-                    } else {
-                        $quoteItem->setCanApplyMsrp(false);
-                    }
+                        $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
+                        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
+                            $quoteItem->setCanApplyMsrp(true);
+                            $itemProduct->setRealPriceHtml(
+                                Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                                    Mage::helper('Mage_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                ))
+                            );
+                            $itemProduct->setAddToCartUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getAddUrl($itemProduct));
+                        } else {
+                            $quoteItem->setCanApplyMsrp(false);
+                        }
 
-                    $quoteItemsCollection[] = $quoteItem;
+                        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+                        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                        $stockItem->assignProduct($itemProduct);
+                        $quoteItem->setStockItem($stockItem);
+
+                        $quoteItemsCollection[] = $quoteItem;
+                    }
                 }
             }
 
@@ -283,5 +315,76 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $all ? $this->_itemsAll : $this->_items;
+    }
+
+    /**
+     * Get text of general error while file uploading
+     *
+     * @return string
+     */
+    public function getFileGeneralErrorText()
+    {
+        return $this->__('File cannot be uploaded.');
+    }
+
+    /**
+     * Process SKU file uploading and get uploaded data
+     *
+     * @param Mage_Core_Model_Session_Abstract|null $session
+     * @return array|bool
+     */
+    public function processSkuFileUploading($session)
+    {
+        /** @var $importModel Enterprise_Checkout_Model_Import */
+        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
+        try {
+            $importModel->uploadFile();
+            $rows = $importModel->getRows();
+            if (empty($rows)) {
+                Mage::throwException($this->__('File is empty.'));
+            }
+            return $rows;
+        } catch (Mage_Core_Exception $e) {
+            if (!is_null($session)) {
+                $session->addError($e->getMessage());
+            }
+        } catch (Exception $e) {
+            if (!is_null($session)) {
+                $session->addException($e, $this->getFileGeneralErrorText());
+            }
+        }
+    }
+
+    /**
+     * Check whether SKU file was uploaded
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return bool
+     */
+    public function isSkuFileUploaded(Mage_Core_Controller_Request_Http $request)
+    {
+        return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
+    }
+
+    /**
+     * Get url of account SKU tab
+     *
+     * @return string
+     */
+    public function getAccountSkuUrl()
+    {
+        return Mage::getSingleton('Mage_Core_Model_Url')->getUrl('enterprise_checkout/sku');
+    }
+
+    /**
+     * Get text of message in case of empty SKU data error
+     *
+     * @return string
+     */
+    public function getSkuEmptyDataMessageText()
+    {
+        return $this->isSkuApplied()
+            ? $this->__('You have not entered any product sku. Please <a href="%s">click here</a> to add product(s) by sku.', $this->getAccountSkuUrl())
+            : $this->__('You have not entered any product sku.');
     }
 }

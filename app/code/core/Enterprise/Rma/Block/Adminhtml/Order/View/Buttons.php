@@ -30,11 +30,14 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
             if ($isReturnable) {
                 $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')
                    ->getUrl('*/rma/new', array('order_id' => $container->getOrderId()));
-
+                $order = 35;
+                if (isset($this->_buttons[0]['send_notification']['sort_order'])) {
+                    $order = $this->_buttons[0]['send_notification']['sort_order'] + 5;
+                }
                 $container->addButton('create_rma', array(
                     'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Create RMA'),
                     'onclick' => "setLocation('" . $url . "')",
-                ), 0, $this->_buttons[0]['send_notification']['sort_order']+5);
+                ), 0, $order);
             }
         }
         return $this;

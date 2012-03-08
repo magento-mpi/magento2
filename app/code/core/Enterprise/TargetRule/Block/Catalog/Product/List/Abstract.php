@@ -57,7 +57,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
      */
     protected function _getTypePrefix()
     {
-        switch ($this->getType()) {
+        switch ($this->getProductListType()) {
             case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
                 $prefix = 'related';
                 break;
@@ -116,7 +116,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     {
         $limit = $this->getProduct()->getData($this->_getPositionLimitField());
         if (is_null($limit)) { // use configuration settings
-            $limit = $this->getTargetRuleHelper()->getMaximumNumberOfProduct($this->getType());
+            $limit = $this->getTargetRuleHelper()->getMaximumNumberOfProduct($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionLimitField(), $limit);
         }
         return $this->getTargetRuleHelper()->getMaxProductsListResult($limit);
@@ -131,7 +131,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     {
         $behavior = $this->getProduct()->getData($this->_getPositionBehaviorField());
         if (is_null($behavior)) { // use configuration settings
-            $behavior = $this->getTargetRuleHelper()->getShowProducts($this->getType());
+            $behavior = $this->getTargetRuleHelper()->getShowProducts($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionBehaviorField(), $behavior);
         }
         return $behavior;
@@ -160,7 +160,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     protected function _getPreparedTargetLinkCollection($limit = null)
     {
         $linkCollection = null;
-        switch ($this->getType()) {
+        switch ($this->getProductListType()) {
             case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
                 $linkCollection = $this->getProduct()
                     ->getRelatedProductCollection();
@@ -227,7 +227,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
             $excludeProductIds = array_merge(array_keys($this->_items), $excludeProductIds);
         }
         $indexModel = $this->_getTargetRuleIndex()
-            ->setType($this->getType())
+            ->setType($this->getProductListType())
             ->setLimit($limit)
             ->setProduct($this->getProduct())
             ->setExcludeProductIds($excludeProductIds);

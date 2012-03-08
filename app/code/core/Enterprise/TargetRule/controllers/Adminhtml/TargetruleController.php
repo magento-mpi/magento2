@@ -84,17 +84,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
         Mage::register('current_target_rule', $model);
 
-        $block = $this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit');
         $this->_initAction();
-
-        $this->getLayout()->getBlock('head')
-            ->setCanLoadExtJs(true)
-            ->setCanLoadRulesJs(true);
-
-        $this
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs'))
-            ->renderLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -179,7 +170,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
 

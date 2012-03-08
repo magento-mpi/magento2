@@ -225,7 +225,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Payment_
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         }
         $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(0);
         return $this;
     }
 
@@ -240,7 +239,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Payment_
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
-        $payment->setShouldCloseParentTransaction(false);
+        $payment->setIsTransactionClosed(1);
+        $payment->setShouldCloseParentTransaction($response['is_transaction_closed']);
         return $this;
     }
 

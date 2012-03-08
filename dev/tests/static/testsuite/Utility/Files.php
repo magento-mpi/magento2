@@ -223,4 +223,21 @@ class Utility_Files
         }
         return $result;
     }
+
+    /**
+     * Check if specified class exists within code pools
+     *
+     * @param string $class
+     * @param string &$path
+     * @return bool
+     */
+    public static function codePoolClassFileExists($class, &$path = '')
+    {
+        $path = implode('/', explode('_', $class)) . '.php';
+        return file_exists(PATH_TO_SOURCE_CODE . "/app/code/core/{$path}")
+            || file_exists(PATH_TO_SOURCE_CODE . "/app/code/community/{$path}")
+            || file_exists(PATH_TO_SOURCE_CODE . "/app/code/local/{$path}")
+            || file_exists(PATH_TO_SOURCE_CODE . "/lib/{$path}")
+        ;
+    }
 }

@@ -54,10 +54,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id',
-                    array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
-                )
+                ->addAttributeToFilter(
+                    'type_id',
+                    array_keys(
+                        Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+                    )
+                )->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
+            Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');
@@ -94,7 +98,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
             'type'      => 'currency',
             'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
-            'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
+            'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
             'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
         ));

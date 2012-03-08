@@ -27,6 +27,24 @@ class Enterprise_Checkout_Model_Observer
     }
 
     /**
+     * Returns cart model for backend
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _getBackendCart(Varien_Event_Observer $observer)
+    {
+        $storeId = $observer->getRequestModel()->getParam('storeId');
+        if (is_null($storeId)) {
+            $storeId = $observer->getRequestModel()->getParam('store_id');
+        }
+        return $this->_getCart()
+            ->setSession($observer->getSession())
+            ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_ORDER)
+            ->setCurrentStore((int)$storeId);
+    }
+
+    /**
      * Check submitted SKU's form the form or from error grid
      *
      * @param Varien_Event_Observer $observer
@@ -36,19 +54,30 @@ class Enterprise_Checkout_Model_Observer
     {
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
-        /* @var $cart Enterprise_Checkout_Model_Cart */
-        $cart = $this->_getCart()->setSession($observer->getSession());
+        $cart = $this->_getBackendCart($observer);
+
         if (empty($request) || empty($cart)) {
             return;
         }
+
         $removeFailed = $request->getPost('sku_remove_failed');
+
         if ($removeFailed || $request->getPost('from_error_grid')) {
             $cart->removeAllAffectedItems();
             if ($removeFailed) {
                 return;
             }
         }
+
+        $sku = $observer->getRequestModel()->getPost('remove_sku', false);
+
+        if ($sku) {
+            $this->_getBackendCart($observer)->removeAffectedItem($sku);
+            return;
+        }
+
         $addBySkuItems = $request->getPost(Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, array());
+        $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
         }
@@ -58,31 +87,33 @@ class Enterprise_Checkout_Model_Observer
         }
         /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
         $orderCreateModel = $observer->getOrderCreateModel();
-        $cart->saveAffectedProducts($orderCreateModel);
-        $cart->removeSuccessItems();
+        $cart->saveAffectedProducts($orderCreateModel, false);
+        // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
+        $request->setPost('item', array());
     }
 
     /**
      * Upload and parse CSV file with SKUs
      *
      * @param Varien_Event_Observer $observer
+     * @return null
      */
     public function uploadSkuCsv(Varien_Event_Observer $observer)
     {
-        /* @var $importModel Enterprise_Checkout_Model_Import */
-        $importModel = Mage::getModel('Enterprise_Checkout_Model_Import');
-        if ($importModel->uploadFile()) {
-            /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
-            $orderCreateModel = $observer->getOrderCreateModel();
-            try {
-                $cart = $this->_getCart()->setSession($observer->getSession());
-                $cart->prepareAddProductsBySku($importModel->getDataFromCsv());
-                $cart->saveAffectedProducts($orderCreateModel);
-            }
-            catch (Mage_Core_Exception $e) {
-                $observer->getSession()->addError($e->getMessage());
-            }
+        /** @var $helper Enterprise_Checkout_Helper_Data */
+        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+        $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
+            ? $helper->processSkuFileUploading($observer->getSession())
+            : array();
+        if (empty($rows)) {
+            return;
         }
+
+        /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+        $orderCreateModel = $observer->getOrderCreateModel();
+        $cart = $this->_getBackendCart($observer);
+        $cart->prepareAddProductsBySku($rows);
+        $cart->saveAffectedProducts($orderCreateModel, false);
     }
 
     /**
@@ -129,15 +160,28 @@ class Enterprise_Checkout_Model_Observer
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $collection = new Varien_Data_Collection();
 
-        foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(true) as $item) {
+        foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(false) as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            if ((float)$item->getQty() <= 0) {
+                $item->setSkuRequestedQty($item->getQty());
+                $item->setData('qty', 1);
+            }
             $item->setQuote($quote);
             $collection->addItem($item);
         }
 
         $quote->preventSaving()->setItemsCollection($collection);
+
         $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
         $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();
+
+        foreach ($quote->getAllItems() as $item) {
+            /** @var $item Mage_Sales_Model_Quote_Item */
+            if ($item->hasSkuRequestedQty()) {
+                $item->setData('qty', $item->getSkuRequestedQty());
+            }
+        }
     }
 
     /**

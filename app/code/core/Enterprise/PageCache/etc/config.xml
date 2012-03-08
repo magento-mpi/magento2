@@ -40,6 +40,16 @@
                 <full_page/>
             </related_cache_types>
         </widget>
+        <events>
+            <core_clean_cache>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>cleanExpiredCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_clean_cache>
+        </events>
     </global>
     <adminhtml>
         <events>
@@ -75,6 +85,14 @@
                     </enterprise_pagecache>
                 </observers>
             </model_delete_commit_after>
+            <controller_action_postdispatch_adminhtml_system_currency_saveRates>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_currency_saveRates>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <enterprise_pagecache>
@@ -99,6 +117,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_postdispatch_adminhtml_catalog_product_massStatus>
+            <controller_action_postdispatch_adminhtml_system_currencysymbol_save>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_currencysymbol_save>
             <catalogrule_after_apply>
                 <observers>
                     <enterprise_pagecache>
@@ -340,6 +366,14 @@
                     </enterprise_pagecache>
                 </observers>
             </catalog_controller_product_init_before>
+            <enterprise_customersegment_ids_changed>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>changedCustomerSegmentIds</method>
+                    </enterprise_pagecache>
+                </observers>
+            </enterprise_customersegment_ids_changed>
         </events>
         <cache>
             <requests>

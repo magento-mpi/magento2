@@ -108,7 +108,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                     'menu_excluded',
                     'menu_levels_down',
                     'menu_ordered',
-                    'menu_list_type'
+                    'menu_list_type',
+                    'top_menu_visibility',
+                    'top_menu_excluded'
                 ));
 
         $this->_applyParamFilters($select);

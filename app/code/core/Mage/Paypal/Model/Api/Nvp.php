@@ -74,6 +74,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'ACTION'            => 'action',
         'REDIRECTREQUIRED'  => 'redirect_required',
         'SUCCESSPAGEREDIRECTREQUESTED'  => 'redirect_requested',
+        'REQBILLINGADDRESS' => 'require_billing_address',
         // style settings
         'PAGESTYLE'      => 'page_style',
         'HDRIMG'         => 'hdrimg',
@@ -211,7 +212,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE', 'NOSHIPPING',
         'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
         'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
-        'BILLINGTYPE', 'SUBJECT', 'ITEMAMT', 'SHIPPINGAMT', 'TAXAMT',
+        'BILLINGTYPE', 'SUBJECT', 'ITEMAMT', 'SHIPPINGAMT', 'TAXAMT', 'REQBILLINGADDRESS',
     );
     protected $_setExpressCheckoutResponse = array('TOKEN');
 
@@ -613,6 +614,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->_prepareExpressCheckoutCallRequest($this->_doExpressCheckoutPaymentRequest);
         $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
         $this->_exportLineItems($request);
+
+        if ($this->getAddress()) {
+            $request = $this->_importAddresses($request);
+            $request['ADDROVERRIDE'] = 1;
+        }
 
         $response = $this->call(self::DO_EXPRESS_CHECKOUT_PAYMENT, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
@@ -1120,11 +1126,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Varien_Object_Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
             $this->_applyStreetAndRegionWorkarounds($shippingAddress);
             // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
+            $firstName = $data['SHIPTONAME'];
+            $lastName = null;
+            if (isset($data['FIRSTNAME']) && $data['LASTNAME']) {
+                $firstName = $data['FIRSTNAME'];
+                $lastName = $data['LASTNAME'];
+            }
             $shippingAddress->addData(array(
                 'prefix'     => null,
-                'firstname'  => $data['SHIPTONAME'],
+                'firstname'  => $firstName,
                 'middlename' => null,
-                'lastname'   => null,
+                'lastname'   => $lastName,
                 'suffix'     => null,
             ));
             $this->setExportedShippingAddress($shippingAddress);

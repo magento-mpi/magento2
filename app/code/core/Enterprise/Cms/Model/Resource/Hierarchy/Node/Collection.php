@@ -150,7 +150,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
                         'menu_excluded',
                         'menu_levels_down',
                         'menu_ordered',
-                        'menu_list_type'
+                        'menu_list_type',
+                        'top_menu_visibility',
+                        'top_menu_excluded'
                     ));
         }
         $this->setFlag('meta_data_joined', true);

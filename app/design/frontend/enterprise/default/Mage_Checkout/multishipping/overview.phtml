@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Mage_Checkout_Block_Multishipping_Overview */ ?>
 <div class="page-title">
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
@@ -52,7 +53,7 @@
                     <h4 class="box-title"><?php echo $this->__('Shipping Method') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change') ?></a></h4>
                     <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
                     <p class="box-content">
-                    <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>)
+                    <?php echo $this->escapeHtml($_rate->getCarrierTitle()) ?> (<?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>)
                     <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
                     <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
 

@@ -37,6 +37,9 @@
         </reference>
         <reference name="content">
             <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="express/review.phtml">
+                <block type="Mage_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="express/review/address.phtml"/>
+                <block type="Mage_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="express/review/shipping/method.phtml"/>
                 <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
                     <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>

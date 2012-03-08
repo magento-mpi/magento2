@@ -103,10 +103,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
         }
 
         $this->addColumn('product_admin_name', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'product_admin_name',
+            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            'width'  => '80px',
+            'type'   => 'text',
+            'index'  => 'product_admin_name',
+            'escape' => true,
         ));
 
         $this->addColumn('product_admin_sku', array(

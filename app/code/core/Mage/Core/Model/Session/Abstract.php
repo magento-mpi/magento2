@@ -296,7 +296,13 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         }
         if (Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT)
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
-            && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
+        ) {
+            $userAgentValidated = $this->getValidateHttpUserAgentSkip();
+            foreach ($userAgentValidated as $agent) {
+                if (preg_match('/' . $agent . '/iu', $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY])) {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -461,7 +467,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
     }
 
     /**
-     * Adding new nitice message
+     * Adding new notice message
      *
      * @param   string $message
      * @return  Mage_Core_Model_Session_Abstract
@@ -575,9 +581,8 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
     }
 
     /**
-     * Get ecrypted session identifuer
-     * No reason use crypt key for session id encryption
-     * we can use session identifier as is
+     * Get encrypted session identifier.
+     * No reason use crypt key for session id encryption, we can use session identifier as is.
      *
      * @return string
      */
@@ -621,7 +626,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
     }
 
     /**
-     * If the host was switched but session cookie won't recognize it - add session id to query
+     * If session cookie is not applicable due to host or path mismatch - add session id to query
      *
      * @param string $urlHost can be host or url
      * @return string {session_id_key}={session_id_encrypted}
@@ -632,7 +637,8 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
             return '';
         }
 
-        if (!$httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
+        $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
+        if (!$httpHost) {
             return '';
         }
 
@@ -640,23 +646,22 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         if (!empty($urlHostArr[2])) {
             $urlHost = $urlHostArr[2];
         }
+        $urlPath = empty($urlHostArr[3]) ? '' : $urlHostArr[3];
 
         if (!isset(self::$_urlHostCache[$urlHost])) {
             $urlHostArr = explode(':', $urlHost);
             $urlHost = $urlHostArr[0];
-
-            if ($httpHost !== $urlHost && !$this->isValidForHost($urlHost)) {
-                $sessionId = $this->getEncryptedSessionId();
-            } else {
-                $sessionId = '';
-            }
+            $sessionId = $httpHost !== $urlHost && !$this->isValidForHost($urlHost)
+                ? $this->getEncryptedSessionId() : '';
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
-        return self::$_urlHostCache[$urlHost];
+
+        return Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost]
+            : $this->getEncryptedSessionId();
     }
 
     /**
-     * Check if session is valid for the hostname
+     * Check if session is valid for given hostname
      *
      * @param string $host
      * @return bool
@@ -666,6 +671,24 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
         $hostArr = explode(':', $host);
         $hosts = $this->_getHosts();
         return (!empty($hosts[$hostArr[0]]));
+    }
+
+    /**
+     * Check if session is valid for given path
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isValidForPath($path)
+    {
+        $cookiePath = trim($this->getCookiePath(), '/') . '/';
+        if ($cookiePath == '/') {
+            return true;
+        }
+
+        $urlPath = trim($path, '/') . '/';
+
+        return strpos($urlPath, $cookiePath) === 0;
     }
 
     /**

@@ -59,6 +59,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             # misc
             | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_\/]+)[\'"]
             | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_\/]+)\'
+            | \'renderer\'\s*=>\s*\'([a-z\d_\/]+)\'
 
             /Uix',
             $classes

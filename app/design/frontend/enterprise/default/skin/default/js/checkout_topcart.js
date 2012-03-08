@@ -12,9 +12,10 @@
 if (!window.Enterprise) {
     window.Enterprise = {};
 }
+Enterprise.templatesPattern =  /(^|.|\r|\n)(\{\{(.*?)\}\})/;
 
-Enterprise.TopCart= {
-    initialize: function (container) {
+Enterprise.TopCart = {
+    initialize: function(container) {
         this.container = $(container);
         this.element = this.container.up(0);
         this.elementHeader = this.container.previous(0);
@@ -27,11 +28,10 @@ Enterprise.TopCart= {
         this.element.observe('mouseout', this.onElementMouseOut);
         this.element.observe('mouseover', this.onElementMouseOver);
         this.elementHeader.observe('click', this.onElementMouseClick);
-
     },
 
     handleMouseOut: function (evt) {
-        if($(this.elementHeader).hasClassName('expanded')) {
+        if ($(this.elementHeader).hasClassName('expanded')) {
             this.interval = setTimeout(this.hideCart.bind(this), this.intervalDuration);
         }
     },
@@ -44,7 +44,7 @@ Enterprise.TopCart= {
     },
 
     handleMouseClick: function (evt) {
-        if (!$(this.elementHeader).hasClassName('expanded') && !$(this.container.id).hasClassName('process') )  {
+        if (!$(this.elementHeader).hasClassName('expanded') && !$(this.container.id).hasClassName('process'))  {
             this.showCart();
         }
         else {

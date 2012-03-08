@@ -44,6 +44,9 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expectedBackendClass, $backend);
     }
 
+    /**
+     * @return array
+     */
     public function constructorDataProvider()
     {
         return array(
@@ -64,6 +67,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         if ($extensionRequired) {
             if (!extension_loaded($extensionRequired)) {
                 $this->markTestSkipped("The PHP extension '{$extensionRequired}' is required for this test.");
+
             }
         }
         $model = new Mage_Core_Model_Cache(array('backend' => $optionCode));

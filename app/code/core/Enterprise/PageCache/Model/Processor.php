@@ -64,6 +64,12 @@ class Enterprise_PageCache_Model_Processor
     protected $_requestProcessor = null;
 
     /**
+     * subprocessor model
+     * @var mixed
+     */
+    protected $_subprocessor;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -99,6 +105,12 @@ class Enterprise_PageCache_Model_Processor
             }
             if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN])) {
                 $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN];
+            }
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS];
+            }
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE];
             }
             $designPackage = $this->_getDesignPackage();
 
@@ -265,6 +277,7 @@ class Enterprise_PageCache_Model_Processor
              * @var Enterprise_PageCache_Model_Processor_Default
              */
             $subprocessor = new $subprocessorClass;
+            $this->setSubprocessor($subprocessor);
             $cacheId = $this->prepareCacheId($subprocessor->getPageIdWithoutApp($this));
 
             $content = $cacheInstance->load($cacheId);
@@ -326,25 +339,7 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _processContent($content)
     {
-        $placeholders = array();
-        preg_match_all(
-            Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
-            $content, $placeholders, PREG_PATTERN_ORDER
-        );
-        $placeholders = array_unique($placeholders[1]);
-        $containers   = array();
-        foreach ($placeholders as $definition) {
-            $placeholder= new Enterprise_PageCache_Model_Container_Placeholder($definition);
-            $container  = $placeholder->getContainerClass();
-            if (!$container) {
-                continue;
-            }
-            $container  = new $container($placeholder);
-            $container->setProcessor($this);
-            if (!$container->applyWithoutApp($content)) {
-                $containers[] = $container;
-            }
-        }
+        $containers = $this->_processContainers($content);
         $isProcessed = empty($containers);
         // renew session cookie
         $sessionInfo = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($this->getSessionInfoCacheId());
@@ -396,6 +391,43 @@ class Enterprise_PageCache_Model_Processor
             Mage::app()->getRequest()->setRoutingInfo($routingInfo);
             return false;
         }
+    }
+
+    /**
+     * Process Containers
+     *
+     * @param $content
+     * @return array
+     */
+    protected function _processContainers(&$content)
+    {
+        $placeholders = array();
+        preg_match_all(
+            Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
+            $content, $placeholders, PREG_PATTERN_ORDER
+        );
+        $placeholders = array_unique($placeholders[1]);
+        $containers = array();
+        foreach ($placeholders as $definition) {
+            $placeholder = new Enterprise_PageCache_Model_Container_Placeholder($definition);
+            $container = $placeholder->getContainerClass();
+            if (!$container) {
+                continue;
+            }
+
+            $container = new $container($placeholder);
+            $container->setProcessor($this);
+            if (!$container->applyWithoutApp($content)) {
+                $containers[] = $container;
+            } else {
+                preg_match($placeholder->getPattern(), $content, $matches);
+                if (array_key_exists(1,$matches)) {
+                    $containers = array_merge($this->_processContainers($matches[1]), $containers);
+                    $content = preg_replace($placeholder->getPattern(), str_replace('$', '\\$', $matches[1]), $content);
+                }
+            }
+        }
+        return $containers;
     }
 
     /**
@@ -662,5 +694,25 @@ class Enterprise_PageCache_Model_Processor
             }
             $this->_metaData = (empty($cacheMetadata) || !is_array($cacheMetadata)) ? array() : $cacheMetadata;
         }
+    }
+
+    /**
+     * Set subprocessor
+     *
+     * @param mixed $subprocessor
+     */
+    public function setSubprocessor($subprocessor)
+    {
+        $this->_subprocessor = $subprocessor;
+    }
+
+    /**
+     * Get subprocessor
+     *
+     * @return mixed
+     */
+    public function getSubprocessor()
+    {
+        return $this->_subprocessor;
     }
 }

@@ -15,7 +15,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Product_Type_Abstract
 {
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Retrieve parent ids array by requered child
+     * Retrieve parent ids array by required child
      *
      * @param  int|array $childId
      * @return array
@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Declare attribute identifiers used for asign subproducts
+     * Declare attribute identifiers used for assign subproducts
      *
      * @param   array $ids
      * @param   Mage_Catalog_Model_Product $product
@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Retrieve configurable attrbutes data
+     * Retrieve configurable attributes data
      *
      * @param  Mage_Catalog_Model_Product $product
      * @return array
@@ -267,7 +267,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Retrieve configurable atrribute collection
+     * Retrieve configurable attribute collection
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
@@ -430,6 +430,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     /**
      * Check is product available for sale
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -456,6 +457,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Check whether the product is available for sale
      * is alias to isSalable for compatibility
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
     public function getIsSalable($product)
@@ -469,14 +471,14 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *      $attributeId => $attributeValue
      *  )
      *
-     * @param  array $attrbutesInfo
+     * @param  array $attributesInfo
      * @param  Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product|null
      */
     public function getProductByAttributes($attributesInfo, $product)
     {
         if (is_array($attributesInfo) && !empty($attributesInfo)) {
-            $productCollection = $this->getUsedProductCollection($product);
+            $productCollection = $this->getUsedProductCollection($product)->addAttributeToSelect('name');
             foreach ($attributesInfo as $attributeId => $attributeValue) {
                 $productCollection->addAttributeToFilter($attributeId, $attributeValue);
             }
@@ -570,6 +572,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 $subProduct = true;
                 if ($this->_isStrictProcessMode($processMode)) {
                     foreach($this->getConfigurableAttributes($product) as $attributeItem){
+                        /* @var $attributeItem Varien_Object */
                         $attrId = $attributeItem->getData('attribute_id');
                         if(!isset($attributes[$attrId]) || empty($attributes[$attrId])) {
                             $subProduct = null;
@@ -693,6 +696,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     /**
      * Check is virtual product
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
     public function isVirtual($product)

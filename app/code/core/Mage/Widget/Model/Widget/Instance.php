@@ -49,6 +49,13 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_widgetConfigXml = null;
 
     /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'widget_widget_instance';
+
+    /**
      * Internal Constructor
      */
     protected function _construct()

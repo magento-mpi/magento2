@@ -46,6 +46,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_]+)[\'"]
             | \'resource_model\'\s*=>\s*[\'"]([a-z\d_]+)[\'"]
             | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_]+)\'
+            | \'renderer\'\s*=>\s*\'([a-z\d_]+)\'
             /ix'
         );
 
@@ -177,12 +178,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                     $isBug = true;
                     continue;
                 }
-                $path = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
                 $this->assertTrue(isset(self::$_existingClasses[$class])
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/core/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/community/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/app/code/local/{$path}")
-                    || file_exists(PATH_TO_SOURCE_CODE . "/lib/{$path}")
+                    || Utility_Classes::codePoolClassFileExists($class)
                 );
                 self::$_existingClasses[$class] = 1;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {

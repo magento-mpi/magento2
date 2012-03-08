@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <placeholders>
+        <wishlist>
+            <block>enterprise_wishlist/customer_sidebar</block>
+            <placeholder>WISHLIST</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Wishlist</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist>
+        <wishlist_links>
+            <block>enterprise_wishlist/links</block>
+            <placeholder>WISHLISTLINKS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Wishlistlinks</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist_links>
+        <wishlist_list>
+            <block>enterprise_wishlist/behaviour</block>
+            <placeholder>WISHLISTS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Wishlists</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist_list>
+    </placeholders>
+</config>
