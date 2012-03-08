@@ -10,21 +10,12 @@
  */
 
 /**
- * Class, which overwrites native Magento cookie model in order to not set cookies during testing
+ * Replacement for the native cookie model that doesn't send cookie headers in testing environment
  */
 class Magento_Test_Cookie extends Mage_Core_Model_Cookie
 {
     /**
-     * Cookies collection
-     *
-     * @var array
-     */
-    protected $_cookies = array();
-
-    /**
-     * Dummy function instead of original that sets cookie.
-     * This one does nothing - in test environment we cannot set cookies.
-     * Function only collects them
+     * Dummy function, which sets value directly to $_COOKIE super-global array instead of calling setcookie()
      *
      * @param string $name The cookie name
      * @param string $value The cookie value
@@ -39,26 +30,12 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      */
     public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
-        $this->_cookies[$name] = $value;
+        $_COOKIE[$name] = $value;
         return $this;
     }
 
     /**
-     * Dummy function instead of original that gets cookie.
-     * This one does nothing - in test environment we cannot get cookies.
-     * Function only retrieve data from collected cookies
-     *
-     * @param string $name The cookie name
-     * @return mixed
-     */
-    public function get($name = null)
-    {
-        return isset($this->_cookies[$name])? $this->_cookies[$name] : parent::get($name);
-    }
-
-    /**
-     * Dummy function instead of original that deletes cookie. This one does nothing - in test environment we cannot
-     * set cookies.
+     * Dummy function, which removes value directly from $_COOKIE super-global array instead of calling setcookie()
      *
      * @param string $name
      * @param string $path
@@ -71,7 +48,7 @@ class Magento_Test_Cookie extends Mage_Core_Model_Cookie
      */
     public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
     {
-        unset($this->_cookies[$name]);
+        unset($_COOKIE[$name]);
         return $this;
     }
 }
