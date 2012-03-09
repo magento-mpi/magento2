@@ -113,7 +113,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
         }
         /** @var $itemsModel Mage_Sales_Model_Api2_Order_Items */
         $itemsModel = $this->_getSubModel('order_items', array(
-            Mage_Sales_Model_Api2_Order_Items::PARAM_ORDER_ID => $orderId
+            Mage_Sales_Model_Api2_Order_Items_Rest::PARAM_ORDER_ID => $orderId
         ));
 
         return $itemsModel->dispatch();
