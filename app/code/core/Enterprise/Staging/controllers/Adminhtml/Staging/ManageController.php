@@ -253,6 +253,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                         );
                     }
                 }
+                $website = current($staging->getWebsites());
+                $website = Mage::getModel('core/website')->load($website['code']);
+                if ($website->getId()) {
+                    $redirectBack = true;
+                    Mage::throwException(
+                        Mage::helper('enterprise_staging')->__('Website with the same code already exists.')
+                    );
+                }
 
                 $staging->getMapperInstance()->setCreateMapData($data);
                 $staging->setIsNew($isNew);
