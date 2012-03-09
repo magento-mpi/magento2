@@ -88,8 +88,6 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Items_Rest
                 'resource' => $this
             ));
 
-            $data = $validator->filter($data);
-
             // check idField for resource identification
             if (!$validator->idFieldIsSatisfiedByData($data)) {
                 foreach ($validator->getErrors() as $error) {

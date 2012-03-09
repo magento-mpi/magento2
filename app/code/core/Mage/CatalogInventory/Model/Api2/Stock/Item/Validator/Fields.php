@@ -34,20 +34,6 @@
 class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields extends Mage_Api2_Model_Resource_Validator_Fields
 {
     /**
-     * Filter request data.
-     *
-     * @param  array $data
-     * @return array Filtered data
-     */
-    public function filter(array $data)
-    {
-        if (!isset($data['is_qty_decimal']) || $data['is_qty_decimal'] == 0) {
-            $data['is_decimal_divided'] = 0;
-        }
-        return $data;
-    }
-
-    /**
      * Validate IdField.
      * If fails validation, then this method returns false, and
      * getErrors() will return an array of errors that explain why the
