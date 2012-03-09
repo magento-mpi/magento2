@@ -1127,15 +1127,17 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return true;
         }
 
+        $ruleWebsiteIds = $request->getParam('website_ids', array());
         if ($ruleId) {
             // Deny action if specified rule entity doesn't exist
             $entityObject->load($ruleId);
             if (!$entityObject->getId()) {
                 return $this->_forward();
             }
-            $ruleWebsiteIds = (array)$entityObject->getOrigData('website_ids');
-        } else {
-            $ruleWebsiteIds = $request->getParam('website_ids', array());
+            $ruleWebsiteIds = array_unique(array_merge(
+                $ruleWebsiteIds,
+                (array)$entityObject->getOrigData('website_ids')
+            ));
         }
 
 
