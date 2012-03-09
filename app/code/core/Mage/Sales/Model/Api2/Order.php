@@ -42,44 +42,6 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
     /**#@-*/
 
     /**
-     * Retrieve order addresses if allowed
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getAddresses($orderId)
-    {
-        if (!$this->_isSubCallAllowed('addresses')) {
-            return array();
-        }
-        /** @var $addressModel Mage_Sales_Model_Api2_Order_Addresses */
-        $addressModel = $this->_getSubModel('addresses', array(
-            Mage_Sales_Model_Api2_Order_Addresses_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $addressModel->dispatch();
-    }
-
-    /**
-     * Retrieve order comments
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getComments($orderId)
-    {
-        if (!$this->_isSubCallAllowed('order_comments')) {
-            return array();
-        }
-        /** @var $commentsModel Mage_Sales_Model_Api2_Order_Comments */
-        $commentsModel = $this->_getSubModel('order_comments', array(
-            Mage_Sales_Model_Api2_Order_Comments_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $commentsModel->dispatch();
-    }
-
-    /**
      * Retrieve gift message information
      *
      * @param int $messageId Gift message identifier
@@ -98,25 +60,6 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
             'gift_message_to'   => $message->getRecipient(),
             'gift_message_body' => $message->getMessage()
         );
-    }
-
-    /**
-     * Retrieve order items if allowed
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getItems($orderId)
-    {
-        if (!$this->_isSubCallAllowed('order_items')) {
-            return array();
-        }
-        /** @var $itemsModel Mage_Sales_Model_Api2_Order_Items */
-        $itemsModel = $this->_getSubModel('order_items', array(
-            Mage_Sales_Model_Api2_Order_Items_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $itemsModel->dispatch();
     }
 
     /**
