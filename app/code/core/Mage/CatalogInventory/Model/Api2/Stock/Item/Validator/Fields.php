@@ -41,10 +41,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields extends Mage_
      */
     public function filter(array $data)
     {
-        if (!isset($data['use_config_manage_stock'])) {
-            $data['use_config_manage_stock'] = 0;
-        }
-        if (!isset($data['is_decimal_divided']) || $data['is_qty_decimal'] == 0) {
+        if (!isset($data['is_qty_decimal']) || $data['is_qty_decimal'] == 0) {
             $data['is_decimal_divided'] = 0;
         }
         return $data;
@@ -57,7 +54,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields extends Mage_
      * validation failed.
      *
      * @param  array $data
-     * @void bool
+     * @return bool
      */
     public function idFieldIsSatisfiedByData(array $data)
     {
