@@ -348,7 +348,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      */
     public function getResourceModel($node)
     {
-        return (string) $this->getNode('resources/' . $node . '/model');
+        return (string)$this->getNode('resources/' . $node . '/model');
     }
 
     /**
@@ -361,7 +361,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceUserPrivileges($resource, $userType)
     {
         $attributes = $this->getNode('resources/' . $resource . '/privileges/' . $userType);
-        return $attributes ? (array) $attributes : array();
+        return $attributes ? (array)$attributes : array();
     }
 
     /**
@@ -421,6 +421,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                 }
             }
         }
-        return (int) $useVersion;
+        return (int)$useVersion;
     }
 }
