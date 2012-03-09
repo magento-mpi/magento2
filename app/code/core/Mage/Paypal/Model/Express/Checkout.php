@@ -380,22 +380,7 @@ class Mage_Paypal_Model_Express_Checkout
         $quote->setCustomerLastname($billingAddress->getLastname());
         $quote->setCustomerSuffix($billingAddress->getSuffix());
         $quote->setCustomerNote($exportedBillingAddress->getData('note'));
-        foreach ($exportedBillingAddress->getExportedKeys() as $key) {
-            $oldData = $billingAddress->getDataUsingMethod($key);
-            $isEmpty = null;
-            if (is_array($oldData)) {
-                foreach($oldData as $val) {
-                    if(!empty($val)) {
-                        $isEmpty = false;
-                        break;
-                    }
-                    $isEmpty = true;
-                }
-            }
-            if (empty($oldData) || $isEmpty === true) {
-                $billingAddress->setDataUsingMethod($key, $exportedBillingAddress->getData($key));
-            }
-        }
+        $this->_setExportedAddressData($billingAddress, $exportedBillingAddress);
 
         // import shipping address
         $exportedShippingAddress = $this->_api->getExportedShippingAddress();
@@ -403,9 +388,7 @@ class Mage_Paypal_Model_Express_Checkout
             $shippingAddress = $quote->getShippingAddress();
             if ($shippingAddress) {
                 if ($exportedShippingAddress) {
-                    foreach ($exportedShippingAddress->getExportedKeys() as $key) {
-                        $shippingAddress->setDataUsingMethod($key, $exportedShippingAddress->getData($key));
-                    }
+                    $this->_setExportedAddressData($shippingAddress, $exportedShippingAddress);
                     $shippingAddress->setCollectShippingRates(true);
                     $shippingAddress->setSameAsBilling(0);
                 }
@@ -687,6 +670,32 @@ class Mage_Paypal_Model_Express_Checkout
             }
         }
         return $this->_quote->getCheckoutMethod();
+    }
+
+    /**
+     * Sets address data from exported address
+     *
+     * @param $address
+     * @param $exportedAddress
+     */
+    protected function _setExportedAddressData($address, $exportedAddress)
+    {
+        foreach ($exportedAddress->getExportedKeys() as $key) {
+            $oldData = $address->getDataUsingMethod($key);
+            $isEmpty = null;
+            if (is_array($oldData)) {
+                foreach($oldData as $val) {
+                    if(!empty($val)) {
+                        $isEmpty = false;
+                        break;
+                    }
+                    $isEmpty = true;
+                }
+            }
+            if (empty($oldData) || $isEmpty === true) {
+                $address->setDataUsingMethod($key, $exportedAddress->getData($key));
+            }
+        }
     }
 
     /**
