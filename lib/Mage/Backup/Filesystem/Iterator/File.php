@@ -26,13 +26,13 @@
 
 
 /**
- * Database backup file model
+ * File lines iterator
  *
  * @category    Mage
  * @package     Mage_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup_Model_Db_File extends SplFileObject
+class Mage_Backup_Filesystem_Iterator_File extends SplFileObject
 {
     /**
      * The statement that was last read during iteration

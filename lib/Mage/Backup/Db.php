@@ -48,7 +48,7 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
         $archiveManager = new Mage_Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = Mage::getModel('backup/db_file', $source);
+        $file = new Mage_Backup_Filesystem_Iterator_File($source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }
