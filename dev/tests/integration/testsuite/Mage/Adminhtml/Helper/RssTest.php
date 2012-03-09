@@ -42,8 +42,8 @@ class Mage_Adminhtml_Helper_RssTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoAppIsolation enabled
+     * @magentoDataFixture adminUserFixture
      */
     public function testAuthAdminLoginWithRedirect()
     {
@@ -54,5 +54,17 @@ class Mage_Adminhtml_Helper_RssTest extends PHPUnit_Framework_TestCase
         $response = Mage::app()->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue(($code >= 300) && ($code < 400));
+    }
+
+    public static function adminUserFixture()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+    }
+
+    public static function adminUserFixtureRollback()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
     }
 }

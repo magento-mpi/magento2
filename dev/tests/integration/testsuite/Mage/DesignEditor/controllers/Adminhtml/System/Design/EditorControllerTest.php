@@ -48,9 +48,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         }
     }
 
-    /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
-     */
     public function testIndexActionSingleStore()
     {
         $this->dispatch('admin/system_design_editor/index');

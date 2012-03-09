@@ -25,7 +25,7 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
 
     /**
      * @dataProvider actionsDataProvider
-     * @magentoDataFixture Mage/Admin/_files/user.php
+     * @magentoDataFixture adminUserFixture
      */
     public function testRssActionsLoggedUser($action)
     {
@@ -64,11 +64,26 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
         $this->assertContains('<rss', $body);
     }
 
-    function actionsDataProvider()
+    /**
+     * @return array
+     */
+    public function actionsDataProvider()
     {
         return array(
             array('notifystock'),
             array('review')
         );
+    }
+
+    public static function adminUserFixture()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+    }
+
+    public static function adminUserFixtureRollback()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
     }
 }

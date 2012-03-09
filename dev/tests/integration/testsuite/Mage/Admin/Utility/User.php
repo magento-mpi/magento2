@@ -102,5 +102,7 @@ class Mage_Admin_Utility_User
 
         $this->_user->delete();
         $this->_user = null;
+
+        return $this;
     }
 }

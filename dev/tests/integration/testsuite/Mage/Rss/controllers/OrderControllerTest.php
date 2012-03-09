@@ -21,7 +21,7 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
+     * @magentoDataFixture adminUserFixture
      */
     public function testNewActionLoggedUser()
     {
@@ -58,5 +58,17 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
         $body = $response->getBody();
         $this->assertContains('<rss', $body);
+    }
+
+    public static function adminUserFixture()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+    }
+
+    public static function adminUserFixtureRollback()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
     }
 }
