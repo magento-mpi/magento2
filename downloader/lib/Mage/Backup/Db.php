@@ -52,7 +52,6 @@ class Mage_Backup_Db extends Mage_Backup_Abstract
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }
-        fclose($file);
         @unlink($source);
 
         $this->_lastOperationSucceed = true;
