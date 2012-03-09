@@ -108,6 +108,7 @@
                             <product_id>1</product_id>
                             <stock_id>1</stock_id>
                             <low_stock_date>1</low_stock_date>
+                            <stock_status_changed_auto>1</stock_status_changed_auto>
                         </write>
                     </admin>
                 </exclude_attributes>
