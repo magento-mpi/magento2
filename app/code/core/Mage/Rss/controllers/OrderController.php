@@ -62,8 +62,11 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
     public function preDispatch()
     {
         if ($this->getRequest()->getActionName() == 'new') {
-            $this->_currentArea = 'adminhtml';
-            Mage::helper('Mage_Rss_Helper_Data')->authAdmin('sales/order');
+            $user = Mage::helper('Mage_Rss_Helper_Data')->authAdmin('sales/order');
+            if (!is_object($user)) {
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);;
+                return $this;
+            }
         }
         return parent::preDispatch();
     }

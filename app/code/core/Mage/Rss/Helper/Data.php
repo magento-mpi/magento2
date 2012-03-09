@@ -38,25 +38,31 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Authenticate admin and check ACL
+     * Authenticates admin user and checks ACL. No redirection is done if secret key is missing.
      *
-     * @param string $path
+     * Possible results:
+     * - Mage_Admin_Model_User - user logged in and appropriate model is loaded
+     * - false - not used currently (it just exits when user is not logged in)
+     *
+     * @param $path
+     * @return Mage_Admin_Model_User|bool
      */
     public function authAdmin($path)
     {
         $session = Mage::getSingleton('Mage_Rss_Model_Session');
         if ($session->isAdminLoggedIn()) {
-            return;
+            return $session->getAdmin();
         }
+
         list($username, $password) = $this->authValidate();
         Mage::getSingleton('Mage_Adminhtml_Model_Url')->setNoSecret(true);
         $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('Mage_Admin_Model_User')->login($username, $password);
-        if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
+        if ($user && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
+            return $user;
         } else {
-            $this->authFailed();
+            Mage::helper('Mage_Core_Helper_Http')->authFailed();
         }
     }
 

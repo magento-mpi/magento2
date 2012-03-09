@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-require 'testsuite/Mage/Admin/_files/user.php';
-Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
+$utility = Mage_Admin_Utility_User::getInstance();
+$utility->createAdmin();
 
 $session = new Mage_DesignEditor_Model_Session();
 $session->login('user', 'password');

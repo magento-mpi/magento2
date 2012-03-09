@@ -12,18 +12,9 @@
 /**
  * @group module:Enterprise_Cms
  */
-class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Adminhtml_Utility_Controller
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
-        $this->_session = new Mage_Admin_Model_Session();
-        $this->_session->login('user', 'password');
-    }
-
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testPreviewAction()
@@ -38,7 +29,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Magento_T
     }
 
     /**
-     * @magentoDataFixture Mage/Admin/_files/user.php
      * @magentoDataFixture Mage/Core/_files/design_change.php
      * @magentoDataFixture Mage/Cms/_files/pages.php
      */

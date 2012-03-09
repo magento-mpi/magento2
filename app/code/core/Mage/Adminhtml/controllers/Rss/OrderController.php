@@ -20,14 +20,22 @@ class Mage_Adminhtml_Rss_OrderController extends Mage_Adminhtml_Controller_Actio
 {
     public function preDispatch()
     {
-        Mage::helper('Mage_Adminhtml_Helper_Rss')->authAdmin('catalog/reviews_ratings');
-        parent::preDispatch();
-        return $this;
+        $user = Mage::helper('Mage_Adminhtml_Helper_Rss')->authAdmin('catalog/reviews_ratings');
+        if (!is_object($user)) {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return $this;
+        }
+
+        return parent::preDispatch();
     }
 
     public function newAction()
     {
-        Mage::helper('Mage_Rss_Helper_Data')->authAdmin('sales/order');
+        $user = Mage::helper('Mage_Rss_Helper_Data')->authAdmin('sales/order');
+        if (!is_object($user)) {
+            return;
+        }
+
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();

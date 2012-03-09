@@ -57,42 +57,48 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
-     * Try to login user in admin
+     * Try to login user in admin. Possible results:
+     * - Mage_Admin_Model_User - user logged in and appropriate model is loaded
+     * - true - user logged in, however no work can be done on it, because browser is redirected
+     * - false - user not logged in
+     *
+     * If $request is provided, then in case of redirect it will be marked as dispatched.
      *
      * @param  string $username
      * @param  string $password
      * @param  Mage_Core_Controller_Request_Http $request
-     * @return Mage_Admin_Model_User|null
+     * @return Mage_Admin_Model_User|bool
      */
     public function login($username, $password, $request = null)
     {
         if (empty($username) || empty($password)) {
-            return;
+            return false;
         }
 
         try {
             /** @var $user Mage_Admin_Model_User */
             $user = Mage::getModel('Mage_Admin_Model_User');
             $user->login($username, $password);
-            if ($user->getId()) {
-                $this->renewSession();
-
-                if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Url')->renewSecretUrls();
-                }
-                $this->setIsFirstPageAfterLogin(true);
-                $this->setUser($user);
-                $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
-                $this->setUpdatedAt(time());
-
-                $requestUri = $this->_getRequestUri($request);
-                if ($requestUri) {
-                    Mage::dispatchEvent('admin_session_user_login_success', array('user' => $user));
-                    header('Location: ' . $requestUri);
-                    exit;
-                }
-            } else {
+            if (!$user->getId()) {
                 Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid User Name or Password.'));
+            }
+
+            $this->renewSession();
+
+            if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
+                Mage::getSingleton('Mage_Adminhtml_Model_Url')->renewSecretUrls();
+            }
+            $this->setIsFirstPageAfterLogin(true);
+            $this->setUser($user);
+            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setUpdatedAt(time());
+
+            Mage::dispatchEvent('admin_session_user_login_success', array('user' => $user));
+
+            $requestUri = $this->_getRequestUri($request);
+            if ($requestUri) {
+                Mage::app()->getResponse()->setRedirect($requestUri);
+                return true;
             }
         } catch (Mage_Core_Exception $e) {
             Mage::dispatchEvent('admin_session_user_login_failed',
@@ -101,6 +107,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
                 $request->setParam('messageSent', true);
             }
+            return false;
         }
 
         return $user;
