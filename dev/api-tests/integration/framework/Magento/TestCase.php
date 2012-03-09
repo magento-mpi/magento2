@@ -73,6 +73,13 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     static protected $_defaultCustomer;
 
     /**
+     * Original Magento config values.
+     *
+     * @var array
+     */
+    protected $_origConfigValues = array();
+
+    /**
      * Run garbage collector for cleaning memory
      *
      * @return void
@@ -267,12 +274,14 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Call safe delete for models which added to delete list
+     * Restore config values changed during the test
      *
      * @return void
      */
     protected function tearDown()
     {
         $this->_callModelsDelete();
+        $this->_restoreAppConfig();
         parent::tearDown();
     }
 
@@ -322,11 +331,13 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * @param string|int|null $value    Value of config item
      * @param bool $cleanAppCache       If TRUE application cache will be refreshed
      * @param bool $updateLocalConfig   If TRUE local config object will be updated too
+     * @param bool $restore             If TRUE config value will be restored after test run
      * @return Magento_TestCase
      * @throws Magento_Test_Exception
      */
-    protected function _updateAppConfig($path, $value, $cleanAppCache = true, $updateLocalConfig = false)
-    {
+    protected function _updateAppConfig($path, $value, $cleanAppCache = true, $updateLocalConfig = false,
+        $restore = false
+    ) {
         list($section, $group, $node) = explode('/', $path);
 
         if (!$section || !$group || !$node) {
@@ -342,6 +353,10 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
                 ->setGroups($data)
                 ->save();
 
+        if ($restore && !isset($this->_origConfigValues[$path])) {
+            $this->_origConfigValues[$path] = (string) Mage::getConfig()->getNode($path, 'default');
+        }
+
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
@@ -355,6 +370,20 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
 
         return $this;
+    }
+
+    /**
+     * Restore config values changed during tests
+     */
+    protected function _restoreAppConfig()
+    {
+        Mage::getConfig()->reinit();
+        foreach ($this->_origConfigValues as $configPath => $origValue) {
+            $currentValue = (string) Mage::getConfig()->getNode($configPath, 'default');
+            if ($currentValue != $origValue) {
+                $this->_updateAppConfig($configPath, $origValue);
+            }
+        }
     }
 
     /**

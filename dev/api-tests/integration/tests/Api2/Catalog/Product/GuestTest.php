@@ -44,26 +44,11 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
             $this->deleteFixture('catalog_price_rule', true);
             Mage::getModel('catalogrule/rule')->applyAll();
         }
-        $this->_restoreAppConfig();
         parent::tearDown();
     }
 
     /**
-     * Restore config values changed during tests
-     */
-    protected function _restoreAppConfig()
-    {
-        Mage::getConfig()->reinit();
-        foreach ($this->_origConfigValues as $configPath => $origValue) {
-            $currentValue = (string) Mage::getConfig()->getNode($configPath, 'default');
-            if ($currentValue != $origValue) {
-                $this->_updateAppConfig($configPath, $origValue);
-            }
-        }
-    }
-
-    /**
-     * Test get product price with and without taxes with applied catalog price ruleÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½
+     * Test get product price with and without taxes with applied catalog price rule
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      * @magentoDataFixture Api2/Catalog/_fixtures/catalog_price_rule.php
@@ -122,10 +107,7 @@ class Api2_Catalog_Product_GuestTest extends Magento_Test_Webservice_Rest_Guest
     protected function _checkTaxCalculation($product, $expectedPrices, $config)
     {
         foreach ($config as $configPath => $configValue) {
-            if (!isset($this->_origConfigValues[$configPath])) {
-                $this->_origConfigValues[$configPath] = (string) Mage::getConfig()->getNode($configPath, 'default');
-            }
-            $this->_updateAppConfig($configPath, $configValue);
+            $this->_updateAppConfig($configPath, $configValue, true, false, true);
         }
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));

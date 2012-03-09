@@ -277,4 +277,26 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         }
         return $tierPrices;
     }
+
+    /**
+     * Default implementation. May be different for customer/guest/admin role.
+     *
+     * @return null
+     */
+    protected function _getCustomerGroupId()
+    {
+        return null;
+    }
+
+    /**
+     * Default implementation. May be different for customer/guest/admin role.
+     *
+     * @param float $price
+     * @param bool $withTax
+     * @return float
+     */
+    protected function _applyTaxToPrice($price, $withTax = true)
+    {
+        return $price;
+    }
 }

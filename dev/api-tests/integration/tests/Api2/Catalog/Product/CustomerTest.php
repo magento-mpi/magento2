@@ -81,15 +81,6 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
 
         // check original values with original ones
         $originalData['is_saleable'] = 1;
-        $originalData['regular_price'] = 99.95;
-        $originalData['final_price'] = 99.95;
-        $originalData['final_price_with_tax'] = 99.95;
-        $originalData['final_price_without_tax'] = 99.95;
-        foreach ($responseData as $field => $value) {
-            if (!is_array($value)) {
-                $this->assertEquals($originalData[$field], $value, "'$field' has invalid value");
-            }
-        }
     }
 
     /**
@@ -151,15 +142,13 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         $this->assertEquals($expectedResponseCode, $responseCode, "'$urlField' is not accessible with cURL");
     }
 
-
     /**
      * Test successful product get with tax applied
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_taxes.php
      */
     public function testGetWithTaxCalculation()
     {
-        $this->markTestIncomplete('Test need to be rewritten after changes in product get');
         // assure that customer has appropriate billing and shipping addresses
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
@@ -169,66 +158,44 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         }
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product_simple');
-        $taxableGoodsTaxClassId = 2;
-        $product->setTaxClassId($taxableGoodsTaxClassId)->save();
+        $product = $this->getFixture('product_simple_taxes');
         $this->assertEquals(10, $product->getPrice(), 'Product price is expected to be 10 for tax calculation tests');
 
-        $basedOn = Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON;
+        // default tax rate
+        $taxRate = 0.0825;
+        $finalPrice = $product->getPrice();
         $priceIncludesTax = Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX;
-        $priceDisplayType = Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE;
+        $basedOn = Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON;
+
         $testConfigurations = array(
             array(
                 'config' => array(
+                    $priceIncludesTax => 0,
                     $basedOn => 'origin',
-                    $priceIncludesTax => 0,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
                 ),
-                'expected_price' => 10.84,
+                'expected_prices' => array(
+                    'regular_price' => $product->getPrice()  * (1 + $taxRate),
+                    'final_price'   => $finalPrice,
+                    'final_price_with_tax' => $finalPrice * (1 + $taxRate),
+                    'final_price_without_tax' => $finalPrice
+                )
             ),
             array(
                 'config' => array(
-                    $basedOn => 'billing',
-                    $priceIncludesTax => 0,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
-                ),
-                'expected_price' => 10.84,
-            ),
-            array(
-                'config' => array(
+                    $priceIncludesTax => 1,
                     $basedOn => 'origin',
-                    $priceIncludesTax => 0,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
                 ),
-                'expected_price' => 10.83,
-            ),
-            array(
-                'config' => array(
-                    $basedOn => 'shipping',
-                    $priceIncludesTax => 1,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX,
-                ),
-                'expected_price' => 10.01,
-            ),
-            array(
-                'config' => array(
-                    $basedOn => 'shipping',
-                    $priceIncludesTax => 1,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX,
-                ),
-                'expected_price' => 9.24,
-            ),
-            array(
-                'config' => array(
-                    $basedOn => 'shipping',
-                    $priceIncludesTax => 0,
-                    $priceDisplayType => Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX,
-                ),
-                'expected_price' => 10,
+                'expected_prices' => array(
+                    'regular_price' => $product->getPrice(),
+                    'final_price'   => $finalPrice,
+                    'final_price_with_tax' => $finalPrice,
+                    'final_price_without_tax' =>$finalPrice / (1 + $taxRate)
+                )
             ),
         );
+
         foreach ($testConfigurations as $dataProvider) {
-            $this->_checkTaxCalculation($product, $dataProvider['expected_price'], $dataProvider['config']);
+            $this->_checkTaxCalculation($product, $dataProvider['expected_prices'], $dataProvider['config']);
         }
     }
 
@@ -236,13 +203,13 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
      * Check if tax is applied correctly to product price. Specific tax config is applied during test
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param float $expectedPrice
+     * @param array $expectedPrices
      * @param array $config
      */
-    protected function _checkTaxCalculation($product, $expectedPrice, $config)
+    protected function _checkTaxCalculation($product, $expectedPrices, $config)
     {
         foreach ($config as $configPath => $configValue) {
-            $this->_updateAppConfig($configPath, $configValue);
+            $this->_updateAppConfig($configPath, $configValue, true, false, true);
         }
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
@@ -254,7 +221,11 @@ class Api2_Catalog_Product_CustomerTest extends Magento_Test_Webservice_Rest_Cus
         foreach ($config as $configPath => $configValue) {
             $assertMessage .= " $configPath = $configValue;";
         }
-        $this->assertEquals($expectedPrice, $responseData['price'], $assertMessage, 0.01);
+
+        foreach ($expectedPrices as $key => $value) {
+            $this->assertTrue(isset($responseData[$key]), $key . ' not present in response.');
+            $this->assertEquals($value, $responseData[$key], $assertMessage . 'key = ' .$key, 0.01);
+        }
     }
 
     /**
