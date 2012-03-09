@@ -141,6 +141,8 @@ OrderReviewController.prototype = {
             }
             if (!this._validateForm()) {
                 this._updateOrderSubmit(true);
+            } else {
+                this._updateOrderSubmit(false);
             }
             this.formValidator.reset();
             this._clearValidation('');
@@ -180,7 +182,7 @@ OrderReviewController.prototype = {
     /**
      * Copy data from shipping address to billing
      */
-    _copyShippingToBilling : function ()
+    _copyShippingToBilling : function (event)
     {
         if (!this._copyElement) {
             return;
@@ -203,7 +205,9 @@ OrderReviewController.prototype = {
             $$('[id^="billing:"]').invoke('removeClassName', 'local-validation');
             $$('[id^="billing:"]').invoke('setStyle', {opacity:1});
         }
-        this._updateOrderSubmit(true);
+        if (event) {
+            this._updateOrderSubmit(true);
+        }
     },
 
     /**
@@ -222,6 +226,7 @@ OrderReviewController.prototype = {
             if (this._pleaseWait) {
                 this._pleaseWait.show();
             }
+            this._togleButton(this._ubpdateOrderButton, true);
 
             arr = $$('[id^="billing:"]').invoke('enable');
             var formData = this.form.serialize(true);
@@ -236,6 +241,7 @@ OrderReviewController.prototype = {
                     if (this._pleaseWait && !this._updateShippingMethods) {
                         this._pleaseWait.hide();
                     }
+                    this._togleButton(this._ubpdateOrderButton, false);
                 }.bind(this),
                 onSuccess: this._updateShippingMethodsElement.bind(this),
                 evalScripts: true
@@ -399,13 +405,24 @@ OrderReviewController.prototype = {
         );
         this._canSubmitOrder = !isDisabled;
         if (this.formSubmit) {
-            this.formSubmit.disabled = isDisabled;
-            this.formSubmit.removeClassName('no-checkout');
-            this.formSubmit.setStyle({opacity:1});
-            if (isDisabled) {
-                this.formSubmit.addClassName('no-checkout');
-                this.formSubmit.setStyle({opacity:.5});
-            }
+            this._togleButton(this.formSubmit, isDisabled);
+        }
+    },
+
+    /**
+     * Enable/Disable button
+     *
+     * @param button
+     * @param disable
+     */
+    _togleButton : function(button, disable)
+    {
+        button.disabled = disable;
+        button.removeClassName('no-checkout');
+        button.setStyle({opacity:1});
+        if (disable) {
+            button.addClassName('no-checkout');
+            button.setStyle({opacity:.5});
         }
     }
 };
