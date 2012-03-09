@@ -41,6 +41,12 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
+        $fixtureProducts = $this->getFixture('cataloginventory_stock_products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
         $this->deleteFixture('product', true);
         $this->deleteFixture('stockItem', true);
 
@@ -48,11 +54,11 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test retrieving existing product stock state
+     * Test get stock item
      *
      * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
      */
-    public function testGet()
+    public function testGetStockItem()
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
@@ -69,12 +75,36 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test retrieving not existing product stock state
+     * Test get unavailable stock item
      */
-    public function testGetUnavailableResource()
+    public function testGetUnavailableStockItemResource()
     {
         $restResponse = $this->callGet('stockitems/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test get stock items
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     */
+    public function testGetStockItems()
+    {
+        $restResponse = $this->callGet('stockitems', array('order' => 'item_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
+        $itemsIds = array();
+        foreach ($responseData as $item) {
+            $itemsIds[] = $item['item_id'];
+        }
+        $fixtureItems = $this->getFixture('cataloginventory_stock_items');
+        foreach ($fixtureItems as $fixtureItem) {
+            $this->assertContains($fixtureItem->getId(), $itemsIds,
+                'Stock item should be in response');
+        }
     }
 
     /**
@@ -105,7 +135,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testUpdateUnavailableStockItem()
     {
-        $restResponse = $this->callPut('stockitems/invalid_id', array());
+        $restResponse = $this->callPut('stockitems/invalid_id', array('min_qty' => 0));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -128,5 +158,136 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         $countOfErrorsInDataForUpdate = count($dataForUpdate) - 1;
         // Several errors can be returned because of one invalid position
         $this->assertGreaterThanOrEqual($countOfErrorsInDataForUpdate, count($errors));
+    }
+
+    /**
+     * Test successful stock items update
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     */
+    public function testUpdateStockItems()
+    {
+        $dataForUpdate = array();
+        $fixtureItems = $this->getFixture('cataloginventory_stock_items');
+        foreach ($fixtureItems as $fixtureItem) {
+            $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+            $singleItemDataForUpdate['item_id'] = $fixtureItem->getId();
+            $dataForUpdate[] = $singleItemDataForUpdate;
+        }
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $successes = $responseData['success'];
+        $this->assertEquals(count($successes), count($fixtureItems));
+
+        foreach ($fixtureItems as $key => $fixtureItem) {
+            /* @var $updatedStockItem Mage_CatalogInventory_Model_Stock_Item */
+            $updatedStockItem = Mage::getModel('cataloginventory/stock_item')
+                ->load($fixtureItem->getId());
+            $updatedStockItemData = $updatedStockItem->getData();
+            $dataForUpdateSingleItem = $dataForUpdate[$key];
+            foreach ($dataForUpdateSingleItem as $field => $value) {
+                $this->assertEquals($value, $updatedStockItemData[$field]);
+            }
+        }
+    }
+
+    /**
+     * Test unsuccessful stock items update with empty required data
+     */
+    public function testUpdateUnavailableStockItems()
+    {
+        $invalidId = 'invalid_id';
+        $singleItemDataForUpdate = array('item_id' => $invalidId);
+        $dataForUpdate = array($singleItemDataForUpdate);
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['error'];
+        $this->assertEquals(count($errors), 1);
+
+        $expectedError = array(
+            'message' => Mage_Api2_Model_Resource::RESOURCE_NOT_FOUND,
+            'code'    => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
+            'item_id' => $invalidId
+        );
+        $this->assertEquals($errors[0], $expectedError);
+    }
+
+    /**
+     * Test unsuccessful stock items update with missing ItemId
+     */
+    public function testUpdateStockItemsWithMissingItemId()
+    {
+        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+        unset($singleItemDataForUpdate['item_id']); // missing item_id
+        $dataForUpdate = array($singleItemDataForUpdate);
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['error'];
+        $this->assertEquals(count($errors), 1);
+
+        $expectedError = array(
+            'message' => 'Missing "item_id" in request.',
+            'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+        );
+        $this->assertEquals($errors[0], $expectedError);
+    }
+
+    /**
+     * Test unsuccessful stock items update with empty ItemId
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     */
+    public function testUpdateStockItemsWithEmptyItemId()
+    {
+        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+        $singleItemDataForUpdate['item_id'] = NULL; // empty item_id
+        $dataForUpdate = array($singleItemDataForUpdate);
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['error'];
+        $this->assertEquals(count($errors), 1);
+
+        $expectedError = array(
+            'message' => 'Empty value for "item_id" in request.',
+            'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+        );
+        $this->assertEquals($errors[0], $expectedError);
+    }
+
+    /**
+     * Test successful stock items update with invalid data
+     *
+     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     */
+    public function testUpdateStockItemsWithInvalidData()
+    {
+        $dataForUpdate = array();
+        $fixtureItems = $this->getFixture('cataloginventory_stock_items');
+        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_invalid_data.php';
+        foreach ($fixtureItems as $fixtureItem) {
+            $singleItemDataForUpdate['item_id'] = $fixtureItem->getId();
+            $dataForUpdate[] = $singleItemDataForUpdate;
+        }
+
+        $restResponse = $this->callPut('stockitems', $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $errors = $responseData['error'];
+        $countOfErrorsInSingleItemDataForUpdate = count($singleItemDataForUpdate) - 1;
+        // Several errors can be returned because of one invalid position
+        $this->assertGreaterThanOrEqual(count($fixtureItems) * $countOfErrorsInSingleItemDataForUpdate, count($errors));
     }
 }

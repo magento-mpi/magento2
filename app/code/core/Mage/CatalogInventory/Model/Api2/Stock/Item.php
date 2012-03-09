@@ -31,6 +31,6 @@
  * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resource_Instance
+class Mage_CatalogInventory_Model_Api2_Stock_Item extends Mage_Api2_Model_Resource
 {
 }

@@ -34,7 +34,7 @@
             </cataloginventory>
         </resource_groups>
         <resources>
-            <stockitem>
+            <stock_item>
                 <group>cataloginventory</group>
                 <model>cataloginventory/api2_stock_item</model>
                 <working_model>cataloginventory/stock_item</working_model>
@@ -83,42 +83,15 @@
                     </admin>
                 </exclude_attributes>
                 <routes>
-                    <route_main>
-                        <mask>/stockitems/:id</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/stockitems/:id</route>
+                        <action_type>single</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/stockitems</route>
+                        <action_type>multi</action_type>
+                    </route_collection>
                 </routes>
-                <collection>stockitems</collection>
-                <versions>1</versions>
-            </stockitem>
-            <stockitems>
-                <group>cataloginventory</group>
-                <model>cataloginventory/api2_stock_items</model>
-                <working_model>cataloginventory/stock_item</working_model>
-                <title>Stock Items</title>
-                <privileges>
-                    <admin>
-                        <retrieve>1</retrieve>
-                        <update>1</update>
-                    </admin>
-                </privileges>
-                <exclude_attributes>
-                    <admin>
-                        <write>
-                            <item_id>1</item_id>
-                            <product_id>1</product_id>
-                            <stock_id>1</stock_id>
-                            <low_stock_date>1</low_stock_date>
-                            <stock_status_changed_auto>1</stock_status_changed_auto>
-                        </write>
-                    </admin>
-                </exclude_attributes>
-                <routes>
-                    <route_main>
-                        <mask>/stockitems</mask>
-                    </route_main>
-                </routes>
-                <instance>stockitem</instance>
-                <versions>1</versions>
                 <id_field_name>item_id</id_field_name>
                 <validators>
                     <fields>
@@ -283,7 +256,8 @@
                         </is_decimal_divided>
                     </fields>
                 </validators>
-            </stockitems>
+                <versions>1</versions>
+            </stock_item>
         </resources>
     </api2>
 </config>
