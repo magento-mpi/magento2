@@ -310,7 +310,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             return;
         }
 
-        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB,
+        $baseUrl = Mage::getBaseUrl(
+            Mage_Core_Model_Store::URL_TYPE_WEB,
             Mage::getConfig()->shouldUrlBeSecure($request->getPathInfo())
         );
         if (!$baseUrl) {
