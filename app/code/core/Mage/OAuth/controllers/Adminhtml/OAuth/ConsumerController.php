@@ -34,6 +34,23 @@
 class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Unset unused data from request
+     * Skip getting "key" and "secret" because its generated from server side only
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _filter(array $data)
+    {
+        foreach (array('id', 'back', 'form_key', 'key', 'secret') as $field) {
+            if (isset($data[$field])) {
+                unset($data[$field]);
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Init titles
      *
      * @return Mage_OAuth_Adminhtml_OAuth_ConsumerController
@@ -119,13 +136,8 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             return;
         }
 
-        $formData = $this->_getFormData();
-        if ($formData) {
-            $model->addData($formData);
-        }
-
+        $model->addData($this->_filter($this->getRequest()->getParams()));
         Mage::register('current_consumer', $model);
-
 
         $this->loadLayout();
         $this->renderLayout();
@@ -146,14 +158,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             return;
         }
 
-        $data = $this->getRequest()->getParams();
-
-        //unset unused data
-        //skip getting "key" and "secret" because its generated from server side only
-        unset($data['id'], $data['back'], $data['form_key'], $data['key'], $data['secret']);
-
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $data = $this->_filter($this->getRequest()->getParams());
 
         /** @var $model Mage_OAuth_Model_Consumer */
         $model = Mage::getModel('oauth/consumer');
@@ -161,7 +166,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         if ($id) {
             if (!(int) $id) {
                 $this->_getSession()->addError(
-                    $helper->__('Invalid ID parameter.'));
+                    $this->__('Invalid ID parameter.'));
                 $this->_redirect('*/*/index');
                 return;
             }
@@ -169,7 +174,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
 
             if (!$model->getId()) {
                 $this->_getSession()->addError(
-                    $helper->__('Entry with ID #%s not found.', $id));
+                    $this->__('Entry with ID #%s not found.', $id));
                 $this->_redirect('*/*/index');
                 return;
             }
@@ -178,6 +183,14 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             if ($dataForm) {
                 $data['key']    = $dataForm['key'];
                 $data['secret'] = $dataForm['secret'];
+            } else {
+                // If an admin was started create a new consumer and at this moment he has been edited an existing
+                // consumer, we save the new consumer with a new key-secret pair
+                /** @var $helper Mage_OAuth_Helper_Data */
+                $helper = Mage::helper('oauth');
+
+                $data['key']    = $helper->generateConsumerKey();
+                $data['secret'] = $helper->generateConsumerSecret();
             }
         }
 
@@ -193,7 +206,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             $this->_setFormData(null);
             Mage::logException($e);
-            $this->_getSession()->addError('An error occurred on saving consumer data.');
+            $this->_getSession()->addError($this->__('An error occurred on saving consumer data.'));
         }
 
         if ($this->getRequest()->getParam('back')) {
