@@ -253,7 +253,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     public function getCount($filter, $range)
     {
         $select = $this->_getSelect($filter);
-        $priceExpression = $this->_getPriceExpression($filter, $select);
+        $priceExpression = $this->_getFullPriceExpression($filter, $select);
         $rate = $filter->getCurrencyRate();
 
         /**
@@ -265,7 +265,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
             $range = 1;
         }
         $countExpr = new Zend_Db_Expr('COUNT(*)');
-        $rangeExpr = new Zend_Db_Expr("ROUND(({$priceExpression}) / {$range}) + 1");
+        $rangeExpr = new Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
 
         $select->columns(array(
             'range' => $rangeExpr,
