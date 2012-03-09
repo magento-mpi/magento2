@@ -33,6 +33,12 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Addresses_Rest extends Mage_Sales_Model_Api2_Order_Addresses
 {
+    /**#@+
+     * Parameters in request used in model (usually specified in route mask)
+     */
+    const PARAM_ORDER_ID = 'order_id';
+    /**#@-*/
+
     /**
      * Retrieve order addresses
      *

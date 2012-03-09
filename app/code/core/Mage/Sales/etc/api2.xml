@@ -125,12 +125,22 @@
                 </include_attributes>
                 <force_attributes>
                     <customer>
+                        <payment_method>1</payment_method>
                         <addresses>1</addresses>
                         <order_items>1</order_items>
+                        <gift_message_from>1</gift_message_from>
+                        <gift_message_to>1</gift_message_to>
+                        <gift_message_body>1</gift_message_body>
+                        <order_comments>1</order_comments>
                     </customer>
                     <admin>
+                        <payment_method>1</payment_method>
                         <addresses>1</addresses>
                         <order_items>1</order_items>
+                        <gift_message_from>1</gift_message_from>
+                        <gift_message_to>1</gift_message_to>
+                        <gift_message_body>1</gift_message_body>
+                        <order_comments>1</order_comments>
                     </admin>
                 </force_attributes>
             </orders>
@@ -166,12 +176,22 @@
                 </include_attributes>
                 <force_attributes>
                     <customer>
+                        <payment_method>1</payment_method>
                         <addresses>1</addresses>
                         <order_items>1</order_items>
+                        <gift_message_from>1</gift_message_from>
+                        <gift_message_to>1</gift_message_to>
+                        <gift_message_body>1</gift_message_body>
+                        <order_comments>1</order_comments>
                     </customer>
                     <admin>
+                        <payment_method>1</payment_method>
                         <addresses>1</addresses>
                         <order_items>1</order_items>
+                        <gift_message_from>1</gift_message_from>
+                        <gift_message_to>1</gift_message_to>
+                        <gift_message_body>1</gift_message_body>
+                        <order_comments>1</order_comments>
                     </admin>
                 </force_attributes>
                 <privileges>

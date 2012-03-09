@@ -33,6 +33,12 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_Api2_Order_Items
 {
+    /**#@+
+     * Parameters in request used in model (usually specified in route mask)
+     */
+    const PARAM_ORDER_ID = 'id';
+    /**#@-*/
+
     /**
      * Get order item list
      *
@@ -58,7 +64,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = $this->_loadOrderById(
-            $this->getRequest()->getParam(Mage_Sales_Model_Api2_Order_Items::PARAM_ORDER_ID)
+            $this->getRequest()->getParam(self::PARAM_ORDER_ID)
         );
 
         /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */

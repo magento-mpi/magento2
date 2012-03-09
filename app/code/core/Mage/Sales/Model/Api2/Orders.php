@@ -33,4 +33,41 @@
  */
 class Mage_Sales_Model_Api2_Orders extends Mage_Api2_Model_Resource_Collection
 {
+    /**#@+
+     * Parameters' names with special meaning
+     */
+    const PARAM_GIFT_MESSAGE   = '_gift_message';
+    const PARAM_ORDER_COMMENTS = '_order_comments';
+    const PARAM_PAYMENT_METHOD = '_payment_method';
+    /**#@-*/
+
+    /**
+     * Check gift messages information is allowed
+     *
+     * @return bool
+     */
+    public function _isGiftMessageAllowed()
+    {
+        return in_array(self::PARAM_GIFT_MESSAGE, $this->getFilter()->getAllowedAttributes());
+    }
+
+    /**
+     * Check order comments information is allowed
+     *
+     * @return bool
+     */
+    public function _isOrderCommentsAllowed()
+    {
+        return in_array(self::PARAM_ORDER_COMMENTS, $this->getFilter()->getAllowedAttributes());
+    }
+
+    /**
+     * Check payment method information is allowed
+     *
+     * @return bool
+     */
+    public function _isPaymentMethodAllowed()
+    {
+        return in_array(self::PARAM_PAYMENT_METHOD, $this->getFilter()->getAllowedAttributes());
+    }
 }

@@ -317,6 +317,25 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Check ACL permission for specified resource with current other conditions
+     *
+     * @param string $resourceId Resource identifier
+     * @return bool
+     * @throws Exception
+     */
+    protected function _isSubCallAllowed($resourceId)
+    {
+        /** @var $globalAcl Mage_Api2_Model_Acl_Global */
+        $globalAcl = Mage::getSingleton('api2/acl_global');
+
+        try {
+            return $globalAcl->isAllowed($this->getApiUser(), $resourceId, $this->getOperation());
+        } catch (Mage_Api2_Exception $e) {
+            throw new Exception('Invalid arguments for isAllowed() call');
+        }
+    }
+
+    /**
      * Add non-critical error
      *
      * @param string $message

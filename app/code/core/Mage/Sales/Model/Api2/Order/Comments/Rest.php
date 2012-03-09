@@ -33,6 +33,12 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Model_Api2_Order_Comments
 {
+    /**#@+
+     * Parameters in request used in model (usually specified in route mask)
+     */
+    const PARAM_ORDER_ID = 'id';
+    /**#@-*/
+
     /**
      * Get sales order comments
      *
@@ -76,7 +82,7 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Status_History_Collection */
         $collection = Mage::getResourceModel('sales/order_status_history_collection');
-        $collection->setOrderFilter($this->_loadOrderById($this->getRequest()->getParam('id')))
+        $collection->setOrderFilter($this->_loadOrderById($this->getRequest()->getParam(self::PARAM_ORDER_ID)))
             ->addFieldToFilter('entity_name', Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
 
         return $collection;

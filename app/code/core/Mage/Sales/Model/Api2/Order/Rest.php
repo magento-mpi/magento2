@@ -41,9 +41,32 @@ abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Or
      */
     protected function _retrieve()
     {
+        $orderId = $this->getRequest()->getParam('id');
+
         /* @var $order Mage_Sales_Model_Order */
-        $order = $this->_loadOrderById($this->getRequest()->getParam('id'));
-        return $order->getData();
+        $order      = $this->_loadOrderById($orderId);
+        $orderData  = $order->getData();
+        $addresses  = $this->_getAddresses($orderId);
+        $orderItems = $this->_getItems($orderId);
+
+        if ($this->_isPaymentMethodAllowed()) {
+            $orderData += $this->_getPaymentMethodInfo($orderId);
+        }
+        if (is_array($addresses) && $addresses && reset($addresses)) {
+            $orderData['addresses'] = $addresses;
+        }
+        if (is_array($orderItems) && $orderItems && reset($orderItems)) {
+            $orderData['order_items'] = $orderItems;
+        }
+        if ($this->_isGiftMessageAllowed()) {
+            $orderData += $this->_getGiftMessageInfo($orderData['gift_message_id']);
+        }
+        if ($this->_isOrderCommentsAllowed()) {
+            if (($comments = $this->_getComments($orderId))) {
+                $orderData['order_comments'] = $comments;
+            }
+        }
+        return $orderData;
     }
 
     /**

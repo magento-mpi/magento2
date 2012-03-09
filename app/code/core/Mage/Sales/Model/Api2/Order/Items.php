@@ -33,9 +33,4 @@
  */
 class Mage_Sales_Model_Api2_Order_Items extends Mage_Api2_Model_Resource_Collection
 {
-    /**#@+
-     * Parameters in request used in model (usually specified in route mask)
-     */
-    const PARAM_ORDER_ID = 'id';
-    /**#@-*/
 }
