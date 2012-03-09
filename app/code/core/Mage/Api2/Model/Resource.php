@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 Resource model
+ * API2 Abstract Resource
  *
  * @category   Mage
  * @package    Mage_Api2
@@ -33,6 +33,13 @@
  */
 abstract class Mage_Api2_Model_Resource
 {
+    /**#@+
+     *  Action types
+     */
+    const ACTION_TYPE_SINGLE = 'single';
+    const ACTION_TYPE_MULTI  = 'multi';
+    /**#@-*/
+
     /**#@+
      * Operations. Resource method names
      */
@@ -56,9 +63,19 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
     const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
     const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
-    const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.'; //error while pre-validating
+    const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
     const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
+    const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
+    /**#@-*/
+
+    /**#@+
+     *  Default collection resources error messages
+     */
+    const RESOURCE_COLLECTION_PAGING_ERROR     = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR   = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR  = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
     /**#@-*/
 
     /**#@+
@@ -68,18 +85,9 @@ abstract class Mage_Api2_Model_Resource
     /**#@-*/
 
     /**
-     * Api user
-     *
-     * @var Mage_Api2_Model_Auth_User_Abstract
+     * Default page size
      */
-    protected $_apiUser;
-
-    /**
-     * Attribute Filter
-     *
-     * @var  Mage_Api2_Model_Acl_Filter
-     */
-    protected $_filter;
+    const DEFAULT_PAGE_SIZE = 10;
 
     /**
      * Request
@@ -89,32 +97,11 @@ abstract class Mage_Api2_Model_Resource
     protected $_request;
 
     /**
-     * Response
-     *
-     * @var Zend_Controller_Response_Http
-     */
-    protected $_response;
-
-    /**
-     * Renderer
-     *
-     * @var Mage_Api2_Model_Renderer_Interface
-     */
-    protected $_renderer;
-
-    /**
      * Resource type
      *
      * @var string
      */
     protected $_resourceType;
-
-    /**
-     * If TRUE - no rendering will be done and dispatch will return data. Otherwise, by default
-     *
-     * @var bool
-     */
-    protected $_returnData = false;
 
     /**
      * Api type
@@ -124,13 +111,6 @@ abstract class Mage_Api2_Model_Resource
     protected $_apiType;
 
     /**
-     * User type
-     *
-     * @var string
-     */
-    protected $_userType;
-
-    /**
      * API Version
      *
      * @var int
@@ -138,9 +118,46 @@ abstract class Mage_Api2_Model_Resource
     protected $_version = null;
 
     /**
-     * @var Mage_Api2_Model_Multicall
+     * Response
+     *
+     * @var Zend_Controller_Response_Http
      */
-    protected $_multicall;
+    protected $_response;
+
+    /**
+     * Attribute Filter
+     *
+     * @var  Mage_Api2_Model_Acl_Filter
+     */
+    protected $_filter;
+
+    /**
+     * Renderer
+     *
+     * @var Mage_Api2_Model_Renderer_Interface
+     */
+    protected $_renderer;
+
+    /**
+     * Api user
+     *
+     * @var Mage_Api2_Model_Auth_User_Abstract
+     */
+    protected $_apiUser;
+
+    /**
+     * User type
+     *
+     * @var string
+     */
+    protected $_userType;
+
+    /**
+     * One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
+     *
+     * @var string
+     */
+    protected $_actionType;
 
     /**
      * One of Mage_Api2_Model_Resource::OPERATION_... constant
@@ -150,9 +167,90 @@ abstract class Mage_Api2_Model_Resource
     protected $_operation;
 
     /**
-     * Internal resource model dispatch
+     * If TRUE - no rendering will be done and dispatch will return data. Otherwise, by default
+     *
+     * @var bool
      */
-    abstract public function dispatch();
+    protected $_returnData = false;
+
+    /**
+     * @var Mage_Api2_Model_Multicall
+     */
+    protected $_multicall;
+
+    /**
+     * Resource model dispatch
+     */
+    final public function dispatch()
+    {
+        switch ($this->getActionType() . $this->getOperation()) {
+            /* Create */
+            case self::ACTION_TYPE_MULTI . self::OPERATION_CREATE:
+                $requestData = $this->getRequest()->getBodyParams();
+                if (empty($requestData)) {
+                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                }
+                $filteredData = $this->getFilter()->in($requestData);
+                // The create action has the dynamic type which depends on data in the request body
+                if ($this->getRequest()->isAssocArrayInRequestBody()) {
+                    if (empty($filteredData)) {
+                        $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                    }
+                    $newItemLocation = $this->_create($filteredData);
+                    $this->getResponse()->setHeader('Location', $newItemLocation);
+                } else {
+                    $this->_multiCreate($filteredData);
+                    $this->_render($this->getResponse()->getMessages());
+                }
+                break;
+            /* Retrieve */
+            case self::ACTION_TYPE_SINGLE . self::OPERATION_RETRIEVE:
+                $retrievedData = $this->_retrieve();
+                $filteredData  = $this->getFilter()->out($retrievedData);
+                $this->_render($filteredData);
+                break;
+            case self::ACTION_TYPE_MULTI . self::OPERATION_RETRIEVE:
+                $retrievedData = $this->_retrieveCollection();
+                $filteredData  = $this->getFilter()->collectionOut($retrievedData);
+                $this->_render($filteredData);
+                break;
+            /* Update */
+            case self::ACTION_TYPE_SINGLE . self::OPERATION_UPDATE:
+                $requestData = $this->getRequest()->getBodyParams();
+                if (empty($requestData)) {
+                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                }
+                $filteredData = $this->getFilter()->in($requestData);
+                if (empty($filteredData)) {
+                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                }
+                $this->_update($filteredData);
+                break;
+            case self::ACTION_TYPE_MULTI . self::OPERATION_UPDATE:
+                $requestData = $this->getRequest()->getBodyParams();
+                if (empty($requestData)) {
+                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                }
+                $filteredData = $this->getFilter()->collectionIn($requestData);
+                $this->_multiUpdate($filteredData);
+                $this->_render($this->getResponse()->getMessages());
+                break;
+            /* Delete */
+            case self::ACTION_TYPE_SINGLE . self::OPERATION_DELETE:
+                $this->_delete();
+                break;
+            case self::ACTION_TYPE_MULTI . self::OPERATION_DELETE:
+                $requestData = $this->getRequest()->getBodyParams();
+                if (empty($requestData)) {
+                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                }
+                $this->_multiDelete($requestData);
+                break;
+            default:
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+                break;
+        }
+    }
 
     /**
      * Dummy method to be replaced in descendants
@@ -160,6 +258,16 @@ abstract class Mage_Api2_Model_Resource
      * @param array $data
      */
     protected function _create(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
+     * @param array $data
+     */
+    protected function _multiCreate(array $data)
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
@@ -177,9 +285,29 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Dummy method to be replaced in descendants
      *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
      * @param array $data
      */
     protected function _update(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Dummy method to be replaced in descendants
+     *
+     * @param array $data
+     */
+    protected function _multiUpdate(array $data)
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
@@ -193,203 +321,141 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Render data using registered Renderer
-     *
-     * @param mixed $data
+     * Dummy method to be replaced in descendants
      */
-    protected function _render($data)
+    protected function _multiDelete()
     {
-        $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
-            ->setBody($this->getRenderer()->render($data));
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
-     * Validate input data for self::create() or self::update() depends on the kind of resource:
-     *   Mage_Api2_Model_Resource_Collection::create()
-     *   Mage_Api2_Model_Resource_Instance::update()
+     * Get request
      *
-     * @param array $data
-     * @param array $required
-     * @param array $notEmpty
-     */
-    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
-    {
-        foreach ($required as $key) {
-            if (!array_key_exists($key, $data)) {
-                $this->_error(sprintf('Missing "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-                continue;
-            }
-        }
-
-        foreach ($notEmpty as $key) {
-            if (array_key_exists($key, $data) && empty($data[$key])) {
-                $this->_error(
-                    sprintf('Empty value for "%s" in request.', $key), Mage_Api2_Model_Server::HTTP_BAD_REQUEST
-                );
-            }
-        }
-
-        if ($this->getResponse()->isException()) {
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-    }
-
-    /**
-     * Throw exception, critical error - stop execution
-     *
-     * @param string $message
-     * @param int $code
-     * @throws Mage_Api2_Exception
-     */
-    protected function _critical($message, $code = null)
-    {
-        if ($code === null) {
-            $errors = $this->_getCriticalErrors();
-
-            if (!isset($errors[$message])) {
-                throw new Exception(
-                    sprintf('Invalid error "%s" or error code missed.', $message),
-                    Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
-                );
-            }
-            $code = $errors[$message];
-        }
-        throw new Mage_Api2_Exception($message, $code);
-    }
-
-    /**
-     * Retrieve array with critical errors mapped to HTTP codes
-     *
-     * @return array
-     */
-    protected function _getCriticalErrors()
-    {
-        return array(
-            self::RESOURCE_NOT_FOUND => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
-            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-        );
-    }
-
-    /**
-     * Resource specific method to retrieve attributes' codes. May be overriden in child.
-     *
-     * @return array
-     */
-    protected function _getResourceAttributes()
-    {
-        return array();
-    }
-
-    /**
-     * Create model of specified resource and configure it with current object attributes
-     *
-     * @param string $resourceId Resource identifier
-     * @param array $requestParams Parameters to be set to request
-     * @return Mage_Api2_Model_Resource
-     */
-    protected function _getSubModel($resourceId, array $requestParams)
-    {
-        $resourceModel = Mage_Api2_Model_Dispatcher::loadResourceModel(
-            $this->getConfig()->getResourceModel($resourceId),
-            $this->getApiType(),
-            $this->getUserType(),
-            $this->getVersion()
-        );
-
-        /** @var $request Mage_Api2_Model_Request */
-        $request = Mage::getModel('api2/request');
-
-        $request->setParams($requestParams);
-
-        $resourceModel
-            ->setRequest($request) // request MUST be set first
-            ->setApiUser($this->getApiUser())
-            ->setApiType($this->getApiType())
-            ->setResourceType($resourceId)
-            ->setOperation($this->getOperation())
-            ->setReturnData(true);
-
-        return $resourceModel;
-    }
-
-    /**
-     * Check ACL permission for specified resource with current other conditions
-     *
-     * @param string $resourceId Resource identifier
-     * @return bool
      * @throws Exception
+     * @return Mage_Api2_Model_Request
      */
-    protected function _isSubCallAllowed($resourceId)
+    public function getRequest()
     {
-        /** @var $globalAcl Mage_Api2_Model_Acl_Global */
-        $globalAcl = Mage::getSingleton('api2/acl_global');
-
-        try {
-            return $globalAcl->isAllowed($this->getApiUser(), $resourceId, $this->getOperation());
-        } catch (Mage_Api2_Exception $e) {
-            throw new Exception('Invalid arguments for isAllowed() call');
+        if (!$this->_request) {
+            throw new Exception('Request is not set.');
         }
+        return $this->_request;
     }
 
     /**
-     * Add non-critical error
+     * Set request
      *
-     * @param string $message
-     * @param int $code
+     * @param Mage_Api2_Model_Request $request
      * @return Mage_Api2_Model_Resource
      */
-    protected function _error($message, $code)
+    public function setRequest(Mage_Api2_Model_Request $request)
     {
-        $this->getResponse()->setException(new Mage_Api2_Exception($message, $code));
-
+        $this->setResourceType($request->getResourceType());
+        $this->setApiType($request->getApiType());
+        $this->_request = $request;
         return $this;
     }
 
     /**
-     * Add success message
+     * Get resource type
+     * If not exists get from Request
      *
-     * @param string $message
-     * @param int $code
-     * @param int $itemId
+     * @return string
+     */
+    public function getResourceType()
+    {
+        if (!$this->_resourceType) {
+            $this->setResourceType($this->getRequest()->getResourceType());
+        }
+        return $this->_resourceType;
+    }
+
+    /**
+     * Set resource type
+     *
+     * @param string $resourceType
      * @return Mage_Api2_Model_Resource
      */
-    protected function _successMessage($message, $code, $itemId = null)
+    public function setResourceType($resourceType)
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        $this->_resourceType = $resourceType;
         return $this;
     }
 
     /**
-     * Add error message
+     * Get API type
+     * If not exists get from Request.
      *
-     * @param string $message
-     * @param int $code
-     * @param int $itemId
+     * @return string
+     */
+    public function getApiType()
+    {
+        if (!$this->_apiType) {
+            $this->setApiType($this->getRequest()->getApiType());
+        }
+        return $this->_apiType;
+    }
+
+    /**
+     * Set API type
+     *
+     * @param string $apiType
      * @return Mage_Api2_Model_Resource
      */
-    protected function _errorMessage($message, $code, $itemId = null)
+    public function setApiType($apiType)
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        $this->_apiType = $apiType;
         return $this;
     }
 
     /**
-     * Perform multiple calls to subresources of specified resource
+     * Determine version from class name
      *
-     * @param string $resourceInstanceId
+     * @return int
+     */
+    public function getVersion()
+    {
+        if (null === $this->_version) {
+            if (preg_match('/^.+([1-9]\d*)$/', get_class($this), $matches) ) {
+                $this->setVersion($matches[1]);
+            } else {
+                throw new Exception('Can not determine version from class name');
+            }
+        }
+        return $this->_version;
+    }
+
+    /**
+     * Set API version
+     *
+     * @param int $version
+     */
+    public function setVersion($version)
+    {
+        $this->_version = (int)$version;
+    }
+
+    /**
+     * Get response
+     *
      * @return Mage_Api2_Model_Response
      */
-    protected function _multicall($resourceInstanceId)
+    public function getResponse()
     {
-        if (!$this->_multicall) {
-            $this->_multicall = Mage::getModel('api2/multicall');
+        if (!$this->_response) {
+            throw new Exception('Response is not set.');
         }
-        $resourceName = $this->getResourceType();
-        return $this->_multicall->call($resourceInstanceId, $resourceName, $this->getRequest());
+        return $this->_response;
+    }
+
+    /**
+     * Set response
+     *
+     * @param Mage_Api2_Model_Response $response
+     */
+    public function setResponse(Mage_Api2_Model_Response $response)
+    {
+        $this->_response = $response;
     }
 
     /**
@@ -444,154 +510,6 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Get API user
-     *
-     * @throws Exception
-     * @return Mage_Api2_Model_Auth_User_Abstract
-     */
-    public function getApiUser()
-    {
-        if (!$this->_apiUser) {
-            throw new Exception('API user is not set.');
-        }
-
-        return $this->_apiUser;
-    }
-
-    /**
-     * Set API user
-     *
-     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
-    {
-        $this->_apiUser = $apiUser;
-
-        return $this;
-    }
-
-    /**
-     * Get request
-     *
-     * @throws Exception
-     * @return Mage_Api2_Model_Request
-     */
-    public function getRequest()
-    {
-        if (!$this->_request) {
-            throw new Exception('Request is not set.');
-        }
-        return $this->_request;
-    }
-
-    /**
-     * Set request
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setRequest(Mage_Api2_Model_Request $request)
-    {
-        $this->setResourceType($request->getResourceType());
-        $this->setApiType($request->getApiType());
-
-        $this->_request = $request;
-
-        return $this;
-    }
-
-    /**
-     * Get response
-     *
-     * @return Mage_Api2_Model_Response
-     */
-    public function getResponse()
-    {
-        if (!$this->_response) {
-            throw new Exception('Response is not set.');
-        }
-        return $this->_response;
-    }
-
-    /**
-     * Set response
-     *
-     * @param Mage_Api2_Model_Response $response
-     */
-    public function setResponse(Mage_Api2_Model_Response $response)
-    {
-        $this->_response = $response;
-    }
-
-    /**
-     * Set 'returnData' flag
-     *
-     * @param boolean $flag
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setReturnData($flag)
-    {
-        $this->_returnData = $flag;
-
-        return $this;
-    }
-
-    /**
-     * Get resource type
-     * If not exists get from Request
-     *
-     * @return string
-     */
-    public function getResourceType()
-    {
-        if (!$this->_resourceType) {
-            $this->setResourceType($this->getRequest()->getResourceType());
-        }
-        return $this->_resourceType;
-    }
-
-    /**
-     * Set resource type
-     *
-     * @param string $resourceType
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setResourceType($resourceType)
-    {
-        $this->_resourceType = $resourceType;
-        return $this;
-    }
-
-    /**
-     * Get API type
-     * If not exists get from Request.
-     *
-     * @return string
-     */
-    public function getApiType()
-    {
-        if (!$this->_apiType) {
-            $this->setApiType($this->getRequest()->getApiType());
-        }
-
-        return $this->_apiType;
-    }
-
-    /**
-     * Set API type
-     *
-     * @param string $apiType
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setApiType($apiType)
-    {
-        $this->_apiType = $apiType;
-
-        return $this;
-    }
-
-    /**
      * Get user type
      * If not exists get from apiUser
      *
@@ -618,30 +536,55 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Determine version from class name
+     * Get API user
      *
-     * @return int
+     * @throws Exception
+     * @return Mage_Api2_Model_Auth_User_Abstract
      */
-    public function getVersion()
+    public function getApiUser()
     {
-        if (null === $this->_version) {
-            if (preg_match('/^.+([1-9]\d*)$/', get_class($this), $matches) ) {
-                $this->setVersion($matches[1]);
-            } else {
-                throw new Exception('Can not determine version from class name');
-            }
+        if (!$this->_apiUser) {
+            throw new Exception('API user is not set.');
         }
-        return $this->_version;
+        return $this->_apiUser;
     }
 
     /**
-     * Set API version
+     * Set API user
      *
-     * @param int $version
+     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
+     * @return Mage_Api2_Model_Resource
      */
-    public function setVersion($version)
+    public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
-        $this->_version = (int)$version;
+        $this->_apiUser = $apiUser;
+        return $this;
+    }
+
+    /**
+     * Get action type
+     * If not exists get from Request
+     *
+     * @return string One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
+     */
+    public function getActionType()
+    {
+        if (!$this->_actionType) {
+            $this->setActionType($this->getRequest()->getActionType());
+        }
+        return $this->_actionType;
+    }
+
+    /**
+     * Set route type
+     *
+     * @param string $actionType One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
+     * @return Mage_Api2_Model_Resource
+     */
+    public function setActionType($actionType)
+    {
+        $this->_actionType = $actionType;
+        return $this;
     }
 
     /**
@@ -671,16 +614,6 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Retrieve name of object id field
-     *
-     * @return string
-     */
-    public function getIdFieldName()
-    {
-        return $this->getConfig()->getResourceIdFieldName($this->getResourceType());
-    }
-
-    /**
      * Get API2 config
      *
      * @return Mage_Api2_Model_Config
@@ -698,6 +631,288 @@ abstract class Mage_Api2_Model_Resource
     public function getWorkingModel()
     {
         return Mage::getModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
+    }
+
+    /**
+     * Retrieve name of object id field
+     *
+     * @return string
+     */
+    public function getIdFieldName()
+    {
+        return $this->getConfig()->getResourceIdFieldName($this->getResourceType());
+    }
+
+    /**
+     * Render data using registered Renderer
+     *
+     * @param mixed $data
+     */
+    protected function _render($data)
+    {
+        $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
+            ->setBody($this->getRenderer()->render($data));
+    }
+
+    /**
+     * Throw exception, critical error - stop execution
+     *
+     * @param string $message
+     * @param int $code
+     * @throws Mage_Api2_Exception
+     */
+    protected function _critical($message, $code = null)
+    {
+        if ($code === null) {
+            $errors = $this->_getCriticalErrors();
+            if (!isset($errors[$message])) {
+                throw new Exception(
+                    sprintf('Invalid error "%s" or error code missed.', $message),
+                    Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+                );
+            }
+            $code = $errors[$message];
+        }
+        throw new Mage_Api2_Exception($message, $code);
+    }
+
+    /**
+     * Retrieve array with critical errors mapped to HTTP codes
+     *
+     * @return array
+     */
+    protected function _getCriticalErrors()
+    {
+        return array(
+            '' => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_NOT_FOUND => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
+            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
+            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+        );
+    }
+
+    /**
+     * Add non-critical error
+     *
+     * @param string $message
+     * @param int $code
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _error($message, $code)
+    {
+        $this->getResponse()->setException(new Mage_Api2_Exception($message, $code));
+        return $this;
+    }
+
+    /**
+     * Add success message
+     *
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _successMessage($message, $code, $itemId = null)
+    {
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        return $this;
+    }
+
+    /**
+     * Add error message
+     *
+     * @param string $message
+     * @param int $code
+     * @param int $itemId
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _errorMessage($message, $code, $itemId = null)
+    {
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        return $this;
+    }
+
+    /**
+     * Set navigation parameters and apply filters from URL params
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @return Mage_Api2_Model_Resource_Collection
+     */
+    final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
+    {
+        $request    = $this->getRequest();
+        $pageNumber = $request->getPageNumber();
+        $orderField = $request->getOrderField();
+
+        if ($pageNumber != abs($pageNumber)) {
+            $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
+        }
+        if (null !== $orderField) {
+            $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
+            if (!is_string($orderField)
+                || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))) {
+
+                $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
+            }
+            $collection->setOrder($orderField, $request->getOrderDirection());
+        }
+        $collection->setCurPage($pageNumber)->setPageSize(self::DEFAULT_PAGE_SIZE);
+
+        return $this->_applyFilter($collection);
+    }
+
+    /**
+     * Validate filter data and apply it to collection if possible
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @return Mage_Api2_Model_Resource_Collection
+     */
+    protected function _applyFilter(Varien_Data_Collection_Db $collection)
+    {
+        $filter = $this->getRequest()->getFilter();
+
+        if (!method_exists($collection, 'addAttributeToFilter') || !$filter) {
+            return $this;
+        }
+        if (!is_array($filter)) {
+            $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+        }
+        $allowedAttributes = $this->getFilter()->getAllowedAttributes(self::OPERATION_ATTRIBUTE_READ);
+
+        foreach ($filter as $filterEntry) {
+            if (!is_array($filterEntry)
+                || !array_key_exists('attribute', $filterEntry)
+                || !in_array($filterEntry['attribute'], $allowedAttributes)) {
+                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            }
+            $attributeCode = $filterEntry['attribute'];
+
+            unset($filterEntry['attribute']);
+
+            try {
+                $collection->addAttributeToFilter($attributeCode, $filterEntry);
+            } catch(Exception $e) {
+                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Perform multiple calls to subresources of specified resource
+     *
+     * @param string $resourceInstanceId
+     * @return Mage_Api2_Model_Response
+     */
+    protected function _multicall($resourceInstanceId)
+    {
+        if (!$this->_multicall) {
+            $this->_multicall = Mage::getModel('api2/multicall');
+        }
+        $resourceName = $this->getResourceType();
+        return $this->_multicall->call($resourceInstanceId, $resourceName, $this->getRequest());
+    }
+
+    /**
+     * Create model of specified resource and configure it with current object attributes
+     *
+     * @param string $resourceId Resource identifier
+     * @param array $requestParams Parameters to be set to request
+     * @return Mage_Api2_Model_Resource
+     */
+    protected function _getSubModel($resourceId, array $requestParams)
+    {
+        $resourceModel = Mage_Api2_Model_Dispatcher::loadResourceModel(
+            $this->getConfig()->getResourceModel($resourceId),
+            $this->getApiType(),
+            $this->getUserType(),
+            $this->getVersion()
+        );
+
+        /** @var $request Mage_Api2_Model_Request */
+        $request = Mage::getModel('api2/request');
+
+        $request->setParams($requestParams);
+
+        $resourceModel
+            ->setRequest($request) // request MUST be set first
+            ->setApiUser($this->getApiUser())
+            ->setApiType($this->getApiType())
+            ->setResourceType($resourceId)
+            ->setOperation($this->getOperation())
+            ->setReturnData(true);
+
+        return $resourceModel;
+    }
+
+    /**
+     * Check ACL permission for specified resource with current other conditions
+     *
+     * @param string $resourceId Resource identifier
+     * @return bool
+     * @throws Exception
+     */
+    protected function _isSubCallAllowed($resourceId)
+    {
+        /** @var $globalAcl Mage_Api2_Model_Acl_Global */
+        $globalAcl = Mage::getSingleton('api2/acl_global');
+
+        try {
+            return $globalAcl->isAllowed($this->getApiUser(), $resourceId, $this->getOperation());
+        } catch (Mage_Api2_Exception $e) {
+            throw new Exception('Invalid arguments for isAllowed() call');
+        }
+    }
+
+    /**
+     * Set 'returnData' flag
+     *
+     * @param boolean $flag
+     * @return Mage_Api2_Model_Resource
+     */
+    public function setReturnData($flag)
+    {
+        $this->_returnData = $flag;
+        return $this;
+    }
+
+    /**
+     * Get resource location
+     *
+     * @param Mage_Core_Model_Abstract $resource
+     * @return string URL
+     */
+    protected function _getLocation(Mage_Core_Model_Abstract $resource)
+    {
+        // TODO: refactoring (call without getRoutes)
+
+        $routes = $this->getConfig()->getRoutes($this->getRequest()->getApiType());
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            'id'       => $resource->getId()
+        );
+        $uri = $routes[0]->assemble($params);
+        return '/' . $uri;
+    }
+
+    // TODO: move to another external object
+
+    /**
+     * Resource specific method to retrieve attributes' codes. May be overriden in child.
+     *
+     * @return array
+     */
+    protected function _getResourceAttributes()
+    {
+        return array();
     }
 
     /**
@@ -772,20 +987,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getAvailableAttributesFromConfig()
     {
-        $available = $this->getConfig()->getResourceAttributes($this->getResourceType());
-
-        if (!$available) { // try to get from partner
-            if ($this instanceof Mage_Api2_Model_Resource_Instance) {
-                if (($collectionNode = $this->getConfig()->getResourceCollection($this->getResourceType()))) {
-                    $available = $this->getConfig()->getResourceAttributes($collectionNode);
-                }
-            } elseif ($this instanceof Mage_Api2_Model_Resource_Collection) {
-                if (($instanceNode = $this->getConfig()->getResourceInstance($this->getResourceType()))) {
-                    $available = $this->getConfig()->getResourceAttributes($instanceNode);
-                }
-            }
-        }
-        return $available;
+        return $this->getConfig()->getResourceAttributes($this->getResourceType());
     }
 
     /**

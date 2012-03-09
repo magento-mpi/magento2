@@ -96,7 +96,8 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         }
         $operation = $options['operation'];
 
-        $validationConfig = $resource->getConfig()->getValidationConfig($resource, self::CONFIG_NODE_KEY);
+        $validationConfig = $resource->getConfig()->getValidationConfig(
+            $resource->getResourceType(), self::CONFIG_NODE_KEY);
 
         if (!isset($validationConfig[$userType]['form_model'])) {
             throw new Exception("Config parameter 'formPath' is empty.");

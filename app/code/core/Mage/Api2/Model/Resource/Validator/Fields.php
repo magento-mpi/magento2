@@ -76,7 +76,8 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
         }
         $this->_resource = $options['resource'];
 
-        $validationConfig = $this->_resource->getConfig()->getValidationConfig($this->_resource, self::CONFIG_NODE_KEY);
+        $validationConfig = $this->_resource->getConfig()->getValidationConfig(
+            $this->_resource->getResourceType(), self::CONFIG_NODE_KEY);
         $this->_buildValidatorsChain($validationConfig);
     }
 
@@ -90,7 +91,7 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
     protected function _buildValidatorsChain(array $validationConfig)
     {
         foreach ($validationConfig as $field => $validatorsConfig) {
-            if (count($validatorsConfig) > 0) {
+            if (count($validatorsConfig)) {
                 $chainForOneField = new Zend_Validate();
                 foreach ($validatorsConfig as $validatorName => $validatorConfig) {
                     // it is required field

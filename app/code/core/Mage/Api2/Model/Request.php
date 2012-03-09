@@ -56,6 +56,13 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     protected $_interpreter;
 
     /**
+     * Body params
+     *
+     * @var array
+     */
+    protected $_bodyParams;
+
+    /**
      * Constructor
      *
      * If a $uri is passed, the object will attempt to populate itself using
@@ -138,7 +145,10 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getBodyParams()
     {
-        return $this->_getInterpreter()->interpret((string) $this->getRawBody());
+        if (null == $this->_bodyParams) {
+            $this->_bodyParams = $this->_getInterpreter()->interpret((string)$this->getRawBody());
+        }
+        return $this->_bodyParams;
     }
 
     /**
@@ -274,5 +284,32 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getVersion()
     {
         return $this->getHeader('Version');
+    }
+
+    /**
+     * Retrieve action type
+     *
+     * @return string
+     */
+    public function getActionType()
+    {
+        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
+        return isset($this->_params['action_type']) ? $this->_params['action_type'] : null;
+    }
+
+    /**
+     * It checks if the array in the request body is an associative one.
+     * It is required for definition of the dynamic aaction type (multi or single)
+     *
+     * @return bool
+     */
+    public function isAssocArrayInRequestBody()
+    {
+        $params = $this->getBodyParams();
+        if (count($params)) {
+            $keys = array_keys($params);
+            return !is_numeric($keys[0]);
+        }
+        return false;
     }
 }

@@ -98,30 +98,32 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     {
         /** @var $helper Mage_Api2_Helper_Data */
         $helper = Mage::helper('api2');
-        if ($helper->isApiTypeSupported($apiType)) {
-            $routes = array();
-            foreach ($this->getResources() as $resourceKey => $resource) {
-                if (!$resource->routes) {
-                    continue;
-                }
-
-                foreach ($resource->routes->children() as $route) {
-                    $arguments = array(
-                        Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string) $route->mask,
-                        Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
-                            'model' => (string) $resource->model,
-                            'type'  => (string) $resourceKey
-                        )
-                    );
-
-                    $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
-                }
-            }
-            return $routes;
-        } else {
+        if (!$helper->isApiTypeSupported($apiType)) {
             throw new Mage_Api2_Exception(sprintf('API type "%s" is not supported', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
+
+        $routes = array();
+        foreach ($this->getResources() as $resourceKey => $resource) {
+            if (!$resource->routes) {
+                continue;
+            }
+
+            /** @var $routes Varien_Simplexml_Element */
+            foreach ($resource->routes->children() as $route) {
+                $arguments = array(
+                    Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => (string)$route->route,
+                    Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => array(
+                        'model'       => (string)$resource->model,
+                        'type'        => (string)$resourceKey,
+                        'action_type' => (string)$route->action_type
+                    )
+                );
+
+                $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
+            }
+        }
+        return $routes;
     }
 
     /**
@@ -222,39 +224,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve resource main route
-     *
-     * @param string $node
-     * @return string
-     */
-    public function getMainRoute($node)
-    {
-        return (string) $this->getNode('resources/' . $node . '/routes/route_main/mask');
-    }
-
-    /**
-     * Retrieve resource collection
-     *
-     * @param string $node
-     * @return string
-     */
-    public function getResourceCollection($node)
-    {
-        return (string) $this->getNode('resources/' . $node . '/collection');
-    }
-
-    /**
-     * Retrieve resource instance
-     *
-     * @param string $node
-     * @return string
-     */
-    public function getResourceInstance($node)
-    {
-        return (string) $this->getNode('resources/' . $node . '/instance');
-    }
-
-    /**
      * Retrieve resource attributes
      *
      * @param string $node
@@ -263,7 +232,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceAttributes($node)
     {
         $attributes = $this->getNode('resources/' . $node . '/attributes');
-
         return $attributes ? (array) $attributes : array();
     }
 
@@ -343,7 +311,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      */
     public function getResourceWorkingModel($node)
     {
-        return (string) $this->getNode('resources/' . $node . '/working_model');
+        return (string)$this->getNode('resources/' . $node . '/working_model');
     }
 
     /**
@@ -393,7 +361,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceUserPrivileges($resource, $userType)
     {
         $attributes = $this->getNode('resources/' . $resource . '/privileges/' . $userType);
-
         return $attributes ? (array) $attributes : array();
     }
 
@@ -406,46 +373,17 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceSubresources($node)
     {
         $subresources = $this->getNode('resources/' . $node . '/subresources');
-
         return $subresources ? (array)$subresources : array();
     }
 
     /**
      * Get validation config by validator type
      *
-     * @param Mage_Api2_Model_Resource $resource
-     * @param string $validatorType
-     * @return array
-     */
-    public function getValidationConfig(Mage_Api2_Model_Resource $resource, $validatorType)
-    {
-        $resourceType = $resource->getResourceType();
-
-        $config = $this->getValidationConfigByResourceType($resourceType, $validatorType);
-        if (!$config) { // try to get from partner
-            if ($resource instanceof Mage_Api2_Model_Resource_Instance) {
-                $collectionNode = $this->getResourceCollection($resourceType);
-                if ($collectionNode) {
-                    $config = $this->getValidationConfigByResourceType($collectionNode, $validatorType);
-                }
-            } elseif ($resource instanceof Mage_Api2_Model_Resource_Collection) {
-                $instanceNode = $this->getResourceInstance($resourceType);
-                if ($instanceNode) {
-                    $config = $this->getValidationConfig($instanceNode, $validatorType);
-                }
-            }
-        }
-        return $config;
-    }
-
-    /**
-     * Get validation config by resource type
-     *
      * @param string $resourceType
      * @param string $validatorType
      * @return array
      */
-    public function getValidationConfigByResourceType($resourceType, $validatorType)
+    public function getValidationConfig($resourceType, $validatorType)
     {
         $config = $this->getNode('resources/' . $resourceType . '/validators/' . $validatorType);
         return $config ? $config->asArray() : array();
@@ -459,7 +397,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      */
     public function getResourceIdFieldName($resource)
     {
-        return (string) $this->getNode('resources/' . $resource . '/id_field_name');
+        return (string)$this->getNode('resources/' . $resource . '/id_field_name');
     }
 
     /**

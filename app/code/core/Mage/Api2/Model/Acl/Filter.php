@@ -134,10 +134,7 @@ class Mage_Api2_Model_Acl_Filter
                     $this->_resource->getUserType(), $this->_resource->getResourceType(), $operationType
                 );
             }
-            if (($idFieldName = $this->_resource->getIdFieldName())
-                && in_array($this->_resource->getOperation(), array(
-                    Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE)
-                )) {
+            if ($this->_isMultiAction()) {
                 $this->_allowedAttributes[] = $this->_resource->getIdFieldName();
             }
             // force attributes to be no filtered
@@ -148,6 +145,19 @@ class Mage_Api2_Model_Acl_Filter
             }
         }
         return $this->_allowedAttributes;
+    }
+
+    /**
+     * Check is multi action
+     *
+     * @return bool
+     */
+    protected function _isMultiAction()
+    {
+        return ($idFieldName = $this->_resource->getIdFieldName())
+            && in_array($this->_resource->getOperation(), array(
+                Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))
+            && $this->_resource->getActionType() == Mage_Api2_Model_Resource::ACTION_TYPE_MULTI;
     }
 
     /**
