@@ -179,7 +179,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
             : Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
         $class = $attribute ? $attribute->getFrontend()->getClass() : '';
 
-        if ($attributeCode === 'firstname' || $attributeCode === 'middlename' || $attributeCode === 'lastname') {
+        if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
             if ($class && !$attribute->getIsVisible()) {
                 $class = ''; // address attribute is not visible thus its validation rules are not applied
             }
