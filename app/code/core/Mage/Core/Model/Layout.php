@@ -470,8 +470,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $html;
     }
 
-    public function addToParentGroup($name, $parentName, $parentGroupName)
+    public function addToParentGroup($name, $parentGroupName)
     {
+        $parentName = $this->getParentName($name);
+        if (!$parentName) {
+            return false;
+        }
         return $this->_structure->addToParentGroup($name, $parentName, $parentGroupName);
     }
 
@@ -1031,16 +1035,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         return 'Mage_Core';
-    }
-
-    /**
-     * Gets Layout Structure model
-     *
-     * @return Mage_Core_Model_Layout_Structure
-     */
-    public function getStructure()
-    {
-        return $this->_structure;
     }
 
     /**
