@@ -803,29 +803,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Append block to the structure
-     *
-     * Check if block exists in layout
-     *
-     * @param string $parentName
-     * @param string|Mage_Core_Block_Abstract $block
-     * @return bool
-     * @throws Magento_Exception
-     */
-    public function appendBlock($parentName, $block)
-    {
-        if (is_string($block)) {
-            $block = $this->getBlock($block);
-        }
-        if (!($block instanceof Mage_Core_Block_Abstract)) {
-            return false;
-        }
-        $this->insertBlock($parentName, $block->getNameInLayout());
-
-        return true;
-    }
-
-    /**
      * Rename element in layout and layout structure
      *
      * @param string $oldName
