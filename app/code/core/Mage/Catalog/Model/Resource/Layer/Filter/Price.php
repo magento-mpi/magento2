@@ -254,13 +254,11 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
     {
         $select = $this->_getSelect($filter);
         $priceExpression = $this->_getFullPriceExpression($filter, $select);
-        $rate = $filter->getCurrencyRate();
 
         /**
          * Check and set correct variable values to prevent SQL-injections
          */
-        $rate = floatval($rate);
-        $range = floatval($range) / $rate;
+        $range = floatval($range);
         if ($range == 0) {
             $range = 1;
         }
