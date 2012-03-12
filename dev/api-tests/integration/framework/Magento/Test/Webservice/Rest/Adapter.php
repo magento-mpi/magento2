@@ -210,12 +210,13 @@ class Magento_Test_Webservice_Rest_Adapter
      * REST DELETE
      *
      * @param string $resourceName
+     * @param array $params
      * @return Magento_Test_Webservice_Rest_ResponseDecorator
      */
-    public function callDelete($resourceName)
+    public function callDelete($resourceName, $params = array())
     {
         $resourceUri = $this->_getResourceUri($resourceName);
-        $this->_prepareRequest($resourceUri, Zend_Http_Client::DELETE);
+        $this->_prepareRequest($resourceUri, Zend_Http_Client::DELETE, $params);
 
         $zendHttpResponse = $this->_client->request(Zend_Http_Client::DELETE);
         $responseDecorator = new Magento_Test_Webservice_Rest_ResponseDecorator($zendHttpResponse);

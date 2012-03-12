@@ -103,15 +103,16 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      * REST DELETE
      *
      * @param string $resourceName
+     * @param array $params
      * @return Magento_Test_Webservice_Rest_ResponseDecorator
      */
-    public function callDelete($resourceName)
+    public function callDelete($resourceName, $params = array())
     {
         if (null === $this->getInstance()) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callDelete($resourceName);
+        return $this->getInstance()->callDelete($resourceName, $params);
     }
 
     /**
