@@ -291,9 +291,14 @@
                     </customer>
                 </privileges>
                 <routes>
-                    <route_main>
-                        <mask>/orders/:order_id/addresses/:address_type</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/orders/:order_id/addresses/:address_type</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/orders/:order_id/addresses</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
                 <collection>addresses</collection>
                 <versions>1</versions>
@@ -314,24 +319,6 @@
                 </attributes>
             </address>
             <addresses>
-                <group>order</group>
-                <sort_order>50</sort_order>
-                <model>sales/api2_order_addresses</model>
-                <working_model>sales/order_address</working_model>
-                <title>Order Addresses</title>
-                <privileges>
-                    <admin>
-                        <retrieve>1</retrieve>
-                    </admin>
-                    <customer>
-                        <retrieve>1</retrieve>
-                    </customer>
-                </privileges>
-                <routes>
-                    <route_main>
-                        <mask>/orders/:order_id/addresses</mask>
-                    </route_main>
-                </routes>
                 <instance>address</instance>
                 <versions>1</versions>
             </addresses>

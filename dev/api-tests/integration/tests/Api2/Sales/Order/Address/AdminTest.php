@@ -87,10 +87,10 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
      */
     public function testGetAddressForUnavailableOrder()
     {
-        $restResponse = $this->callGet('orders/invalid_id/address/billing');
+        $restResponse = $this->callGet('orders/invalid_id/addresses/billing');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
 
-        $restResponse = $this->callGet('orders/invalid_id/address/shipping');
+        $restResponse = $this->callGet('orders/invalid_id/addresses/shipping');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 

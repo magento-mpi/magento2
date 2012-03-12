@@ -48,11 +48,32 @@ abstract class Mage_Sales_Model_Api2_Order_Address_Rest extends Mage_Sales_Model
     protected function _retrieve()
     {
         /** @var $address Mage_Sales_Model_Order_Address */
-        $address = $this->_getCollectionForRetrieve()->getFirstItem();
+        $address = $this->_getCollectionForRetrieve()
+            ->addAttributeToFilter('address_type', $this->getRequest()->getParam(self::PARAM_ADDRESS_TYPE))
+            ->getFirstItem();
         if (!$address->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $address->getData();
+    }
+
+    /**
+     * Retrieve order addresses
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $collection = $this->_getCollectionForRetrieve();
+
+        $this->_applyCollectionModifiers($collection);
+        $data = $collection->load()->toArray();
+
+        if (0 == count($data['items'])) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $data['items'];
     }
 
     /**
@@ -64,8 +85,7 @@ abstract class Mage_Sales_Model_Api2_Order_Address_Rest extends Mage_Sales_Model
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
         $collection = Mage::getResourceModel('sales/order_address_collection');
-        $collection->addAttributeToFilter('parent_id', $this->getRequest()->getParam(self::PARAM_ORDER_ID))
-            ->addAttributeToFilter('address_type', $this->getRequest()->getParam(self::PARAM_ADDRESS_TYPE));
+        $collection->addAttributeToFilter('parent_id', $this->getRequest()->getParam(self::PARAM_ORDER_ID));
 
         return $collection;
     }
