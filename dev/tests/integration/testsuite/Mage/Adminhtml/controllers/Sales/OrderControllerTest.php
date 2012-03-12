@@ -11,19 +11,9 @@
 
 /**
  * @group module:Mage_Adminhtml
- *
- * @magentoDataFixture Mage/Admin/_files/user.php
  */
-class Mage_Adminhtml_Sales_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Controller
 {
-    public function setUp()
-    {
-        parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
-        $session = new Mage_Admin_Model_Session;
-        $session->login('user', 'password');
-    }
-
     public function testIndexAction()
     {
         $this->dispatch('admin/sales_order/index');
@@ -32,7 +22,6 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Magento_Test_TestCase_Con
 
     /**
      * @magentoDataFixture Mage/Sales/_files/order.php
-     * @magentoDataFixture Mage/Admin/_files/user.php
      */
     public function testIndexActionWithOrder()
     {

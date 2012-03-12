@@ -118,11 +118,11 @@ class Mage_DesignEditor_Model_Layout
     {
         $parentAttributes = $node->getParent()->attributes();
         if (isset($parentAttributes['name'])) {
-            if (in_array($parentAttributes['name'], self::$_containerWhiteList)) {
-                return true;
+            if (!in_array($parentAttributes['name'], self::$_containerWhiteList)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**

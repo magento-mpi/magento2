@@ -102,14 +102,24 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
      */
     public function preDispatch()
     {
-        if ($this->getRequest()->getActionName() == 'notifystock') {
-            $this->_currentArea = 'adminhtml';
-            Mage::helper('Mage_Rss_Helper_Data')->authAdmin('catalog/products');
+        $path = null;
+        switch ($this->getRequest()->getActionName()) {
+            case 'notifystock':
+                $path = 'catalog/products';
+                break;
+            case 'review':
+                $path = 'catalog/reviews_ratings';
+                break;
         }
-        if ($this->getRequest()->getActionName() == 'review') {
-            $this->_currentArea = 'adminhtml';
-            Mage::helper('Mage_Rss_Helper_Data')->authAdmin('catalog/reviews_ratings');
+
+        if ($path) {
+            $user = Mage::helper('Mage_Rss_Helper_Data')->authAdmin($path);
+            if (!is_object($user)) {
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                return $this;
+            }
         }
+
         return parent::preDispatch();
     }
 }

@@ -23,6 +23,7 @@ class Mage_CatalogSearch_AjaxController extends Mage_Core_Controller_Front_Actio
             $this->getResponse()->setRedirect(Mage::getSingleton('Mage_Core_Model_Url')->getBaseUrl());
         }
 
+        $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();
     }
 }

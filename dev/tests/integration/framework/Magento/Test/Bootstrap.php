@@ -237,6 +237,7 @@ class Magento_Test_Bootstrap
             }
         }
         Mage::setIsDeveloperMode($this->_developerMode);
+        Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
     }
 

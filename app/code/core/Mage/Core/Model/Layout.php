@@ -24,6 +24,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
     const CONTAINER_OPT_HTML_ID    = 'htmlId';
+    const CONTAINER_OPT_LABEL      = 'label';
 
     /**
      * Layout Update module
@@ -76,6 +77,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         self::CONTAINER_OPT_HTML_CLASS,
         self::CONTAINER_OPT_HTML_ID,
         self::CONTAINER_OPT_HTML_TAG,
+        self::CONTAINER_OPT_LABEL,
     );
 
     /**
@@ -469,8 +471,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $html;
     }
 
-    public function addToParentGroup($name, $parentName, $parentGroupName)
+    public function addToParentGroup($name, $parentGroupName)
     {
+        $parentName = $this->getParentName($name);
+        if (!$parentName) {
+            return false;
+        }
         return $this->_structure->addToParentGroup($name, $parentName, $parentGroupName);
     }
 
@@ -824,29 +830,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Append block to the structure
-     *
-     * Check if block exists in layout
-     *
-     * @param string $parentName
-     * @param string|Mage_Core_Block_Abstract $block
-     * @return bool
-     * @throws Magento_Exception
-     */
-    public function appendBlock($parentName, $block)
-    {
-        if (is_string($block)) {
-            $block = $this->getBlock($block);
-        }
-        if (!($block instanceof Mage_Core_Block_Abstract)) {
-            return false;
-        }
-        $this->insertBlock($parentName, $block->getNameInLayout());
-
-        return true;
-    }
-
-    /**
      * Rename element in layout and layout structure
      *
      * @param string $oldName
@@ -1056,16 +1039,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         return 'Mage_Core';
-    }
-
-    /**
-     * Gets Layout Structure model
-     *
-     * @return Mage_Core_Model_Layout_Structure
-     */
-    public function getStructure()
-    {
-        return $this->_structure;
     }
 
     /**

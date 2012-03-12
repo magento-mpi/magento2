@@ -59,9 +59,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $this->_redirect('*');
             return;
         }
-        $loginData = $this->getRequest()->getParam('login');
-        $username = (is_array($loginData) && array_key_exists('username', $loginData)) ? $loginData['username'] : null;
-
         $this->loadLayout();
         $this->renderLayout();
     }

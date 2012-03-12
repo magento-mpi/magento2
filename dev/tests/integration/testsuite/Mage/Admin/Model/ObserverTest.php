@@ -38,4 +38,35 @@ class Mage_Admin_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('index', $request->getControllerName());
         $this->assertEquals('login', $request->getActionName());
     }
+
+    /**
+     * @magentoDataFixture adminUserFixture
+     * @magentoAppIsolation enabled
+     */
+    public function testActionPreDispatchAdminLogin()
+    {
+        $request = Mage::app()->getRequest();
+        $request->setPost('login', array('username' => 'user', 'password' => 'password'));
+        $observer = new Varien_Event_Observer();
+        $this->_model->actionPreDispatchAdmin($observer);
+
+        $response = Mage::app()->getResponse();
+        $code = $response->getHttpResponseCode();
+        $this->assertTrue($code >= 300 && $code < 400);
+
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $this->assertTrue($session->isLoggedIn());
+    }
+
+    public static function adminUserFixture()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+    }
+
+    public static function adminUserFixtureRollback()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
+    }
 }

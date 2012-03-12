@@ -526,8 +526,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if (!$layout) {
             return false;
         }
-        $name = $this->getNameInLayout();
-        $layout->addToParentGroup($name, $this->getLayout()->getParentName($name), $groupName);
+        $layout->addToParentGroup($this->getNameInLayout(), $groupName);
 
         return $this;
     }

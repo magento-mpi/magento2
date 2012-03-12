@@ -225,24 +225,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_layout->isContainer('invalid_name'));
     }
 
-    public function testAppendBlock()
-    {
-        $parentName = 'parent';
-        $block1Name = 'block1';
-        $block2Name = 'block2';
-        $this->_layout->insertContainer('', $parentName);
-        $this->_layout->createBlock('Mage_Core_Block_Text', $block1Name);
-        $block2 = $this->_layout->createBlock('Mage_Core_Block_Text', $block2Name);
-        $this->assertEmpty($this->_layout->getChildNames($parentName));
-
-        $this->_layout->appendBlock($parentName, $block1Name);
-        $children = $this->_layout->getChildNames($parentName);
-        $this->assertEquals(array($block1Name), $children);
-        $this->_layout->appendBlock($parentName, $block2);
-        $children = $this->_layout->getChildNames($parentName);
-        $this->assertEquals(array($block1Name, $block2Name), $children);
-    }
-
     public function testRenameElement()
     {
         $blockName = 'block';

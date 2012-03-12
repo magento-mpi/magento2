@@ -125,6 +125,8 @@ Advanced search results
 
     <catalogsearch_ajax_suggest translate="label" module="Mage_CatalogSearch" type="page" parent="ajax_index">
         <label>Catalog Quick Search Form Suggestions</label>
-        <block type="Mage_CatalogSearch_Block_Autocomplete" name="root" output="1"/>
+        <reference name="root">
+            <block type="Mage_CatalogSearch_Block_Autocomplete" name="autocomplete" />
+        </reference>
     </catalogsearch_ajax_suggest>
 </layout>

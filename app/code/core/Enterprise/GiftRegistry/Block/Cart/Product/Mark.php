@@ -28,7 +28,11 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Mage_Core_Block_Te
     protected function _toHtml()
     {
         $this->setData('item', null);
-        $item = $this->getLayout()->getBlock('additional.product.info')->getItem();
+        $item = null;
+        if ($this->getLayout()->getBlock('additional.product.info')) {
+            $item = $this->getLayout()->getBlock('additional.product.info')->getItem();
+        }
+
 
         if ($item instanceof  Mage_Sales_Model_Quote_Address_Item) {
             $item = $item->getQuoteItem();

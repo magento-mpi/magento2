@@ -12,7 +12,6 @@
 /**
  * @group module:Mage_Admin
  *
- * @magentoDataFixture Mage/Admin/_files/user.php
  */
 class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
@@ -24,26 +23,61 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = new Mage_Admin_Model_Session();
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+    }
+
+    public function tearDown()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
+    }
+
+    public function testLoginFailed()
+    {
+        $result = $this->_model->login('not_exists', 'not_exists');
+        $this->assertFalse($result);
     }
 
     /**
-     * Disabled form security in order to prevent exit from the app
+     * @magentoAppIsolation enabled
+     */
+    public function testLoginSuccessfulWithRedirect()
+    {
+        $result = $this->_model->login('user', 'password');
+        $this->assertTrue($result);
+
+        $response = Mage::app()->getResponse();
+        $code = $response->getHttpResponseCode();
+        $this->assertTrue(($code >= 300) && ($code < 400));
+
+        $headers = $response->getHeaders();
+        $isRedirectFound = false;
+        foreach ($headers as $header) {
+            if ($header['name'] == 'Location') {
+                $isRedirectFound = true;
+                break;
+            }
+        }
+        $this->assertTrue($isRedirectFound);
+    }
+
+    /**
      * @magentoConfigFixture current_store admin/security/use_form_key 0
      */
-    public function testLogin()
+    public function testLoginSuccessfulWithoutRedirect()
     {
-        $user = $this->_model->login('not_exists', 'not_exists');
-        $this->assertEmpty($user->getId());
-        $this->assertEmpty($this->_model->getUpdatedAt());
+        $result = $this->_model->login('user', 'password');
+        $this->assertInstanceOf('Mage_Admin_Model_User', $result);
+        $this->assertGreaterThan(time() - 10, $this->_model->getUpdatedAt());
 
-        $user = $this->_model->login('user', 'password');
-        $this->assertGreaterThan(0, $user->getId());
-        $this->assertGreaterThan(time()-10, $this->_model->getUpdatedAt());
+        $response = Mage::app()->getResponse();
+        $code = $response->getHttpResponseCode();
+        $this->assertFalse(($code >= 300) && ($code < 400));
     }
 
     /**
      * Disabled form security in order to prevent exit from the app
-     * @magentoConfigFixture current_store admin/security/use_form_key 0
      * @magentoConfigFixture current_store admin/security/session_lifetime 100
      */
     public function testIsLoggedIn()
@@ -51,13 +85,12 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->_model->login('user', 'password');
         $this->assertTrue($this->_model->isLoggedIn());
 
-        $this->_model->setUpdatedAt(time()-101);
+        $this->_model->setUpdatedAt(time() - 101);
         $this->assertFalse($this->_model->isLoggedIn());
     }
 
     /**
      * Disabled form security in order to prevent exit from the app
-     * @magentoConfigFixture current_store admin/security/use_form_key 0
      * @magentoConfigFixture current_store admin/security/session_lifetime 59
      */
     public function testIsLoggedInWithIgnoredLifetime()
@@ -65,7 +98,7 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->_model->login('user', 'password');
         $this->assertTrue($this->_model->isLoggedIn());
 
-        $this->_model->setUpdatedAt(time()-101);
+        $this->_model->setUpdatedAt(time() - 101);
         $this->assertTrue($this->_model->isLoggedIn());
     }
 }
