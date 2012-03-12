@@ -86,6 +86,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         }
 
         Mage::register(self::REGISTRY_FORM_PARAMS_KEY, $params);
+        $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();
     }
 
@@ -109,6 +110,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
         Mage::register(self::REGISTRY_FORM_PARAMS_KEY, array_merge($params, $redirectParams));
+        $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();
     }
 

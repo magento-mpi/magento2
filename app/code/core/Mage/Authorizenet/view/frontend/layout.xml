@@ -25,13 +25,17 @@
         </reference>
     </checkout_onepage_review>
 
-    <authorizenet_directpost_payment_redirect translate="label" type="page">
+    <authorizenet_directpost_payment_redirect translate="label" type="page" parent="ajax_index">
         <label>AuthorizeNet Directpost Redirect</label>
-        <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="root" output="1" template="directpost/iframe.phtml"/>
+        <reference name="root">
+            <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        </reference>
     </authorizenet_directpost_payment_redirect>
 
-    <authorizenet_directpost_payment_response translate="label" type="page" parent="authorizenet_directpost_payment_redirect">
+    <authorizenet_directpost_payment_response translate="label" type="page" parent="ajax_index">
         <label>AuthorizeNet Directpost Response</label>
-        <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="root" output="1" template="directpost/iframe.phtml"/>
+        <reference name="root">
+            <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        </reference>
     </authorizenet_directpost_payment_response>
 </layout>
