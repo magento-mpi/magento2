@@ -959,7 +959,7 @@ order_newcustomer_checkmoney_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
     store_view: Default Store View
     account_data:
         customer_group: General
-        customer_email: customer_for_order_%randomize%@domain.com
+        customer_email: %noValue%
     products_to_add:
         product_1: &product
             filter_sku: %noValue%
