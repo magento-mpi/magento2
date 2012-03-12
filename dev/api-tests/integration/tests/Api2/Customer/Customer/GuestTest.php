@@ -39,7 +39,7 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
      */
     public function testCreate()
     {
-        $response = $this->callPost('customers/1', array());
+        $response = $this->callPost('customers/1', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -57,7 +57,7 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
      */
     public function testUpdate()
     {
-        $response = $this->callPut('customers/1', array());
+        $response = $this->callPut('customers/1', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 

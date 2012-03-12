@@ -279,7 +279,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
      */
     public function testUpdateUnavailableResource()
     {
-        $response = $this->callPut('customers/' . $this->_otherCustomer->getId(), array());
+        $response = $this->callPut('customers/' . $this->_otherCustomer->getId(), array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
     }
 
