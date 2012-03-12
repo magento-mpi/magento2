@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'detail',
             'title'     => Mage::helper('review')->__('Review'),
             'label'     => Mage::helper('review')->__('Review'),
-            'style'     => 'width: 98%; height: 600px;',
+            'style'     => 'height: 600px;',
             'required'  => true,
         ));
 
