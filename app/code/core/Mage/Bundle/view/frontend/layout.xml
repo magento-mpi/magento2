@@ -115,7 +115,7 @@ Onepage Checkout Review Page
 -->
 
     <checkout_onepage_review>
-        <reference name="root">
+        <reference name="order_review">
             <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
         </reference>
     </checkout_onepage_review>
@@ -158,7 +158,7 @@ Onepage Checkout Review Page
         </reference>
     </paypaluk_express_review>
     <paypaluk_express_review_details>
-        <reference name="root">
+        <reference name="order_review">
             <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
         </reference>
     </paypaluk_express_review_details>

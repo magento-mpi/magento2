@@ -485,6 +485,7 @@ class Mage_Core_Model_Layout_Update
         Magento_Profiler::start($_profilerKey);
         $updateStr = $this->_getUpdateString($handle);
         if (!$updateStr) {
+            Magento_Profiler::stop($_profilerKey);
             return false;
         }
         $updateStr = '<update_xml>' . $updateStr . '</update_xml>';

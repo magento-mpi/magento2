@@ -9,7 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Toolbar */ ?>
-<div class="header-panel" id="vde_toolbar">
+<div id="vde_toolbar">
     <?php $messages = $this->getMessages(); ?>
     <?php foreach ($messages as $message): ?>
         <p class="item-msg <?php echo $message->getType() ?>"><?php echo $this->escapeHtml($message->getCode()) ?></p>

@@ -144,7 +144,7 @@
     </default>
 
     <checkout_onepage_review>
-        <reference name="root">
+        <reference name="order_review">
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block>

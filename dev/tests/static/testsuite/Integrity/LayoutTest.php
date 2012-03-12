@@ -220,7 +220,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * Suppressing PHPMD issues because this test is complex and it is not reasonable to separate it
      *
      * @param string $file
-     * @dataProvider containerDeclarationDataProvider
+     * @dataProvider layoutFilesDataProvider
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
@@ -273,9 +273,32 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $file
+     * @dataProvider layoutFilesDataProvider
+     */
+    public function testAjaxHandles($file)
+    {
+        $issues = array();
+        $xml = simplexml_load_file($file);
+        $handles = $xml->xpath('/layout//*[@parent="ajax_index"]');
+        if ($handles) {
+            foreach ($handles as $handle) {
+                if (!$handle->xpath('reference[@name="root"]')) {
+                    $issues[] = $handle->getName();
+                }
+            }
+        }
+        if (!empty($issues)) {
+            $this->fail(
+                sprintf('Hadle(s) "%s" in "%s" must contain reference to root', implode(', ', $issues), $file)
+            );
+        }
+    }
+
+    /**
      * @return array
      */
-    public function containerDeclarationDataProvider()
+    public function layoutFilesDataProvider()
     {
         return Utility_Files::getLayoutFiles();
     }
