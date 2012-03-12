@@ -55,7 +55,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
         $this->addParameter('storeId', '1');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterEachTest()
     {
         if (!empty($this->_tagToBeDeleted)) {
             $this->navigate('all_tags');

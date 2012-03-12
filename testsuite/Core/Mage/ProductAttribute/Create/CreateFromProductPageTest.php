@@ -53,7 +53,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         $this->addParameter('id', 0);
     }
 
-    protected function tearDown()
+    protected function tearDownAfterEachTest()
     {
         $windowQty = $this->getAllWindowNames();
         if (count($windowQty) > 1 && end($windowQty) != 'null') {

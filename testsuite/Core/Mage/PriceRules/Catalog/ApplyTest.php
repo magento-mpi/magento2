@@ -53,7 +53,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    protected function tearDown()
+    protected function tearDownAfterEachTest()
     {
         if ($this->_ruleToBeDeleted) {
             $this->loginAdminUser();
