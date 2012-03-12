@@ -37,7 +37,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
 {
     protected static $useTearDown = false;
 
-    protected function tearDownAfterEachTest()
+    public function tearDownAfterEachTest()
     {
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();

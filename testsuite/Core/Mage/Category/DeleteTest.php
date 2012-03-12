@@ -56,7 +56,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     /**
      * @TODO Temporary workaround(should be deleted)
      */
-    protected function tearDownAfterEachTest()
+    public function tearDownAfterEachTest()
     {
         $this->navigate('manage_categories', false);
     }

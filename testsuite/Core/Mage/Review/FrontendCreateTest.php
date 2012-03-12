@@ -42,7 +42,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->addParameter('productUrl', '');
     }
 
-    protected function tearDownAfterEachTest()
+    public function tearDownAfterEachTest()
     {
         if ($this->_usertearDown) {
             $this->frontend();

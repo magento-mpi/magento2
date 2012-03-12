@@ -37,7 +37,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
 {
     protected static $useTearDown = false;
 
-    protected function tearDownAfterEachTest()
+    public function tearDownAfterEachTest()
     {
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
