@@ -425,7 +425,7 @@ class Api2_Catalog_Product_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      */
-    public function testPostNotUniqueSku()
+    public function testUpdateNotUniqueSku()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');

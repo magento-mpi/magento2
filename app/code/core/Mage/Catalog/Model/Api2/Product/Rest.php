@@ -91,6 +91,34 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     }
 
     /**
+     * Product create only available for admin
+     *
+     * @param array $data
+     */
+    protected function _create(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Product update only available for admin
+     *
+     * @param array $data
+     */
+    protected function _update(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Product delete only available for admin
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
      * Load product by its SKU or ID
      *
      * @return Mage_Catalog_Model_Product

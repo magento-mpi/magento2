@@ -59,6 +59,26 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
+     * Retrieve list of products
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        // TODO: Check category filter
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('catalog/product_collection');
+        $store = $this->_getStore();
+        $collection->setStoreId($store->getId());
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+        $this->_applyCollectionModifiers($collection);
+        $products = $collection->load()->toArray();
+        return $products;
+    }
+
+    /**
      * Delete product by its ID
      *
      * @throws Mage_Api2_Exception
@@ -76,15 +96,78 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
+     * Create product
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _create(array $data)
+    {
+        /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
+        $validator = Mage::getModel('catalog/api2_product_validator_product', array(
+            'operation' => self::OPERATION_CREATE
+        ));
+
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
+
+        $type = $data['type_id'];
+        if ($type !== 'simple') {
+            $this->_critical("Creation of products with type '$type' is not implemented",
+                Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
+        }
+        $set = $data['attribute_set_id'];
+        $sku = $data['sku'];
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->setAttributeSetId($set)
+            ->setTypeId($type)
+            ->setSku($sku);
+
+        $this->_productResourceHelper->prepareDataForSave($product, $data);
+        try {
+            $product->validate();
+            $product->save();
+            $this->_multicall($product->getId());
+        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $this->_critical(sprintf('Invalid attribute "%s": %s', $e->getAttributeCode(), $e->getMessage()),
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
+        }
+
+        return $this->_getLocation($product);
+    }
+
+    /**
      * Update product by its ID
      *
      * @param array $data
      */
     protected function _update(array $data)
     {
-        $this->_validate($data);
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->_getProduct();
+        /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
+        $validator = Mage::getModel('catalog/api2_product_validator_product', array(
+            'operation' => self::OPERATION_UPDATE,
+            'product'   => $product
+        ));
+
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
         if (isset($data['sku'])) {
             $product->setSku($data['sku']);
         }
