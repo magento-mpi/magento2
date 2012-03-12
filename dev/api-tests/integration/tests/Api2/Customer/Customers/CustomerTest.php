@@ -39,7 +39,7 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
      */
     public function testCreate()
     {
-        $response = $this->callPost('customers', array());
+        $response = $this->callPost('customers', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -57,7 +57,7 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
      */
     public function testUpdate()
     {
-        $response = $this->callPut('customers', array());
+        $response = $this->callPut('customers', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 
@@ -66,7 +66,7 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
      */
     public function testDelete()
     {
-        $response = $this->callDelete('customers');
+        $response = $this->callDelete('customers', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

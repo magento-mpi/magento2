@@ -62,6 +62,17 @@ class Mage_Customer_Model_Api2_Customer_Rest_Customer_V1 extends Mage_Customer_M
     }
 
     /**
+     * Get customers list
+     *
+     * @return array
+     * @throws Mage_Api2_Exception
+     */
+    protected function _retrieveCollection()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED, Mage_Api2_Model_Server::HTTP_FORBIDDEN);
+    }
+
+    /**
      * Update customer
      *
      * @param array $data
@@ -72,5 +83,16 @@ class Mage_Customer_Model_Api2_Customer_Rest_Customer_V1 extends Mage_Customer_M
         if ($this->_isOwner($this->getRequest()->getParam('id'))) {
             parent::_update($data);
         }
+    }
+
+    /**
+     * Update customers
+     *
+     * @param array $data
+     * @throws Mage_Api2_Exception
+     */
+    protected function _multiUpdate(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED, Mage_Api2_Model_Server::HTTP_FORBIDDEN);
     }
 }

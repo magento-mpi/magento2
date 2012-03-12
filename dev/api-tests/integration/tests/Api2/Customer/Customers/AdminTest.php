@@ -260,7 +260,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $collection = $this->_customer->getCollection();
         $collection->setOrder('entity_id', Varien_Data_Collection::SORT_ORDER_ASC);
 
-        $this->assertSame($collection->getAllIds(Mage_Api2_Model_Resource_Collection::DEFAULT_PAGE_SIZE), $customerIds);
+        $this->assertSame($collection->getAllIds(Mage_Api2_Model_Resource::DEFAULT_PAGE_SIZE), $customerIds);
     }
 
     /**
@@ -268,7 +268,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
      */
     public function testUpdate()
     {
-        $response = $this->callPut('customers', array());
+        $response = $this->callPut('customers', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 
@@ -277,7 +277,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
      */
     public function testDelete()
     {
-        $response = $this->callDelete('customers');
+        $response = $this->callDelete('customers', array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 }
