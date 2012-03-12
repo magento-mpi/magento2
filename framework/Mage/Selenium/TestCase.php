@@ -2879,6 +2879,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $xpath = "//a[@title='Log Out']";
         if ($this->isElementPresent($xpath)) {
             $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+            $this->deleteAllVisibleCookies();
             $this->frontend('home');
         }
 
