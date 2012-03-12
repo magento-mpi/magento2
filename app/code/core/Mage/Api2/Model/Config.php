@@ -423,4 +423,15 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
         }
         return (int)$useVersion;
     }
+
+    /**
+     * Get route with Mage_Api2_Model_Resource::ACTION_TYPE_SINGLE type
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getRouteWithSingleTypeAction($node)
+    {
+        return (string)$this->getNode('resources/' . $node . '/routes/route_entity/route');
+    }
 }

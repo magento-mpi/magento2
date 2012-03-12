@@ -31,8 +31,45 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Model_Api2_Customer
+abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Api2_Model_Resource
 {
+    /**
+     * Create customer
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _create(array $data)
+    {
+        /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
+        $validator = Mage::getResourceModel('api2/validator_eav', array(
+            'resource'  => $this,
+            'operation' => self::OPERATION_CREATE
+        ));
+
+        $data = $validator->filter($data);
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customer->setData($data);
+
+        try {
+            $customer->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+
+        return $this->_getLocation($customer);
+    }
+
     /**
      * Retrieve information about customer
      *
@@ -44,6 +81,25 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
         return $customer->getData();
+    }
+
+    /**
+     * Get customers list
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+
+        $this->_applyCollectionModifiers($collection);
+
+        $data = $collection->load()->toArray();
+        return isset($data['items']) ? $data['items'] : $data;
     }
 
     /**
@@ -96,7 +152,6 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         if (!$customer->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
-
         return $customer;
     }
 }

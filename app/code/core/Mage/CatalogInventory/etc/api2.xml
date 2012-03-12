@@ -85,11 +85,11 @@
                 <routes>
                     <route_entity>
                         <route>/stockitems/:id</route>
-                        <action_type>single</action_type>
+                        <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
                         <route>/stockitems</route>
-                        <action_type>multi</action_type>
+                        <action_type>collection</action_type>
                     </route_collection>
                 </routes>
                 <id_field_name>item_id</id_field_name>

@@ -157,7 +157,7 @@ class Mage_Api2_Model_Acl_Filter
         return ($idFieldName = $this->_resource->getIdFieldName())
             && in_array($this->_resource->getOperation(), array(
                 Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))
-            && $this->_resource->getActionType() == Mage_Api2_Model_Resource::ACTION_TYPE_MULTI;
+            && $this->_resource->getActionType() == Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION;
     }
 
     /**

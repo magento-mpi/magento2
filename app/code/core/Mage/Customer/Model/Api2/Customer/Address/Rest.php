@@ -34,6 +34,58 @@
 abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Customer_Model_Api2_Customer_Address
 {
     /**
+     * Create customer address
+     *
+     * @param array $data
+     * @throws Mage_Api2_Exception
+     * @return string
+     */
+    protected function _create(array $data)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+
+        /* @var $validator Mage_Api2_Model_Resource_Validator_Eav */
+        $validator = Mage::getModel('api2/resource_validator_eav', array(
+            'resource' => $this,
+            'operation' => self::OPERATION_CREATE
+        ));
+
+        // If the array contains more than two elements, then combine the extra elements in a string
+        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
+            $data['street'][1] .= self::STREET_SEPARATOR
+                . implode(
+                    self::STREET_SEPARATOR,
+                    array_slice($data['street'], 2)
+                );
+            $data['street'] = array_slice($data['street'], 0, 2);
+        }
+
+        $data = $validator->filter($data);
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
+
+        /* @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = Mage::getModel('customer/address');
+        $customerAddress->setData($data);
+        $customerAddress->setCustomer($customer);
+
+        try {
+            $customerAddress->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+
+        return $this->_getLocation($customerAddress);
+    }
+
+    /**
      * Retrieve information about specified customer address
      *
      * @throws Mage_Api2_Exception
@@ -46,6 +98,40 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
         $addressData = $address->getData();
         $addressData['street'] = $address->getStreet();
         return $addressData;
+    }
+
+    /**
+     * Get customer addresses list
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $data = array();
+        /* @var $address Mage_Customer_Model_Customer */
+        foreach ($this->_getCollectionForRetrieve() as $address) {
+            $addressData = $address->getData();
+            $addressData['street'] = $address->getStreet();
+            $data[] = $addressData;
+        }
+        return $data;
+    }
+
+    /**
+     * Retrieve collection instances
+     *
+     * @return Mage_Customer_Model_Resource_Address_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+
+        /* @var $collection Mage_Customer_Model_Resource_Address_Collection */
+        $collection = $customer->getAddressesCollection();
+
+        $this->_applyCollectionModifiers($collection);
+        return $collection;
     }
 
     /**
@@ -67,9 +153,9 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
 
         // If the array contains more than two elements, then combine the extra elements in a string
         if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
-            $data['street'][1] .= Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR
+            $data['street'][1] .= self::STREET_SEPARATOR
                 . implode(
-                    Mage_Customer_Model_Api2_Customer_Addresses::STREET_SEPARATOR,
+                    self::STREET_SEPARATOR,
                     array_slice($data['street'], 2)
                 );
             $data['street'] = array_slice($data['street'], 0, 2);
@@ -124,5 +210,22 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $customerAddress;
+    }
+
+    /**
+     * Load customer by id
+     *
+     * @param int $id
+     * @throws Mage_Api2_Exception
+     * @return Mage_Customer_Model_Customer
+     */
+    protected function _loadCustomerById($id)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer')->load($id);
+        if (!$customer->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $customer;
     }
 }

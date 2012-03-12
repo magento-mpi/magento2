@@ -36,8 +36,8 @@ abstract class Mage_Api2_Model_Resource
     /**#@+
      *  Action types
      */
-    const ACTION_TYPE_SINGLE = 'single';
-    const ACTION_TYPE_MULTI  = 'multi';
+    const ACTION_TYPE_ENTITY = 'entity';
+    const ACTION_TYPE_COLLECTION  = 'collection';
     /**#@-*/
 
     /**#@+
@@ -185,7 +185,11 @@ abstract class Mage_Api2_Model_Resource
     {
         switch ($this->getActionType() . $this->getOperation()) {
             /* Create */
-            case self::ACTION_TYPE_MULTI . self::OPERATION_CREATE:
+            case self::ACTION_TYPE_ENTITY . self::OPERATION_CREATE:
+                // Creation of objects is possible only when working with collection
+                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+                break;
+            case self::ACTION_TYPE_COLLECTION . self::OPERATION_CREATE:
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -204,18 +208,18 @@ abstract class Mage_Api2_Model_Resource
                 }
                 break;
             /* Retrieve */
-            case self::ACTION_TYPE_SINGLE . self::OPERATION_RETRIEVE:
+            case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
                 $retrievedData = $this->_retrieve();
                 $filteredData  = $this->getFilter()->out($retrievedData);
                 $this->_render($filteredData);
                 break;
-            case self::ACTION_TYPE_MULTI . self::OPERATION_RETRIEVE:
+            case self::ACTION_TYPE_COLLECTION . self::OPERATION_RETRIEVE:
                 $retrievedData = $this->_retrieveCollection();
                 $filteredData  = $this->getFilter()->collectionOut($retrievedData);
                 $this->_render($filteredData);
                 break;
             /* Update */
-            case self::ACTION_TYPE_SINGLE . self::OPERATION_UPDATE:
+            case self::ACTION_TYPE_ENTITY . self::OPERATION_UPDATE:
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -226,7 +230,7 @@ abstract class Mage_Api2_Model_Resource
                 }
                 $this->_update($filteredData);
                 break;
-            case self::ACTION_TYPE_MULTI . self::OPERATION_UPDATE:
+            case self::ACTION_TYPE_COLLECTION . self::OPERATION_UPDATE:
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -236,10 +240,10 @@ abstract class Mage_Api2_Model_Resource
                 $this->_render($this->getResponse()->getMessages());
                 break;
             /* Delete */
-            case self::ACTION_TYPE_SINGLE . self::OPERATION_DELETE:
+            case self::ACTION_TYPE_ENTITY . self::OPERATION_DELETE:
                 $this->_delete();
                 break;
-            case self::ACTION_TYPE_MULTI . self::OPERATION_DELETE:
+            case self::ACTION_TYPE_COLLECTION . self::OPERATION_DELETE:
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -322,8 +326,10 @@ abstract class Mage_Api2_Model_Resource
 
     /**
      * Dummy method to be replaced in descendants
+     *
+     * @param array $data
      */
-    protected function _multiDelete()
+    protected function _multiDelete(array $data)
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
@@ -890,20 +896,24 @@ abstract class Mage_Api2_Model_Resource
      * @param Mage_Core_Model_Abstract $resource
      * @return string URL
      */
-    protected function _getLocation(Mage_Core_Model_Abstract $resource)
+    protected function _getLocation($resource)
     {
-        // TODO: refactoring (call without getRoutes)
+        /* @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('api2/route_apiType');
 
-        $routes = $this->getConfig()->getRoutes($this->getRequest()->getApiType());
+        $chain = $apiTypeRoute->chain(
+            new Zend_Controller_Router_Route($this->getConfig()->getRouteWithSingleTypeAction($this->getResourceType()))
+        );
         $params = array(
             'api_type' => $this->getRequest()->getApiType(),
             'id'       => $resource->getId()
         );
-        $uri = $routes[0]->assemble($params);
+        $uri = $chain->assemble($params);
+
         return '/' . $uri;
     }
 
-    // TODO: move to another external object
+    // TODO: move attributes actions to another external object
 
     /**
      * Resource specific method to retrieve attributes' codes. May be overriden in child.

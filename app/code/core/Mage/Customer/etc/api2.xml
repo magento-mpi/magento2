@@ -56,13 +56,6 @@
                     <last_logged_in>Last Logged In</last_logged_in>
                     <password>Password</password>
                 </attributes>
-                <routes>
-                    <route_main>
-                        <mask>/customers/:id</mask>
-                    </route_main>
-                </routes>
-                <collection>customers</collection>
-                <versions>1</versions>
                 <exclude_attributes>
                     <admin>
                         <read>
@@ -149,71 +142,18 @@
                         </customer>
                     </eav>
                 </validators>
-            </customer>
-            <customers>
-                <group>customer</group>
-                <sort_order>100</sort_order>
-                <model>customer/api2_customers</model>
-                <working_model>customer/customer</working_model>
-                <title>Customers</title>
-                <privileges>
-                    <admin>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </admin>
-                </privileges>
-                <attributes>
-                    <entity_id>Customer ID</entity_id>
-                    <password>Password</password>
-                </attributes>
-                <exclude_attributes>
-                    <admin>
-                        <read>
-                            <password>1</password>
-                            <password_hash>1</password_hash>
-                            <reward_warning_notification>1</reward_warning_notification>
-                            <reward_update_notification>1</reward_update_notification>
-                            <default_billing>1</default_billing>
-                            <default_shipping>1</default_shipping>
-                            <rp_token>1</rp_token>
-                            <rp_token_created_at>1</rp_token_created_at>
-                            <store_id>1</store_id>
-                            <website_id>1</website_id>
-                        </read>
-                        <write>
-                            <entity_id>1</entity_id>
-                            <password>1</password>
-                            <password_hash>1</password_hash>
-                            <confirmation>1</confirmation>
-                            <reward_warning_notification>1</reward_warning_notification>
-                            <reward_update_notification>1</reward_update_notification>
-                            <default_billing>1</default_billing>
-                            <default_shipping>1</default_shipping>
-                            <rp_token>1</rp_token>
-                            <rp_token_created_at>1</rp_token_created_at>
-                            <store_id>1</store_id>
-                        </write>
-                    </admin>
-                </exclude_attributes>
                 <routes>
-                    <route_main>
-                        <mask>/customers</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/customers/:id</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/customers</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
-                <instance>customer</instance>
                 <versions>1</versions>
-                <validators>
-                    <eav>
-                        <admin>
-                            <entity_model>customer/customer</entity_model>
-                            <form_model>customer/form</form_model>
-                            <form_code>
-                                <create>adminhtml_customer</create>
-                            </form_code>
-                        </admin>
-                    </eav>
-                </validators>
-            </customers>
+            </customer>
             <customer_address>
                 <group>customer</group>
                 <sort_order>110</sort_order>
@@ -222,11 +162,13 @@
                 <title>Customer Address</title>
                 <privileges>
                     <admin>
+                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                         <delete>1</delete>
                     </admin>
                     <customer>
+                        <create>1</create>
                         <retrieve>1</retrieve>
                         <update>1</update>
                         <delete>1</delete>
@@ -314,118 +256,17 @@
                     </eav>
                 </validators>
                 <routes>
-                    <route_main>
-                        <mask>/customers/addresses/:id</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/customers/addresses/:id</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/customers/:id/addresses</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
-                <collection>customer_addresses</collection>
                 <versions>1</versions>
             </customer_address>
-            <customer_addresses>
-                <group>customer</group>
-                <sort_order>110</sort_order>
-                <model>customer/api2_customer_addresses</model>
-                <working_model>customer/address</working_model>
-                <title>Customer Addresses</title>
-                <privileges>
-                    <admin>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </admin>
-                    <customer>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </customer>
-                </privileges>
-                <attributes>
-                    <entity_id>Customer Address ID</entity_id>
-                </attributes>
-                <include_attributes>
-                    <admin>
-                        <read>
-                            <entity_id>1</entity_id>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
-                        </read>
-                        <write>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
-                        </write>
-                    </admin>
-                    <customer>
-                        <read>
-                            <entity_id>1</entity_id>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
-                        </read>
-                        <write>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
-                        </write>
-                    </customer>
-                </include_attributes>
-                <validators>
-                    <eav>
-                        <admin>
-                            <entity_model>customer/address</entity_model>
-                            <form_model>customer/form</form_model>
-                            <form_code>
-                                <create>adminhtml_customer_address</create>
-                            </form_code>
-                        </admin>
-                        <customer>
-                            <entity_model>customer/address</entity_model>
-                            <form_model>customer/form</form_model>
-                            <form_code>
-                                <create>customer_address_edit</create>
-                            </form_code>
-                        </customer>
-                    </eav>
-                </validators>
-                <routes>
-                    <route_main>
-                        <mask>/customers/:id/addresses</mask>
-                    </route_main>
-                </routes>
-                <instance>customer_address</instance>
-                <versions>1</versions>
-            </customer_addresses>
         </resources>
     </api2>
 </config>

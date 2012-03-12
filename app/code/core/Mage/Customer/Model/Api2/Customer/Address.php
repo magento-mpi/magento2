@@ -31,8 +31,13 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource_Instance
+class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
 {
+    /**
+     * Separator for multistreet
+     */
+    const STREET_SEPARATOR = '; ';
+
     /**
      * Get available attributes of API resource
      *
