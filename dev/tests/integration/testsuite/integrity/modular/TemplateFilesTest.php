@@ -14,7 +14,7 @@ require_once __DIR__ . '/../../../../static/testsuite/Utility/Classes.php';
 /**
  * @group integrity
  */
-class Integrity_Modular_TemplateFilesTest extends PHPUnit_Framework_TestCase // Magento_Test_TestCase_IntegrityAbstract
+class Integrity_Modular_TemplateFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $module

@@ -94,9 +94,8 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_B
             $template = $cfgDefault['template'];
         }
 
-        $o = $helper->getOptions($this->getItem());
         $this->setTemplate($template)
-            ->setOptionList($o);
+            ->setOptionList($helper->getOptions($this->getItem()));
         return parent::_toHtml();
     }
 }
