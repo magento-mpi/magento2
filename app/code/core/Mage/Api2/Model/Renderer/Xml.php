@@ -92,7 +92,7 @@ class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
         if (!is_array($data) && !is_object($data)) {
             throw new Exception('Prepare data must be an object or an array.');
         }
-        $data = (array) $data;
+        $data = ($data instanceof Varien_Object ? $data->toArray() : (array) $data);
         //check non associative array
         $keys = implode(array_keys($data), '');
         if ((string) (int) $keys === ltrim($keys, 0) || $keys === '0') {
