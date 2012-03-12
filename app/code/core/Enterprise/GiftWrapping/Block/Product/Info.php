@@ -24,9 +24,12 @@ class Enterprise_GiftWrapping_Block_Product_Info extends Mage_Core_Block_Templat
      */
     public function getGiftWrappingInfo()
     {
-        $wrappingId = $this->getLayout()->getBlock('additional.product.info')
-            ->getItem()
-            ->getGwId();
+        $wrappingId = null;
+        if ($this->getLayout()->getBlock('additional.product.info')) {
+            $wrappingId = $this->getLayout()->getBlock('additional.product.info')
+                ->getItem()
+                ->getGwId();
+        }
 
         if ($wrappingId) {
             return Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($wrappingId);

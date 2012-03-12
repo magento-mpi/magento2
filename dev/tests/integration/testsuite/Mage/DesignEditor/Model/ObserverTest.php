@@ -21,24 +21,37 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_observer;
 
+    /**
+     * @var Varien_Event_Observer
+     */
+    protected $_eventObserver;
+
     protected function setUp()
     {
         $this->_observer = new Mage_DesignEditor_Model_Observer;
+
+        $this->_eventObserver = new Varien_Event_Observer();
+        $this->_eventObserver->setEvent(new Varien_Event(array('layout' => Mage::app()->getLayout())));
     }
 
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
-    public function testApplyCustomSkin()
+    public function testApplyDesign()
     {
         $newSkin = 'default/default/blank';
         $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
 
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->setSkin($newSkin);
-        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+
+        $this->_observer->applyDesign($this->_eventObserver);
         $this->assertEquals($newSkin, Mage::getDesign()->getDesignTheme());
+        $this->assertContains(
+            Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE,
+            Mage::app()->getLayout()->getUpdate()->getHandles()
+        );
     }
 
     /**
@@ -50,7 +63,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $currentSkin = Mage::getDesign()->getDesignTheme();
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->assertEmpty($session->getSkin());
-        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+        $this->_observer->applyDesign($this->_eventObserver);
         $this->assertEquals($currentSkin, Mage::getDesign()->getDesignTheme());
     }
 
@@ -66,7 +79,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $session->setSkin($newSkin);
 
-        $this->_observer->applyCustomSkin(new Varien_Event_Observer());
+        $this->_observer->applyDesign($this->_eventObserver);
         $this->assertEquals($oldSkin, Mage::getDesign()->getDesignTheme());
     }
 

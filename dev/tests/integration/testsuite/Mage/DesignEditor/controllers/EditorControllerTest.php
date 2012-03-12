@@ -54,7 +54,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      * @param string $requiredModule
      * @param bool $isVdeToolbarBug
      */
-    public function testPageAction($pageType, $requiredModule, $isVdeToolbarBug = false)
+    public function testPageAction($pageType, $requiredModule)
     {
         if (!in_array($requiredModule, Magento_Test_Helper_Factory::getHelper('config')->getEnabledModules())) {
             $this->markTestSkipped("Test requires the module '$requiredModule' to be enabled.");
@@ -64,9 +64,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
-        if ($isVdeToolbarBug) {
-            $this->markTestIncomplete('Bug MAGETWO-763');
-        }
         $this->assertRegExp(
             '/treeInstance\.select_node\(.*"' . preg_quote($pageType, '/') . '".*\)/U',
             $this->getResponse()->getBody(),
@@ -78,9 +75,9 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     {
         return array(
             'Catalog Product View'             => array('catalog_product_view',            'Mage_Catalog'),
-            'One Page Checkout Overview'       => array('checkout_onepage_review',         'Mage_Checkout', true),
-            'Paypal Express Review Details'    => array('paypal_express_review_details',   'Mage_Paypal',   true),
-            'Paypal UK Express Review Details' => array('paypaluk_express_review_details', 'Mage_PaypalUk', true),
+            'One Page Checkout Overview'       => array('checkout_onepage_review',         'Mage_Checkout'),
+            'Paypal Express Review Details'    => array('paypal_express_review_details',   'Mage_Paypal'),
+            'Paypal UK Express Review Details' => array('paypaluk_express_review_details', 'Mage_PaypalUk'),
         );
     }
 

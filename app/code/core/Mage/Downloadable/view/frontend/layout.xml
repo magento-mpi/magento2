@@ -36,7 +36,7 @@
     </checkout_cart_index>
 
     <checkout_onepage_review>
-        <reference name="root">
+        <reference name="order_review">
             <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_Checkout_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
         </reference>
     </checkout_onepage_review>
@@ -88,7 +88,7 @@
         </reference>
     </paypaluk_express_review>
     <paypaluk_express_review_details>
-        <reference name="root">
+        <reference name="order_review">
             <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_Checkout_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
         </reference>
     </paypaluk_express_review_details>

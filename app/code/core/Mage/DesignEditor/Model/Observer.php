@@ -13,6 +13,9 @@
  */
 class Mage_DesignEditor_Model_Observer
 {
+    const PAGE_HANDLE = 'design_editor_page';
+    const TOOLBAR_HANDLE = 'design_editor_toolbar';
+
     /**
      * Renderer for wrapping html to be shown at frontend
      *
@@ -25,10 +28,8 @@ class Mage_DesignEditor_Model_Observer
      *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_DesignEditor_Model_Observer
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyCustomSkin($observer)
+    public function applyDesign($observer)
     {
         $session = $this->_getSession();
         if (!$session->isDesignEditorActive()) {
@@ -37,6 +38,11 @@ class Mage_DesignEditor_Model_Observer
         if ($session->getSkin()) {
             Mage::getDesign()->setDesignTheme($session->getSkin());
         }
+        $layout = $observer->getEvent()->getLayout();
+        if (in_array('ajax_index', $layout->getUpdate()->getHandles())) {
+            $layout->getUpdate()->addHandle(self::PAGE_HANDLE);
+        }
+        $layout->getUpdate()->addHandle(self::TOOLBAR_HANDLE);
         return $this;
     }
 
