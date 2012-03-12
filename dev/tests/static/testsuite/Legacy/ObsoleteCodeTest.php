@@ -258,13 +258,19 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach ($config as $key => $value) {
-            $entity = is_string($key) ? $key : $value;
-            $result[$entity] = array(
-                'suggestion'  => isset($value['suggestion'])
-                    ? sprintf(self::SUGGESTION_MESSAGE, $value['suggestion']) : null,
-                'class_scope' => isset($value['class_scope']) ? $value['class_scope'] : null,
-                'directory'   => isset($value['directory']) ? PATH_TO_SOURCE_CODE . '/' . $value['directory'] : null,
-            );
+            $row = array('suggestion' => null, 'class_scope' => null, 'directory' => null);
+            if (is_string($key)) {
+                $row = array_merge($row, $value);
+                if ($row['suggestion']) {
+                    $row['suggestion'] = sprintf(self::SUGGESTION_MESSAGE, $row['suggestion']);
+                }
+                if ($row['directory']) {
+                    $row['directory'] = PATH_TO_SOURCE_CODE . '/' . $row['directory'];
+                }
+                $result[$key] = $row;
+            } else {
+                $result[$value] = $row;
+            }
         }
         return $result;
     }
