@@ -468,17 +468,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Prepare child block before generate html
-     *
-     * @param   string $name
-     * @param   Mage_Core_Block_Abstract $child
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _beforeChildToHtml($name, $child)
-    {
-    }
-
-    /**
      * Retrieve block html
      *
      * @param   string $name

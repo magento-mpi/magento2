@@ -47,10 +47,6 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
             <path>lib/Varien/Db/Helper.php</path>
         </item>
         <item>

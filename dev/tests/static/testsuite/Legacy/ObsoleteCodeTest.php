@@ -34,12 +34,12 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     public function testPhpFile($file)
     {
         $content = file_get_contents($file);
-        $this->_testObsoleteClasses($content);
-        $this->_testObsoleteMethods($content);
+        $this->_testObsoleteClasses($content, $file);
+        $this->_testObsoleteMethods($content, $file);
         $this->_testObsoleteMethodArguments($content);
-        $this->_testObsoleteProperties($content);
-        $this->_testObsoleteActions($content);
-        $this->_testObsoleteConstants($content);
+        $this->_testObsoleteProperties($content, $file);
+        $this->_testObsoleteActions($content, $file);
+        $this->_testObsoleteConstants($content, $file);
         $this->_testObsoletePropertySkipCalculate($content);
     }
 
@@ -58,7 +58,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     public function testXmlFile($file)
     {
         $content = file_get_contents($file);
-        $this->_testObsoleteClasses($content);
+        $this->_testObsoleteClasses($content, $file);
     }
 
     /**
@@ -89,10 +89,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $content
+     * @param string $file
      */
-    protected function _testObsoleteClasses($content)
+    protected function _testObsoleteClasses($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_classes*.php', $content);
+        $declarations = $this->_getRelevantConfigEntities('obsolete_classes*.php', $content, $file);
         foreach ($declarations as $entity => $suggestion) {
             $this->assertNotRegExp(
                 '/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS',
@@ -104,15 +105,14 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $content
+     * @param string $file
      */
-    protected function _testObsoleteMethods($content)
+    protected function _testObsoleteMethods($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_methods*.php', $content);
-        foreach ($declarations as $entity => $suggestion) {
-            $this->assertNotRegExp(
-                '/[^a-z\d_]' . preg_quote($entity, '/') . '\s*\(/iS',
-                $content,
-                "Method '$entity' is obsolete. $suggestion"
+        $declarations = $this->_getRelevantConfigEntities('obsolete_methods*.php', $content, $file);
+        foreach ($declarations as $method => $suggestion) {
+            $this->assertNotRegExp('/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(/iS',
+                $content, "Method '$method' is obsolete. $suggestion"
             );
         }
     }
@@ -133,10 +133,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $content
+     * @param string $file
      */
-    protected function _testObsoleteProperties($content)
+    protected function _testObsoleteProperties($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_properties*.php', $content);
+        $declarations = $this->_getRelevantConfigEntities('obsolete_properties*.php', $content, $file);
         foreach ($declarations as $entity => $suggestion) {
             $this->assertNotRegExp(
                 '/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS',
@@ -161,10 +162,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $content
+     * @param string $file
      */
-    protected function _testObsoleteConstants($content)
+    protected function _testObsoleteConstants($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_constants*.php', $content);
+        $declarations = $this->_getRelevantConfigEntities('obsolete_constants*.php', $content, $file);
         foreach ($declarations as $entity => $suggestion) {
             $this->assertNotRegExp(
                 '/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS',
@@ -195,9 +197,10 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      *
      * @param string $fileNamePattern
      * @param string $content
+     * @param string $file
      * @return array
      */
-    protected function _getRelevantConfigEntities($fileNamePattern, $content)
+    protected function _getRelevantConfigEntities($fileNamePattern, $content, $file)
     {
         $result = array();
         foreach ($this->_loadConfigFiles($fileNamePattern) as $entity => $info) {
@@ -206,6 +209,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             /* Note: strpos is used just to prevent excessive preg_match calls */
             if ($class && (!strpos($content, $class) || !preg_match($regexp, $content))) {
                 continue;
+            }
+            if ($info['directory']) {
+                if (0 !== strpos(str_replace('\\', '/', $file), str_replace('\\', '/', $info['directory']))) {
+                    continue;
+                }
             }
             $result[$entity] = $info['suggestion'];
         }
@@ -250,19 +258,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $result = array();
         foreach ($config as $key => $value) {
             $entity = is_string($key) ? $key : $value;
-            $class = null;
-            $suggestion = null;
-            if (is_array($value)) {
-                if (isset($value['class_scope'])) {
-                    $class = $value['class_scope'];
-                }
-                if (isset($value['suggestion'])) {
-                    $suggestion = sprintf(self::SUGGESTION_MESSAGE, $value['suggestion']);
-                }
-            }
             $result[$entity] = array(
-                'suggestion' => $suggestion,
-                'class_scope' => $class
+                'suggestion'  => isset($value['suggestion'])
+                    ? sprintf(self::SUGGESTION_MESSAGE, $value['suggestion']) : null,
+                'class_scope' => isset($value['class_scope']) ? $value['class_scope'] : null,
+                'directory'   => isset($value['directory']) ? PATH_TO_SOURCE_CODE . '/' . $value['directory'] : null,
             );
         }
         return $result;

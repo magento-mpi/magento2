@@ -35,21 +35,15 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column extends Mage_Wishlist_Bl
     protected function _toHtml()
     {
         if ($this->isEnabled()) {
+            foreach ($this->getChildNames() as $name) {
+                $child = $this->getLayout()->getBlock($name);
+                if ($child) {
+                    $child->setItem($this->getItem());
+                }
+            }
             return parent::_toHtml();
         }
         return '';
-    }
-
-    /**
-     * Retrieve child blocks html
-     *
-     * @param string $name
-     * @param Mage_Core_Block_Abstract $child
-     * @return string
-     */
-    protected function _beforeChildToHtml($name, $child)
-    {
-        $child->setItem($this->getItem());
     }
 
     /**
@@ -60,8 +54,8 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Column extends Mage_Wishlist_Bl
     public function getJs()
     {
         $js = '';
-        foreach ($this->getSortedChildBlocks() as $child) {
-            $js .= $child->getJs();
+        foreach ($this->getChildNames() as $name) {
+            $js .= $this->getLayout()->getBlock($name)->getJs();
         }
         return $js;
     }

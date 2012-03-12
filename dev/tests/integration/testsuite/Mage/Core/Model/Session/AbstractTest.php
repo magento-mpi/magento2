@@ -83,8 +83,7 @@ class Mage_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $agents = $this->_model->getValidateHttpUserAgentSkip();
         $this->assertContains('Shockwave Flash', $agents);
-        $this->assertContains('Adobe Flash Player 9', $agents);
-        $this->assertContains('Adobe Flash Player 10', $agents);
+        $this->assertContains('Adobe Flash Player\s{1,}\w{1,10}', $agents);
     }
 
     public function testSetSessionId()

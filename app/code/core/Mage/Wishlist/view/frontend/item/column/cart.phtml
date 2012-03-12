@@ -29,8 +29,8 @@ $product = $item->getProduct();
     <?php endif; ?>
 <?php endif; ?>
 </div>
-<?php foreach($this->getSortedChildren() as $childName):?>
-    <?php echo $this->getChildHtml($childName, false);?>
+<?php foreach($this->getChildNames() as $childName):?>
+    <?php echo $this->getLayout()->renderElement($childName, false);?>
 <?php endforeach;?>
 <?php if ($product->isVisibleInSiteVisibility()): ?>
     <p><a class="link-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('Edit') ?></a></p>

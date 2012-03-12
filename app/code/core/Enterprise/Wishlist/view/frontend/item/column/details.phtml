@@ -13,6 +13,6 @@
 ?>
 <h3 class="product-name"><a href="<?php echo $this->getProductUrl($this->getItem()); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h3>
 <div class="description std"><div class="inner"><?php echo $this->escapeHtml($this->stripTags($product->getShortDescription()));?></div></div>
-<?php foreach($this->getSortedChildren() as $childName):?>
-    <?php echo $this->getChildHtml($childName, false);?>
+<?php foreach($this->getChildNames() as $childName):?>
+    <?php echo $this->getLayout()->renderElement($childName, false);?>
 <?php endforeach;?>

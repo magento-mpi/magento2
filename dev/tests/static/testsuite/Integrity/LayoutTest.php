@@ -18,6 +18,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     const HTML_ID_PATTERN = '/^[a-z][a-z\-\_\d]*$/';
 
     /**
+     * @var array
+     */
+    protected static $_containerAliases = array();
+
+    /**
      * @var array|bool
      */
     protected $_codeFrontendHandles = false;
@@ -26,6 +31,21 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @var array|bool
      */
     protected $_pageHandles = false;
+
+    /**
+     * Collect declarations of containers per layout file that have aliases
+     */
+    public static function setUpBeforeClass()
+    {
+        foreach (Utility_Files::getLayoutFiles(array(), false) as $file) {
+            $xml = simplexml_load_file($file);
+            $containers = $xml->xpath('/layout//container[@as]') ?: array();
+            foreach ($containers as $node) {
+                $alias = (string)$node['as'];
+                self::$_containerAliases[$file][(string)$node['name']] = $alias;
+            }
+        }
+    }
 
     /**
      * Check count of layout handle labels that described in modules for frontend area
@@ -278,5 +298,41 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function containerDeclarationDataProvider()
     {
         return Utility_Files::getLayoutFiles();
+    }
+
+    /**
+     * @param string $alias
+     * @dataProvider getChildBlockDataProvider
+     */
+    public function testBlocksNotContainers($alias)
+    {
+        foreach (self::$_containerAliases as $layoutFile => $containers) {
+            try {
+                $this->assertNotContains($alias, $containers,
+                    "The getChildBlock('{$alias}') is used, but this alias is declared for container in {$layoutFile}"
+                );
+            } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+                $xml = simplexml_load_file($layoutFile);
+                // if there is a block with this alias, then most likely it will be used and container is ok
+                if (!$xml->xpath('/layout//block[@as="' . $alias . '"]')) {
+                    throw $e;
+                }
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildBlockDataProvider()
+    {
+        $result = array();
+        foreach (Utility_Files::getPhpFiles(true, false, true, false) as $file) {
+            $aliases = Utility_Classes::getAllMatches(file_get_contents($file), '/\->getChildBlock\(\'([^\']+)\'\)/x');
+            foreach ($aliases as $alias) {
+                $result[$file] = array($alias);
+            }
+        }
+        return $result;
     }
 }

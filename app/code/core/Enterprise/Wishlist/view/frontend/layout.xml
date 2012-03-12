@@ -70,7 +70,8 @@
         </reference>
     </wishlist_index_share>
 
-    <wishlist_search_view>
+    <wishlist_search_view translate="label" type="page" parent="default">
+        <label>Wishlist View (From Search)</label>
         <reference name="head">
             <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
                 <title>Wishlist Info</title>
@@ -126,14 +127,16 @@
         </reference>
     </wishlist_search_view>
 
-    <wishlist_search_index>
+    <wishlist_search_index translate="label" type="page" parent="default">
+        <label>Wishlist Search Form</label>
         <reference name="content">
             <block type="Enterprise_Wishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml">
             </block>
         </reference>
     </wishlist_search_index>
 
-    <wishlist_search_results>
+    <wishlist_search_results translate="label" type="page" parent="default">
+        <label>Wishlist Search Results</label>
         <reference name="content">
             <block type="Enterprise_Wishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml"></block>
             <block type="Enterprise_Wishlist_Block_Search_Results" name="wishlist.search.results" template="search/results.phtml"></block>

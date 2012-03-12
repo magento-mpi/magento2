@@ -11,6 +11,9 @@
  * @license     {license_link}
  */
 
+/**
+ * A test for backwards-incompatible change in widget.xml structure
+ */
 class Legacy_Mage_Widget_XmlTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -29,10 +32,25 @@ class Legacy_Mage_Widget_XmlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $file
+     * @dataProvider widgetXmlFilesDataProvider
+     */
+    public function testBlocksIntoContainers($file)
+    {
+        $xml = simplexml_load_file($file);
+        $this->assertSame(array(), $xml->xpath('/widgets/*/supported_blocks'),
+            'Obsolete node: <supported_blocks>. To be replaced with <supported_containers>'
+        );
+        $this->assertSame(array(), $xml->xpath('/widgets/*/*/*/block_name'),
+            'Obsolete node: <block_name>. To be replaced with <container_name>'
+        );
+    }
+
+    /**
      * @return array
      */
     public function widgetXmlFilesDataProvider()
     {
-        return Util_Files::getConfigFiles('widget.xml');
+        return Utility_Files::getConfigFiles('widget.xml');
     }
 }

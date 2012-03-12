@@ -99,23 +99,44 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     }
 
     /**
+     * @param Mage_Core_Block_Abstract $block
      * @return Mage_Adminhtml_Controller_Action
      */
     protected function _addContent(Mage_Core_Block_Abstract $block)
     {
-        $this->getLayout()->insertBlock('content', $block->getNameInLayout());
-        return $this;
+        return $this->_moveBlockToContainer($block, 'content');
     }
 
+    /**
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addLeft(Mage_Core_Block_Abstract $block)
     {
-        $this->getLayout()->insertBlock('left', $block->getNameInLayout());
-        return $this;
+        return $this->_moveBlockToContainer($block, 'left');
     }
 
+    /**
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addJs(Mage_Core_Block_Abstract $block)
     {
-        $this->getLayout()->insertBlock('js', $block->getNameInLayout());
+        return $this->_moveBlockToContainer($block, 'js');
+    }
+
+    /**
+     * Set specified block as an anonymous child to specified container
+     *
+     * The block will be moved to the container from previous parent after all other elements
+     *
+     * @param Mage_Core_Block_Abstract $block
+     * @param string $containerName
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    private function _moveBlockToContainer(Mage_Core_Block_Abstract $block, $containerName)
+    {
+        $this->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
     }
 

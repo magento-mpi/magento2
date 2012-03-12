@@ -11,6 +11,10 @@
 
 require __DIR__ . '/Magento/Test/Bootstrap.php';
 
+if (!defined('PATH_TO_SOURCE_CODE')) {
+    define('PATH_TO_SOURCE_CODE', realpath(__DIR__ . '/../../../..'));
+}
+
 $baseDir = dirname(__DIR__);
 
 /*

@@ -43,7 +43,7 @@
 
 <h2 class="subtitle"><?php echo $this->__('Wishlist Items') ?></h2>
 <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
-    <?php $this->getChild('items')->setItems($this->getWishlistItems()); ?>
+    <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
     <?php echo $this->getChildHtml('items');?>
     <?php if (count($wishlistItems) && $this->isSaleable()): ?>
         <div class="buttons-set buttons-set2">

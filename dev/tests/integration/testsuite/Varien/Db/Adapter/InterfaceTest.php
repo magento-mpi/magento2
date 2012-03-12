@@ -41,6 +41,14 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $this->_tableName = $installer->getTable('table_two_column_idx');
         $this->_oneColumnIdxName = $installer->getIdxName($this->_tableName, array('column1'));
         $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
+
+        $table = $this->_connection->newTable($this->_tableName)
+            ->addColumn('column1', Varien_Db_Ddl_Table::TYPE_INTEGER)
+            ->addColumn('column2', Varien_Db_Ddl_Table::TYPE_INTEGER)
+            ->addIndex($this->_oneColumnIdxName, array('column1'))
+            ->addIndex($this->_twoColumnIdxName, array('column1', 'column2'))
+        ;
+        $this->_connection->createTable($table);
     }
 
     /**
@@ -48,6 +56,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        $this->_connection->dropTable($this->_tableName);
         $this->_connection->resetDdlCache($this->_tableName);
     }
 
@@ -91,9 +100,6 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         return false;
     }
 
-    /**
-     * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
-     */
     public function testDropColumn()
     {
         $this->_connection->dropColumn($this->_tableName, 'column1');
@@ -105,7 +111,6 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @depends testDropColumn
-     * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
      */
     public function testDropColumnRemoveFromIndexes()
     {
@@ -123,7 +128,6 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @depends testDropColumn
-     * @magentoDataFixture Varien/Db/Adapter/_files/table_two_column_idx.php
      */
     public function testDropColumnRemoveIndexDuplicate()
     {

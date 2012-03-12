@@ -24,6 +24,7 @@ return array(
     '_applyDesign' => array('class_scope' => 'Mage_Catalog_Model_Design'),
     '_applyDesignRecursively' => array('class_scope' => 'Mage_Catalog_Model_Design'),
     '_avoidDoubleTransactionProcessing',
+    '_beforeChildToHtml',
     '_calculatePrice' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
     '_checkUrlSettings' => array('class_scope' => 'Mage_Adminhtml_Controller_Action'),
     '_collectOrigData' => array('class_scope' => 'Mage_Catalog_Model_Resource_Abstract'),
@@ -114,9 +115,15 @@ return array(
     'addToAlersAction',
     'addToChildGroup',
     'addVisibleFilterToCollection' => array('class_scope' => 'Mage_Catalog_Model_Product_Status'),
-    'addVisibleInCatalogFilterToCollection' => array('class_scope' => 'Mage_Catalog_Model_Product_Visibility'),
-    'addVisibleInSearchFilterToCollection' => array('class_scope' => 'Mage_Catalog_Model_Product_Visibility'),
-    'addVisibleInSiteFilterToCollection' => array('class_scope' => 'Mage_Catalog_Model_Product_Visibility'),
+    'addVisibleInCatalogFilterToCollection' => array('suggestion' =>
+        '$collection->setVisibility(Mage_Catalog_Model_Product_Visibility->getVisibleInCatalogIds());'
+    ),
+    'addVisibleInSearchFilterToCollection' => array('suggestion' =>
+        '$collection->setVisibility(Mage_Catalog_Model_Product_Visibility->getVisibleInSearchIds());'
+    ),
+    'addVisibleInSiteFilterToCollection' => array('suggestion' =>
+        '$collection->setVisibility(Mage_Catalog_Model_Product_Visibility->getVisibleInSiteIds());'
+    ),
     'addWishlistLink' => array('class_scope' => 'Mage_Wishlist_Block_Links'),
     'addWishListSortOrder' => array('class_scope' => 'Mage_Wishlist_Model_Resource_Item_Collection'),
     'aggregate' => array('class_scope' => 'Mage_Tag_Model_Resource_Tag'),
@@ -162,7 +169,7 @@ return array(
     'getAllOrderEntityTypeIds' => array('class_scope' => 'Mage_Rss_Model_Resource_Order'),
     'getBaseTaxAmount' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
     'getCheckoutMehod' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
-    'getChild' => array('class_scope' => 'Mage_Core_Block_Abstract'),
+    'getChild' => array('directory' => 'app', 'suggestion' => 'Mage_Core_Block_Abstract::getChildBlock()'),
     'getChildGroup',
     'getConfig' => array('class_scope' => 'Mage_Eav_Model_Entity_Attribute_Abstract'),
     'getCustomerData' => array('class_scope' => 'Mage_Adminhtml_Block_Sales_Order_Create_Form_Account'),
@@ -221,8 +228,8 @@ return array(
     'getSaveTemplateFlag' => array('class_scope' => 'Mage_Newsletter_Model_Queue'),
     'getSelectionFinalPrice' => array('class_scope' => 'Mage_Bundle_Model_Product_Price'),
     'getShipId' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
-    'getSortedChildren',
-    'getSortedChildBlocks',
+    'getSortedChildren' => array('suggestion' => 'getChildNames'),
+    'getSortedChildBlocks' => array('suggestion' => 'getChildNames() + $this->getLayout()->getBlock($name)'),
     'getStatrupPageUrl',
     'getStoreCurrency' => array('class_scope' => 'Mage_Sales_Model_Order'),
     'getSuggestedZeroDate',

@@ -10,6 +10,8 @@
  * @license     {license_link}
  */
 
+require_once __DIR__ . '/Files.php';
+
 class Utility_Classes
 {
     /**
@@ -134,5 +136,29 @@ class Utility_Classes
                 | /layout//action[@method="setEntityModelClass"]/code'
         ));
         return array_unique($classes);
+    }
+
+    /**
+     * Scan application source code and find classes
+     *
+     * Sub-type pattern allows to distinguish "type" of a class within a module (for example, Block, Model)
+     * Returns array(<class> => <module>)
+     *
+     * @param string $subTypePattern
+     * @return array
+     */
+    public static function collectModuleClasses($subTypePattern = '[A-Za-z]+')
+    {
+        $pattern = '/^' . preg_quote(PATH_TO_SOURCE_CODE, '/')
+            . '\/app\/code\/[a-z]+\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
+        $result = array();
+        foreach (Utility_Files::getPhpFiles(true, false, false, false) as $file) {
+            if (preg_match($pattern, $file, $matches)) {
+                $module = "{$matches[1]}_{$matches[2]}";
+                $class = "{$module}_" . str_replace('/', '_', $matches[3]);
+                $result[$class] = $module;
+            }
+        }
+        return $result;
     }
 }
