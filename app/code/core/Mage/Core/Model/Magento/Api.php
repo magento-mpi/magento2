@@ -41,15 +41,7 @@ class Mage_Core_Model_Magento_Api extends Mage_Api_Model_Resource_Abstract
     public function info()
     {
         $result = array();
-        $isEnterpriseEnabled = Mage::getConfig()->getModuleConfig('Enterprise_Enterprise')->is('active');
-        if (!$isEnterpriseEnabled) {
-            $result['magento_edition'] = 'Community';
-        } else {
-            // define magento edition by its license
-            $licenseFileName = (string)Mage::getConfig()->getNode('install/eula_file');
-            $isProfessional = strpos($licenseFileName, 'LICENSE_PRO') !== false;
-            $result['magento_edition'] = $isProfessional ? 'Professional' : 'Enterprise';
-        }
+        $result['magento_edition'] = Mage::getEdition();
         $result['magento_version'] = Mage::getVersion();
 
         return $result;

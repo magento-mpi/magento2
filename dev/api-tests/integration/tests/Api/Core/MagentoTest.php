@@ -39,5 +39,6 @@ class Api_Core_MagentoTest extends Magento_Test_Webservice
         $magentoInfo = $this->call('magento.info');
         $this->assertNotEmpty($magentoInfo['magento_version']);
         $this->assertNotEmpty($magentoInfo['magento_edition']);
+        $this->assertEquals(Mage::getEdition(), $magentoInfo['magento_edition']);
     }
 }
