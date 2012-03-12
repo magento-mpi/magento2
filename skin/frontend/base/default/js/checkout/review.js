@@ -226,7 +226,7 @@ OrderReviewController.prototype = {
             if (this._pleaseWait) {
                 this._pleaseWait.show();
             }
-            this._togleButton(this._ubpdateOrderButton, true);
+            this._toggleButton(this._ubpdateOrderButton, true);
 
             arr = $$('[id^="billing:"]').invoke('enable');
             var formData = this.form.serialize(true);
@@ -241,7 +241,7 @@ OrderReviewController.prototype = {
                     if (this._pleaseWait && !this._updateShippingMethods) {
                         this._pleaseWait.hide();
                     }
-                    this._togleButton(this._ubpdateOrderButton, false);
+                    this._toggleButton(this._ubpdateOrderButton, false);
                 }.bind(this),
                 onSuccess: this._updateShippingMethodsElement.bind(this),
                 evalScripts: true
@@ -405,7 +405,7 @@ OrderReviewController.prototype = {
         );
         this._canSubmitOrder = !isDisabled;
         if (this.formSubmit) {
-            this._togleButton(this.formSubmit, isDisabled);
+            this._toggleButton(this.formSubmit, isDisabled);
         }
     },
 
@@ -415,7 +415,7 @@ OrderReviewController.prototype = {
      * @param button
      * @param disable
      */
-    _togleButton : function(button, disable)
+    _toggleButton : function(button, disable)
     {
         button.disabled = disable;
         button.removeClassName('no-checkout');
