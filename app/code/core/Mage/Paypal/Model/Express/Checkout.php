@@ -675,8 +675,8 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Sets address data from exported address
      *
-     * @param $address
-     * @param $exportedAddress
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @param array $exportedAddress
      */
     protected function _setExportedAddressData($address, $exportedAddress)
     {
