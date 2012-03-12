@@ -373,6 +373,7 @@ final class Mage
      * Get base URL path by type
      *
      * @param string $type
+     * @param null|bool $secure
      * @return string
      */
     public static function getBaseUrl($type = Mage_Core_Model_Store::URL_TYPE_LINK, $secure = null)
@@ -454,7 +455,7 @@ final class Mage
      * @link    Mage_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
-     * @return  Mage_Core_Model_Abstract
+     * @return  Mage_Core_Model_Abstract|false
      */
     public static function getModel($modelClass = '', $arguments = array())
     {

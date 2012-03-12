@@ -1338,7 +1338,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * @param string $modelClass
      * @param array|object $constructArguments
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_Core_Model_Abstract|false
      */
     public function getModelInstance($modelClass='', $constructArguments=array())
     {
@@ -1349,10 +1349,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('CORE::create_object_of::'.$className);
             return $obj;
         } else {
-            /* throw Mage::exception(
-                'Mage_Core',
-                Mage::helper('core')->__('Model class does not exist: %s.', $modelClass)
-            ); */
             return false;
         }
     }

@@ -1274,7 +1274,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             ),
             'Version' => array(
                 'ServiceId'     => 'ship',
-                'Major'         => '9',
+                'Major'         => '10',
                 'Intermediate'  => '0',
                 'Minor'         => '0'
             )

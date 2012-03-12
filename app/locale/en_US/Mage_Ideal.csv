@@ -5,6 +5,7 @@
 "An error has occurred with the transaction #%s.","An error has occurred with the transaction #%s."
 "An error has occurred. You will be redirected back to store.","An error has occurred. You will be redirected back to store."
 "An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. The transaction number is %s.","An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. The transaction number is %s."
+"An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. Transaction number is %s.","An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. Transaction number is %s."
 "Begin to check transaction status if order was made {N} hours ago.","Begin to check transaction status if order was made {N} hours ago."
 "Check Begin","Check Begin"
 "Check End","Check End"

@@ -296,8 +296,12 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if (!Mage::isInstalled() || $request->getPost()) {
             return;
         }
-        if (!Mage::getStoreConfig('web/url/redirect_to_base')) {
+
+        $redirectCode = Mage::getStoreConfig('web/url/redirect_to_base');
+        if (!$redirectCode) {
             return;
+        } elseif ($redirectCode != 301) {
+            $redirectCode = 302;
         }
 
         if ($this->_isAdminFrontNameMatched($request)
@@ -306,23 +310,20 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             return;
         }
 
-        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, Mage::app()->getStore()->isCurrentlySecure());
-
+        $baseUrl = Mage::getBaseUrl(
+            Mage_Core_Model_Store::URL_TYPE_WEB,
+            Mage::getConfig()->shouldUrlBeSecure($request->getPathInfo())
+        );
         if (!$baseUrl) {
             return;
         }
 
-        $redirectCode = 302;
-        if (Mage::getStoreConfig('web/url/redirect_to_base') == 301) {
-            $redirectCode = 301;
-        }
-
-        $uri  = @parse_url($baseUrl);
-        $host = isset($uri['host']) ? $uri['host'] : '';
-        $path = isset($uri['path']) ? $uri['path'] : '';
-
+        $uri = @parse_url($baseUrl);
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
-        if ($host && $host != $request->getHttpHost() || $path && strpos($requestUri, $path) === false) {
+        if (isset($uri['scheme']) && $uri['scheme'] != $request->getScheme()
+            || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
+            || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
+        ) {
             Mage::app()->getFrontController()->getResponse()
                 ->setRedirect($baseUrl, $redirectCode)
                 ->sendResponse();
@@ -338,7 +339,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     protected function _isAdminFrontNameMatched($request)
     {
-        $adminPath = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
+        $useCustomAdminPath = (bool)(string)Mage::getConfig()
+            ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH);
+        $customAdminPath = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
+        $adminPath = ($useCustomAdminPath) ? $customAdminPath : null;
+
         if (!$adminPath) {
             $adminPath = (string)Mage::getConfig()
                 ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME);

@@ -29,7 +29,8 @@
  *
  */
 
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid extends Mage_Adminhtml_Block_Sales_Creditmemo_Grid
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
+    extends Mage_Adminhtml_Block_Sales_Creditmemo_Grid
 {
     public function __construct()
     {
@@ -58,4 +59,20 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Gri
          return $this->getUrl('*/*/creditmemosgrid', array('_current' => true));
     }
 
+    /**
+     * Retrieve grid export types
+     *
+     * @return array|false
+     */
+    public function getExportTypes()
+    {
+        if (!empty($this->_exportTypes)) {
+            foreach ($this->_exportTypes as $exportType) {
+                $url = Mage::helper('core/url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(Mage::helper('core/url')->addRequestParam($url, array('action' => 'creditmemo')));
+            }
+            return $this->_exportTypes;
+        }
+        return false;
+    }
 }

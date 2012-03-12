@@ -1,5 +1,6 @@
 "AUTHENTICATE","AUTHENTICATE"
 "An error has occurred","An error has occurred"
+"Cannot retrieve order object","Cannot retrieve order object"
 "Click <a href=""%s"">here</a> to continue shopping.","Click <a href=""%s"">here</a> to continue shopping."
 "Customer was redirected to Protx","Customer was redirected to Protx"
 "DEFERRED","DEFERRED"
