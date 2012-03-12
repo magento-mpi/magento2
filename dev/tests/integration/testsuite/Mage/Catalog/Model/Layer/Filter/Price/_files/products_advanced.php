@@ -15,7 +15,7 @@
 
 $prices = array(5, 10, 15, 20, 50, 100, 150);
 
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_write');
+$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

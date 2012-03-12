@@ -252,6 +252,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      *
      * @param array $config
      * @return array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _normalizeConfigData(array $config)
     {
