@@ -1362,6 +1362,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return $this->_configHelper->getArea();
     }
+
+    /**
+     * Return current application config
+     * @return array
+     * @throws OutOfRangeException
+     */
+    public function getApplicationConfig()
+    {
+        return $this->_configHelper->getApplicationConfig();
+    }
     ################################################################################
     #                                                                              #
     #                       UIMap of Page helper methods                           #
