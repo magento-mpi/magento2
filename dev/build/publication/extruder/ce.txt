@@ -18,6 +18,7 @@ app/code/core/Mage/XmlConnect/Block/Customer/Order/Item/Renderer/Giftcard.php
 app/code/core/Mage/XmlConnect/Block/Customer/Order/Totals/Customerbalance.php
 app/code/core/Mage/XmlConnect/Block/Customer/Order/Totals/Giftcards.php
 app/code/core/Mage/XmlConnect/Block/Customer/Order/Totals/Customerbalance/Refunded.php
+app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Abstract.php
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Authorizenet.php
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Paypal.php
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Paypaluk.php
