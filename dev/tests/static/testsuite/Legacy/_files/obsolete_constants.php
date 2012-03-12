@@ -41,4 +41,5 @@ return array(
     'TYPE_BINARY',
     'TYPE_LONGVARBINARY',
     'HASH_ALGO',
+    'SEESION_MAX_COOKIE_LIFETIME',
 );
