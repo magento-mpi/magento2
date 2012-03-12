@@ -59,7 +59,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
     }
 
     /**
-     * Retrieve collection instance for stock
+     * Retrieve stock items collection
      *
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
      */

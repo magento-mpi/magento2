@@ -270,9 +270,10 @@
                     </customer>
                 </include_attributes>
                 <routes>
-                    <route_main>
-                        <mask>/orders/:id/items</mask>
-                    </route_main>
+                    <route_collection>
+                        <route>/orders/:id/items</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
                 <versions>1</versions>
             </order_items>

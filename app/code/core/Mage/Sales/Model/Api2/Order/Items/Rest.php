@@ -34,17 +34,17 @@
 abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_Api2_Order_Items
 {
     /**#@+
-     * Parameters in request used in model (usually specified in route mask)
+     * Parameters in request used in model (usually specified in route)
      */
     const PARAM_ORDER_ID = 'id';
     /**#@-*/
 
     /**
-     * Get order item list
+     * Get order items list
      *
      * @return array
      */
-    protected function _retrieve()
+    protected function _retrieveCollection()
     {
         $data = array();
         /* @var $item Mage_Sales_Model_Order_Item */
@@ -56,7 +56,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
         return $data;
     }
     /**
-     * Retrieve collection instance
+     * Retrieve order items collection
      *
      * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
