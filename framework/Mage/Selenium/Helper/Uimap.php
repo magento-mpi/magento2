@@ -149,10 +149,10 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             if ($pageMca === false || $pageMca === null) {
                 continue;
             }
-            if ($paramsDecorator) {
-                $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
-            }
             if ($area == 'admin' || $area == 'frontend') {
+                if ($paramsDecorator) {
+                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+                }
                 if (preg_match(';^' . $pageMca . '$;', $mca)) {
                     $appropriatePages[] = $page;
                 }

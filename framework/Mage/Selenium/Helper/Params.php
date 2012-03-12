@@ -117,7 +117,7 @@ class Mage_Selenium_Helper_Params
     public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)')
     {
         if ($this->_paramsArray) {
-            return str_replace(array_keys($this->_paramsArray), $regexp, $source);
+            return str_replace(array_keys($this->_paramsArray), $regexp, preg_quote($source));
         }
         return $source;
     }
