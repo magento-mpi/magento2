@@ -102,7 +102,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                         continue;
                     }
                     try {
-                        /** @var $resourceModel Mage_Api2_Model_Resource_Instance */
+                        /** @var $resourceModel Mage_Api2_Model_Resource */
                         $resourceModel = Mage::getModel($config->getResourceModel($resource));
                         if ($resourceModel) {
                             $resourceModel->setResourceType($resource)
