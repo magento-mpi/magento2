@@ -54,7 +54,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     {
         $this->_configFixtures = $this->getConfig()->getConfigFixtures();
         $config = $this->getConfig()->getHelper('config')->getConfigFramework();
-        if ($config['load_all_fixtures']) {
+        if ($config['load_all_data']) {
             $this->_loadTestData();
         }
     }
