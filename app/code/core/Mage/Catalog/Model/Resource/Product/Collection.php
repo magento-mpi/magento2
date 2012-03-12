@@ -314,8 +314,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             return false;
         }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
-            $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()
-                ->isEnabled($this->getStoreId());
+            $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()->isAvailable();
         }
         return $this->_flatEnabled[$this->getStoreId()];
     }

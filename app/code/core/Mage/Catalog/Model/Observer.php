@@ -42,24 +42,13 @@ class Mage_Catalog_Model_Observer
      */
     public function storeEdit(Varien_Event_Observer $observer)
     {
+        /** @var $store Mage_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
-        /* @var $store Mage_Core_Model_Store */
         if ($store->dataHasChangedFor('group_id')) {
             Mage::app()->reinitStores();
-            /**
-             * @see Mage_Catalog_Model_Indexer_Url
-             */
-            //Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-
-            /**
-             * @see Mage_Catalog_Model_Category_Indexer_Product
-             */
-            /*Mage::getResourceModel('catalog/category')->refreshProductIndex(
-                array(),
-                array(),
-                array($store->getId())
-            );*/
-            if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+            /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+            $categoryFlatHelper = Mage::helper('catalog/category_flat');
+            if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
                 Mage::getResourceModel('catalog/category_flat')->synchronize(null, array($store->getId()));
             }
             Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($store);
@@ -75,26 +64,14 @@ class Mage_Catalog_Model_Observer
      */
     public function storeAdd(Varien_Event_Observer $observer)
     {
-        $store = $observer->getEvent()->getStore();
         /* @var $store Mage_Core_Model_Store */
+        $store = $observer->getEvent()->getStore();
         Mage::app()->reinitStores();
         Mage::getConfig()->reinit();
-
-        /**
-         * @see Mage_Catalog_Model_Indexer_Url
-         */
-        //Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-        /**
-         * @see Mage_Catalog_Model_Category_Indexer_Product
-         */
-        /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
-            array(),
-            array(),
-            array($store->getId())
-        );*/
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-            Mage::getResourceModel('catalog/category_flat')
-                ->synchronize(null, array($store->getId()));
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('catalog/category_flat');
+        if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
+            Mage::getResourceModel('catalog/category_flat')->synchronize(null, array($store->getId()));
         }
         Mage::getResourceModel('catalog/product')->refreshEnabledIndex($store);
         return $this;
@@ -108,26 +85,15 @@ class Mage_Catalog_Model_Observer
      */
     public function storeGroupSave(Varien_Event_Observer $observer)
     {
-        $group = $observer->getEvent()->getGroup();
         /* @var $group Mage_Core_Model_Store_Group */
+        $group = $observer->getEvent()->getGroup();
         if ($group->dataHasChangedFor('root_category_id') || $group->dataHasChangedFor('website_id')) {
             Mage::app()->reinitStores();
             foreach ($group->getStores() as $store) {
-                /**
-                 * @see Mage_Catalog_Model_Indexer_Url
-                 */
-                //Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-                /**
-                 * @see Mage_Catalog_Model_Category_Indexer_Product
-                 */
-                /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
-                    array(),
-                    array(),
-                    array($store->getId())
-                );*/
-                if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-                    Mage::getResourceModel('catalog/category_flat')
-                        ->synchronize(null, array($store->getId()));
+                /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+                $categoryFlatHelper = Mage::helper('catalog/category_flat');
+                if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
+                    Mage::getResourceModel('catalog/category_flat')->synchronize(null, array($store->getId()));
                 }
             }
         }
@@ -142,7 +108,9 @@ class Mage_Catalog_Model_Observer
      */
     public function storeDelete(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('catalog/category_flat');
+        if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $store = $observer->getEvent()->getStore();
             Mage::getResourceModel('catalog/category_flat')->deleteStores($store->getId());
         }
@@ -160,21 +128,10 @@ class Mage_Catalog_Model_Observer
         $categoryId = $observer->getEvent()->getCategoryId();
         $prevParentId = $observer->getEvent()->getPrevParentId();
         $parentId = $observer->getEvent()->getParentId();
-        /**
-         * @see Mage_Catalog_Model_Indexer_Url
-         */
-        //Mage::getModel('catalog/url')->refreshCategoryRewrite($categoryId);
-        /**
-         * @see Mage_Catalog_Model_Category_Indexer_Product
-         */
-        /*Mage::getResourceSingleton('catalog/category')->refreshProductIndex(array(
-            $categoryId, $prevParentId, $parentId
-        ));*/
-        //Mage::getModel('catalog/category')->load($prevParentId)->save();
-        //Mage::getModel('catalog/category')->load($parentId)->save();
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-            Mage::getResourceModel('catalog/category_flat')
-                ->move($categoryId, $prevParentId, $parentId);
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('catalog/category_flat');
+        if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
+            Mage::getResourceModel('catalog/category_flat')->move($categoryId, $prevParentId, $parentId);
         }
         return $this;
     }
@@ -212,7 +169,9 @@ class Mage_Catalog_Model_Observer
      */
     public function categorySaveAfter(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('catalog/category_flat');
+        if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $category = $observer->getEvent()->getCategory();
             Mage::getResourceModel('catalog/category_flat')->synchronize($category);
         }

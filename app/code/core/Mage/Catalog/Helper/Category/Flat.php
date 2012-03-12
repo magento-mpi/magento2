@@ -33,42 +33,84 @@
  */
 class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Catalog Category Flat Is Enabled Config
+     */
     const XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY = 'catalog/frontend/flat_catalog_category';
 
     /**
-     * Return true if flat catalog is enabled, rebuileded and is not Admin
+     * Catalog Flat Category index process code
      *
-     * @param boolean $skipAdmin
-     * @return boolean
+     * @var string
+     */
+    const CATALOG_CATEGORY_FLAT_PROCESS_CODE = 'catalog_category_flat';
+
+    /**
+     * Store catalog Category Flat index process instance
+     *
+     * @var Mage_Index_Model_Process|null
+     */
+    protected $_process = null;
+
+    /**
+     * Check if Catalog Category Flat Data is enabled
+     *
+     * @param bool $skipAdminCheck this parameter is deprecated and no longer in use
+     *
+     * @return bool
      */
     public function isEnabled($skipAdminCheck = false)
     {
-        $flatFlag = Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
-        $isFront = !Mage::app()->getStore()->isAdmin();
-        if ($skipAdminCheck === true) {
-            $isFront = true;
-        }
-
-        return (boolean) $flatFlag && $isFront;
+        return Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
     }
 
     /**
-     * Return true if catalog category flat data rebuilt
+     * Check if Catalog Category Flat Data is available for use
      *
-     * @return boolean
+     * @return bool
      */
-    public function isRebuilt()
+    public function isAvailable()
     {
-        return Mage::getResourceSingleton('catalog/category_flat')->isRebuilt();
+        return $this->isEnabled() && $this->getProcess()->getStatus() != Mage_Index_Model_Process::STATUS_RUNNING;
     }
 
     /**
-     * Back Flat compatibility: check is built and enabled flat
+     * Check if Catalog Category Flat Data has been initialized
      *
      * @return bool
      */
     public function isBuilt()
     {
-        return $this->isEnabled(true);
+        return Mage::getResourceSingleton('catalog/category_flat')->isBuilt();
+    }
+
+    /**
+     * Retrive Catalog Category Flat index process
+     *
+     * @return Mage_Index_Model_Process
+     */
+    public function getProcess()
+    {
+        if (is_null($this->_process)) {
+            $this->_process = Mage::getModel('index/process')
+                ->load(self::CATALOG_CATEGORY_FLAT_PROCESS_CODE, 'indexer_code');
+        }
+        return $this->_process;
+    }
+
+
+
+
+
+    /**
+     * Check if Catalog Category Flat Data has been initialized
+     *
+     * @deprecated use Mage_Catalog_Helper_Category_Flat::isBuilt() instead
+     *
+     * @return bool
+     */
+    public function isRebuilt()
+    {
+        return $this->isBuilt();
     }
 }

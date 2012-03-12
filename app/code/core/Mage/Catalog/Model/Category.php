@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('catalog/category_flat')->isAvailable()) {
             $this->_init('catalog/category_flat');
             $this->_useFlatResource = true;
         } else {

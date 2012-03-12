@@ -328,7 +328,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
         // rebuild flat tables after rollback
         if ($process == 'rollback') {
-            if (Mage::helper('catalog/category_flat')->isBuilt()) {
+            if (Mage::helper('catalog/category_flat')->isAvailable()) {
                 Mage::getResourceModel('catalog/category_flat')->rebuild();
             }
 
@@ -336,7 +336,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             if (!empty($stores)) {
                 foreach ($stores as $storeIds) {
                     if (isset($storeIds[0]) && $storeIds[0]) {
-                        if (Mage::helper('catalog/product_flat')->isBuilt()) {
+                        if (Mage::helper('catalog/product_flat')->isAvailable()) {
                             Mage::getResourceModel('catalog/product_flat_indexer')->rebuild($storeIds[0]);
                         }
                     }
@@ -344,26 +344,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             }
         }
 
-//        $needToRebuiltFlat = false;
-//        switch ($process) {
-//            case 'create':
-//            case 'rollback':
-//                $needToRebuiltFlat = true;
-//                break;
-//            case 'merge':
-//                if (!$this->canUnschedule()) {
-//                    $needToRebuiltFlat = true;
-//                }
-//                break;
-//        }
-//        if ($needToRebuiltFlat) {
-//            if (Mage::helper('catalog/category_flat')->isRebuilt()) {
-//                Mage::getResourceModel('catalog/category_flat')->rebuild();
-//            }
-//            if (Mage::helper('catalog/product_flat')->isBuilt()) {
-//                Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
-//            }
-//        }
         $this->releaseCoreFlag();
         return $this;
     }

@@ -227,7 +227,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = array();
 
         // get all children
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (Mage::helper('catalog/category_flat')->isAvailable()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
@@ -376,34 +376,35 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             return $html;
         }
 
-        $html.= '<li';
+        $html .= '<li';
 
         if ($this->isCategoryActive($category)) {
-            $html.= ' class="active"';
+            $html .= ' class="active"';
         }
 
         $html.= '>'."\n";
         $html.= '<a href="'.$this->getCategoryUrl($category).'">'
             . '<span>'.$this->escapeHtml($category->getName()).'</span></a>'."\n";
 
-        if (in_array($category->getId(), $this->getCurrentCategoryPath())){
+        if (in_array($category->getId(), $this->getCurrentCategoryPath())) {
             $children = $category->getChildren();
             $hasChildren = $children && $children->count();
 
             if ($hasChildren) {
                 $htmlChildren = '';
                 foreach ($children as $child) {
-                    $htmlChildren.= $this->drawOpenCategoryItem($child);
+                    $htmlChildren .= $this->drawOpenCategoryItem($child);
                 }
 
                 if (!empty($htmlChildren)) {
-                    $html.= '<ul>'."\n"
-                            .$htmlChildren
-                            .'</ul>';
+                    $html .= '<ul>'."\n"
+                             .$htmlChildren
+                             .'</ul>';
                 }
             }
         }
-        $html.= '</li>'."\n";
+        $html .= '</li>'."\n";
+
         return $html;
     }
 
