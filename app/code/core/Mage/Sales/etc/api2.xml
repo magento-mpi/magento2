@@ -363,9 +363,10 @@
                     </customer>
                 </force_attributes>
                 <routes>
-                    <route_main>
-                        <mask>/orders/:id/comments</mask>
-                    </route_main>
+                    <route_collection>
+                        <route>/orders/:id/comments</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
                 <versions>1</versions>
             </order_comments>
