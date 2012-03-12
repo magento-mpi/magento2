@@ -32,6 +32,11 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     protected $_collection;
 
     /**
+     * @var Mage_Wishlist_Model_Wishlist
+     */
+    protected $_current = null;
+
+    /**
      * Render block
      *
      * @return string

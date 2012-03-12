@@ -677,15 +677,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $moduleName = (isset($node['module'])) ? (string)$node['module'] : 'Mage_Core';
 
             // Handle translations in arrays if needed
-            $translatableArguments = explode(' ', (string)$node['translate']);
-            foreach ($translatableArguments as $translatableArgumentName) {
+            $translatableArgs = explode(' ', (string)$node['translate']);
+            foreach ($translatableArgs as $translatableArg) {
                 /*
                  * .(dot) character is used as a path separator in nodes hierarchy
                  * e.g. info.title means that Magento needs to translate value of <title> node
                  * that is a child of <info> node
                  */
                 // @var $argumentHierarhy array - path to translatable item in $args array
-                $argumentHierarchy = explode('.', $translatableArgumentName);
+                $argumentHierarchy = explode('.', $translatableArg);
                 $argumentStack = &$args;
                 $canTranslate = true;
                 while (is_array($argumentStack) && count($argumentStack) > 0) {

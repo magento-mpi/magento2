@@ -21,8 +21,10 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default extends Ma
 
     protected function _construct()
     {
-        $this->getLog()->restoreMap();
-        $this->_mapper = $this->getLog()->getStaging()->getMapperInstance();
+        if ($this->getLog()) {
+            $this->getLog()->restoreMap();
+            $this->_mapper = $this->getLog()->getStaging()->getMapperInstance();
+        }
     }
 
     /**

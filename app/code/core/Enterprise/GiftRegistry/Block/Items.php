@@ -22,6 +22,9 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
     public function getItems()
     {
         if (!$this->hasItemCollection()) {
+            if (!$this->getEntity()) {
+                return array();
+            }
             $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
