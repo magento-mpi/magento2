@@ -41,15 +41,6 @@
                     </customer>
                 </include_attributes>
             </orders>
-            <order>
-                <include_attributes>
-                    <customer>
-                        <read>
-                            <gift_cards_amount>1</gift_cards_amount>
-                        </read>
-                    </customer>
-                </include_attributes>
-            </order>
         </resources>
     </api2>
 </config>

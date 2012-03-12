@@ -25,16 +25,16 @@
  */
 
 /**
- * API2 class for order
+ * API2 class for orders
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
+class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
 {
     /**#@+
-     * Parameters' names with special meaning
+     * Parameters' names in config with special ACL meaning
      */
     const PARAM_GIFT_MESSAGE   = '_gift_message';
     const PARAM_ORDER_COMMENTS = '_order_comments';
@@ -42,40 +42,166 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
     /**#@-*/
 
     /**
-     * Retrieve gift message information
+     * Add gift message info to select
      *
-     * @param int $messageId Gift message identifier
-     * @return array
+     * @param Mage_Sales_Model_Resource_Order_Collection $collection
+     * @return Mage_Sales_Model_Api2_Order
      */
-    protected function _getGiftMessageInfo($messageId)
+    protected function _addGiftMessageInfo(Mage_Sales_Model_Resource_Order_Collection $collection)
     {
-        /** @var $message Mage_GiftMessage_Model_Message */
-        $message = Mage::getModel('giftmessage/message');
-
-        if ($messageId) {
-            $message->load($messageId);
-        }
-        return array(
-            'gift_message_from' => $message->getSender(),
-            'gift_message_to'   => $message->getRecipient(),
-            'gift_message_body' => $message->getMessage()
+        $collection->getSelect()->joinLeft(
+            array('gift_message' => $collection->getTable('giftmessage/message')),
+            'main_table.gift_message_id = gift_message.gift_message_id',
+            array(
+                'gift_message_from' => 'gift_message.sender',
+                'gift_message_to'   => 'gift_message.recipient',
+                'gift_message_body' => 'gift_message.message'
+            )
         );
+
+        return $this;
     }
 
     /**
-     * Retrieve payment method information for specified order
+     * Add order payment method field to select
+     *
+     * @param Mage_Sales_Model_Resource_Order_Collection $collection
+     * @return Mage_Sales_Model_Api2_Order
+     */
+    protected function _addPaymentMethodInfo(Mage_Sales_Model_Resource_Order_Collection $collection)
+    {
+        $collection->getSelect()->joinLeft(
+            array('payment_method' => $collection->getTable('sales/order_payment')),
+            'main_table.entity_id = payment_method.parent_id',
+            array('payment_method' => 'payment_method.method')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Retrieve a list or orders' addresses in a form of [order ID => array of addresses, ...]
+     *
+     * @param array $orderIds Orders identifiers
+     * @return array
+     */
+    protected function _getAddresses(array $orderIds)
+    {
+        $addresses = array();
+
+        if ($this->_isSubCallAllowed('order_addresses')) {
+            /** @var $addressesFilter Mage_Api2_Model_Acl_Filter */
+            $addressesFilter = $this->_getSubModel('order_addresses', array())->getFilter();
+            // do addresses request if at least one attribute allowed
+            if ($addressesFilter->getAllowedAttributes()) {
+                /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
+                $collection = Mage::getResourceModel('sales/order_address_collection');
+
+                $collection->addAttributeToFilter('parent_id', $orderIds);
+
+                foreach ($collection->getItems() as $item) {
+                    $addresses[$item->getParentId()][] = $addressesFilter->out($item->toArray());
+                }
+            }
+        }
+        return $addresses;
+    }
+
+    /**
+     * Retrieve collection instance for orders list
+     *
+     * @return Mage_Sales_Model_Resource_Order_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
+        $collection = Mage::getResourceModel('sales/order_collection');
+
+        $this->_applyCollectionModifiers($collection);
+
+        return $collection;
+    }
+
+    /**
+     * Retrieve collection instance for single order
      *
      * @param int $orderId Order identifier
-     * @return string
+     * @return Mage_Sales_Model_Resource_Order_Collection
      */
-    protected function _getPaymentMethodInfo($orderId)
+    protected function _getCollectionForSingleRetrieve($orderId)
     {
-        /** @var $payment Mage_Sales_Model_Order_Payment */
-        $payment = Mage::getModel('sales/order_payment');
+        /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
+        $collection = Mage::getResourceModel('sales/order_collection');
 
-        $payment->load($orderId, 'parent_id');
+        return $collection->addFieldToFilter($collection->getResource()->getIdFieldName(), $orderId);
+    }
 
-        return array('payment_method' => $payment->getMethod());
+    /**
+     * Retrieve a list or orders' comments in a form of [order ID => array of comments, ...]
+     *
+     * @param array $orderIds Orders' identifiers
+     * @return array
+     */
+    protected function _getComments(array $orderIds)
+    {
+        $comments = array();
+
+        if ($this->_isOrderCommentsAllowed() && $this->_isSubCallAllowed('order_comments')) {
+            /** @var $commentsFilter Mage_Api2_Model_Acl_Filter */
+            $commentsFilter = $this->_getSubModel('order_comments', array())->getFilter();
+            // do comments request if at least one attribute allowed
+            if ($commentsFilter->getAllowedAttributes()) {
+                foreach ($this->_getCommentsCollection($orderIds)->getItems() as $item) {
+                    $comments[$item->getParentId()][] = $commentsFilter->out($item->toArray());
+                }
+            }
+        }
+        return $comments;
+    }
+
+    /**
+     * Prepare and return order comments collection
+     *
+     * @param array $orderIds Orders' identifiers
+     * @return Mage_Sales_Model_Resource_Order_Status_History_Collection|Object
+     */
+    protected function _getCommentsCollection(array $orderIds)
+    {
+        /* @var $collection Mage_Sales_Model_Resource_Order_Status_History_Collection */
+        $collection = Mage::getResourceModel('sales/order_status_history_collection');
+
+        $collection->setOrderFilter($orderIds)
+            ->addFieldToFilter('entity_name', Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
+
+        return $collection;
+    }
+
+    /**
+     * Retrieve a list or orders' items in a form of [order ID => array of items, ...]
+     *
+     * @param array $orderIds Orders identifiers
+     * @return array
+     */
+    protected function _getItems(array $orderIds)
+    {
+        $items = array();
+
+        if ($this->_isSubCallAllowed('order_items')) {
+            /** @var $itemsFilter Mage_Api2_Model_Acl_Filter */
+            $itemsFilter = $this->_getSubModel('order_items', array())->getFilter();
+            // do items request if at least one attribute allowed
+            if ($itemsFilter->getAllowedAttributes()) {
+                /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */
+                $collection = Mage::getResourceModel('sales/order_item_collection');
+
+                $collection->addAttributeToFilter('order_id', $orderIds);
+
+                foreach ($collection->getItems() as $item) {
+                    $items[$item->getOrderId()][] = $itemsFilter->out($item->toArray());
+                }
+            }
+        }
+        return $items;
     }
 
     /**
@@ -83,7 +209,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
      *
      * @return bool
      */
-    protected function _isGiftMessageAllowed()
+    public function _isGiftMessageAllowed()
     {
         return in_array(self::PARAM_GIFT_MESSAGE, $this->getFilter()->getAllowedAttributes());
     }
@@ -93,7 +219,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
      *
      * @return bool
      */
-    protected function _isOrderCommentsAllowed()
+    public function _isOrderCommentsAllowed()
     {
         return in_array(self::PARAM_ORDER_COMMENTS, $this->getFilter()->getAllowedAttributes());
     }
@@ -103,8 +229,42 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource_Instance
      *
      * @return bool
      */
-    protected function _isPaymentMethodAllowed()
+    public function _isPaymentMethodAllowed()
     {
         return in_array(self::PARAM_PAYMENT_METHOD, $this->getFilter()->getAllowedAttributes());
+    }
+
+    /**
+     * Get orders list
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $collection = $this->_getCollectionForRetrieve();
+
+        if ($this->_isPaymentMethodAllowed()) {
+            $this->_addPaymentMethodInfo($collection);
+        }
+        if ($this->_isGiftMessageAllowed()) {
+            $this->_addGiftMessageInfo($collection);
+        }
+        $ordersData = array();
+
+        foreach ($collection->getItems() as $order) {
+            $ordersData[$order->getId()] = $order->toArray();
+        }
+        if ($ordersData) {
+            foreach ($this->_getAddresses(array_keys($ordersData)) as $orderId => $addresses) {
+                $ordersData[$orderId]['addresses'] = $addresses;
+            }
+            foreach ($this->_getItems(array_keys($ordersData)) as $orderId => $items) {
+                $ordersData[$orderId]['order_items'] = $items;
+            }
+            foreach ($this->_getComments(array_keys($ordersData)) as $orderId => $comments) {
+                $ordersData[$orderId]['order_comments'] = $comments;
+            }
+        }
+        return $ordersData;
     }
 }

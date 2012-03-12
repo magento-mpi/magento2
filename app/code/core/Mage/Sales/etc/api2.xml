@@ -36,8 +36,8 @@
         <resources>
             <orders>
                 <group>sales</group>
-                <sort_order>20</sort_order>
-                <model>sales/api2_orders</model>
+                <sort_order>10</sort_order>
+                <model>sales/api2_order</model>
                 <title>Orders</title>
                 <privileges>
                     <admin>
@@ -48,12 +48,15 @@
                     </customer>
                 </privileges>
                 <routes>
-                    <route_main>
-                        <mask>/orders</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/orders/:id</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/orders</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
-                <instance>order</instance>
-                <versions>1</versions>
                 <attributes>
                     <entity_id>Order ID (internal)</entity_id>
                     <increment_id>Order ID</increment_id>
@@ -118,8 +121,8 @@
                             <shipping_tax_amount>1</shipping_tax_amount>
                             <shipping_incl_tax>1</shipping_incl_tax>
                             <tax_amount>1</tax_amount>
-                            <_gift_message>Gift Message</_gift_message>
-                            <_order_comments>Order Comments</_order_comments>
+                            <_gift_message>1</_gift_message>
+                            <_order_comments>1</_order_comments>
                         </read>
                     </customer>
                 </include_attributes>
@@ -143,75 +146,10 @@
                         <order_comments>1</order_comments>
                     </admin>
                 </force_attributes>
-            </orders>
-            <order>
-                <group>sales</group>
-                <sort_order>10</sort_order>
-                <model>sales/api2_order</model>
-                <title>Order</title>
-                <include_attributes>
-                    <customer>
-                        <read>
-                            <entity_id>1</entity_id>
-                            <increment_id>1</increment_id>
-                            <created_at>1</created_at>
-                            <status>1</status>
-                            <shipping_description>1</shipping_description>
-                            <_payment_method>1</_payment_method>
-                            <base_currency_code>1</base_currency_code>
-                            <store_currency_code>1</store_currency_code>
-                            <subtotal>1</subtotal>
-                            <subtotal_incl_tax>1</subtotal_incl_tax>
-                            <discount_amount>1</discount_amount>
-                            <base_grand_total>1</base_grand_total>
-                            <grand_total>1</grand_total>
-                            <shipping_amount>1</shipping_amount>
-                            <shipping_tax_amount>1</shipping_tax_amount>
-                            <shipping_incl_tax>1</shipping_incl_tax>
-                            <tax_amount>1</tax_amount>
-                            <_gift_message>Gift Message</_gift_message>
-                            <_order_comments>Order Comments</_order_comments>
-                        </read>
-                    </customer>
-                </include_attributes>
-                <force_attributes>
-                    <customer>
-                        <payment_method>1</payment_method>
-                        <addresses>1</addresses>
-                        <order_items>1</order_items>
-                        <gift_message_from>1</gift_message_from>
-                        <gift_message_to>1</gift_message_to>
-                        <gift_message_body>1</gift_message_body>
-                        <order_comments>1</order_comments>
-                    </customer>
-                    <admin>
-                        <payment_method>1</payment_method>
-                        <addresses>1</addresses>
-                        <order_items>1</order_items>
-                        <gift_message_from>1</gift_message_from>
-                        <gift_message_to>1</gift_message_to>
-                        <gift_message_body>1</gift_message_body>
-                        <order_comments>1</order_comments>
-                    </admin>
-                </force_attributes>
-                <privileges>
-                    <admin>
-                        <retrieve>1</retrieve>
-                    </admin>
-                    <customer>
-                        <retrieve>1</retrieve>
-                    </customer>
-                </privileges>
-                <routes>
-                    <route_main>
-                        <mask>/orders/:id</mask>
-                    </route_main>
-                </routes>
-                <collection>orders</collection>
                 <versions>1</versions>
-            </order>
+            </orders>
             <order_items>
-                <group>order</group>
+                <group>orders</group>
                 <sort_order>30</sort_order>
                 <model>sales/api2_order_items</model>
                 <working_model>sales/order_item</working_model>
@@ -277,12 +215,12 @@
                 </routes>
                 <versions>1</versions>
             </order_items>
-            <address>
-                <group>order</group>
+            <order_addresses>
+                <group>orders</group>
                 <sort_order>40</sort_order>
                 <model>sales/api2_order_address</model>
                 <working_model>sales/order_address</working_model>
-                <title>Order Address</title>
+                <title>Order Addresses</title>
                 <privileges>
                     <admin>
                         <retrieve>1</retrieve>
@@ -317,9 +255,9 @@
                     <telephone>Phone Number</telephone>
                     <address_type>Address Type</address_type>
                 </attributes>
-            </address>
+            </order_addresses>
             <order_comments>
-                <group>order</group>
+                <group>orders</group>
                 <sort_order>60</sort_order>
                 <model>sales/api2_order_comments</model>
                 <working_model>sales/order_status_history</working_model>

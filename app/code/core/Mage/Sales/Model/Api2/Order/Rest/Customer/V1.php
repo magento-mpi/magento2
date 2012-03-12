@@ -34,20 +34,38 @@
 class Mage_Sales_Model_Api2_Order_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Order_Rest
 {
     /**
-     * Load order by id
+     * Retrieve collection instance for orders
      *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Sales_Model_Order
+     * @return Mage_Sales_Model_Resource_Order_Collection
      */
-    protected function _loadOrderById($id)
+    protected function _getCollectionForRetrieve()
     {
-        /* @var $order Mage_Sales_Model_Order */
-        $order = parent::_loadOrderById($id);
-        // check order owner
-        if ($this->getApiUser()->getUserId() != $order->getCustomerId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $order;
+        return parent::_getCollectionForRetrieve()->addAttributeToFilter(
+            'customer_id', array('eq' => $this->getApiUser()->getUserId())
+        );
+    }
+
+    /**
+     * Retrieve collection instance for single order
+     *
+     * @param int $orderId Order identifier
+     * @return Mage_Sales_Model_Resource_Order_Collection
+     */
+    protected function _getCollectionForSingleRetrieve($orderId)
+    {
+        return parent::_getCollectionForSingleRetrieve($orderId)->addAttributeToFilter(
+            'customer_id', array('eq' => $this->getApiUser()->getUserId())
+        );
+    }
+
+    /**
+     * Prepare and return order comments collection
+     *
+     * @param array $orderIds Orders' identifiers
+     * @return Mage_Sales_Model_Resource_Order_Status_History_Collection|Object
+     */
+    protected function _getCommentsCollection(array $orderIds)
+    {
+        return parent::_getCommentsCollection($orderIds)->addFieldToFilter('is_visible_on_front', 1);
     }
 }

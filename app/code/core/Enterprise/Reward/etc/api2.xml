@@ -43,16 +43,6 @@
                     </customer>
                 </include_attributes>
             </orders>
-            <order>
-                <include_attributes>
-                    <customer>
-                        <read>
-                            <reward_points_balance>1</reward_points_balance>
-                            <reward_currency_amount>1</reward_currency_amount>
-                        </read>
-                    </customer>
-                </include_attributes>
-            </order>
         </resources>
     </api2>
 </config>

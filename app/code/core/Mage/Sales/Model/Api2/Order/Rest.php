@@ -33,64 +33,6 @@
  */
 abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Order
 {
-
-    /**
-     * Retrieve order addresses if allowed
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getAddresses($orderId)
-    {
-        if (!$this->_isSubCallAllowed('addresses')) {
-            return array();
-        }
-        /** @var $addressModel Mage_Sales_Model_Api2_Order_Addresses */
-        $addressModel = $this->_getSubModel('addresses', array(
-            Mage_Sales_Model_Api2_Order_Addresses_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $addressModel->dispatch();
-    }
-
-    /**
-     * Retrieve order comments
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getComments($orderId)
-    {
-        if (!$this->_isSubCallAllowed('order_comments')) {
-            return array();
-        }
-        /** @var $commentsModel Mage_Sales_Model_Api2_Order_Comments */
-        $commentsModel = $this->_getSubModel('order_comments', array(
-            Mage_Sales_Model_Api2_Order_Comments_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $commentsModel->dispatch();
-    }
-
-    /**
-     * Retrieve order items if allowed
-     *
-     * @param int $orderId Order identifier
-     * @return array
-     */
-    protected function _getItems($orderId)
-    {
-        if (!$this->_isSubCallAllowed('order_items')) {
-            return array();
-        }
-        /** @var $itemsModel Mage_Sales_Model_Api2_Order_Items */
-        $itemsModel = $this->_getSubModel('order_items', array(
-            Mage_Sales_Model_Api2_Order_Items_Rest::PARAM_ORDER_ID => $orderId
-        ));
-
-        return $itemsModel->dispatch();
-    }
-
     /**
      * Retrieve information about specified order item
      *
@@ -99,48 +41,34 @@ abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Or
      */
     protected function _retrieve()
     {
-        $orderId = $this->getRequest()->getParam('id');
-
-        /* @var $order Mage_Sales_Model_Order */
-        $order      = $this->_loadOrderById($orderId);
-        $orderData  = $order->getData();
-        $addresses  = $this->_getAddresses($orderId);
-        $orderItems = $this->_getItems($orderId);
+        $orderId    = $this->getRequest()->getParam('id');
+        $collection = $this->_getCollectionForSingleRetrieve($orderId);
 
         if ($this->_isPaymentMethodAllowed()) {
-            $orderData += $this->_getPaymentMethodInfo($orderId);
-        }
-        if (is_array($addresses) && $addresses && reset($addresses)) {
-            $orderData['addresses'] = $addresses;
-        }
-        if (is_array($orderItems) && $orderItems && reset($orderItems)) {
-            $orderData['order_items'] = $orderItems;
+            $this->_addPaymentMethodInfo($collection);
         }
         if ($this->_isGiftMessageAllowed()) {
-            $orderData += $this->_getGiftMessageInfo($orderData['gift_message_id']);
+            $this->_addGiftMessageInfo($collection);
         }
-        if ($this->_isOrderCommentsAllowed()) {
-            if (($comments = $this->_getComments($orderId))) {
-                $orderData['order_comments'] = $comments;
-            }
-        }
-        return $orderData;
-    }
+        $order = $collection->getItemById($orderId);
 
-    /**
-     * Load order by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Sales_Model_Order
-     */
-    protected function _loadOrderById($id)
-    {
-        /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($id);
-        if (!$order->getId()) {
+        if (!$order) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
-        return $order;
+        $orderData = $order->getData();
+        $addresses = $this->_getAddresses(array($orderId));
+        $items     = $this->_getItems(array($orderId));
+        $comments  = $this->_getComments(array($orderId));
+
+        if ($addresses) {
+            $orderData['addresses'] = $addresses[$orderId];
+        }
+        if ($items) {
+            $orderData['order_items'] = $items[$orderId];
+        }
+        if ($comments) {
+            $orderData['order_comments'] = $comments[$orderId];
+        }
+        return $orderData;
     }
 }
