@@ -301,7 +301,6 @@
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>
-                <collection>addresses</collection>
                 <versions>1</versions>
                 <attributes>
                     <lastname>Customer Last Name</lastname>
@@ -319,10 +318,6 @@
                     <address_type>Address Type</address_type>
                 </attributes>
             </address>
-            <addresses>
-                <instance>address</instance>
-                <versions>1</versions>
-            </addresses>
             <order_comments>
                 <group>order</group>
                 <sort_order>60</sort_order>
