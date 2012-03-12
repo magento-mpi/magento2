@@ -1912,6 +1912,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Searches a control with the specified name and type on the page.
+     * If the control is visible, returns true; otherwise false.
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     *
+     * @return bool
+     */
+    public function controlIsVisible($controlType, $controlName)
+    {
+        $xpath = $this->_getControlXpath($controlType, $controlName);
+        if ($this->isVisible($xpath)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Searches a button with the specified name on the page.
      * If the button is present, returns true; otherwise false.
      *
