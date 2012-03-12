@@ -56,24 +56,6 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
     }
 
     /**
-     * Load order by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Sales_Model_Order
-     */
-    protected function _loadOrderById($id)
-    {
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($id);
-        if (!$order->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-
-        return $order;
-    }
-
-    /**
      * Retrieve collection instances
      *
      * @return Mage_Sales_Model_Resource_Order_Status_History_Collection
@@ -86,5 +68,23 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
             ->addFieldToFilter('entity_name', Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
 
         return $collection;
+    }
+
+    /**
+     * Load order by id
+     *
+     * @param int $id
+     * @throws Mage_Api2_Exception
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _loadOrderById($id)
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('sales/order')->load($id);
+        if (!$order->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $order;
     }
 }

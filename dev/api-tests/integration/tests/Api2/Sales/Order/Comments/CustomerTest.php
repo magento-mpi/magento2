@@ -44,9 +44,23 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
      */
     protected function tearDown()
     {
-        Magento_Test_Webservice::deleteFixture('customer_products', true);
-        Magento_Test_Webservice::deleteFixture('customer_products', true);
         Magento_Test_Webservice::deleteFixture('customer_order', true);
+        Magento_Test_Webservice::deleteFixture('customer_quote', true);
+        $fixtureProducts = $this->getFixture('customer_products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
+
+        Magento_Test_Webservice::deleteFixture('order', true);
+        Magento_Test_Webservice::deleteFixture('quote', true);
+        $fixtureProducts = $this->getFixture('products');
+        if ($fixtureProducts && count($fixtureProducts)) {
+            foreach ($fixtureProducts as $fixtureProduct) {
+                $this->callModelDelete($fixtureProduct, true);
+            }
+        }
 
         parent::tearDown();
     }
@@ -122,27 +136,14 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
     /**
      * Test retrieve another sales order comments collection
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @magentoDataFixture Api2/Sales/_fixtures/order.php
      */
     public function testRetrieveForeignResource()
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = require dirname(__FILE__) . '/../../../../../fixtures/Customer/Customer.php';
-        $customer->save();
-        $this->addModelToDelete($customer, true);
-
-        /** @var $order Mage_Sales_Model_Order */
-        $order = $this->getFixture('customer_order');
-
-        $history = require dirname(__FILE__) . '/../../../../../fixtures/Sales/Order/History.php';
-        $history->setEntityName(Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
-        $order->setCustomerId($customer->getId())
-            ->addStatusHistory($history)
-            ->save();
-
-        $response = $this->callGet("orders/{$order->getId()}/comments");
-
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+        /* @var $fixtureOrder Mage_Sales_Model_Order */
+        $fixtureOrder = $this->getFixture('order');
+        $restResponse = $this->callGet("orders/{$fixtureOrder->getId()}/comments");
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
