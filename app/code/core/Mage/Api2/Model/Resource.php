@@ -749,7 +749,7 @@ abstract class Mage_Api2_Model_Resource
      * Set navigation parameters and apply filters from URL params
      *
      * @param Varien_Data_Collection_Db $collection
-     * @return Mage_Api2_Model_Resource_Collection
+     * @return Mage_Api2_Model_Resource
      */
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
@@ -778,7 +778,7 @@ abstract class Mage_Api2_Model_Resource
      * Validate filter data and apply it to collection if possible
      *
      * @param Varien_Data_Collection_Db $collection
-     * @return Mage_Api2_Model_Resource_Collection
+     * @return Mage_Api2_Model_Resource
      */
     protected function _applyFilter(Varien_Data_Collection_Db $collection)
     {
