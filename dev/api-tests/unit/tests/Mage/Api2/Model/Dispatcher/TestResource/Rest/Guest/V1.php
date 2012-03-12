@@ -28,27 +28,6 @@
 /**
  * Test resource model for dispatcher model
  */
-class Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1 extends Mage_Api2_Model_Resource_Instance
+class Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1 extends Mage_Api2_Model_Resource
 {
-    /**
-     * Test dispatch method
-     *
-     * @return bool
-     */
-    public function dispatch()
-    {
-        return true;
-    }
-
-    /**
-     * Get available attributes of API resource
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType, $operation)
-    {
-        return $this->_getAvailableAttributes($userType, $operation);
-    }
 }

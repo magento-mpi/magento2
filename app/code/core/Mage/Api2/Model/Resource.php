@@ -181,7 +181,7 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Resource model dispatch
      */
-    final public function dispatch()
+    public function dispatch()
     {
         switch ($this->getActionType() . $this->getOperation()) {
             /* Create */
@@ -474,7 +474,6 @@ abstract class Mage_Api2_Model_Resource
         if (!$this->_filter) {
             /** @var $filter Mage_Api2_Model_Acl_Filter */
             $filter = Mage::getModel('api2/acl_filter', $this);
-
             $this->setFilter($filter);
         }
         return $this->_filter;

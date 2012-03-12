@@ -38,7 +38,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     /**
      * Resource type
      */
-    const RESOURCE_TYPE = 'products';
+    const RESOURCE_TYPE = 'product';
 
     /**
      * Request object
@@ -65,7 +65,9 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $this->_response = Mage::getSingleton('api2/response');
 
         $this->_requestMock = $this->getSingletonMockBuilder('api2/request')
-            ->setMethods(array('getVersion', 'getModel', 'getParam', 'getApiType', 'getResourceType'))
+            ->setMethods(array(
+                'getVersion', 'getModel', 'getParam', 'getApiType', 'getResourceType'
+            ))
             ->getMock();
     }
 
@@ -76,30 +78,56 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testDispatch()
     {
-        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
+        $version = 1;
+        $lastVersion = 2;
+        $userType = 'guest';
 
+        // user mock
+        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
         $userMock->expects($this->once())
             ->method('getType')
-            ->will($this->returnValue('guest'));
+            ->will($this->returnValue($userType));
 
-        $this->_requestMock->expects($this->any())
-            ->method('getVersion')
-            ->will($this->returnValue(1));
-
+        // request mock
         $this->_requestMock->expects($this->any())
             ->method('getModel')
             ->will($this->returnValue(self::RESOURCE_MODEL));
+
+        $this->_requestMock->expects($this->any())
+            ->method('getApiType')
+            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
 
         $this->_requestMock->expects($this->any())
             ->method('getResourceType')
             ->will($this->returnValue(self::RESOURCE_TYPE));
 
         $this->_requestMock->expects($this->any())
-            ->method('getApiType')
-            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
+            ->method('getVersion')
+            ->will($this->returnValue($version));
 
-        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
-        $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
+        // resource model mock
+        $modelMock = $this->getModelMockBuilder('api2/dispatcher_testResource_rest_guest_v1')
+            ->setMethods(array('setRequest', 'setResponse', 'setApiUser', 'dispatch'))
+            ->getMock();
+
+        $modelMock->expects($this->once())
+            ->method('setRequest')
+            ->with($this->_requestMock);
+
+        $modelMock->expects($this->once())
+            ->method('setResponse')
+            ->with($this->_response);
+
+        $modelMock->expects($this->once())
+            ->method('setApiUser')
+            ->with($userMock);
+
+        $modelMock->expects($this->once())
+            ->method('dispatch');
+
+        // dispatcher mock
+        $dispatcherMock = new Mage_Api2_Model_Dispatcher_Mock();
+        $dispatcherMock->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }
 
     /**
@@ -164,25 +192,25 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     public function testGetVersion()
     {
         $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
-        $this->assertEquals(1, $dispatcher->getVersion('products', 1));
-        $this->assertEquals(2, $dispatcher->getVersion('products', 2));
-        $this->assertEquals(2, $dispatcher->getVersion('products', 3));
-        $this->assertEquals(2, $dispatcher->getVersion('products', 4));
-        $this->assertEquals(5, $dispatcher->getVersion('products', 5));
-        $this->assertEquals(5, $dispatcher->getVersion('products', 6));
-        $this->assertEquals(5, $dispatcher->getVersion('products', false));
+        $this->assertEquals(1, $dispatcher->getVersion('product', 1));
+        $this->assertEquals(2, $dispatcher->getVersion('product', 2));
+        $this->assertEquals(2, $dispatcher->getVersion('product', 3));
+        $this->assertEquals(2, $dispatcher->getVersion('product', 4));
+        $this->assertEquals(5, $dispatcher->getVersion('product', 5));
+        $this->assertEquals(5, $dispatcher->getVersion('product', 6));
+        $this->assertEquals(5, $dispatcher->getVersion('product', false));
 
         try {
-            $dispatcher->getVersion('products', 0);
+            $dispatcher->getVersion('product', 0);
         } catch (Mage_Api2_Exception $e) {
             try {
-                $dispatcher->getVersion('products', -1);
+                $dispatcher->getVersion('product', -1);
             } catch (Mage_Api2_Exception $e) {
                 try {
-                    $dispatcher->getVersion('products', 1.1);
+                    $dispatcher->getVersion('product', 1.1);
                 } catch (Mage_Api2_Exception $e) {
                     try {
-                        $dispatcher->getVersion('products', '1m');
+                        $dispatcher->getVersion('product', '1m');
                     } catch (Mage_Api2_Exception $e) {
                         return;
                     }

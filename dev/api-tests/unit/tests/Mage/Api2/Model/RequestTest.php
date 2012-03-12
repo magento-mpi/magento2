@@ -386,4 +386,36 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
 
         $this->assertEquals($version, $this->_request->getVersion());
     }
+
+    /**
+     * Test action type setter and getter
+     */
+    public function testActionTypeAccessors()
+    {
+        $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
+        // test preset action type getting
+        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_request->getActionType());
+    }
+
+    /**
+     * Test for isAssocArrayInRequestBody() method
+     */
+    public function testIsAssocArrayInRequestBody()
+    {
+        $rawBodyIsAssocArray = array('key' => 'field');
+        $requestMock = $this->getMock('Mage_Api2_Model_Request', array('getBodyParams'));
+        $requestMock->expects($this->once())
+            ->method('getBodyParams')
+            ->will($this->returnValue($rawBodyIsAssocArray));
+
+        $this->assertTrue($requestMock->isAssocArrayInRequestBody());
+
+        $rawBodyIsNotAssocArray = array(0 => array('key' => 'field'));
+        $requestMock = $this->getMock('Mage_Api2_Model_Request', array('getBodyParams'));
+        $requestMock->expects($this->once())
+            ->method('getBodyParams')
+            ->will($this->returnValue($rawBodyIsNotAssocArray));
+
+        $this->assertFalse($requestMock->isAssocArrayInRequestBody());
+    }
 }

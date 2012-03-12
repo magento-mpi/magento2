@@ -63,29 +63,6 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test get resource main route
-     *
-     * @return void
-     */
-    public function testGetMainRoute()
-    {
-        $this->assertEquals('/products/:id', $this->_config->getMainRoute('product'));
-    }
-
-    /**
-     * Test get wrong resource main route
-     *
-     * @return void
-     */
-    public function testGetMainRouteFail()
-    {
-        $mainRoute = $this->_config->getMainRoute('qwerty');
-
-        $this->assertInternalType('string', $mainRoute);
-        $this->assertEmpty($mainRoute, 'Main route is not empty.');
-    }
-
-    /**
      * Test get all resources from config files api2.xml
      *
      * @return void
@@ -95,13 +72,13 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         $resources = $this->_config->getResources();
         $this->assertInstanceOf('Varien_Simplexml_Element', $resources);
 
-        $resources = (array) $resources;
+        $resources = (array)$resources;
         $this->assertEquals(
-            array('products', 'product', 'test1', 'test2', 'test3', 'test4'),
+            array('product', 'test1', 'test2', 'test3', 'test4'),
             array_keys($resources)
         );
 
-        foreach (array($resources['products'], $resources['product']) as $resource) {
+        foreach (array($resources['product']) as $resource) {
             $resource = (array) $resource;
             $this->assertArrayHasKey('type', $resource);
             $this->assertArrayHasKey('model', $resource);
@@ -159,6 +136,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
             $defaults = $route->getDefaults();
             $this->assertArrayHasKey('model', $defaults);
             $this->assertArrayHasKey('type', $defaults);
+            $this->assertArrayHasKey('action_type', $defaults);
         }
     }
 
@@ -180,28 +158,6 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         );
 
         $this->_config->getRoutes($wrongApiType);
-    }
-
-    /**
-     * Test get resource collection
-     *
-     * @return void
-     */
-    public function testGetResourceCollection()
-    {
-        $this->assertEquals('products', $this->_config->getResourceCollection('product'));
-        $this->assertEmpty($this->_config->getResourceCollection('products'));
-    }
-
-    /**
-     * Test get resource instance
-     *
-     * @return void
-     */
-    public function testGetResourceInstance()
-    {
-        $this->assertEquals('product', $this->_config->getResourceInstance('products'));
-        $this->assertEmpty($this->_config->getResourceInstance('product'));
     }
 
     /**
@@ -255,7 +211,6 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     public function testGetResourceWorkingModel()
     {
         $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('product'));
-        $this->assertEquals('catalog/product', $this->_config->getResourceWorkingModel('products'));
     }
 
     /**
@@ -265,7 +220,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
      */
     public function testGetIdFieldName()
     {
-        $this->assertEquals('test_item_id', $this->_config->getResourceIdFieldName('products'));
+        $this->assertEquals('test_item_id', $this->_config->getResourceIdFieldName('product'));
     }
 
     /**
@@ -278,7 +233,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     {
         $this->assertEquals(
             $validationConfig,
-            $this->_config->getValidationConfigByResourceType('product', 'validatorType')
+            $this->_config->getValidationConfig('product', 'validatorType')
         );
     }
 
@@ -302,6 +257,29 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
             )
         );
         return array(array($validationConfig));
+    }
+
+    /**
+     * Test get route with Mage_Api2_Model_Resource::ACTION_TYPE_ENTITY type
+     *
+     * @return void
+     */
+    public function testGetRouteWithEntityTypeAction()
+    {
+        $this->assertEquals('/products/:id', $this->_config->getRouteWithEntityTypeAction('product'));
+    }
+
+    /**
+     * Test get wrong route with Mage_Api2_Model_Resource::ACTION_TYPE_ENTITY type
+     *
+     * @return void
+     */
+    public function testGetRouteWithEntityTypeActionFail()
+    {
+        $route = $this->_config->getRouteWithEntityTypeAction('qwerty');
+
+        $this->assertInternalType('string', $route);
+        $this->assertEmpty($route);
     }
 }
 

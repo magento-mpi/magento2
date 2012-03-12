@@ -79,8 +79,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testVersionAccessors()
     {
-        $resource = new Mage_Sales_Model_Api2_Order_Rest_Admin_V1;
-
+        $resource = new Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1;
         $this->assertEquals(1, $resource->getVersion());
     }
 
@@ -220,40 +219,6 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test validate
-     *
-     * @dataProvider providerValidate
-     * @param array $data
-     * @param array $required
-     * @param array $notEmpty
-     * @param bool $isExceptionExpected
-     */
-    public function testValidate($data, $required, $notEmpty, $isExceptionExpected)
-    {
-        if ($isExceptionExpected) {
-            $this->setExpectedException('Mage_Api2_Exception',
-                Mage_Api2_Model_Resource::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-        $this->_resource->setResponse($this->_response);
-        $this->_resource->_validate($data, $required, $notEmpty);
-    }
-
-    /**
-     * Data provider for testValidate()
-     *
-     * @return array
-     */
-    public function providerValidate()
-    {
-        return array(
-            array(array('key1' => 'value1', 'key2' => 'value2'), array('key2', 'key1'), array('key2'), false),
-            array(array('key1' => 'value1', 'key2' => ''), array('key1'), array('key2'), true),
-            array(array('key1' => 'value1', 'key2' => 'value2'), array('key3', 'key1'), array('key3'), true),
-            array(array('key1' => 'value1', 'key2' => ''), array('key2', 'key1'), array('key2'), true),
-        );
-    }
-
-    /**
      * Test operation setter and getter
      */
     public function testOperationAccessors()
@@ -290,6 +255,21 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         $this->assertEquals($this->_resource->getIdFieldName(), $idFieldName);
     }
 
+    /**
+     * Test action type setter and getter
+     */
+    public function testActionTypeAccessors()
+    {
+        // test default action type
+        $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
+        $this->_resource->setRequest($this->_request);
+        $this->assertEquals($this->_request->getActionType(), $this->_resource->getActionType());
+
+        // test preset action type getting
+        $this->_resource->setActionType(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
+        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_resource->getActionType());
+    }
+
     public function testGetEavAttributes()
     {
         $this->markTestSkipped('Core changes broke test');
@@ -315,11 +295,6 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
 
 abstract class Mage_Api2_Model_ResourceMock extends Mage_Api2_Model_Resource
 {
-    public function _validate(array $data, array $required = array(), array $notEmpty = array())
-    {
-        parent::_validate($data, $required, $notEmpty);
-    }
-
     public function _critical($message, $code = null)
     {
         parent::_critical($message, $code);

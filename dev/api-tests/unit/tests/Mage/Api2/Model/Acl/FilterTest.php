@@ -40,7 +40,7 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
      */
     public function testGetAllowedAttributesForMultiAction()
     {
-        $allowedAttrs = array('attr1', 'attr2', 'attr2');
+        $allowedAttrs = array('attr1', 'attr2', 'attr3');
         $idFieldName = 'item_id_test';
         $userType = Mage_Api2_Model_Auth_User_Customer::USER_TYPE;
         $resourceType = 'test_resource';
@@ -61,7 +61,7 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue($allowedAttrs));
 
         $resourceMock = $this->getMockForAbstractClass('Mage_Api2_Model_Resource', array(), '', false, true, true,
-            array('getUserType', 'getResourceType', 'getOperation', 'getIdFieldName'));
+            array('getUserType', 'getResourceType', 'getIdFieldName'));
 
         $resourceMock->expects($this->any())
             ->method('getUserType')
@@ -72,16 +72,16 @@ class Mage_Api2_Model_Acl_FilterTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue($resourceType));
 
         $resourceMock->expects($this->any())
-            ->method('getOperation')
-            ->will($this->returnValue($operation));
-
-        $resourceMock->expects($this->any())
             ->method('getIdFieldName')
             ->will($this->returnValue($idFieldName));
 
-        $allowedAttrsForMultiactions = Mage::getModel('api2/acl_filter', $resourceMock)
-            ->getAllowedAttributes($operationType);
+        $aclFilterMock = $this->getMock('Mage_Api2_Model_Acl_Filter', array('_isMultiAction'), array($resourceMock));
 
+        $aclFilterMock->expects($this->once())
+            ->method('_isMultiAction')
+            ->will($this->returnValue(true));
+
+        $allowedAttrsForMultiactions = $aclFilterMock->getAllowedAttributes($operationType);
         $this->assertCount(count($allowedAttrs) + 1, $allowedAttrsForMultiactions);
         $this->assertContains($idFieldName, $allowedAttrsForMultiactions);
     }
