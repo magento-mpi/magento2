@@ -315,7 +315,8 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                     array('filter_sku' => $simpleSku));
+                                        array('filter_sku'     => $simpleSku,
+                                              'customer_email' => $this->generate('email', 20, 'invalid')));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

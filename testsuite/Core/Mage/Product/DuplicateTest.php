@@ -95,10 +95,10 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function createProducts($attrData)
     {
         //Data
-        $simple = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $simple = $this->loadData('simple_product_visible');
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_1']['admin_option_name'];
-        $virtual = $this->loadData('virtual_product_for_order', null, array('general_name', 'general_sku'));
+        $virtual = $this->loadData('virtual_product_visible');
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_2']['admin_option_name'];
         $downloadable = $this->loadData('downloadable_product_for_order',

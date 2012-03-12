@@ -129,7 +129,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
             $setName = $setName['set_name'];
         }
         $this->addParameter('attributeName', $setName);
-        $searchData = $this->loadData('search_attribute_set', array('set_name' => $setName));
+        $searchData = $this->loadDataSet('AttributeSet', 'search_attribute_set', array('set_name' => $setName));
 
         if ($this->getCurrentPage() !== 'manage_attribute_sets') {
             $this->navigate('manage_attribute_sets');

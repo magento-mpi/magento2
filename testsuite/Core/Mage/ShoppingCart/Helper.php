@@ -309,19 +309,17 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function frontClearShoppingCart()
     {
-        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
+        if ($this->getArea() == 'frontend' && !$this->isElementPresent("//a[text()='My Cart']")) {
             $this->frontend('shopping_cart');
-        }
-        $productLine = $this->_getControlXpath('pageelement', 'product_line');
-        if ($this->isElementPresent($productLine)) {
+            $productLine = $this->_getControlXpath('pageelement', 'product_line');
             $productCount = $this->getXpathCount($productLine);
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
                 $this->type($this->_getControlXpath('field', 'product_qty'), 0);
             }
             $this->clickButton('update_shopping_cart');
+            $this->assertTrue($this->successMessage('shopping_cart_is_empty'), 'Shopping cart is not empty');
         }
-        $this->assertTrue($this->successMessage('shopping_cart_is_empty'), 'Shopping cart is not empty');
     }
 
     /**

@@ -59,7 +59,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $category = $this->loadData('sub_category_required');
-        $product = $this->loadData('simple_product_for_order',
+        $product = $this->loadData('simple_product_visible',
                 array('categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
         $this->navigate('manage_categories', false);
