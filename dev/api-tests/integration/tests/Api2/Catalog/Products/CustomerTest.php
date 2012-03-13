@@ -450,11 +450,7 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
                 // check attribute values
                 foreach ($resultProductData as $key => $resultProductValue) {
                     if (!is_array($resultProductValue)) {
-                        try {
-                            $this->assertEquals($originalData[$key], $resultProductValue, "'$key' is invalid");
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
+                        $this->assertEquals($originalData[$key], $resultProductValue, "'$key' is invalid");
                     }
                 }
             }

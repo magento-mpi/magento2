@@ -44,7 +44,23 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
             $this->deleteFixture('catalog_price_rule', true);
             Mage::getModel('catalogrule/rule')->applyAll();
         }
+        if ($this->getFixture('products')) {
+            foreach ($this->getFixture('products') as $product) {
+                $this->addModelToDelete($product, true);
+            }
+        }
         parent::tearDown();
+    }
+
+    /**
+     * Delete store fixture
+     */
+    public static function tearDownAfterClass()
+    {
+        self::deleteFixture('store_on_new_website', true);
+        self::deleteFixture('store_group', true);
+        self::deleteFixture('website', true);
+        parent::tearDownAfterClass();
     }
 
     /**
@@ -147,6 +163,195 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful product collection get
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     */
+    public function testCollectionGet()
+    {
+        $this->_reindexPrices();
+        /** @var $simpleProduct Mage_Catalog_Model_Product */
+        $simpleProduct = $this->getFixture('product_simple');
+        // quantity of enabled visible products
+        $expectedProductsCount = 2;
+        $expectedData = array_merge($simpleProduct->getData(), array('is_saleable' => 1, 'regular_price' => 99.95,
+            'final_price' => 99.95, 'final_price_with_tax' => 99.95, 'final_price_without_tax' => 99.95));
+        $this->_checkProductCollectionGet($expectedProductsCount, $expectedData, 2);
+    }
+
+    /**
+     * Test successful product collection get with specified store
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     */
+    public function testCollectionGetFromSpecifiedStore()
+    {
+        // prepare product with different field values on different stores
+        $originalProducts = $this->getFixture('products');
+        /** @var $firstProduct Mage_Catalog_Model_Product */
+        $firstProduct = reset($originalProducts);
+        $firstProductDefaultValues = array_merge($firstProduct->getData(), array('is_saleable' => 1,
+            'regular_price' => 15.5, 'final_price' => 15.2, 'final_price_with_tax' => 15.2,
+            'final_price_without_tax' => 15.2));
+
+        /** @var $store Mage_Core_Model_Store */
+        $store = $this->getFixture('store_on_new_website');
+        $firstProduct->load($firstProduct->getId());
+        $firstProduct->setStoreId($store->getId());
+        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductUpdateData.php';
+        unset($productDataForUpdate['type_id']);
+        unset($productDataForUpdate['attribute_set_id']);
+        unset($productDataForUpdate['stock_data']);
+        $firstProduct->addData($productDataForUpdate);
+        $firstProduct->setData('tier_price', array(
+            array('website_id' => 0,'cust_group' => 0, 'price_qty' => 5.5, 'price' => 11.054)));
+        $firstProduct->save();
+
+        $this->_reindexPrices();
+        // test collection get from specific store
+        $firstProductDataAfterUpdate = array_merge($firstProduct->getData(), array('is_saleable' => 1,
+            'regular_price' => 15.5, 'final_price' => 15.5, 'final_price_with_tax' => 15.5,
+            'final_price_without_tax' => 15.5));
+        // quantity of enabled visible products
+        $expectedProductsCount = 1;
+        $this->_checkProductCollectionGet($expectedProductsCount, $firstProductDataAfterUpdate, 1, $store->getCode());
+        // test collection get with default values
+        $globalAttributes = array('is_in_stock');
+        foreach ($globalAttributes as $globalAttribute) {
+            $firstProductDefaultValues[$globalAttribute] = $firstProductDataAfterUpdate[$globalAttribute];
+        }
+        $this->_checkProductCollectionGet($expectedProductsCount, $firstProductDefaultValues, 1);
+    }
+
+    /**
+     * Rebuild price index
+     */
+    protected function _reindexPrices()
+    {
+        /** @var $indexerPrice Mage_Catalog_Model_Resource_Product_Indexer_Price */
+        $indexerPrice = Mage::getResourceModel('catalog/product_indexer_price');
+        $indexerPrice->reindexAll();
+    }
+
+    /**
+     * Perform collection get with data check
+     *
+     * @param int $expectedProductsCount
+     * @param array $originalData
+     * @param int $expectedTierPricesCount
+     * @param string $storeCode
+     */
+    protected function _checkProductCollectionGet($expectedProductsCount, $originalData, $expectedTierPricesCount = 0,
+        $storeCode = null)
+    {
+        $restResponse = $this->callGet($this->_getResourcePath(null, $storeCode));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $resultProducts = $restResponse->getBody();
+        $this->assertGreaterThanOrEqual($expectedProductsCount, count($resultProducts),
+            "Not all products were found in response");
+
+        $isFirstProductFoundInResponse = false;
+        // check only first product data
+        foreach ($resultProducts as $resultProductData) {
+            if ($resultProductData['sku'] == $originalData['sku']) {
+                $isFirstProductFoundInResponse = true;
+
+                // check if all required fields are in response
+                $requiredFields = array('type_id', 'sku', 'name', 'description', 'short_description',
+                    'regular_price', 'final_price', 'final_price_with_tax', 'final_price_without_tax', 'tier_price',
+                    'image_url', 'is_in_stock', 'is_saleable', 'total_reviews_count', 'url', 'buy_now_url',
+                    'has_custom_options');
+                foreach ($requiredFields as $field) {
+                    $this->assertArrayHasKey($field, $resultProductData, "'$field' field is missing in response");
+                }
+                $this->_checkGetUrls($resultProductData, $originalData['entity_id']);
+                $this->_checkGetTierPrices($resultProductData, $expectedTierPricesCount);
+
+                // check attribute values
+                foreach ($resultProductData as $key => $resultProductValue) {
+                    if (!is_array($resultProductValue)) {
+                        $this->assertEquals($originalData[$key], $resultProductValue, "'$key' is invalid");
+                    }
+                }
+            }
+        }
+        $this->assertEquals(true, $isFirstProductFoundInResponse,
+            "Product with sku={$originalData['sku']} was not found in response. "
+                . "It could be missed because of page limit. Sorting by entity_id can't be used as this field "
+                . "is inaccessible from non admin area. Try to run tests on clear DB.");
+    }
+
+    /**
+     * Check if tier prices are correct
+     *
+     * @param int $expectedPricesCount
+     * @param array $responseData
+     */
+    protected function _checkGetTierPrices($responseData, $expectedPricesCount)
+    {
+        $this->assertInternalType('array', $responseData['tier_price'], "'tier_price' expected to be an array");
+        $this->assertCount($expectedPricesCount, $responseData['tier_price'], "Invalid tier prices quantity");
+        $requiredFields = array('qty', 'price', 'price_with_tax', 'price_without_tax');
+        foreach ($responseData['tier_price'] as $tierPrice) {
+            foreach($requiredFields as $field) {
+                $this->assertArrayHasKey($field, $tierPrice);
+                $this->assertGreaterThanOrEqual(0, $tierPrice[$field], "Tier price seems to be invalid");
+            }
+        }
+    }
+
+    /**
+     * Check if product URLs are correct
+     *
+     * @param array $productData
+     * @param string $productId
+     */
+    protected function _checkGetUrls(&$productData, $productId)
+    {
+        $this->assertNotEmpty($productData['image_url'], 'Image url is not set');
+        unset($productData['image_url']);
+
+        $this->assertContains($productId, $productData['url'], 'Product url seems to be invalid');
+        $this->_testUrlWithCurl($productData, 'url');
+        unset($productData['url']);
+
+        $this->assertContains($productId, $productData['buy_now_url'], 'Buy now url seems to be invalid');
+        $this->assertContains('checkout/cart/add', $productData['buy_now_url'], 'Buy now url seems to be invalid');
+        $this->_testUrlWithCurl($productData, 'buy_now_url', 302);
+        unset($productData['buy_now_url']);
+
+        $this->assertGreaterThanOrEqual(0, $productData['total_reviews_count']);
+        unset($productData['total_reviews_count']);
+    }
+
+    /**
+     * Check if url is accessible with cURL
+     *
+     * @param array $responseData
+     * @param string $urlField
+     * @param int $expectedResponseCode
+     */
+    protected function _testUrlWithCurl($responseData, $urlField, $expectedResponseCode = 200)
+    {
+        $channel = curl_init();
+        curl_setopt($channel, CURLOPT_URL, $responseData[$urlField]);
+        curl_setopt($channel, CURLOPT_NOBODY, true);
+        curl_exec($channel);
+        $responseCode = curl_getinfo($channel, CURLINFO_HTTP_CODE);
+        $this->assertEquals($expectedResponseCode, $responseCode, "'$urlField' is not accessible with cURL");
+    }
+
+    /**
+     * Test unsuccessful get using invalid store code
+     */
+    public function testCollectionGetFromInvalidStore()
+    {
+        $restResponse = $this->callGet($this->_getResourcePath(null, 'INVALID_STORE'));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
