@@ -370,6 +370,8 @@ class Mage_Paypal_Model_Express_Checkout
             ->callGetExpressCheckoutDetails();
         $quote = $this->_quote;
 
+        $this->_ignoreAddressValidation();
+
         // import billing address
         $billingAddress = $quote->getBillingAddress();
         $exportedBillingAddress = $this->_api->getExportedBillingAddress();
@@ -407,7 +409,6 @@ class Mage_Paypal_Model_Express_Checkout
                 );
             }
         }
-        $this->_ignoreAddressValidation();
 
         // import payment info
         $payment = $quote->getPayment();
@@ -606,8 +607,10 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->_quote->getIsVirtual()) {
             $this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
-            if (!$this->_config->requireBillingAddress && !$this->getCustomerSession()->isLoggedIn()) {
-                $this->_quote->getBillingAddress()->setSameAsShipping(1);
+            if (!$this->_config->requireBillingAddress
+                && (!$this->getCustomerSession()->isLoggedIn() || !$this->_quote->getBillingAddress()->getEmail())
+            ) {
+                $this->_quote->getBillingAddress()->setSameAsBilling(1);
             }
         }
     }
