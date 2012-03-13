@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Api2_Helper
+class Mage_Catalog_Model_Api2_Helper extends Varien_Object
 {
     /**
      * The greatest decimal value which could be stored. Corresponds to DECIMAL (12,4) SQL type
@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Api2_Helper
     public function prepareDataForSave($product, $productData)
     {
         if (isset($productData['stock_data'])) {
-            if ($this->_isUpdate && !isset($productData['stock_data']['manage_stock'])) {
+            if ($this->getIsUpdate() && !isset($productData['stock_data']['manage_stock'])) {
                 $productData['stock_data']['manage_stock'] = $product->getStockItem()->getManageStock();
             }
             $this->_filterStockData($productData['stock_data']);
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Api2_Helper
             $product->setWebsiteIds($productData['website_ids']);
         }
         // Create Permanent Redirect for old URL key
-        if ($this->_isUpdate && isset($productData['url_key']) && isset($productData['url_key_create_redirect'])) {
+        if ($this->getIsUpdate() && isset($productData['url_key']) && isset($productData['url_key_create_redirect'])) {
             $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
         }
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */

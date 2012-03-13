@@ -171,7 +171,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         if (isset($data['sku'])) {
             $product->setSku($data['sku']);
         }
-        $this->_productResourceHelper->prepareDataForSave($product, $data);
+        $this->_productResourceHelper->setIsUpdate(true)->prepareDataForSave($product, $data);
         try {
             $product->validate();
             $product->save();

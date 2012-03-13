@@ -54,10 +54,13 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
 
     public function __construct($options)
     {
-        if (isset($options['product']) && !$options['product'] instanceof Mage_Catalog_Model_Product) {
-            throw new Exception("Passed parameter 'product' is wrong.");
+        if (isset($options['product'])) {
+            if ($options['product'] instanceof Mage_Catalog_Model_Product) {
+                $this->_product = $options['product'];
+            } else {
+                throw new Exception("Passed parameter 'product' is wrong.");
+            }
         }
-        $this->_product = $options['product'];
 
         if (!isset($options['operation']) || empty($options['operation'])) {
             throw new Exception("Passed parameter 'operation' is empty.");
@@ -68,7 +71,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
     /**
      * Get validator product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Mage_Catalog_Model_Product|null
      */
     protected function _getProduct()
     {
