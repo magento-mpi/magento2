@@ -48,6 +48,13 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
             }
         }
 
+        $fixtureOrders = $this->getFixture('orders_list');
+        if ($fixtureOrders && count($fixtureOrders)) {
+            foreach ($fixtureOrders as $fixtureOrder) {
+                $this->callModelDelete($fixtureOrder, true);
+            }
+        }
+
         parent::tearDown();
     }
 
@@ -80,5 +87,29 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $restResponse = $this->callGet('orders/invalid_id');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test get orders for admin
+     *
+     * @magentoDataFixture Api2/Sales/_fixtures/orders_list.php
+     */
+    public function testGetOrders()
+    {
+        $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $orders = $restResponse->getBody();
+        $this->assertNotEmpty($orders);
+        $ordersIds = array();
+        foreach ($orders as $order) {
+            $ordersIds[] = $order['entity_id'];
+        }
+
+        $fixtureOrders = $this->getFixture('orders_list');
+        foreach ($fixtureOrders as $fixtureOrder) {
+            $this->assertContains($fixtureOrder->getId(), $ordersIds,
+                'Order should be in response');
+        }
     }
 }
