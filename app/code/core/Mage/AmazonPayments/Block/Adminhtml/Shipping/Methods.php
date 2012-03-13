@@ -28,17 +28,25 @@ class Mage_AmazonPayments_Block_Adminhtml_Shipping_Methods
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
 
+    /**
+     * Retrieve html code for shipping methods <select> element
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
 
-        $html = '<select name="'.$this->getElement()->getName().'[method]" '.$this->_getDisabled().'>';
-        $html .= '<option value="None">'.$this->__(' Select Shipping Method').'</option>';
-        foreach ($this->getShippingMethods() as $carrierCode=>$carrier) {
-            $html .= '<optgroup label="'.$carrier['title'].'" style="border-top:solid 1px black; margin-top:3px;">';
-            foreach ($carrier['methods'] as $methodCode=>$method) {
-                $code = $carrierCode.'/'.$methodCode;
-                $html .= '<option value="'.$code.'" '.$this->_getSelected($code).' style="background:white;">'.$method['title'].'</option>';
+        $html = '<select name="' . $this->getElement()->getName() . '[method]" ' . $this->_getDisabled() . '>';
+        $html .= '<option value="None">' . $this->__(' Select Shipping Method') . '</option>';
+        foreach ($this->getShippingMethods() as $carrierCode => $carrier) {
+            $html .= '<optgroup label="' . $this->escapeHtml($carrier['title']) . '" '
+                . 'style="border-top:solid 1px black; margin-top:3px;">';
+            foreach ($carrier['methods'] as $methodCode => $method) {
+                $code = $carrierCode . '/' . $methodCode;
+                $html .= '<option value="' . $this->escapeHtml($code) . '" ' . $this->_getSelected($code)
+                    . ' style="background:white;">' . $this->escapeHtml($method['title']) . '</option>';
             }
             $html .= '</optgroup>';
         }
@@ -53,12 +61,9 @@ class Mage_AmazonPayments_Block_Adminhtml_Shipping_Methods
             $website = $this->getRequest()->getParam('website');
             $store   = $this->getRequest()->getParam('store');
 
-            $storeId = null;
-            if (!is_null($website)) {
-                $storeId = Mage::getModel('core/website')->load($website, 'code')->getDefaultGroup()->getDefaultStoreId();
-            } elseif (!is_null($store)) {
-                $storeId = Mage::getModel('core/store')->load($store, 'code')->getId();
-            }
+            $storeId = isset($website)
+                ? Mage::getModel('core/website')->load($website, 'code')->getDefaultGroup()->getDefaultStoreId()
+                : (isset($store) ? Mage::getModel('core/store')->load($store, 'code')->getId() : null);
 
             $methods = array();
             $carriers = Mage::getSingleton('shipping/config')->getActiveCarriers($storeId);
