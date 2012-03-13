@@ -340,13 +340,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param int $productId
      * @return bool
      */
-    private function isAvailableInIndex($productIndexData, $productId)
+    protected function isAvailableInIndex($productIndexData, $productId)
     {
         if (!is_array($productIndexData) || empty($productIndexData)) {
-            return false;
-        }
-
-        if (empty($productIndexData['in_stock'])) {
             return false;
         }
 
