@@ -254,6 +254,40 @@
                 <versions>1</versions>
                 <collection>products_categories</collection>
             </products_category>
+            <product_website>
+                <group>catalog_product</group>
+                <model>catalog/api2_product_website</model>
+                <working_model>catalog/product_website</working_model>
+                <title>Product Website</title>
+                <sort_order>100</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <website_id>Website ID</website_id>
+                </attributes>
+                <routes>
+                    <route_entity>
+                        <route>/products/websites/:id/website/:websiteId</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/products/websites/:id</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </product_website>
         </resources>
     </api2>
 </config>
