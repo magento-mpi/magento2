@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -50,6 +50,8 @@ abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Or
         if ($this->_isGiftMessageAllowed()) {
             $this->_addGiftMessageInfo($collection);
         }
+        $this->_addTaxInfo($collection);
+
         $order = $collection->getItemById($orderId);
 
         if (!$order) {

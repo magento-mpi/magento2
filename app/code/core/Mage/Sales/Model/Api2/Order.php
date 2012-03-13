@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -39,6 +39,8 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     const PARAM_GIFT_MESSAGE   = '_gift_message';
     const PARAM_ORDER_COMMENTS = '_order_comments';
     const PARAM_PAYMENT_METHOD = '_payment_method';
+    const PARAM_TAX_NAME       = '_tax_name';
+    const PARAM_TAX_RATE       = '_tax_rate';
     /**#@-*/
 
     /**
@@ -76,6 +78,32 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
             array('payment_method' => 'payment_method.method')
         );
 
+        return $this;
+    }
+
+    /**
+     * Add order tax information to select
+     *
+     * @param Mage_Sales_Model_Resource_Order_Collection $collection
+     * @return Mage_Sales_Model_Api2_Order
+     */
+    protected function _addTaxInfo(Mage_Sales_Model_Resource_Order_Collection $collection)
+    {
+        $taxInfoFields = array();
+
+        if ($this->_isTaxNameAllowed()) {
+            $taxInfoFields['tax_name'] = 'order_tax.title';
+        }
+        if ($this->_isTaxRateAllowed()) {
+            $taxInfoFields['tax_rate'] = 'order_tax.percent';
+        }
+        if ($taxInfoFields) {
+            $collection->getSelect()->joinLeft(
+                array('order_tax' => $collection->getTable('sales/order_tax')),
+                'main_table.entity_id = order_tax.order_id',
+                $taxInfoFields
+            );
+        }
         return $this;
     }
 
@@ -235,6 +263,26 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     }
 
     /**
+     * Check tax name information is allowed
+     *
+     * @return bool
+     */
+    public function _isTaxNameAllowed()
+    {
+        return in_array(self::PARAM_TAX_NAME, $this->getFilter()->getAllowedAttributes());
+    }
+
+    /**
+     * Check tax rate information is allowed
+     *
+     * @return bool
+     */
+    public function _isTaxRateAllowed()
+    {
+        return in_array(self::PARAM_TAX_RATE, $this->getFilter()->getAllowedAttributes());
+    }
+
+    /**
      * Get orders list
      *
      * @return array
@@ -249,6 +297,8 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
         if ($this->_isGiftMessageAllowed()) {
             $this->_addGiftMessageInfo($collection);
         }
+        $this->_addTaxInfo($collection);
+
         $ordersData = array();
 
         foreach ($collection->getItems() as $order) {
