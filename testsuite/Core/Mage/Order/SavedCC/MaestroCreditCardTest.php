@@ -35,56 +35,57 @@
  */
 class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Configure saved cc and enable gbp</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('savedcc_with_3Dsecure');
-        $this->systemConfigurationHelper()->configure('enable_gbp');
-    }
-
     protected function assertPreConditions()
     {
-        $this->addParameter('id', '0');
+        $this->loginAdminUser();
+    }
+
+    public function tearDownAfterAllTests()
+    {
+        $currency = $this->loadDataSet('Currency', 'enable_usd');
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($currency);
     }
 
     /**
-     * <p>Create Simple Product for tests</p>
-     *
-     * @return string
+     * @return array
      * @test
      */
-    public function createSimpleProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $settings = $this->loadDataSet('PaymentMethod', 'savedcc_with_3Dsecure');
+        $currency = $this->loadDataSet('Currency', 'enable_gbp');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
-        //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configure($currency);
 
         return $productData['general_sku'];
     }
 
     /**
-     * <p>Create order with Saved CC using Maestro Card</p>
+     * <p>Create Orders using Switch/Maestro card</p>
      *
-     * @depends createSimpleProduct
-     * @param string $simpleSku
+     * @param string $sku
+     *
      * @return array
      * @test
+     * @depends preconditionsForTests
      */
-    public function orderWith3DSecureSmoke($simpleSku)
+    public function orderWithSwitchMaestroCard($sku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustomer_savedcc_flatrate', array('filter_sku' => $simpleSku));
-        $orderData['payment_data']['payment_info'] = $this->loadData('saved_switch_maestro');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'   => $sku,
+                                              'payment_info' => $this->loadDataSet('SalesOrder',
+                                                                                   'saved_switch_maestro')));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -95,30 +96,30 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-312:Invoice for full order</p>
+     * <p>Website payments pro. Full Invoice With different types of Capture</p>
      * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Saved Credit Card'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Create invoice.</p>
      * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced successfully</p>
+     * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
-    public function fullInvoiceWithSavedCC($orderData)
+    public function fullInvoiceWithDifferentTypesOfCapture($orderData)
     {
         //Steps
         $this->navigate('manage_sales_orders');
@@ -130,35 +131,21 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-313:Invoice for part of order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Partially invoice order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced successfully</p>
+     * <p>Partial invoice with different types of capture</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
+     * @depends preconditionsForTests
      */
-    public function partialInvoiceWithCreditCard($orderData)
+    public function partialInvoiceWithDifferentTypesOfCapture($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadData('products_to_invoice',
-                array('invoice_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
+                                      array('invoice_product_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -169,33 +156,33 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-319:Credit Memo for whole invoce<p>
+     * <p>Saved Credit Card. Full Refund</p>
      * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Refund order;</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Saved Credit Card'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Invoice order.</p>
+     * <p>14.Make refund offline.</p>
      * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and refunded successfully</p>
+     * <p>New customer is created. Order is created for the new customer. Refund Offline is successful</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
-    public function fullCreditMemoWithCreditCard($orderData)
+    public function fullCreditMemo($orderData)
     {
-        //Steps
+        //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -204,37 +191,22 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-418:Credit Memo for part of invoce</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add two products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Partially refund order (choose only one product);</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and refunded successfully</p>
+     * <p>Partial Credit Memo</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     * @param string $sku
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
+     * @depends preconditionsForTests
      */
-    public function partialCreditMemoWithCreditCard($orderData)
+    public function partialCreditMemo($orderData, $sku)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadData('products_to_refund',
-                array('return_filter_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
-        //Steps
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
+                                         array('return_filter_sku' => $sku));
+        //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -243,7 +215,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-316:Shipment for order</p>
+     * <p>Shipment for order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -253,7 +225,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * <p>6.Press 'Add Products' button;</p>
      * <p>7.Add products;</p>
      * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
+     * <p>9.Check payment method 'Saved Credit Card';</p>
      * <p>10.Choose any from 'Get shipping methods and rates';</p>
      * <p>11. Submit order;</p>
      * <p>12. Invoice order;</p>
@@ -263,59 +235,18 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
-        //Steps
+        //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        //Steps
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-    }
-
-    /**
-     * <p>TL-MAGE-317:Shipment for part of order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add several products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Partially ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
-     *
-     * @depends orderWith3DSecureSmoke
-     * @param array $orderData
-     * @test
-     */
-    public function partialShipmentForOrderWithoutInvoice($orderData)
-    {
-        //Data
-        $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $shipment = $this->loadData('products_to_ship',
-                array('ship_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_order');
-        //Steps
-        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty($shipment);
     }
 
     /**
@@ -325,14 +256,15 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is holden;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
+     * <p>Order is unholden;</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -349,9 +281,10 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -386,43 +319,100 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Bug MAGE-5802</p>
      *
-     * @group skip_due_to_bug
-     *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
+     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
         //Steps
         $this->navigate('manage_sales_orders');
-        $data = $orderData['payment_data']['payment_info'];
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $emptyFields = array('card_verification_number' => $data['card_verification_number'],
-                             'issue_number'             => $data['issue_number']);
-        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($emptyFields);
-        $this->fillForm($data);
-        $this->orderHelper()->submitOreder();
+        $this->orderHelper()->validate3dSecure();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Move back to USD currency</p>
+     * <p>Void order.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Saved Credit Card'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Void Order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer. Void successful</p>
+     *
+     * @param array $orderData
      *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
-    public function switchToUsdCurrency()
+    public function voidPendingOrderFromOrderPage($orderData)
     {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('enable_usd');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_created_order');
+        //Steps
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_voided_order');
     }
 
-
+    /**
+     * <p>Create Orders using solo card</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Press 'Add Products' button.</p>
+     * <p>6.Add simple product.</p>
+     * <p>7.Fill all required fields in billing address form.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check shipping method</p>
+     * <p>10.Check payment method</p>
+     * <p>11.Submit order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @param string $sku
+     *
+     * @test
+     * @depends preconditionsForTests
+     */
+    public function orderWithSoloCard($sku)
+    {
+        //Data
+        $cardData = $this->loadDataSet('SalesOrder', 'saved_solo');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
+                                        array('filter_sku'   => $sku,
+                                              'payment_info' => $cardData));
+        $settings = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($settings);
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_created_order');
+    }
 }

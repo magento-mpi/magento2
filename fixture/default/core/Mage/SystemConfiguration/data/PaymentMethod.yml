@@ -45,7 +45,7 @@ paypal_enable:
         tab_name: sales_paypal
         configuration:
             merchant_country: United States
-            email_associated_with_paypal_merchant_account: taf_d_1323432953_biz@magento.com
+            email_associated_with_paypal_merchant_account: %noValue%
             website_payments_pro: No
             website_payments_pro_payflow_edition: No
             payflow_pro_gateway_express_checkout: No
@@ -61,9 +61,9 @@ paypal_api_settings:
         tab_name: sales_paypal
         configuration:
             api_authentication_methods: API Signature
-            api_username: taf_d_1323432953_biz_api1.magento.com
-            api_password: 1323433015
-            api_signature: An5ns1Kso7MWUdW4ErQKJJJ4qi4-A7-W6.Do36PWWhoXov7d9Y-d2dj8
+            api_username: %noValue%
+            api_password: %noValue%
+            api_signature: %noValue%
             api_sandbox_mode: Yes
             api_uses_proxy: No
 

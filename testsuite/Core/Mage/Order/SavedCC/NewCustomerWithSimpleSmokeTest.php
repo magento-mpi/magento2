@@ -438,19 +438,14 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     {
         //Steps
         $this->navigate('manage_sales_orders');
-        $data = $orderData['payment_data']['payment_info'];
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $emptyFields = array('card_verification_number' => $data['card_verification_number']);
-        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($emptyFields);
-        $this->fillForm($data);
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->assertEmptyVerificationErrors();
     }
 
     /**

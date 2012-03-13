@@ -452,7 +452,7 @@ simple_product_visible:
     general_visibility: Catalog, Search
     prices_price: 8.99
     prices_tax_class: None
-    inventory_qty: 50
+    inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -608,7 +608,7 @@ virtual_product_visible:
     general_visibility: Catalog, Search
     prices_price: 18.99
     prices_tax_class: None
-    inventory_qty: 50
+    inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -1289,7 +1289,7 @@ downloadable_product_visible:
     general_visibility: Catalog, Search
     prices_price: 98.99
     prices_tax_class: None
-    inventory_qty: 50
+    inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -1893,7 +1893,7 @@ downloadable_product_visible_multi_checkout:
     general_visibility: Catalog, Search
     prices_price: 98.99
     prices_tax_class: None
-    inventory_qty: 50
+    inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category

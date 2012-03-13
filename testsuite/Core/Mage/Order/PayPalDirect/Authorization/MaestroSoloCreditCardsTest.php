@@ -38,67 +38,62 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '0');
     }
 
-    /**
-     * <p>Create Pro Merchant Account on PayPal sandbox</p>
-     *
-     * @return array
-     * @test
-     */
-    public function createPayPalProAccountAndActivate()
+    public function tearDownAfterAllTests()
     {
-        $this->goToArea('paypal_developer');
-        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        $api = $this->paypalHelper()->createPayPalProAccount('paypal_sandbox_new_pro_account_gbp');
-        $data = $this->loadData('paypaldirect_with_3Dsecure',
-            array('email_associated_with_paypal_merchant_account' => $api['test_account'],
-                  'api_username'                                  => $api['api_username'],
-                  'api_password'                                  => $api['api_password'],
-                  'api_signature'                                 => $api['signature']));
+        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($data);
-
-        return $api;
+        $this->systemConfigurationHelper()->configure($currency);
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $this->paypalHelper()->deleteAllAccounts();
     }
 
     /**
-     * <p>Create Simple Product for tests</p>
-     *
-     * @return string
-     * @test
-     */
-    public function createSimpleProduct()
-    {
-        //Data
-        $productData = $this->loadData('simple_product_visible');
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $productData['general_sku'];
-    }
-
-    /**
-     * <p>Smoke test for order with 3D secure</p>
-     *
-     * @depends createSimpleProduct
-     * @param string $simpleSku
      * @return array
      * @test
      */
-    public function orderWith3DSecureSmoke($simpleSku)
+    public function preconditionsForTests()
+    {
+        //Steps
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account_gbp');
+        $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_with_3Dsecure', $api);
+        $currency = $this->loadDataSet('Currency', 'enable_gbp');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configure($currency);
+
+        return array('api' => $api,
+                     'sku' => $productData['general_sku']);
+    }
+
+    /**
+     * <p>Create Orders using Switch/Maestro card</p>
+     *
+     * @param array $testData
+     *
+     * @return array
+     * @test
+     * @depends preconditionsForTests
+     */
+    public function orderWithSwitchMaestroCard($testData)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_paypaldirect_flatrate',
-            array('filter_sku' => $simpleSku, 'payment_info' => $this->loadData('else_switch_maestro')));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirect_flatrate',
+                                        array('filter_sku'   => $testData['sku'],
+                                              'payment_info' => $this->loadDataSet('SalesOrder',
+                                                                                   'else_switch_maestro')));
         //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('enable_gbp');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -126,11 +121,12 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
-     * @depends orderWith3DSecureSmoke
-     * @dataProvider fullInvoiceWithDifferentTypesOfCaptureDataProvider
      * @param string $captureType
      * @param array $orderData
+     *
      * @test
+     * @dataProvider typesOfCaptureDataProvider
+     * @depends orderWithSwitchMaestroCard
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -143,12 +139,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    /**
-     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
-     *
-     * @return array
-     */
-    public function fullInvoiceWithDifferentTypesOfCaptureDataProvider()
+    public function typesOfCaptureDataProvider()
     {
         return array(
             array('Capture Online'),
@@ -160,18 +151,21 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     /**
      * <p>Partial invoice with different types of capture</p>
      *
-     * @depends orderWith3DSecureSmoke
-     * @dataProvider partialInvoiceWithDifferentTypesOfCaptureDataProvider
      * @param string $captureType
      * @param array $orderData
+     * @param array $testData
+     *
      * @test
+     * @dataProvider typesOfCaptureDataProvider
+     * @depends orderWithSwitchMaestroCard
+     * @depends preconditionsForTests
      */
-    public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
+    public function partialInvoiceWithDifferentTypesOfCapture($captureType, $orderData, $testData)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadData('products_to_invoice',
-                array('invoice_product_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
+        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
+                                      array('invoice_product_sku' => $testData['sku']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -179,19 +173,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
-    }
-
-    /**
-     * <p>Data provider for partialInvoiceWithDifferentTypesOfCapture test</p>
-     *
-     * @return array
-     */
-    public function partialInvoiceWithDifferentTypesOfCaptureDataProvider()
-    {
-        return array(
-            array('Capture Online'),
-            array('Capture Offline')
-        );
     }
 
     /**
@@ -205,7 +186,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>6.Press 'Add Products' button.</p>
      * <p>7.Add first two products.</p>
      * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
+     * <p>9.Check payment method 'PayPal Direct'</p>
      * <p>10. Fill in all required fields.</p>
      * <p>11.Choose first from 'Get shipping methods and rates'.</p>
      * <p>12.Submit order.</p>
@@ -214,17 +195,17 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Refund Offline is successful</p>
      *
-     * @depends orderWith3DSecureSmoke
-     * @dataProvider creditMemoDataProvider
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
+     *
      * @test
+     * @dataProvider creditMemoDataProvider
+     * @depends orderWithSwitchMaestroCard
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
         //Steps and Verifying
-        $this->addParameter('invoice_id', 1);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -238,30 +219,23 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     /**
      * <p>Partial Credit Memo</p>
      *
-     * @depends orderWith3DSecureSmoke
-     * @depends createPayPalProAccountAndActivate
-     * @dataProvider creditMemoDataProvider
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
-     * @param array $api
+     * @param array $testData
+     *
      * @test
+     * @dataProvider creditMemoDataProvider
+     * @depends orderWithSwitchMaestroCard
+     * @depends preconditionsForTests
      */
-    public function partialCreditMemo($captureType, $refundType, $orderData, $api)
+    public function partialCreditMemo($captureType, $refundType, $orderData, $testData)
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadData('products_to_refund',
-                array('return_filter_sku' => $orderData['products_to_add']['product_1']['filter_sku']));
-        $data = $this->loadData('paypaldirect_with_3Dsecure',
-                array('email_associated_with_paypal_merchant_account' => $api['test_account'],
-                      'api_username'                                  => $api['api_username'],
-                      'api_password'                                  => $api['api_password'],
-                      'api_signature'                                 => $api['signature']));
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
+                                         array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
-        $this->addParameter('invoice_id', 1);
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($data);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
@@ -272,17 +246,12 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
     }
 
-    /**
-     * <p>Data provider for partialCreditMemo test</p>
-     *
-     * @return array
-     */
     public function creditMemoDataProvider()
     {
         return array(
             array('Capture Online', 'refund'),
             array('Capture Online', 'refund_offline'),
-            array('Capture Offline', 'refund_offline'),
+            array('Capture Offline', 'refund_offline')
         );
     }
 
@@ -307,9 +276,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -327,14 +297,15 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * <p>Order is holden;</p>
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
+     * <p>Order is unholden;</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -351,9 +322,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     /**
      * <p>Cancel Pending Order From Order Page</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
@@ -388,13 +360,16 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Bug MAGE-5802</p>
      *
-     * @group skip_due_to_bug
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
+     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
+        //Data
+        $cardData = $orderData['payment_data']['payment_info'];
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -402,13 +377,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $data = $orderData['payment_data']['payment_info'];
-        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($data);
-        $this->fillForm($data);
+        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($cardData);
+        $this->fillForm($cardData);
         $this->orderHelper()->validate3dSecure();
-        $this->saveForm('submit_order', false);
-        $this->orderHelper()->defineOrderId();
-        $this->validatePage();
+        $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
@@ -425,7 +397,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>6.Press 'Add Products' button.</p>
      * <p>7.Add first two products.</p>
      * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
+     * <p>9.Check payment method 'PayPal Direct'</p>
      * <p>10. Fill in all required fields.</p>
      * <p>11.Choose first from 'Get shipping methods and rates'.</p>
      * <p>12.Submit order.</p>
@@ -433,9 +405,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
-     * @depends orderWith3DSecureSmoke
      * @param array $orderData
+     *
      * @test
+     * @depends orderWithSwitchMaestroCard
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -451,7 +424,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     }
 
     /**
-     * <p>Create Orders using different payment methods with 3DSecure</p>
+     * <p>Create Orders using solo card</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
@@ -463,46 +436,30 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>8.Choose shipping address the same as billing.</p>
      * <p>9.Check shipping method</p>
      * <p>10.Check payment method</p>
-     * <p>11.Validate card with 3D secure</p>
-     * <p>12.Submit order.</p>
+     * <p>11.Submit order.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
-     * <p>Bug number MAGE-5167</p>
      *
-     * @group skip_due_to_bug
-     * @depends orderWith3DSecureSmoke
-     * @param array $orderData
+     * @param array $testData
+     *
      * @test
+     * @depends preconditionsForTests
+     * @group skip_due_to_bug
      */
-    public function createOrderWithout3DSecure($orderData)
+    public function orderWithSoloCard($testData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData('else_solo');
+        $cardData = $this->loadDataSet('SalesOrder', 'else_solo');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirect_flatrate',
+                                        array('filter_sku'   => $testData['sku'],
+                                              'payment_info' => $cardData));
+        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_without_3Dsecure', $testData['api']);
         //Steps
-        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-        $this->systemConfigurationHelper()->configure('paypaldirect_without_3Dsecure');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($settings);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-    }
-
-    /**
-     * <p>Delete test accounts</p>
-     *
-     * @depends createPayPalProAccountAndActivate
-     * @param array $api
-     * @test
-     */
-    public function deleteTestAccounts($api)
-    {
-        $this->goToArea('paypal_developer');
-        $this->paypalHelper()->paypalDeveloperLogin('paypal_developer_login');
-        if (isset($api['test_account'])) {
-            $this->paypalHelper()->deleteAccount($api['test_account']);
-        }
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('enable_usd');
     }
 }

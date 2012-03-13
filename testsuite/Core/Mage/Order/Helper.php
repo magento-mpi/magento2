@@ -405,9 +405,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Validates 3D secure frame
      *
      * @param string $password
-     * @param string $secureAddress
      */
-    public function validate3dSecure($password = '1234', $secureAddress = 'https://testcustomer34.cardinalcommerce.com')
+    public function validate3dSecure($password = '1234')
     {
         if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
             $frame = $this->_getControlXpath('pageelement', '3d_secure_iframe');
@@ -421,7 +420,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            $this->waitForFrameToLoad($secureAddress);
+            //$this->waitForFrameToLoad('https://testcustomer34.cardinalcommerce.com');
             if (!$this->isVisible($frame)) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
