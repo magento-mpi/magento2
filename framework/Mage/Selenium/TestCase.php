@@ -1225,14 +1225,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMap.
      *
      * @param string $area Area identifier (by default = 'frontend')
-     * @param string $page Page identifier (by default = 'home')
+     * @param string $page Page identifier
      * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
-    public function goToArea($area = 'frontend', $page = 'home', $validatePage = true)
+    public function goToArea($area = 'frontend', $page = '', $validatePage = true)
     {
         $this->_configHelper->setArea($area);
+        if ($page == '') {
+            $areaConfig = $this->_configHelper->getAreaConfig();
+            $page = $areaConfig['base_page_uimap'];
+        }
         $this->navigate($page, $validatePage);
         return $this;
     }
