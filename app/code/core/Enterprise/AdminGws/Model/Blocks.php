@@ -389,6 +389,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
                 }
             }
         }
+        return $this;
     }
 
     /**

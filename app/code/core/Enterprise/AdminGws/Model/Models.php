@@ -119,6 +119,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      * Limit Reward Exchange Rate entity saving
      *
      * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @return void
      */
     public function rewardRateSaveBefore($model)
     {
@@ -138,16 +139,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Limit Reward Exchange Rate entity saving
+     * Limit Reward Exchange Rate entity delete
      *
      * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @return void
      */
     public function rewardRateDeleteBefore($model)
     {
-        // Deny creating new Reward Exchange Rate entity if role has no allowed website ids
-        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
-            $this->_throwSave();
-        }
         $websiteIds = (array)$model->getData('website_id');
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $this->_throwDelete();
