@@ -39,24 +39,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
     protected $_customer;
 
     /**
-     * Product update is not available for customer
-     *
-     * @param array $data
-     */
-    protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Customer does not have permissions for product removal
-     */
-    protected function _delete()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
      * Get customer group
      *
      * @return int

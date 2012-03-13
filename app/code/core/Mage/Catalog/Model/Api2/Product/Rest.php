@@ -67,13 +67,13 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection');
         $store = $this->_getStore();
-        $collection->addStoreFilter($store->getId());
-        $collection->addPriceData($this->_getCustomerGroupId(), $this->_getStore()->getWebsiteId());
-        $availableAttributes = array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ));
-        $collection->addAttributeToSelect($availableAttributes)
+        $availableAttributes = array_keys($this->getAvailableAttributes($this->getUserType(),
+            Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ));
+        $collection->addStoreFilter($store->getId())
+            ->addPriceData($this->_getCustomerGroupId(), $store->getWebsiteId())
+            ->addAttributeToSelect($availableAttributes)
             ->addAttributeToFilter('visibility', array(
-            'neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
+                'neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
             ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
         $this->_applyCollectionModifiers($collection);
         $products = $collection->load();
@@ -81,7 +81,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $collection->addTierPriceData();
 
         /** @var Mage_Catalog_Model_Product $product */
-        foreach ($products as &$product) {
+        foreach ($products as $product) {
             $this->_setProduct($product);
             $this->_prepareProductForResponse($product);
         }

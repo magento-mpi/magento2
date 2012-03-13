@@ -186,25 +186,6 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
-     * Pre-validate request data
-     *
-     * @param array $data
-     * @param array $required
-     * @param array $notEmpty
-     */
-    protected function _validate(array $data, array $required = array(), array $notEmpty = array())
-    {
-        parent::_validate($data, $required, $notEmpty);
-        $validationErrors = $this->_productResourceHelper->validateProductData($data, $this->_getProduct());
-        foreach ($validationErrors as $error) {
-            $this->_error($error['message'], $error['code']);
-        }
-        if ($this->getResponse()->isException()) {
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-    }
-
-    /**
      * Check if store exist by its code or ID
      *
      * @return Mage_Core_Model_Store
