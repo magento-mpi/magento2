@@ -68,7 +68,7 @@
                     <store_currency_code>Order Currency</store_currency_code>
                     <store_name>Store Name</store_name>
                     <remote_ip>Placed from IP</remote_ip>
-                    <store_to_order_rate>Store Currency to Base Currency Rate</store_to_order_rate>
+                    <store_to_order_rate>Store Currency to Order Currency Rate</store_to_order_rate>
                     <subtotal>Subtotal</subtotal>
                     <subtotal_incl_tax>Subtotal Including Tax</subtotal_incl_tax>
                     <discount_amount>Discount</discount_amount>
@@ -100,6 +100,7 @@
                     <base_customer_balance_amount>Base Customer Balance</base_customer_balance_amount>
                     <_gift_message>Gift Message</_gift_message>
                     <_order_comments>Order Comments</_order_comments>
+                    <customer_id>Customer ID</customer_id>
                 </attributes>
                 <include_attributes>
                     <customer>
