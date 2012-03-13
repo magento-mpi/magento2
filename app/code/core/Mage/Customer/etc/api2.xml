@@ -57,7 +57,7 @@
                     <firstname>First Name</firstname>
                     <lastname>Last Name</lastname>
                     <email>Email</email>
-                    <is_confirmed>Confirmed Email</is_confirmed>
+                    <is_confirmed>Is Confirmed</is_confirmed>
                 </attributes>
                 <exclude_attributes>
                     <admin>
