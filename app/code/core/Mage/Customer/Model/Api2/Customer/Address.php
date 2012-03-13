@@ -39,59 +39,12 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     const STREET_SEPARATOR = '; ';
 
     /**
-     * Get available attributes of API resource
-     *
-     * @param string $userType
-     * @param string $operation
-     * @return array
-     */
-    public function getAvailableAttributes($userType, $operation)
-    {
-        $available     = array();
-        $configAttrs   = $this->getAvailableAttributesFromConfig();
-        $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
-        $includedAttrs = $this->getIncludedAttributes($userType, $operation);
-        $dbAttrs = $this->getDbAttributes();
-        $eavAttrs = $this->getEavAttributes($userType == Mage_Api2_Model_Auth_User_Customer::USER_TYPE);
-        $attrsCodes = array_merge(array_keys($configAttrs), $dbAttrs, array_keys($eavAttrs));
-
-        foreach ($attrsCodes as $code) {
-            if (in_array($code, $excludedAttrs)) {
-                continue;
-            }
-            if (isset($configAttrs[$code])) {
-                // first priority
-                $available[$code] = $configAttrs[$code];
-            } elseif (isset($eavAttrs[$code])) {
-                $available[$code] = $eavAttrs[$code];
-            } else {
-                $available[$code] = $code;
-            }
-        }
-
-        foreach (array_keys($available) as $code) {
-            if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))
-                && !isset($eavAttrs[$code])) {
-                unset($available[$code]);
-            }
-        }
-
-        return $available;
-    }
-
-    /**
-     * Get available attributes of API resource from data base
+     * Resource specific method to retrieve attributes' codes. May be overriden in child.
      *
      * @return array
      */
-    public function getDbAttributes()
+    protected function _getResourceAttributes()
     {
-        $available = array();
-        /* @var $resource Mage_Core_Model_Resource_Db_Abstract */
-        $resource = Mage::getResourceModel($this->getConfig()->getResourceWorkingModel($this->getResourceType()));
-        if (method_exists($resource, 'getEntityTable')) {
-            $available = array_keys($resource->getReadConnection()->describeTable($resource->getEntityTable()));
-        }
-        return $available;
+        return $this->getEavAttributes(Mage_Api2_Model_Auth_User_Admin::USER_TYPE != $this->getUserType());
     }
 }

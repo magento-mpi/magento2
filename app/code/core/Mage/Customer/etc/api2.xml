@@ -146,66 +146,34 @@
                 <attributes>
                     <entity_id>Customer Address ID</entity_id>
                 </attributes>
-                <include_attributes>
+                <exclude_attributes>
                     <admin>
                         <read>
-                            <entity_id>1</entity_id>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
+                            <region_id>1</region_id>
+                            <vat_is_valid>1</vat_is_valid>
+                            <vat_request_date>1</vat_request_date>
+                            <vat_request_id>1</vat_request_id>
+                            <vat_request_success>1</vat_request_success>
                         </read>
                         <write>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
+                            <entity_id>1</entity_id>
+                            <region_id>1</region_id>
+                            <vat_is_valid>1</vat_is_valid>
+                            <vat_request_date>1</vat_request_date>
+                            <vat_request_id>1</vat_request_id>
+                            <vat_request_success>1</vat_request_success>
                         </write>
                     </admin>
                     <customer>
                         <read>
-                            <entity_id>1</entity_id>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
+                            <region_id>1</region_id>
                         </read>
                         <write>
-                            <firstname>1</firstname>
-                            <lastname>1</lastname>
-                            <company>1</company>
-                            <telephone>1</telephone>
-                            <fax>1</fax>
-                            <street>1</street>
-                            <city>1</city>
-                            <region>1</region>
-                            <postcode>1</postcode>
-                            <country_id>1</country_id>
-                            <vat_id>1</vat_id>
+                            <entity_id>1</entity_id>
+                            <region_id>1</region_id>
                         </write>
                     </customer>
-                </include_attributes>
+                </exclude_attributes>
                 <validators>
                     <eav>
                         <admin>
