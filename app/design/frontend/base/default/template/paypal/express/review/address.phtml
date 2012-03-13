@@ -97,7 +97,7 @@
                     <div class="field">
                         <label for="<?php echo $prefix ?>:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="<?php echo $prefix ?>[postcode]" id="<?php echo $prefix ?>postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
+                            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="<?php echo $prefix ?>[postcode]" id="<?php echo $prefix ?>:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
                         </div>
                     </div>
                     <div class="field">
@@ -139,7 +139,7 @@
 </fieldset>
 <script type="text/javascript">
 //<![CDATA[
-    var <?php echo $prefix ?>RegionUpdater = new RegionUpdater('<?php echo $prefix ?>:country_id', '<?php echo $prefix ?>:region', '<?php echo $prefix ?>:region_id', countryRegions, undefined, '<?php echo $prefix ?>:postcode');
+    var <?php echo $prefix ?>RegionUpdater = new RegionUpdater('<?php echo $prefix ?>:country_id', '<?php echo $prefix ?>:region', '<?php echo $prefix ?>:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, '<?php echo $prefix ?>:postcode');
     <?php echo $prefix ?>RegionUpdater.update();
 //]]>
 </script>
