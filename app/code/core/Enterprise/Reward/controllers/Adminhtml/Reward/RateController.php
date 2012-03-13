@@ -156,7 +156,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
                 $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('The rate has been deleted.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/*', array('_current' => true));
+                $this->_redirect('*/*/edit', array('_current' => true));
                 return;
             }
         }

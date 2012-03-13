@@ -116,6 +116,45 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Limit Reward Exchange Rate entity saving
+     *
+     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     */
+    public function rewardRateSaveBefore($model)
+    {
+        // Deny creating new Reward Exchange Rate entity if role has no allowed website ids
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+        $websiteIds = (array)$model->getData('website_id');
+
+        // Deny saving Reward Rate entity if role has no exclusive access to assigned to Rate entity website
+        // Check if original websites list is empty implemented to deny saving target Rate for all GWS limited users
+        if ($model->getId() && (!$this->_role->hasExclusiveAccess($websiteIds)
+            || count(array_filter((array)$model->getOrigData('website_id'))) == 0)
+        ) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Limit Reward Exchange Rate entity saving
+     *
+     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     */
+    public function rewardRateDeleteBefore($model)
+    {
+        // Deny creating new Reward Exchange Rate entity if role has no allowed website ids
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+        $websiteIds = (array)$model->getData('website_id');
+        if (!$this->_role->hasExclusiveAccess($websiteIds)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
      * Validate rule before delete
      *
      * @param Mage_Rule_Model_Rule $model
