@@ -54,7 +54,9 @@
                 <attributes>
                     <entity_id>Customer ID</entity_id>
                     <last_logged_in>Last Logged In</last_logged_in>
-                    <password>Password</password>
+                    <firstname>First Name</firstname>
+                    <lastname>Last Name</lastname>
+                    <email>Email</email>
                 </attributes>
                 <exclude_attributes>
                     <admin>
@@ -88,38 +90,10 @@
                     <customer>
                         <read>
                             <entity_id>1</entity_id>
-                            <password>1</password>
-                            <password_hash>1</password_hash>
-                            <confirmation>1</confirmation>
-                            <created_at>1</created_at>
-                            <created_in>1</created_in>
-                            <reward_warning_notification>1</reward_warning_notification>
-                            <reward_update_notification>1</reward_update_notification>
-                            <default_billing>1</default_billing>
-                            <default_shipping>1</default_shipping>
-                            <disable_auto_group_change>1</disable_auto_group_change>
-                            <group_id>1</group_id>
-                            <rp_token>1</rp_token>
-                            <rp_token_created_at>1</rp_token_created_at>
-                            <store_id>1</store_id>
-                            <website_id>1</website_id>
+                            <last_logged_in>1</last_logged_in>
                         </read>
                         <write>
                             <entity_id>1</entity_id>
-                            <password_hash>1</password_hash>
-                            <confirmation>1</confirmation>
-                            <created_at>1</created_at>
-                            <created_in>1</created_in>
-                            <reward_warning_notification>1</reward_warning_notification>
-                            <reward_update_notification>1</reward_update_notification>
-                            <default_billing>1</default_billing>
-                            <default_shipping>1</default_shipping>
-                            <disable_auto_group_change>1</disable_auto_group_change>
-                            <group_id>1</group_id>
-                            <rp_token>1</rp_token>
-                            <rp_token_created_at>1</rp_token_created_at>
-                            <store_id>1</store_id>
-                            <website_id>1</website_id>
                             <last_logged_in>1</last_logged_in>
                         </write>
                     </customer>
