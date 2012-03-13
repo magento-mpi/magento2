@@ -96,6 +96,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
     {
         return 'CATALOG_PRODUCT_LIST_SHARED_'
             . md5($this->_placeholder->getName()
+            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
             . $this->_getProductId());
     }
 
