@@ -84,7 +84,9 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
 
         $fixtureOrderData = $fixtureOrder->getData(); // for total_due, base_total_due
         foreach ($responseData as $field => $value) {
-            $this->assertEquals($responseData[$field], $value);
+            if (isset($fixtureOrderData[$field])) {
+                $this->assertEquals($fixtureOrderData[$field], $value);
+            }
         }
     }
 

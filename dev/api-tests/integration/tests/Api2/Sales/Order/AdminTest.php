@@ -76,7 +76,9 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $fixtureOrderData = $fixtureOrder->getData(); // for total_due, base_total_due
         foreach ($responseData as $field => $value) {
-            $this->assertEquals($responseData[$field], $value);
+            if (isset($fixtureOrderData[$field])) {
+                $this->assertEquals($fixtureOrderData[$field], $value);
+            }
         }
     }
 
