@@ -25,19 +25,12 @@
  */
 
 /**
- * API2 for product categories
+ * Abstract Api2 model for product categories collection
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Api2_Products_Category_Rest_Guest_V1 extends Mage_Catalog_Model_Api2_Products_Category_Rest
+class Mage_Catalog_Model_Api2_Product_Category extends Mage_Api2_Model_Resource
 {
-    /**
-     * Guest does not have permissions for product category unassign
-     */
-    protected function _delete()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
 }

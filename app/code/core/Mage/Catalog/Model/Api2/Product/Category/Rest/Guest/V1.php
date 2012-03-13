@@ -25,29 +25,12 @@
  */
 
 /**
- * Abstract API2 class for product categories
+ * API2 for product categories
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Products_Category_Rest extends Mage_Catalog_Model_Api2_Products_Category
+class Mage_Catalog_Model_Api2_Product_Category_Rest_Guest_V1 extends Mage_Catalog_Model_Api2_Product_Category_Rest
 {
-    /**
-     * Product category update is not available
-     *
-     * @param array $data
-     */
-    protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Product category get is not available
-     */
-    protected function _retrieve()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
 }
