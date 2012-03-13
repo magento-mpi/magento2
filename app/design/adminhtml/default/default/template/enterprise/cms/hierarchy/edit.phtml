@@ -796,16 +796,20 @@
 
         assignNodeMetadataToValues: function(node) {
             this.getMetadataFields().each(function(f) {
-                if ($(f) != undefined) {
+                var element = $(f);
+                if (typeof element != 'undefined') {
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
-                    if ($(f).tagName.toLowerCase() == 'select') {
+                    if (element.tagName.toLowerCase() == 'select') {
+                        if (typeof element.defaultValue == 'undefined') {
+                            element.defaultValue = element.value;
+                        }
                         if (value == '') {
-                            $(f).selectedIndex = 1;
+                            element.value = element.defaultValue;
                         } else {
-                            $(f).value = value;
+                            element.value = value;
                         }
                     } else {
-                        $(f).value = (value == '0' ? '' : value);
+                        element.value = (value == '0' ? '' : value);
                     }
                 }
             }.bind(this));
