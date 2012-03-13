@@ -50,6 +50,8 @@ abstract class Mage_Sales_Model_Api2_Order_Rest extends Mage_Sales_Model_Api2_Or
         if ($this->_isGiftMessageAllowed()) {
             $this->_addGiftMessageInfo($collection);
         }
+        $this->_addTaxInfo($collection);
+
         $order = $collection->getItemById($orderId);
 
         if (!$order) {
