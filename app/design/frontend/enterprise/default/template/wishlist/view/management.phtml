@@ -58,7 +58,7 @@
                 </ul>
             </div>
         </div>
-        <?php if($this->getCurrentWishlist()->getItemsCount()): ?>g
+        <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
             <div id="wishlists-move" class="split-button">
                 <strong<?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?> onclick="Enterprise.Wishlist.moveSelectedTo(<?php echo $this->getDefaultWishlist()->getId();?>);"<?php endif;?>><span><?php echo $this->__('Move To Wishlist');?></span></strong>
                 <a href="#" class="change"><?php echo $this->__('Move To:') ?></a>
