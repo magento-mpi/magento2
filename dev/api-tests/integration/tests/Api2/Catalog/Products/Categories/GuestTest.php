@@ -66,14 +66,14 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
 
-        /* @var $productFixture Mage_Catalog_Model_Product */
+        /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
         self::setFixture('product_simple', $product);
 
-        $restResponse = $this->callGet('products/categories/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -85,15 +85,10 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test product categories resource list for nonexistent product
-     *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
      */
     public function testListWrongProductId()
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product_simple');
-
-        $restResponse = $this->callGet('products/categories/' . ($product->getId() + 1));
+        $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -119,7 +114,7 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
 
-        /* @var $productFixture Mage_Catalog_Model_Product */
+        /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
@@ -129,7 +124,7 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
         $category = self::getFixture('category');
         $category->setStoreId(0)->setData('is_active', 0)->save();
 
-        $restResponse = $this->callGet('products/categories/' . $product->getId());
+        $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
 
         $category->setStoreId(0)->setData('is_active', 1)->save();
 
@@ -151,8 +146,7 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
      */
     public function testDelete()
     {
-        $resourceUri = 'products/categories/1/category/1';
-        $restResponse = $this->callDelete($resourceUri);
+        $restResponse = $this->callDelete($this->_getResourcePath(1, 1));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
@@ -161,7 +155,23 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
      */
     public function testCreate()
     {
-        $restResponse = $this->callPost('products/categories', array());
+        $restResponse = $this->callPost($this->_getResourcePath(1), array());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+    }
+
+    /**
+     * Create path to resource
+     *
+     * @param int $productId
+     * @param int $categoryId
+     * @return string
+     */
+    protected function _getResourcePath($productId, $categoryId = null)
+    {
+        $path = "products/{$productId}/categories";
+        if ($categoryId) {
+            $path .= "/{$categoryId}";
+        }
+        return $path;
     }
 }
