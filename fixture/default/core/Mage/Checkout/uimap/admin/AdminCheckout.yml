@@ -133,8 +133,8 @@ create_order_for_new_customer:
     mca: sales_order_create/
     title: New Order / Orders / Sales / Magento Admin
     uimap:
-        form: &newOrderForNewCustomerForm
-            fieldsets:
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
                 -
                     order_customer_grid: &salesOrderCreateCustomerGrid
                         xpath: //div[@id='order-customer-selector']
@@ -287,11 +287,21 @@ create_order_for_new_customer:
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
-                        fields:
-                            3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
+                        pageelements:
+                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
                         buttons:
                             start_reset_validation: //button[span='Start/Reset Validation...']
-                            3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
+                -
+                    3d_secure_frame: &3DSecureFrame
+                        xpath:
+                        fields:
+                            3d_password: //input[@name='external.field.password']
+                        buttons:
+                            3d_submit: //input[@value='Submit']
+                            3d_continue: //input[@value='Continue']
+                        pageelements:
+                            incorrect_password: //b[text()='Incorrect, Please try again']
+                            verification_successful: //h1[text()='Verification Successful']
                 -
                     order_history: &orderHistory
                         xpath: //div[div/h4[contains(text(),'Order History')]]
@@ -374,36 +384,7 @@ create_order_for_existing_customer:
     uimap:
         form: &newOrderForExistCustomerForm
             fieldsets:
-                -
-                    order_customer_grid: *salesOrderCreateCustomerGrid
-                -
-                    order_store_selector: *orderStoreSelector
-                -
-                    select_products_to_add: *selectProductsToAdd
-                -
-                    order_items_ordered: *orderItemsOrdered
-                -
-                    order_apply_coupon_code: *orderApplyCouponCode
-                -
-                    order_account_information: *orderAccountInformation
-                -
-                    order_billing_address: *orderBillingAddress
-                -
-                    order_shipping_address: *orderShippingAddress
-                -
-                    order_payment_method: *orderPaymentMethod
-                -
-                    order_history: *orderHistory
-                -
-                    shipping_method: *shippingMethod
-                -
-                    order_totals: *orderTotals
-                -
-                    product_composite_configure_form: *productCompositeConfigureForm
-                -
-                    gift_options_for_order: *giftMessageForOrder
-                -
-                    gift_options: *giftMessage
+                <<: *newOrderForNewCustomerFieldsets
                 -
                     order_sidebar:
                         xpath: //div[@id='order-sidebar']

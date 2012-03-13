@@ -405,37 +405,37 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Validates 3D secure frame
      *
      * @param string $password
+     * @param string $secureAddress
      */
-    public function validate3dSecure($password = '1234')
+    public function validate3dSecure($password = '1234', $secureAddress = 'https://testcustomer34.cardinalcommerce.com')
     {
-        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
-        $xpathSubmit = "//input[@value='Submit']";
-        $xpathContinue = "//input[@value='Continue']";
-        $xpathPassword = "//input[@name='external.field.password']";
-        if ($this->isElementPresent($xpath)) {
+        if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
+            $frame = $this->_getControlXpath('pageelement', '3d_secure_iframe');
+            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
+            $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
+            $verificationSuccessful = $this->_getControlXpath('pageelement', 'verification_successful');
+
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
-            $alert = $this->isAlertPresent();
-            if ($alert) {
+            if ($this->isAlertPresent()) {
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            if ($this->waitForElement($xpathPassword)) {
-                $this->type($xpathPassword, $password);
-                $this->click($xpathSubmit);
-                $this->waitForElementNotPresent($xpathSubmit);
-                $a = "//font//b[text()='Incorrect, Please try again']";
-                $b = "//html/body/h1[text()='Verification Successful']";
-                $this->waitForElement(array($a, $b, $xpathContinue));
-                if ($this->isElementPresent($xpathContinue)) {
-                    $this->click($xpathContinue);
-                    $this->waitForElementNotPresent($xpathContinue);
-                    $this->waitForElement(array($a, $b));
-                }
-                $this->assertElementPresent("//html/body/h1[text()='Verification Successful']");
-            } else {
+            $this->waitForFrameToLoad($secureAddress);
+            if (!$this->isVisible($frame)) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
+            $this->selectFrame($frame);
+            $this->fillForm(array('3d_password' => $password));
+            $this->clickButton('3d_submit', false);
+            $this->waitForElement(array($incorrectPassword, $xpathContinue, $verificationSuccessful));
+            if ($this->isElementPresent($xpathContinue)) {
+                $this->click($xpathContinue);
+                $this->waitForElementNotPresent($xpathContinue);
+                $this->waitForElement($verificationSuccessful);
+            }
+            $this->assertElementPresent($verificationSuccessful);
+            $this->selectFrame('relative=top');
         }
     }
 
