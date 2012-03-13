@@ -127,12 +127,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
-        $websiteIds = (array)$model->getData('website_id');
 
         // Deny saving Reward Rate entity if role has no exclusive access to assigned to Rate entity website
         // Check if original websites list is empty implemented to deny saving target Rate for all GWS limited users
-        if ($model->getId() && (!$this->_role->hasExclusiveAccess($websiteIds)
-            || count(array_filter((array)$model->getOrigData('website_id'))) == 0)
+        if (!$this->_role->hasExclusiveAccess((array)$model->getData('website_id'))
+            || ($model->getId() && !$this->_role->hasExclusiveAccess((array)$model->getOrigData('website_id')))
         ) {
             $this->_throwSave();
         }
@@ -146,6 +145,10 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function rewardRateDeleteBefore($model)
     {
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $this->_throwDelete();
+        }
+
         $websiteIds = (array)$model->getData('website_id');
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $this->_throwDelete();
