@@ -278,11 +278,11 @@
                 </attributes>
                 <routes>
                     <route_entity>
-                        <route>/products/websites/:id/website/:websiteId</route>
+                        <route>/products/:id/websites/:websiteId</route>
                         <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
-                        <route>/products/websites/:id</route>
+                        <route>/products/:id/websites</route>
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>
