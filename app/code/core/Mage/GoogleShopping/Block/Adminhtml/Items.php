@@ -55,23 +55,6 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     * Get HTML code for button View Available Products
-     *
-     * @return string
-     */
-    public function getAddButtonHtml()
-    {
-        $addButtonData = array(
-            'id'    => 'products_grid_button',
-            'label' => $this->__('View Available Products'),
-        );
-        return $this->getLayout()
-            ->createBlock('adminhtml/widget_button')
-            ->setData($addButtonData)
-            ->toHtml();
-    }
-
-    /**
      * Get HTML code for Store Switcher select
      *
      * @return string
@@ -102,5 +85,26 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
     public function getStore()
     {
         return $this->_getData('store');
+    }
+
+    /**
+     * Check whether synchronization process is running
+     *
+     * @return bool
+     */
+    public function isProcessRunning()
+    {
+        $flag = Mage::getModel('googleshopping/flag')->loadSelf();
+        return $flag->isLocked();
+    }
+
+    /**
+     * Build url for retrieving background process status
+     *
+     * @return string
+     */
+    public function getStatusUrl()
+    {
+        return $this->getUrl('*/*/status');
     }
 }
