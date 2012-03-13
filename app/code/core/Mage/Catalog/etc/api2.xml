@@ -79,6 +79,9 @@
                     <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
                     <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
                     <url_key_create_redirect>Create Permanent Redirect for old URL</url_key_create_redirect>
+                    <meta_title>Page Title</meta_title>
+                    <meta_keywords>Meta Keywords</meta_keywords>
+                    <meta_description>Meta Description</meta_description>
                 </attributes>
                 <exclude_attributes>
                     <customer>
