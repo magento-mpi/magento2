@@ -50,7 +50,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
     public function preconditionsCreateProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order');
+        $productData = $this->loadData('simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');

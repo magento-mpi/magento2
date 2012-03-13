@@ -52,7 +52,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_visible');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
