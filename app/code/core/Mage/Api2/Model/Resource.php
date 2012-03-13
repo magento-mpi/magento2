@@ -944,7 +944,7 @@ abstract class Mage_Api2_Model_Resource
         }
         foreach ($resourceAttrs as $attrCode => $attrLabel) {
             if (!isset($available[$attrCode])) {
-                $available[$attrCode] = $attrLabel;
+                $available[$attrCode] = empty($attrLabel) ? $attrCode : $attrLabel;
             }
         }
         foreach (array_keys($available) as $code) {
