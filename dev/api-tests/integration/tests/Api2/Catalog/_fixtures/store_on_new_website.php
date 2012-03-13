@@ -24,7 +24,7 @@
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
+if (!Magento_Test_Webservice::getFixture('website')) {
     $website = new Mage_Core_Model_Website();
     $website->setData(
         array(
@@ -35,25 +35,29 @@ if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
     );
     $website->save();
     Magento_Test_Webservice::setFixture('website', $website);
+}
 
+if (!Magento_Test_Webservice::getFixture('store_group')) {
     $defaultCategoryId = 2;
     $storeGroup = new Mage_Core_Model_Store_Group();
     $storeGroup->setData(array(
-        'website_id' => $website->getId(),
+        'website_id' => Magento_Test_Webservice::getFixture('website')->getId(),
         'name' => 'Test Store' . uniqid(),
         'code' => 'store_group_' . uniqid(),
         'root_category_id' => $defaultCategoryId
     ))->save();
     Magento_Test_Webservice::setFixture('store_group', $storeGroup);
+}
 
+if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
     $store = new Mage_Core_Model_Store();
     $store->setData(array(
-        'group_id' => $storeGroup->getId(),
+        'group_id' => Magento_Test_Webservice::getFixture('store_group')->getId(),
         'name' => 'Test Store View',
         'code' => 'store_' . uniqid(),
         'is_active' => true,
-        'website_id' => $website->getId()
+        'website_id' => Magento_Test_Webservice::getFixture('website')->getId()
     ))->save();
-    Mage::app()->reinitStores();
     Magento_Test_Webservice::setFixture('store_on_new_website', $store);
+    Mage::app()->reinitStores();
 }

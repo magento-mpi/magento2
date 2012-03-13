@@ -53,7 +53,19 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         if (!($isEnabled && $productHelper->canShow($product))) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
+        $this->_prepareProductForResponse($product);
+        return $product->getData();
+    }
 
+    /**
+     * Add special fields to product get response
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _prepareProductForResponse(Mage_Catalog_Model_Product $product)
+    {
+        /** @var $productHelper Mage_Catalog_Helper_Product */
+        $productHelper = Mage::helper('catalog/product');
         $productData = $product->getData();
         $product->setWebsiteId($this->_getStore()->getWebsiteId());
         // customer group is required in product for correct tier prices calculation
@@ -77,7 +89,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = Mage::getModel('cataloginventory/stock_item');
         $stockItem->loadByProduct($product);
-        $productData['is_in_stock'] = ($stockItem->getId() && $stockItem->getIsInStock());
+        $productData['is_in_stock'] = $stockItem->getIsInStock();
 
         /** @var $reviewModel Mage_Review_Model_Review */
         $reviewModel = Mage::getModel('review/review');
@@ -86,8 +98,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
 
         $productData['is_saleable'] = $product->getIsSalable();
         $productData['has_custom_options'] = $product->hasCustomOptions();
-
-        return $productData;
+        $product->addData($productData);
     }
 
     /**
@@ -143,6 +154,16 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             $this->_product = $product;
         }
         return $this->_product;
+    }
+
+    /**
+     * Set product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _setProduct(Mage_Catalog_Model_Product $product)
+    {
+        $this->_product = $product;
     }
 
     /**

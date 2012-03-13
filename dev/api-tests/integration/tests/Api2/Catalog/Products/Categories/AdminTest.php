@@ -45,6 +45,18 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     }
 
     /**
+     * Delete store fixture
+     */
+    public static function tearDownAfterClass()
+    {
+        self::deleteFixture('store', true);
+        self::deleteFixture('store_group', true);
+        self::deleteFixture('website', true);
+        self::deleteFixture('category', true);
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test product category resource post
      *
      * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php

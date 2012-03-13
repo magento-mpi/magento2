@@ -97,4 +97,35 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
         }
         return $this->_customer;
     }
+
+    /**
+     * Retrieve list of products
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('catalog/product_collection');
+        $store = $this->_getStore();
+        $collection->addStoreFilter($store->getId());
+        $collection->addPriceData($this->_getCustomerGroupId(), $this->_getStore()->getWebsiteId());
+        $availableAttributes = array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ));
+        $collection->addAttributeToSelect($availableAttributes)
+            ->addAttributeToFilter('visibility', array(
+            'neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
+            ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+        $this->_applyCollectionModifiers($collection);
+        $products = $collection->load();
+        // add tier prices to items that are already loaded
+        $collection->addTierPriceData();
+
+        /** @var Mage_Catalog_Model_Product $product */
+        foreach ($products as &$product) {
+            $this->_setProduct($product);
+            $this->_prepareProductForResponse($product);
+        }
+        return $products->toArray();
+    }
 }

@@ -76,6 +76,8 @@ if (!Magento_Test_Webservice::getFixture('store')) {
         'code' => 'store_group_' . uniqid(),
         'root_category_id' => $category->getId()
     ))->save();
+    Magento_Test_Webservice::setFixture('store_group', $storeGroup);
+
 
     $store = new Mage_Core_Model_Store();
     $store->setData(array(

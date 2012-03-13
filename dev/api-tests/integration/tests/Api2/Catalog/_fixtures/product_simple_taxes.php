@@ -30,6 +30,7 @@ $product->addData($productData)
     ->setStoreId(0)
     ->setPrice(10)
     ->setTaxClassId(2)
+    ->setStockData(array('use_config_manage_stock' => 1))
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))
     ->save();
 
