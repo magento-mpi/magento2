@@ -607,9 +607,7 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->_quote->getIsVirtual()) {
             $this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
-            if (!$this->_config->requireBillingAddress
-                && (!$this->getCustomerSession()->isLoggedIn() || !$this->_quote->getBillingAddress()->getEmail())
-            ) {
+            if (!$this->_config->requireBillingAddress && !$this->_quote->getBillingAddress()->getEmail()) {
                 $this->_quote->getBillingAddress()->setSameAsBilling(1);
             }
         }
