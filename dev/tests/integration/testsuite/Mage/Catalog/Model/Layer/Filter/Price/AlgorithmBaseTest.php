@@ -34,6 +34,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
      */
     public function testPricesSegmentation($categoryId, $intervalsNumber, $intervalItems)
     {
+        $this->markTestIncomplete('Bug MAGE-6498');
         // ini_set('memory_limit', '128M');
         $layer = new Mage_Catalog_Model_Layer();
         $layer->setCurrentCategory($categoryId);
