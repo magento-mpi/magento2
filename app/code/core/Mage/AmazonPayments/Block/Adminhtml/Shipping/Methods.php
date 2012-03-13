@@ -27,7 +27,6 @@
 class Mage_AmazonPayments_Block_Adminhtml_Shipping_Methods
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-
     /**
      * Retrieve html code for shipping methods <select> element
      *
