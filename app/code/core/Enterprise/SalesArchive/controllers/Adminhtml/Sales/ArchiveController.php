@@ -150,17 +150,24 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
             if ($order->canHold()) {
-                $order->hold()
-                    ->save();
+                $order->hold()->save();
                 $countHoldOrder++;
             }
         }
-        if ($countHoldOrder>0) {
+
+        $countNonHoldOrder = count($orderIds) - $countHoldOrder;
+
+        if ($countNonHoldOrder) {
+            if ($countHoldOrder) {
+                $this->_getSession()->addError($this->__('%s order(s) were not put on hold.', $countNonHoldOrder));
+            } else {
+                $this->_getSession()->addError($this->__('No order(s) were put on hold.'));
+            }
+        }
+        if ($countHoldOrder) {
             $this->_getSession()->addSuccess($this->__('%s order(s) have been put on hold.', $countHoldOrder));
         }
-        else {
-            // selected orders is not available for hold
-        }
+
         $this->_redirect('*/*/orders');
     }
 
