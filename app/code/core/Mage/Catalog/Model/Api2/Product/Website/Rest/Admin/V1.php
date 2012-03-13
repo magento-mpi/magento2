@@ -44,8 +44,11 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
         /* @var $product Mage_Catalog_Model_Product */
         $product = $this->_loadProductById($this->getRequest()->getParam('id'));
 
+        if (!isset($data['website_id'])) {
+            $this->_critical('Empty value for "website_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
         /* @var $website Mage_Catalog_Model_Product_Website */
-        $website = $this->_loadWebsiteById($this->getRequest()->getParam('website_id'));
+        $website = $this->_loadWebsiteById($data['website_id']);
 
         $websiteIds = $product->getWebsiteIds();
         if (in_array($website->getId(), $websiteIds)) {
@@ -53,7 +56,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
                 $product->getId(), $website->getId()), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         $websiteIds[] = $website->getId();
-        $product->setCategoryIds(implode(',', $websiteIds));
+        $product->setWebsiteIds($websiteIds);
 
         try{
             $product->save();
@@ -63,7 +66,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
 
-        return $this->_getLocation($website);
+        return $this->_getLocation($website, $product);
     }
 
     /**
@@ -79,14 +82,14 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
 
         $websiteIds = $product->getWebsiteIds();
         $key = array_search($website->getId(), $websiteIds);
-        if (!$key) {
+        if (false === $key) {
             $this->_critical(sprintf('Product #%d isn\'t assigned to website #%d',
                 $product->getId(), $website->getId()), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
 
         // delete website
         unset($websiteIds[$key]);
-        $product->setStoreIds(implode(',', $websiteIds));
+        $product->setWebsiteIds($websiteIds);
 
         try {
             $product->save();
@@ -121,8 +124,33 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
         /* @var $website Mage_Catalog_Model_Product_Website */
         $website = Mage::getModel('catalog/product_website')->load($id);
         if (!$website->getId()) {
-            $this->_critical('Product not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical('Website not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         return $website;
+    }
+
+    /**
+     * Get resource location
+     *
+     * @param Mage_Catalog_Model_Product_Website $website
+     * @param Mage_Catalog_Model_Product $product
+     * @return string URL
+     */
+    protected function _getLocation($website, $product)
+    {
+        /* @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+
+        $chain = $apiTypeRoute->chain(
+            new Zend_Controller_Router_Route($this->getConfig()->getRouteWithEntityTypeAction($this->getResourceType()))
+        );
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            'id'       => $product->getId(),
+            'websiteId' => $website->getId()
+        );
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
     }
 }
