@@ -31,6 +31,6 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Api2_Reviews extends Mage_Api2_Model_Resource_Collection
+class Mage_Review_Model_Api2_Reviews extends Mage_Api2_Model_Resource
 {
 }
