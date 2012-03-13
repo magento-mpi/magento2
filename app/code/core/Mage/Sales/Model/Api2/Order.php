@@ -197,9 +197,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Status_History_Collection */
         $collection = Mage::getResourceModel('sales/order_status_history_collection');
-
-        $collection->setOrderFilter($orderIds)
-            ->addFieldToFilter('entity_name', Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
+        $collection->setOrderFilter($orderIds);
 
         return $collection;
     }
