@@ -50,7 +50,7 @@
                     </admin>
                 </privileges>
                 <attributes>
-                    <review_id>ID</review_id>
+                    <review_id>Review ID</review_id>
                     <product_id>Product ID</product_id>
                     <status_id>Review Status</status_id>
                     <stores>Assigned Stores</stores>
@@ -59,6 +59,34 @@
                     <title>Review Summary</title>
                     <detail>Review Text</detail>
                 </attributes>
+                <exclude_attributes>
+                    <admin>
+                        <write>
+                            <review_id>1</review_id>
+                            <stores>1</stores>
+                        </write>
+                    </admin>
+                    <customer>
+                        <read>
+                            <stores>1</stores>
+                        </read>
+                        <write>
+                            <stores>1</stores>
+                            <review_id>1</review_id>
+                            <status_id>1</status_id>
+                        </write>
+                    </customer>
+                    <guest>
+                        <read>
+                            <stores>1</stores>
+                        </read>
+                        <write>
+                            <stores>1</stores>
+                            <review_id>1</review_id>
+                            <status_id>1</status_id>
+                        </write>
+                    </guest>
+                </exclude_attributes>
                 <routes>
                     <route_entity>
                         <route>/reviews/:id</route>
