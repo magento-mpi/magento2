@@ -40,8 +40,6 @@ class Mage_Customer_Model_Api2_Customer extends Mage_Api2_Model_Resource
      */
     protected function _getResourceAttributes()
     {
-        $userIsCustomer = Mage_Api2_Model_Auth_User_Customer::USER_TYPE == $this->getUserType();
-
-        return $this->getEavAttributes($userIsCustomer, $userIsCustomer);
+        return $this->getEavAttributes(Mage_Api2_Model_Auth_User_Admin::USER_TYPE != $this->getUserType(), true);
     }
 }

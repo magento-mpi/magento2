@@ -43,6 +43,20 @@
                     </customer>
                 </include_attributes>
             </orders>
+            <customer>
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <reward_warning_notification>1</reward_warning_notification>
+                            <reward_update_notification>1</reward_update_notification>
+                        </read>
+                        <write>
+                            <reward_warning_notification>1</reward_warning_notification>
+                            <reward_update_notification>1</reward_update_notification>
+                        </write>
+                    </admin>
+                </exclude_attributes>
+            </customer>
         </resources>
     </api2>
 </config>
