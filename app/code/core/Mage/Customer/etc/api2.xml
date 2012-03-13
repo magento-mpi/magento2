@@ -57,12 +57,14 @@
                     <firstname>First Name</firstname>
                     <lastname>Last Name</lastname>
                     <email>Email</email>
+                    <is_confirmed>Confirmed Email</is_confirmed>
                 </attributes>
                 <exclude_attributes>
                     <admin>
                         <read>
                             <password>1</password>
                             <password_hash>1</password_hash>
+                            <confirmation>1</confirmation>
                             <reward_warning_notification>1</reward_warning_notification>
                             <reward_update_notification>1</reward_update_notification>
                             <default_billing>1</default_billing>
@@ -91,10 +93,12 @@
                         <read>
                             <entity_id>1</entity_id>
                             <last_logged_in>1</last_logged_in>
+                            <is_confirmed>1</is_confirmed>
                         </read>
                         <write>
                             <entity_id>1</entity_id>
                             <last_logged_in>1</last_logged_in>
+                            <is_confirmed>1</is_confirmed>
                         </write>
                     </customer>
                 </exclude_attributes>
