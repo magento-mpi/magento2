@@ -1023,10 +1023,11 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Get EAV attributes of working model
      *
-     * @param bool $onlyVisible Show only the attributes which are visible on frontend
+     * @param bool $onlyVisible OPTIONAL Show only the attributes which are visible on frontend
+     * @param bool $excludeSystem OPTIONAL Exclude attributes marked as system
      * @return array
      */
-    public function getEavAttributes($onlyVisible = false)
+    public function getEavAttributes($onlyVisible = false, $excludeSystem = false)
     {
         $attributes = array();
         $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
@@ -1037,6 +1038,9 @@ abstract class Mage_Api2_Model_Resource
         /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($onlyVisible && !$attribute->getIsVisible()) {
+                continue;
+            }
+            if ($excludeSystem && $attribute->getIsSystem()) {
                 continue;
             }
             $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
