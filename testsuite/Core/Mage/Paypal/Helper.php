@@ -58,7 +58,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      *
      * @param string $page
      */
-    protected function _validatePage($page = '')
+    public function validatePaypalPage($page = '')
     {
         if ($page) {
             $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
@@ -80,7 +80,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
         $this->click($this->_getControlXpath('tab', $tabName, $page));
         $this->waitForNewPage();
-        $this->_validatePage();
+        $this->validatePaypalPage();
     }
 
     /**
@@ -95,7 +95,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $this->fillForm($loginData);
             $this->clickButton('button_login', false);
             $this->waitForNewPage();
-            $this->_validatePage('paypal_developer_logged_in');
+            $this->validatePaypalPage();
         }
     }
 
@@ -114,11 +114,11 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->openPaypalTab('test_accounts');
         $this->clickControl('link', 'create_preconfigured_account', false);
         $this->waitForNewPage();
-        $this->_validatePage();
+        $this->validatePaypalPage();
         $this->fillForm($parameters);
         $this->clickButton('create_account', false);
         $this->waitForNewPage();
-        $this->_validatePage('developer_created_test_account_us');
+        $this->validatePaypalPage('developer_created_test_account_us');
 
         return $this->getPaypalSandboxAccountInfo($parameters);
     }
@@ -259,7 +259,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
             $this->addParameter('pageTitle', $parameters['page_title']);
-            $this->_validatePage();
+            $this->validatePaypalPage();
             $this->fillForm($parameters['credentials']);
             $this->clickControl('button', 'button_login');
         }
@@ -278,7 +278,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $parameters = $this->loadData($parameters);
         }
         $this->addParameter('pageTitle', $parameters['page_title']);
-        $this->_validatePage();
+        $this->validatePaypalPage();
         $this->fillForm($parameters['credentials']);
         $this->clickControl('button', 'button_login');
         $this->clickControl('button', 'button_iagree');
@@ -299,12 +299,12 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if (!$this->isElementPresent($xpath)) {
             $this->addParameter('pageTitle', $parameters['page_title_pay_with']);
-            $this->_validatePage();
+            $this->validatePaypalPage();
             $this->addParameter('pageTitle', $parameters['page_title']);
             $this->clickControl('link', 'have_paypal_account');
         } else {
             $this->addParameter('pageTitle', $parameters['page_title']);
-            $this->_validatePage();
+            $this->validatePaypalPage();
         }
         $this->fillForm($parameters['credentials']);
         $this->addParameter('pageTitle', $parameters['page_title_review_info']);
