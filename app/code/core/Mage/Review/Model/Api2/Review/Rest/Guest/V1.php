@@ -77,4 +77,73 @@ class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2
         }
         return $review;
     }
+
+
+
+    //TODO added
+
+    /**
+     * Create new review
+     *
+     * @param $data
+     * @return bool
+     */
+    protected function _createCollection(array $data)
+    {
+        /** @var $reviewHelper Mage_Review_Helper_Data */
+        $reviewHelper = Mage::helper('review');
+        if (!$reviewHelper->getIsGuestAllowToWrite()) {
+            $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+        }
+
+        $required = array('product_id', 'nickname', 'title', 'detail');
+        $notEmpty = array('product_id', 'nickname', 'title', 'detail');
+        if (!isset($data['store_id']) || empty($data['store_id'])) {
+            $data['store_id'] = Mage::app()->getDefaultStoreView()->getId();
+        }
+        $data['stores'] = array($data['store_id']);
+
+        $this->_validateCollection($data, $required, $notEmpty);
+        $data['status_id'] = Mage_Review_Model_Review::STATUS_PENDING;
+        $data['customer_id'] = null;
+        return parent::_createCollection($data);
+    }
+
+    /**
+     * Validate status input data
+     *
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validateCollection(array $data, array $required = array(), array $notEmpty = array())
+    {
+        parent::_validate($data, $required, $notEmpty);
+        $this->_validateStores($data['stores']);
+    }
+
+    /**
+     * Prepare collection for retrieve
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _prepareRetrieveCollection()
+    {
+        if (!$this->getRequest()->getParam('product_id')) {
+            $this->_critical('Product id is required', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+
+        $collection = $this->getCollection();
+
+        $this->_applyProductFilter($collection);
+        $this->_applyCollectionModifiers($collection);
+        // apply store filter
+        $storeId = $this->getRequest()->getParam('store_id');
+        if ($storeId) {
+            $this->_validateStores(array($storeId));
+            $collection->addStoreFilter($storeId);
+        }
+        $collection->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED);
+        return $collection;
+    }
 }

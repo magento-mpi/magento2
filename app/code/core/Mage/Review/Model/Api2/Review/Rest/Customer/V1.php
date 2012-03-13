@@ -82,4 +82,88 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
         }
         return $review;
     }
+
+
+
+    //TODO added
+
+    /**
+     * Create new review
+     *
+     * @param $data
+     * @return bool
+     */
+    protected function _createCollection(array $data)
+    {
+        $required = array('product_id', 'nickname', 'title', 'detail');
+        $notEmpty = array('product_id', 'nickname', 'title', 'detail');
+        if (!isset($data['store_id']) || empty($data['store_id'])) {
+            $data['store_id'] = Mage::app()->getDefaultStoreView()->getId();
+        }
+        $data['stores'] = array($data['store_id']);
+
+        $this->_validateCollection($data, $required, $notEmpty);
+        $data['status_id'] = Mage_Review_Model_Review::STATUS_PENDING;
+        $data['customer_id'] = $this->getApiUser()->getUserId();
+
+        return parent::_createCollection($data);
+    }
+
+    /**
+     * Validate status input data
+     *
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validateCollection(array $data, array $required = array(), array $notEmpty = array())
+    {
+        //TODO fixme
+        parent::_validate($data, $required, $notEmpty);
+        $this->_validateStores($data['stores']);
+    }
+
+    /**
+     * Prepare collection for retrieve
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _prepareRetrieveCollection()
+    {
+        $collection = $this->getCollection();
+
+        if ($this->getRequest()->getParam('product_id')) {
+            $this->_applyProductFilter($collection);
+        } else {
+            $this->_applyCustomerFilterCollection($collection);
+        }
+        $this->_applyCollectionModifiers($collection);
+        // apply store filter
+        $storeId = $this->getRequest()->getParam('store_id');
+        if ($storeId) {
+            $this->_validateStores(array($storeId));
+            $collection->addStoreFilter($storeId);
+        }
+        return $collection;
+    }
+
+    /**
+     * Apply filter by current customer
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyCustomerFilterCollection(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $customerId = $this->getApiUser()->getUserId();
+        if ($customerId !== null) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            if (!$customer->getId()) {
+                $this->_critical('Customer not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $collection->addCustomerFilter($customer->getId());
+        }
+    }
+
+
 }

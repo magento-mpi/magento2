@@ -86,4 +86,75 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
+
+
+
+    //TODO added
+
+    /**
+     * Create new review
+     *
+     * @param $data
+     * @return bool
+     */
+    protected function _createCollection(array $data)
+    {
+        $required = array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail');
+        $notEmpty = array('product_id', 'status_id', 'stores', 'nickname', 'title', 'detail');
+        $this->_validateCollection($data, $required, $notEmpty);
+        $data['store_id'] = reset($data['stores']);
+        $data['customer_id'] = null;
+
+        return parent::_createCollection($data);
+    }
+
+    /**
+     * Validate status input data
+     *
+     * @param array $data
+     * @param array $required
+     * @param array $notEmpty
+     */
+    protected function _validateCollection(array $data, array $required = array(), array $notEmpty = array())
+    {
+        //TODO fixme
+        parent::_validate($data, $required, $notEmpty);
+        $this->_validateStatus($data['status_id']);
+        $this->_validateStores($data['stores']);
+    }
+
+    /**
+     * Prepare collection for retrieve
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _prepareRetrieveCollection()
+    {
+        $collection = $this->getCollection();
+
+        $this->_applyProductFilter($collection);
+        $this->_applyStatusFilter($collection);
+        $this->_applyCustomerFilterCollection($collection);
+        $this->_applyCollectionModifiers($collection);
+        return $collection;
+    }
+
+    /**
+     * Apply filter by current customer
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyCustomerFilterCollection(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $customerId = $this->getRequest()->getParam('customer_id');
+        if ($customerId !== null) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            if (!$customer->getId()) {
+                $this->_critical('Customer not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $collection->addCustomerFilter($customer->getId());
+        }
+    }
+
 }

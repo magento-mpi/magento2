@@ -28,34 +28,6 @@
 <config>
     <api2>
         <resources>
-            <reviews>
-                <group>catalog_product</group>
-                <model>review/api2_reviews</model>
-                <working_model>review/review</working_model>
-                <title>Product Reviews</title>
-                <sort_order>110</sort_order>
-                <privileges>
-                    <guest>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </guest>
-                    <customer>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </customer>
-                    <admin>
-                        <create>1</create>
-                        <retrieve>1</retrieve>
-                    </admin>
-                </privileges>
-                <routes>
-                    <route_main>
-                        <mask>/reviews</mask>
-                    </route_main>
-                </routes>
-                <instance>review</instance>
-                <versions>1</versions>
-            </reviews>
             <review>
                 <group>catalog_product</group>
                 <model>review/api2_review</model>
@@ -64,9 +36,11 @@
                 <sort_order>100</sort_order>
                 <privileges>
                     <guest>
+                        <create>1</create>
                         <retrieve>1</retrieve>
                     </guest>
                     <customer>
+                        <create>1</create>
                         <retrieve>1</retrieve>
                     </customer>
                     <admin>
@@ -86,11 +60,15 @@
                     <detail>Review Text</detail>
                 </attributes>
                 <routes>
-                    <route_main>
-                        <mask>/reviews/:id</mask>
-                    </route_main>
+                    <route_entity>
+                        <route>/reviews/:id</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/reviews</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
                 </routes>
-                <collection>reviews</collection>
                 <versions>1</versions>
             </review>
         </resources>

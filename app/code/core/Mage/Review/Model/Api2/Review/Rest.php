@@ -107,4 +107,118 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
             $this->_critical('Invalid stores provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
+
+
+
+    //TODO added
+
+    /**
+     * Create new review
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _createCollection(array $data)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($data['product_id']);
+        if (!$product->getId()) {
+            $this->_critical('Product not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->setData($data);
+        try {
+            $entityId = $review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE);
+            $review->setEntityId($entityId)
+                ->setEntityPkValue($product->getId())
+                ->save();
+
+        } catch (Mage_Core_Exception $e) {
+            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+
+        return $this->_getLocation($review);
+    }
+
+    /**
+     * Get list of reviews
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $collection = $this->_prepareRetrieveCollection();
+        $collection->getSelect()->columns(array('product_id' => 'main_table.entity_pk_value'));
+        $data = $collection->load()->toArray();
+
+        return $data['items'];
+    }
+
+    /**
+     * Validate review status input
+     *
+     * @throws Mage_Api2_Exception
+     * @param int $statusId
+     */
+    protected function _validateStatus($statusId)
+    {
+        if (!$this->_validator->isStatusValid($statusId)) {
+            $this->_critical('Invalid status provided', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Apply filter by product
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+        if ($productId) {
+            /** @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('catalog/product')->load($productId);
+            if (!$product->getId()) {
+                $this->_critical('Invalid product', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+
+            $collection->addEntityFilter(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE, $product->getId());
+        }
+    }
+
+    /**
+     * Apply filter by status
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     */
+    protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $status = $this->getRequest()->getParam('status_id');
+        if ($status) {
+            $this->_validateStatus($status);
+            $collection->addStatusFilter($status);
+        }
+    }
+
+    /**
+     * Prepare collection for retrieve
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    abstract protected function _prepareRetrieveCollection();
+
+    /**
+     * Get reviews collection
+     *
+     * @return Mage_Review_Model_Resource_Review_Collection|Object
+     */
+    public function getCollection()
+    {
+        /** @var $collection Mage_Review_Model_Resource_Review_Collection */
+        $collection = Mage::getResourceModel('review/review_collection');
+
+        return $collection;
+    }
 }
