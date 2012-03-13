@@ -48,8 +48,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $parameters = $this->arrayEmptyClear($parameters);
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope',
-                                             $this->_findUimapElement('fieldset', 'current_configuration_scope'));
+            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {

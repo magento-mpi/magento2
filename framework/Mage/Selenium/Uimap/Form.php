@@ -58,4 +58,16 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
                 ? $this->_elements['tabs']->getTab($id)
                 : null;
     }
+
+    /**
+     * Get fieldsets defined in the current form(that not included into tab)
+     * @return mixed
+     */
+    public function getMainFormFieldsets()
+    {
+        if (isset($this->_elements['fieldsets'])) {
+            return $this->_elements['fieldsets'];
+        }
+        return null;
+    }
 }

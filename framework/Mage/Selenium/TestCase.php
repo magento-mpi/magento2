@@ -1586,10 +1586,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param Mage_Selenium_Uimap_Page|null $uimap
      *
      * @return mixed
-     * @throw PHPUnit_Framework_Exception
+     * @throws PHPUnit_Framework_AssertionFailedError
      */
     protected function _findUimapElement($elementType, $elementName, $uimap = null)
     {
+        $fieldSetsNotInTab = null;
+        $errorMessage = null;
+        $returnValue = null;
         if (is_null($uimap)) {
             if ($elementType == 'button') {
                 $generalButtons = $this->getCurrentUimapPage()->getMainButtons();
@@ -1601,22 +1604,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $uimap = $this->_getActiveTabUimap();
                 if (is_null($uimap)) {
                     $uimap = $this->getCurrentUimapPage();
+                } else {
+                    $mainForm = $this->getCurrentUimapPage()->getMainForm();
+                    $fieldSetsNotInTab = $mainForm->getMainFormFieldsets();
                 }
             } else {
                 $uimap = $this->getCurrentUimapPage();
             }
         }
+        $method = 'find' . ucfirst(strtolower($elementType));
         try {
-            $method = 'find' . ucfirst(strtolower($elementType));
-            return $uimap->$method($elementName, $this->_paramsHelper);
+            $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": '
                 . $e->getMessage() . ' - "' . $elementName . '"' . "\n"
                 . 'Messages on current page:' . "\n"
                 . implode("\n", call_user_func_array('array_merge', $this->getMessagesOnPage()));
-            throw new PHPUnit_Framework_Exception($errorMessage);
         }
+        if (isset($e) && $fieldSetsNotInTab != null) {
+            foreach ($fieldSetsNotInTab as $fieldset) {
+                try {
+                    $returnValue = $fieldset->$method($elementName, $this->_paramsHelper);
+                } catch (Exception $_e) {
+                }
+            }
+        }
+        if ($errorMessage != null && $returnValue === null) {
+            throw new PHPUnit_Framework_AssertionFailedError($errorMessage);
+        }
+        return $returnValue;
     }
 
     /**
