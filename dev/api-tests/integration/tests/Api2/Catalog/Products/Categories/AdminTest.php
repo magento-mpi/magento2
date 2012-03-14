@@ -249,6 +249,34 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     }
 
     /**
+     * Test product category resource assigning to category tree root
+     *
+     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     */
+    public function testPostToCategoryTreeRoot()
+    {
+        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryTreeRootData.php';
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product_simple');
+
+        $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $body = $restResponse->getBody();
+        $errors = $body['messages']['error'];
+        $this->assertNotEmpty($errors);
+
+        $expectedErrors = array(
+            'Cannot assign product to tree root category.'
+        );
+
+        $this->assertEquals(count($expectedErrors), count($errors));
+        foreach ($errors as $error) {
+            $this->assertContains($error['message'], $expectedErrors);
+        }
+    }
+
+    /**
      * Test product categories list
      */
     public function testList()
