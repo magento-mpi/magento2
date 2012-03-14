@@ -141,9 +141,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->clickButton($buttonName, false);
         $this->waitForAjax();
         if ($this->verifyNotPresetAlert()) {
-            $this->waitForElement(array(self::$xpathErrorMessage,
-                                       self::$xpathValidationMessage,
-                                       $setXpath . self::$notActiveTab));
+            $this->waitForElement(array($setXpath . self::$notActiveTab, self::$_basicXpathMessages['error'],
+                                        self::$_basicXpathMessages['validation']));
             sleep(1);
             if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
                 $messages = $this->getMessagesOnPage();
@@ -182,9 +181,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 }
                 $billingSetXpath = $this->_getControlXpath('fieldset', 'billing_information');
                 $this->clickButton('login', false);
-                $this->waitForElement(array(self::$xpathErrorMessage,
-                                           self::$xpathValidationMessage,
-                                           $billingSetXpath . self::$activeTab));
+                $this->waitForElement(array($billingSetXpath . self::$activeTab,
+                                            self::$_basicXpathMessages['error'],
+                                            self::$_basicXpathMessages['validation']));
                 break;
             default:
                 $this->goToNextOnePageCheckoutStep('checkout_method');

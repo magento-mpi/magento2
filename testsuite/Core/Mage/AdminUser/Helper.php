@@ -61,11 +61,12 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
      */
     public function loginAdmin($loginData)
     {
+        $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo',
+                                                 $this->getUimapPage('admin', 'dashboard'));
         $this->fillForm($loginData);
         $this->clickButton('login', false);
-        $this->waitForElement(array(self::$xpathAdminLogo,
-                                    self::$xpathErrorMessage,
-                                    self::$xpathValidationMessage));
+        $this->waitForElement(array($dashboardLogo, self::$_basicXpathMessages['error'],
+                                    self::$_basicXpathMessages['validation']));
         $this->validatePage();
     }
 
@@ -79,9 +80,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
         $this->fillForm($emailData);
         $this->clickButton('retrieve_password', false);
-        $this->waitForElement(array(self::$xpathSuccessMessage,
-                                    self::$xpathErrorMessage,
-                                    self::$xpathValidationMessage));
-         $this->validatePage();
+        $this->waitForElement(self::$_basicXpathMessages);
+        $this->validatePage();
     }
 }

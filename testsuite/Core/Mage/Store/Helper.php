@@ -81,7 +81,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->clickButton('search');
         //Determination of found items amount
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $foundItems = $this->getText($fieldsetXpath . self::$qtyElementsInTable);
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable',
+                                                      $this->getUimapPage('admin', 'dashboard'));
+        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
         if ($foundItems == 0) {
             $this->fail('No records found.');
         }
