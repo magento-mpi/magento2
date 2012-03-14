@@ -468,18 +468,8 @@
         </customer>
         <general>
             <groups>
-                <country>
-                    <fields>
-                        <eu_countries>
-                            <backend_model>adminhtml/system_config_backend_customer_groupAutoAssign</backend_model>
-                        </eu_countries>
-                    </fields>
-                </country>
                 <store_information>
                     <fields>
-                        <merchant_country>
-                            <backend_model>adminhtml/system_config_backend_customer_groupAutoAssign</backend_model>
-                        </merchant_country>
                         <validate_vat_number translate="button_label">
                             <label></label>
                             <button_label>Validate VAT Number</button_label>
