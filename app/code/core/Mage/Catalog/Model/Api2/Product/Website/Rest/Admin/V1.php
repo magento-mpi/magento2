@@ -41,14 +41,22 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
      */
     protected function _create(array $data)
     {
+        /* @var $validator Mage_Catalog_Model_Api2_Product_Website_Validator_Website */
+        $validator = Mage::getModel('catalog/api2_product_website_validator_website', array(
+            'resource' => $this
+        ));
+        if (!$validator->isSatisfiedByData($data)) {
+            foreach ($validator->getErrors() as $error) {
+                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        }
+
+        /* @var $website Mage_Core_Model_Website */
+        $website = $this->_loadWebsiteById($data['website_id']);
+
         /* @var $product Mage_Catalog_Model_Product */
         $product = $this->_loadProductById($this->getRequest()->getParam('id'));
-
-        if (!isset($data['website_id'])) {
-            $this->_critical('Empty value for "website_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        /* @var $website Mage_Catalog_Model_Product_Website */
-        $website = $this->_loadWebsiteById($data['website_id']);
 
         $websiteIds = $product->getWebsiteIds();
         if (in_array($website->getId(), $websiteIds)) {
@@ -60,6 +68,20 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
 
         try{
             $product->save();
+
+            /**
+             * Do copying data to stores
+             */
+            if (isset($data['copy_to_stores'])) {
+                foreach ($data['copy_to_stores'] as $storeData) {
+                    Mage::getModel('catalog/product')
+                        ->setStoreId($storeData['store_from'])
+                        ->load($product->getId())
+                        ->setStoreId($storeData['store_to'])
+                        ->save();
+                }
+            }
+
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -77,8 +99,8 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
         /* @var $product Mage_Catalog_Model_Product */
         $product = $this->_loadProductById($this->getRequest()->getParam('id'));
 
-        /* @var $website Mage_Catalog_Model_Product_Website */
-        $website = $this->_loadWebsiteById($this->getRequest()->getParam('websiteId'));
+        /* @var $website Mage_Core_Model_Website */
+        $website = $this->_loadWebsiteById($this->getRequest()->getParam('website_id'));
 
         $websiteIds = $product->getWebsiteIds();
         $key = array_search($website->getId(), $websiteIds);
@@ -117,14 +139,14 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
      *
      * @param int $id
      * @throws Mage_Api2_Exception
-     * @return Mage_Catalog_Model_Product_Website
+     * @return Mage_Core_Model_Website
      */
     protected function _loadWebsiteById($id)
     {
-        /* @var $website Mage_Catalog_Model_Product_Website */
-        $website = Mage::getModel('catalog/product_website')->load($id);
+        /* @var $website Mage_Core_Model_Website */
+        $website = Mage::getModel('core/website')->load($id);
         if (!$website->getId()) {
-            $this->_critical('Website not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical(sprintf('Website not found #%s.', $id), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         return $website;
     }
@@ -132,7 +154,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
     /**
      * Get resource location
      *
-     * @param Mage_Catalog_Model_Product_Website $website
+     * @param Mage_Core_Model_Website $website
      * @param Mage_Catalog_Model_Product $product
      * @return string URL
      */
@@ -146,8 +168,8 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
         );
         $params = array(
             'api_type' => $this->getRequest()->getApiType(),
-            'id'       => $product->getId(),
-            'websiteId' => $website->getId()
+            'id' => $product->getId(),
+            'website_id' => $website->getId()
         );
         $uri = $chain->assemble($params);
 

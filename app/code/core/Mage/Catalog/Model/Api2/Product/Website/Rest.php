@@ -98,7 +98,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($id);
         if (!$product->getId()) {
-            $this->_critical('Product not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical(sprintf('Product not found #%s.', $id), Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         return $product;
     }

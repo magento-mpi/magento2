@@ -270,12 +270,18 @@
                         <retrieve>1</retrieve>
                     </guest>
                 </privileges>
-                <attributes>
-                    <website_id>Website ID</website_id>
-                </attributes>
+                <force_attributes>
+                    <customer>
+                        <website_id>1</website_id>
+                    </customer>
+                    <admin>
+                        <website_id>1</website_id>
+                        <copy_to_stores>1</copy_to_stores>
+                    </admin>
+                </force_attributes>
                 <routes>
                     <route_entity>
-                        <route>/products/:id/websites/:websiteId</route>
+                        <route>/products/:id/websites/:website_id</route>
                         <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
