@@ -72,8 +72,8 @@
                     <buy_now_url>Buy Now URL</buy_now_url>
                     <has_custom_options>Has Custom Options</has_custom_options>
                     <is_in_stock>Stock Status</is_in_stock>
-                    <regular_price>Regular Price</regular_price>
-                    <final_price>Final Price</final_price>
+                    <regular_price_with_tax>Regular Price With Tax</regular_price_with_tax>
+                    <regular_price_without_tax>Regular Price Without Tax</regular_price_without_tax>
                     <final_price_with_tax>Final Price With Tax</final_price_with_tax>
                     <final_price_without_tax>Final Price Without Tax</final_price_without_tax>
                     <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
@@ -123,8 +123,8 @@
                             <buy_now_url>1</buy_now_url>
                             <has_custom_options>1</has_custom_options>
                             <is_in_stock>1</is_in_stock>
-                            <regular_price>1</regular_price>
-                            <final_price>1</final_price>
+                            <regular_price_with_tax>1</regular_price_with_tax>
+                            <regular_price_without_tax>1</regular_price_without_tax>
                             <final_price_with_tax>1</final_price_with_tax>
                             <final_price_without_tax>1</final_price_without_tax>
                         </read>
@@ -146,8 +146,8 @@
                             <buy_now_url>1</buy_now_url>
                             <has_custom_options>1</has_custom_options>
                             <is_in_stock>1</is_in_stock>
-                            <regular_price>1</regular_price>
-                            <final_price>1</final_price>
+                            <regular_price_with_tax>1</regular_price_with_tax>
+                            <regular_price_without_tax>1</regular_price_without_tax>
                             <final_price_with_tax>1</final_price_with_tax>
                             <final_price_without_tax>1</final_price_without_tax>
                         </write>

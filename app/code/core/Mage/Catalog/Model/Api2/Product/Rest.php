@@ -105,10 +105,10 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
 
         // calculate prices
         $finalPrice = $product->getFinalPrice();
-        $productData['regular_price'] = $this->_applyTaxToPrice($product->getPrice(), true);
+        $productData['regular_price_with_tax'] = $this->_applyTaxToPrice($product->getPrice(), true);
+        $productData['regular_price_without_tax'] = $this->_applyTaxToPrice($product->getPrice(), false);
         $productData['final_price_with_tax'] = $this->_applyTaxToPrice($finalPrice, true);
         $productData['final_price_without_tax'] = $this->_applyTaxToPrice($finalPrice, false);
-        $productData['final_price'] = $this->_getStore()->roundPrice($finalPrice);
 
         // define URLs
         $productData['image_url'] = $productHelper->getImageUrl($product);
@@ -346,7 +346,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         foreach ($this->_getProduct()->getTierPrice() as $tierPrice) {
             $tierPrices[] = array(
                 'qty' => $tierPrice['price_qty'],
-                'price' => $tierPrice['price'],
                 'price_with_tax' => $this->_applyTaxToPrice($tierPrice['price']),
                 'price_without_tax' => $this->_applyTaxToPrice($tierPrice['price'], false)
             );

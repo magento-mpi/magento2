@@ -88,8 +88,8 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
                     $basedOn => 'origin',
                 ),
                 'expected_prices' => array(
-                    'regular_price' => $product->getPrice()  * (1 + $taxRate),
-                    'final_price'   => $finalPrice,
+                    'regular_price_with_tax' => $product->getPrice()  * (1 + $taxRate),
+                    'regular_price_without_tax' => $product->getPrice(),
                     'final_price_with_tax' => $finalPrice * (1 + $taxRate),
                     'final_price_without_tax' => $finalPrice
                 )
@@ -100,8 +100,8 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
                     $basedOn => 'origin',
                 ),
                 'expected_prices' => array(
-                    'regular_price' => $product->getPrice(),
-                    'final_price'   => $finalPrice,
+                    'regular_price_with_tax' => $product->getPrice(),
+                    'regular_price_without_tax' => $product->getPrice() / (1 + $taxRate),
                     'final_price_with_tax' => $finalPrice,
                     'final_price_without_tax' =>$finalPrice / (1 + $taxRate)
                 )
@@ -178,8 +178,13 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $simpleProduct = $this->getFixture('product_simple');
         // quantity of enabled visible products
         $expectedProductsCount = 2;
-        $expectedData = array_merge($simpleProduct->getData(), array('is_saleable' => 1, 'regular_price' => 99.95,
-            'final_price' => 99.95, 'final_price_with_tax' => 99.95, 'final_price_without_tax' => 99.95));
+        $expectedData = array_merge($simpleProduct->getData(), array(
+            'is_saleable' => 1,
+            'regular_price_with_tax' => 99.95,
+            'regular_price_without_tax' => 99.95,
+            'final_price_with_tax' => 99.95,
+            'final_price_without_tax' => 99.95
+        ));
         $this->_checkProductCollectionGet($expectedProductsCount, $expectedData, 2);
     }
 
@@ -194,9 +199,13 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $originalProducts = $this->getFixture('products');
         /** @var $firstProduct Mage_Catalog_Model_Product */
         $firstProduct = reset($originalProducts);
-        $firstProductDefaultValues = array_merge($firstProduct->getData(), array('is_saleable' => 1,
-            'regular_price' => 15.5, 'final_price' => 15.2, 'final_price_with_tax' => 15.2,
-            'final_price_without_tax' => 15.2));
+        $firstProductDefaultValues = array_merge($firstProduct->getData(), array(
+            'is_saleable' => 1,
+            'regular_price_with_tax' => 15.5,
+            'regular_price_without_tax' => 15.5,
+            'final_price_with_tax' => 15.2,
+            'final_price_without_tax' => 15.2
+        ));
 
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store_on_new_website');
@@ -213,9 +222,13 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
 
         $this->_reindexPrices();
         // test collection get from specific store
-        $firstProductDataAfterUpdate = array_merge($firstProduct->getData(), array('is_saleable' => 1,
-            'regular_price' => 15.5, 'final_price' => 15.5, 'final_price_with_tax' => 15.5,
-            'final_price_without_tax' => 15.5));
+        $firstProductDataAfterUpdate = array_merge($firstProduct->getData(), array(
+            'is_saleable' => 1,
+            'regular_price_with_tax' => 15.5,
+            'regular_price_without_tax' => 15.5,
+            'final_price_with_tax' => 15.5,
+            'final_price_without_tax' => 15.5
+        ));
         // quantity of enabled visible products
         $expectedProductsCount = 1;
         $this->_checkProductCollectionGet($expectedProductsCount, $firstProductDataAfterUpdate, 1, $store->getCode());
@@ -262,9 +275,9 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
 
                 // check if all required fields are in response
                 $requiredFields = array('type_id', 'sku', 'name', 'description', 'short_description',
-                    'regular_price', 'final_price', 'final_price_with_tax', 'final_price_without_tax', 'tier_price',
-                    'image_url', 'is_in_stock', 'is_saleable', 'total_reviews_count', 'url', 'buy_now_url',
-                    'has_custom_options');
+                    'regular_price_with_tax', 'regular_price_without_tax', 'final_price_with_tax',
+                    'final_price_without_tax', 'tier_price', 'image_url', 'is_in_stock', 'is_saleable',
+                    'total_reviews_count', 'url', 'buy_now_url', 'has_custom_options');
                 foreach ($requiredFields as $field) {
                     $this->assertArrayHasKey($field, $resultProductData, "'$field' field is missing in response");
                 }
@@ -295,7 +308,7 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
     {
         $this->assertInternalType('array', $responseData['tier_price'], "'tier_price' expected to be an array");
         $this->assertCount($expectedPricesCount, $responseData['tier_price'], "Invalid tier prices quantity");
-        $requiredFields = array('qty', 'price', 'price_with_tax', 'price_without_tax');
+        $requiredFields = array('qty', 'price_with_tax', 'price_without_tax');
         foreach ($responseData['tier_price'] as $tierPrice) {
             foreach($requiredFields as $field) {
                 $this->assertArrayHasKey($field, $tierPrice);
