@@ -115,7 +115,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         }
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         if ($payment == 'paypaldirect_without_3Dsecure') {
-            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byValueKey');
+            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byFieldKey');
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment, $testData['api']);
         }
         //Steps

@@ -35,57 +35,62 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-     /**
-     * <p>Add Store Name for DHL tests</p>
-     */
     public function setUpBeforeTests()
     {
+        //Data
+        $config = $this->loadDataSet('ShippingSettings', 'store_information');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('store_information');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
-    /**
-     */
     protected function assertPreConditions()
     {
-        $this->logoutCustomer();
         $this->loginAdminUser();
     }
 
-    /**
-     * <p>Create a Simple Product for tests</p>
-     *
-     * @test
-     */
-    public function createSimpleProducts()
+    public function tearDownAfterAllTests()
     {
-        $this->navigate('manage_products');
-        $productData1 = $this->loadData('simple_product_visible');
-        $this->productHelper()->createProduct($productData1);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $productData2 = $this->loadData('simple_product_visible');
-        $this->productHelper()->createProduct($productData2);
-        $this->assertMessagePresent('success', 'success_saved_product');
+        //Data
+        $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
+        $settings = $this->loadDataSet('ShippingSettings', 'shipping_settings_default');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure($settings);
+    }
 
-        return array($productData1['general_name'], $productData2['general_name']);
+    public function tearDownAfterEachTest()
+    {
+        $this->logoutCustomer();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
     }
 
     /**
-     * <p>Create a Virtual Product for tests</p>
-     *
+     * @return array
      * @test
      */
-    public function createVirtualProduct()
+    public function preconditionsForTests()
     {
-        $productData = $this->loadData('virtual_product_visible');
+        //Data
+        $simple1 = $this->loadDataSet('Product', 'simple_product_visible');
+        $simple2 = $this->loadDataSet('Product', 'simple_product_visible');
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
+        //Steps and Verification
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->productHelper()->createProduct($simple1);
         $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $productData['general_name'];
+        $this->productHelper()->createProduct($simple2);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertMessagePresent('success', 'success_registration');
+        return array('simple1' => $simple1['general_name'],
+                     'simple2' => $simple2['general_name'],
+                     'virtual' => $virtual['general_name']);
     }
-
     /**
      * <p>Steps:</p>
      * <p>1. Configure settings in System->Configuration</p>
@@ -99,33 +104,34 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
      * <p>Two new orders are successfully created.</p>
      * @TODO change to create shipping addresses once for all tests
      *
-     * @param $shipment
-     * @param $shippingOrigin
-     * @param $shippingDestination
-     * @param $simpleProductNames
-     *
-     * @dataProvider shipmentDataProvider
-     * @depends createSimpleProducts
+     * @param string $shipment
+     * @param string $shippingOrigin
+     * @param string $shippingDestination
+     * @param array $testData
      *
      * @test
+     * @dataProvider shipmentDataProvider
+     * @depends preconditionsForTests
      */
-    public function differentShippingMethods($shipment, $shippingOrigin, $shippingDestination, $simpleProductNames)
+    public function withSimpleProducts($shipment, $shippingOrigin, $shippingDestination, $testData)
     {
         //Data
-        $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_register_' . $shippingDestination,
-                array('shipping_method' => $shippingMethod));
-        $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
-        $checkoutData['products_to_add']['product_2']['general_name'] = $simpleProductNames[1];
-        $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
-        $checkoutData['shipping_address_data']['address_2']['general_name'] = $simpleProductNames[1];
+        $shippingMethod = $this->loadDataSet('MultipleAddressesCheckout',
+                                             'multiple_front_shipping_' . $shipment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+                                           'multiple_shipping_methods_register_' . $shippingDestination,
+                                           array('shipping_method' => $shippingMethod),
+                                           array('product_1' => $testData['simple1'],
+                                                 'product_2' => $testData['simple2']));
+        $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
-        if($shippingOrigin) {
-            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if ($shippingOrigin) {
+            $config = $this->loadDataSet('ShippingSettings',
+                                         'shipping_settings_' . strtolower($shippingOrigin));
+            $this->systemConfigurationHelper()->configure($config);
         }
-        $this->systemConfigurationHelper()->configure('shipping_disable');
-        $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        $this->systemConfigurationHelper()->configure($shippingSettings);
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
@@ -143,36 +149,36 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
      * <p>Expected result:</p>
      * <p>Two new orders are successfully created.</p>
      *
-     * @param $shipment
-     * @param $shippingOrigin
-     * @param $shippingDestination
-     * @param $simpleProductNames
-     * @param $virtualProductName
-     *
-     * @dataProvider shipmentDataProvider
-     * @depends createSimpleProducts
-     * @depends createVirtualProduct
+     * @param string $shipment
+     * @param string $shippingOrigin
+     * @param string $shippingDestination
+     * @param array $testData
      *
      * @test
+     * @dataProvider shipmentDataProvider
+     * @depends preconditionsForTests
      */
-    public function differentShippingMethodsWithVirtualProduct($shipment, $shippingOrigin, $shippingDestination,
-            $simpleProductNames, $virtualProductName)
+    public function withSimpleAndVirtualProducts($shipment, $shippingOrigin, $shippingDestination, $testData)
     {
         //Data
-        $shippingMethod = $this->loadData('multiple_front_shipping_' . $shipment);
-        $checkoutData = $this->loadData('multiple_shipping_methods_register_' . $shippingDestination,
-                array('shipping_method' => $shippingMethod,
-                            'address_2' => '%noValue%', 'address_to_add_2' => '%noValue%'));
-        $checkoutData['products_to_add']['product_1']['general_name'] = $simpleProductNames[0];
-        $checkoutData['products_to_add']['product_2']['general_name'] = $virtualProductName;
-        $checkoutData['shipping_address_data']['address_1']['general_name'] = $simpleProductNames[0];
+        $shippingMethod = $this->loadDataSet('MultipleAddressesCheckout',
+                                             'multiple_front_shipping_' . $shipment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+                                           'multiple_shipping_methods_register_' . $shippingDestination,
+                                           array('shipping_method'  => $shippingMethod,
+                                                 'address_2'        => '%noValue%',
+                                                 'address_to_add_2' => '%noValue%'),
+                                           array('product_1' => $testData['simple1'],
+                                                 'product_2' => $testData['virtual']));
+        $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
-        if($shippingOrigin) {
-            $this->systemConfigurationHelper()->configure('shipping_settings_' . strtolower($shippingOrigin));
+        if ($shippingOrigin) {
+            $config = $this->loadDataSet('ShippingSettings',
+                                         'shipping_settings_' . strtolower($shippingOrigin));
+            $this->systemConfigurationHelper()->configure($config);
         }
-        $this->systemConfigurationHelper()->configure('shipping_disable');
-        $this->systemConfigurationHelper()->configure($shipment . '_enable');
+        $this->systemConfigurationHelper()->configure($shippingSettings);
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
@@ -187,7 +193,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
             array('upsxml', 'usa', 'usa'),
             array('usps', 'usa', 'usa'),
             array('fedex', 'usa', 'usa'),
-            array('dhl', 'usa', 'france'),
+            array('dhl', 'usa', 'france')
         );
     }
 }

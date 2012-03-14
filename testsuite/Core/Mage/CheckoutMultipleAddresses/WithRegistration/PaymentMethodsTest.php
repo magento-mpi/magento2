@@ -35,34 +35,46 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-    protected static $useTearDown = false;
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
 
     public function tearDownAfterEachTest()
     {
-        $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        if (!empty(self::$useTearDown)) {
-            $this->loginAdminUser();
-            $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        }
+        $this->shoppingCartHelper()->frontClearShoppingCart();
     }
+
+    public function tearDownAfterAllTests()
+    {
+        $this->loginAdminUser();
+        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $this->paypalHelper()->deleteAllAccounts();
+    }
+
     /**
-     * <p>Creating Simple product</p>
-     *
+     * @return array
      * @test
-     * @return array $productData
      */
-    public function preconditionsCreateProduct()
+    public function preconditionsForTests()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
-        //Steps
-        $this->loginAdminUser();
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        //Steps and Verification
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verification
+        $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $productData;
+
+        $this->paypalHelper()->paypalDeveloperLogin();
+        $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
+        $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
+
+        return array('simple' => $simple['general_name'],
+                     'api'    => $api,
+                     'visa'   => $accounts['visa']['credit_card']);
     }
 
     /**
@@ -85,33 +97,39 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @param $payment
-     * @param $productData
-     * @depends preconditionsCreateProduct
-     * @dataProvider differentPaymentMethodsWithout3DDataProvider
+     * @param string $payment
+     * @param array $testData
+     *
      * @test
+     * @dataProvider paymentsWithout3dDataProvider
+     * @depends preconditionsForTests
      */
-    public function differentPaymentMethodsWithout3D($payment, $productData)
+    public function paymentsWithout3d($payment, $testData)
     {
         //Data
-        $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_payment_methods_register',
-                                        array ('payment_data' => $paymentData,
-                                              'products_to_add/product_1' => $productData));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $paymentData = $this->loadDataSet('OnePageCheckout', 'front_payment_' . $payment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_payment_methods_register',
+                                           array('payment_data' => $paymentData,
+                                                 'general_name' => $testData['simple']));
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
+        if ($payment == 'paypaldirect_without_3Dsecure') {
+            $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
+            $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
+        }
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($payment);
+        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->frontend();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
+
     }
 
-    public function differentPaymentMethodsWithout3DDataProvider()
+    public function paymentsWithout3dDataProvider()
     {
         return array(
             array('paypaldirect'),
@@ -144,34 +162,35 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
-     * @param $payment
-     * @param $productData
-     * @depends preconditionsCreateProduct
-     * @dataProvider differentPaymentMethodsWith3DDataProvider
+     * @param string $payment
+     * @param array $testData
+     *
      * @test
+     * @dataProvider paymentsWith3dDataProvider
+     * @depends preconditionsForTests
      */
-    public function differentPaymentMethodsWith3D($payment, $productData)
+    public function paymentsWith3d($payment, $testData)
     {
-        //For Clean Up
-        if ($payment == 'authorizenet') {
-            self::$useTearDown = TRUE;
-        }
         //Data
-        $paymentData = $this->loadData('front_payment_' . $payment);
-        $checkoutData = $this->loadData('multiple_payment_methods_register',
-                                        array ('payment_data' => $paymentData,
-                                              'products_to_add/product_1' => $productData));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
+        $paymentData = $this->loadDataSet('OnePageCheckout', 'front_payment_' . $payment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_payment_methods_register',
+                                           array('payment_data' => $paymentData,
+                                                 'general_name' => $testData['simple']));
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
-        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
+        if ($payment == 'paypaldirect') {
+            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+            $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
+        }
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->frontend();
         $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function differentPaymentMethodsWith3DDataProvider()
+    public function paymentsWith3dDataProvider()
     {
         return array(
             array('paypaldirect'),

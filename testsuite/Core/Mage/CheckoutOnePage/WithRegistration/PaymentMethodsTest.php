@@ -113,7 +113,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         }
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         if ($payment == 'paypaldirect_without_3Dsecure') {
-            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byValueKey');
+            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byFieldKey');
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment, $testData['api']);
         }
         //Steps

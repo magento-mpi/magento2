@@ -137,7 +137,7 @@ paypal_developer_logged_in:
 
 paypal_developer_logged_in_2:
     mca: cgi-bin/devscr?cmd=_login-processing&login_cmd=_login-done&login_access=0
-    title: PayPal Sandbox - Home
+    title: PayPal Sandbox - Processing
     uimap: *developerForm
 
 developer_create_test_account:

@@ -411,6 +411,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
             $frame = $this->_getControlXpath('pageelement', '3d_secure_iframe');
             $xpathContinue = $this->_getControlXpath('button', '3d_continue');
+            $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
             $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
             $verificationSuccessful = $this->_getControlXpath('pageelement', 'verification_successful');
 
@@ -425,8 +426,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($frame);
+            $this->waitForElement($xpathSubmit);
             $this->fillForm(array('3d_password' => $password));
-            $this->clickButton('3d_submit', false);
+            $this->click($xpathSubmit);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $verificationSuccessful));
             if ($this->isElementPresent($xpathContinue)) {
                 $this->click($xpathContinue);

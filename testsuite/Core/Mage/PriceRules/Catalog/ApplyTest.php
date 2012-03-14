@@ -154,14 +154,14 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->clearInvalidedCache();
         $this->reindexInvalidedData();
         //Verification on frontend
-        $this->logoutCustomer();
-        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
-        $this->productHelper()->frontOpenProduct($testData['simpleName'], $testData['categoryPath']);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName'], $testData['categoryPath']);
         $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
+        $this->logoutCustomer();
+        $this->productHelper()->frontOpenProduct($testData['simpleName'], $testData['categoryPath']);
+        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
+        $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
     }
 
     public function applyRuleToSimpleFrontDataProvider()

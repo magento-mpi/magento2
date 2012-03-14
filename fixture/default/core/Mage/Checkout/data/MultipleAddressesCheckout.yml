@@ -352,20 +352,20 @@ multiple_test_data:
 multiple_shipping_methods_common_usa: &multipleShippingCommonUsa
     products_to_add:
         product_1:
-            general_name: %noValue%
+            general_name: %product_1%
         product_2:
-            general_name: %noValue%
+            general_name: %product_2%
     shipping_address_data:
         address_to_add_1:
             shipping_address: *newShippingSignedInReq
         address_to_add_2:
             shipping_address: *newShippingUsa
         address_1:
-            general_name: %noValue%
+            general_name: %product_1%
             qty: 1
             shipping_address: *newShippingSignedInReq
         address_2:
-            general_name: %noValue%
+            general_name: %product_2%
             qty: 2
             shipping_address: *newShippingUsa
     shipping_data:
@@ -403,20 +403,20 @@ multiple_shipping_methods_common_usa: &multipleShippingCommonUsa
 multiple_shipping_methods_common_france: &multipleShippingCommonFrance
     products_to_add:
         product_1:
-            general_name: %noValue%
+            general_name: %product_1%
         product_2:
-            general_name: %noValue%
+            general_name: %product_2%
     shipping_address_data:
         address_to_add_1:
             shipping_address: *newShippingFrance1
         address_to_add_2:
             shipping_address: *newShippingFrance2
         address_1:
-            general_name: %noValue%
+            general_name: %product_1%
             qty: 1
             shipping_address: *newShippingFrance1
         address_2:
-            general_name: %noValue%
+            general_name: %product_2%
             qty: 2
             shipping_address: *newShippingFrance2
     shipping_data:

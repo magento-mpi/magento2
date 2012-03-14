@@ -115,7 +115,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithDifferentCreditCard($card, $orderData, $testData)
     {
         //Data
-        $this->overrideDataByCondition('payment_info', $testData['cards'][$card], $orderData, 'byValueKey');
+        $this->overrideDataByCondition('payment_info', $testData['cards'][$card], $orderData, 'byFieldKey');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -484,7 +484,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     {
         //Data
         $cardData = $this->loadDataSet('SalesOrder', $card);
-        $this->overrideDataByCondition('payment_info', $cardData, $orderData, 'byValueKey');
+        $this->overrideDataByCondition('payment_info', $cardData, $orderData, 'byFieldKey');
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
