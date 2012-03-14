@@ -318,7 +318,10 @@ class Mage_GoogleShopping_Model_MassOperations
     protected function _addGeneralError()
     {
         if (!$this->_hasError) {
-            $this->_getNotifier()->addMajor(Mage::helper('googleshopping/category')->getMessage());
+            $this->_getNotifier()->addMajor(
+                Mage::helper('googleshopping')->__('Google Shopping Error'),
+                Mage::helper('googleshopping/category')->getMessage()
+            );
             $this->_hasError = true;
         }
     }
