@@ -191,7 +191,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'anchor_categories',
-            'layout_handle' => 'default,catalog_category_layered',
+            'layout_handle' => Mage_Widget_Model_Widget_Instance::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 1,
             'product_type_id' => ''
         );
@@ -199,7 +199,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'notanchor_categories',
-            'layout_handle' => 'default,catalog_category_default',
+            'layout_handle' => Mage_Widget_Model_Widget_Instance::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 0,
             'product_type_id' => ''
         );
@@ -207,7 +207,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'label' => 'Products',
             'code' => 'products',
             'name' => 'all_products',
-            'layout_handle' => 'default,catalog_product_view',
+            'layout_handle' => Mage_Widget_Model_Widget_Instance::PRODUCT_LAYOUT_HANDLE,
             'is_anchor_only' => '',
             'product_type_id' => ''
         );
@@ -216,7 +216,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
                 'label' => 'Products',
                 'code' => 'products',
                 'name' => $typeId . '_products',
-                'layout_handle' => 'default,catalog_product_view,catalog_product_view_type_'.$typeId,
+                'layout_handle'
+                    => str_replace('{{TYPE}}', $typeId, Mage_Widget_Model_Widget_Instance::PRODUCT_TYPE_LAYOUT_HANDLE),
                 'is_anchor_only' => '',
                 'product_type_id' => $typeId
             );
@@ -238,6 +239,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             ->setClass('required-entry select')
             ->setExtraParams("onchange=\"WidgetInstance.loadSelectBoxByType(\'block_reference\', "
                 . "this.up(\'div.pages\'), this.value)\"")
+            ->setArea($this->getWidgetInstance()->getArea())
+            ->setPackage($this->getWidgetInstance()->getPackage())
+            ->setTheme($this->getWidgetInstance()->getTheme())
         ;
         return $chooserBlock->toHtml();
     }

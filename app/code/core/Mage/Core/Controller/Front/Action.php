@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
- * Base front controller
- *
- * @category   Mage
- * @package    Mage_Core
+ * Generic frontend controller
  */
 class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Action
 {
@@ -37,20 +33,7 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     protected $_sessionNamespace = self::SESSION_NAMESPACE;
 
     /**
-     * Predispatch: should set layout area
-     *
-     * @return Mage_Core_Controller_Front_Action
-     */
-    public function preDispatch()
-    {
-        $this->getLayout()->setArea($this->_currentArea);
-
-        parent::preDispatch();
-        return $this;
-    }
-
-    /**
-     * Postdispatch: should set last visited url
+     * Remember the last visited url in the session
      *
      * @return Mage_Core_Controller_Front_Action
      */
@@ -58,7 +41,7 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('Mage_Core_Model_Session')->setLastUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
+            Mage::getSingleton('Mage_Core_Model_Session')->setLastUrl(Mage::getUrl('*/*/*', array('_current' => true)));
         }
         return $this;
     }

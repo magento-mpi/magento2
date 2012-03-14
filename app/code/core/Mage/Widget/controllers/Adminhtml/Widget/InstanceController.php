@@ -255,11 +255,15 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
             ->createBlock('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container')
+            ->setName('block')
+            ->setClass('required-entry select')
+            ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\','
+                . ' this.up(\'div.group_container\'), this.value)"')
+            ->setValue($selected)
             ->setArea($widgetInstance->getArea())
             ->setPackage($widgetInstance->getPackage())
             ->setTheme($widgetInstance->getTheme())
             ->setLayoutHandle($layout)
-            ->setSelected($selected)
             ->setAllowedContainers($widgetInstance->getWidgetSupportedContainers());
         $this->setBody($blocksChooser->toHtml());
     }

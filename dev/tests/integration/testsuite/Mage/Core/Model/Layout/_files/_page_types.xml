@@ -32,15 +32,18 @@
     </catalog_category_default>
     <default type="page">
         <label>All Pages</label>
+        <container name="content" as="content" label="Main Content Area"/>
     </default>
     <catalog_product_view type="page" parent="catalog_category_default">
         <label>Catalog Product View (Any)</label>
+        <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
     </catalog_product_view>
     <catalog_product_view_type_simple type="page" parent="catalog_product_view">
         <label>Catalog Product View (Simple)</label>
     </catalog_product_view_type_simple>
     <catalog_product_view_type_configurable type="page" parent="catalog_product_view">
         <label>Catalog Product View (Configurable)</label>
+        <container name="product.info.configurable.extra" as="product_type_data_extra" label="Configurable Product Extra Info"/>
     </catalog_product_view_type_configurable>
     <catalog_product_view_type_grouped type="page" parent="catalog_product_view">
         <label>Catalog Product View (Grouped)</label>

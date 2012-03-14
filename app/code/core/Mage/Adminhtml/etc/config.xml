@@ -28,10 +28,6 @@
         <events>
             <adminhtml_controller_action_predispatch_start>
                 <observers>
-                    <store>
-                        <class>Mage_Adminhtml_Model_Observer</class>
-                        <method>bindStore</method>
-                    </store>
                     <massaction>
                         <class>Mage_Adminhtml_Model_Observer</class>
                         <method>massactionPrepareKey</method>

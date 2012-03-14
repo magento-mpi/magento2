@@ -39,11 +39,7 @@ class Mage_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $actualUpdate);
 
-        $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml(null, null, null);
-        $this->assertInstanceOf('Mage_Core_Model_Layout_Element', $layoutUpdateXml);
-        $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
-
-        $layoutUpdateXml = $actualUpdate->getPackageLayout();
+        $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
         $this->assertInstanceOf('Mage_Core_Model_Layout_Element', $layoutUpdateXml);
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }

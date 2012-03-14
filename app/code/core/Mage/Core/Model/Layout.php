@@ -104,37 +104,27 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Class constructor
      *
-     * @param array $data
+     * @param array $arguments
      */
-    public function __construct($data=array())
+    public function __construct(array $arguments = array())
     {
+        $this->_area = isset($arguments['area']) ? $arguments['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
         $this->_structure = Mage::getModel('Mage_Core_Model_Layout_Structure');
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update');
-        parent::__construct($data);
     }
 
     /**
-     * Layout update instance
+     * Retrieve the layout update instance
      *
      * @return Mage_Core_Model_Layout_Update
      */
     public function getUpdate()
     {
+        if (!$this->_update) {
+            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update', array('area' => $this->getArea()));
+        }
         return $this->_update;
-    }
-
-    /**
-     * Set layout area
-     *
-     * @param   string $area
-     * @return  Mage_Core_Model_Layout
-     */
-    public function setArea($area)
-    {
-        $this->_area = $area;
-        return $this;
     }
 
     /**

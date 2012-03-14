@@ -38,16 +38,29 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout->getUpdate()->load('layout_test_handle_extra');
     }
 
+    /**
+     * @param array $inputArguments
+     * @param string $expectedArea
+     * @dataProvider constructorDataProvider
+     */
+    public function testConstructor(array $inputArguments, $expectedArea)
+    {
+        $layout = new Mage_Core_Model_Layout($inputArguments);
+        $this->assertEquals($expectedArea, $layout->getArea());
+    }
+
+    public function constructorDataProvider()
+    {
+        return array(
+            'default area'  => array(array(), Mage_Core_Model_Design_Package::DEFAULT_AREA),
+            'frontend area' => array(array('area' => 'frontend'), 'frontend'),
+            'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
+        );
+    }
+
     public function testGetUpdate()
     {
         $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $this->_layout->getUpdate());
-    }
-
-    public function testGetSetArea()
-    {
-        $this->assertEmpty($this->_layout->getArea());
-        $this->_layout->setArea('frontend');
-        $this->assertEquals('frontend', $this->_layout->getArea());
     }
 
     public function testGetSetDirectOutput()

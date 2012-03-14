@@ -33,7 +33,11 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Layout_Update();
+        $this->_model = new Mage_Core_Model_Layout_Update(array(
+            'area'    => 'frontend',
+            'package' => 'test',
+            'theme'   => 'default',
+        ));
     }
 
     public function testGetElementClass()
@@ -41,21 +45,46 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core_Model_Layout_Element', $this->_model->getElementClass());
     }
 
-    public function testUpdates()
+    public function testAddUpdate()
     {
         $this->assertEmpty($this->_model->asArray());
-        $this->_model->addUpdate('test1');
-        $this->assertEquals(array('test1'), $this->_model->asArray());
-        $this->assertEquals('test1', $this->_model->asString());
+        $this->assertEmpty($this->_model->asString());
+        $this->_model->addUpdate('test');
+        $this->assertEquals(array('test'), $this->_model->asArray());
+        $this->assertEquals('test', $this->_model->asString());
     }
 
-    public function testHandles()
+    public function testResetUpdates()
+    {
+        $this->_model->addUpdate('test1');
+        $this->_model->addUpdate('test2');
+        $this->_model->resetUpdates();
+        $this->assertEmpty($this->_model->asArray());
+        $this->assertEmpty($this->_model->asString());
+    }
+
+    public function testAddHandle()
     {
         $this->assertEmpty($this->_model->getHandles());
         $this->_model->addHandle('test');
         $this->assertEquals(array('test'), $this->_model->getHandles());
+    }
+
+    public function testRemoveHandle()
+    {
+        $this->_model->addHandle('test');
         $this->_model->removeHandle('test');
         $this->assertEmpty($this->_model->getHandles());
+    }
+
+    public function testResetHandles()
+    {
+        $this->_model->addHandle('test1');
+        $this->_model->addHandle('test2');
+        $this->_model->addPageHandles(array('catalog_category_view'));
+        $this->_model->resetHandles();
+        $this->assertEmpty($this->_model->getHandles());
+        $this->assertEmpty($this->_model->getPageHandles());
     }
 
     public function testAddPageHandles()
@@ -199,12 +228,33 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetCacheId()
+    {
+        $actualCacheIdOne = $this->_model->getCacheId();
+        $this->assertNotEmpty($actualCacheIdOne);
+        $this->assertEquals($actualCacheIdOne, $this->_model->getCacheId(), 'Cache id must be invariant.');
+
+        $this->_model->addHandle('handle_one');
+        $actualCacheIdTwo = $this->_model->getCacheId();
+        $this->assertNotEmpty($actualCacheIdTwo);
+        $this->assertNotEquals($actualCacheIdOne, $actualCacheIdTwo, 'Cache id must take handles into account.');
+    }
+
+    public function testSetCacheId()
+    {
+        $expectedCacheId = 'some_cache_identifier';
+        $this->_model->setCacheId($expectedCacheId);
+        $this->assertEquals($expectedCacheId, $this->_model->getCacheId());
+        $this->_model->addHandle('some_handle');
+        $this->assertEquals($expectedCacheId, $this->_model->getCacheId(), 'Cache id must not rely on handles.');
+    }
+
     /**
      * @magentoDataFixture Mage/Core/Model/Layout/_files/db_layout_update.php
      */
     public function testFetchDbLayoutUpdates()
     {
-        $this->_model->fetchDbLayoutUpdates('fixture_handle');
+        $this->_model->load('fixture_handle');
         $this->assertStringMatchesFormat(
             '<reference name="root">%w<block type="Mage_Core_Block_Template" template="dummy.phtml"/>%w</reference>',
             trim($this->_model->asString())
@@ -221,7 +271,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $expectedXmlStr = $this->_readLayoutFileContents(
             __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
         );
-        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $actualXml = $this->_model->getFileLayoutUpdatesXml();
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
     }
 
@@ -235,7 +285,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $expectedXmlStr = $this->_readLayoutFileContents(
             __DIR__ . '/../../../../../../../../app/code/core/Mage/Page/view/frontend/layout.xml'
         );
-        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $actualXml = $this->_model->getFileLayoutUpdatesXml();
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
     }
 
@@ -287,7 +337,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     public function testGetFileLayoutUpdatesXmlException($configFixture)
     {
         $this->_replaceConfigLayoutUpdates($configFixture);
-        $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $this->_model->getFileLayoutUpdatesXml();
     }
 
     public function getFileLayoutUpdatesXmlExceptionDataProvider()
@@ -331,7 +381,21 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $expectedXmlStr = $this->_readLayoutFileContents(
             __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
         );
-        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $actualXml = $this->_model->getFileLayoutUpdatesXml();
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
+    }
+
+    public function testGetContainers()
+    {
+        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
+        $model->addPageHandles(array('catalog_product_view_type_configurable'));
+        $model->load();
+        $expected = array(
+            'content'                         => 'Main Content Area',
+            'product.info.extrahint'          => 'Product View Extra Hint',
+            'product.info.configurable.extra' => 'Configurable Product Extra Info',
+        );
+        $this->assertSame($expected, $model->getContainers());
     }
 }
