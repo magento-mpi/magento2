@@ -43,7 +43,7 @@ return array(
     'special_from_date' => '02/16/2013',
     'special_to_date' => '03/17/2013',
     'msrp_enabled' => 0,
-    'msrp_display_actual_price_type' => 0,
+    'msrp_display_actual_price_type' => Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART,
     'msrp' => 15.01,
     'tax_class_id' => $taxClass['class_id'],
     'meta_title' => 'Test title_new',

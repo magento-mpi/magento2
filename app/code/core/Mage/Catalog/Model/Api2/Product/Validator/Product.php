@@ -174,9 +174,12 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
 
             if ($applicable && $isSet) {
                 // Validate dropdown attributes
-                if ($attribute->usesSource() && !empty($value)) {
+                if ($attribute->usesSource()
+                    // skip check when field will be validated later as a required one
+                    && !(empty($value) && $attribute->getIsRequired())) {
                     $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
-                    if (!in_array($value, $allowedValues, true)
+                    $useStrictMode = !is_numeric($value);
+                    if (!in_array($value, $allowedValues, $useStrictMode)
                         && !$this->_isConfigValueUsed($data, $attributeCode)) {
                         $this->_addError(sprintf('Invalid value for attribute "%s".', $attributeCode));
                     }

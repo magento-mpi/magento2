@@ -41,6 +41,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     protected function tearDown()
     {
         $this->deleteFixture('product_simple', true);
+        $this->deleteFixture('product_simple_all_fields', true);
         if ($this->getFixture('products')) {
             foreach ($this->getFixture('products') as $product) {
                 $this->addModelToDelete($product, true);
@@ -54,7 +55,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public static function tearDownAfterClass()
     {
-        Magento_TestCase::deleteFixture('product_simple_all_fields', true);
         self::deleteFixture('store_on_new_website', true);
         self::deleteFixture('store_group', true);
         self::deleteFixture('website', true);
@@ -622,6 +622,55 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             $data[] = array_merge(array('group_price'), $dataSet);
         }
         return $data;
+    }
+
+    /**
+     * Test update attributes with souces. Basicly, check type casting during data validation
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @dataProvider dataProviderTestUpdateAttributeWithSource
+     * @param string $attributeName
+     * @param mixed $attributeValue
+     * @param int $expectedResponseCode
+     */
+    public function testUpdateAttributeWithSource($attributeName, $attributeValue, $expectedResponseCode)
+    {
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = array($attributeName => $attributeValue);
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals($expectedResponseCode, $restResponse->getStatus());
+        if ($expectedResponseCode == Mage_Api2_Model_Server::HTTP_OK) {
+            /** @var $updatedProduct Mage_Catalog_Model_Product */
+            $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
+            $this->assertEquals($attributeValue, $updatedProduct->getData($attributeName),
+                "'$attributeName' attribute update failed");
+        }
+    }
+
+    /**
+     * Prepare attribute values for update casted to different types
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdateAttributeWithSource()
+    {
+        $statuses = array('bad_request' => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            'ok' => Mage_Api2_Model_Server::HTTP_OK);
+        return array(
+            array('visibility', (int)1, $statuses['ok']),
+            array('visibility', (string)1, $statuses['ok']),
+            array('visibility', true, $statuses['bad_request']),
+            array('visibility', "abc",  $statuses['bad_request']),
+            array('visibility', "",  $statuses['bad_request']),
+            array('enable_googlecheckout', (int)1, $statuses['ok']),
+            array('enable_googlecheckout', (string)1, $statuses['ok']),
+            array('enable_googlecheckout', (int)0, $statuses['ok']),
+            array('enable_googlecheckout', (string)0, $statuses['ok']),
+            array('enable_googlecheckout', true, $statuses['bad_request']),
+            array('enable_googlecheckout', false, $statuses['bad_request']),
+            array('enable_googlecheckout', "abc",  $statuses['bad_request']),
+            array('enable_googlecheckout', "",  $statuses['bad_request']),
+        );
     }
 
     /**
