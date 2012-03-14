@@ -61,6 +61,10 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
      */
     public function isEnabled($skipAdminCheck = false)
     {
+        // Prevent using Flat functionality at backend. Required by current logic
+        if (Mage::app()->getStore()->isAdmin()) {
+            return false;
+        }
         return Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
     }
 
