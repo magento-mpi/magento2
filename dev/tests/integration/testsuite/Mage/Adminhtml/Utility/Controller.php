@@ -11,6 +11,8 @@
 
 /**
  * A parent class for adminhtml controllers - contains directives for admin user creation and logging in
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_ControllerAbstract
 {

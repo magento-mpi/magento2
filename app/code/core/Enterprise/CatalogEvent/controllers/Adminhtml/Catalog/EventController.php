@@ -41,8 +41,14 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'), Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'),
+                Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events')
+            )
             ->_setActiveMenu('catalog/enterprise_catelogevent');
         return $this;
     }
@@ -99,12 +105,14 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         Mage::register('enterprise_catalogevent_event', $event);
 
         $this->_initAction();
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        if (($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
+        $layout = $this->getLayout();
+        $layout->getBlock('head')->setCanLoadExtJs(true);
+        if (($switchBlock = $layout->getBlock('store_switcher'))) {
             if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
-                $switchBlock->getParentBlock()->unsetChild('store_switcher');
+                $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
-                $switchBlock->setDefaultStoreName(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Default Values'))
+                $switchBlock->setDefaultStoreName(Mage::helper('Enterprise_CatalogEvent_Helper_Data')
+                    ->__('Default Values'))
                     ->setSwitchUrl($this->getUrl('*/*/*', array('_current' => true, 'store' => null)));
             }
         }
