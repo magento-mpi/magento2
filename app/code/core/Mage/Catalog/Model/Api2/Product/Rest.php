@@ -33,8 +33,9 @@
  */
 abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_Api2_Product
 {
-
     /**
+     * Current loaded product
+     *
      * @var Mage_Catalog_Model_Product
      */
     protected $_product;
@@ -49,8 +50,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $product = $this->_getProduct();
         /** @var $productHelper Mage_Catalog_Helper_Product */
         $productHelper = Mage::helper('catalog/product');
-        $isEnabled = $product->isInStock();
-        if (!($isEnabled && $productHelper->canShow($product))) {
+        if (!($product->isInStock() && $productHelper->canShow($product))) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         $this->_prepareProductForResponse($product);
@@ -323,20 +323,16 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
      *
      * @param float $price
      * @param float $percent
-     * @param bool $type true - for calculate price including tax and false if price excluding tax
-     * @return  float
+     * @param bool $includeTax true - for calculate price including tax and false if price excluding tax
+     * @return float
      */
-    protected function _calculatePrice($price, $percent, $type)
+    protected function _calculatePrice($price, $percent, $includeTax)
     {
         /** @var $calculator Mage_Tax_Model_Calculation */
         $calculator = Mage::getSingleton('tax/calculation');
-        if ($type) {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, false, false);
-            return $price + $taxAmount;
-        } else {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, true, false);
-            return $price - $taxAmount;
-        }
+        $taxAmount = $calculator->calcTaxAmount($price, $percent, !$includeTax, false);
+
+        return $includeTax ? $price + $taxAmount : $price - $taxAmount;
     }
 
     /**

@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 for products instance
+ * API2 for products instance (Customer)
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -34,6 +34,8 @@
 class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
     /**
+     * Current logged in customer
+     *
      * @var Mage_Customer_Model_Customer
      */
     protected $_customer;
@@ -73,7 +75,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = Mage::getModel('customer/customer')->load($this->getApiUser()->getUserId());
             if (!$customer->getId()) {
-                $this->_critical('Customer not found', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+                $this->_critical('Customer not found.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
             }
             $this->_customer = $customer;
         }

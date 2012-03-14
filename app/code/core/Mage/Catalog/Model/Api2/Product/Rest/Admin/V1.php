@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 for products instance
+ * API2 for products instance (Admin)
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -34,6 +34,8 @@
 class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Rest
 {
     /**
+     * Product helper
+     *
      * @var Mage_Catalog_Model_Api2_Helper
      */
     protected $_productResourceHelper;
