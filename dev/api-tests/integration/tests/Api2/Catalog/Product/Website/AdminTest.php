@@ -180,7 +180,7 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
      */
-    public function testAssignWebsiteToProductWithCopyToStores()
+    public function _testAssignWebsiteToProductWithCopyToStores()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
         $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
