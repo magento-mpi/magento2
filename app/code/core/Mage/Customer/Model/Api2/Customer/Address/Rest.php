@@ -108,11 +108,11 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     protected function _retrieveCollection()
     {
         $data = array();
-        /* @var $address Mage_Customer_Model_Customer */
+        /* @var $address Mage_Customer_Model_Address */
         foreach ($this->_getCollectionForRetrieve() as $address) {
-            $addressData = $address->getData();
+            $addressData           = $address->getData();
             $addressData['street'] = $address->getStreet();
-            $data[] = $addressData;
+            $data[]                = array_merge($addressData, $this->_getDefaultAddressesInfo($address));
         }
         return $data;
     }
@@ -132,6 +132,29 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
 
         $this->_applyCollectionModifiers($collection);
         return $collection;
+    }
+
+    /**
+     * Get array with default addresses information if possible
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @return array
+     */
+    protected function _getDefaultAddressesInfo(Mage_Customer_Model_Address $address)
+    {
+        $addressData = array();
+
+        if ($this->_isDefaultBillingAllowed() || $this->_isDefaultShippingAllowed()) {
+            if ($this->_isDefaultBillingAllowed()) {
+                $addressData[Mage_Customer_Model_Api2_Customer_Address::PARAM_IS_DEFAULT_BILLING]
+                    = (int) ($address->getCustomer()->getDefaultBilling() == $address->getId());
+            }
+            if ($this->_isDefaultShippingAllowed()) {
+                $addressData[Mage_Customer_Model_Api2_Customer_Address::PARAM_IS_DEFAULT_SHIPPING]
+                    = (int) ($address->getCustomer()->getDefaultShipping() == $address->getId());
+            }
+        }
+        return $addressData;
     }
 
     /**
@@ -199,17 +222,19 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
      * Load customer address by id
      *
      * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_CatalogInventory_Model_Stock_Item
+     * @return Mage_Customer_Model_Address
      */
     protected function _loadCustomerAddressById($id)
     {
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::getModel('customer/address')->load($id);
-        if (!$customerAddress->getId()) {
+        /* @var $address Mage_Customer_Model_Address */
+        $address = Mage::getModel('customer/address')->load($id);
+
+        if (!$address->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
-        return $customerAddress;
+        $address->addData($this->_getDefaultAddressesInfo($address));
+
+        return $address;
     }
 
     /**

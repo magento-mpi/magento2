@@ -147,6 +147,8 @@
                 </privileges>
                 <attributes>
                     <entity_id>Customer Address ID</entity_id>
+                    <is_default_billing>Is Default Billing Address</is_default_billing>
+                    <is_default_shipping>Is Default Shipping Address</is_default_shipping>
                 </attributes>
                 <exclude_attributes>
                     <admin>
