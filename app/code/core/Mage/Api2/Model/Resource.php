@@ -179,6 +179,18 @@ abstract class Mage_Api2_Model_Resource
     protected $_multicall;
 
     /**
+     * Trigger error for not-implemented operations
+     *
+     * @param $methodName
+     */
+    protected function _checkMethodExistence($methodName)
+    {
+        if (!method_exists($this, $methodName)) {
+            $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        }
+    }
+
+    /**
      * Resource model dispatch
      */
     public function dispatch()
@@ -244,6 +256,8 @@ abstract class Mage_Api2_Model_Resource
                 $this->_delete();
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_DELETE:
+                $this->_checkMethodExistence('_multiDelete');
+
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -320,16 +334,6 @@ abstract class Mage_Api2_Model_Resource
      * Dummy method to be replaced in descendants
      */
     protected function _delete()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @param array $data
-     */
-    protected function _multiDelete(array $data)
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
