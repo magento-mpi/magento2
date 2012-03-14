@@ -298,7 +298,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             $groupPrices = $data['group_price'];
             foreach ($groupPrices as $index => $groupPrice) {
                 $fieldSet = 'group_price:' . $index;
-                $this->_validateWebsiteId($groupPrice, $fieldSet);
+                $this->_validateWebsiteIdForGroupPrice($groupPrice, $fieldSet);
                 $this->_validateCustomerGroup($groupPrice, $fieldSet);
                 $this->_validatePositiveNumber($groupPrice, $fieldSet, 'price', true, true);
             }
@@ -316,10 +316,31 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             $tierPrices = $data['tier_price'];
             foreach ($tierPrices as $index => $tierPrice) {
                 $fieldSet = 'tier_price:' . $index;
-                $this->_validateWebsiteId($tierPrice, $fieldSet);
+                $this->_validateWebsiteIdForGroupPrice($tierPrice, $fieldSet);
                 $this->_validateCustomerGroup($tierPrice, $fieldSet);
                 $this->_validatePositiveNumber($tierPrice, $fieldSet, 'price_qty');
                 $this->_validatePositiveNumber($tierPrice, $fieldSet, 'price');
+            }
+        }
+    }
+
+    /**
+     * Check if website id is appropriate according to price scope settings
+     *
+     * @param array $data
+     * @param string $fieldSet
+     */
+    protected function _validateWebsiteIdForGroupPrice($data, $fieldSet)
+    {
+        if (!isset($data['website_id'])) {
+            $this->_addError(sprintf('The "website_id" value in the "%s" set is a required field.', $fieldSet));
+        } else {
+            /** @var $catalogHelper Mage_Catalog_Helper_Data */
+            $catalogHelper = Mage::helper('catalog');
+            $website = Mage::getModel('core/website')->load($data['website_id']);
+            if (is_null($website->getId()) || ($data['website_id'] !== 0
+                && $catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL)) {
+                $this->_addError(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet));
             }
         }
     }
@@ -376,24 +397,6 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
         }
         return (bool) $manageStock;
-    }
-
-    /**
-     * Validate Website ID field
-     *
-     * @param string $fieldSet
-     * @param array $data
-     */
-    protected function _validateWebsiteId($data, $fieldSet)
-    {
-        if (!isset($data['website_id'])) {
-            $this->_addError(sprintf('The "website_id" value in the "%s" set is a required field.', $fieldSet));
-        } else {
-            $website = Mage::getModel('core/website')->load($data['website_id']);
-            if (is_null($website->getId())) {
-                $this->_addError(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet));
-            }
-        }
     }
 
     /**

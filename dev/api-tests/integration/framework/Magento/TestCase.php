@@ -377,14 +377,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function _restoreAppConfig()
     {
-        if (count($this->_origConfigValues) > 0) {
-            Mage::getConfig()->reinit();
-            foreach ($this->_origConfigValues as $configPath => $origValue) {
-                $currentValue = (string) Mage::getConfig()->getNode($configPath, 'default');
-                if ($currentValue != $origValue) {
-                    $this->_updateAppConfig($configPath, $origValue);
-                }
-            }
+        foreach ($this->_origConfigValues as $configPath => $origValue) {
+            $this->_updateAppConfig($configPath, $origValue, true, true);
         }
     }
 

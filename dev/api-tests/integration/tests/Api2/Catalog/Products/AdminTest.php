@@ -463,8 +463,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function testPostInventoryManageStockUseConfig()
     {
-        $this->markTestSkipped("Test does not work with stores in " .
-            "'Api2/Catalog/_fixtures/store_on_new_website.php' fixture");
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
 
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
@@ -548,6 +546,82 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test tier and group prices update
+     *
+     * @dataProvider dataProviderTestUpdateGroupPrice
+     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @param string $priceField
+     * @param int $websiteId
+     * @param int $priceScope
+     * @param int $expectedResponseCode
+     * @param bool $checkData
+     */
+    public function testUpdateGroupPrice($priceField, $websiteId, $priceScope, $expectedResponseCode, $checkData)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple_all_fields');
+        // set price scope to required value
+        /** @var $catalogHelper Mage_Catalog_Helper_Data */
+        $catalogHelper = Mage::helper('catalog');
+        if ($catalogHelper->getPriceScope() != $priceScope) {
+            $this->_updateAppConfig(Mage_Catalog_Helper_Data::XML_PATH_PRICE_SCOPE, $priceScope, false, false, true);
+        }
+        // test update with existing website when price scope is website
+        $price = array('website_id' => $websiteId, 'cust_group' => 1, 'price' => 333.5);
+        if ($priceField == 'tier_price') {
+            $price['price_qty'] = 88;
+        }
+        $dataForUpdate = array($priceField => array($price));
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $dataForUpdate);
+        $this->assertEquals($expectedResponseCode, $restResponse->getStatus());
+        if ($checkData) {
+            // check if group price was really updated
+            /** @var $updatedProduct Mage_Catalog_Model_Product */
+            $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
+            $tierPricesAfterUpdate = $updatedProduct->getData($priceField);
+            $this->assertCount(1, $tierPricesAfterUpdate, "Invalid tier price count after update");
+            $updatedTierPrice = reset($tierPricesAfterUpdate);
+            foreach (reset($dataForUpdate[$priceField]) as $field => $value) {
+                $this->assertEquals($value, $updatedTierPrice[$field]);
+            }
+        }
+    }
+
+    /**
+     * Data provider for testUpdateGroupPrice
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdateGroupPrice()
+    {
+        $defaultWebsiteId = 1;
+        $allWebsitesId = 0;
+        $invalidWebsiteId = 9999;
+        $priceScope = array('global' => Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL,
+            'website' => Mage_Catalog_Helper_Data::PRICE_SCOPE_WEBSITE);
+        $priceDataSets = array(
+            array($allWebsitesId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_OK, true,
+                'Data set: All websites, global scope'),
+            array($defaultWebsiteId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST, false,
+                'Data set: Default website, global scope'),
+            array($invalidWebsiteId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST, false,
+                'Data set: Invalid website, global scope'),
+            array($allWebsitesId, $priceScope['website'], Mage_Api2_Model_Server::HTTP_OK, true,
+                'Data set: All websites, website scope'),
+            // we can not check data as more than only Mage_Catalog_Helper_Data::XML_PATH_PRICE_SCOPE should be changed
+            array($defaultWebsiteId, $priceScope['website'], Mage_Api2_Model_Server::HTTP_OK, false,
+                'Data set: Default website, website scope'),
+        );
+        $data = array();
+        foreach ($priceDataSets as $dataSet) {
+            $data[] = array_merge(array('tier_price'), $dataSet);
+            $data[] = array_merge(array('group_price'), $dataSet);
+        }
+        return $data;
     }
 
     /**
