@@ -452,11 +452,17 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         return Mage::getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
     }
 
+    /**
+     * Check whether URL for corresponding path should use https protocol
+     *
+     * @param string $path
+     * @return bool
+     */
     protected function _shouldBeSecure($path)
     {
-        return substr(Mage::getStoreConfig('web/unsecure/base_url'),0,5)==='https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_frontend')
-            && substr(Mage::getStoreConfig('web/secure/base_url'),0,5)=='https'
-            && Mage::getConfig()->shouldUrlBeSecure($path);
+        $xmlPath = Mage::getConfig()->shouldUrlBeSecure($path)
+            ? Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+            : Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL;
+        return substr(Mage::getStoreConfig($xmlPath), 0, 5) === 'https';
     }
 }
