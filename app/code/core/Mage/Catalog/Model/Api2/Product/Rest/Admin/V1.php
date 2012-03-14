@@ -74,6 +74,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $collection->addAttributeToSelect(array_keys(
             $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
         ));
+        $this->_applyCategoryFilter($collection);
         $this->_applyCollectionModifiers($collection);
         $products = $collection->load()->toArray();
         return $products;

@@ -75,6 +75,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             ->addAttributeToFilter('visibility', array(
                 'neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
             ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+        $this->_applyCategoryFilter($collection);
         $this->_applyCollectionModifiers($collection);
         $products = $collection->load();
         // add tier prices to items that are already loaded
@@ -86,6 +87,23 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             $this->_prepareProductForResponse($product);
         }
         return $products->toArray();
+    }
+
+    /**
+     * Apply filter by category id
+     *
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     */
+    protected function _applyCategoryFilter(Mage_Catalog_Model_Resource_Product_Collection $collection)
+    {
+        $categoryId = $this->getRequest()->getParam('category_id');
+        if ($categoryId) {
+            $category = $this->_getCategoryById($categoryId);
+            if (!$category->getId()) {
+                $this->_critical('Category not found.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+            $collection->addCategoryFilter($category);
+        }
     }
 
     /**
@@ -195,6 +213,17 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     protected function _setProduct(Mage_Catalog_Model_Product $product)
     {
         $this->_product = $product;
+    }
+
+    /**
+     * Load category by id
+     *
+     * @param int $categoryId
+     * @return Mage_Catalog_Model_Category
+     */
+    protected function _getCategoryById($categoryId)
+    {
+        return Mage::getModel('catalog/category')->load($categoryId);
     }
 
     /**

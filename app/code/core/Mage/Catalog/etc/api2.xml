@@ -170,6 +170,18 @@
                         <route>/products/store/:store</route>
                         <action_type>collection</action_type>
                     </route_collection_with_store>
+                    <route_collection_with_category>
+                        <route>/products/category/:category_id</route>
+                        <action_type>collection</action_type>
+                    </route_collection_with_category>
+                    <route_collection_with_store_and_category>
+                        <route>/products/store/:store/category/:category_id</route>
+                        <action_type>collection</action_type>
+                    </route_collection_with_store_and_category>
+                    <route_collection_with_category_and_store>
+                        <route>/products/category/:category_id/store/:store</route>
+                        <action_type>collection</action_type>
+                    </route_collection_with_category_and_store>
                 </routes>
                 <subresources>
                     <products_grouped>
