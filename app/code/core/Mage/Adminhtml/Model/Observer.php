@@ -29,12 +29,6 @@ class Mage_Adminhtml_Model_Observer
         return $this;
     }
 
-    public function bindStore()
-    {
-        Mage::app()->setCurrentStore('admin');
-        return $this;
-    }
-
     /**
      * Prepare massaction separated data
      *

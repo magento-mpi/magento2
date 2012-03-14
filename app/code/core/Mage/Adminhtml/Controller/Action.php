@@ -9,11 +9,7 @@
  */
 
 /**
- * Base adminhtml controller
- *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Generic backend controller
  */
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
@@ -147,7 +143,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     public function preDispatch()
     {
-        $this->getLayout()->setArea($this->_currentArea);
+        Mage::app()->setCurrentStore('admin');
         $this->_areaDesign = (string)Mage::getConfig()->getNode(
             $this->_currentArea . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
         ) ?: 'default/default/default'; // always override frontend theme

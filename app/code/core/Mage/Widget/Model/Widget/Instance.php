@@ -33,9 +33,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     const PRODUCT_LAYOUT_HANDLE            = 'catalog_product_view';
     const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'catalog_product_view_id_{{ID}}';
     const PRODUCT_TYPE_LAYOUT_HANDLE       = 'catalog_product_view_type_{{TYPE}}';
-    const ANCHOR_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_layered';
-    const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_default';
-    const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'CATEGORY_{{ID}}';
+    const ANCHOR_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_view_type_layered';
+    const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_view_type_default';
+    const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_view_{{ID}}';
 
     const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
 
@@ -262,6 +262,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             list($package, $theme) = explode('/', $this->getPackageTheme());
             $this->setData('package', $package);
             $this->setData('theme', $theme);
+        } else {
+            $this->setData('package', Mage_Core_Model_Design_Package::DEFAULT_PACKAGE);
+            $this->setData('theme', Mage_Core_Model_Design_Package::DEFAULT_THEME);
         }
         return $this;
     }

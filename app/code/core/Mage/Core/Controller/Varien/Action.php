@@ -224,7 +224,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function getLayout()
     {
-        return Mage::getSingleton('Mage_Core_Model_Layout');
+        return Mage::getSingleton('Mage_Core_Model_Layout', array('area' => $this->_currentArea));
     }
 
     /**

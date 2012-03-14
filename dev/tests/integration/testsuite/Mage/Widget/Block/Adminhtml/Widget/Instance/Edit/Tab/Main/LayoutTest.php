@@ -21,23 +21,20 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest exten
 
     protected function setUp()
     {
-        $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $pageTypesFixture = __DIR__ . '/../../../../../../../../Core/Model/Layout/_files/_page_types.xml';
-        $this->_block = new Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout();
-        $this->_block->setLayout($layoutUtility->getLayoutFromFixture($pageTypesFixture));
+        $this->_block = new Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout(array(
+            'widget_instance' => new Mage_Widget_Model_Widget_Instance()
+        ));
+        $this->_block->setLayout(Mage::app()->getLayout());
     }
 
     public function testGetLayoutsChooser()
     {
         $actualHtml = $this->_block->getLayoutsChooser();
+        $this->assertStringStartsWith('<select ', $actualHtml);
+        $this->assertStringEndsWith('</select>', $actualHtml);
         $this->assertContains('id="layout_handle"', $actualHtml);
-
-        $expectedHtmlFile = __DIR__ . '/../../Chooser/_files/page_types_select.html';
-        /** @var $expectedXml Varien_Simplexml_Element */
-        $expectedXml = simplexml_load_file($expectedHtmlFile, 'Varien_Simplexml_Element');
-
-        /** @var $actualXml Varien_Simplexml_Element */
-        $actualXml = simplexml_load_string($actualHtml, 'Varien_Simplexml_Element');
-        $this->assertEquals($expectedXml->innerXml(), $actualXml->innerXml());
+        $optionCount = substr_count($actualHtml, '<option ');
+        $this->assertGreaterThan(1, $optionCount, 'HTML select tag must provide options to choose from.');
+        $this->assertEquals($optionCount, substr_count($actualHtml, '</option>'));
     }
 }

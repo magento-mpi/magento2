@@ -67,9 +67,28 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test/controller/action', $this->_model->getFullActionName('/'));
     }
 
-    public function testGetLayout()
+    /**
+     * @param string $controllerClass
+     * @param string $expectedArea
+     * @dataProvider getLayoutDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testGetLayout($controllerClass, $expectedArea)
     {
-        $this->assertInstanceOf('Mage_Core_Model_Layout', $this->_model->getLayout());
+        /** @var $controller Mage_Core_Controller_Varien_Action */
+        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $this->assertInstanceOf('Mage_Core_Model_Layout', $controller->getLayout());
+        $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
+    }
+
+    public function getLayoutDataProvider()
+    {
+        return array(
+            'install'  => array('Mage_Install_Controller_Action',    'install'),
+            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend'),
+            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml'),
+            'api'      => array('Mage_Api_Controller_Action',        'adminhtml'),
+        );
     }
 
     /**
@@ -177,23 +196,20 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getResponse()->getBody());
     }
 
-    public function preDispatchDetectDesignDataProvider()
-    {
-        return array(
-            'install'  => array('Mage_Install_Controller_Action',    'install',   'default/default/default'),
-            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'default/default/default'),
-            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default/iphone/default'),
-        );
-    }
-
     /**
      * @magentoConfigFixture               install/design/theme/full_name   default/default/default
      * @magentoConfigFixture               adminhtml/design/theme/full_name default/default/default
      * @magentoConfigFixture current_store design/theme/full_name           default/iphone/default
      * @magentoAppIsolation  enabled
-     * @dataProvider         preDispatchDetectDesignDataProvider
+     *
+     * @dataProvider preDispatchDataProvider
+     *
+     * @param string $controllerClass
+     * @param string $expectedArea
+     * @param string $expectedStore
+     * @param string $expectedDesign
      */
-    public function testPreDispatchDetectDesign($controllerClass, $expectedArea, $expectedDesign)
+    public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
         $this->markTestIncomplete('MAGETWO-753');
 
@@ -201,7 +217,20 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
         $controller->preDispatch();
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
-        $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+        $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
+        if ($expectedDesign) {
+            $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+        }
+    }
+
+    public function preDispatchDataProvider()
+    {
+        return array(
+            'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/default/default'),
+            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/iphone/default'),
+            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/default/default'),
+            'api'      => array('Mage_Api_Controller_Action',        'adminhtml', 'admin',   ''),
+        );
     }
 
     public function testNoRouteAction()

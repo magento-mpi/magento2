@@ -25,7 +25,7 @@ class Mage_Checkout_Model_Type_Onepage
      *
      * @var string
      */
-    private $_customerEmailExistsMessage = '';
+    protected $_customerEmailExistsMessage = '';
 
     /**
      * @var Mage_Customer_Model_Session
