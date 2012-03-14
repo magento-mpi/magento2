@@ -179,18 +179,6 @@ abstract class Mage_Api2_Model_Resource
     protected $_multicall;
 
     /**
-     * Trigger error for not-implemented operations
-     *
-     * @param $methodName
-     */
-    protected function _checkMethodExistence($methodName)
-    {
-        if (!method_exists($this, $methodName)) {
-            $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-        }
-    }
-
-    /**
      * Resource model dispatch
      */
     public function dispatch()
@@ -202,36 +190,46 @@ abstract class Mage_Api2_Model_Resource
                 $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_CREATE:
-                $requestData = $this->getRequest()->getBodyParams();
-                if (empty($requestData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
-                $filteredData = $this->getFilter()->in($requestData);
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
+                    $this->_checkMethodExistence('_create');
+                    $requestData = $this->getRequest()->getBodyParams();
+                    if (empty($requestData)) {
+                        $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                    }
+                    $filteredData = $this->getFilter()->in($requestData);
                     if (empty($filteredData)) {
                         $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                     }
                     $newItemLocation = $this->_create($filteredData);
                     $this->getResponse()->setHeader('Location', $newItemLocation);
                 } else {
+                    $this->_checkMethodExistence('_multiCreate');
+                    $requestData = $this->getRequest()->getBodyParams();
+                    if (empty($requestData)) {
+                        $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                    }
+                    $filteredData = $this->getFilter()->in($requestData);
                     $this->_multiCreate($filteredData);
                     $this->_render($this->getResponse()->getMessages());
                 }
                 break;
             /* Retrieve */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
+                $this->_checkMethodExistence('_retrieve');
                 $retrievedData = $this->_retrieve();
                 $filteredData  = $this->getFilter()->out($retrievedData);
                 $this->_render($filteredData);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_RETRIEVE:
+                $this->_checkMethodExistence('_retrieveCollection');
                 $retrievedData = $this->_retrieveCollection();
                 $filteredData  = $this->getFilter()->collectionOut($retrievedData);
                 $this->_render($filteredData);
                 break;
             /* Update */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_UPDATE:
+                $this->_checkMethodExistence('_update');
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -243,6 +241,7 @@ abstract class Mage_Api2_Model_Resource
                 $this->_update($filteredData);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_UPDATE:
+                $this->_checkMethodExistence('_multiUpdate');
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -253,11 +252,11 @@ abstract class Mage_Api2_Model_Resource
                 break;
             /* Delete */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_DELETE:
+                $this->_checkMethodExistence('_delete');
                 $this->_delete();
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_DELETE:
                 $this->_checkMethodExistence('_multiDelete');
-
                 $requestData = $this->getRequest()->getBodyParams();
                 if (empty($requestData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
@@ -271,71 +270,15 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Dummy method to be replaced in descendants
+     * Trigger error for not-implemented operations
      *
-     * @param array $data
+     * @param $methodName
      */
-    protected function _create(array $data)
+    protected function _checkMethodExistence($methodName)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @param array $data
-     */
-    protected function _multiCreate(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @return array
-     */
-    protected function _retrieveCollection()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @param array $data
-     */
-    protected function _update(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     *
-     * @param array $data
-     */
-    protected function _multiUpdate(array $data)
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Dummy method to be replaced in descendants
-     */
-    protected function _delete()
-    {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        if (!method_exists($this, $methodName)) {
+            $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        }
     }
 
     /**
@@ -948,7 +891,7 @@ abstract class Mage_Api2_Model_Resource
         }
         foreach ($resourceAttrs as $attrCode => $attrLabel) {
             if (!isset($available[$attrCode])) {
-                $available[$attrCode] = empty($attrLabel) ? $attrCode : $attrLabel;
+                $available[$attrCode] = $attrLabel;
             }
         }
         foreach (array_keys($available) as $code) {
@@ -1027,11 +970,10 @@ abstract class Mage_Api2_Model_Resource
     /**
      * Get EAV attributes of working model
      *
-     * @param bool $onlyVisible OPTIONAL Show only the attributes which are visible on frontend
-     * @param bool $excludeSystem OPTIONAL Exclude attributes marked as system
+     * @param bool $onlyVisible Show only the attributes which are visible on frontend
      * @return array
      */
-    public function getEavAttributes($onlyVisible = false, $excludeSystem = false)
+    public function getEavAttributes($onlyVisible = false)
     {
         $attributes = array();
         $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
@@ -1042,9 +984,6 @@ abstract class Mage_Api2_Model_Resource
         /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($onlyVisible && !$attribute->getIsVisible()) {
-                continue;
-            }
-            if ($excludeSystem && $attribute->getIsSystem()) {
                 continue;
             }
             $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
