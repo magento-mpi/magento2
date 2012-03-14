@@ -269,6 +269,46 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     }
 
     /**
+     * Print invoices mass action
+     */
+    public function massPrintInvoicesAction()
+    {
+        $this->_forward('pdfinvoices', 'sales_order', null, array('origin' => 'archive'));
+    }
+
+    /**
+     * Print Credit Memos mass action
+     */
+    public function massPrintCreditMemosAction()
+    {
+        $this->_forward('pdfcreditmemos', 'sales_order', null, array('origin' => 'archive'));
+    }
+
+    /**
+     * Print all documents mass action
+     */
+    public function massPrintAllDocumentsAction()
+    {
+        $this->_forward('pdfdocs', 'sales_order', null, array('origin' => 'archive'));
+    }
+
+    /**
+     * Print packing slips mass action
+     */
+    public function massPrintPackingSlipsAction()
+    {
+        $this->_forward('pdfshipments', 'sales_order', null, array('origin' => 'archive'));
+    }
+
+    /**
+     * Print shipping labels mass action
+     */
+    public function massPrintShippingLabelAction()
+    {
+        $this->_forward('massPrintShippingLabel', 'sales_order_shipment', null, array('origin' => 'archive'));
+    }
+
+    /**
      * Export order grid to CSV format
      */
     public function exportCsvAction()

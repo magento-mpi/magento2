@@ -111,6 +111,46 @@
                     </enterprise_salesarchive>
                 </observers>
             </sales_order_creditmemo_resource_update_grid_records>
+            <controller_action_postdispatch_adminhtml_sales_order_shipment_massPrintShippingLabel>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_shipment_massPrintShippingLabel>
+            <controller_action_postdispatch_adminhtml_sales_order_pdfshipments>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_pdfshipments>
+            <controller_action_postdispatch_adminhtml_sales_order_pdfinvoices>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_pdfinvoices>
+            <controller_action_postdispatch_adminhtml_sales_order_pdfcreditmemos>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_pdfcreditmemos>
+            <controller_action_postdispatch_adminhtml_sales_order_pdfdocs>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_pdfdocs>
         </events>
     </global>
     <admin>
