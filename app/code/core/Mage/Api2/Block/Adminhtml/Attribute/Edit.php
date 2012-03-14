@@ -55,6 +55,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Edit extends Mage_Adminhtml_Block_Widg
      */
     public function getHeaderText()
     {
-        return $this->__('Edit attribute rules');
+        $userTypes = Mage_Api2_Model_Auth_User::getUserTypes();
+        return $this->__('Edit attribute rules for %s Role', $userTypes[$this->getRequest()->getParam('type')]);
     }
 }
