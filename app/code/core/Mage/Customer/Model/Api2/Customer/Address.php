@@ -47,4 +47,26 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     {
         return $this->getEavAttributes(Mage_Api2_Model_Auth_User_Admin::USER_TYPE != $this->getUserType());
     }
+
+    /**
+     * Is specified address a default billing address?
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @return bool
+     */
+    protected function _isDefaultBillingAddress(Mage_Customer_Model_Address $address)
+    {
+        return $address->getCustomer()->getDefaultBilling() == $address->getId();
+    }
+
+    /**
+     * Is specified address a default shipping address?
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @return bool
+     */
+    protected function _isDefaultShippingAddress(Mage_Customer_Model_Address $address)
+    {
+        return $address->getCustomer()->getDefaultShipping() == $address->getId();
+    }
 }
