@@ -38,21 +38,28 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
      *
      * @var null|Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
      */
-    protected $_parentBlock = null;
+    protected $_parentBlock;
 
     /**
      * Current item id
      *
      * @var null|int
      */
-    protected $_itemId = null;
+    protected $_itemId;
 
     /**
      * Container position in list
      *
      * @var null|int
      */
-    protected $_itemPosition = null;
+    protected $_itemPosition;
+
+    /**
+     * Flag switched in getter to store data immediately after info cache is initialized
+     *
+     * @var bool
+     */
+    protected $_isInfoCacheEmpty = false;
 
     /**
      * Data shared between all instances of current container
@@ -136,15 +143,15 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
         if (is_null($info)) {
             $infoCacheId = $this->_getInfoCacheId();
             $data = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($infoCacheId);
-            $info = $data ? unserialize($data) : array();
+            if ($data) {
+                $info = unserialize($data);
+            } else {
+                $this->_isInfoCacheEmpty = true;
+                $info = array();
+            }
             self::$_sharedInfoData[$placeholderName]['info'] = $info;
         }
-
-        if (is_null($key)) {
-            return $info;
-        }
-
-        return isset($info[$key]) ? $info[$key] : null;
+        return isset($key) ? (isset($info[$key]) ? $info[$key] : null) : $info;
     }
 
     /**
@@ -223,6 +230,10 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
                     shuffle($ids);
                     $this->_setSharedParam('ids', $ids);
                 }
+            }
+
+            if ($this->_isInfoCacheEmpty && !empty(self::$_sharedInfoData[$placeholderName]['info'])) {
+                $this->_saveInfoCache();
             }
 
             if (is_null($this->_itemPosition)) {
