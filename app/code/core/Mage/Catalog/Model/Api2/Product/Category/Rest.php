@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Product_Category_Rest extends Mage_Catalog_Model_Api2_Product_Category
+abstract class Mage_Catalog_Model_Api2_Product_Category_Rest extends Mage_Catalog_Model_Api2_Product_Rest
 {
     /**
      * Product category assign is not available
@@ -77,23 +77,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Category_Rest extends Mage_Catalo
     }
 
     /**
-     * Load product by id
-     *
-     * @param int $productId
-     * @return Mage_Catalog_Model_Product
-     */
-    protected function _getProductById($productId)
-    {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($productId);
-        if (!$product->getId()) {
-            $this->_critical('Product not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-
-        return $product;
-    }
-
-    /**
      * Load category by id
      *
      * @param int $categoryId
@@ -104,7 +87,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Category_Rest extends Mage_Catalo
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('catalog/category')->setStoreId(0)->load($categoryId);
         if (!$category->getId()) {
-            $this->_critical('Category not found', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            $this->_critical('Category not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
 
         return $category;
@@ -117,7 +100,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Category_Rest extends Mage_Catalo
      */
     protected function _getCategoryIds()
     {
-        $productId = $this->getRequest()->getParam('id');
-        return $this->_getProductById($productId)->getCategoryCollection()->addIsActiveFilter()->getAllIds();
+        return $this->_getProduct()->getCategoryCollection()->addIsActiveFilter()->getAllIds();
     }
 }

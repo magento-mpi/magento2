@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
-        $product = $this->_getProductById($this->getRequest()->getParam('id'));
+        $product = $this->_getProduct();
         $category = $this->_getCategoryById($data['category_id']);
 
         $categoryIds = $product->getCategoryIds();
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
      */
     protected function _delete()
     {
-        $product = $this->_getProductById($this->getRequest()->getParam('id'));
+        $product = $this->_getProduct();
         $category = $this->_getCategoryById($this->getRequest()->getParam('category_id'));
 
         $categoryIds = $product->getCategoryIds();
@@ -117,7 +117,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
      */
     protected function _getCategoryIds()
     {
-        return $this->_getProductById($this->getRequest()->getParam('id'))->getCategoryIds();
+        return $this->_getProduct()->getCategoryIds();
     }
 
     /**

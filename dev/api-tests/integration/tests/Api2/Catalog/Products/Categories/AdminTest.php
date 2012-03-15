@@ -177,7 +177,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
@@ -201,13 +201,13 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
 
         $restResponse = $this->callPost($this->_getResourcePath('INVALID_PRODUCT'), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'Product not found'
+            'Resource not found.'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -309,13 +309,13 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     public function testListWrongProductId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'Product not found'
+            'Resource not found.'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -357,18 +357,14 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     public function testDeleteWrongProductId()
     {
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product_simple');
-
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID', $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'Product not found'
+            'Resource not found.'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -390,7 +386,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
         $this->assertNotEmpty($errors);
