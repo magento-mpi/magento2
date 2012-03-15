@@ -151,6 +151,30 @@
                     </enterprise_salesarchive>
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_pdfdocs>
+            <controller_action_postdispatch_adminhtml_sales_order_massHold>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_massHold>
+            <controller_action_postdispatch_adminhtml_sales_order_massUnhold>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_massUnhold>
+            <controller_action_postdispatch_adminhtml_sales_order_massCancel>
+                <observers>
+                    <enterprise_salesarchive>
+                        <class>enterprise_salesarchive/observer</class>
+                        <method>replaceSalesOrderRedirect</method>
+                    </enterprise_salesarchive>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_massCancel>
         </events>
     </global>
     <admin>

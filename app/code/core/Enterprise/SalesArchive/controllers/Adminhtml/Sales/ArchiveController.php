@@ -117,82 +117,27 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
 
 
     /**
-     * Cancel selected orders
+     * Cancel orders mass action
      */
     public function massCancelAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $countCancelOrder = 0;
-        foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
-            if ($order->canCancel()) {
-                $order->cancel()
-                    ->save();
-                $countCancelOrder++;
-            }
-        }
-        if ($countCancelOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) have been canceled.', $countCancelOrder));
-        }
-        else {
-            // selected orders is not available for cancel
-        }
-        $this->_redirect('*/*/orders');
+        $this->_forward('massCancel', 'sales_order', null, array('origin' => 'archive'));
     }
 
     /**
-     * Hold selected orders
+     * Hold orders mass action
      */
     public function massHoldAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $countHoldOrder = 0;
-        foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
-            if ($order->canHold()) {
-                $order->hold()->save();
-                $countHoldOrder++;
-            }
-        }
-
-        $countNonHoldOrder = count($orderIds) - $countHoldOrder;
-
-        if ($countNonHoldOrder) {
-            if ($countHoldOrder) {
-                $this->_getSession()->addError($this->__('%s order(s) were not put on hold.', $countNonHoldOrder));
-            } else {
-                $this->_getSession()->addError($this->__('No order(s) were put on hold.'));
-            }
-        }
-        if ($countHoldOrder) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) have been put on hold.', $countHoldOrder));
-        }
-
-        $this->_redirect('*/*/orders');
+        $this->_forward('massHold', 'sales_order', null, array('origin' => 'archive'));
     }
 
     /**
-     * Unhold selected orders
+     * Unhold orders mass action
      */
     public function massUnholdAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $countUnholdOrder = 0;
-        foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
-            if ($order->canUnhold()) {
-                $order->unhold()
-                    ->save();
-                $countUnholdOrder++;
-            }
-        }
-        if ($countUnholdOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) have been released from holding status.', $countUnholdOrder));
-        }
-        else {
-            // selected orders is not available for hold
-        }
-        $this->_redirect('*/*/orders');
+        $this->_forward('massUnhold', 'sales_order', null, array('origin' => 'archive'));
     }
 
     /**
