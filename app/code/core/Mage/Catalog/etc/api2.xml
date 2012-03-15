@@ -79,8 +79,8 @@
                     <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
                     <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
                     <url_key_create_redirect>Create Permanent Redirect for old URL</url_key_create_redirect>
-                    <meta_title>Page Title</meta_title>
-                    <meta_keywords>Meta Keywords</meta_keywords>
+                    <meta_title>Meta Title</meta_title>
+                    <meta_keyword>Meta Keywords</meta_keyword>
                     <meta_description>Meta Description</meta_description>
                 </attributes>
                 <exclude_attributes>
@@ -127,6 +127,8 @@
                             <regular_price_without_tax>1</regular_price_without_tax>
                             <final_price_with_tax>1</final_price_with_tax>
                             <final_price_without_tax>1</final_price_without_tax>
+                            <recurring_profile>1</recurring_profile>
+                            <thumbnail>1</thumbnail>
                         </read>
                         <write>
                             <allow_open_amount>1</allow_open_amount>
@@ -150,6 +152,9 @@
                             <regular_price_without_tax>1</regular_price_without_tax>
                             <final_price_with_tax>1</final_price_with_tax>
                             <final_price_without_tax>1</final_price_without_tax>
+                            <recurring_profile>1</recurring_profile>
+                            <thumbnail>1</thumbnail>
+                            <entity_id>1</entity_id>
                         </write>
                     </admin>
                 </exclude_attributes>
