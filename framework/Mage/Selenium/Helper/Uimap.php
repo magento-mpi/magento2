@@ -54,7 +54,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     {
         $this->_configFixtures = $this->getConfig()->getConfigFixtures();
         $config = $this->getConfig()->getHelper('config')->getConfigFramework();
-        if ($config['load_all_uimap']) {
+        if ($config['load_all_uimaps']) {
             $this->_loadUimapData();
         }
     }

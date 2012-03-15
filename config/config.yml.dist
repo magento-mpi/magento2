@@ -65,7 +65,7 @@ framework:
     #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
     captureScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
-    load_all_uimap: true
+    load_all_uimaps: true
     load_all_data: true
     cache:
         frontend:
