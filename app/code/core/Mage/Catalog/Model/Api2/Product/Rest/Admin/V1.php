@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             'operation' => self::OPERATION_CREATE
         ));
 
-        if (!$validator->isSatisfiedByData($data)) {
+        if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             'product'   => $product
         ));
 
-        if (!$validator->isSatisfiedByData($data)) {
+        if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }

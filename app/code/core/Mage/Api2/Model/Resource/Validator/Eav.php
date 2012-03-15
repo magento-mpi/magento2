@@ -146,7 +146,7 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      * @param  array $data
      * @return bool
      */
-    public function isSatisfiedByData(array $data)
+    public function isValidData(array $data)
     {
         $errors = $this->_eavForm->validateData($data);
         if (true !== $errors) {

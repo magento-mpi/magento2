@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
      * @param array $data
      * @return bool
      */
-    public function isSatisfiedByData(array $data)
+    public function isValidData(array $data)
     {
         if ($this->_isUpdate()) {
             $product = $this->_getProduct();

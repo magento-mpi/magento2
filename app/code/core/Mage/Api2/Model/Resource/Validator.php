@@ -80,11 +80,11 @@ abstract class Mage_Api2_Model_Resource_Validator
     }
 
     /**
-     * Returns an array of errors that explain why the most recent isSatisfiedByData()
+     * Returns an array of errors that explain why the most recent isValidData()
      * call returned false. The array keys are validation failure error identifiers,
      * and the array values are the corresponding human-readable error strings.
      *
-     * If isSatisfiedByData() was never called or if the most recent isSatisfiedByData() call
+     * If isValidData() was never called or if the most recent isValidData() call
      * returned true, then this method returns an empty array.
      *
      * @return array
@@ -103,5 +103,5 @@ abstract class Mage_Api2_Model_Resource_Validator
      * @param array $data
      * @void bool
      */
-    abstract public function isSatisfiedByData(array $data);
+    abstract public function isValidData(array $data);
 }

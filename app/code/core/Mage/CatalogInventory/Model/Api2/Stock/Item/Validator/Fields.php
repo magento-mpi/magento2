@@ -42,7 +42,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields extends Mage_
      * @param  array $data
      * @return bool
      */
-    public function idFieldIsSatisfiedByData(array $data)
+    public function isValidIdField(array $data)
     {
         $hasError = false;
         $idField = $this->_resource->getIdFieldName();

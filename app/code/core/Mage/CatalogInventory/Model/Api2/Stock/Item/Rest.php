@@ -87,7 +87,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
             'resource' => $this
         ));
 
-        if (!$validator->isSatisfiedByData($data)) {
+        if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
@@ -124,7 +124,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
                 ));
 
                 // check idField for resource identification
-                if (!$validator->idFieldIsSatisfiedByData($itemData)) {
+                if (!$validator->isValidIdField($itemData)) {
                     foreach ($validator->getErrors() as $error) {
                         $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
                     }
@@ -135,7 +135,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
                 $stockItem = $this->_loadStockItemById($itemData[$this->getIdFieldName()]);
 
                 // check data
-                if (!$validator->isSatisfiedByData($itemData)) {
+                if (!$validator->isValidData($itemData)) {
                     foreach ($validator->getErrors() as $error) {
                         $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
                             $itemData[$this->getIdFieldName()]);

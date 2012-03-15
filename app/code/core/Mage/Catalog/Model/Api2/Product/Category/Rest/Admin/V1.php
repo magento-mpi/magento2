@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
     {
         /* @var $validator Mage_Api2_Model_Resource_Validator_Fields */
         $validator = Mage::getResourceModel('api2/validator_fields', array('resource' => $this));
-        if (!$validator->isSatisfiedByData($data)) {
+        if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
