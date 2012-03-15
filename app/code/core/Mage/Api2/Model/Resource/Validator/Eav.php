@@ -67,6 +67,13 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     protected $_eavForm;
 
     /**
+     * Operation. One of Mage_Api2_Model_Resource::OPERATION_... constant
+     *
+     * @var string
+     */
+    protected $_operation;
+
+    /**
      * Construct. Set all depends.
      *
      * Required parameteres for options:
@@ -88,28 +95,27 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
             throw new Exception("Passed parameter 'resource' is wrong.");
         }
         $resource = $options['resource'];
-        $resourceType = $resource->getResourceType();
         $userType = $resource->getUserType();
 
-        if (!isset($options['operation']) || empty($options['operation'])) {
+        if (empty($options['operation'])) {
             throw new Exception("Passed parameter 'operation' is empty.");
         }
-        $operation = $options['operation'];
+        $this->_operation = $options['operation'];
 
         $validationConfig = $resource->getConfig()->getValidationConfig(
             $resource->getResourceType(), self::CONFIG_NODE_KEY);
 
-        if (!isset($validationConfig[$userType]['form_model'])) {
+        if (empty($validationConfig[$userType]['form_model'])) {
             throw new Exception("Config parameter 'formPath' is empty.");
         }
         $this->_formPath = $validationConfig[$userType]['form_model'];
 
-        if (!isset($validationConfig[$userType]['form_code'])) {
+        if (empty($validationConfig[$userType]['form_code'])) {
             throw new Exception("Config parameter 'formCode' is empty.");
         }
         $this->_formCode = $validationConfig[$userType]['form_code'];
 
-        if (!isset($validationConfig[$userType]['entity_model'])) {
+        if (empty($validationConfig[$userType]['entity_model'])) {
             throw new Exception("Config parameter 'entity' is wrong.");
         }
         $this->_entity = Mage::getModel($validationConfig[$userType]['entity_model']);
