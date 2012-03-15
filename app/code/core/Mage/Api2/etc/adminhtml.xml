@@ -34,8 +34,8 @@
                         <children>
                             <api>
                                 <children>
-                                    <roles_rest translate="title">
-                                        <title>REST Roles</title>
+                                    <rest_roles translate="title" module="api2">
+                                        <title>REST - Roles</title>
                                         <sort_order>30</sort_order>
                                         <children>
                                             <add translate="title">
@@ -51,9 +51,9 @@
                                                 <sort_order>30</sort_order>
                                             </delete>
                                         </children>
-                                    </roles_rest>
-                                    <attributes_rest translate="title">
-                                        <title>REST Attributes</title>
+                                    </rest_roles>
+                                    <rest_attributes translate="title" module="api2">
+                                        <title>REST - Attributes</title>
                                         <sort_order>40</sort_order>
                                         <children>
                                             <edit translate="title">
@@ -61,7 +61,7 @@
                                                 <sort_order>10</sort_order>
                                             </edit>
                                         </children>
-                                    </attributes_rest>
+                                    </rest_attributes>
                                 </children>
                             </api>
                         </children>
@@ -75,16 +75,16 @@
             <children>
                 <api>
                     <children>
-                        <roles_rest translate="title">
-                            <title>REST Roles</title>
+                        <rest_roles translate="title" module="api2">
+                            <title>REST - Roles</title>
                             <sort_order>30</sort_order>
                             <action>adminhtml/api2_role</action>
-                        </roles_rest>
-                        <attributes_rest translate="title">
-                            <title>REST Attributes</title>
+                        </rest_roles>
+                        <rest_attributes translate="title" module="api2">
+                            <title>REST - Attributes</title>
                             <sort_order>40</sort_order>
                             <action>adminhtml/api2_attribute</action>
-                        </attributes_rest>
+                        </rest_attributes>
                     </children>
                 </api>
             </children>

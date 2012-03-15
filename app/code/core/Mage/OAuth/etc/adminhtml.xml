@@ -32,12 +32,10 @@
                 <children>
                     <system>
                         <children>
-                            <oauth translate="title" module="oauth">
-                                <title>OAuth</title>
-                                <sort_order>10</sort_order>
+                            <api>
                                 <children>
-                                    <consumer translate="title">
-                                        <title>Consumers</title>
+                                    <consumer translate="title" module="oauth">
+                                        <title>OAuth Consumers</title>
                                         <sort_order>20</sort_order>
                                         <children>
                                             <edit translate="title">
@@ -50,23 +48,20 @@
                                             </delete>
                                         </children>
                                     </consumer>
-                                    <authorizedTokens translate="title">
-                                        <title>Authorized Tokens</title>
+                                    <authorizedTokens translate="title" module="oauth">
+                                        <title>OAuth Authorized Tokens</title>
                                         <sort_order>30</sort_order>
                                     </authorizedTokens>
-                                    <cleanup>
+                                    <oauth_admin_token translate="title" module="oauth">
+                                        <title>OAuth Admin My Applications</title>
+                                        <sort_order>40</sort_order>
+                                    </oauth_admin_token>
+                                    <cleanup translate="title" module="oauth">
                                         <title>Cleanup Settings</title>
+                                        <sort_order>50</sort_order>
                                     </cleanup>
                                 </children>
-                            </oauth>
-                            <acl>
-                                <children>
-                                    <oauth_admin_token translate="title">
-                                        <title>OAuth Admin My Applications</title>
-                                        <sort_order>20</sort_order>
-                                    </oauth_admin_token>
-                                </children>
-                            </acl>
+                            </api>
                             <config>
                                 <children>
                                     <oauth translate="title">
@@ -90,31 +85,25 @@
     <menu>
         <system>
             <children>
-                <oauth translate="title" module="oauth">
-                    <title>OAuth</title>
-                    <sort_order>15</sort_order>
+                <api>
                     <children>
-                        <consumer translate="title">
-                            <title>Consumers</title>
-                            <sort_order>10</sort_order>
-                            <action>adminhtml/oAuth_consumer</action>
-                        </consumer>
-                        <authorizedTokens translate="title">
-                            <title>Authorized Tokens</title>
-                            <sort_order>20</sort_order>
-                            <action>adminhtml/oAuth_authorizedTokens</action>
-                        </authorizedTokens>
-                    </children>
-                </oauth>
-                <acl>
-                    <children>
-                        <oauth_admin_token translate="title">
-                            <title>My Applications</title>
+                        <oauth_consumer translate="title" module="oauth">
+                            <title>REST - OAuth Consumers</title>
                             <sort_order>50</sort_order>
+                            <action>adminhtml/oAuth_consumer</action>
+                        </oauth_consumer>
+                        <oauth_authorized_tokens translate="title" module="oauth">
+                            <title>REST - OAuth Authorized Tokens</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/oAuth_authorizedTokens</action>
+                        </oauth_authorized_tokens>
+                        <oauth_admin_token translate="title" module="oauth">
+                            <title>REST - My Applications</title>
+                            <sort_order>70</sort_order>
                             <action>adminhtml/oAuth_admin_token</action>
                         </oauth_admin_token>
                     </children>
-                </acl>
+                </api>
             </children>
         </system>
     </menu>
