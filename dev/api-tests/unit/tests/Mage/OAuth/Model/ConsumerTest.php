@@ -98,7 +98,7 @@ class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
     {
 
         $this->_consumer->setCallbackUrl(self::INVALID_URL);
-        $this->setExpectedException('Mage_Core_Exception', sprintf("Invalid URL '%s'", self::INVALID_URL));
+        $this->setExpectedException('Mage_Core_Exception', sprintf("Invalid Callback URL '%s'", self::INVALID_URL));
 
         $this->_consumer->validate();
     }
@@ -118,7 +118,8 @@ class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
     public function testRejectedCallbackUrlValidationInvalid()
     {
         $this->_consumer->setRejectedCallbackUrl(self::INVALID_URL);
-        $this->setExpectedException('Mage_Core_Exception', sprintf("Invalid URL '%s'", self::INVALID_URL));
+        $this->setExpectedException('Mage_Core_Exception', sprintf("Invalid Rejected Callback URL '%s'",
+            self::INVALID_URL));
 
         $this->_consumer->validate();
     }
