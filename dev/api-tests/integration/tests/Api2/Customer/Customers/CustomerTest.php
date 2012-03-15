@@ -80,10 +80,11 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
 
         $data = $response->getBody();
         $this->assertCount(1, $data);
-        $this->assertArrayHasKey(1, $data);
 
-        foreach ($data[1] as $key => $value) {
-            $this->assertEquals($customer->getData($key), $value);
+        foreach (array_shift($data) as $key => $value) {
+            if ($customer->hasData($key)) {
+                $this->assertEquals($customer->getData($key), $value);
+            }
         }
     }
 
