@@ -49,15 +49,47 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
-     * Retrieve product data
+     * Add special fields to product get response
      *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _prepareProductForResponse(Mage_Catalog_Model_Product $product)
+    {
+        $pricesFilterKeys = array('price_id', 'all_groups', 'website_price');
+        $groupPrice = $product->getData('group_price');
+        $product->setData('group_price', $this->_filterOutArrayKeys($groupPrice, $pricesFilterKeys));
+        $tierPrice = $product->getData('tier_price');
+        $product->setData('tier_price', $this->_filterOutArrayKeys($tierPrice, $pricesFilterKeys));
+
+        $stockData = $product->getStockItem()->getData();
+        $stockDataFilterKeys = array('item_id', 'product_id', 'stock_id', 'low_stock_date', 'type_id',
+            'stock_status_changed_auto', 'stock_status_changed_automatically', 'product_name', 'store_id',
+            'product_type_id', 'product_status_changed', 'product_changed_websites');
+        $product->setData('stock_data', $this->_filterOutArrayKeys($stockData, $stockDataFilterKeys));
+    }
+
+    /**
+     * Remove specified keys from associative or indexed array
+     *
+     * @param array $array
+     * @param array $keys
      * @return array
      */
-    protected function _retrieve()
+    protected function _filterOutArrayKeys(array $array, array $keys)
     {
-        $product = $this->_getProduct();
-        $productData = $product->getData();
-        return $productData;
+        $isIndexedArray = is_array(reset($array));
+        if ($isIndexedArray) {
+            foreach ($array as &$value) {
+                if (is_array($value)) {
+                    $value = array_diff_key($value, array_flip($keys));
+                }
+            }
+            unset($value);
+        } else {
+            $array = array_diff_key($array, array_flip($keys));
+        }
+
+        return $array;
     }
 
     /**

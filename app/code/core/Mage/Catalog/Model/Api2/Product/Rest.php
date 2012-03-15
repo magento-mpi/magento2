@@ -48,11 +48,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     protected function _retrieve()
     {
         $product = $this->_getProduct();
-        /** @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('catalog/product');
-        if (!($product->isInStock() && $productHelper->canShow($product))) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
+
         $this->_prepareProductForResponse($product);
         return $product->getData();
     }
@@ -136,8 +132,11 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $productData['buy_now_url'] = $cartHelper->getAddUrl($product);
 
         /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('cataloginventory/stock_item');
-        $stockItem->loadByProduct($product);
+        $stockItem = $product->getStockItem();
+        if (!$stockItem) {
+            $stockItem = Mage::getModel('cataloginventory/stock_item');
+            $stockItem->loadByProduct($product);
+        }
         $productData['is_in_stock'] = $stockItem->getIsInStock();
 
         /** @var $reviewModel Mage_Review_Model_Review */
@@ -179,7 +178,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     }
 
     /**
-     * Load product by its SKU or ID
+     * Load product by its SKU or ID provided in request
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -197,6 +196,12 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             if ($this->getRequest()->getParam('store')) {
                 $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
                 if (!$isValidWebsite) {
+                    $this->_critical(self::RESOURCE_NOT_FOUND);
+                }
+            }
+            // Check display settings for customers & guests
+            if ($this->getApiUser()->getType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
+                if (!$productHelper->canShow($product)) {
                     $this->_critical(self::RESOURCE_NOT_FOUND);
                 }
             }
