@@ -69,6 +69,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_directOutput = false;
 
     /**
+     * A vairable for transporting output into observer during rendering
+     *
+     * @var string
+     */
+    protected $_renderingOutput = '';
+
+    /**
      * Available options for containers in layout
      *
      * @var array
@@ -85,7 +92,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @var array
      */
-    protected $_elementsHtmlCache = array();
+    protected $_renderElementCache = array();
 
     /**
      * Layout structure model
@@ -437,9 +444,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Find an element in layout and render it
-     *
-     * Returns element's output as string or false if element is not found
+     * Find an element in layout, render it and return string with its output
      *
      * @param string $name
      * @param bool $useCache
@@ -447,18 +452,45 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function renderElement($name, $useCache = true)
     {
-        if ($useCache && isset($this->_elementsHtmlCache[$name])) {
-            return $this->_elementsHtmlCache[$name];
+        if (!isset($this->_renderElementCache[$name]) || !$useCache) {
+            if ($this->_structure->isBlock($name)) {
+                $result = $this->_renderBlock($name);
+            } else {
+                $result = $this->_renderContainer($name);
+            }
+            $this->_renderElementCache[$name] = $result;
         }
+        $this->setRenderingOutput($this->_renderElementCache[$name]);
+        Mage::dispatchEvent('core_layout_render_element', array(
+            'element_name' => $name,
+            'structure'    => $this->_structure,
+            'layout'       => $this,
+        ));
+        return $this->_renderingOutput;
+    }
 
-        if ($this->_structure->isBlock($name)) {
-            return $this->_renderBlock($name);
-        }
-        $html = $this->_renderContainer($name);
+    /**
+     * Set output for rendering an element
+     *
+     * Makes sense only while execution is within renderElement()
+     *
+     * @param string $value
+     * @return Mage_Core_Model_Layout
+     */
+    public function setRenderingOutput($value)
+    {
+        $this->_renderingOutput = $value;
+        return $this;
+    }
 
-        $this->_elementsHtmlCache[$name] = $html;
-
-        return $html;
+    /**
+     * Get output for rendering an element
+     *
+     * @return string
+     */
+    public function getRenderingOutput()
+    {
+        return $this->_renderingOutput;
     }
 
     public function addToParentGroup($name, $parentGroupName)

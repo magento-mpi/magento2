@@ -503,6 +503,22 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
+     * Whether the specified element may be manipulated externally
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isManipulationAllowed($name)
+    {
+        $element = $this->_getElementByName($name);
+        $parent = isset($element->parentNode) ? $element->parentNode : null;
+        if ($parent && self::ELEMENT_TYPE_CONTAINER == $parent->getAttribute('type')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get child node from a parent
      *
      * @param string $parentName

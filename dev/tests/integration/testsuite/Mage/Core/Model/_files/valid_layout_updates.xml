@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <a_handle>
+        <container name="container1">
+            <block type="Mage_Core_Block_Template" name="block1" template="Mage_Core::test.phtml">
+                <action method="setTestValue"><value>1</value></action>
+            </block>
+            <block type="Mage_Core_Block_Template" name="block2" template="Mage_Core::test.phtml">
+                <action method="setTestValue"><value>2</value></action>
+            </block>
+        </container>
+    </a_handle>
+</layout>

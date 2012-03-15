@@ -22,7 +22,6 @@ class Mage_DesignEditor_Model_Layout
      */
     protected static $_blockWhiteList = array(
         'Mage_Core_Block_Template',
-        'Mage_Core_Block_Text_List',
         'Mage_Page_Block_',
         'Mage_DesignEditor_Block_',
         'Mage_Checkout_Block_Onepage_',

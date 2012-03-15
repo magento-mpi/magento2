@@ -105,85 +105,52 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $elementName
+     * @param string $expectedOutput
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @dataProvider wrapPageElementDataProvider
      */
-    public function testWrapHtmlWithBlockInfo()
+    public function testWrapPageElement($elementName, $expectedOutput)
     {
-        $params = array(
-            'name'      => 'block.name',
-            'html'      => '<div>Any text</div>',
-            'container' => 'parent'
-        );
-        $observerData = $this->_buildObserverData($params);
-        $this->_observer->wrapHtmlWithBlockInfo($observerData);
+        // create a layout object mock with fixture data
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layoutMock = $utility->getLayoutFromFixture(__DIR__ . '/../_files/observer_test.xml');
 
-        $wrappedHtml = $observerData->getTransport()->getHtml();
-        $this->assertContains($params['html'], $wrappedHtml);
-        $this->assertNotEquals($params['html'], $wrappedHtml);
+        // replace layout structure instance (protected argument), so that it could be used in observer
+        $structure = new Mage_Core_Model_Layout_Structure;
+        $structureProperty = new ReflectionProperty(get_class($layoutMock), '_structure');
+        $structureProperty->setAccessible(true);
+        $structureProperty->setValue($layoutMock, $structure);
+
+        // load the fixture data. This will populate layout structure as well
+        $layoutMock->getUpdate()->addHandle('test_handle')->load();
+        $layoutMock->generateXml()->generateBlocks();
+
+        $expectedContent = 'test_content';
+        $layoutMock->setRenderingOutput($expectedContent);
+        $observer = new Varien_Event_Observer(array(
+            'event' => new Varien_Event(array(
+                'structure' => $structure,
+                'layout' => $layoutMock,
+                'element_name' => $elementName,
+            ))
+        ));
+
+        $this->_observer->wrapPageElement($observer);
+        $this->assertEquals(sprintf($expectedOutput, $expectedContent), $layoutMock->getRenderingOutput());
     }
 
     /**
-     * @param array $params
-     * @param string $expectedHtml
-     *
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     * @dataProvider wrapHtmlWithBlockInfoDataProvider
+     * @return array
      */
-    public function testWrapHtmlWithBlockInfoNoWrapping($params, $expectedHtml)
-    {
-        $observerData = $this->_buildObserverData($params);
-        $this->_observer->wrapHtmlWithBlockInfo($observerData);
-        $this->assertEquals($expectedHtml, $observerData->getTransport()->getHtml());
-    }
-
-    public function wrapHtmlWithBlockInfoDataProvider()
+    public function wrapPageElementDataProvider()
     {
         return array(
-            'body' => array(
-                'params' => array(
-                    'name' => 'block.name',
-                    'html' => '<title>Title</title><body>Body</body>'
-                ),
-                'expectedHtml' => '<title>Title</title><body>Body</body>'
-            ),
-            'unknown_content' => array(
-                'params' => array(
-                    'name' => 'block.name',
-                    'html' => 'Some content'
-                ),
-                'expectedHtml' => 'Some content'
-            ),
-            'vde_blocks' => array(
-                'params' => array(
-                    'name' => 'block.name',
-                    'html' => '<div>Any text</div>',
-                    'class' => 'Mage_DesignEditor_Block_Toolbar'
-                ),
-                'expectedHtml' => '<div>Any text</div>'
-            )
+            array('test.text', '<br class="vde_marker" block_name="test.text"' . "\n" . '    marker_type="start"/>'
+                        . "\n" . '%s<br class="vde_marker" marker_type="end"/>' . "\n"),
+            array('toolbar', '%s'),
+            array('test.text3', '%s'),
         );
-    }
-
-    protected function _buildObserverData($params)
-    {
-        if (!isset($params['class'])) {
-            $params['class'] = 'Mage_Core_Block_Template';
-        }
-        $layout = new Mage_Core_Model_Layout;
-        $block = $layout->createBlock($params['class'], $params['name']);
-        if (isset($params['container'])) {
-            $layout->insertContainer('', $params['container']);
-            $layout->insertBlock($params['container'], $params['name'], $params['name']);
-        }
-
-        $transport = new Varien_Object();
-        $transport->setHtml($params['html']);
-
-        $result = new Varien_Event_Observer;
-        $result->setTransport($transport);
-        $result->setBlock($block);
-        return $result;
     }
 }

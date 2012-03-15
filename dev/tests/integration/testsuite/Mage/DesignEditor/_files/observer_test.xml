@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <test_handle>
+        <container name="root">
+            <block type="Mage_Core_Block_Text" name="test.text">
+                <action method="setText"><value>txt</value></action>
+            </block>
+            <block type="Mage_DesignEditor_Block_Toolbar" name="toolbar" template="toolbar.phtml"/>
+            <block type="Mage_Core_Block_Text" name="test.text2">
+                <block type="Mage_Core_Block_Text" name="test.text3"/>
+            </block>
+        </container>
+    </test_handle>
+</layout>

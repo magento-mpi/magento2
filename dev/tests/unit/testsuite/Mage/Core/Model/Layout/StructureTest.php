@@ -336,4 +336,21 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isContainer($container));
         $this->assertFalse($this->_model->isContainer($invalidType));
     }
+
+    public function testIsManipulationAllowed()
+    {
+        // non-existing elements
+        $this->assertFalse($this->_model->isManipulationAllowed('block2'));
+        $this->assertFalse($this->_model->isManipulationAllowed('block3'));
+
+        // block under block
+        $this->assertEquals('block1', $this->_model->insertBlock('', 'block1'));
+        $this->assertEquals('block2', $this->_model->insertBlock('block1', 'block2'));
+        $this->assertFalse($this->_model->isManipulationAllowed('block2'));
+
+        // block under container
+        $this->assertEquals('container1', $this->_model->insertContainer('', 'container1'));
+        $this->assertEquals('block3', $this->_model->insertBlock('container1', 'block3'));
+        $this->assertTrue($this->_model->isManipulationAllowed('block3'));
+    }
 }

@@ -6,10 +6,10 @@
          </action>
       </block>
       <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
-      <block name="content" type="Mage_Core_Block_Text_List">
+      <container name="content">
          <block name="custom.not_safe" type="Mage_Core_Block_Template" template="Mage_DesignEditor::stub.phtml">%A</block>
          <block type="Mage_Page_Block_Safe"/>
-      </block>
+      </container>
    </block>
    <reference name="head">
       <action method="safeMethod">

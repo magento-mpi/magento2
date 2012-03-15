@@ -115,6 +115,24 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('popup.phtml', $block->getTemplate());
     }
 
+    public function testRenderElement()
+    {
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout->getUpdate()->addHandle('a_handle')->load();
+        $layout->generateXml()->generateBlocks();
+        $this->assertEmpty($layout->renderElement('nonexisting_element'));
+        $this->assertEquals('Value: 1Value: 2', $layout->renderElement('container1'));
+        $this->assertEquals('Value: 1', $layout->renderElement('block1'));
+    }
+
+    public function testSetGetRenderingOutput()
+    {
+        $this->assertEmpty($this->_layout->getRenderingOutput());
+        $this->assertSame($this->_layout, $this->_layout->setRenderingOutput('test'));
+        $this->assertEquals('test', $this->_layout->getRenderingOutput());
+    }
+
     public function testSetUnsetBlock()
     {
         $expectedBlockName = 'block_' . __METHOD__;
