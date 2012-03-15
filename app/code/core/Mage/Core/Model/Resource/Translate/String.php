@@ -223,11 +223,12 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
             ->where('store_id = :store_id')
             ->where('locale = :locale')
             ->where('string = :string')
-        ;
+            ->where('crc_string = :crc_string');
         $bind = array(
-            'store_id' => $storeId,
-            'locale'   => $locale,
-            'string'   => $string
+            'store_id'   => $storeId,
+            'locale'     => $locale,
+            'string'     => $string,
+            'crc_string' => crc32($string),
         );
 
         if ($row = $write->fetchRow($select, $bind)) {
@@ -242,10 +243,11 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
             }
         } else {
             $write->insert($table, array(
-                'store_id'  => $storeId,
-                'locale'    => $locale,
-                'string'    => $string,
-                'translate' => $translate,
+                'store_id'   => $storeId,
+                'locale'     => $locale,
+                'string'     => $string,
+                'translate'  => $translate,
+                'crc_string' => crc32($string),
             ));
         }
 
