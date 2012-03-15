@@ -35,6 +35,28 @@
 class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
+     * Customer count of collection
+     */
+    const CUSTOMER_COLLECTION_COUNT = 5;
+
+    /**
+     * Generate customers to test collection
+     */
+    protected function _generateCustomers()
+    {
+        $counter = 0;
+        while ($counter++ < self::CUSTOMER_COLLECTION_COUNT) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer');
+            $customer->setData($this->_customer)
+                ->setEmail(mt_rand() . 'customer.example.com')
+                ->save();
+
+            $this->addModelToDelete($customer, true);
+        }
+    }
+
+    /**
      * Test create customer
      */
     public function testCreate()
@@ -44,12 +66,25 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
     }
 
     /**
-     * Test retrieve customers collection
+     * Test retrieve customer collection
      */
     public function testRetrieve()
     {
+        $this->_generateCustomers();
+
         $response = $this->callGet('customers');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->getDefaultCustomer();
+
+        $data = $response->getBody();
+        $this->assertCount(1, $data);
+        $this->assertArrayHasKey(1, $data);
+
+        foreach ($data[1] as $key => $value) {
+            $this->assertEquals($customer->getData($key), $value);
+        }
     }
 
     /**
