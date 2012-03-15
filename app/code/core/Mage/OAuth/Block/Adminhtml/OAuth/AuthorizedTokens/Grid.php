@@ -94,7 +94,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
         ));
 
         $this->addColumn('user_id', array(
-            'header'    => $this->__('User Id'),
+            'header'    => $this->__('User ID'),
             //'index'     => array('customer_id', 'admin_id'),
             'frame_callback' => array($this, 'decorateUserId')
         ));

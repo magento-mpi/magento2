@@ -101,14 +101,14 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
             /** @var $validatorUrl Mage_Core_Model_Url_Validator */
             $validatorUrl = Mage::getSingleton('core/url_validator');
 
-            if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
-                $messages = $validatorUrl->getMessages();
-                Mage::throwException(array_shift($messages));
-            }
+            /** @var $helper Mage_OAuth_Helper_Data */
+            $helper = Mage::helper('oauth');
 
+            if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
+                Mage::throwException($helper->__('Invalid Callback URL'));
+            }
             if ($this->getRejectedCallbackUrl() && !$validatorUrl->isValid($this->getRejectedCallbackUrl())) {
-                $messages = $validatorUrl->getMessages();
-                Mage::throwException(array_shift($messages));
+                Mage::throwException($helper->__('Invalid Rejected Callback URL'));
             }
         }
 

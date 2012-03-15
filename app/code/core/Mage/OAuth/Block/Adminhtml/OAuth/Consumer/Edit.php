@@ -92,9 +92,9 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
     public function getHeaderText()
     {
         if ($this->getModel()->getId()) {
-            return $this->__('Edit consumer');
+            return $this->__('Edit Consumer');
         } else {
-            return $this->__('New consumer');
+            return $this->__('New Consumer');
         }
     }
 }
