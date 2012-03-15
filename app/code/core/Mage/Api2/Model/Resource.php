@@ -669,12 +669,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
-     * @param int $itemId
+     * @param array $params
      * @return Mage_Api2_Model_Resource
      */
-    protected function _successMessage($message, $code, $itemId = null)
+    protected function _successMessage($message, $code, $params = array())
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        $this->getResponse()->addMessage($message, $code, $params, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
         return $this;
     }
 
@@ -683,12 +683,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
-     * @param int $itemId
+     * @param array $params
      * @return Mage_Api2_Model_Resource
      */
-    protected function _errorMessage($message, $code, $itemId = null)
+    protected function _errorMessage($message, $code, $params = array())
     {
-        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        $this->getResponse()->addMessage($message, $code, $params, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
         return $this;
     }
 

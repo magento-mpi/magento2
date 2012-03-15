@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
                         $website->getId()));
                 } else {
                     // Validate "Copy To Stores" data and associations
-                    $this->_addErrorsIfCopyToStoresDataIsNotValid($data, $product, $website);
+                    $this->_addErrorsIfCopyToStoresDataIsNotValid($product, $website, $data);
                 }
             }
         }
@@ -91,10 +91,11 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
                     if (!$storeFrom->getId()) {
                         $this->_addError(sprintf('Store not found #%s for website #%s.', $storeData['store_from'],
                             $data['website_id']));
-                    }
-                    if (in_array($storeFrom->getId(), $product->getStoreIds())) {
-                        $this->_addError(sprintf('Store(#%d) from which we will copy the information is not belongs '
-                            . 'to the product(#%d) being edited.', $storeData['store_from'], $product->getId()));
+                    } else {
+                        if (!in_array($storeFrom->getId(), $product->getStoreIds())) {
+                            $this->_addError(sprintf('Store(#%d) from which we will copy the information is not belongs'
+                                . ' to the product(#%d) being edited.', $storeFrom->getId(), $product->getId()));
+                        }
                     }
                 }
 
@@ -108,10 +109,11 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
                     if (!$storeTo->getId()) {
                         $this->_addError(sprintf('Store not found #%s for website #%s.', $storeData['store_to'],
                             $data['website_id']));
-                    }
-                    if (in_array($storeFrom->getId(), $website->getStoreIds())) {
-                        $this->_addError(sprintf('Store(#%d) to which we will copy the information is not belongs '
-                            . 'to the website(#%d) being added.', $storeData['store_from'], $data['website_id']));
+                    } else {
+                        if (!in_array($storeTo->getId(), $website->getStoreIds())) {
+                            $this->_addError(sprintf('Store(#%d) to which we will copy the information is not belongs'
+                                . ' to the website(#%d) being added.', $storeTo->getId(), $data['website_id']));
+                        }
                     }
                 }
             }

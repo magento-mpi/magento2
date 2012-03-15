@@ -81,26 +81,97 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
     }
 
     /**
-     * Test of a website assignment to a product (POST method)
+     * Test of a website assignment to a product (with "copy to stores") (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
      */
-    public function testWebsiteAssignmentToProduct()
+    public function testAssignWebsiteToProductWithCopyToStores()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
         $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
+        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
+        $assignedStoredDataId = array_pop($websiteAssignedToProduct->getStoreIds());
+        $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
         $websitesData = array(
-            'website_id' => $websiteNotAssignedToProduct->getId()
+            'website_id' => $websiteNotAssignedToProduct->getId(),
+            'copy_to_stores' => array(
+                array(
+                    'store_from' => $assignedStoredDataId,
+                    'store_to' => $notAssignedStoredDataId,
+                )
+            )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
+        // Check website
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')->load($product->getId());
         $this->assertContains($websiteNotAssignedToProduct->getId(), $product->getWebsiteIds());
+
+        // Check stores
+        $existStoreData = Mage::getModel('catalog/product')
+            ->setStoreId($assignedStoredDataId)
+            ->load($product->getId())
+            ->toArray();
+        unset($existStoreData['store_id']);
+        unset($existStoreData['stock_item']['store_id']);
+
+        $newStoreData = Mage::getModel('catalog/product')
+            ->setStoreId($notAssignedStoredDataId)
+            ->load($product->getId())
+            ->toArray();
+        unset($newStoreData['store_id']);
+        unset($newStoreData['stock_item']['store_id']);
+
+        $this->assertEquals($existStoreData, $newStoreData);
+    }
+
+    /**
+     * Test of a website assignment to an unavailable product (POST method)
+     *
+     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
+     */
+    public function testWebsiteAssignmentToUnavailableProduct()
+    {
+        /* @var $website Mage_Core_Model_Website */
+        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+
+        $websitesData = array(
+            'website_id' => $websiteNotAssignedToProduct->getId()
+        );
+        $restResponse = $this->callPost('products/-1/websites', $websitesData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Product not found #-1.');
+    }
+
+    /**
+     * Test invalid website id in request body (POST method)
+     *
+     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
+     */
+    public function testInvalidWebsiteIdInRequestBody()
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product');
+
+        $websitesData = array(
+            'website_id' => 'invalid_id'
+        );
+        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'],
+            'Invalid value for "website_id" in request.');
     }
 
     /**
@@ -122,27 +193,6 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertEquals($responseData['messages']['error'][0]['message'], 'Website not found #-1.');
-    }
-
-    /**
-     * Test of a website assignment to an unavailable product (POST method)
-     *
-     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
-     */
-    public function testWebsiteAssignmentToUnavailableProduct()
-    {
-        /* @var $website Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
-
-        $websitesData = array(
-            'website_id' => $websiteNotAssignedToProduct->getId()
-        );
-        $restResponse = $this->callPost('products/-1/websites', $websitesData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Product not found #-1.');
     }
 
     /**
@@ -176,11 +226,95 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
     }
 
     /**
-     * Test of a website assignment to a product with "copy to stores" (POST method)
+     * Test invalid store ids in copy to stores data (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
      */
-    public function _testAssignWebsiteToProductWithCopyToStores()
+    public function testInvalidStoreIdsInCopyToStoresData()
+    {
+        /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
+        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product');
+
+        $websitesData = array(
+            'website_id' => $websiteNotAssignedToProduct->getId(),
+            'copy_to_stores' => array(
+                array(
+                    'store_from' => 'invalid_id',
+                    'store_to' => 'invalid_id',
+                )
+            )
+        );
+        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals(
+            $responseData['messages']['error'][0]['message'],
+            sprintf(
+                'Invalid value for "store_from" for the website with ID %s.',
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
+        $this->assertEquals(
+            $responseData['messages']['error'][1]['message'],
+            sprintf(
+                'Invalid value for "store_to" for the website with ID %s.',
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
+    }
+
+    /**
+     * Test use unavailable stores in copy to stores data (POST method)
+     *
+     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
+     */
+    public function testUseUnavailableStoresInCopyToStoresData()
+    {
+        /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
+        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product');
+
+        $websitesData = array(
+            'website_id' => $websiteNotAssignedToProduct->getId(),
+            'copy_to_stores' => array(
+                array(
+                    'store_from' => -1,
+                    'store_to' => -1,
+                )
+            )
+        );
+        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals(
+            $responseData['messages']['error'][0]['message'],
+            sprintf(
+                'Store not found #-1 for website #%s.',
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
+        $this->assertEquals(
+            $responseData['messages']['error'][1]['message'],
+            sprintf(
+                'Store not found #-1 for website #%s.',
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
+    }
+
+    /**
+     * Test use invalid stores associations in copy to stores data (POST method)
+     *
+     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
+     */
+    public function testUseInvalidStoresAssociationsInCopyToStoresData()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
         $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
@@ -195,33 +329,128 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
             'website_id' => $websiteNotAssignedToProduct->getId(),
             'copy_to_stores' => array(
                 array(
-                    'store_from' => $assignedStoredDataId,
-                    'store_to' => $notAssignedStoredDataId,
+                    'store_from' => $notAssignedStoredDataId, // wrong store from which we will copy the information
+                    'store_to' => $assignedStoredDataId, // wrong store to which we will copy the information
                 )
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        print_r($restResponse);exit;
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
-        $newStoreData = Mage::getModel('catalog/product')
-            ->setStoreId($notAssignedStoredDataId)
-            ->load($product->getId())
-            ->toArray();
-        $existStoreData = Mage::getModel('catalog/product')
-            ->setStoreId($assignedStoredDataId)
-            ->load($product->getId())
-            ->toArray();
-        $this->assertEquals($newStoreData, $existStoreData);
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals(
+            $responseData['messages']['error'][0]['message'],
+            sprintf(
+                'Store(#%d) from which we will copy the information is not belongs to the product(#%d) being edited.',
+                $notAssignedStoredDataId,
+                $product->getId()
+            )
+        );
+        $this->assertEquals(
+            $responseData['messages']['error'][1]['message'],
+            sprintf(
+                'Store(#%d) to which we will copy the information is not belongs to the website(#%d) being added.',
+                $assignedStoredDataId,
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
     }
 
     /**
-     * Test of a website multi assignment to a product (POST method)
+     * Test of a website multi assignment to a product (with copy to stores) (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
      */
     public function testMultiAssignWebsiteToProduct()
     {
+        $websitesNotAssignedToProduct = self::getFixture('websitesNotAssignedToProduct');
+        /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
+        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $assignedStoredDataId = array_pop($websiteAssignedToProduct->getStoreIds());
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product');
+
+        $multiData = array();
+        foreach ($websitesNotAssignedToProduct as $websiteNotAssignedToProduct) {
+            $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+            $multiData[] = array(
+                'website_id' => $websiteNotAssignedToProduct->getId(),
+                'copy_to_stores' => array(
+                    array(
+                        'store_from' => $assignedStoredDataId,
+                        'store_to' => $notAssignedStoredDataId,
+                    )
+                )
+            );
+        }
+        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($product->getId());
+
+        $existStoreData = Mage::getModel('catalog/product')
+            ->setStoreId($assignedStoredDataId)
+            ->load($product->getId())
+            ->toArray();
+        unset($existStoreData['store_id']);
+        unset($existStoreData['stock_item']['store_id']);
+
+        foreach ($websitesNotAssignedToProduct as $websiteNotAssignedToProduct) {
+            // Check website
+            $this->assertContains($websiteNotAssignedToProduct->getId(), $product->getWebsiteIds());
+
+            // Check stores
+            $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+            $newStoreData = Mage::getModel('catalog/product')
+                ->setStoreId($notAssignedStoredDataId)
+                ->load($product->getId())
+                ->toArray();
+            unset($newStoreData['store_id']);
+            unset($newStoreData['stock_item']['store_id']);
+
+            $this->assertEquals($existStoreData, $newStoreData);
+        }
+    }
+
+    /**
+     * Test of the error representation of a website assignment to a product (POST method)
+     *
+     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
+     */
+    public function testErrorRepresentationOnMultiAssignWebsiteToProduct()
+    {
+        /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
+        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
+        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product');
+
+        $multiData[] = array(
+            'website_id' => $websiteNotAssignedToProduct->getId(),
+            'copy_to_stores' => array(
+                array(
+                    'store_from' => 'invalid_id',
+                    'store_to' => 'invalid_id',
+                )
+            )
+        );
+        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData);
+        $this->assertEquals($responseData['error'][0]['message'],
+            sprintf(
+                'Invalid value for "store_from" for the website with ID %s.',
+                $websiteNotAssignedToProduct->getId()
+            )
+        );
+        $this->assertEquals($responseData['error'][0]['product_id'], $product->getId());
+        $this->assertEquals($responseData['error'][0]['website_id'], $websiteNotAssignedToProduct->getId());
     }
 
     /**
@@ -256,7 +485,7 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
         $product = self::getFixture('product');
 
         $restResponse = $this->callDelete('products/' . $product->getId() . '/websites/invalid_website_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -276,7 +505,7 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
         $product = self::getFixture('product');
 
         $restResponse = $this->callDelete('products/product_invalid_id/websites/' . $websiteAssignedToProduct->getId());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -343,59 +572,5 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
         $restResponse = $this->callPut('products/' . $product->getId() . '/websites/'
             . $websiteAssignedToProduct->getId(), array('somedata'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
-    }
-
-
-
-
-    /**
-     * Test of a website assignment to a product (POST method)
-     *
-     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
-     */
-    public function _testWebsiteAssignmentToProductWithoutRequiredData()
-    {
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product');
-
-        $websitesData = array('website_id' => NULL);
-        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'],
-            'Invalid value for "website_id" in request.');
-    }
-
-    /**
-     * Test validation
-     *
-     * @magentoDataFixture Api2/Catalog/Product/Website/_fixtures/for_websites.php
-     */
-    public function _testValidation()
-    {
-        /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
-        /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product');
-
-        $websitesData = array(
-            'website_id' => $websiteNotAssignedToProduct->getId(),
-            'copy_to_stores' => array(
-                array(
-                    'store_from' => array_pop($websiteAssignedToProduct->getStoreIds()),
-                    'store_to' => array_pop($websiteNotAssignedToProduct->getStoreIds()),
-                )
-            )
-        );
-
-        $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData['messages']);
     }
 }

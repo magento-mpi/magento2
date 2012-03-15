@@ -95,6 +95,84 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
     }
 
     /**
+     * Product website assign
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _multiCreate(array $data)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $this->_loadProductById($this->getRequest()->getParam('product_id'));
+        $websiteIds = $product->getWebsiteIds();
+        foreach ($data as $singleData) {
+            try {
+                /* @var $validator Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website */
+                $validator = Mage::getModel('catalog/api2_product_website_validator_admin_website');
+                if (!$validator->isValidDataForWebsiteAssignmentToProduct($product, $singleData)) {
+                    foreach ($validator->getErrors() as $error) {
+                        $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST, array(
+                            'website_id' => isset($singleData['website_id']) ? $singleData['website_id'] : null,
+                            'product_id' => $product->getId(),
+                        ));
+                    }
+                    $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+                }
+
+                /* @var $website Mage_Core_Model_Website */
+                $website = Mage::getModel('core/website')->load($singleData['website_id']);
+                $websiteIds[] = $website->getId(); // Existence of a website is checked in the validator
+                $product->setWebsiteIds($websiteIds);
+
+                $product->save();
+
+                /**
+                 * Do copying data to stores
+                 */
+                if (isset($singleData['copy_to_stores'])) {
+                    foreach ($singleData['copy_to_stores'] as $storeData) {
+                        Mage::getModel('catalog/product')
+                            ->setStoreId($storeData['store_from'])
+                            ->load($product->getId())
+                            ->setStoreId($storeData['store_to'])
+                            ->save();
+                    }
+                }
+
+                $this->_successMessage(
+                    Mage_Api2_Model_Resource::RESOURCE_UPDATED_SUCCESSFUL,
+                    Mage_Api2_Model_Server::HTTP_OK,
+                    array(
+                        'website_id' => $website->getId(),
+                        'product_id' => $product->getId(),
+                    )
+                );
+            } catch (Mage_Api2_Exception $e) {
+                // pre-validation errors are already added
+                if ($e->getMessage() != self::RESOURCE_DATA_PRE_VALIDATION_ERROR) {
+                    $this->_errorMessage(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        array(
+                            'website_id' => isset($singleData['website_id']) ? $singleData['website_id'] : null,
+                            'product_id' => $product->getId(),
+                        )
+                    );
+                }
+            } catch (Exception $e) {
+                $this->_errorMessage(
+                    Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR,
+                    Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
+                    array(
+                        'website_id' => isset($singleData['website_id']) ? $singleData['website_id'] : null,
+                        'product_id' => $product->getId(),
+                    )
+                );
+            }
+        }
+    }
+
+    /**
      * Product website unassign
      */
     protected function _delete()
