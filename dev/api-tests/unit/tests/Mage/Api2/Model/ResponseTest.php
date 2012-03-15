@@ -47,7 +47,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
         $fluent = $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS
         );
         $this->assertEquals($fluent, $response);
@@ -55,7 +55,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
         $fluent = $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR
         );
         $this->assertEquals($fluent, $response);
@@ -63,7 +63,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
         $fluent = $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
         );
         $this->assertEquals($fluent, $response);
@@ -84,7 +84,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
         );
         $this->assertEquals($response->hasMessages(), true);
@@ -101,21 +101,21 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS
         );
 
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR
         );
 
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
-            $this->_messageFixture['item_id'],
+            array('item_id' => $this->_messageFixture['item_id']),
             Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
         );
 
