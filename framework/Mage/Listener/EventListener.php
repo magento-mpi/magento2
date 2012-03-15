@@ -52,7 +52,7 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
      * Register observer class
      *
      * @static
-     * @param Mage_Listener_EmptyObserver $observerInstance
+     * @param Mage_Listener_Observers_EmptyObserver $observerInstance
      */
     public static function attach($observerInstance)
     {
@@ -90,10 +90,10 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
     }
 
     /**
-     * Load all available Listeners from folder
+     * Load all available Observers from folder
      *
      * @static
-     * @param string $path Path to Folder with Listener classes
+     * @param string $path Path to Folder with Observer classes
      */
     public static function autoAttach($path)
     {
