@@ -124,4 +124,49 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     {
         return Mage::getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
     }
+
+    /**
+     * Retrieve a token status label
+     *
+     * @param int $revokedStatus Token status of revoking
+     * @return string
+     */
+    public function getStatusLabel($revokedStatus)
+    {
+        $labels = array(
+            $this->__('Enabled'),
+            $this->__('Disabled')
+        );
+        return $labels[$revokedStatus];
+    }
+
+    /**
+     * Retrieve a label of link to change a token status
+     *
+     * @param int $revokedStatus Token status of revoking
+     * @return string
+     */
+    public function getChangeStatusLabel($revokedStatus)
+    {
+        $labels = array(
+            $this->__('Disable'),
+            $this->__('Enable')
+        );
+        return $labels[$revokedStatus];
+    }
+
+    /**
+     * Retrieve a message to confirm an action to change a token status
+     *
+     * @param int $revokedStatus Token status of revoking
+     * @return string
+     */
+    public function getChangeStatusConfirmMessage($revokedStatus)
+    {
+        $messages = array(
+            $this->__('Are you sure you want to disable this application?'),
+            $this->__('Are you sure you want to enable this application?')
+        );
+        return $messages[$revokedStatus];
+    }
 }
