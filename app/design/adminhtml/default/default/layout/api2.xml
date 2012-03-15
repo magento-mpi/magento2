@@ -110,6 +110,9 @@
                 <after>roles_section</after>
             </action>
         </reference>
+        <reference name="js">
+            <block type="adminhtml/template" name="adminhtml.permissions.user.edit.tab.roles.js" template="api2/permissions/user/edit/tab/roles/js.phtml"/>
+        </reference>
     </adminhtml_permissions_user_edit>
 
     <!-- ACL attributes -->
