@@ -640,4 +640,28 @@ class Enterprise_Search_Model_Resource_Collection
 
         return ($sort == 'asc') ? $result : array_reverse($result);
     }
+
+    /**
+     * Retrieve unique attribute set ids in collection
+     *
+     * @return array
+     */
+    public function getSetIds()
+    {
+        /** @var $select Varien_Db_Select */
+        $select = $this->getConnection()->select()->from(array('e' => $this->getEntity()->getEntityTable()));
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->distinct(true);
+        $select->columns('attribute_set_id');
+
+        $productIds = array();
+        foreach ($this as $product) {
+            /* @var $product Mage_Catalog_Model_Product */
+            $productIds[] = $product->getEntityId();
+        }
+        $select->where('entity_id in (?)', $productIds);
+
+        return $this->getConnection()->fetchCol($select);
+    }
 }
