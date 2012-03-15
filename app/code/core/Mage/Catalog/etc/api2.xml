@@ -263,6 +263,86 @@
                 </validators>
                 <versions>1</versions>
             </product_category>
+            <product_image>
+                <group>catalog_product</group>
+                <model>catalog/api2_product_image</model>
+                <working_model>catalog/product</working_model>
+                <title>Product Image</title>
+                <sort_order>70</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <retrieve>1</retrieve>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <id>Image ID</id>
+                    <file_name>File name</file_name>
+                    <file_content>File content</file_content>
+                    <file_mime_type>File mime type</file_mime_type>
+                    <label>Image label</label>
+                    <position>Image position</position>
+                    <types>Image settings</types>
+                    <exclude>Image exclude</exclude>
+                    <url>Image URL</url>
+                </attributes>
+                <exclude_attributes>
+                    <customer>
+                        <read>
+                            <file_name>1</file_name>
+                            <file_content>1</file_content>
+                            <file_mime_type>1/</file_mime_type>
+                            <exclude>1/</exclude>
+                        </read>
+                    </customer>
+                    <guest>
+                        <read>
+                            <file_name>1</file_name>
+                            <file_content>1</file_content>
+                            <file_mime_type>1/</file_mime_type>
+                            <exclude>1/</exclude>
+                        </read>
+                    </guest>
+                    <admin>
+                        <read>
+                            <file_name>1</file_name>
+                            <file_content>1</file_content>
+                            <file_mime_type>1/</file_mime_type>
+                        </read>
+                        <write>
+                            <id>1</id>
+                            <url>1</url>
+                        </write>
+                    </admin>
+                </exclude_attributes>
+                <routes>
+                    <route_entity>
+                        <route>/products/:id/images/:image</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_entity_with_store>
+                        <route>/products/:id/images/:image/store/:store</route>
+                        <action_type>entity</action_type>
+                    </route_entity_with_store>
+                    <route_collection>
+                        <route>/products/:id/images</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                    <route_collection_with_store>
+                        <route>/products/:id/images/store/:store</route>
+                        <action_type>collection</action_type>
+                    </route_collection_with_store>
+                </routes>
+                <versions>1</versions>
+            </product_image>
             <product_website>
                 <group>catalog_product</group>
                 <model>catalog/api2_product_website</model>
