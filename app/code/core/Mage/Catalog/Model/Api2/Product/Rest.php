@@ -145,7 +145,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             $this->_getStore()->getId());
 
         $productData['is_saleable'] = $product->getIsSalable();
-        $productData['has_custom_options'] = $product->hasCustomOptions();
+        $productData['has_custom_options'] = count($product->getOptions()) > 0;
         $product->addData($productData);
     }
 
