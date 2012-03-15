@@ -674,6 +674,56 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test gift options update with "use_config_..." attributes
+     *
+     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @dataProvider dataProviderTestUpdateGiftOptionsUseConfig
+     * @param string $attributeName
+     * @param int $attributeValue
+     * @param bool $useConfig
+     * @param int $expectedValue
+     */
+    public function testUpdateGiftOptionsUseConfig($attributeName, $attributeValue, $useConfig, $expectedValue)
+    {
+        $product = $this->getFixture('product_simple');
+        $productDataForUpdate = array("use_config_$attributeName" => $useConfig);
+        if (!is_null($attributeValue)) {
+            $productDataForUpdate[$attributeName] = $attributeValue;
+        }
+        $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        /** @var $updatedProduct Mage_Catalog_Model_Product */
+        $updatedProduct = Mage::getModel('catalog/product')->load($product->getId());
+        $this->assertEquals($expectedValue, $updatedProduct->getData($attributeName),
+            "'$attributeName' attribute update failed");
+    }
+
+    /**
+     * Data provider for gift options
+     *
+     * @return array
+     */
+    public function dataProviderTestUpdateGiftOptionsUseConfig()
+    {
+        $giftMessageAvailable =
+            (int) Mage::getStoreConfig(Mage_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
+        $giftWrappingAvailable =
+            (int) Mage::getStoreConfig(Enterprise_GiftWrapping_Helper_Data::XML_PATH_ALLOWED_FOR_ITEMS);
+        return array(
+            array('gift_message_available', null, 0, $giftMessageAvailable),
+            array('gift_wrapping_available', null, 0, $giftWrappingAvailable),
+            array('gift_message_available', 1, 0, 1),
+            array('gift_message_available', 1, 1, null),
+            array('gift_message_available', 0, 0, 0),
+            array('gift_message_available', 0, 1, null),
+            array('gift_wrapping_available', 1, 0, 1),
+            array('gift_wrapping_available', 1, 1, null),
+            array('gift_wrapping_available', 0, 0, 0),
+            array('gift_wrapping_available', 0, 1, null),
+        );
+    }
+
+    /**
      * Test successful product update
      *
      * @param array $productDataForUpdate
