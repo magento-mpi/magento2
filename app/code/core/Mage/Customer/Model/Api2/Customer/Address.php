@@ -33,13 +33,6 @@
  */
 class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
 {
-    /**#@+
-     * Parameters' names in config with special ACL meaning
-     */
-    const PARAM_IS_DEFAULT_BILLING  = 'is_default_billing';
-    const PARAM_IS_DEFAULT_SHIPPING = 'is_default_shipping';
-    /**#@-*/
-
     /**
      * Separator for multistreet
      */
@@ -53,25 +46,5 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     protected function _getResourceAttributes()
     {
         return $this->getEavAttributes(Mage_Api2_Model_Auth_User_Admin::USER_TYPE != $this->getUserType());
-    }
-
-    /**
-     * Check default billing address information is allowed
-     *
-     * @return bool
-     */
-    public function _isDefaultBillingAllowed()
-    {
-        return in_array(self::PARAM_IS_DEFAULT_BILLING, $this->getFilter()->getAllowedAttributes());
-    }
-
-    /**
-     * Check default shipping address information is allowed
-     *
-     * @return bool
-     */
-    public function _isDefaultShippingAllowed()
-    {
-        return in_array(self::PARAM_IS_DEFAULT_SHIPPING, $this->getFilter()->getAllowedAttributes());
     }
 }

@@ -142,19 +142,10 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
      */
     protected function _getDefaultAddressesInfo(Mage_Customer_Model_Address $address)
     {
-        $addressData = array();
-
-        if ($this->_isDefaultBillingAllowed() || $this->_isDefaultShippingAllowed()) {
-            if ($this->_isDefaultBillingAllowed()) {
-                $addressData[Mage_Customer_Model_Api2_Customer_Address::PARAM_IS_DEFAULT_BILLING]
-                    = (int) ($address->getCustomer()->getDefaultBilling() == $address->getId());
-            }
-            if ($this->_isDefaultShippingAllowed()) {
-                $addressData[Mage_Customer_Model_Api2_Customer_Address::PARAM_IS_DEFAULT_SHIPPING]
-                    = (int) ($address->getCustomer()->getDefaultShipping() == $address->getId());
-            }
-        }
-        return $addressData;
+        return array(
+            'is_default_billing'  => (int) ($address->getCustomer()->getDefaultBilling() == $address->getId()),
+            'is_default_shipping' => (int) ($address->getCustomer()->getDefaultShipping() == $address->getId())
+        );
     }
 
     /**
