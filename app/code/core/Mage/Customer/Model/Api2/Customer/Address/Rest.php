@@ -159,7 +159,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
 
-        /* @var $validator Mage_Api2_Model_Resource_Validator */
+        /* @var $validator Mage_Api2_Model_Resource_Validator_Eav */
         $validator = Mage::getModel('api2/resource_validator_eav', array(
             'resource' => $this,
             'operation' => self::OPERATION_UPDATE
@@ -168,22 +168,27 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
         // If the array contains more than two elements, then combine the extra elements in a string
         if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
             $data['street'][1] .= self::STREET_SEPARATOR
-                . implode(
-                    self::STREET_SEPARATOR,
-                    array_slice($data['street'], 2)
-                );
+                . implode(self::STREET_SEPARATOR, array_slice($data['street'], 2));
             $data['street'] = array_slice($data['street'], 0, 2);
         }
+        $filteredData = $validator->filter($data);
 
-        $data = $validator->filter($data);
-        if (!$validator->isValidData($data)) {
+        // set not-changed data from current address
+        foreach ($filteredData as $key => $attrValue) {
+            if (!array_key_exists($key, $data)) {
+                $filteredData[$key] = $customerAddress->getData($key);
+            }
+        }
+        $filteredData += $data;
+
+        if (!$validator->isValidData($filteredData)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
+        $customerAddress->addData($filteredData);
 
-        $customerAddress->addData($data);
         try {
             $customerAddress->save();
         } catch (Mage_Core_Exception $e) {
