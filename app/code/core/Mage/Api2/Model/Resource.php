@@ -209,7 +209,7 @@ abstract class Mage_Api2_Model_Resource
                     if (empty($requestData)) {
                         $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                     }
-                    $filteredData = $this->getFilter()->in($requestData);
+                    $filteredData = $this->getFilter()->collectionIn($requestData);
                     $this->_multiCreate($filteredData);
                     $this->_render($this->getResponse()->getMessages());
                 }
@@ -669,12 +669,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
-     * @param array $params
+     * @param int $itemId
      * @return Mage_Api2_Model_Resource
      */
-    protected function _successMessage($message, $code, $params = array())
+    protected function _successMessage($message, $code, $itemId = null)
     {
-        $this->getResponse()->addMessage($message, $code, $params, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
         return $this;
     }
 
@@ -683,12 +683,12 @@ abstract class Mage_Api2_Model_Resource
      *
      * @param string $message
      * @param int $code
-     * @param array $params
+     * @param int $itemId
      * @return Mage_Api2_Model_Resource
      */
-    protected function _errorMessage($message, $code, $params = array())
+    protected function _errorMessage($message, $code, $itemId = null)
     {
-        $this->getResponse()->addMessage($message, $code, $params, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
+        $this->getResponse()->addMessage($message, $code, $itemId, Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR);
         return $this;
     }
 

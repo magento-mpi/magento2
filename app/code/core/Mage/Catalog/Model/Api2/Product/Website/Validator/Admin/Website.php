@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
             /* @var $website Mage_Core_Model_Website */
             $website = Mage::getModel('core/website')->load($data['website_id']);
             if (!$website->getId()) {
-                $this->_addError(sprintf('Website not found #%s.', $data['website_id']));
+                $this->_addError(sprintf('Website #%d not found.', $data['website_id']));
             } else {
                 // Validate product to website association
                 if (in_array($website->getId(), $product->getWebsiteIds())) {
@@ -82,40 +82,41 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
         if (isset($data['copy_to_stores'])) {
             foreach ($data['copy_to_stores'] as $storeData) {
                 if (!isset($storeData['store_from']) || !is_numeric($storeData['store_from'])) {
-                    $this->_addError(sprintf('Invalid value for "store_from" for the website with ID %s.',
-                        $data['website_id']));
+                    $this->_addError(sprintf('Invalid value for "store_from" for the website with ID #%d.',
+                        $website->getId()));
                 } else {
                     // Check if the store with the specified ID (from which we will copy the information) exists
                     // and if it belongs to the product being edited
                     $storeFrom = Mage::getModel('core/store')->load($storeData['store_from']);
                     if (!$storeFrom->getId()) {
-                        $this->_addError(sprintf('Store not found #%s for website #%s.', $storeData['store_from'],
-                            $data['website_id']));
+                        $this->_addError(sprintf('Store not found #%d for website #%d.', $storeData['store_from'],
+                            $website->getId()));
                     } else {
                         if (!in_array($storeFrom->getId(), $product->getStoreIds())) {
-                            $this->_addError(sprintf('Store(#%d) from which we will copy the information is not belongs'
-                                . ' to the product(#%d) being edited.', $storeFrom->getId(), $product->getId()));
+                            $this->_addError(sprintf('Store #%d from which we will copy the information does not belong'
+                                . ' to the product #%d being edited.', $storeFrom->getId(), $product->getId()));
                         }
                     }
                 }
 
                 if (!isset($storeData['store_to']) || !is_numeric($storeData['store_to'])) {
-                    $this->_addError(sprintf('Invalid value for "store_to" for the website with ID %s.',
-                        $data['website_id']));
+                    $this->_addError(sprintf('Invalid value for "store_to" for the website with ID #%d.',
+                        $website->getId()));
                 } else {
                     // Check if the store with the specified ID (to which we will copy the information) exists
                     // and if it belongs to the website being added
                     $storeTo = Mage::getModel('core/store')->load($storeData['store_to']);
                     if (!$storeTo->getId()) {
-                        $this->_addError(sprintf('Store not found #%s for website #%s.', $storeData['store_to'],
-                            $data['website_id']));
+                        $this->_addError(sprintf('Store not found #%d for website #%d.', $storeData['store_to'],
+                            $website->getId()));
                     } else {
                         if (!in_array($storeTo->getId(), $website->getStoreIds())) {
-                            $this->_addError(sprintf('Store(#%d) to which we will copy the information is not belongs'
-                                . ' to the website(#%d) being added.', $storeTo->getId(), $data['website_id']));
+                            $this->_addError(sprintf('Store #%d to which we will copy the information does not belong'
+                                . ' to the website #%d being added.', $storeTo->getId(), $data['website_id']));
                         }
                     }
                 }
+
             }
         }
     }

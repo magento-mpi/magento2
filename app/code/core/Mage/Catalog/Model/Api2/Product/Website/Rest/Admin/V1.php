@@ -34,13 +34,25 @@
 class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Website_Rest
 {
     /**
-     * Get website store ids
+     * Product website retrieve is not available
+     */
+    protected function _retrieve()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Get product websites list
      *
      * @return array
      */
-    protected function _getWebsiteStoreIdsForRetrieveCollection()
+    protected function _retrieveCollection()
     {
-        return $this->_loadProductById($this->getRequest()->getParam('product_id'))->getWebsiteIds();
+        $return = array();
+        foreach ($this->_loadProductById($this->getRequest()->getParam('product_id'))->getWebsiteIds() as $websiteId) {
+            $return[] = array('website_id' => $websiteId);
+        }
+        return $return;
     }
 
     /**
@@ -173,6 +185,16 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
     }
 
     /**
+     * Product websites update is not available
+     *
+     * @param array $data
+     */
+    protected function _update(array $data)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
+    }
+
+    /**
      * Product website unassign
      */
     protected function _delete()
@@ -204,23 +226,6 @@ class Mage_Catalog_Model_Api2_Product_Website_Rest_Admin_V1 extends Mage_Catalog
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-    }
-
-    /**
-     * Load product by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Core_Model_Website
-     */
-    protected function _loadWebsiteById($id)
-    {
-        /* @var $website Mage_Core_Model_Website */
-        $website = Mage::getModel('core/website')->load($id);
-        if (!$website->getId()) {
-            $this->_critical(sprintf('Website not found #%s.', $id), Mage_Api2_Model_Server::HTTP_NOT_FOUND);
-        }
-        return $website;
     }
 
     /**
