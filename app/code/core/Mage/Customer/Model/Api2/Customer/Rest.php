@@ -90,15 +90,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
      */
     protected function _retrieveCollection()
     {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('customer/customer_collection');
-        $collection->addAttributeToSelect(array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
-        ));
-
-        $this->_applyCollectionModifiers($collection);
-
-        $data = $collection->load()->toArray();
+        $data = $this->_getCollectionForRetrieve()->load()->toArray();
         return isset($data['items']) ? $data['items'] : $data;
     }
 
@@ -153,5 +145,22 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $customer;
+    }
+
+    /**
+     * Retrieve collection instances
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection->addAttributeToSelect(array_keys(
+            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
+        ));
+
+        $this->_applyCollectionModifiers($collection);
+        return $collection;
     }
 }

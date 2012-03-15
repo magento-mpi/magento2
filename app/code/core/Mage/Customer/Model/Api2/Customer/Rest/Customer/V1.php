@@ -62,14 +62,13 @@ class Mage_Customer_Model_Api2_Customer_Rest_Customer_V1 extends Mage_Customer_M
     }
 
     /**
-     * Get customers list
+     * Retrieve collection with only current customer instance
      *
-     * @return array
-     * @throws Mage_Api2_Exception
+     * @return Mage_Customer_Model_Resource_Customer_Collection
      */
-    protected function _retrieveCollection()
+    protected function _getCollectionForRetrieve()
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED, Mage_Api2_Model_Server::HTTP_FORBIDDEN);
+        return parent::_getCollectionForRetrieve()->addAttributeToFilter('entity_id', $this->getApiUser()->getUserId());
     }
 
     /**
