@@ -143,8 +143,8 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     protected function _getDefaultAddressesInfo(Mage_Customer_Model_Address $address)
     {
         return array(
-            'is_default_billing'  => (int) ($address->getCustomer()->getDefaultBilling() == $address->getId()),
-            'is_default_shipping' => (int) ($address->getCustomer()->getDefaultShipping() == $address->getId())
+            'is_default_billing'  => (int) $this->_isDefaultBillingAddress($address),
+            'is_default_shipping' => (int) $this->_isDefaultShippingAddress($address)
         );
     }
 
@@ -205,6 +205,12 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     {
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
+
+        if ($this->_isDefaultBillingAddress($customerAddress) || $this->_isDefaultShippingAddress($customerAddress)) {
+            $this->_critical(
+                'Address is default for customer so is not allowed to delete', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            );
+        }
         try {
             $customerAddress->delete();
         } catch (Mage_Core_Exception $e) {
