@@ -79,14 +79,10 @@
                     <use_config_gift_message_available>Use Config Settings for Allow Gift Message</use_config_gift_message_available>
                     <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
                     <url_key_create_redirect>Create Permanent Redirect for old URL</url_key_create_redirect>
-                    <meta_title>Meta Title</meta_title>
-                    <meta_keyword>Meta Keywords</meta_keyword>
-                    <meta_description>Meta Description</meta_description>
                 </attributes>
                 <exclude_attributes>
                     <customer>
                         <read>
-                            <entity_id>1</entity_id>
                             <attribute_set_id>1</attribute_set_id>
                             <stock_data>1/</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>
@@ -96,7 +92,6 @@
                     </customer>
                     <guest>
                         <read>
-                            <entity_id>1</entity_id>
                             <attribute_set_id>1</attribute_set_id>
                             <stock_data>1</stock_data>
                             <use_config_gift_message_available>1</use_config_gift_message_available>

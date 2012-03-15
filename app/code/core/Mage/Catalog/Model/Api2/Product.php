@@ -75,7 +75,8 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource
         if ($userType == Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
             $isAttributeVisible = $attribute->getIsVisible();
         } else {
-            $systemAttributesForNonAdmin = array('sku', 'name', 'short_description', 'description', 'tier_price');
+            $systemAttributesForNonAdmin = array('sku', 'name', 'short_description', 'description', 'tier_price',
+            'meta_title', 'meta_description', 'meta_keyword');
             if ($attribute->getIsUserDefined()) {
                 $isAttributeVisible = $attribute->getIsVisibleOnFront();
             } else if (in_array($attribute->getAttributeCode(), $systemAttributesForNonAdmin)) {
