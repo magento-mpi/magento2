@@ -293,11 +293,11 @@
                 </force_attributes>
                 <routes>
                     <route_entity>
-                        <route>/products/:id/websites/:website_id</route>
+                        <route>/products/:product_id/websites/:website_id</route>
                         <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
-                        <route>/products/:id/websites</route>
+                        <route>/products/:product_id/websites</route>
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>

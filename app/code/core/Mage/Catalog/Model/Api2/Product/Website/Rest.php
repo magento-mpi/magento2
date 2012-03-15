@@ -49,10 +49,23 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
     protected function _retrieveCollection()
     {
         $return = array();
-        foreach ($this->_getWebsiteStoreIds() as $websiteId) {
+        foreach ($this->_getWebsiteStoreIdsForRetrieveCollection() as $websiteId) {
             $return[] = array('website_id' => $websiteId);
         }
         return $return;
+    }
+
+    /**
+     * Get website store ids
+     *
+     * @return array
+     */
+    protected function _getWebsiteStoreIdsForRetrieveCollection()
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $this->_loadProductById($this->getRequest()->getParam('product_id'));
+        $websiteIds = $product->getWebsiteStoreIds()/*->addIsActiveFilter()*/->getAllIds();
+        return $websiteIds;
     }
 
     /**
@@ -71,19 +84,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
     protected function _delete()
     {
         $this->_critical(self::RESOURCE_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * Get website store ids
-     *
-     * @return array
-     */
-    protected function _getWebsiteStoreIds()
-    {
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_loadProductById($this->getRequest()->getParam('id'));
-        $websiteIds = $product->getWebsiteStoreIds()->addIsActiveFilter()->getAllIds();
-        return $websiteIds;
     }
 
     /**

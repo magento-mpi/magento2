@@ -27,6 +27,11 @@
 /**
  * API2 Abstarct Validator
  *
+ * Validate data.
+ * If fails validation, then validation method returns false, and
+ * getErrors() will return an array of errors that explain why the
+ * validation failed.
+ *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
@@ -66,7 +71,6 @@ abstract class Mage_Api2_Model_Resource_Validator
         return $this;
     }
 
-
     /**
      * Add error
      *
@@ -93,15 +97,4 @@ abstract class Mage_Api2_Model_Resource_Validator
     {
         return $this->_errors;
     }
-
-    /**
-     * Validate data.
-     * If fails validation, then this method returns false, and
-     * getErrors() will return an array of errors that explain why the
-     * validation failed.
-     *
-     * @param array $data
-     * @void bool
-     */
-    abstract public function isValidData(array $data);
 }
