@@ -40,7 +40,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');

@@ -58,7 +58,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         if ($this->_blockToBeDeleted) {
             $this->loginAdminUser();

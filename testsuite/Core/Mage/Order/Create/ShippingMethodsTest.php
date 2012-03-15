@@ -53,7 +53,7 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         //Data
         $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');

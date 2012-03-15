@@ -50,7 +50,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         //Data
         $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
@@ -62,7 +62,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         $this->systemConfigurationHelper()->configure($settings);
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();

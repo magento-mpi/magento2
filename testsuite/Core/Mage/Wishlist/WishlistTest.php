@@ -50,7 +50,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         if (self::$useTearDown) {
             $this->loginAdminUser();

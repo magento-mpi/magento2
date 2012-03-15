@@ -40,7 +40,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');

@@ -40,7 +40,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');

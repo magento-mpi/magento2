@@ -330,9 +330,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Implementation of tearDownAfterAllTests() method in the object context, called as tearDownAfterAllTests()<br>
+     * Implementation of tearDownAfterAllTests() method in the object context, called as tearDownAfterTestClass()<br>
      * Used ONLY one time after execution of last test in test class
-     * Implementation of tearDownAfterEachTest() method in the object context, called as tearDownAfterEachTest()<br>
+     * Implementation of tearDownAfterEachTest() method in the object context, called as tearDownAfterTest()<br>
      * Used after execution of each test in test class
      */
     final function tearDown()
@@ -347,17 +347,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $this->assertEmptyVerificationErrors();
         }
-        $this->tearDownAfterEachTest();
+        $this->tearDownAfterTest();
         if ($this->getName() == self::$_lastTestNameInClass) {
-            $this->tearDownAfterAllTests();
+            $this->tearDownAfterTestClass();
         }
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
     }
 

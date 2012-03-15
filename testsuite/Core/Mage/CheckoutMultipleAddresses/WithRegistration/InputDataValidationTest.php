@@ -35,7 +35,7 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTest extends Mage_Selenium_TestCase
 {
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();

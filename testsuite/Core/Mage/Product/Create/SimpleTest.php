@@ -53,7 +53,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         $windowQty = $this->getAllWindowNames();
         if (count($windowQty) > 1 && end($windowQty) != 'null') {

@@ -53,7 +53,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         //Data
         $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');

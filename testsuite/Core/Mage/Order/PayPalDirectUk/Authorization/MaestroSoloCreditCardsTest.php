@@ -40,7 +40,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
@@ -437,7 +437,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends preconditionsForTests
-     * @group skip_due_to_bug
      */
     public function orderWithSoloCard($sku)
     {

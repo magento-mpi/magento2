@@ -40,7 +40,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $this->paypalHelper()->paypalDeveloperLogin();
         $this->paypalHelper()->deleteAllAccounts();

@@ -40,13 +40,13 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterEachTest()
+    protected function tearDownAfterTest()
     {
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');

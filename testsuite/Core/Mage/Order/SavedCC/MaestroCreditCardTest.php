@@ -40,7 +40,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();

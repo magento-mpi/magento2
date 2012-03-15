@@ -53,7 +53,7 @@ class Core_Mage_CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterAllTests()
+    protected function tearDownAfterTestClass()
     {
         //Data
         $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
