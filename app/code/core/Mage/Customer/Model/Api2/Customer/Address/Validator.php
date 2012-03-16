@@ -108,7 +108,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     protected function _isCountryRegionValid($countryId, $region)
     {
-        if (!is_string($region)) {
+        if (!is_string($region) && false !== $region) {
             $this->_addError('Invalid State/Province type');
 
             return false;
