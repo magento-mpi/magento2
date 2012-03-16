@@ -75,6 +75,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getData();
+        $originalData['product_type_name'] = $product->getTypeId();
         foreach ($responseData as $field => $value) {
             if (!is_array($value)) {
                 $this->assertEquals($originalData[$field], $value);
