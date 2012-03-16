@@ -25,8 +25,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('WEBSITES_COUNT_TEST_WEBSITES', 3);
-define('WEBSITES_COUNT_TEST_STORES', 3);
+define('WEBSITES_COUNT_TEST_WEBSITES', 2);
+define('WEBSITES_COUNT_TEST_STORES', 2);
 
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixtures');
 
@@ -64,7 +64,7 @@ for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     $storeGroups[] = $storeGroup;
 
     // Stores
-    for ($i = 0; $i < WEBSITES_COUNT_TEST_STORES; $i++) {
+    for ($j = 0; $j < WEBSITES_COUNT_TEST_STORES; $j++) {
         /* @var $store Mage_Core_Model_Store */
         $store = require $fixturesDir . '/Core/Store.php';
         $store->addData(array(
@@ -112,7 +112,7 @@ for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     $storeGroups[] = $storeGroup;
 
     // Stores
-    for ($i = 0; $i < WEBSITES_COUNT_TEST_STORES; $i++) {
+    for ($j = 0; $j < WEBSITES_COUNT_TEST_STORES; $j++) {
         /* @var $store Mage_Core_Model_Store */
         $store = require $fixturesDir . '/Core/Store.php';
         $store->addData(array(
