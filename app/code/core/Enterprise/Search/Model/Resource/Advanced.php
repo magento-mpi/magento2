@@ -101,7 +101,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         }
 
         $field = Mage::getResourceSingleton('enterprise_search/engine')
-                ->getSearchEngineFieldName($attribute);
+                ->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
             $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
