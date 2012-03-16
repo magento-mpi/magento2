@@ -25,37 +25,47 @@
  */
 
 /**
- * Cart sidebar container
+ * Abstract Quote dependent container
  */
-class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageCache_Model_Container_Advanced_Quote
+abstract class Enterprise_PageCache_Model_Container_Advanced_Quote
+    extends Enterprise_PageCache_Model_Container_Advanced_Abstract
 {
     /**
-     * @deprecated since 1.12.1.0
+     * Cache tag prefix
      */
-    const CACHE_TAG_PREFIX = 'cartsidebar';
+    const CACHE_TAG_PREFIX = 'quote_';
 
     /**
-     * Get identifier from cookies
+     * Get cache identifier
      *
-     * @deprecated since 1.12.1.0
      * @return string
      */
-    protected function _getIdentifier()
+    public static function getCacheId()
     {
-        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
-            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        $cookieCart = Enterprise_PageCache_Model_Cookie::COOKIE_CART;
+        $cookieCustomer = Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER;
+        return md5(Enterprise_PageCache_Model_Container_Advanced_Quote::CACHE_TAG_PREFIX
+            . (array_key_exists($cookieCart, $_COOKIE) ? $_COOKIE[$cookieCart] : '')
+            . (array_key_exists($cookieCustomer, $_COOKIE) ? $_COOKIE[$cookieCustomer] : ''));
     }
 
     /**
-     * Render block content
+     * Get cache identifier
      *
      * @return string
      */
-    protected function _renderBlock()
+    protected function _getCacheId()
     {
-        $block = $this->_getPlaceHolderBlock();
-        $renders = $this->_placeholder->getAttribute('item_renders');
-        $block->deserializeRenders($renders);
-        return $block->toHtml();
+        return Enterprise_PageCache_Model_Container_Advanced_Quote::getCacheId();
+    }
+
+    /**
+     * Get container individual additional cache id
+     *
+     * @return string
+     */
+    protected function _getAdditionalCacheId()
+    {
+        return md5($this->_placeholder->getName() . '_' . $this->_placeholder->getAttribute('cache_id'));
     }
 }

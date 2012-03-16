@@ -28,7 +28,7 @@
  * Placeholder container for catalog product items
  */
 class Enterprise_PageCache_Model_Container_CatalogProductItem
-    extends Enterprise_PageCache_Model_Container_Advanced_Abstract
+    extends Enterprise_PageCache_Model_Container_Advanced_Quote
 {
     const BLOCK_NAME_RELATED           = 'CATALOG_PRODUCT_ITEM_RELATED';
     const BLOCK_NAME_UPSELL            = 'CATALOG_PRODUCT_ITEM_UPSELL';
@@ -60,6 +60,13 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
      * @var bool
      */
     protected $_isInfoCacheEmpty = false;
+
+    /**
+     * Info cache additional id
+     *
+     * @var null|string
+     */
+    protected $_infoCacheId = null;
 
     /**
      * Data shared between all instances of current container
@@ -101,10 +108,13 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
      */
     protected function _getInfoCacheId()
     {
-        return 'CATALOG_PRODUCT_LIST_SHARED_'
-            . md5($this->_placeholder->getName()
-            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
-            . $this->_getProductId());
+        if (is_null($this->_infoCacheId)) {
+            $this->_infoCacheId = 'CATALOG_PRODUCT_LIST_SHARED_'
+                . md5($this->_placeholder->getName()
+                    . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
+                    . $this->_getProductId());
+        }
+        return $this->_infoCacheId;
     }
 
     /**
@@ -119,14 +129,23 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             return $this;
         }
 
-        $data = serialize(self::$_sharedInfoData[$placeholderName]['info']);
-        $id = $this->_getInfoCacheId();
+        $data = array();
+        $cacheRecord = Enterprise_PageCache_Model_Container_Abstract::_loadCache($this->_getCacheId());
+        if ($cacheRecord) {
+            $cacheRecord = json_decode($cacheRecord, true);
+            if ($cacheRecord) {
+                $data = $cacheRecord;
+            }
+        }
+        $data[$this->_getInfoCacheId()] = self::$_sharedInfoData[$placeholderName]['info'];
+        $data = json_encode($data);
+
         $tags = array(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
         if (!$lifetime) {
             $lifetime = false;
         }
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags, $lifetime);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $this->_getCacheId(), $tags, $lifetime);
         return $this;
     }
 
@@ -141,13 +160,16 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
         $placeholderName = $this->_placeholder->getName();
         $info = self::$_sharedInfoData[$placeholderName]['info'];
         if (is_null($info)) {
-            $infoCacheId = $this->_getInfoCacheId();
-            $data = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($infoCacheId);
-            if ($data) {
-                $info = unserialize($data);
-            } else {
+            $info = array();
+            $cacheRecord = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($this->_getCacheId());
+            if ($cacheRecord) {
+                $cacheRecord = json_decode($cacheRecord, true);
+                if ($cacheRecord && array_key_exists($this->_getInfoCacheId(), $cacheRecord)) {
+                    $info = $cacheRecord[$this->_getInfoCacheId()];
+                }
+            }
+            if (!$info) {
                 $this->_isInfoCacheEmpty = true;
-                $info = array();
             }
             self::$_sharedInfoData[$placeholderName]['info'] = $info;
         }
@@ -294,27 +316,6 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
         $this->_popItem();
 
         return $result;
-    }
-
-
-    /**
-     * Get container individual additional cache id
-     *
-     * @return string | false
-     */
-    protected function _getAdditionalCacheId()
-    {
-        return md5('PRODUCT_ITEM_' . $this->_getItemId());
-    }
-
-    /**
-     * Get cache identifier
-     *
-     * @return string
-     */
-    protected function _getCacheId()
-    {
-        return md5('CONTAINER_CATALOG_PRODUCT_LIST_' . $this->_getListBlockType());
     }
 
     /**

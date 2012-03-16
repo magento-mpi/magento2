@@ -25,37 +25,34 @@
  */
 
 /**
- * Cart sidebar container
+ * Placeholder container for catalog product lists
  */
-class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageCache_Model_Container_Advanced_Quote
+class Enterprise_PageCache_Model_Container_CatalogProductList
+    extends Enterprise_PageCache_Model_Container_Advanced_Quote
 {
     /**
-     * @deprecated since 1.12.1.0
-     */
-    const CACHE_TAG_PREFIX = 'cartsidebar';
-
-    /**
-     * Get identifier from cookies
+     * Render block that was not cached
      *
-     * @deprecated since 1.12.1.0
-     * @return string
-     */
-    protected function _getIdentifier()
-    {
-        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
-            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
-    }
-
-    /**
-     * Render block content
-     *
-     * @return string
+     * @return false|string
      */
     protected function _renderBlock()
     {
-        $block = $this->_getPlaceHolderBlock();
-        $renders = $this->_placeholder->getAttribute('item_renders');
-        $block->deserializeRenders($renders);
-        return $block->toHtml();
+        $productId = $this->_getProductId();
+        if ($productId && !Mage::registry('product')) {
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($productId);
+            if ($product) {
+                Mage::register('product', $product);
+            }
+        }
+
+        if (Mage::registry('product')) {
+            $block = $this->_getPlaceHolderBlock();
+            Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+            return $block->toHtml();
+        }
+
+        return '';
     }
 }
