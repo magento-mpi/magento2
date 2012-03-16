@@ -57,15 +57,16 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     {
         $pricesFilterKeys = array('price_id', 'all_groups', 'website_price');
         $groupPrice = $product->getData('group_price');
-        $product->setData('group_price', $this->_filterOutArrayKeys($groupPrice, $pricesFilterKeys));
+        $product->setData('group_price', $this->_filterOutArrayKeys($groupPrice, $pricesFilterKeys, true));
         $tierPrice = $product->getData('tier_price');
-        $product->setData('tier_price', $this->_filterOutArrayKeys($tierPrice, $pricesFilterKeys));
+        $product->setData('tier_price', $this->_filterOutArrayKeys($tierPrice, $pricesFilterKeys, true));
 
         $stockData = $product->getStockItem()->getData();
         $stockDataFilterKeys = array('item_id', 'product_id', 'stock_id', 'low_stock_date', 'type_id',
             'stock_status_changed_auto', 'stock_status_changed_automatically', 'product_name', 'store_id',
             'product_type_id', 'product_status_changed', 'product_changed_websites');
         $product->setData('stock_data', $this->_filterOutArrayKeys($stockData, $stockDataFilterKeys));
+        $product->setData('product_type_name', $product->getTypeId());
     }
 
     /**
@@ -73,9 +74,10 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      *
      * @param array $array
      * @param array $keys
+     * @param bool $dropOrigKeys if true - return array as indexed array
      * @return array
      */
-    protected function _filterOutArrayKeys(array $array, array $keys)
+    protected function _filterOutArrayKeys(array $array, array $keys, $dropOrigKeys = false)
     {
         $isIndexedArray = is_array(reset($array));
         if ($isIndexedArray) {
@@ -83,6 +85,9 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
                 if (is_array($value)) {
                     $value = array_diff_key($value, array_flip($keys));
                 }
+            }
+            if ($dropOrigKeys) {
+                $array = array_values($array);
             }
             unset($value);
         } else {

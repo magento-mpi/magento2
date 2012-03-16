@@ -63,6 +63,7 @@
                 <attributes>
                     <entity_id>Product ID</entity_id>
                     <type_id>Product Type</type_id>
+                    <product_type_name>Product Type</product_type_name>
                     <attribute_set_id>Attribute Set</attribute_set_id>
                     <stock_data>Inventory Data</stock_data>
                     <image_url>Default Image</image_url>
@@ -124,6 +125,8 @@
                             <final_price_without_tax>1</final_price_without_tax>
                             <recurring_profile>1</recurring_profile>
                             <thumbnail>1</thumbnail>
+                            <url_key_create_redirect>1</url_key_create_redirect>
+                            <type_id>1</type_id>
                         </read>
                         <write>
                             <allow_open_amount>1</allow_open_amount>
@@ -150,6 +153,7 @@
                             <recurring_profile>1</recurring_profile>
                             <thumbnail>1</thumbnail>
                             <entity_id>1</entity_id>
+                            <product_type_name>1</product_type_name>
                         </write>
                     </admin>
                 </exclude_attributes>
@@ -355,17 +359,8 @@
                         <retrieve>1</retrieve>
                         <delete>1</delete>
                     </admin>
-                    <customer>
-                        <retrieve>1</retrieve>
-                    </customer>
-                    <guest>
-                        <retrieve>1</retrieve>
-                    </guest>
                 </privileges>
                 <force_attributes>
-                    <customer>
-                        <website_id>1</website_id>
-                    </customer>
                     <admin>
                         <website_id>1</website_id>
                         <copy_to_stores>1</copy_to_stores>
