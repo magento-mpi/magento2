@@ -27,8 +27,6 @@ if (typeof Mage == 'undefined') {
 }
 if (typeof Mage.GoogleShopping == 'undefined') {
     Mage.GoogleShopping = {
-        itemForm: null,
-        itemGrid: null,
         productForm: null,
         productGrid: null,
 
@@ -70,12 +68,16 @@ if (typeof Mage.GoogleShopping == 'undefined') {
             });
         },
 
-        onSuccess: function(form) {
-            setLocation(window.location.href);
+        onSuccess: function(form, response) {
+            if (response.responseJSON && typeof response.responseJSON.redirect != 'undefined') {
+                setLocation(response.responseJSON.redirect);
+            } else {
+                window.location.reload();
+            }
         },
 
         onFailure: function() {
-            setLocation(window.location.href);
+            window.location.reload();
         },
 
         lock: function() {
@@ -109,9 +111,18 @@ if (typeof Mage.GoogleShopping == 'undefined') {
 
 Event.observe(document, 'dom:loaded', function() {
     Mage.GoogleShopping.itemForm = items_massactionJsObject.form;
+    items_massactionJsObject.prepareForm = items_massactionJsObject.prepareForm.wrap(function (proceed) {
+        Mage.GoogleShopping.itemForm = proceed();
+        Mage.GoogleShopping.itemForm.submit = function(){ Mage.GoogleShopping.startAction(this); };
+        return Mage.GoogleShopping.itemForm;
+    });
+
     Mage.GoogleShopping.productForm = googleshopping_selection_search_grid__massactionJsObject.form;
-    Mage.GoogleShopping.itemGrid = googleshopping_selection_search_grid__massactionJsObject.grid;
-    Mage.GoogleShopping.productGrid = itemsJsObject;
+    googleshopping_selection_search_grid__massactionJsObject.prepareForm = googleshopping_selection_search_grid__massactionJsObject.prepareForm.wrap(function (proceed) {
+        Mage.GoogleShopping.productForm = proceed();
+        Mage.GoogleShopping.productForm.submit = function() { Mage.GoogleShopping.startAction(this) };
+        return Mage.GoogleShopping.productForm;
+    });
 
     Mage.GoogleShopping.itemForm.submit = function(){ Mage.GoogleShopping.startAction(this); };
     Mage.GoogleShopping.productForm.submit = function() { Mage.GoogleShopping.startAction(this) };

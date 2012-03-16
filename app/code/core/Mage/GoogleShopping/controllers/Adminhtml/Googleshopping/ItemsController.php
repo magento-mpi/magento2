@@ -285,12 +285,20 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
      */
     protected function _redirectToCaptcha($e)
     {
-        $this->_redirect('*/*/index',
-            array('store' => $this->_getStore()->getId(),
+        $redirectUrl = $this->getUrl(
+            '*/*/index',
+            array(
+                'store' => $this->_getStore()->getId(),
                 'captcha_token' => Mage::helper('core')->urlEncode($e->getCaptchaToken()),
                 'captcha_url' => Mage::helper('core')->urlEncode($e->getCaptchaUrl())
             )
         );
+        if ($this->getRequest()->isAjax()) {
+            $this->getResponse()->setHeader('Content-Type', 'application/json')
+                ->setBody(Mage::helper('core')->jsonEncode(array('redirect' => $redirectUrl)));
+        } else {
+            $this->_redirect($redirectUrl);
+        }
     }
 
     /**
