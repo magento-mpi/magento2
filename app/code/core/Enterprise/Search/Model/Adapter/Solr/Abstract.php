@@ -338,9 +338,9 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      * @param   string $suffix
      * @return  string
      */
-    public function getAdvancedTextFieldName($filed, $suffix = '')
+    public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -404,7 +404,8 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         }
 
         if ($fieldType == 'text') {
-            $localeCode     = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+            $localeCode     = Mage::app()->getStore($attribute->getStoreId())
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = Mage::helper('enterprise_search')->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {

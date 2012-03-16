@@ -243,7 +243,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @return  string
      */
-    public function getAdvancedTextFieldName($field, $suffix = '')
+    public function getAdvancedTextFieldName($field, $suffix = '', $storeId = null)
     {
         return $field;
     }
@@ -396,7 +396,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 continue;
             }
 
-
+            $attribute->setStoreId($storeId);
 
             // Preparing data for solr fields
             if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()
@@ -406,7 +406,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $frontendInput = $attribute->getFrontendInput();
 
                 if ($attribute->usesSource()) {
-                    $attribute->setStoreId($storeId);
                     if ($frontendInput == 'multiselect') {
                         $preparedValue = array();
                         foreach ($value as $val) {
@@ -515,7 +514,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         // Preparing fulltext search fields
         $fulltextSpell = array();
         foreach ($fulltextData as $searchWeight => $data) {
-            $fieldName = $this->getAdvancedTextFieldName('fulltext', $searchWeight);
+            $fieldName = $this->getAdvancedTextFieldName('fulltext', $searchWeight, $storeId);
             $productIndexData[$fieldName] = $this->_implodeIndexData($data);
             $fulltextSpell += $data;
         }
@@ -523,7 +522,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         // Preparing field with spell info
         $fulltextSpell = array_unique($fulltextSpell);
-        $fieldName = $this->getAdvancedTextFieldName('spell');
+        $fieldName = $this->getAdvancedTextFieldName('spell', '', $storeId);
         $productIndexData[$fieldName] = $this->_implodeIndexData($fulltextSpell);
         unset($fulltextSpell);
 
