@@ -82,6 +82,11 @@
                         </write>
                     </admin>
                 </exclude_attributes>
+                <force_attributes>
+                    <admin>
+                        <item_id>1</item_id>
+                    </admin>
+                </force_attributes>
                 <routes>
                     <route_entity>
                         <route>/stockitems/:id</route>
@@ -92,7 +97,6 @@
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>
-                <id_field_name>item_id</id_field_name>
                 <validators>
                     <fields>
                         <manage_stock>

@@ -82,8 +82,8 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->_loadStockItemById($this->getRequest()->getParam('id'));
 
-        /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields */
-        $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_fields', array(
+        /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item */
+        $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_item', array(
             'resource' => $this
         ));
 
@@ -118,73 +118,46 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
                     $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
                 }
 
-                /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Fields */
-                $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_fields', array(
+                /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item */
+                $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_item', array(
                     'resource' => $this
                 ));
-
-                // check idField for resource identification
-                if (!$validator->isValidIdField($itemData)) {
+                if (!$validator->isValidSingleItemDataForMultiUpdate($itemData)) {
                     foreach ($validator->getErrors() as $error) {
-                        $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                        $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST, array(
+                            'item_id' => isset($itemData['item_id']) ? $itemData['item_id'] : null
+                        ));
                     }
                     $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
                 }
 
+                // Existence of a item is checked in the validator
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = $this->_loadStockItemById($itemData[$this->getIdFieldName()]);
+                $stockItem = $this->_loadStockItemById($itemData['item_id']);
 
-                // check data
-                if (!$validator->isValidData($itemData)) {
-                    foreach ($validator->getErrors() as $error) {
-                        $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-                            $itemData[$this->getIdFieldName()]);
-                    }
-                    $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-                }
-
-                unset($itemData[$this->getIdFieldName()]); // item_id is not for update
+                unset($itemData['item_id']); // item_id is not for update
                 $stockItem->addData($itemData);
                 $stockItem->save();
 
-                $this->_successMessage(
-                    self::RESOURCE_UPDATED_SUCCESSFUL,
-                    Mage_Api2_Model_Server::HTTP_OK,
-                    $stockItem->getId()
-                );
+                $this->_successMessage(self::RESOURCE_UPDATED_SUCCESSFUL, Mage_Api2_Model_Server::HTTP_OK, array(
+                    'item_id' => $stockItem->getId()
+                ));
             } catch (Mage_Api2_Exception $e) {
                 // pre-validation errors are already added
                 if ($e->getMessage() != self::RESOURCE_DATA_PRE_VALIDATION_ERROR) {
-                    $this->_errorMessage(
-                        $e->getMessage(),
-                        $e->getCode(),
-                        isset($itemData[$this->getIdFieldName()]) ? $itemData['item_id'] : null
-                    );
+                    $this->_errorMessage($e->getMessage(), $e->getCode(), array(
+                        'item_id' => isset($itemData['item_id']) ? $itemData['item_id'] : null
+                    ));
                 }
             } catch (Exception $e) {
                 $this->_errorMessage(
                     Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR,
                     Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-                    isset($itemData[$this->getIdFieldName()]) ? $itemData[$this->getIdFieldName()] : null
+                    array(
+                        'item_id' => isset($itemData['item_id']) ? $itemData['item_id'] : null
+                    )
                 );
             }
         }
-    }
-
-    /**
-     * Load stock item by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_CatalogInventory_Model_Stock_Item
-     */
-    protected function _loadStockItemById($id)
-    {
-        /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('cataloginventory/stock_item')->load($id);
-        if (!$stockItem->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $stockItem;
     }
 }

@@ -176,7 +176,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         }
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $successes = $responseData['success'];
@@ -199,20 +199,20 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testUpdateUnavailableStockItems()
     {
-        $invalidId = 'invalid_id';
+        $invalidId = -1;
         $singleItemDataForUpdate = array('item_id' => $invalidId);
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $errors = $responseData['error'];
         $this->assertEquals(count($errors), 1);
 
         $expectedError = array(
-            'message' => Mage_Api2_Model_Resource::RESOURCE_NOT_FOUND,
-            'code'    => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
+            'message' => sprintf('StockItem #%d not found.', $invalidId),
+            'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
             'item_id' => $invalidId
         );
         $this->assertEquals($errors[0], $expectedError);
@@ -228,39 +228,38 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
-        $errors = $responseData['error'];
-        $this->assertEquals(count($errors), 1);
+        $this->assertEquals(count($responseData['error']), 1);
 
         $expectedError = array(
-            'message' => 'Missing "item_id" in request.',
+            'item_id' => '',
+            'message' => 'Invalid value for "item_id" in request.',
             'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
         );
-        $this->assertEquals($errors[0], $expectedError);
+        $this->assertEquals($responseData['error'][0], $expectedError);
     }
 
     /**
-     * Test unsuccessful stock items update with empty ItemId
-     *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     * Test unsuccessful stock items update with missing ItemId
      */
-    public function testUpdateStockItemsWithEmptyItemId()
+    public function testUpdateStockItemsWithInvalidItemId()
     {
         $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
-        $singleItemDataForUpdate['item_id'] = NULL; // empty item_id
+        $singleItemDataForUpdate['item_id'] = 'invalid_id'; // wrong item_id
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $errors = $responseData['error'];
         $this->assertEquals(count($errors), 1);
 
         $expectedError = array(
-            'message' => 'Empty value for "item_id" in request.',
+            'item_id' => 'invalid_id',
+            'message' => 'Invalid value for "item_id" in request.',
             'code'    => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
         );
         $this->assertEquals($errors[0], $expectedError);
@@ -282,7 +281,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         }
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $errors = $responseData['error'];
