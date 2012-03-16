@@ -154,6 +154,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     );
 
     /**
+     * Flag if shipping is domestic for specefic countries
+     *
+     * @var bool
+     */
+    protected $_isDomestic = false;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -381,16 +388,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $contentType = $this->getConfigData('content_type');
         $allowedMethods = array();
-        switch ($contentType) {
-            case self::DHL_CONTENT_TYPE_DOC:
-                $allowedMethods = explode(',', $this->getConfigData('doc_methods'));
-                break;
-
-            case self::DHL_CONTENT_TYPE_NON_DOC:
-                $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
-                break;
-            default:
-                Mage::throwException(Mage::helper('usa')->__('Wrong Content Type.'));
+        if ($this->_isDomestic) {
+            $allowedMethods = array_merge(explode(',', $this->getConfigData('doc_methods')),
+                explode(',', $this->getConfigData('nondoc_methods'))
+            );
+        } else {
+            switch ($contentType) {
+                case self::DHL_CONTENT_TYPE_DOC:
+                    $allowedMethods = explode(',', $this->getConfigData('doc_methods'));
+                    break;
+                case self::DHL_CONTENT_TYPE_NON_DOC:
+                    $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
+                    break;
+                default:
+                    Mage::throwException(Mage::helper('usa')->__('Wrong Content Type.'));
+            }
         }
         $methods = array();
         foreach ($allowedMethods as $method) {
@@ -469,47 +481,54 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
      */
     public function getDhlProducts($doc)
     {
+        $docType = array(
+            '2' => Mage::helper('usa')->__('Easy shop'),
+            '5' => Mage::helper('usa')->__('Sprintline'),
+            '6' => Mage::helper('usa')->__('Secureline'),
+            '7' => Mage::helper('usa')->__('Express easy'),
+            '9' => Mage::helper('usa')->__('Europack'),
+            'B' => Mage::helper('usa')->__('Break bulk express'),
+            'C' => Mage::helper('usa')->__('Medical express'),
+            'D' => Mage::helper('usa')->__('Express worldwide'), // product content code: DOX
+            'U' => Mage::helper('usa')->__('Express worldwide'), // product content code: ECX
+            'K' => Mage::helper('usa')->__('Express 9:00'),
+            'L' => Mage::helper('usa')->__('Express 10:30'),
+            'G' => Mage::helper('usa')->__('Domestic economy select'),
+            'W' => Mage::helper('usa')->__('Economy select'),
+            'I' => Mage::helper('usa')->__('Break bulk economy'),
+            'N' => Mage::helper('usa')->__('Domestic express'),
+            'O' => Mage::helper('usa')->__('Others'),
+            'R' => Mage::helper('usa')->__('Globalmail business'),
+            'S' => Mage::helper('usa')->__('Same day'),
+            'T' => Mage::helper('usa')->__('Express 12:00'),
+            'X' => Mage::helper('usa')->__('Express envelope'),
+        );
+
+        $nonDocType = array(
+            '1' => Mage::helper('usa')->__('Customer services'),
+            '3' => Mage::helper('usa')->__('Easy shop'),
+            '4' => Mage::helper('usa')->__('Jetline'),
+            '8' => Mage::helper('usa')->__('Express easy'),
+            'P' => Mage::helper('usa')->__('Express worldwide'),
+            'Q' => Mage::helper('usa')->__('Medical express'),
+            'E' => Mage::helper('usa')->__('Express 9:00'),
+            'F' => Mage::helper('usa')->__('Freight worldwide'),
+            'H' => Mage::helper('usa')->__('Economy select'),
+            'J' => Mage::helper('usa')->__('Jumbo box'),
+            'M' => Mage::helper('usa')->__('Express 10:30'),
+            'V' => Mage::helper('usa')->__('Europack'),
+            'Y' => Mage::helper('usa')->__('Express 12:00'),
+        );
+
+        if ($this->_isDomestic) {
+            return $docType + $nonDocType;
+        }
         if ($doc == self::DHL_CONTENT_TYPE_DOC) {
             // Documents shipping
-            return array(
-                '2' => Mage::helper('usa')->__('Easy shop'),
-                '5' => Mage::helper('usa')->__('Sprintline'),
-                '6' => Mage::helper('usa')->__('Secureline'),
-                '7' => Mage::helper('usa')->__('Express easy'),
-                '9' => Mage::helper('usa')->__('Europack'),
-                'B' => Mage::helper('usa')->__('Break bulk express'),
-                'C' => Mage::helper('usa')->__('Medical express'),
-                'D' => Mage::helper('usa')->__('Express worldwide'), // product content code: DOX
-                'U' => Mage::helper('usa')->__('Express worldwide'), // product content code: ECX
-                'K' => Mage::helper('usa')->__('Express 9:00'),
-                'L' => Mage::helper('usa')->__('Express 10:30'),
-                'G' => Mage::helper('usa')->__('Domestic economy select'),
-                'W' => Mage::helper('usa')->__('Economy select'),
-                'I' => Mage::helper('usa')->__('Break bulk economy'),
-                'N' => Mage::helper('usa')->__('Domestic express'),
-                'O' => Mage::helper('usa')->__('Others'),
-                'R' => Mage::helper('usa')->__('Globalmail business'),
-                'S' => Mage::helper('usa')->__('Same day'),
-                'T' => Mage::helper('usa')->__('Express 12:00'),
-                'X' => Mage::helper('usa')->__('Express envelope'),
-            );
+            return $docType;
         } else {
             // Services for shipping non-documents cargo
-            return array(
-                '1' => Mage::helper('usa')->__('Customer services'),
-                '3' => Mage::helper('usa')->__('Easy shop'),
-                '4' => Mage::helper('usa')->__('Jetline'),
-                '8' => Mage::helper('usa')->__('Express easy'),
-                'P' => Mage::helper('usa')->__('Express worldwide'),
-                'Q' => Mage::helper('usa')->__('Medical express'),
-                'E' => Mage::helper('usa')->__('Express 9:00'),
-                'F' => Mage::helper('usa')->__('Freight worldwide'),
-                'H' => Mage::helper('usa')->__('Economy select'),
-                'J' => Mage::helper('usa')->__('Jumbo box'),
-                'M' => Mage::helper('usa')->__('Express 10:30'),
-                'V' => Mage::helper('usa')->__('Europack'),
-                'Y' => Mage::helper('usa')->__('Express 12:00'),
-            );
+            return $nonDocType;
         }
     }
 
@@ -810,7 +829,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeTo->addChild('Postalcode', $rawRequest->getDestPostal());
         $nodeTo->addChild('City', $rawRequest->getDestCity());
 
-        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
+        $consigneeCountry = (string)$this->getCountryParams($rawRequest->getDestCountryId())->name;
+        $shipperCountry = (string)$this->getCountryParams($rawRequest->getOrigCountryId())->name;
+        $isDomestic = (string)$this->getCountryParams($rawRequest->getOrigCountryId())->domestic;
+
+        if ($consigneeCountry == $shipperCountry && $isDomestic) {
+            $this->_isDomestic = true;
+        }
+
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC && !$this->_isDomestic) {
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
@@ -1202,6 +1229,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $originRegion = '';
         }
 
+        $consigneeCountry = (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name;
+        $shipperCountry = (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name;
+        $isDomestic = (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->domestic;
+
+        if ($consigneeCountry == $shipperCountry && $isDomestic) {
+            $this->_isDomestic = true;
+        }
+
         $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
             . '<req:ShipmentValidateRequest' . $originRegion
             . ' xmlns:req="http://www.dhl.com"'
@@ -1263,9 +1298,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('Division', $rawRequest->getRecipientAddressStateOrProvinceCode());
         $nodeConsignee->addChild('PostalCode', $rawRequest->getRecipientAddressPostalCode());
         $nodeConsignee->addChild('CountryCode', $rawRequest->getRecipientAddressCountryCode());
-        $nodeConsignee->addChild('CountryName',
-            (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name
-        );
+        $nodeConsignee->addChild('CountryName', $consigneeCountry);
         $nodeContact = $nodeConsignee->addChild('Contact');
         $nodeContact->addChild('PersonName', substr($rawRequest->getRecipientContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getRecipientContactPhoneNumber(), 0, 24));
@@ -1278,7 +1311,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeCommodity->addChild('CommodityCode', '1');
 
         /* Dutiable */
-        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
+        if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC && !$this->_isDomestic) {
             $nodeDutiable = $xml->addChild('Dutiable', '', '');
             $nodeDutiable->addChild('DeclaredValue',
                 sprintf("%.2F", $rawRequest->getOrderShipment()->getOrder()->getSubtotal())
@@ -1318,9 +1351,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipper->addChild('Division', $rawRequest->getShipperAddressStateOrProvinceCode());
         $nodeShipper->addChild('PostalCode', $rawRequest->getShipperAddressPostalCode());
         $nodeShipper->addChild('CountryCode', $rawRequest->getShipperAddressCountryCode());
-        $nodeShipper->addChild('CountryName',
-            (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name
-        );
+        $nodeShipper->addChild('CountryName', $shipperCountry);
         $nodeContact = $nodeShipper->addChild('Contact', '', '');
         $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
