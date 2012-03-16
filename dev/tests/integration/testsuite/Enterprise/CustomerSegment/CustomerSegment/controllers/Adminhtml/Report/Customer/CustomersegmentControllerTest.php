@@ -19,7 +19,6 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
 
     /**
      * @covers Enterprise/CustomerSegment/view/adminhtml/report/detail/grid/container.phtml
-     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
      */
     public function testSegmentAction()
     {
