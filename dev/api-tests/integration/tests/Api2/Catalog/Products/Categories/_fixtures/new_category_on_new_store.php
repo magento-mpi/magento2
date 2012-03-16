@@ -62,8 +62,7 @@ if (!Magento_Test_Webservice::getFixture('store')) {
     $website->setData(
         array(
             'code' => 'test_' . uniqid(),
-            'name' => 'test website' . uniqid(),
-            'default_group_id' => 1,
+            'name' => 'test website' . uniqid()
         )
     );
     $website->save();

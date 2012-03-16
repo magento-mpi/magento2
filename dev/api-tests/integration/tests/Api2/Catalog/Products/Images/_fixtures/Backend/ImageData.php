@@ -40,5 +40,12 @@ return array(
         'label' => 'updated test product image ' . uniqid(),
         'position' => 10,
         'types'    => array('small_image'),
+        'exclude'  => 0
+    ),
+    'update_for_another_store' => array(
+        'label' => 'updated for another store test product image ' . uniqid(),
+        'position' => 20,
+        'types'    => array('thumbnail'),
+        'exclude'  => 0
     )
 );
