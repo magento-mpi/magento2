@@ -73,7 +73,9 @@ if (file_exists($classMapPath)) {
     Magento_Autoload::getInstance()->addFilesMap($classMapPath);
 }
 
-#Magento_Profiler::enable();
-#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+if (isset($_SERVER['MAGE_PROFILER_ENABLED'])) {
+    Magento_Profiler::enable();
+    Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+}
 #Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
 #Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/var/log/profiler.csv'));
