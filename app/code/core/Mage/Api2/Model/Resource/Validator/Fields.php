@@ -144,7 +144,7 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
      * validation failed.
      *
      * @param array $data
-     * @void bool
+     * @return bool
      */
     public function isValidData(array $data)
     {

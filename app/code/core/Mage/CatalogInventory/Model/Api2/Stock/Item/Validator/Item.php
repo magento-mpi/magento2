@@ -40,7 +40,7 @@ class Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item extends Mage_Ap
      * validation failed.
      *
      * @param array $data
-     * @void bool
+     * @return bool
      */
     public function isValidSingleItemDataForMultiUpdate(array $data)
     {
