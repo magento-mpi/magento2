@@ -154,7 +154,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     );
 
     /**
-     * Flag if shipping is domestic for specefic countries
+     * Flag that shows if shipping is domestic
      *
      * @var bool
      */
@@ -829,13 +829,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeTo->addChild('Postalcode', $rawRequest->getDestPostal());
         $nodeTo->addChild('City', $rawRequest->getDestCity());
 
-        $consigneeCountry = (string)$this->getCountryParams($rawRequest->getDestCountryId())->name;
-        $shipperCountry = (string)$this->getCountryParams($rawRequest->getOrigCountryId())->name;
-        $isDomestic = (string)$this->getCountryParams($rawRequest->getOrigCountryId())->domestic;
-
-        if ($consigneeCountry == $shipperCountry && $isDomestic) {
-            $this->_isDomestic = true;
-        }
+        $this->_checkDomesticStatus($rawRequest->getOrigCountryId(), $rawRequest->getDestCountryId());
 
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC && !$this->_isDomestic) {
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
@@ -1229,14 +1223,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $originRegion = '';
         }
 
-        $consigneeCountry = (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name;
-        $shipperCountry = (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name;
-        $isDomestic = (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->domestic;
-
-        if ($consigneeCountry == $shipperCountry && $isDomestic) {
-            $this->_isDomestic = true;
-        }
-
         $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
             . '<req:ShipmentValidateRequest' . $originRegion
             . ' xmlns:req="http://www.dhl.com"'
@@ -1298,7 +1284,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('Division', $rawRequest->getRecipientAddressStateOrProvinceCode());
         $nodeConsignee->addChild('PostalCode', $rawRequest->getRecipientAddressPostalCode());
         $nodeConsignee->addChild('CountryCode', $rawRequest->getRecipientAddressCountryCode());
-        $nodeConsignee->addChild('CountryName', $consigneeCountry);
+        $nodeConsignee->addChild('CountryName',
+            (string)$this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->name
+        );
         $nodeContact = $nodeConsignee->addChild('Contact');
         $nodeContact->addChild('PersonName', substr($rawRequest->getRecipientContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getRecipientContactPhoneNumber(), 0, 24));
@@ -1309,6 +1297,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
          */
         $nodeCommodity = $xml->addChild('Commodity', '', '');
         $nodeCommodity->addChild('CommodityCode', '1');
+
+        $this->_checkDomesticStatus($rawRequest->getShipperAddressCountryCode(),
+            $rawRequest->getRecipientAddressCountryCode()
+        );
 
         /* Dutiable */
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC && !$this->_isDomestic) {
@@ -1351,7 +1343,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipper->addChild('Division', $rawRequest->getShipperAddressStateOrProvinceCode());
         $nodeShipper->addChild('PostalCode', $rawRequest->getShipperAddressPostalCode());
         $nodeShipper->addChild('CountryCode', $rawRequest->getShipperAddressCountryCode());
-        $nodeShipper->addChild('CountryName', $shipperCountry);
+        $nodeShipper->addChild('CountryName',
+            (string)$this->getCountryParams($rawRequest->getShipperAddressCountryCode())->name
+        );
         $nodeContact = $nodeShipper->addChild('Contact', '', '');
         $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
@@ -1708,5 +1702,27 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $request->setMasterTrackingId($result->getTrackingNumber());
 
         return $response;
+    }
+
+    /**
+     * Check if shipping is domestic
+     *
+     * @param string $origCountryCode
+     * @param string $destCountryCode
+     * @return bool
+     */
+    protected function _checkDomesticStatus($origCountryCode, $destCountryCode)
+    {
+        $this->_isDomestic = false;
+
+        $origCountry = (string)$this->getCountryParams($origCountryCode)->name;
+        $destCountry = (string)$this->getCountryParams($destCountryCode)->name;
+        $isDomestic = (string)$this->getCountryParams($destCountryCode)->domestic;
+
+        if ($origCountry == $destCountry && $isDomestic) {
+            $this->_isDomestic = true;
+        }
+
+        return $this->_isDomestic;
     }
 }
