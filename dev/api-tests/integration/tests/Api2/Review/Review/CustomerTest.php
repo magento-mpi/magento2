@@ -34,6 +34,11 @@
  */
 class Api2_Review_Review_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Review resource is incomplete');
+    }
+
     /**
      * Remove fixtures
      *

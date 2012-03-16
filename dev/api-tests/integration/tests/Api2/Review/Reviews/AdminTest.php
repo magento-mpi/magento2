@@ -34,6 +34,11 @@
  */
 class Api2_Review_Reviews_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Review resource is incomplete');
+    }
+
     /**
      * Delete fixtures
      */
