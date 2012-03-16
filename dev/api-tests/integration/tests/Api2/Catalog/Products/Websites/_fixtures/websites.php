@@ -78,6 +78,15 @@ for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
 $product->setWebsiteIds($websiteAssignedToProductIds);
 $product->save();
 
+// it is needed for testing detalization of "Store Data Copying"
+Mage::getModel('catalog/product')
+    ->load($product->getId())
+    ->setStoreId($stores[0])
+    ->addData(array(
+        'title' => 'Product Store Title' . uniqid()
+    ))
+    ->save();
+
 // Not assigned Websites
 $websitesNotAssignedToProduct = array();
 for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {

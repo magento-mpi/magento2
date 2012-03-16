@@ -81,7 +81,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     }
 
     /**
-     * Test of a website assignment to a product (with "copy to stores") (POST method)
+     * Test of a website assignment to a product (with "Stores Data Copying") (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
      */
