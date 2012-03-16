@@ -277,11 +277,9 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test unsuccessful address update with missing required fields
      *
-     * @param string $attributeCode
      * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
-     * @dataProvider providerRequiredAttributes
      */
-    public function testUpdateCustomerAddressMissingRequired($attributeCode)
+    public function testUpdateCustomerAddressInvalidCountry()
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = $this->_currentCustomer
@@ -289,8 +287,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
             ->getFirstItem();
         $dataForUpdate = $this->_getUpdateData();
 
-        // Remove required field
-        unset($dataForUpdate[$attributeCode]);
+        $dataForUpdate['country_id'] = 'invalid country';
 
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
@@ -492,8 +489,8 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
         $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
-        $data = array_intersect_key($customerAddressFixture->getData(), array_reverse(array(
-            'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'region_id', 'street', 'telephone'
+        $data = array_intersect_key($customerAddressFixture->getData(), array_flip(array(
+            'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'street', 'telephone'
         )));
         $data['street'] = array(
             'Main Street' . uniqid(),
@@ -520,8 +517,8 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
         $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
-        $data = array_intersect_key($customerAddressFixture->getData(), array_reverse(array(
-            'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'region_id', 'street', 'telephone'
+        $data = array_intersect_key($customerAddressFixture->getData(), array_flip(array(
+            'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'street', 'telephone'
         )));
         $data['street'] = array(
             'Main Street' . uniqid(),
