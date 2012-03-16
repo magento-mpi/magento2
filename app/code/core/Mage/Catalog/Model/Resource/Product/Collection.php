@@ -887,7 +887,9 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $countSelect = (is_null($select)) ?
             $this->_getClearSelect() :
             $this->_buildClearSelect($select);
-        $countSelect->columns('COUNT(DISTINCT e.entity_id)');
+        $countSelect->columns(array(
+            'c' => 'COUNT(DISTINCT e.entity_id)'
+        ));
         if ($resetLeftJoins) {
             $countSelect->resetJoinLeft();
         }
@@ -905,9 +907,15 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $priceExpression = $this->getPriceExpression($select) . ' ' . $this->getAdditionalPriceExpression($select);
         $sqlEndPart = ') * ' . $this->getCurrencyRate() . ', 2)';
         $select = $this->_getSelectCountSql($select, false);
-        $select->columns('ROUND(MAX(' . $priceExpression . $sqlEndPart);
-        $select->columns('ROUND(MIN(' . $priceExpression . $sqlEndPart);
-        $select->columns($this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart));
+        $select->columns(array(
+            'max' => 'ROUND(MAX(' . $priceExpression . $sqlEndPart
+        ));
+        $select->columns(array(
+            'min' => 'ROUND(MIN(' . $priceExpression . $sqlEndPart
+        ));
+        $select->columns(array(
+            'std' => $this->getConnection()->getStandardDeviationSql('ROUND((' . $priceExpression . $sqlEndPart)
+        ));
         $select->where($this->getPriceExpression($select) . ' IS NOT NULL');
         $row = $this->getConnection()->fetchRow($select, $this->_bindParams, Zend_Db::FETCH_NUM);
         $this->_pricesCount = (int)$row[0];
