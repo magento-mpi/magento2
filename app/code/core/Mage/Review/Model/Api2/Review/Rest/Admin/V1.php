@@ -77,7 +77,22 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         $collection->load()->toArray();
     }
 
+    /**
+     * Delete specified review item
+     */
+    protected function _delete()
+    {
+        /** @var $review Mage_Review_Model_Review */
+        $review = $this->_getReview($this->getRequest()->getParam('product_id'), $this->getRequest()->getParam('id'));
 
+        try {
+            $review->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
+        }
+    }
 
 
 
@@ -106,23 +121,6 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $review;
-    }
-
-    /**
-     * Delete specified review item
-     *
-     * @throws Mage_Api2_Exception
-     */
-    protected function _delete()
-    {
-        $review = $this->_getReview();
-        try {
-            $review->delete();
-        } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            $this->_critical(self::RESOURCE_INTERNAL_ERROR);
-        }
     }
 
     /**
