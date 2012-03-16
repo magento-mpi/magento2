@@ -22,6 +22,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function testSegmentAction()
     {
+        /*
+         * add @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php after fix
+         */
         $this->markTestIncomplete('Bug MAGE-6535');
         $this->dispatch('admin/report_customer_customersegment/detail/segment_id/1');
         $content = $this->getResponse()->getBody();
