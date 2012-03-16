@@ -62,9 +62,12 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
         $customer = $this->_getCustomer();
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
-        $session->setCustomer($customer);
-        return $this->_getPrice($price, $withTax, $customer->getPrimaryShippingAddress(),
+        $session->setCustomerId($customer->getId());
+        $price = $this->_getPrice($price, $withTax, $customer->getPrimaryShippingAddress(),
             $customer->getPrimaryBillingAddress(), $customer->getTaxClassId());
+        $session->setCustomerId(null);
+
+        return $price;
     }
 
     /**
