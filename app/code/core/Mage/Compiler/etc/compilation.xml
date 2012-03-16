@@ -103,10 +103,6 @@
             <Mage_Log_Model_Visitor/>
             <Mage_Log_Model_Resource_Visitor/>
 
-            <Mage_GoogleOptimizer_Model_Observer/>
-            <Mage_GoogleOptimizer_Helper_Data/>
-            <Mage_GoogleOptimizer_Block_Code_Page/>
-            <Mage_GoogleOptimizer_Block_Code/>
             <Mage_GoogleAnalytics_Block_Ga/>
 
             <Mage_Customer_Model_Session/>
