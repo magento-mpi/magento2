@@ -78,7 +78,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Email_Logo extends Mage_Adminht
      *
      * Save changes and delete file if "delete" option passed
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Email_logo
+     * @return Mage_Adminhtml_Model_System_Config_Backend_Email_Logo
      */
     protected function _beforeSave()
     {
