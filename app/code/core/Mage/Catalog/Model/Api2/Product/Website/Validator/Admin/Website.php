@@ -40,7 +40,6 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
      * validation failed.
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param Mage_Catalog_Model_Product $data
      * @param array $data
      * @return bool
      */
@@ -131,7 +130,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isWebsiteIsAssignmenToProduct(
+    public function isWebsiteAssignedToProduct(
         Mage_Core_Model_Website $website,
         Mage_Catalog_Model_Product $product
     )
