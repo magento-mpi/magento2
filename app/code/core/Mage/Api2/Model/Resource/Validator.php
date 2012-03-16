@@ -29,7 +29,6 @@
  *
  * This is an object to which we encapsulate all business logic of validation and different invariants.
  * But instead of different validators, we group all logic in one class but in different methods.
- * That is why there is no single interface.
  *
  * If fails validation, then validation method returns false, and
  * getErrors() will return an array of errors that explain why the
