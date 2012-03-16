@@ -53,7 +53,7 @@
                         //]]>
                         </script>
                     <?php endif; ?>
-                    <p class="product-name"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></p>
+                    <p class="product-name"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></p>
                 </li>
             <?php endforeach; ?>
             </ol>

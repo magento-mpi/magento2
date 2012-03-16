@@ -513,7 +513,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData">'
                     . '<name>' . $name . '</name>'
-                    . '<value>' . Mage::helper('widget')->htmlEscape($value) . '</value>'
+                    . '<value>' . Mage::helper('widget')->escapeHtml($value) . '</value>'
                     . '</action>';
             }
         }

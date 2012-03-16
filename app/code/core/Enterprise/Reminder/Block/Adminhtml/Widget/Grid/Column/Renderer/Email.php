@@ -38,7 +38,7 @@ class Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email
      */
     protected function _getValue(Varien_Object $row)
     {
-        $customerEmail = $this->htmlEscape($row->getData($this->getColumn()->getIndex()));
-        return '<a href="mailto:' . $customerEmail . '">' . $this->htmlEscape($customerEmail) . '</a>';
+        $customerEmail = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
+        return '<a href="mailto:' . $customerEmail . '">' . $this->escapeHtml($customerEmail) . '</a>';
     }
 }

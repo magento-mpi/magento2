@@ -24,8 +24,8 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?><br/>
-<?php echo Mage::helper('payment')->__('Name on the Card: %s', $this->htmlEscape($this->getInfo()->getCcOwner())) ?><br/>
-<?php echo Mage::helper('payment')->__('Credit Card Type: %s', $this->htmlEscape($this->getCcTypeName())) ?><br/>
-<?php echo Mage::helper('payment')->__('Credit Card Number: xxxx-%s', $this->htmlEscape($this->getInfo()->getCcLast4())) ?><br/>
-<?php echo Mage::helper('payment')->__('Expiration Date: %s/%s', $this->htmlEscape($this->getCcExpMonth()), $this->htmlEscape($this->getInfo()->getCcExpYear())) ?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?><br/>
+<?php echo Mage::helper('payment')->__('Name on the Card: %s', $this->escapeHtml($this->getInfo()->getCcOwner())) ?><br/>
+<?php echo Mage::helper('payment')->__('Credit Card Type: %s', $this->escapeHtml($this->getCcTypeName())) ?><br/>
+<?php echo Mage::helper('payment')->__('Credit Card Number: xxxx-%s', $this->escapeHtml($this->getInfo()->getCcLast4())) ?><br/>
+<?php echo Mage::helper('payment')->__('Expiration Date: %s/%s', $this->escapeHtml($this->getCcExpMonth()), $this->escapeHtml($this->getInfo()->getCcExpYear())) ?>

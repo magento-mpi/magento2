@@ -53,7 +53,7 @@ class Mage_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
         $data = array('one', '<two>three</two>');
         $expected = array('one', '&lt;two&gt;three&lt;/two&gt;');
         $this->assertEquals($expected, $this->_helper->escapeHtml($data));
-        $this->assertEquals($expected, $this->_helper->htmlEscape($data));
+        $this->assertEquals($expected, $this->_helper->escapeHtml($data));
     }
 
     public function testStripTags()

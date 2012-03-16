@@ -57,7 +57,7 @@
     <?php foreach ($this->getInvitationCollection() as $invitation): ?>
         <tr>
             <td>
-                <?php echo $this->htmlEscape($invitation->getEmail()); ?>
+                <?php echo $this->escapeHtml($invitation->getEmail()); ?>
             </td>
             <td>
                 <?php echo $this->helper('enterprise_invitation')->getInvitationStatusText($invitation);?>

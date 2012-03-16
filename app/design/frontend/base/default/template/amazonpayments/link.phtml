@@ -39,10 +39,10 @@
     <script type="text/javascript" src="https://images-na.ssl-images-amazon.com/images/G/01/cba/js/widget/widget.js"></script>
     <form action="<?php echo $this->getCheckoutUrl();?>" method="post" id="cbaOneClickForm">
         <fieldset>
-            <input alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" type="image" />
+            <input alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" src="<?php echo $this->escapeHtml($this->getImageUrl())?>" type="image" />
         </fieldset>
     </form>
     <?php else: ?>
-    <a href="<?php echo $this->getCheckoutUrl();?>" title="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"><img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" /></a>
+    <a href="<?php echo $this->getCheckoutUrl();?>" title="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"><img src="<?php echo $this->escapeHtml($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" /></a>
     <?php endif; ?>
 <?php endif; ?>

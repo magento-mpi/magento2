@@ -25,9 +25,9 @@
  */
 ?>
 <?php if($_info = $this->getInfo()): ?>
-    <?php echo $this->__('Name on the Card: %s', $this->htmlEscape($this->getInfo()->getCcOwner())) ?><br />
-    <?php echo $this->__('Credit Card Type: %s', $this->htmlEscape($this->getCcTypeName())) ?><br />
-    <?php echo $this->__('Credit Card Number: xxxx-%s', $this->htmlEscape($this->getInfo()->getCcLast4())) ?>
+    <?php echo $this->__('Name on the Card: %s', $this->escapeHtml($this->getInfo()->getCcOwner())) ?><br />
+    <?php echo $this->__('Credit Card Type: %s', $this->escapeHtml($this->getCcTypeName())) ?><br />
+    <?php echo $this->__('Credit Card Number: xxxx-%s', $this->escapeHtml($this->getInfo()->getCcLast4())) ?>
 <?php else: ?>
 
 <?php endif; ?>

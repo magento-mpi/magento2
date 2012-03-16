@@ -32,7 +32,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render website name for log entry
@@ -43,13 +44,13 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website extends Mage_
     {
         $deleted = false;
         if ($this->getColumn()->getIndex() == 'staging_website_name') {
-            $result = $this->htmlEscape($row->getStagingWebsiteName());
+            $result = $this->escapeHtml($row->getStagingWebsiteName());
             if ($row->getStagingWebsiteId() === null && $result !== null) {
                 $deleted = true;
             }
         }
         else {
-            $result = $this->htmlEscape($row->getMasterWebsiteName());
+            $result = $this->escapeHtml($row->getMasterWebsiteName());
             if ($row->getMasterWebsiteId() === null && $result !== null) {
                 $deleted = true;
             }

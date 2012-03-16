@@ -45,6 +45,6 @@ class Enterprise_GiftCardAccount_Block_Account_Redeem extends Mage_Core_Block_Te
     {
         $code = $this->getRequest()->getParam('giftcard', '');
 
-        return $this->htmlEscape($code);
+        return $this->escapeHtml($code);
     }
 }
