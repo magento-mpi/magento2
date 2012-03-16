@@ -228,11 +228,4 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
             $collection->addStatusFilter($status);
         }
     }
-
-    /**
-     * Prepare collection for retrieve
-     *
-     * @return Mage_Review_Model_Resource_Review_Collection
-     */
-    abstract protected function __prepareRetrieveCollection();
 }
