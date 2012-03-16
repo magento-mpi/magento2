@@ -33,6 +33,14 @@
             </designeditor>
         </routers>
         <events>
+            <controller_action_predispatch>
+                <observers>
+                    <designeditor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>ensureDesignEditorDeactivation</method>
+                    </designeditor>
+                </observers>
+            </controller_action_predispatch>
             <controller_action_layout_load_before>
                 <observers>
                     <designeditor>

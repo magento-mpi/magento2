@@ -103,7 +103,7 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Disable caching on external storage side by setting special cookie
+     * Disable caching on external storage side by setting special cookie, if the cookie has not been locked
      *
      * @param int|null $lifetime
      * @return Mage_PageCache_Helper_Data
@@ -123,7 +123,7 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Remove the 'no cache' cookie
+     * Remove the 'no cache' cookie, if it has not been locked
      *
      * @return Mage_PageCache_Helper_Data
      */

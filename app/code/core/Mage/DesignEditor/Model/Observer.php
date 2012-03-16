@@ -118,8 +118,21 @@ class Mage_DesignEditor_Model_Observer
         }
     }
 
+    /**
+     * Deactivate the design editor
+     */
     public function adminSessionUserLogout()
     {
         $this->_getSession()->deactivateDesignEditor();
+    }
+
+    /**
+     * Deactivate the design editor, if the admin session has been already expired
+     */
+    public function ensureDesignEditorDeactivation()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_getSession()->deactivateDesignEditor();
+        }
     }
 }

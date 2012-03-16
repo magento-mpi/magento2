@@ -25,14 +25,7 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
      */
     public function isDesignEditorActive()
     {
-        if ($this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE)) {
-            if ($this->isLoggedIn()) {
-                return true;
-            }
-            /* Admin session has been expired */
-            $this->deactivateDesignEditor();
-        }
-        return false;
+        return $this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE) && $this->isLoggedIn();
     }
 
     /**
@@ -40,8 +33,10 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
      */
     public function activateDesignEditor()
     {
-        $this->setData(self::SESSION_DESIGN_EDITOR_ACTIVE, 1);
-        Mage::dispatchEvent('design_editor_session_activate');
+        if (!$this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE) && $this->isLoggedIn()) {
+            $this->setData(self::SESSION_DESIGN_EDITOR_ACTIVE, 1);
+            Mage::dispatchEvent('design_editor_session_activate');
+        }
     }
 
     /**
@@ -49,8 +44,13 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
      */
     public function deactivateDesignEditor()
     {
-        $this->unsetData(self::SESSION_DESIGN_EDITOR_ACTIVE);
-        Mage::dispatchEvent('design_editor_session_deactivate');
+        /*
+         * isLoggedIn() is intentionally not taken into account to be able to trigger event when admin session expires
+         */
+        if ($this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE)) {
+            $this->unsetData(self::SESSION_DESIGN_EDITOR_ACTIVE);
+            Mage::dispatchEvent('design_editor_session_deactivate');
+        }
     }
 
     /**
