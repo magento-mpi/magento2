@@ -69,6 +69,7 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
         /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
         $product->setStoreId(0)
+            ->setWebsiteIds(array(Mage::app()->getWebsite()->getId()))
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
         self::setFixture('product_simple', $product);
@@ -117,6 +118,7 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
         /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
         $product->setStoreId(0)
+            ->setWebsiteIds(array(Mage::app()->getWebsite()->getId()))
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
         self::setFixture('product_simple', $product);
