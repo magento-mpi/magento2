@@ -281,7 +281,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      * @param int $status
      * @param int $stockId
      * @param int $websiteId
-     * 
+     *
      * @return Mage_CatalogInventory_Model_Stock_Status
      */
     protected function _processChildren($productId, $productType, $qty = 0, $status = self::STATUS_IN_STOCK,
