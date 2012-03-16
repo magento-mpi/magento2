@@ -44,30 +44,23 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     {
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
-
-        /* @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getModel('api2/resource_validator_eav', array(
-            'resource' => $this,
-            'operation' => self::OPERATION_CREATE
-        ));
+        $validator = $this->_getValidator();
 
         // If the array contains more than two elements, then combine the extra elements in a string
         if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
             $data['street'][1] .= self::STREET_SEPARATOR
-                . implode(
-                    self::STREET_SEPARATOR,
-                    array_slice($data['street'], 2)
-                );
+                . implode(self::STREET_SEPARATOR, array_slice($data['street'], 2));
             $data['street'] = array_slice($data['street'], 0, 2);
         }
-
         $data = $validator->filter($data);
+
         if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
+        $data['region'] = $this->_getRegionId($data['country_id'], $data['region']);
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('customer/address');
@@ -81,7 +74,6 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-
         return $this->_getLocation($customerAddress);
     }
 
@@ -158,12 +150,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     {
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
-
-        /* @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getModel('api2/resource_validator_eav', array(
-            'resource' => $this,
-            'operation' => self::OPERATION_UPDATE
-        ));
+        $validator = $this->_getValidator();
 
         // If the array contains more than two elements, then combine the extra elements in a string
         if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
@@ -187,6 +174,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
+        $filteredData['region'] = $this->_getRegionId($filteredData['country_id'], $filteredData['region']);
         $customerAddress->addData($filteredData);
 
         try {
@@ -208,7 +196,8 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
 
         if ($this->_isDefaultBillingAddress($customerAddress) || $this->_isDefaultShippingAddress($customerAddress)) {
             $this->_critical(
-                'Address is default for customer so is not allowed to delete', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                'Address is default for customer so is not allowed to be deleted',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
         try {

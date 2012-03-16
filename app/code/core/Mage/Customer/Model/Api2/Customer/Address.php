@@ -39,6 +39,21 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     const STREET_SEPARATOR = '; ';
 
     /**
+     * Find region identifier by its name
+     *
+     * @param string $countryId Country identifier
+     * @param string $region Region name
+     * @return string
+     */
+    protected function _getRegionId($countryId, $region)
+    {
+        // convert region name into ID
+        $countries = $this->_getValidator()->getCountryRegions($countryId);
+
+        return isset($countries[$region]) ? $countries[$region] : $region;
+    }
+
+    /**
      * Resource specific method to retrieve attributes' codes. May be overriden in child.
      *
      * @return array
@@ -46,6 +61,18 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     protected function _getResourceAttributes()
     {
         return $this->getEavAttributes(Mage_Api2_Model_Auth_User_Admin::USER_TYPE != $this->getUserType());
+    }
+
+    /**
+     * Get customer address resource validator instance
+     *
+     * @return Mage_Customer_Model_Api2_Customer_Address_Validator
+     */
+    protected function _getValidator()
+    {
+        return Mage::getSingleton(
+            'customer/api2_customer_address_validator', array('resource' => $this, 'operation' => self::OPERATION_CREATE
+        ));
     }
 
     /**
