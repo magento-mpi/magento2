@@ -56,10 +56,6 @@
                                         <title>OAuth Admin My Apps</title>
                                         <sort_order>40</sort_order>
                                     </oauth_admin_token>
-                                    <cleanup translate="title" module="oauth">
-                                        <title>Cleanup Settings</title>
-                                        <sort_order>50</sort_order>
-                                    </cleanup>
                                 </children>
                             </api>
                             <config>
@@ -67,12 +63,6 @@
                                     <oauth translate="title">
                                         <title>OAuth</title>
                                         <sort_order>20</sort_order>
-                                        <children>
-                                            <cleanup>
-                                                <title>Cleanup Settings</title>
-                                                <sort_order>10</sort_order>
-                                            </cleanup>
-                                        </children>
                                     </oauth>
                                 </children>
                             </config>
