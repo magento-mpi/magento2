@@ -1784,7 +1784,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return '';
         }
         if ($fileName == null) {
-            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
+            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
+            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
         }
         $filePath = $this->getScreenshotPath() . $fileName;
         $file = fopen($filePath . '.png', 'a+');
