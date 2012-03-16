@@ -214,16 +214,6 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test get id field name
-     *
-     * @return void
-     */
-    public function testGetIdFieldName()
-    {
-        $this->assertEquals('test_item_id', $this->_config->getResourceIdFieldName('product'));
-    }
-
-    /**
      * Test get validation config by resource type
      *
      * @param array $validationConfig

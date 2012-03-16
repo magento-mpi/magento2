@@ -390,17 +390,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrieve id field name for resource
-     *
-     * @param string $resource
-     * @return string
-     */
-    public function getResourceIdFieldName($resource)
-    {
-        return (string)$this->getNode('resources/' . $resource . '/id_field_name');
-    }
-
-    /**
      * Get latest version of resource model. If second arg is specified - use it as a limiter
      *
      * @param string $resourceType Resource type

@@ -134,9 +134,6 @@ class Mage_Api2_Model_Acl_Filter
                     $this->_resource->getUserType(), $this->_resource->getResourceType(), $operationType
                 );
             }
-            if ($this->_isMultiAction()) {
-                $this->_allowedAttributes[] = $this->_resource->getIdFieldName();
-            }
             // force attributes to be no filtered
             foreach ($this->_resource->getForcedAttributes() as $forcedAttr) {
                 if (!in_array($forcedAttr, $this->_allowedAttributes)) {
@@ -148,27 +145,12 @@ class Mage_Api2_Model_Acl_Filter
     }
 
     /**
-     * Check is multi action
-     *
-     * @return bool
-     */
-    protected function _isMultiAction()
-    {
-        return ($idFieldName = $this->_resource->getIdFieldName())
-            && in_array($this->_resource->getOperation(), array(
-                Mage_Api2_Model_Resource::OPERATION_UPDATE, Mage_Api2_Model_Resource::OPERATION_DELETE))
-            && $this->_resource->getActionType() == Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION;
-    }
-
-    /**
      * Retrieve a list of attributes to be included in output based on available and requested attributes
      *
      * @return array
      */
     public function getAttributesToInclude()
     {
-        //TODO implement the case when ALL attributes allowed
-
         if (null === $this->_attributesToInclude) {
             $allowedAttrs   = $this->getAllowedAttributes(Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ);
             $requestedAttrs = $this->_resource->getRequest()->getRequestedAttributes();

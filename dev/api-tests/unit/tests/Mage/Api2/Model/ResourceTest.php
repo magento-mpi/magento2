@@ -234,28 +234,6 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test IdFieldName getter
-     */
-    public function testGetIdFieldName()
-    {
-        $idFieldName = 'testIdFieldName';
-        $resourceType = 'testResourceType';
-
-        $this->_resource->setResourceType($resourceType);
-
-        $configMock = $this->getModelMockBuilder('api2/config')
-            ->setMethods(array('getResourceIdFieldName'))
-            ->getMock();
-
-        $configMock->expects($this->once())
-            ->method('getResourceIdFieldName')
-            ->with($resourceType)
-            ->will($this->returnValue($idFieldName));
-
-        $this->assertEquals($this->_resource->getIdFieldName(), $idFieldName);
-    }
-
-    /**
      * Test action type setter and getter
      */
     public function testActionTypeAccessors()

@@ -603,16 +603,6 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Retrieve name of object id field
-     *
-     * @return string
-     */
-    public function getIdFieldName()
-    {
-        return $this->getConfig()->getResourceIdFieldName($this->getResourceType());
-    }
-
-    /**
      * Render data using registered Renderer
      *
      * @param mixed $data

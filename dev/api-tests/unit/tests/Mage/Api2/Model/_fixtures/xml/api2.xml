@@ -7,7 +7,6 @@
                 <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
                 <model>catalog/api2_product</model><!-- used in dispatching -->
                 <working_model>catalog/product</working_model>
-                <id_field_name>test_item_id</id_field_name>
                 <attributes>
                     <review_id>ID</review_id>
                     <content>Content</content>
