@@ -83,7 +83,7 @@ Mage::getModel('catalog/product')
     ->load($product->getId())
     ->setStoreId($stores[0])
     ->addData(array(
-        'title' => 'Product Store Title' . uniqid()
+        'name' => 'Product Store Title' . uniqid()
     ))
     ->save();
 

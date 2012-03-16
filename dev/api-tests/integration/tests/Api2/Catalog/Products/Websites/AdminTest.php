@@ -88,14 +88,14 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testAssignWebsiteToProductWithCopyToStores()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
-        $assignedStoredDataId = array_pop($websiteAssignedToProduct->getStoreIds());
-        $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+        $assignedStoredDataId = array_shift($websiteAssignedToProduct->getStoreIds());
+        $notAssignedStoredDataId = array_shift($websiteNotAssignedToProduct->getStoreIds());
         $websitesData = array(
             'website_id' => $websiteNotAssignedToProduct->getId(),
             'copy_to_stores' => array(
@@ -139,7 +139,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testWebsiteAssignmentToUnavailableProduct()
     {
         /* @var $website Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
 
         $websitesData = array(
             'website_id' => $websiteNotAssignedToProduct->getId()
@@ -203,7 +203,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testAssignWebsiteThatIsAlreadyAssignedToProduct()
     {
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -233,7 +233,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testInvalidStoreIdsInCopyToStoresData()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -275,7 +275,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testUseUnavailableStoresInCopyToStoresData()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -317,14 +317,14 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testUseInvalidStoresAssociationsInCopyToStoresData()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
-        $assignedStoredDataId = array_pop($websiteAssignedToProduct->getStoreIds());
-        $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+        $assignedStoredDataId = array_shift($websiteAssignedToProduct->getStoreIds());
+        $notAssignedStoredDataId = array_shift($websiteNotAssignedToProduct->getStoreIds());
         $websitesData = array(
             'website_id' => $websiteNotAssignedToProduct->getId(),
             'copy_to_stores' => array(
@@ -366,14 +366,14 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     {
         $websitesNotAssignedToProduct = self::getFixture('websitesNotAssignedToProduct');
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
-        $assignedStoredDataId = array_pop($websiteAssignedToProduct->getStoreIds());
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
+        $assignedStoredDataId = array_shift($websiteAssignedToProduct->getStoreIds());
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
         $multiData = array();
         foreach ($websitesNotAssignedToProduct as $websiteNotAssignedToProduct) {
-            $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+            $notAssignedStoredDataId = array_shift($websiteNotAssignedToProduct->getStoreIds());
             $multiData[] = array(
                 'website_id' => $websiteNotAssignedToProduct->getId(),
                 'copy_to_stores' => array(
@@ -414,7 +414,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
             $this->assertContains($websiteNotAssignedToProduct->getId(), $product->getWebsiteIds());
 
             // Check stores
-            $notAssignedStoredDataId = array_pop($websiteNotAssignedToProduct->getStoreIds());
+            $notAssignedStoredDataId = array_shift($websiteNotAssignedToProduct->getStoreIds());
             $newStoreData = Mage::getModel('catalog/product')
                 ->setStoreId($notAssignedStoredDataId)
                 ->load($product->getId())
@@ -434,9 +434,9 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testErrorRepresentationOnMultiAssignWebsiteToProduct()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -473,7 +473,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testWebsiteUnassignmentFromProduct()
     {
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -512,7 +512,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testWebsiteUnassignmentFromUnavailableProduct()
     {
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -532,7 +532,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testUnassignWebsiteThatIsNotAssignedToProduct()
     {
         /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-        $websiteNotAssignedToProduct = array_pop(self::getFixture('websitesNotAssignedToProduct'));
+        $websiteNotAssignedToProduct = array_shift(self::getFixture('websitesNotAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -560,7 +560,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testRetrieveSingleAssignedWebsite()
     {
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
@@ -577,7 +577,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
     public function testUpdateAssignedWebsite()
     {
         /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-        $websiteAssignedToProduct = array_pop(self::getFixture('websitesAssignedToProduct'));
+        $websiteAssignedToProduct = array_shift(self::getFixture('websitesAssignedToProduct'));
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product');
 
