@@ -212,6 +212,7 @@ abstract class Mage_Api2_Model_Resource
                     $filteredData = $this->getFilter()->collectionIn($requestData);
                     $this->_multiCreate($filteredData);
                     $this->_render($this->getResponse()->getMessages());
+                    $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
                 }
                 break;
             /* Retrieve */
@@ -249,6 +250,7 @@ abstract class Mage_Api2_Model_Resource
                 $filteredData = $this->getFilter()->collectionIn($requestData);
                 $this->_multiUpdate($filteredData);
                 $this->_render($this->getResponse()->getMessages());
+                $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
                 break;
             /* Delete */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_DELETE:
@@ -262,6 +264,7 @@ abstract class Mage_Api2_Model_Resource
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                 }
                 $this->_multiDelete($requestData);
+                $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
                 break;
             default:
                 $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);

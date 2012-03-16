@@ -385,7 +385,7 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
             );
         }
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         // Check response body
         $responseData = $restResponse->getBody();
@@ -450,7 +450,7 @@ class Api2_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_Res
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData);
