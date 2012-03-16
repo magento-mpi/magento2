@@ -302,6 +302,24 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
+     * Test unsuccessful address update with invalid region
+     *
+     * @magentoDataFixture Api2/Customer/_fixtures/add_addresses_to_current_customer.php
+     */
+    public function testUpdateCustomerAddressInvalidRegion()
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->_currentCustomer
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate = array('country_id' => 'US', 'region' => 'invalid');
+        $restResponse  = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+    }
+
+    /**
      * Test unsuccessful address update with empty required fields
      *
      * @param string $attributeCode
