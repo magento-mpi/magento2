@@ -53,7 +53,7 @@
                                         <sort_order>30</sort_order>
                                     </authorizedTokens>
                                     <oauth_admin_token translate="title" module="oauth">
-                                        <title>OAuth Admin My Applications</title>
+                                        <title>OAuth Admin My Apps</title>
                                         <sort_order>40</sort_order>
                                     </oauth_admin_token>
                                     <cleanup translate="title" module="oauth">
@@ -98,7 +98,7 @@
                             <action>adminhtml/oAuth_authorizedTokens</action>
                         </oauth_authorized_tokens>
                         <oauth_admin_token translate="title" module="oauth">
-                            <title>REST - My Applications</title>
+                            <title>REST - My Apps</title>
                             <sort_order>70</sort_order>
                             <action>adminhtml/oAuth_admin_token</action>
                         </oauth_admin_token>
