@@ -108,7 +108,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
         $productId = $this->getRequest()->getParam('product_id');
         $reviewId = $this->getRequest()->getParam('id');
 
-        $this->_loadReview($productId, $reviewId)->update(array());
+        $this->_getReview($productId, $reviewId)->update(array());
     }
 
     /**
@@ -140,7 +140,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
      */
     protected function __loadReview()
     {
-        $review = parent::_loadReview();
+        $review = parent::_getReview();
         // check status and review store
         $storeId = $this->getRequest()->getParam('store_id');
         if ($storeId !== null) {

@@ -133,7 +133,7 @@ class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2
      */
     protected function __loadReview()
     {
-        $review = parent::_loadReview();
+        $review = parent::_getReview();
         // check status and review store
         $storeId = $this->getRequest()->getParam('store_id');
         if ($storeId !== null) {

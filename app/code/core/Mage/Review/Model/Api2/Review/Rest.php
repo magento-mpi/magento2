@@ -77,12 +77,18 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
      * @param int $reviewId
      * @return Mage_Review_Model_Review
      */
-    protected function _loadReview($productId, $reviewId)
+    protected function _getReview($productId, $reviewId)
     {
         $collection = $this->_getProductReviews($productId);
         $this->_applyReviewFilter($collection, $reviewId);
 
-        return $collection->getFirstItem();
+        $review = $collection->getFirstItem();
+
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $review;
     }
 
     /**

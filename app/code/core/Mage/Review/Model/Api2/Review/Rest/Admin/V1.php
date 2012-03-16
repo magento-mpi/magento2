@@ -44,7 +44,7 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         $reviewId = $this->getRequest()->getParam('id');
         $productId = $this->getRequest()->getParam('product_id');
 
-        $review = $this->_loadReview($productId, $reviewId);
+        $review = $this->_getReview($productId, $reviewId);
         if (!$review->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
@@ -64,12 +64,18 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         $collection = $this->_getProductReviews($productId);
         $this->_applyCollectionModifiers($collection);
 
+        $this->_getCustomers($collection);
+
         $data = $collection->load()->toArray();
+
 
         return $data['items'];
     }
 
-
+    protected function _getCustomers(Mage_Review_Model_Resource_Review_Collection $collection)
+    {
+        $collection->load()->toArray();
+    }
 
 
 
@@ -109,7 +115,7 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
      */
     protected function _delete()
     {
-        $review = $this->_loadReview();
+        $review = $this->_getReview();
         try {
             $review->delete();
         } catch (Mage_Core_Exception $e) {
@@ -130,7 +136,7 @@ class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2
         $notEmpty = array('status_id', 'stores', 'nickname', 'title', 'detail');
         $this->_validate($data, array(), $notEmpty);
 
-        $review = $this->_loadReview();
+        $review = $this->_getReview();
         $review->addData($data);
         if (isset($data['stores'])) {
             $review->setStores($data['stores']);
