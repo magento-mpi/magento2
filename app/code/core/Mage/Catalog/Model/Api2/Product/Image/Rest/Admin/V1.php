@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 for product categories
+ * API2 for product image. Admin role
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -34,101 +34,79 @@
 class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_Model_Api2_Product_Image_Rest
 {
     /**
-     * Product category assign
+     * Product image add
      *
+     * @throws Mage_Api2_Exception
      * @param array $data
      * @return string
      */
     protected function _create(array $data)
     {
         /* @var $validator Mage_Catalog_Model_Api2_Product_Image_Validator_Image */
-        $validator = Mage::getModel('catalog/api2_product_image_validator_image', array('resource' => $this));
+        $validator = Mage::getModel('catalog/api2_product_image_validator_image');
         if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute */
-        $gallery = $this->_getGalleryAttribute($product);
-
-        $fileContent = @base64_decode($data['file_content'], true);
-        if (!$fileContent) {
-            $this->_critical('The image contents is not valid base64 data', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        $imageFileContent = @base64_decode($data['file_content'], true);
+        if (!$imageFileContent) {
+            $this->_critical('The image content must be valid base64 encoded data',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         unset($data['file_content']);
 
-        $tmpDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('api/session')->getSessionId();
+        $apiTempDir = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('api/session')->getSessionId();
 
-        $fileName = $this->_getFileName($data);
-
-        $ioAdapter = new Varien_Io_File();
         try {
-            // Create temporary directory for api
-            $ioAdapter->checkAndCreateFolder($tmpDirectory);
-            $ioAdapter->open(array('path'=>$tmpDirectory));
-            // Write image file
-            $ioAdapter->write($fileName, $fileContent, 0666);
-            unset($fileContent);
+            $ioAdapter = new Varien_Io_File();
+            $ioAdapter->checkAndCreateFolder($apiTempDir);
+            $ioAdapter->open(array('path' => $apiTempDir));
+            $imageTempFileName = $this->_getFileName($data);
+            $ioAdapter->write($imageTempFileName, $imageFileContent, 0666);
+            unset($imageFileContent);
 
-            // try to create Image object - it fails with Exception if image is not supported
+            // try to create Image object to check if image data is valid
             try {
-                new Varien_Image($tmpDirectory . DS . $fileName);
+                new Varien_Image($apiTempDir . DS . $imageTempFileName);
             } catch (Exception $e) {
-                // Remove temporary directory
-                $ioAdapter->rmdir($tmpDirectory, true);
+                $ioAdapter->rmdir($apiTempDir, true);
                 $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
             }
-
-            // Adding image to gallery
-            $file = $gallery->getBackend()->addImage(
-                $product,
-                $tmpDirectory . DS . $fileName,
-                null,
-                true
-            );
-
-            // Remove temporary directory
-            $ioAdapter->rmdir($tmpDirectory, true);
-
-            $gallery->getBackend()->updateImage($product, $file, $data);
+            $product = $this->_getProduct();
+            $imageFileName = $this->_getMediaGallery()->addImage($product, $apiTempDir . DS . $imageTempFileName);
+            $ioAdapter->rmdir($apiTempDir, true);
+            // updateImage() must be called to add image data that is missing after addImage() call
+            $this->_getMediaGallery()->updateImage($product, $imageFileName, $data);
 
             if (isset($data['types'])) {
-                $gallery->getBackend()->setMediaAttribute($product, $data['types'], $file);
+                $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFileName);
             }
-
             $product->save();
+            return $this->_getImageLocation($this->_getCreatedImageId($imageFileName));
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_UNKNOWN_ERROR);
         }
-
-        return $this->_getImageLocation($this->_getCreatedImageId($product, $file));
     }
 
     /**
      * Get added image ID
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @param string $file
+     * @throws Mage_Api2_Exception
+     * @param string $imageFileName
      * @return int
      */
-    protected function _getCreatedImageId($product, $file)
+    protected function _getCreatedImageId($imageFileName)
     {
         $imageId = null;
 
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute */
-        $gallery = $this->_getGalleryAttribute($product);
-
         $imageData = Mage::getResourceModel('catalog/product_attribute_backend_media')
-            ->loadGallery($product, $gallery->getBackend());
+            ->loadGallery($this->_getProduct(), $this->_getMediaGallery());
         foreach ($imageData as $image) {
-            if ($image['file'] == $file) {
+            if ($image['file'] == $imageFileName) {
                 $imageId = $image['value_id'];
                 break;
             }
@@ -142,63 +120,50 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     /**
      * Retrieve product images data
      *
+     * @throws Mage_Api2_Exception
      * @return array
      */
     protected function _retrieve()
     {
+        $result = array();
         $imageId = (int) $this->getRequest()->getParam('image');
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-
-        $galleryData = $product->getData(self::ATTRIBUTE_CODE);
-
+        $galleryData = $this->_getProduct()->getData(self::GALLERY_ATTRIBUTE_CODE);
         if (!isset($galleryData['images']) || !is_array($galleryData['images'])) {
             $this->_critical('Product image not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
-
-        $result = array();
-
         foreach ($galleryData['images'] as &$image) {
             if ($image['value_id'] == $imageId) {
-                $result = $this->_imageToArray($image, $product);
+                $result = $this->_formatImageData($image);
                 break;
             }
         }
         if (empty($result)) {
             $this->_critical('Product image not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
-
         return $result;
     }
 
+    /**
+     * Update product image
+     *
+     * @throws Mage_Api2_Exception
+     * @param array $data
+     * @return bool
+     */
     protected function _update(array $data)
     {
-        $imageId = (int) $this->getRequest()->getParam('image');
-
-        /* @var $product Mage_Catalog_Model_Product */
+        $imageId = (int)$this->getRequest()->getParam('image');
+        $imageFile = $this->_getImageFileById($imageId);
         $product = $this->_getProduct();
-
-        $file = $this->_getImageFileById($product, $imageId);
-
-        $gallery = $this->_getGalleryAttribute($product);
-        $gallery->getBackend()->updateImage($product, $file, $data);
-
+        $this->_getMediaGallery()->updateImage($product, $imageFile, $data);
         if (isset($data['types']) && is_array($data['types'])) {
-            $oldTypes = array();
-            foreach ($product->getMediaAttributes() as $attribute) {
-                if ($product->getData($attribute->getAttributeCode()) == $file) {
-                     $oldTypes[] = $attribute->getAttributeCode();
-                }
+            $assignedTypes = $this->_getImageTypesAssignedToProduct($imageFile);
+            $typesToBeCleared = array_diff($assignedTypes, $data['types']);
+            if (count($typesToBeCleared) > 0) {
+                $this->_getMediaGallery()->clearMediaAttribute($product, $typesToBeCleared);
             }
-            $clear = array_diff($oldTypes, $data['types']);
-            if (count($clear) > 0) {
-                $gallery->getBackend()->clearMediaAttribute($product, $clear);
-            }
-
-            $gallery->getBackend()->setMediaAttribute($product, $data['types'], $file);
+            $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFile);
         }
-
         try {
             $product->save();
         } catch (Mage_Core_Exception $e) {
@@ -206,25 +171,19 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-
-        return true;
     }
 
     /**
-     * Product category unassign
+     * Product image delete
+     *
+     * @throws Mage_Api2_Exception
      */
     protected function _delete()
     {
-        $imageId = (int) $this->getRequest()->getParam('image');
-
-        /* @var $product Mage_Catalog_Model_Product */
+        $imageId = (int)$this->getRequest()->getParam('image');
         $product = $this->_getProduct();
-
-        $file = $this->_getImageFileById($product, $imageId);
-
-        $gallery = $this->_getGalleryAttribute($product);
-        $gallery->getBackend()->removeImage($product, $file);
-
+        $file = $this->_getImageFileById($imageId);
+        $this->_getMediaGallery()->removeImage($product, $file);
         try {
             $product->save();
         } catch (Mage_Core_Exception $e) {
@@ -232,43 +191,30 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-
-        return true;
     }
 
     /**
      * Retrieve product images data
      *
+     * @throws Mage_Api2_Exception
      * @return array
      */
     protected function _retrieveCollection()
     {
-        $return = array();
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute */
-        $gallery = $this->_getGalleryAttribute($product);
-
-        $galleryData = $product->getData(self::ATTRIBUTE_CODE);
-
-        if (!isset($galleryData['images']) || !is_array($galleryData['images'])) {
-            return array();
+        $images = array();
+        $galleryData = $this->_getProduct()->getData(self::GALLERY_ATTRIBUTE_CODE);
+        if (isset($galleryData['images']) && is_array($galleryData['images'])) {
+            foreach ($galleryData['images'] as $image) {
+                $images[] = $this->_formatImageData($image);
+            }
         }
-
-        $result = array();
-
-        foreach ($galleryData['images'] as &$image) {
-            $result[] = $this->_imageToArray($image, $product);
-        }
-
-        return $result;
+        return $images;
     }
 
     /**
-     * Check if store exist by its code or ID
+     * Retrieve store
      *
+     * @throws Mage_Api2_Exception
      * @return Mage_Core_Model_Store
      */
     protected function _getStore()
@@ -306,18 +252,6 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
             'image'    => $imageId
         );
         $uri = $chain->assemble($params);
-
         return '/' . $uri;
-    }
-
-    /**
-     * Check if product is available (for customer and guest)
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @return bool
-     */
-    protected function _isProductAvailable($product)
-    {
-        return true;
     }
 }

@@ -25,7 +25,7 @@
  */
 
 /**
- * Abstract Api2 model for product categories collection
+ * Abstract Api2 model for product image
  *
  * @category   Mage
  * @package    Mage_Catalog

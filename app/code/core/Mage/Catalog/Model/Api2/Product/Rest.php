@@ -233,7 +233,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     }
 
     /**
-     * Check if store exist by its code or ID
+     * Retrieve store
      *
      * @return Mage_Core_Model_Store
      */

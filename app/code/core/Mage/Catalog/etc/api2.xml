@@ -206,7 +206,6 @@
                 <title>Grouped Products</title>
                 <sort_order>30</sort_order>
                 <privileges>
-                    <!-- For collection only CREATE and retrieve -->
                     <create>1</create>
                     <retrieve>1</retrieve>
                 </privileges>
@@ -270,7 +269,6 @@
             <product_image>
                 <group>catalog_product</group>
                 <model>catalog/api2_product_image</model>
-                <working_model>catalog/product</working_model>
                 <title>Product Image</title>
                 <sort_order>70</sort_order>
                 <privileges>
@@ -288,15 +286,15 @@
                     </guest>
                 </privileges>
                 <attributes>
-                    <id>Image ID</id>
-                    <file_name>File name</file_name>
-                    <file_content>File content</file_content>
-                    <file_mime_type>File mime type</file_mime_type>
-                    <label>Image label</label>
-                    <position>Image position</position>
-                    <types>Image settings</types>
-                    <exclude>Image exclude</exclude>
-                    <url>Image URL</url>
+                    <id>ID</id>
+                    <file_name>File Name</file_name>
+                    <file_content>File Content</file_content>
+                    <file_mime_type>File MIME Type</file_mime_type>
+                    <label>Label</label>
+                    <position>Position</position>
+                    <types>Type</types>
+                    <exclude>Exclude</exclude>
+                    <url>URL</url>
                 </attributes>
                 <exclude_attributes>
                     <customer>

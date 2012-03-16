@@ -25,21 +25,21 @@
  */
 
 /**
- * Abstract API2 class for product categories
+ * Abstract API2 class for product images resource
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_Model_Api2_Product_Image
+abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_Model_Api2_Product_Rest
 {
     /**
      * Attribute code for media gallery
      */
-    const ATTRIBUTE_CODE = 'media_gallery';
+    const GALLERY_ATTRIBUTE_CODE = 'media_gallery';
 
     /**
-     * Allowed mime types for image
+     * Allowed MIME types for image
      *
      * @var array
      */
@@ -49,97 +49,79 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
         'image/png'  => 'png'
     );
 
-    protected $_product;
-
     /**
-     * Load product by its SKU or ID
+     * Retrieve product image data for customer and guest roles
      *
-     * @return Mage_Catalog_Model_Product
-     */
-    protected function _getProduct()
-    {
-        if (is_null($this->_product)) {
-            $productId = $this->getRequest()->getParam('id');
-            /* @var $productHelper Mage_Catalog_Helper_Product */
-            $productHelper = Mage::helper('catalog/product');
-            $product = $productHelper->getProduct($productId, $this->_getStore()->getId());
-            if (!($product->getId())) {
-                $this->_critical(self::RESOURCE_NOT_FOUND);
-            }
-            // check if product belongs to website of current store
-            if ($this->getRequest()->getParam('store')) {
-                $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
-                if (!$isValidWebsite) {
-                    $this->_critical(self::RESOURCE_NOT_FOUND);
-                }
-            }
-            if (!$this->_isProductAvailable($product)) {
-                $this->_critical(self::RESOURCE_NOT_FOUND);
-            }
-            $this->_product = $product;
-        }
-        return $this->_product;
-    }
-
-    /**
-     * Check if product is available (for customer and guest)
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @return bool
-     */
-    protected function _isProductAvailable($product)
-    {
-        $isVisible = ($product->getVisibility() != Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-        $isEnabled = ($product->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-        return $isVisible && $isEnabled;
-    }
-
-    /**
-     * Check if store exist by its code or ID
-     *
-     * @return Mage_Core_Model_Store
-     */
-    protected function _getStore()
-    {
-        $store = $this->getRequest()->getParam('store');
-        try {
-            if (!$store) {
-                $store = Mage::app()->getDefaultStoreView();
-            } else {
-                $store = Mage::app()->getStore($store);
-            }
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            // store does not exist
-            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        return $store;
-    }
-
-    /**
-     * Retrieve gallery attribute from product
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute|boolean
-     */
-    protected function _getGalleryAttribute($product)
-    {
-        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-
-        if (!isset($attributes[self::ATTRIBUTE_CODE])) {
-            $this->_critical('Requested product doesn\'t support images', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-
-        return $attributes[self::ATTRIBUTE_CODE];
-    }
-
-    /**
-     * Converts image to api array data
-     *
-     * @param array $image
-     * @param Mage_Catalog_Model_Product $product
+     * @throws Mage_Api2_Exception
      * @return array
      */
-    protected function _imageToArray(&$image, $product)
+    protected function _retrieve()
+    {
+        $imageData = array();
+        $imageId = (int)$this->getRequest()->getParam('image');
+        $galleryData = $this->_getProduct()->getData(self::GALLERY_ATTRIBUTE_CODE);
+
+        if (!isset($galleryData['images']) || !is_array($galleryData['images'])) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        foreach ($galleryData['images'] as $image) {
+            if ($image['value_id'] == $imageId && !$image['disabled']) {
+                $imageData = $this->_formatImageData($image);
+                break;
+            }
+        }
+        if (empty($imageData)) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $imageData;
+    }
+
+    /**
+     * Retrieve product images data for customer and guest
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $images = array();
+        $galleryData = $this->_getProduct()->getData(self::GALLERY_ATTRIBUTE_CODE);
+        if (isset($galleryData['images']) && is_array($galleryData['images'])) {
+            foreach ($galleryData['images'] as $image) {
+                if (!$image['disabled']) {
+                    $images[] = $this->_formatImageData($image);
+                }
+            }
+        }
+        return $images;
+    }
+
+    /**
+     * Retrieve media gallery
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Catalog_Model_Product_Attribute_Backend_Media
+     */
+    protected function _getMediaGallery()
+    {
+        $attributes = $this->_getProduct()->getTypeInstance(true)->getSetAttributes($this->_getProduct());
+
+        if (!isset($attributes[self::GALLERY_ATTRIBUTE_CODE])
+            || !$attributes[self::GALLERY_ATTRIBUTE_CODE] instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            $this->_critical('Requested product does not support images', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        $galleryAttribute = $attributes[self::GALLERY_ATTRIBUTE_CODE];
+        /** @var $mediaGallery Mage_Catalog_Model_Product_Attribute_Backend_Media */
+        $mediaGallery = $galleryAttribute->getBackend();
+        return $mediaGallery;
+    }
+
+    /**
+     * Create image data representation for API
+     *
+     * @param array $image
+     * @return array
+     */
+    protected function _formatImageData($image)
     {
         $result = array(
             'id'        => $image['value_id'],
@@ -147,16 +129,26 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
             'position'  => $image['position'],
             'exclude'   => $image['disabled'],
             'url'       => $this->_getMediaConfig()->getMediaUrl($image['file']),
-            'types'     => array()
+            'types'     => $this->_getImageTypesAssignedToProduct($image['file'])
         );
+        return $result;
+    }
 
-        foreach ($product->getMediaAttributes() as $attribute) {
-            if ($product->getData($attribute->getAttributeCode()) == $image['file']) {
-                $result['types'][] = $attribute->getAttributeCode();
+    /**
+     * Retrieve image types assigned to product (base, small, thumbnail)
+     *
+     * @param string $imageFile
+     * @return array
+     */
+    protected function _getImageTypesAssignedToProduct($imageFile)
+    {
+        $types = array();
+        foreach ($this->_getProduct()->getMediaAttributes() as $attribute) {
+            if ($this->_getProduct()->getData($attribute->getAttributeCode()) == $imageFile) {
+                $types[] = $attribute->getAttributeCode();
             }
         }
-
-        return $result;
+        return $types;
     }
 
     /**
@@ -177,26 +169,40 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
      */
     protected function _getFileName($data)
     {
-        $fileName  = 'image';
+        $fileName = 'image';
         if (isset($data['file_name']) && $data['file_name']) {
-            $fileName  = $data['file_name'];
+            $fileName = $data['file_name'];
         }
         $fileName .= '.' . $this->_getExtensionByMimeType($data['file_mime_type']);
-
         return $fileName;
     }
 
     /**
-     * Get file uri by its id. File uri is used by media backend to identify image.
+     * Retrieve file extension using MIME type
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @param int $imageId
-     * @return type
+     * @throws Mage_Api2_Exception
+     * @param string $mimeType
+     * @return string
      */
-    protected function _getImageFileById($product, $imageId)
+    protected function _getExtensionByMimeType($mimeType)
+    {
+        if (!array_key_exists($mimeType, $this->_mimeTypes)) {
+            $this->_critical('Unsuppoted image MIME type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $this->_mimeTypes[$mimeType];
+    }
+
+    /**
+     * Get file URI by its id. File URI is used by media backend to identify image
+     *
+     * @throws Mage_Api2_Exception
+     * @param int $imageId
+     * @return string
+     */
+    protected function _getImageFileById($imageId)
     {
         $file = null;
-        $mediaGalleryData = $product->getData('media_gallery');
+        $mediaGalleryData = $this->_getProduct()->getData('media_gallery');
         if (!isset($mediaGalleryData['images'])) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
@@ -206,89 +212,9 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
                 break;
             }
         }
-        if (!$file) {
+        if (!($file && $this->_getMediaGallery()->getImage($this->_getProduct(), $file))) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
-
-        $gallery = $this->_getGalleryAttribute($product);
-        if (!$gallery->getBackend()->getImage($product, $file)) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-
         return $file;
-    }
-
-    protected function _getExtensionByMimeType($mimeType)
-    {
-        if (!array_key_exists($mimeType, $this->_mimeTypes)) {
-            $this->_critical('Unsuppoted image mime type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        return $this->_mimeTypes[$mimeType];
-    }
-
-    /**
-     * Retrieve product images data for customer and guest
-     *
-     * @return array
-     */
-    protected function _retrieve()
-    {
-
-        $imageId = (int) $this->getRequest()->getParam('image');
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-
-        $galleryData = $product->getData(self::ATTRIBUTE_CODE);
-
-        if (!isset($galleryData['images']) || !is_array($galleryData['images'])) {
-            $this->_critical('Product image not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
-        }
-
-        $result = array();
-
-        foreach ($galleryData['images'] as &$image) {
-            if ($image['value_id'] == $imageId && !$image['disabled']) {
-                $result = $this->_imageToArray($image, $product);
-                break;
-            }
-        }
-        if (empty($result)) {
-            $this->_critical('Product image not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Retrieve product images data for customer and guest
-     *
-     * @return array
-     */
-    protected function _retrieveCollection()
-    {
-        $return = array();
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute */
-        $gallery = $this->_getGalleryAttribute($product);
-
-        $galleryData = $product->getData(self::ATTRIBUTE_CODE);
-
-        if (!isset($galleryData['images']) || !is_array($galleryData['images'])) {
-            return array();
-        }
-
-        $result = array();
-
-        foreach ($galleryData['images'] as &$image) {
-            if (!$image['disabled']) {
-                $result[] = $this->_imageToArray($image, $product);
-            }
-        }
-
-        return $result;
     }
 }

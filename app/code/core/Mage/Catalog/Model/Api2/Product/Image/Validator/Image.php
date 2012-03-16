@@ -19,13 +19,13 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 Product image Validator
+ * API2 Product image validator
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -34,13 +34,11 @@
 class Mage_Catalog_Model_Api2_Product_Image_Validator_Image extends Mage_Api2_Model_Resource_Validator
 {
     /**
-     * Validate data.
-     * If fails validation, then this method returns false, and
-     * getErrors() will return an array of errors that explain why the
-     * validation failed.
+     * Validate data. In case of validation failure return false,
+     * getErrors() could be used to retrieve list of validation error messages
      *
      * @param array $data
-     * @void bool
+     * @return bool
      */
     public function isValidData(array $data)
     {

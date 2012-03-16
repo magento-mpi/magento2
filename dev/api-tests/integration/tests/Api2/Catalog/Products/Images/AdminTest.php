@@ -26,7 +26,7 @@
  */
 
 /**
- * Test product categories resource
+ * Test product images resource
  *
  * @category    Magento
  * @package     Magento_Test
@@ -78,12 +78,11 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      */
-    public function _testPut()
+    public function testPut()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['update'];
 
-        $pathPrefix = '/p/r/';
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
 
@@ -142,7 +141,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      */
-    public function _testList()
+    public function testList()
     {
         $imagesNumber = 3;
         $pathPrefix = '/p/r/';
@@ -183,7 +182,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      */
-    public function _testGet()
+    public function testGet()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['update'];
@@ -200,48 +199,47 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
 
         $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
         if (!isset($attributes['media_gallery'])) {
-            return $this;
-        }
-        $gallery = $attributes['media_gallery'];
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
-        $gallery->getBackend()->updateImage($product, $pathPrefix . $fileName, $imageData);
-        $gallery->getBackend()->setMediaAttribute($product, $imageData['types'], $pathPrefix . $fileName);
-        $product->setStoreId(0)->save();
+            $gallery = $attributes['media_gallery'];
+            /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
+            $gallery->getBackend()->updateImage($product, $pathPrefix . $fileName, $imageData);
+            $gallery->getBackend()->setMediaAttribute($product, $imageData['types'], $pathPrefix . $fileName);
+            $product->setStoreId(0)->save();
 
-        $ioAdapter->rm($fileFixture);
+            $ioAdapter->rm($fileFixture);
 
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
-        self::setFixture('product_simple', $product);
+            /* @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
+            self::setFixture('product_simple', $product);
 
-        $gallery = $product->getData('media_gallery');
-        $this->assertNotEmpty($gallery);
-        $this->assertTrue(isset($gallery['images'][0]['value_id']));
-        $imageId = $gallery['images'][0]['value_id'];
+            $gallery = $product->getData('media_gallery');
+            $this->assertNotEmpty($gallery);
+            $this->assertTrue(isset($gallery['images'][0]['value_id']));
+            $imageId = $gallery['images'][0]['value_id'];
 
-        $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+            $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
-        $this->assertTrue(isset($gallery['images'][0]['label']));
-        $this->assertTrue(isset($gallery['images'][0]['position']));
-        $this->assertEquals($imageData['label'], $gallery['images'][0]['label']);
-        $this->assertEquals($imageData['position'], $gallery['images'][0]['position']);
+            $this->assertTrue(isset($gallery['images'][0]['label']));
+            $this->assertTrue(isset($gallery['images'][0]['position']));
+            $this->assertEquals($imageData['label'], $gallery['images'][0]['label']);
+            $this->assertEquals($imageData['position'], $gallery['images'][0]['position']);
 
-        $types = array();
-        foreach ($product->getMediaAttributes() as $attribute) {
-            if ($product->getData($attribute->getAttributeCode()) == $gallery['images'][0]['file']) {
-                $types[] = $attribute->getAttributeCode();
-            }
-        }
-        foreach ($imageData['types'] as $type) {
-            $found = false;
-            foreach ($types as $realType) {
-                if ($type == $realType) {
-                    $found = true;
-                    break;
+            $types = array();
+            foreach ($product->getMediaAttributes() as $attribute) {
+                if ($product->getData($attribute->getAttributeCode()) == $gallery['images'][0]['file']) {
+                    $types[] = $attribute->getAttributeCode();
                 }
             }
-            $this->assertTrue($found);
+            foreach ($imageData['types'] as $type) {
+                $found = false;
+                foreach ($types as $realType) {
+                    if ($type == $realType) {
+                        $found = true;
+                        break;
+                    }
+                }
+                $this->assertTrue($found);
+            }
         }
     }
 
@@ -251,7 +249,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      */
-    public function _testDelete()
+    public function testDelete()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['update'];
@@ -267,35 +265,34 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $product->addImageToMediaGallery($fileFixture, null, false, false);
 
         $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-        if (!isset($attributes['media_gallery'])) {
-            return $this;
+        if (isset($attributes['media_gallery'])) {
+            $gallery = $attributes['media_gallery'];
+            /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
+            $gallery->getBackend()->updateImage($product, $pathPrefix . $fileName, $imageData);
+            $gallery->getBackend()->setMediaAttribute($product, $imageData['types'], $pathPrefix . $fileName);
+            $product->setStoreId(0)->save();
+
+            $ioAdapter->rm($fileFixture);
+
+            /* @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
+            self::setFixture('product_simple', $product);
+
+            $gallery = $product->getData('media_gallery');
+            $this->assertNotEmpty($gallery);
+            $this->assertTrue(isset($gallery['images'][0]['value_id']));
+            $imageId = $gallery['images'][0]['value_id'];
+
+            $restResponse = $this->callDelete('products/' . $product->getId() . '/images/' . $imageId);
+            $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+
+            /* @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
+            self::setFixture('product_simple', $product);
+
+            $gallery = $product->getData('media_gallery');
+            $this->assertEmpty($gallery['images']);
         }
-        $gallery = $attributes['media_gallery'];
-        /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
-        $gallery->getBackend()->updateImage($product, $pathPrefix . $fileName, $imageData);
-        $gallery->getBackend()->setMediaAttribute($product, $imageData['types'], $pathPrefix . $fileName);
-        $product->setStoreId(0)->save();
-
-        $ioAdapter->rm($fileFixture);
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
-        self::setFixture('product_simple', $product);
-
-        $gallery = $product->getData('media_gallery');
-        $this->assertNotEmpty($gallery);
-        $this->assertTrue(isset($gallery['images'][0]['value_id']));
-        $imageId = $gallery['images'][0]['value_id'];
-
-        $restResponse = $this->callDelete('products/' . $product->getId() . '/images/' . $imageId);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->setStoreId(0)->load($product->getId());
-        self::setFixture('product_simple', $product);
-
-        $gallery = $product->getData('media_gallery');
-        $this->assertEmpty($gallery['images']);
     }
 }

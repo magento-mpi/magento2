@@ -225,7 +225,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
-     * Check if store exist by its code or ID
+     * Retrieve store
      *
      * @return Mage_Core_Model_Store
      */
