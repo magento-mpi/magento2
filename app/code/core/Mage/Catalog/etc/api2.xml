@@ -184,40 +184,8 @@
                         <action_type>collection</action_type>
                     </route_collection_with_category_and_store>
                 </routes>
-                <subresources>
-                    <products_grouped>
-                        <name>products_grouped</name>
-                        <request_param_name>products_grouped</request_param_name>
-                        <type>collection</type>
-                        <create_resource_name>products</create_resource_name>
-                        <id_param_name>simple_product_id</id_param_name>
-                        <parent_resource_id_field_name>id</parent_resource_id_field_name>
-                    </products_grouped>
-                </subresources>
                 <versions>1</versions>
             </product>
-            <products_grouped>
-                <group>catalog_product</group>
-                <model>catalog/api2_products_grouped</model>
-                <working_model>catalog/product</working_model>
-                <title>Grouped Products</title>
-                <sort_order>30</sort_order>
-                <privileges>
-                    <create>1</create>
-                    <retrieve>1</retrieve>
-                </privileges>
-                <attributes>
-                    <simple_product_id>Simple Product ID</simple_product_id>
-                    <qty>Default Quantity</qty>
-                    <position>Position</position>
-                </attributes>
-                <routes>
-                    <route_main>
-                        <mask>/products/grouped/:id</mask>
-                    </route_main>
-                </routes>
-                <versions>1</versions>
-            </products_grouped>
             <product_category>
                 <group>catalog_product</group>
                 <model>catalog/api2_product_category</model>
