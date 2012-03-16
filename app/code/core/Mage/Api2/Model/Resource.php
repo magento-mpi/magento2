@@ -30,6 +30,14 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @method string _create() _create(array $filteredData) creation of an entity
+ * @method void _multiCreate() _multiCreate(array $filteredData) processing and creation of a collection
+ * @method array _retrieve() retrieving an entity
+ * @method array _retrieveCollection() retrieving a collection
+ * @method void _update() _update(array $filteredData) update of an entity
+ * @method void _multiUpdate() _multiUpdate(array $filteredData) update of a collection
+ * @method void _delete() deletion of an entity
+ * @method void _multidelete() _multidelete(array $requestData) deletion of a collection
  */
 abstract class Mage_Api2_Model_Resource
 {
@@ -179,7 +187,13 @@ abstract class Mage_Api2_Model_Resource
     protected $_multicall;
 
     /**
-     * Resource model dispatch
+     * Dispatch
+     * To implement the functionality, you must create a method in the parent one.
+     *
+     * Action type is defined in api2.xml in the routes section and depends on entity (single object)
+     * or collection (several objects).
+     *
+     * HTTP_MULTI_STATUS is used for several status codes in the response
      */
     public function dispatch()
     {
@@ -861,8 +875,6 @@ abstract class Mage_Api2_Model_Resource
 
         return '/' . $uri;
     }
-
-    // TODO: move attributes actions to another external object
 
     /**
      * Resource specific method to retrieve attributes' codes. May be overriden in child.
