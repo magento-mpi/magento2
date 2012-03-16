@@ -437,7 +437,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     }
 
                     foreach ($preparedValue as $id => $val) {
-                        $preparedValue[$id] = $attribute->getSource()->getOptionText($val);
+                        $preparedValue[$id] = $attribute->getSource()->getIndexOptionText($val);
                     }
                 } else {
                     $preparedValue = $value;
