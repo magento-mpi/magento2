@@ -34,6 +34,84 @@
 class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_Api2_Review_Rest
 {
     /**
+     * Retrieve information about specified review item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+        $reviewId = $this->getRequest()->getParam('id');
+
+        $collection = $this->_getProductReviews($productId);
+        $this->_applyReviewFilter($collection, $reviewId);
+        $this->_applySpecialFilter($collection, $productId);
+
+        /** @var $review Mage_Review_Model_Review */
+        $review = $collection->getFirstItem();
+
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $review->getData();
+    }
+
+    /**
+     * Get list of reviews
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+
+        $collection = $this->_getProductReviews($productId);
+        $this->_applySpecialFilter($collection, $productId);
+        $this->_applyCollectionModifiers($collection);
+
+        $data = $collection->load()->toArray();
+
+        return $data['items'];
+    }
+
+    protected function _applySpecialFilter(Mage_Review_Model_Resource_Review_Collection $collection, $productId)
+    {
+        $customerId = $this->getApiUser()->getUserId();
+
+        $product = $this->_getProduct($productId);
+        if ($product->getStatus()==Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+            $connection = $collection->getConnection();
+
+            $conditionCustomer = $connection->quoteInto('detail.customer_id=?', $customerId);
+            $conditionStatus = $connection->quoteInto('status_id=?', Mage_Review_Model_Review::STATUS_APPROVED);
+            $condition = sprintf('%s OR %s', $conditionCustomer, $conditionStatus);
+
+            $collection->getSelect()->where($condition);
+        } else {
+            $collection->addCustomerFilter($customerId);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    protected function __update()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+        $reviewId = $this->getRequest()->getParam('id');
+
+        $this->_loadReview($productId, $reviewId)->update(array());
+    }
+
+    /**
      * Customer could not delete any review
      *
      * @throws Mage_Api2_Exception
@@ -60,7 +138,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
      * @throws Mage_Api2_Exception
      * @return Mage_Review_Model_Review
      */
-    protected function _loadReview()
+    protected function __loadReview()
     {
         $review = parent::_loadReview();
         // check status and review store
@@ -82,6 +160,7 @@ class Mage_Review_Model_Api2_Review_Rest_Customer_V1 extends Mage_Review_Model_A
         }
         return $review;
     }
+
 
 
 

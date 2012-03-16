@@ -34,6 +34,77 @@
 class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2_Review_Rest
 {
     /**
+     * Retrieve information about specified review item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+        $reviewId = $this->getRequest()->getParam('id');
+
+        $collection = $this->_prepareRetrieveCollection($productId);
+        $this->_applyReviewFilter($collection, $reviewId);
+
+        /** @var $review Mage_Review_Model_Review */
+        $review = $collection->getFirstItem();
+
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $review->getData();
+    }
+
+    /**
+     * Get list of reviews
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+
+        $collection = $this->_prepareRetrieveCollection($productId);
+        $this->_applyCollectionModifiers($collection);
+
+        $data = $collection->load()->toArray();
+
+        return $data['items'];
+    }
+
+    /**
+     * Get collection preapred for retrieve for guest
+     *
+     * @param $productId
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _prepareRetrieveCollection($productId)
+    {
+        $product = $this->_getProduct($productId);
+        if ($product->getStatus()!=Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        $collection = $this->_getProductReviews($productId);
+        $this->_applyStatusFilter($collection, Mage_Review_Model_Review::STATUS_APPROVED);
+
+        return $collection;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * Guest could not delete any review
      *
      * @throws Mage_Api2_Exception
@@ -60,7 +131,7 @@ class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2
      * @throws Mage_Api2_Exception
      * @return Mage_Review_Model_Review
      */
-    protected function _loadReview()
+    protected function __loadReview()
     {
         $review = parent::_loadReview();
         // check status and review store
@@ -127,7 +198,7 @@ class Mage_Review_Model_Api2_Review_Rest_Guest_V1 extends Mage_Review_Model_Api2
      *
      * @return Mage_Review_Model_Resource_Review_Collection
      */
-    protected function _prepareRetrieveCollection()
+    protected function __prepareRetrieveCollection()
     {
         if (!$this->getRequest()->getParam('product_id')) {
             $this->_critical('Product id is required', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);

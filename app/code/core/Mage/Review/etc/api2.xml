@@ -36,12 +36,12 @@
                 <sort_order>100</sort_order>
                 <privileges>
                     <guest>
-                        <create>1</create>
                         <retrieve>1</retrieve>
+                        <create>1</create>
                     </guest>
                     <customer>
-                        <create>1</create>
                         <retrieve>1</retrieve>
+                        <create>1</create>
                     </customer>
                     <admin>
                         <retrieve>1</retrieve>
@@ -51,13 +51,22 @@
                 </privileges>
                 <attributes>
                     <review_id>Review ID</review_id>
+                    <created_at>Created On</created_at>
                     <product_id>Product ID</product_id>
-                    <status_id>Review Status</status_id>
-                    <stores>Assigned Stores</stores>
-                    <store_id>Store ID</store_id>
+                    <status>Review Status</status>
+                    <posted_by>Posted By</posted_by>
+                    <visible_in>Visible In</visible_in>
+                    <user_type>User Type</user_type>
                     <nickname>Nickname</nickname>
+                    <review_summary>Summary of Review </review_summary>
+                    <review_text>Assigned Stores</review_text>
+                    <rating_summary>Assigned Stores</rating_summary>
+                    <detailed_rating>Detailed Rating </detailed_rating>
+                    <!--
+                    <store_id>Store ID</store_id>
                     <title>Review Summary</title>
                     <detail>Review Text</detail>
+                    -->
                 </attributes>
                 <exclude_attributes>
                     <admin>
@@ -89,11 +98,11 @@
                 </exclude_attributes>
                 <routes>
                     <route_entity>
-                        <route>/reviews/:id</route>
+                        <route>/products/:product_id/reviews/:id</route>
                         <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
-                        <route>/reviews</route>
+                        <route>/products/:product_id/reviews</route>
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>

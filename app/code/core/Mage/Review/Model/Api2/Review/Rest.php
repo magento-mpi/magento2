@@ -49,33 +49,93 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
     }
 
     /**
-     * Retrieve information about specified review item
+     * Get reviews collection with no filters
      *
-     * @throws Mage_Api2_Exception
-     * @return array
+     * @return Mage_Review_Model_Resource_Review_Collection
      */
-    protected function _retrieve()
+    public function getCollection()
     {
-        $review = $this->_loadReview();
-        return $review->getData();
+        /** @var $collection Mage_Review_Model_Resource_Review_Collection */
+        $collection = Mage::getResourceModel('review/review_collection');
+        $collection->getSelect()->columns(array('product_id' => 'main_table.entity_pk_value'));
+
+        return $collection;
+    }
+
+    protected function _getProductReviews($productId)
+    {
+        $collection = $this->getCollection();
+        $this->_applyProductFilter($collection, $productId);
+
+        return $collection;
     }
 
     /**
-     * Load review by its id passed through request
+     * Load review of the product
      *
-     * @throws Mage_Api2_Exception
+     * @param int $productId
+     * @param int $reviewId
      * @return Mage_Review_Model_Review
      */
-    protected function _loadReview()
+    protected function _loadReview($productId, $reviewId)
     {
-        $reviewId = $this->getRequest()->getParam('id');
-        /** @var $review Mage_Review_Model_Review */
-        $review = Mage::getModel('review/review')->load($reviewId);
-        if (!$review->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $review;
+        $collection = $this->_getProductReviews($productId);
+        $this->_applyReviewFilter($collection, $reviewId);
+
+        return $collection->getFirstItem();
     }
+
+    /**
+     * Apply filter by product
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     * @param int $productId
+     * @return Mage_Review_Model_Resource_Review_Collection
+     */
+    protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection, $productId)
+    {
+        if ($productId) {
+            $product = $this->_getProduct($productId);
+            if (!$product->getId()) {
+                $this->_critical('Invalid product', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+
+            $collection->addEntityFilter(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE, $product->getId());
+        }
+
+        return $collection;
+    }
+
+    protected function _getProduct($productId)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+
+        return $product;
+    }
+
+    /**
+     * Apply filter by review
+     *
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     * @param int $reviewId
+     */
+    protected function _applyReviewFilter(Mage_Review_Model_Resource_Review_Collection $collection, $reviewId)
+    {
+        if ($reviewId) {
+            $collection->addFieldToFilter('main_table.review_id', $reviewId);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Review specific input data validation
@@ -143,20 +203,6 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
     }
 
     /**
-     * Get list of reviews
-     *
-     * @return array
-     */
-    protected function _retrieveCollection()
-    {
-        $collection = $this->_prepareRetrieveCollection();
-        $collection->getSelect()->columns(array('product_id' => 'main_table.entity_pk_value'));
-        $data = $collection->load()->toArray();
-
-        return $data['items'];
-    }
-
-    /**
      * Validate review status input
      *
      * @throws Mage_Api2_Exception
@@ -170,32 +216,13 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
     }
 
     /**
-     * Apply filter by product
-     *
-     * @param Mage_Review_Model_Resource_Review_Collection $collection
-     */
-    protected function _applyProductFilter(Mage_Review_Model_Resource_Review_Collection $collection)
-    {
-        $productId = $this->getRequest()->getParam('product_id');
-        if ($productId) {
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('catalog/product')->load($productId);
-            if (!$product->getId()) {
-                $this->_critical('Invalid product', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-
-            $collection->addEntityFilter(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE, $product->getId());
-        }
-    }
-
-    /**
      * Apply filter by status
      *
+     * @param int $status one of
      * @param Mage_Review_Model_Resource_Review_Collection $collection
      */
-    protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection)
+    protected function _applyStatusFilter(Mage_Review_Model_Resource_Review_Collection $collection, $status)
     {
-        $status = $this->getRequest()->getParam('status_id');
         if ($status) {
             $this->_validateStatus($status);
             $collection->addStatusFilter($status);
@@ -207,18 +234,5 @@ abstract class Mage_Review_Model_Api2_Review_Rest extends Mage_Review_Model_Api2
      *
      * @return Mage_Review_Model_Resource_Review_Collection
      */
-    abstract protected function _prepareRetrieveCollection();
-
-    /**
-     * Get reviews collection
-     *
-     * @return Mage_Review_Model_Resource_Review_Collection|Object
-     */
-    public function getCollection()
-    {
-        /** @var $collection Mage_Review_Model_Resource_Review_Collection */
-        $collection = Mage::getResourceModel('review/review_collection');
-
-        return $collection;
-    }
+    abstract protected function __prepareRetrieveCollection();
 }

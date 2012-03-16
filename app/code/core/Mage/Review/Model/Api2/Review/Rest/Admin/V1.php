@@ -34,6 +34,75 @@
 class Mage_Review_Model_Api2_Review_Rest_Admin_V1 extends Mage_Review_Model_Api2_Review_Rest
 {
     /**
+     * Retrieve information about specified review item
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $reviewId = $this->getRequest()->getParam('id');
+        $productId = $this->getRequest()->getParam('product_id');
+
+        $review = $this->_loadReview($productId, $reviewId);
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+
+        return $review->getData();
+    }
+
+    /**
+     * Get list of reviews
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+
+        $collection = $this->_getProductReviews($productId);
+        $this->_applyCollectionModifiers($collection);
+
+        $data = $collection->load()->toArray();
+
+        return $data['items'];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Load review by its id passed through request
+     *
+     * @throws Mage_Api2_Exception
+     * @return Mage_Review_Model_Review
+     */
+    protected function __loadReview()
+    {
+        $reviewId = $this->getRequest()->getParam('id');
+        /** @var $review Mage_Review_Model_Review */
+        $review = Mage::getModel('review/review')->load($reviewId);
+        if (!$review->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $review;
+    }
+
+    /**
      * Delete specified review item
      *
      * @throws Mage_Api2_Exception
