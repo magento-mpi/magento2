@@ -73,7 +73,11 @@ class Api2_Review_Review_GuestTest extends Magento_Test_Webservice_Rest_Guest
         if ($withStore) {
             $params['store_id'] = $storeId;
         }
-        $restResponse = $this->callGet('reviews/' . $review->getId(), $params);
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $restResponse = $this->callGet("products/{$product->getId()}/reviews/{$review->getId()}", $params);
 
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
