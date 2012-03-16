@@ -109,7 +109,7 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
     }
 
     /**
-     * Retrieve currently running test
+     * Retrieve currently running test suite
      *
      * @return PHPUnit_Framework_TestSuite|null
      */
