@@ -105,10 +105,15 @@ class Api2_Review_Review_GuestTest extends Magento_Test_Webservice_Rest_Guest
 
     /**
      * Test retrieving not existing review item
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
      */
     public function testGetUnavailableResource()
     {
-        $restResponse = $this->callGet('reviews/' . 'invalid_id');
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $restResponse = $this->callGet("products/{$product->getId()}/reviews/invalid_id");
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
@@ -181,19 +186,29 @@ class Api2_Review_Review_GuestTest extends Magento_Test_Webservice_Rest_Guest
 
     /**
      * Guest should not be able to remove any review
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
      */
     public function testDelete()
     {
-        $restResponse = $this->callDelete('reviews/any_id');
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $restResponse = $this->callDelete("products/{$product->getId()}/reviews/any_id");
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
      * Guest should not be able to update any review
+     *
+     * @magentoDataFixture Api2/Review/_fixtures/review.php
      */
     public function testUpdate()
     {
-        $restResponse = $this->callPut('reviews/any_id', array());
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+
+        $restResponse = $this->callPut("products/{$product->getId()}/reviews/any_id", array('qwerty'));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 }
