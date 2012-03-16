@@ -25,7 +25,14 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
      */
     public function isDesignEditorActive()
     {
-        return (bool)$this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE) && $this->isLoggedIn();
+        if ($this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE)) {
+            if ($this->isLoggedIn()) {
+                return true;
+            }
+            /* Admin session has been expired */
+            $this->deactivateDesignEditor();
+        }
+        return false;
     }
 
     /**
@@ -34,6 +41,7 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
     public function activateDesignEditor()
     {
         $this->setData(self::SESSION_DESIGN_EDITOR_ACTIVE, 1);
+        Mage::dispatchEvent('design_editor_session_activate');
     }
 
     /**
@@ -42,6 +50,7 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
     public function deactivateDesignEditor()
     {
         $this->unsetData(self::SESSION_DESIGN_EDITOR_ACTIVE);
+        Mage::dispatchEvent('design_editor_session_deactivate');
     }
 
     /**

@@ -76,6 +76,16 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(($code >= 300) && ($code < 400));
     }
 
+    public function testLogout()
+    {
+        $this->_model->login('user', 'password');
+        $this->assertNotEmpty($this->_model->getData());
+        $this->_model->getCookie()->set($this->_model->getSessionName(), 'session_id');
+        $this->_model->logout();
+        $this->assertEmpty($this->_model->getData());
+        $this->assertEmpty($this->_model->getCookie()->get($this->_model->getSessionName()));
+    }
+
     /**
      * Disabled form security in order to prevent exit from the app
      * @magentoConfigFixture current_store admin/security/session_lifetime 100

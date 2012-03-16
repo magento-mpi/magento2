@@ -114,6 +114,16 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
+     * Log out the user from the admin
+     */
+    public function logout()
+    {
+        $this->unsetAll();
+        $this->getCookie()->delete($this->getSessionName());
+        Mage::dispatchEvent('admin_session_user_logout');
+    }
+
+    /**
      * Refresh ACL resources stored in session
      *
      * @param  Mage_Admin_Model_User $user

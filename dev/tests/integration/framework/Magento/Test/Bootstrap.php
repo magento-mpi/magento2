@@ -356,6 +356,8 @@ class Magento_Test_Bootstrap
      */
     protected function _emulateEnvironment()
     {
+        // emulate HTTP request
+        $_SERVER['HTTP_HOST'] = 'localhost';
         // emulate entry point to ensure that tests generate invariant URLs
         $_SERVER['SCRIPT_FILENAME'] = 'index.php';
         // prevent session_start, because it may rely on cookies

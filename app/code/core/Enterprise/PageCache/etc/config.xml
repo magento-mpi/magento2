@@ -49,6 +49,22 @@
                     </enterprise_pagecache>
                 </observers>
             </core_clean_cache>
+            <design_editor_session_activate>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>designEditorSessionActivate</method>
+                    </enterprise_pagecache>
+                </observers>
+            </design_editor_session_activate>
+            <design_editor_session_deactivate>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>designEditorSessionDeactivate</method>
+                    </enterprise_pagecache>
+                </observers>
+            </design_editor_session_deactivate>
         </events>
     </global>
     <adminhtml>
@@ -165,22 +181,6 @@
                     </enterprise_pagecache>
                 </observers>
             </adminhtml_cache_flush_all>
-            <design_editor_launch_action>
-                <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>launchDesignEditor</method>
-                    </enterprise_pagecache>
-                </observers>
-            </design_editor_launch_action>
-            <design_editor_exit_action>
-                <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>exitDesignEditor</method>
-                    </enterprise_pagecache>
-                </observers>
-            </design_editor_exit_action>
         </events>
     </adminhtml>
     <frontend>

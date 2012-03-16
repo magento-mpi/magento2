@@ -153,4 +153,16 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('test.text3', '%s'),
         );
     }
+
+    /**
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testAdminSessionUserLogout()
+    {
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $this->assertTrue($session->isDesignEditorActive());
+        $this->_observer->adminSessionUserLogout();
+        $this->assertFalse($session->isDesignEditorActive());
+    }
 }

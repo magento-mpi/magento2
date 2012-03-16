@@ -96,19 +96,14 @@ class Enterprise_PageCache_Model_Observer
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $action->getRequest();
-
-        $noCache = $this->_getCookie()->get(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
-        if ($noCache) {
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
-            $this->_getCookie()->renew(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
-        } elseif ($action) {
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
-        }
         /**
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+        } else {
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         }
         $this->_getCookie()->updateCustomerCookies();
         return $this;
@@ -629,8 +624,11 @@ class Enterprise_PageCache_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
-    public function launchDesignEditor(Varien_Event_Observer $observer)
+    public function designEditorSessionActivate(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $this->_getCookie()->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, '1', 0);
         return $this;
     }
@@ -641,8 +639,11 @@ class Enterprise_PageCache_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
-    public function exitDesignEditor(Varien_Event_Observer $observer)
+    public function designEditorSessionDeactivate(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $this->_getCookie()->delete(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
         return $this;
     }

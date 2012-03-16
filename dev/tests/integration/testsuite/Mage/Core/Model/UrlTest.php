@@ -130,7 +130,7 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * Note: isolation flushes the URL memory cache
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store web/secure/base_url      http://sample.com/base_path/
+     * @magentoConfigFixture current_store web/secure/base_url        http://sample.com/base_path/
      * @magentoConfigFixture current_store web/secure/base_link_url   https://sample.com/base_link_path/
      * @magentoConfigFixture current_store web/secure/use_in_frontend 1
      */
@@ -243,6 +243,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('id' => 100, 'parent_id' => 50), $this->_model->getRouteParams());
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     */
     public function testGetRouteUrl()
     {
         $this->assertEquals('http://localhost/index.php/', $this->_model->getRouteUrl());
@@ -287,6 +291,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('value', $this->_model->getFragment());
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     */
     public function testGetUrl()
     {
         $result = $this->_model->getUrl('catalog/product/view', array(
@@ -304,6 +312,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('%22%27%3E%3C', $this->_model->escape('"\'><'));
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     */
     public function testGetDirectUrl()
     {
         $this->assertEquals('http://localhost/index.php/fancy_uri?foo=bar',
@@ -311,6 +323,13 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     *
+     * Note: to enforce SID in URLs, base URL must be different from the current $_SERVER['HTTP_HOST']
+     * @magentoConfigFixture current_store web/unsecure/base_link_url http://domain.com/
+     */
     public function testSessionUrlVar()
     {
         $sessionId = Mage::getSingleton('Mage_Core_Model_Session')->getEncryptedSessionId();
@@ -326,6 +345,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->useSessionIdForUrl(false));
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     */
     public function testSessionVarCallback()
     {
         $this->_model->setData('use_session_id_for_url_0', false);
@@ -340,6 +363,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $this->_model->sessionVarCallback(array('', '&amp;', '', '')));
     }
 
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     */
     public function testIsOwnOriginUrl()
     {
         $_SERVER['HTTP_REFERER'] = 'http://localhost/';

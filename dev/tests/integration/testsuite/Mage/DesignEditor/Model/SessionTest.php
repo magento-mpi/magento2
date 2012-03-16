@@ -37,6 +37,17 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isDesignEditorActive());
     }
 
+    /**
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoConfigFixture current_store admin/security/session_lifetime 100
+     */
+    public function testIsDesignEditorActiveAdminSessionExpired()
+    {
+        $this->assertTrue($this->_model->isDesignEditorActive());
+        $this->_model->setUpdatedAt(time() - 101);
+        $this->assertFalse($this->_model->isDesignEditorActive());
+    }
+
     public function testActivateDesignEditor()
     {
         $this->assertFalse($this->_model->isDesignEditorActive());

@@ -117,4 +117,9 @@ class Mage_DesignEditor_Model_Observer
             $layout->setRenderingOutput($this->_wrappingRenderer->toHtml());
         }
     }
+
+    public function adminSessionUserLogout()
+    {
+        $this->_getSession()->deactivateDesignEditor();
+    }
 }

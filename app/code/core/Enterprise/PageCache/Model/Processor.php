@@ -225,7 +225,7 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             return false;
         }
-        if (isset($_COOKIE['NO_CACHE'])) {
+        if (isset($_COOKIE[self::NO_CACHE_COOKIE])) {
             return false;
         }
         if (isset($_GET['no_cache'])) {
