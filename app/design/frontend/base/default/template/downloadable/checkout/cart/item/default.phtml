@@ -64,7 +64,7 @@
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
         <div class="shopping-cart-item-message <?php echo $message['type'] ?>">
-            * <?php echo $message['text'] ?>
+            * <?php echo $this->escapeHtml($message['text']) ?>
         </div>
         <?php endforeach; ?>
         <?php endif; ?>
