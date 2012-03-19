@@ -63,11 +63,13 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection');
         $store = $this->_getStore();
+        $entityOnlyAttributes = $this->getEntityOnlyAttributes($this->getUserType(),
+            Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ);
         $availableAttributes = array_keys($this->getAvailableAttributes($this->getUserType(),
             Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ));
         $collection->addStoreFilter($store->getId())
             ->addPriceData($this->_getCustomerGroupId(), $store->getWebsiteId())
-            ->addAttributeToSelect($availableAttributes)
+            ->addAttributeToSelect(array_diff($availableAttributes, $entityOnlyAttributes))
             ->addAttributeToFilter('visibility', array(
                 'neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
             ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
@@ -113,9 +115,8 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $productHelper = Mage::helper('catalog/product');
         $productData = $product->getData();
         $product->setWebsiteId($this->_getStore()->getWebsiteId());
-        // customer group is required in product for correct tier prices calculation
+        // customer group is required in product for correct prices calculation
         $product->setCustomerGroupId($this->_getCustomerGroupId());
-        $productData['tier_price'] = $this->_getTierPrices();
 
         // calculate prices
         $finalPrice = $product->getFinalPrice();
@@ -145,7 +146,14 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             $this->_getStore()->getId());
 
         $productData['is_saleable'] = $product->getIsSalable();
-        $productData['has_custom_options'] = count($product->getOptions()) > 0;
+
+        if ($this->getActionType() == self::ACTION_TYPE_ENTITY) {
+            $productData['tier_price'] = $this->_getTierPrices();
+            $productData['has_custom_options'] = count($product->getOptions()) > 0;
+        } else {
+            $product->unsetData('tier_price');
+            unset($productData['tier_price']);
+        }
         $product->addData($productData);
     }
 

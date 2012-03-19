@@ -45,6 +45,7 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource
         $attributes = $this->getAvailableAttributesFromConfig();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
+        $entityOnlyAttrs = $this->getEntityOnlyAttributes($userType, $operation);
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {
             if ($this->_isAttributeVisible($attribute, $userType)) {
@@ -56,6 +57,9 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource
         foreach ($attributes as $code => $label) {
             if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))) {
                 unset($attributes[$code]);
+            }
+            if (in_array($code, $entityOnlyAttrs)) {
+                $attributes[$code] .= ' *';
             }
         }
 

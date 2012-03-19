@@ -80,6 +80,20 @@
                     <use_config_gift_wrapping_available>Use Config Settings for Allow Gift Wrapping</use_config_gift_wrapping_available>
                     <url_key_create_redirect>Create Permanent Redirect for old URL</url_key_create_redirect>
                 </attributes>
+                <entity_only_attributes>
+                    <customer>
+                        <read>
+                            <has_custom_options>1</has_custom_options>
+                            <tier_price>1</tier_price>
+                        </read>
+                    </customer>
+                    <guest>
+                        <read>
+                            <has_custom_options>1</has_custom_options>
+                            <tier_price>1</tier_price>
+                        </read>
+                    </guest>
+                </entity_only_attributes>
                 <exclude_attributes>
                     <customer>
                         <read>

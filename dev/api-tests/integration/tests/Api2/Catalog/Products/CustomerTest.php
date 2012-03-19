@@ -452,13 +452,12 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
                 // check if all required fields are in response
                 $requiredFields = array('type_id', 'sku', 'name', 'description', 'short_description',
                     'regular_price_with_tax', 'regular_price_without_tax', 'final_price_with_tax',
-                    'final_price_without_tax', 'tier_price', 'image_url', 'is_in_stock', 'is_saleable',
-                    'total_reviews_count', 'url', 'buy_now_url', 'has_custom_options');
+                    'final_price_without_tax', 'image_url', 'is_in_stock', 'is_saleable', 'total_reviews_count', 'url',
+                    'buy_now_url');
                 foreach ($requiredFields as $field) {
                     $this->assertArrayHasKey($field, $resultProductData, "'$field' field is missing in response");
                 }
                 $this->_checkGetUrls($resultProductData, $originalData['entity_id']);
-                $this->_checkGetTierPrices($resultProductData, $expectedTierPricesCount);
 
                 // check attribute values
                 foreach ($resultProductData as $key => $resultProductValue) {

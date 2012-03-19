@@ -888,6 +888,7 @@ abstract class Mage_Api2_Model_Resource
         $available     = $this->getAvailableAttributesFromConfig();
         $excludedAttrs = $this->getExcludedAttributes($userType, $operation);
         $includedAttrs = $this->getIncludedAttributes($userType, $operation);
+        $entityOnlyAttrs = $this->getEntityOnlyAttributes($userType, $operation);
         $resourceAttrs = $this->_getResourceAttributes();
 
         // if resource returns not-associative array - attributes' codes only
@@ -902,6 +903,9 @@ abstract class Mage_Api2_Model_Resource
         foreach (array_keys($available) as $code) {
             if (in_array($code, $excludedAttrs) || ($includedAttrs && !in_array($code, $includedAttrs))) {
                 unset($available[$code]);
+            }
+            if (in_array($code, $entityOnlyAttrs)) {
+                $available[$code] .= ' *';
             }
         }
         return $available;
@@ -939,6 +943,18 @@ abstract class Mage_Api2_Model_Resource
     public function getIncludedAttributes($userType, $operationType)
     {
         return $this->getConfig()->getResourceIncludedAttributes($this->getResourceType(), $userType, $operationType);
+    }
+
+    /**
+     * Retrieve list of entity only attributes
+     *
+     * @param string $userType API user type
+     * @param string $operationType Type of operation: one of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @return array
+     */
+    public function getEntityOnlyAttributes($userType, $operationType)
+    {
+        return $this->getConfig()->getResourceEntityOnlyAttributes($this->getResourceType(), $userType, $operationType);
     }
 
     /**

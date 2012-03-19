@@ -304,6 +304,29 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Get entity only attributes
+     *
+     * @param string $resource API resource ID
+     * @param string $userType API user type
+     * @param string $operationType Type of operation: one of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
+     * @return array
+     */
+    public function getResourceEntityOnlyAttributes($resource, $userType, $operationType)
+    {
+        $node = $this->getNode('resources/' . $resource . '/entity_only_attributes/' . $userType . '/' . $operationType);
+        $entityOnlyAttributes = array();
+
+        if ($node) {
+            foreach ($node->children() as $attribute => $status) {
+                if ((string) $status) {
+                    $entityOnlyAttributes[] = $attribute;
+                }
+            }
+        }
+        return $entityOnlyAttributes;
+    }
+
+    /**
      * Retrieve resource working model
      *
      * @param string $node
