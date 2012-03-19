@@ -72,6 +72,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUni
 
     public function testWithLimits()
     {
+        $this->markTestIncomplete('Bug MAGE-6561');
         $request = new Magento_Test_Request();
         $request->setParam('price', '10-100');
         $this->_prepareFilter($request);
