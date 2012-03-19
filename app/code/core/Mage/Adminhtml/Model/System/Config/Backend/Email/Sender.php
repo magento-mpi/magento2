@@ -46,13 +46,8 @@ class Mage_Adminhtml_Model_System_Config_Backend_Email_Sender extends Mage_Core_
             Mage::throwException(Mage::helper('adminhtml')->__('Invalid sender name "%s". Please use only visible characters and spaces.', $value));
         }
 
-        /**
-         * @see Zend_Mail_Transport_Abstract::_prepareHeaders()
-         * Maximum mail header line length is 998, so the boundary case is
-         * From: {Sender Name - 735 characters including braces} <{Email - 254 characters including braces}>
-         */
-        if (strlen($value) > 735) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Maximum sender name length is 735. Please correct your settings.'));
+        if (strlen($value) > 255) {
+            Mage::throwException(Mage::helper('adminhtml')->__('Maximum sender name length is 255. Please correct your settings.'));
         }
         return $this;
     }
