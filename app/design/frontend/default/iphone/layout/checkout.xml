@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Magento
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -20,9 +20,9 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     default_iphone
+ * @package     enterprise_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
 -->
@@ -33,22 +33,22 @@ Default layout, loads most of the pages
 -->
 
     <default>
+
         <!-- Mage_Checkout -->
-        <reference name="top.links">
+        <reference name="checkout.links">
             <block type="checkout/links" name="checkout_cart_link">
-                <action method="addCartLink"></action>
+                <!-- <action method="addCartLink"></action> -->
                 <action method="addCheckoutLink"></action>
             </block>
         </reference>
         <reference name="right">
-            <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml" before="-">
+            <!-- May be used instead of topCart block -->
+            <!--block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml" before="-">
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
-                <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
-                    <label>Shopping Cart Sidebar Extra Actions</label>
-                </block>
-            </block>
+                <block type="core/text_list" name="topCart.extra_actions" as="extra_actions"/>
+            </block-->
         </reference>
     </default>
 
@@ -59,8 +59,7 @@ Default layout, loads most of the pages
         <!-- Mage_Checkout -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
-        </reference>
-        <reference name="header">
+        </reference><reference name="header">
             <action method="unsetChild"><name>topCart</name></action>
         </reference>
         <reference name="content">
@@ -74,16 +73,18 @@ Default layout, loads most of the pages
 
                 <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
                     <label>Payment Methods Before Checkout Button</label>
-                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage.top" template="checkout/onepage/link.phtml"/>
                 </block>
 
                 <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
-                    <label>Shopping Cart Form Before</label>
+                    <label>Shopping Cart Items Before</label>
+                    <action method="setElementClass"><value>rewards</value></action>
+                    <action method="setMayBeInvisible"><value>1</value></action>
                 </block>
 
                 <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
                     <label>Payment Methods After Checkout Button</label>
-                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage.bottom" template="checkout/onepage/link.phtml"/>
                     <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
                 </block>
 
@@ -117,6 +118,9 @@ will be rendered on all checkout pages
         <!-- Mage_Checkout -->
         <remove name="right"/>
         <remove name="left"/>
+        <reference name="topCart">
+            <action method="setIsLinkMode"><param>1</param></action>
+        </reference>
 
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -189,8 +193,13 @@ Multi address shipping checkout selection of address per item page
     <checkout_multishipping_customer_address translate="label">
         <label>Multishipping Checkout Customer Address Edit Form</label>
         <reference name="content">
-            <block type="customer/address_edit" name="customer_address_edit" template="customer/address/edit.phtml"/>
+            <block type="customer/address_edit" name="customer_address_edit" template="customer/address/edit.phtml">
+                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
+                    <action method="setFormCode"><code>customer_address_edit</code></action>
+                </block>
+            </block>
         </reference>
+        <update handle="customer_form_template_handle"/>
     </checkout_multishipping_customer_address>
 
 <!--
@@ -208,6 +217,9 @@ Multi address shipping checkout address page
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/default.phtml</template></action>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
     </checkout_multishipping_addresses>
 
 <!--
@@ -231,6 +243,9 @@ Multi address shipping checkout shipping information
                 </block>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
     </checkout_multishipping_shipping>
 
 <!--
@@ -244,6 +259,12 @@ Multi address shipping checkout billing information
         <reference name="content">
             <block type="checkout/multishipping_billing" name="checkout_billing" template="checkout/multishipping/billing.phtml">
                 <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                <block type="core/text_list" name="payment_methods_before" translate="label">
+                    <label>Payment Methods Before</label>
+                </block>
+                <block type="core/text_list" name="payment_methods_after" translate="label">
+                    <label>Payment Methods After</label>
+                </block>
 
                 <!--<block type="checkout/multishipping_billing_items" name="checkout_billing_items" template="checkout/multishipping/billing/items.phtml">
                     <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
@@ -280,6 +301,9 @@ Multi address shipping checkout overview
                 </block>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
     </checkout_multishipping_overview>
 
 <!--
@@ -303,28 +327,43 @@ One page checkout main layout
         <label>One Page Checkout</label>
         <!-- Mage_Checkout -->
         <remove name="left"/>
+        <remove name="right"/>
 
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
-        <reference name="right">
-            <action method="unsetChildren"></action>
-            <block type="page/html_wrapper" name="checkout.progress.wrapper" translate="label">
-                <label>Checkout Progress Wrapper</label>
-                <action method="setElementId"><value>checkout-progress-wrapper</value></action>
-                <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
-            </block>
-        </reference>
         <reference name="content">
             <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
+                <block type="cms/block" name="checkout.callout" as="checkoutCallout">
+                    <action method="setBlockId"><block_id>checkout_callout</block_id></action>
+                </block>
                 <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml">
                     <block type="page/html_wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
                         <label>Login/Registration Before</label>
                         <action method="setMayBeInvisible"><value>1</value></action>
                     </block>
+                    <block type="core/captcha" name="captcha">
+                        <reference name="head">
+                            <action method="addJs"><file>mage/captcha.js</file></action>
+                        </reference>
+                        <action method="setFormId"><formId>user_login</formId></action>
+                        <action method="setImgWidth"><width>230</width></action>
+                        <action method="setImgHeight"><width>50</width></action>
+                    </block>
                 </block>
-                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
-                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>
+                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml">
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+                        <action method="setFormCode"><code>checkout_register</code></action>
+                    </block>
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+                        <action method="setFormCode"><code>customer_register_address</code></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml">
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+                        <action method="setFormCode"><code>customer_register_address</code></action>
+                    </block>
+                </block>
                 <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="checkout/onepage/shipping_method.phtml">
                     <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
                     <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
@@ -333,10 +372,13 @@ One page checkout main layout
                     <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml">
                         <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
                     </block>
+                    <block type="core/template" name="checkout.onepage.payment.additional" as="additional" />
+                    <block type="core/template" name="checkout.onepage.payment.methods_additional" as="methods_additional" />
                 </block>
                 <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
             </block>
         </reference>
+        <update handle="customer_form_template_handle"/>
     </checkout_onepage_index>
 
 <!--
@@ -347,12 +389,6 @@ One page checkout progress block
         <!-- Mage_Checkout -->
         <remove name="right"/>
         <remove name="left"/>
-
-        <block type="checkout/onepage_progress" name="root" output="toHtml" template="checkout/onepage/progress.phtml">
-            <block type="checkout/onepage_payment_info" name="payment_info">
-                <action method="setInfoTemplate"><method></method><template></template></action>
-            </block>
-        </block>
     </checkout_onepage_progress>
 
 <!--
@@ -364,6 +400,8 @@ One page checkout payment methods block
 
         <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="checkout/onepage/payment/methods.phtml">
             <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+            <block type="core/template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
+            <block type="core/template" name="checkout.onepage.payment.methods.additional" as="additional" />
         </block>
     </checkout_onepage_paymentmethod>
 
@@ -414,6 +452,9 @@ One page checkout order review block
             <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
             <block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
         </block>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
     </checkout_onepage_review>
 
     <checkout_onepage_success translate="label">
@@ -428,11 +469,10 @@ One page checkout order review block
     <checkout_onepage_failure translate="label">
         <label>One Page Checkout Failure</label>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="checkout/onepage_failure" name="checkout.failure" template="checkout/onepage/failure.phtml"/>
         </reference>
     </checkout_onepage_failure>
-    <block type="core/list" name="additional.product.info"/>
 </layout>
