@@ -694,7 +694,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Removing buttons from revision edit page wich can't be used
+     * Removing buttons from revision edit page which can't be used
      * by users with limited permissions
      *
      * @param Varien_Event_Observer $observer
