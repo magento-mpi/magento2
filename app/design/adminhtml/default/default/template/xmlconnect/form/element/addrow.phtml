@@ -46,7 +46,7 @@ function getTdLabelInnerHtml(id) {
 function getTdValueInnerHtml() {
     var html = '<span class="field-row"><select class=" select" name="conf[new_pages][ids][]">'
     <?php foreach($this->getOptions() as $page): ?>
-        + '<option value="<?php echo $this->jsQuoteEscape($this->htmlEscape($page['value'])); ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($page['label']));?></option>'
+        + '<option value="<?php echo $this->jsQuoteEscape($this->escapeHtml($page['value'])); ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($page['label']));?></option>'
     <?php endforeach; ?>
         + '</select></span>';
     return html;

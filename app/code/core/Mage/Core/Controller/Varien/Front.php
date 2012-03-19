@@ -304,9 +304,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             $redirectCode = 302;
         }
 
-        if ($this->_isAdminFrontNameMatched($request)
-            && (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL)
-        ) {
+        if ($this->_isAdminFrontNameMatched($request)) {
             return;
         }
 
@@ -324,8 +322,12 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
             || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
         ) {
+            $redirectUrl = Mage::getSingleton('core/url')->getRedirectUrl(
+                Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+            );
+
             Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($baseUrl, $redirectCode)
+                ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;
         }

@@ -383,7 +383,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                     $updatedItems++;
                 } catch (Exception $e) {
                     Mage::getSingleton('customer/session')->addError(
-                        $this->__('Can\'t save description %s', Mage::helper('core')->htmlEscape($description))
+                        $this->__('Can\'t save description %s', Mage::helper('core')->escapeHtml($description))
                     );
                 }
             }

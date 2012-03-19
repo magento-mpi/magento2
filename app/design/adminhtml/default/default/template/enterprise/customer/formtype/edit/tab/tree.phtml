@@ -56,7 +56,7 @@
                             </tr>
                             <?php foreach ($this->getStores() as $store):?>
                             <tr>
-                                <td class="label"><label for="fieldset_label_<?php echo $store->getId();?>"><?php echo $this->__('Fieldset Title')?> (<?php echo $this->htmlEscape($store->getName());?>)</label></td>
+                                <td class="label"><label for="fieldset_label_<?php echo $store->getId();?>"><?php echo $this->__('Fieldset Title')?> (<?php echo $this->escapeHtml($store->getName());?>)</label></td>
                                 <td class="value"><input id="fieldset_label_<?php echo $store->getId();?>" value="" class="input-text" type="text"/></td>
                             </tr>
                             <?php endforeach;?>

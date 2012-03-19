@@ -36,13 +36,17 @@
     $methods = $this->getMethods();
     $oneMethod = count($methods) <= 1;
 ?>
-<?php
+<?php if (empty($methods)): ?>
+    <dt>
+        <?php echo $this->__('No Payment Methods') ?>
+    </dt>
+<?php else:
     foreach ($methods as $_method):
         $_code = $_method->getCode();
 ?>
     <dt>
     <?php if(!$oneMethod): ?>
-        <input id="p_method_<?php echo $_code ?>" value="<?php echo $_code ?>" type="radio" name="payment[method]" title="<?php echo $this->htmlEscape($_method->getTitle()) ?>" onclick="payment.switchMethod('<?php echo $_code ?>')"<?php if($this->getSelectedMethodCode()==$_code): ?> checked="checked"<?php endif; ?> class="radio" />
+        <input id="p_method_<?php echo $_code ?>" value="<?php echo $_code ?>" type="radio" name="payment[method]" title="<?php echo $this->escapeHtml($_method->getTitle()) ?>" onclick="payment.switchMethod('<?php echo $_code ?>')"<?php if($this->getSelectedMethodCode()==$_code): ?> checked="checked"<?php endif; ?> class="radio" />
     <?php else: ?>
         <span class="no-display"><input id="p_method_<?php echo $_code ?>" value="<?php echo $_code ?>" type="radio" name="payment[method]" checked="checked" class="radio" /></span>
         <?php $oneMethod = $_code; ?>
@@ -54,7 +58,9 @@
         <?php echo $html; ?>
     </dd>
     <?php endif; ?>
-<?php endforeach; ?>
+<?php endforeach;
+    endif;
+?>
 </dl>
 <?php echo $this->getChildChildHtml('additional'); ?>
 <script type="text/javascript">

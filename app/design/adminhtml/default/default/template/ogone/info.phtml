@@ -25,5 +25,5 @@
  */
 ?>
 
-<?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?><br />
-<?php echo Mage::helper('payment')->__('Payment ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?><br/>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?><br />
+<?php echo Mage::helper('payment')->__('Payment ID: %s', $this->escapeHtml($this->getInfo()->getLastTransId())) ?><br/>

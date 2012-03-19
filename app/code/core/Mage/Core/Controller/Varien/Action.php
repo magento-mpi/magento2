@@ -500,7 +500,7 @@ abstract class Mage_Core_Controller_Varien_Action
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()
-                        && !Mage::app()->getStore()->isAdmin()
+                        && $this->_sessionNamespace != Mage_Adminhtml_Controller_Action::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
                     } else {
@@ -703,7 +703,7 @@ abstract class Mage_Core_Controller_Varien_Action
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace));
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
-            && !Mage::app()->getStore()->isAdmin()
+            && $this->_sessionNamespace != Mage_Adminhtml_Controller_Action::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()

@@ -27,7 +27,7 @@
 
 <?php if ($_item = $this->getItem()): ?>
     <h5 class="title"><?php echo $_item->getName() ?></h5>
-    <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->htmlEscape($this->getSku()))); ?></div>
+    <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->escapeHtml($this->getSku()))); ?></div>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">
         <?php foreach ($this->getOrderOptions() as $_option): ?>
@@ -54,9 +54,9 @@
         <dl class="item-options">
             <dt><?php echo $this->getLinksTitle(); ?></dt>
             <?php foreach ($this->getLinks()->getPurchasedItems() as $_link): ?>
-                <dd><?php echo $_link->getLinkTitle() ?></dd>
+                <dd><?php echo $this->escapeHtml($_link->getLinkTitle()); ?></dd>
             <?php endforeach; ?>
         </dl>
     <?php endif; ?>
-    <?php echo $this->htmlEscape($_item->getDescription()) ?>
+    <?php echo $this->escapeHtml($_item->getDescription()) ?>
 <?php endif; ?>

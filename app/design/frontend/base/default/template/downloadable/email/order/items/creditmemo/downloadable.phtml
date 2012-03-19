@@ -28,7 +28,7 @@
 <?php $_order = $this->getItem()->getOrder(); ?>
 <tr>
     <td align="left" valign="top" style="padding:3px 9px">
-        <strong><?php echo $this->htmlEscape($_item->getName()) ?></strong>
+        <strong><?php echo $this->escapeHtml($_item->getName()) ?></strong>
         <?php if ($this->getItemOptions()): ?>
         <dl style="margin:0; padding:0;">
             <?php foreach ($this->getItemOptions() as $option): ?>
@@ -41,13 +41,13 @@
         <dl style="margin:0; padding:0;">
             <dt><strong><em><?php echo $this->getLinksTitle() ?></em></strong></dt>
             <?php foreach ($links as $link): ?>
-                <dd style="margin:0; padding:0 0 0 9px;"><?php echo $link->getLinkTitle() ?></dd>
+                <dd style="margin:0; padding:0 0 0 9px;"><?php echo $this->escapeHtml($link->getLinkTitle()); ?></dd>
             <?php endforeach; ?>
         </dl>
         <?php endif; ?>
-        <?php echo $this->htmlEscape($_item->getDescription()) ?>
+        <?php echo $this->escapeHtml($_item->getDescription()) ?>
     </td>
-    <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->htmlEscape($this->getSku($_item)) ?></td>
+    <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->escapeHtml($this->getSku($_item)) ?></td>
     <td align="center" valign="top" style="padding:3px 9px"><?php echo $_item->getQty()*1 ?></td>
     <td align="right" valign="top" style="padding:3px 9px">
         <?php if ($this->helper('tax')->displayCartPriceExclTax($_order->getStore()) || $this->helper('tax')->displayCartBothPrices($_order->getStore())): ?>

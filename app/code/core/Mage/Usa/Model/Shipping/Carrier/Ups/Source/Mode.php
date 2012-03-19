@@ -19,39 +19,26 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Usa
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Auto-assign customer group Model
+ * UPS (UPS XML) mode source model
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @deprecated  since 1.7.0.0
+ * @category    Mage
+ * @package     Mage_Usa
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Customer_GroupAutoAssign extends Mage_Core_Model_Config_Data
+class Mage_Usa_Model_Shipping_Carrier_Ups_Source_Mode
 {
-    /**
-     * If merchant country is not in EU, VAT Validation should be disabled
-     *
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _beforeSave()
+    public function toOptionArray()
     {
-        $storeId = $this->getScopeId();
-        $merchantCountry = Mage::getStoreConfig('general/store_information/merchant_country', $storeId);
-
-        if (!Mage::helper('core')->isCountryInEU($merchantCountry, $storeId)) {
-            Mage::getConfig()->saveConfig(
-                Mage_Customer_Helper_Address::XML_PATH_VAT_VALIDATION_ENABLED,
-                0,
-                $this->getScope(),
-                $storeId
-            );
-        }
-
-        return parent::_beforeSave();
+        return array(
+            array('value' => '1', 'label' => Mage::helper('usa')->__('Live')),
+            array('value' => '0', 'label' => Mage::helper('usa')->__('Development')),
+        );
     }
 }

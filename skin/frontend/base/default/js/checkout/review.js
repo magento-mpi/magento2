@@ -78,7 +78,9 @@ OrderReviewController.prototype = {
 
             if (shippingSelect && $(shippingSelect)) {
                 this.shippingSelect = $(shippingSelect).id;
-                this.shippingMethodsContainer = $(this.shippingSelect).up(1);
+                this.shippingMethodsContainer = $(this.shippingSelect).up();
+            } else {
+                this.shippingSelect = shippingSelect;
             }
             this._updateOrderSubmit(false);
         }
@@ -139,9 +141,7 @@ OrderReviewController.prototype = {
             if(this.shippingSelect) {
                 this._updateShipping();
             }
-            if (!this._validateForm()) {
-                this._updateOrderSubmit(true);
-            }
+            this._updateOrderSubmit(!this._validateForm());
             this.formValidator.reset();
             this._clearValidation('');
         }
@@ -178,9 +178,20 @@ OrderReviewController.prototype = {
     },
 
     /**
+     * Sets Container element of Shipping Method
+     * @param element Container element of Shipping Method
+     */
+    setShippingMethodContainer: function(element)
+    {
+        if (element) {
+            this.shippingMethodsContainer = element;
+        }
+    },
+
+    /**
      * Copy data from shipping address to billing
      */
-    _copyShippingToBilling : function ()
+    _copyShippingToBilling : function (event)
     {
         if (!this._copyElement) {
             return;
@@ -203,7 +214,9 @@ OrderReviewController.prototype = {
             $$('[id^="billing:"]').invoke('removeClassName', 'local-validation');
             $$('[id^="billing:"]').invoke('setStyle', {opacity:1});
         }
-        this._updateOrderSubmit(true);
+        if (event) {
+            this._updateOrderSubmit(true);
+        }
     },
 
     /**
@@ -222,6 +235,7 @@ OrderReviewController.prototype = {
             if (this._pleaseWait) {
                 this._pleaseWait.show();
             }
+            this._toggleButton(this._ubpdateOrderButton, true);
 
             arr = $$('[id^="billing:"]').invoke('enable');
             var formData = this.form.serialize(true);
@@ -236,6 +250,7 @@ OrderReviewController.prototype = {
                     if (this._pleaseWait && !this._updateShippingMethods) {
                         this._pleaseWait.hide();
                     }
+                    this._toggleButton(this._ubpdateOrderButton, false);
                 }.bind(this),
                 onSuccess: this._updateShippingMethodsElement.bind(this),
                 evalScripts: true
@@ -251,8 +266,8 @@ OrderReviewController.prototype = {
      * Update Shipping Methods Element from server
      */
     _updateShippingMethodsElement : function (){
-        if (this._updateShippingMethods) {
-            new Ajax.Updater(this.shippingMethodsContainer, this.shippingMethodsUpdateUrl, {
+        if (this._updateShippingMethods ) {
+            new Ajax.Updater($(this.shippingMethodsContainer).up(), this.shippingMethodsUpdateUrl, {
                 onComplete: this._updateShipping.bind(this),
                 onSuccess: this._onSubmitShippingSuccess.bind(this),
                 evalScripts: false
@@ -307,13 +322,21 @@ OrderReviewController.prototype = {
      */
     _onShippingChange : function(event){
         var element = Event.element(event);
-        if (element != $(this.shippingSelect) && !$(this.shippingSelect).disabled) {
-            $(this.shippingSelect).disable();
-            $(this.shippingSelect).hide();
-            if ($('advice-required-entry-' + this.shippingSelect)) {
-                $('advice-required-entry-' + this.shippingSelect).hide();
+        if (element != $(this.shippingSelect) && !($(this.shippingSelect) && $(this.shippingSelect).disabled)) {
+            if ($(this.shippingSelect)) {
+                $(this.shippingSelect).disable();
+                $(this.shippingSelect).hide();
+                if ($('advice-required-entry-' + this.shippingSelect)) {
+                    $('advice-required-entry-' + this.shippingSelect).hide();
+                }
             }
-            $(this.shippingSelect + '_update').show();
+            if (this.shippingMethodsContainer && $(this.shippingMethodsContainer)) {
+                $(this.shippingMethodsContainer).hide();
+            }
+
+            if (this.shippingSelect && $(this.shippingSelect + '_update')) {
+                $(this.shippingSelect + '_update').show();
+            }
             this._updateShippingMethods = true;
         }
     },
@@ -399,13 +422,24 @@ OrderReviewController.prototype = {
         );
         this._canSubmitOrder = !isDisabled;
         if (this.formSubmit) {
-            this.formSubmit.disabled = isDisabled;
-            this.formSubmit.removeClassName('no-checkout');
-            this.formSubmit.setStyle({opacity:1});
-            if (isDisabled) {
-                this.formSubmit.addClassName('no-checkout');
-                this.formSubmit.setStyle({opacity:.5});
-            }
+            this._toggleButton(this.formSubmit, isDisabled);
+        }
+    },
+
+    /**
+     * Enable/Disable button
+     *
+     * @param button
+     * @param disable
+     */
+    _toggleButton : function(button, disable)
+    {
+        button.disabled = disable;
+        button.removeClassName('no-checkout');
+        button.setStyle({opacity:1});
+        if (disable) {
+            button.addClassName('no-checkout');
+            button.setStyle({opacity:.5});
         }
     }
 };

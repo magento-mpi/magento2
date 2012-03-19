@@ -372,6 +372,7 @@
                     <enterprise_banner__banner_collection>addStoreFilter</enterprise_banner__banner_collection>
                     <enterprise_reward__reward_history_collection>limitRewardHistoryWebsites</enterprise_reward__reward_history_collection>
                     <enterprise_reward__reward_collection>limitRewardBalanceWebsites</enterprise_reward__reward_collection>
+                    <enterprise_reward__reward_rate_collection>limitRewardBalanceWebsites</enterprise_reward__reward_rate_collection>
                     <enterprise_customerbalance__balance_history_collection>limitStoreCreditsHistory</enterprise_customerbalance__balance_history_collection>
                     <enterprise_customerbalance__balance_collection>limitStoreCredits</enterprise_customerbalance__balance_collection>
                     <enterprise_giftregistry__entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftregistry__entity_collection>
@@ -411,6 +412,7 @@
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountSaveBefore</enterprise_giftcardaccount__giftcardaccount>
                     <enterprise_giftregistry__type>giftRegistryTypeSaveBefore</enterprise_giftregistry__type>
                     <enterprise_giftwrapping__wrapping>giftWrappingSaveBefore</enterprise_giftwrapping__wrapping>
+                    <enterprise_reward__reward_rate>rewardRateSaveBefore</enterprise_reward__reward_rate>
                     <review__review>catalogProductReviewSaveBefore</review__review>
                     <rating__rating>ratingSaveBefore</rating__rating>
                 </model_save_before>
@@ -437,6 +439,7 @@
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftcardaccount__giftcardaccount>
                     <enterprise_giftregistry__type>giftRegistryTypeDeleteBefore</enterprise_giftregistry__type>
                     <review__review>catalogProductReviewDeleteBefore</review__review>
+                    <enterprise_reward__reward_rate>rewardRateDeleteBefore</enterprise_reward__reward_rate>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -585,6 +588,8 @@
                     <adminhtml__cms_page_edit>removeCmsPageButtons</adminhtml__cms_page_edit>
                     <adminhtml__cms_block_edit>removeCmsBlockButtons</adminhtml__cms_block_edit>
                     <adminhtml__poll_edit>removePollButtons</adminhtml__poll_edit>
+
+                    <enterprise_reward__adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward__adminhtml_reward_rate_edit>
                     <adminhtml__tag_tag_grid>removeTagGridActions</adminhtml__tag_tag_grid>
                     <adminhtml__tag_edit>removeTagButtons</adminhtml__tag_edit>
                     <adminhtml__tag_edit_form>disableTagEditFormFields</adminhtml__tag_edit_form>

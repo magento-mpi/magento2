@@ -42,11 +42,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
      */
     protected function _showConfig($key)
     {
-        $value = $this->getConfig($key);
-        if (empty($value)) {
-            return false;
-        }
-        return true;
+        return (bool)$this->getConfig($key);
     }
 
     /**

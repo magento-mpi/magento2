@@ -38,6 +38,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     const XML_PATH_VIV_ON_EACH_TRANSACTION         = 'customer/create_account/viv_on_each_transaction';
     const XML_PATH_VAT_VALIDATION_ENABLED          = 'customer/create_account/auto_group_assign';
     const XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE = 'customer/create_account/tax_calculation_address_type';
+    const XML_PATH_VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
 
     /**
      * Array of Customer Address Attributes
@@ -179,7 +180,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
             : Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
         $class = $attribute ? $attribute->getFrontend()->getClass() : '';
 
-        if ($attributeCode === 'firstname' || $attributeCode === 'middlename' || $attributeCode === 'lastname') {
+        if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
             if ($class && !$attribute->getIsVisible()) {
                 $class = ''; // address attribute is not visible thus its validation rules are not applied
             }
@@ -275,5 +276,15 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     public function getTaxCalculationAddressType($store = null)
     {
         return (string)Mage::getStoreConfig(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, $store);
+    }
+
+    /**
+     * Check if VAT ID address attribute has to be shown on frontend (on Customer Address management forms)
+     *
+     * @return boolean
+     */
+    public function isVatAttributeVisible()
+    {
+        return (bool)Mage::getStoreConfig(self::XML_PATH_VAT_FRONTEND_VISIBILITY);
     }
 }

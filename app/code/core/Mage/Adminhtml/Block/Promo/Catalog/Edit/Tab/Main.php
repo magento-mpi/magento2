@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'name' => 'description',
             'label' => Mage::helper('catalogrule')->__('Description'),
             'title' => Mage::helper('catalogrule')->__('Description'),
-            'style' => 'width: 98%; height: 100px;',
+            'style' => 'height: 100px;',
         ));
 
         $fieldset->addField('is_active', 'select', array(

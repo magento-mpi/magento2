@@ -1158,6 +1158,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _shouldBeConfigured($product)
     {
+        if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+            && !$product->getLinksPurchasedSeparately()
+        ) {
+            return false;
+        }
+
         if ($product->isComposite() || $product->getRequiredOptions()) {
             return true;
         }

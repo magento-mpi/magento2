@@ -38,14 +38,14 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var null|array
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Items for requiring attention grid (including sku-failed items)
      *
      * @var null|array
      */
-    protected $_itemsAll = null;
+    protected $_itemsAll;
 
     /**
      * Config path to Enable Order By SKU tab in the Customer account dashboard and Allowed groups
@@ -215,11 +215,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 /** @var $customerSession Mage_Customer_Model_Session */
                 $customerSession = Mage::getSingleton('customer/session');
                 if ($customerSession) {
-                    $customer = $customerSession->getCustomer();
-                    if ($customer) {
-                        $customerGroup = $customer->getGroupId();
-                        $result = in_array($customerGroup, $this->getSkuCustomerGroups());
-                    }
+                    $groupId = $customerSession->getCustomerGroupId();
+                    $result = $groupId === Mage_Customer_Model_Group::NOT_LOGGED_IN_ID
+                        || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
         }

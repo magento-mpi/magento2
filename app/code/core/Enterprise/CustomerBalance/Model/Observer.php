@@ -259,7 +259,7 @@ class Enterprise_CustomerBalance_Model_Observer
      * Analyze payment data for quote and set free shipping if grand total is covered by balance
      *
      * @param Mage_Sales_Model_Quote $quote
-     * @param Varien_object|Mage_Sales_Model_Quote_Payment $payment
+     * @param Varien_Object|Mage_Sales_Model_Quote_Payment $payment
      * @param bool $shouldUseBalance
      */
     protected function _importPaymentData($quote, $payment, $shouldUseBalance)

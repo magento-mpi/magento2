@@ -226,7 +226,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->addToCart(true, $quote);
                 /*
                 Mage::getSingleton('adminhtml/session_quote')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->htmlEscape($code))
+                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {

@@ -88,12 +88,14 @@
             </li>
         <?php endfor; ?>
             <li class="fields">
+                <?php if ($this->helper('customer/address')->isVatAttributeVisible()) : ?>
                 <div class="field">
                     <label for="vat_id"><?php echo $this->__('VAT Number') ?></label>
                     <div class="input-box">
                         <input type="text" name="vat_id" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()) ?>" title="<?php echo $this->__('VAT Number') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('vat_id') ?>" id="vat_id" />
                     </div>
                 </div>
+                <?php endif; ?>
                 <div class="field">
                     <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
                     <div class="input-box">

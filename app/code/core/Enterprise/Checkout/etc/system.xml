@@ -53,6 +53,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <frontend_type>multiselect</frontend_type>
+                            <validate>required-entry</validate>
                             <source_model>adminhtml/system_config_source_customer_group_multiselect</source_model>
                             <depends>
                                 <my_account_enable>2</my_account_enable>
