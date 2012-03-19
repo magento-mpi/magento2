@@ -26,14 +26,14 @@
  */
 
 /**
- * Test product categories resource
+ * Test product images resource
  *
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
 
-class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webservice_Rest_Customer
+class Api2_Catalog_Products_Images_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
      * Delete fixtures
