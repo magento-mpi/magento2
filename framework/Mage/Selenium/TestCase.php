@@ -453,9 +453,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertTrue($condition, $message = '')
     {
-        if (is_array($message) && $message) {
-            $message = implode("\n", call_user_func_array('array_merge', $message));
-        }
+        $message = self::messagesToString($message);
 
         if (is_object($condition)) {
             $condition = (false === $condition->hasError());
@@ -473,9 +471,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertFalse($condition, $message = '')
     {
-        if (is_array($message) && $message) {
-            $message = implode("\n", call_user_func_array('array_merge', $message));
-        }
+        $message = self::messagesToString($message);
 
         if (is_object($condition)) {
             $condition = (false === $condition->hasError());
@@ -1086,15 +1082,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $xpath XPath of message to checking
      *
-     * @return bool
+     * @return array
      */
     public function checkMessageByXpath($xpath)
     {
         $this->_parseMessages();
         if ($xpath && $this->isElementPresent($xpath)) {
-            return true;
+            return array("success" => true);
         }
-        return false;
+        return array("success" => false,
+                     "xpath"   => $xpath,
+                     "found"   => self::messagesToString($this->getMessagesOnPage()));
     }
 
     /**
@@ -1148,7 +1146,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function assertMessagePresent($type, $message = null)
     {
         $method = strtolower($type) . 'Message';
-        $this->assertTrue($this->$method($message), $this->getMessagesOnPage());
+        $result = $this->$method($message);
+        if (!$result['success']) {
+            $this->fail("Failed looking for '" . $result['xpath'] . "', found '" . $result['found'] . "' instead");
+        }
     }
 
     /**
@@ -1189,6 +1190,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->setArea($currentArea);
         $this->setCurrentPage($currentPage);
         return $xpath;
+    }
+
+    /**
+     * Returns a string representation of the messages.
+     *
+     * @static
+     *
+     * @param array|string $message
+     *
+     * @return string
+     */
+    private static function messagesToString($message)
+    {
+        if (is_array($message) && $message) {
+            $message = implode("\n", call_user_func_array('array_merge', $message));
+        }
+        return $message;
     }
     ################################################################################
     #                                                                              #
@@ -1608,7 +1626,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 . 'Current page "' . $this->getCurrentPage() . '": '
                 . $e->getMessage() . ' - "' . $elementName . '"' . "\n"
                 . 'Messages on current page:' . "\n"
-                . implode("\n", call_user_func_array('array_merge', $this->getMessagesOnPage()));
+                . self::messagesToString($this->getMessagesOnPage());
         }
         if (isset($e) && $fieldSetsNotInTab != null) {
             foreach ($fieldSetsNotInTab as $fieldset) {
