@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available
         $elementDisabled = $this->getDisabled() == 'disabled';
         $disabled = false;
 
-        if (!$this->getValue()) {
+        if (!$this->getValue() || $elementDisabled) {
             $this->setData('disabled', 'disabled');
             $disabled = true;
         }

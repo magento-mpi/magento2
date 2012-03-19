@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep extends Varien_Data
         $elementDisabled = $this->getDisabled() == 'disabled';
         $disabled = false;
 
-        if (!$this->getValue()) {
+        if (!$this->getValue() || $elementDisabled) {
             $this->setData('disabled', 'disabled');
             $disabled = true;
         }
