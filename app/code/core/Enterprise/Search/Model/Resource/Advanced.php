@@ -114,14 +114,6 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             unset($val);
         }
 
-
-        if ($attribute->usesSource()) {
-            $attribute->setStoreId(Mage::app()->getStore()->getId());
-            foreach ($value as &$val) {
-                $val = $attribute->getSource()->getIndexOptionText($val);
-            }
-        }
-
         if (empty($value)) {
             return array();
         } else {
