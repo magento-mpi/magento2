@@ -335,7 +335,6 @@
             <Mage_GiftMessage_Model_Observer/>
             <Mage_GoogleCheckout_Block_Link/>
             <Mage_GoogleCheckout_Helper_Data/>
-            <Mage_GoogleOptimizer_Block_Code_Conversion/>
             <Mage_Reports_Model_Event_Observer/>
             <Mage_Rule_Helper_Data/>
             <Mage_Rule_Model_Condition_Abstract/>
