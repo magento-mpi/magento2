@@ -95,6 +95,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $this->fillForm($loginData);
             $this->clickButton('button_login', false);
             $this->waitForNewPage();
+            $this->waitForElementPresent("//*[@id='nav-menu']");
             $this->validatePaypalPage();
         }
     }
