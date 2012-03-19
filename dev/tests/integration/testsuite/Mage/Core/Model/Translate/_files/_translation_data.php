@@ -16,4 +16,5 @@
     'Another non-translated value for Mage_Catalog' => 'Translation for another value for Mage_Catalog',
     'Mage_Catalog::Text with different translation on different modules' => 'Text translation by Mage_Catalog module',
     'Design value to translate' => 'Design translated value',
+    'CMS' => 'CMS translate from locale file',
 );

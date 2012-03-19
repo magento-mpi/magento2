@@ -27,7 +27,32 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         ));
         Mage::getDesign()->setArea('frontend')
             ->setDesignTheme('test/default/default');
+
+        $translateFilePath = '/app/code/core/Mage/Cms/translate/frontend/en_US.csv';
+        $moduleFilePath = Mage::getBaseDir() . $translateFilePath;
+        $fixtureFilePath = __DIR__ . '/_files' . $translateFilePath;
+        if (file_exists($moduleFilePath)) {
+            rename($moduleFilePath, $moduleFilePath . '.origin');
+        } else {
+            mkdir(dirname($moduleFilePath), 0777, true);
+        }
+        copy($fixtureFilePath, $moduleFilePath);
     }
+
+    public static function tearDownAfterClass()
+    {
+        $translateFilePath = '/app/code/core/Mage/Cms/translate/frontend/en_US.csv';
+        $moduleFilePath = Mage::getBaseDir() . $translateFilePath;
+        unlink($moduleFilePath);
+        if (file_exists($moduleFilePath . '.origin')) {
+            rename($moduleFilePath . '.origin', $moduleFilePath);
+        } else {
+            @rmdir(Mage::getBaseDir() . '/app/code/core/Mage/Cms/translate/frontend');
+            @rmdir(Mage::getBaseDir() . '/app/code/core/Mage/Cms/translate');
+        }
+        parent::tearDownAfterClass();
+    }
+
 
     public function setUp()
     {

@@ -240,7 +240,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetModuleDir()
     {
         $model = $this->_createModel(true);
-        foreach (array('etc', 'controllers', 'sql', 'data', 'locale') as $type) {
+        foreach (array('etc', 'controllers', 'sql', 'data', 'locale', 'translate') as $type) {
             $dir = $model->getModuleDir($type, 'Mage_Core');
             $this->assertStringEndsWith($type, $dir);
             $this->assertContains('Mage' . DIRECTORY_SEPARATOR . 'Core', $dir);

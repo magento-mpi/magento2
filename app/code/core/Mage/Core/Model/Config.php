@@ -1107,6 +1107,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'data':
             case 'locale':
             case 'view':
+            case 'translate':
                 $dir .= DS . $type;
                 break;
         }
