@@ -87,14 +87,15 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('website_ids','multiselect',array(
+            $field = $fieldset->addField('website_ids','multiselect',array(
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => Mage::helper('enterprise_giftwrapping')->__('Websites'),
                 'values'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
-                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
+            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $field->setRenderer($renderer);
         }
 
         $fieldset->addField('status', 'select', array(

@@ -61,13 +61,14 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'legend' => Mage::helper('enterprise_reward')->__('Reward Exchange Rate Information')
         ));
 
-        $fieldset->addField('website_id', 'select', array(
+        $field = $fieldset->addField('website_id', 'select', array(
             'name'   => 'website_id',
             'title'  => Mage::helper('enterprise_reward')->__('Website'),
             'label'  => Mage::helper('enterprise_reward')->__('Website'),
             'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray(),
-            'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
         ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+        $field->setRenderer($renderer);
 
         $fieldset->addField('customer_group_id', 'select', array(
             'name'   => 'customer_group_id',

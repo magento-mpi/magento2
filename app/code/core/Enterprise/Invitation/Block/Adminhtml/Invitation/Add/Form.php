@@ -75,13 +75,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('store_id', 'select', array(
+            $field = $fieldset->addField('store_id', 'select', array(
                 'label' => $this->helper('enterprise_invitation')->__('Send From'),
                 'required' => true,
                 'name' => 'store_id',
                 'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
-                'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
             ));
+            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $field->setRenderer($renderer);
         }
 
         $groups = Mage::getModel('customer/group')->getCollection()

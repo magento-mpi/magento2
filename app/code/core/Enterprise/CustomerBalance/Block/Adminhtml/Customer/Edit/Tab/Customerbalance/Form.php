@@ -74,12 +74,13 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 . '</script>'
         ));
 
-        $fieldset->addField('store_id', 'select', array(
+        $field = $fieldset->addField('store_id', 'select', array(
             'name'     => 'store_id',
             'label'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
             'title'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
-            'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
         ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+        $field->setRenderer($renderer);
 
         $fieldset->addField('comment', 'text', array(
             'name'     => 'comment',

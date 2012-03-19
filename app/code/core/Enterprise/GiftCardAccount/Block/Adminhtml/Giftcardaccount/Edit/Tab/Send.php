@@ -64,13 +64,14 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             'name'      => 'recipient_name',
         ));
 
-        $fieldset->addField('store_id', 'select', array(
+        $field = $fieldset->addField('store_id', 'select', array(
             'name'     => 'recipient_store',
             'label'    => Mage::helper('enterprise_customerbalance')->__('Send Email from the Following Store View'),
             'title'    => Mage::helper('enterprise_customerbalance')->__('Send Email from the Following Store View'),
-            'after_element_html' => Mage::getBlockSingleton('adminhtml/store_switcher')->getHintHtml()
-                . $this->_getStoreIdScript()
+            'after_element_html' => $this->_getStoreIdScript()
         ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+        $field->setRenderer($renderer);
 
         $fieldset->addField('action', 'hidden', array(
             'name'      => 'send_action',
