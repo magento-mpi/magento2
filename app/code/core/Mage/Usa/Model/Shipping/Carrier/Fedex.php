@@ -370,10 +370,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                             'Value' => (float)$r->getWeight(),
                             'Units' => 'LB'
                         ),
-                        'InsuredValue' => array(
-                            'Amount'  => $r->getValue(),
-                            'Currency' => $this->getCurrencyCode()
-                        ),
                         'GroupPackageCount' => 1,
                     )
                 )
