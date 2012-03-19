@@ -146,15 +146,20 @@ onepage_checkout:
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
-                        xpath: //div[@class='authentication']
+                        xpath: //div[@id='centinel_authenticate_block']
+                        pageelements:
+                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
                 -
-                    3d_secure_card_iframe: &3DSecureCardValidation
-                        xpath: //body/table
+                    3d_secure_frame: &3DSecureCardValidation
+                        xpath:
                         fields:
                             3d_password: //input[@name='external.field.password']
                         buttons:
                             3d_submit: //input[@value='Submit']
                             3d_continue: //input[@value='Continue']
+                        pageelements:
+                            incorrect_password: //b[text()='Incorrect, Please try again']
+                            verification_successful: //h1[text()='Verification Successful']
                 -
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']

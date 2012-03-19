@@ -86,7 +86,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertMessagePresent('success', 'success_registration');
         return array('simple1' => $simple1['general_name'],
                      'simple2' => $simple2['general_name'],
                      'virtual' => $virtual['general_name']);

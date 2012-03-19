@@ -130,9 +130,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
                                              'multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
                                            'multiple_shipping_methods_loggedin_' . $shippingDestination,
-                                           array('shipping_method' => $shippingMethod),
+                                           array('shipping_method'     => $shippingMethod,
+                                                'checkout_as_customer' => '%noValue%'),
                                            array('product_1' => $testData['simple1'],
-                                                 'product_2' => $testData['simple2']));
+                                                'product_2'  => $testData['simple2']));
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
@@ -178,11 +179,12 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
                                              'multiple_front_shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
                                            'multiple_shipping_methods_existing_' . $shippingDestination,
-                                           array('shipping_method'  => $shippingMethod,
-                                                 'address_2'        => '%noValue%',
-                                                 'address_to_add_2' => '%noValue%'),
+                                           array('shipping_method'     => $shippingMethod,
+                                                'checkout_as_customer' => '%noValue%',
+                                                'address_2'            => '%noValue%',
+                                                'address_to_add_2'     => '%noValue%'),
                                            array('product_1' => $testData['simple1'],
-                                                 'product_2' => $testData['virtual']));
+                                                'product_2'  => $testData['virtual']));
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');

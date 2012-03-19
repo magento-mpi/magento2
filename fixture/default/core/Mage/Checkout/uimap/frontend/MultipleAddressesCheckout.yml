@@ -358,16 +358,21 @@ checkout_multishipping_review_order:
                         buttons:
                             place_order: //button[span='Place Order']
                 -
-                    3d_secure_card_validation:
-                        xpath: //*[@id='centinel_authenticate_block']
+                    3d_secure_card_validation: &3DSecureCardValidation
+                        xpath: //div[@id='centinel_authenticate_block']
+                        pageelements:
+                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
                 -
-                    3d_secure_card_iframe:
-                        xpath: //body/table
+                    3d_secure_frame: &3DSecureCardValidation
+                        xpath:
                         fields:
                             3d_password: //input[@name='external.field.password']
                         buttons:
                             3d_submit: //input[@value='Submit']
                             3d_continue: //input[@value='Continue']
+                        pageelements:
+                            incorrect_password: //b[text()='Incorrect, Please try again']
+                            verification_successful: //h1[text()='Verification Successful']
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/

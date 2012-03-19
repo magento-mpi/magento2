@@ -63,15 +63,14 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps and Verification
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        $this->assertMessagePresent('success', 'success_registration');
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');

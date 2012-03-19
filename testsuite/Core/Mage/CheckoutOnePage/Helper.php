@@ -294,22 +294,26 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function frontValidate3dSecure($password = '1234')
     {
-        if ($this->controlIsPresent('fieldset', '3d_secure_card_validation')) {
-            $this->selectFrame('index=0');
-            $xpath = $this->_getControlXpath('field', '3d_password');
+        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
+        if ($this->isElementPresent($xpath . "[not(@style='display: none;')]")) {
+            $frame = $this->_getControlXpath('pageelement', '3d_secure_iframe');
             $xpathContinue = $this->_getControlXpath('button', '3d_continue');
             $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
-            if ($this->waitForElement($xpath, 5)) {
-                $this->type($xpath, $password);
-                $this->click($xpathSubmit);
-                $this->waitForElementNotPresent($xpathSubmit);
-                if ($this->waitForElement($xpathContinue, 5)) {
-                    $this->click($xpathContinue);
-                    $this->waitForElementNotPresent($xpathContinue);
-                }
-            } else {
+            $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
+
+            if (!$this->isVisible($frame)) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
+            $this->selectFrame($frame);
+            $this->waitForElement($xpathSubmit);
+            $this->fillForm(array('3d_password' => $password));
+            $this->click($xpathSubmit);
+            $this->waitForElement(array($incorrectPassword, $xpathContinue, $xpath . "[@style='display: none;']"));
+            if ($this->isElementPresent($xpathContinue)) {
+                $this->click($xpathContinue);
+                $this->waitForElementNotPresent($xpathContinue);
+            }
+            $this->selectFrame('relative=top');
         }
     }
 
