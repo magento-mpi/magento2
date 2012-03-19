@@ -97,11 +97,12 @@
             });
             this.tree.setRootNode(this.treeRoot);
             this.createNodes();
-            this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
+            this.tree.addListener('click', this.onNodeClick.bind(this));
             this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
             this.tree.addListener('beforenodedrop', this.onNodeMove.bind(this));
             this.tree.render();
             this.treeRoot.select();
+            this.onNodeClick(this.treeRoot);
             this.dataModification = false;
             this.lastChangedNode = null;
             this.menuListTypes = <?php echo $this->getListModesJson() ?>;
@@ -238,13 +239,12 @@
             };
         },
 
-        onNodeSelect: function(model, node){
+        onNodeClick: function(node) {
             if ($('node_id').value) {
                 this.saveNodePage();
             }
 
             if (this.lastChangedNode) {
-                //this.lastChangedNode.ui.removeClass('modified');
                 this.lastChangedNode = null;
             }
 
@@ -258,7 +258,7 @@
             }
             $('node_prop_container').show();
 
-            var isTreeNode = (node.parentNode.id == '_root');
+            var isTreeNode = node.parentNode.id == '_root';
 
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
@@ -486,19 +486,18 @@
         },
 
         newNodePage: function(){
-            if ($('new_node_button').hasClassName('disabled')) {
+            if ($('new_node_button').hasClassName('disabled') || this.saveNodePage() === false) {
                 return false;
             }
-            this.saveNodePage();
+
             this.nodePropReset();
             $('node_id').value = '';
             $('node_page_id').value = '';
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
-            //this.tree.getSelectionModel().clearSelections();
 
+            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
-            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -518,7 +517,7 @@
             this.resetFieldSet('pager_fieldset');
             this.resetFieldSet('menu_fieldset');
 
-            // custom reseting for metadata
+            // custom reset for metadata
             this.resetMetadataFieldSet();
 
             this.renderMetadata();
@@ -548,15 +547,8 @@
             var hasNodeId = $('node_id').value != '',
                 hasPageId = $('node_page_id').value != '';
 
-            if (!hasPageId) {
-                var isValid = this.nodePropValidate();
-                if (!isValid) {
-                    if (hasNodeId) {
-                        return;
-                    } else {
-                        return false;
-                    }
-                }
+            if (!hasPageId && !this.nodePropValidate()) {
+                return false;
             }
 
             if (hasNodeId) {
