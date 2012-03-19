@@ -82,6 +82,7 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
         $this->assertCount(1, $data);
 
         foreach (array_shift($data) as $key => $value) {
+            // hasData is needed for the run of the remote build on kpas (customer doesn't have the email key)
             if ($customer->hasData($key)) {
                 $this->assertEquals($customer->getData($key), $value);
             }
