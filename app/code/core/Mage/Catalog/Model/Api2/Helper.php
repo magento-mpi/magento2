@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Api2_Helper extends Varien_Object
             $product->setData('use_config_gift_message_available', $productData['use_config_gift_message_available']);
             if (!$productData['use_config_gift_message_available']
                 && ($product->getData('gift_message_available') === null)) {
-                $product->setData('gift_message_available', Mage::getStoreConfig(
+                $product->setData('gift_message_available', (int) Mage::getStoreConfig(
                     Mage_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $product->getStoreId()));
             }
         }
@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Api2_Helper extends Varien_Object
             $product->setData('use_config_gift_wrapping_available', $productData['use_config_gift_wrapping_available']);
             if (!$productData['use_config_gift_wrapping_available']
                 && ($product->getData('gift_wrapping_available') === null)) {
-                $product->setData('gift_wrapping_available', Mage::getStoreConfig(
+                $product->setData('gift_wrapping_available', (int) Mage::getStoreConfig(
                     Enterprise_GiftWrapping_Helper_Data::XML_PATH_ALLOWED_FOR_ITEMS, $product->getStoreId()));
             }
         }
