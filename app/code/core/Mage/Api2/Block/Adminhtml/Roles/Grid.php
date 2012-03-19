@@ -82,6 +82,12 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
             'escape'    => true,
         ));
 
+        $this->addColumn('tole_user_type', array(
+            'header'         => $helper->__('User Type'),
+            'sortable'       => false,
+            'frame_callback' => array($this, 'decorateUserType')
+        ));
+
         $this->addColumn('created_at', array(
             'header'    => $helper->__('Created At'),
             'index'     => 'created_at'
@@ -116,5 +122,33 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
             return $this->getUrl('*/*/edit', array('id' => $row->getId()));
         }
         return null;
+    }
+
+    /**
+     * Decorate 'User Type' column
+     *
+     * @param string $renderedValue Rendered value
+     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param bool $isExport
+     * @return string
+     */
+    public function decorateUserType($renderedValue, $row, $column, $isExport)
+    {
+        /** @var $helper Mage_Api2_Helper_Data */
+        $helper = Mage::helper('api2');
+
+        switch ($row->getEntityId()) {
+            case Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID:
+                $userType = $helper->__('Guest');
+                break;
+            case Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID:
+                $userType = $helper->__('Customer');
+                break;
+            default:
+                $userType = $helper->__('Admin');
+                break;
+        }
+        return $userType;
     }
 }
