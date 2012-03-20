@@ -79,7 +79,7 @@ if (isset($_SERVER['MAGE_PROFILER'])) {
             Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
             break;
         case 'csv':
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/var/log/profiler.csv'));
+            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/../var/log/profiler.csv'));
             break;
         default:
             Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
