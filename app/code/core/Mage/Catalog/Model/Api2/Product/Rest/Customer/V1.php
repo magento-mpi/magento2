@@ -25,7 +25,7 @@
  */
 
 /**
- * API2 for products instance (Customer)
+ * API2 for catalog_product (Customer)
  *
  * @category   Mage
  * @package    Mage_Catalog

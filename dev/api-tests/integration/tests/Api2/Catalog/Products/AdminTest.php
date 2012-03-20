@@ -275,6 +275,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
+            'Invalid "cust_group" value in the "group_price:4" set',
+            'Invalid "cust_group" value in the "tier_price:6" set',
             'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
@@ -951,6 +953,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
+            'Invalid "cust_group" value in the "group_price:4" set',
+            'Invalid "cust_group" value in the "tier_price:6" set',
             'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',

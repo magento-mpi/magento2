@@ -19,16 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 Stock Item Persist Validator
+ * API2 catalog_product Validator
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_Resource_Validator
@@ -413,9 +413,13 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
         if (!isset($data['cust_group'])) {
             $this->_addError(sprintf('The "cust_group" value in the "%s" set is a required field.', $fieldSet));
         } else {
-            $customerGroup = Mage::getModel('customer/group')->load($data['cust_group']);
-            if (is_null($customerGroup->getId())) {
+            if (!is_numeric($data['cust_group'])) {
                 $this->_addError(sprintf('Invalid "cust_group" value in the "%s" set', $fieldSet));
+            } else {
+                $customerGroup = Mage::getModel('customer/group')->load($data['cust_group']);
+                if (is_null($customerGroup->getId())) {
+                    $this->_addError(sprintf('Invalid "cust_group" value in the "%s" set', $fieldSet));
+                }
             }
         }
     }
