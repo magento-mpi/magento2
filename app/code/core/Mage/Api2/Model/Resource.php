@@ -1023,4 +1023,34 @@ abstract class Mage_Api2_Model_Resource
 
         return $attributes;
     }
+
+    /**
+     * Retrieve current store according to request and API user type
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $store = $this->getRequest()->getParam('store');
+        try {
+            if ($this->getUserType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
+                // customer or guest role
+                if (!$store) {
+                    $store = Mage::app()->getDefaultStoreView();
+                } else {
+                    $store = Mage::app()->getStore($store);
+                }
+            } else {
+                // admin role
+                if (is_null($store)) {
+                    $store = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+                }
+                $store = Mage::app()->getStore($store);
+            }
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            // store does not exist
+            $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        return $store;
+    }
 }
