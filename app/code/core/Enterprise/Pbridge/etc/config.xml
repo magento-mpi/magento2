@@ -67,6 +67,9 @@
         </events>
     </global>
     <frontend>
+        <secure_url>
+            <pbridge_result>/enterprise_pbridge/pbridge/result</pbridge_result>
+        </secure_url>
         <routers>
             <enterprise_pbridge>
                 <use>standard</use>
