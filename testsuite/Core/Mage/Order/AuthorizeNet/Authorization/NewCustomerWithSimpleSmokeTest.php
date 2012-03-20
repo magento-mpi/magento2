@@ -148,6 +148,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3289
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -199,6 +200,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider refundDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5365
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
@@ -296,6 +298,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5366
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -322,6 +325,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5367
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -354,7 +358,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -380,6 +384,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5368
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -423,6 +428,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5369
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -462,6 +468,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-5370
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

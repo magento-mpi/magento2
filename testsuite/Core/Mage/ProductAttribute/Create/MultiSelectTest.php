@@ -80,8 +80,10 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>New attribute ["Multiple Select" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends navigation
+     * @return array
      * @test
+     * @depends navigation
+     * @TestlinkId TL-MAGE-3557
      */
     public function withRequiredFieldsOnly()
     {
@@ -108,8 +110,11 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>New attribute ["Multiple Select" type] shouldn't be created.</p>
      * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $attrData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-5353
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
@@ -130,9 +135,12 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>New attribute ["Multiple Select" type] shouldn't be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
-     * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly
+     * @param $emptyField
+     *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly.
+     * @TestlinkId TL-MAGE-3557
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -179,9 +187,13 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *
+     * @param $wrongAttributeCode
+     * @param $validationMessage
+     *
+     * @test
      * @dataProvider withInvalidAttributeCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId TL-MAGE-3554
      */
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
@@ -218,9 +230,12 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>Error JS message: 'Please use numbers only in this field.</p>
      * <p>Please avoid spaces or other characters such as dots or commas.' is displayed.</p>
      *
+     * @param $invalidPosition
+     *
+     * @test
      * @dataProvider withInvalidPositionDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId TL-MAGE-3555
      */
     public function withInvalidPosition($invalidPosition)
     {
@@ -259,8 +274,9 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>New attribute ["Multiple Select" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-5354
      */
     public function withSpecialCharactersInTitle()
     {
@@ -291,8 +307,9 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      * <p>New attribute ["Multiple Select" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3556
      */
     public function withLongValues()
     {

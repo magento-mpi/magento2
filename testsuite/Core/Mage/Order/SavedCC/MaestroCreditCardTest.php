@@ -118,6 +118,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5389
      */
     public function fullInvoiceWithDifferentTypesOfCapture($orderData)
     {
@@ -139,6 +140,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5390
      */
     public function partialInvoiceWithDifferentTypesOfCapture($orderData, $sku)
     {
@@ -179,6 +181,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5391
      */
     public function fullCreditMemo($orderData)
     {
@@ -199,6 +202,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5392
      */
     public function partialCreditMemo($orderData, $sku)
     {
@@ -239,6 +243,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5393
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -265,6 +270,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5396
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -297,7 +303,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -323,6 +329,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5397
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)

@@ -64,6 +64,7 @@ class Core_Mage_PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCas
      * <p>Shopping Cart Price Rule successfully created and deleted;</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3321
      */
     public function deleteShoppingCartPriceRule()
     {

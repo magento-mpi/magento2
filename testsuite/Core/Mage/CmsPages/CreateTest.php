@@ -53,6 +53,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
      *
+     * @return array
      * @test
      */
     public function preconditionsForTests()
@@ -87,7 +88,9 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
+     * @return array
      * @test
+     * @TestlinkId	TL-MAGE-3213
      */
     public function withRequiredFields()
     {
@@ -111,8 +114,10 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
-     * @depends preconditionsForTests
+     * @param array $data
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3210
      */
     public function withAllFields($data)
     {
@@ -134,9 +139,14 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is not created successfully</p>
      *
+     * @param string $fieldName
+     * @param string $fielsType
+     * @param int $messCount
+     *
+     * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends withRequiredFields
-     * @test
+     * @TestlinkId    TL-MAGE-3211
      */
     public function withEmptyRequiredFields($fieldName, $fielsType, $messCount)
     {
@@ -181,8 +191,11 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page with the same URL Key is not created</p>
      *
-     * @depends withRequiredFields
+     * @param array $pageData
+     *
      * @test
+     * @depends withRequiredFields
+     * @TestlinkId TL-MAGE-3212
      */
     public function withExistUrlkey($pageData)
     {
@@ -201,9 +214,13 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page with the numbers in URL Key is not created</p>
      *
+     * @param string $urlValue
+     * @param string $messageType
+     *
+     * @test
      * @dataProvider withWrongUrlKeyDataProvider
      * @depends withRequiredFields
-     * @test
+     * @TestlinkId TL-MAGE-3214
      */
     public function withWrongUrlKey($urlValue, $messageType)
     {
@@ -237,9 +254,12 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Page is created successfully</p>
      *
+     * @param array $fieldData
+     *
+     * @test
      * @dataProvider withSpecialValueInFieldsDataProvider
      * @depends withRequiredFields
-     * @test
+     * @TestlinkId TL-MAGE-5298
      */
     public function withSpecialValueInFields($fieldData)
     {

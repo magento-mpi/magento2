@@ -290,6 +290,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @TestlinkId	TL-MAGE-3517
      */
     public function addProductsWithSpecialOptionsToWishlistFromProductPage($customer, $productDataSet)
     {
@@ -329,6 +330,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @TestlinkId	TL-MAGE-3523
      */
     public function removeProductsFromWishlist($customer, $productDataSet)
     {
@@ -370,6 +372,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithoutSpecialOptions
+     * @TestlinkId	TL-MAGE-3517
      * @group skip_due_to_bug
      */
     public function addProductsWithoutSpecialOptionsToWishlistFromProductPage($customer, $productDataSet)
@@ -416,6 +419,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateCategory
      * @depends preconditionsCreateProductSimple
+     * @TestlinkId	TL-MAGE-3518
      */
     public function addProductToWishlistFromCatalog($customer, $categoryData, $simpleProductName)
     {
@@ -446,6 +450,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProductSimple
+     * @TestlinkId	TL-MAGE-3519
      */
     public function addProductToWishlistFromShoppingCart($customer, $simpleProductName)
     {
@@ -480,6 +485,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithoutSpecialOptions
      * @depends addProductsWithoutSpecialOptionsToWishlistFromProductPage
+     * @TestlinkId	TL-MAGE-3516
      */
     public function addProductsWithoutSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -523,6 +529,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
      * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
+     * @TestlinkId	TL-MAGE-3514
      */
     public function addProductsWithSpecialOptionsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -571,6 +578,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
      * @depends addProductsWithSpecialOptionsToWishlistFromProductPage
+     * @TestlinkId	TL-MAGE-3513
      */
     public function addAllProductsToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -635,6 +643,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateAllProductsWithSpecialOptions
+     * @TestlinkId	TL-MAGE-5346
      */
     public function addGroupedProductToShoppingCartFromWishlist($customer, $productDataSet)
     {
@@ -672,6 +681,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsCreateCustomer
+     * @TestlinkId	TL-MAGE-3522
      */
     public function openMyWishlistViaQuickAccessLink($customer)
     {
@@ -703,6 +713,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @dataProvider shareWishlistDataProvider
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProductSimple
+     * @TestlinkId	TL-MAGE-3524
      */
     public function shareWishlist($shareData, $customer, $simpleProductName)
     {
@@ -746,6 +757,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @dataProvider withInvalidEmailDataProvider
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProductSimple
+     * @TestlinkId	TL-MAGE-3526
      */
     public function withInvalidEmail($emails, $errorMessage, $customer, $simpleProductName)
     {
@@ -788,6 +800,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProductSimple
+     * @TestlinkId	TL-MAGE-3525
      */
     public function shareWishlistWithEmptyEmail($customer, $simpleProductName)
     {
@@ -812,6 +825,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Guest is redirected to login/register page.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3521
      */
     public function guestCannotOpenWishlist()
     {
@@ -837,6 +851,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * @param string $simpleProductName
      *
      * @test
+     * @TestlinkId	TL-MAGE-3520
      */
     public function guestCannotAddProductToWishlist($simpleProductName)
     {

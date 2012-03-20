@@ -52,6 +52,7 @@ class Core_Mage_CmsPages_DeleteTest extends Mage_Selenium_TestCase
      * <p>Page is created and deleted successfully</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3215
      */
     public function deleteCmsPage()
     {

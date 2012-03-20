@@ -64,6 +64,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @TestlinkId    TL-MAGE-3398
      * @test
      */
     public function requiredFieldsInDownloadable()
@@ -90,6 +91,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3385
      * @test
      */
     public function allFieldsInDownloadable()
@@ -120,6 +123,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Error message appears;</p>
      *
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3390
      * @test
      */
     public function existSkuInDownloadable($productData)
@@ -146,6 +151,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsInDownloadable
      * @dataProvider withRequiredFieldsEmptyDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3482
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
@@ -194,6 +201,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears</p>
      *
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3399
      * @test
      */
     public function specialCharactersInRequiredFields()
@@ -205,7 +214,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
                                             'general_description'       => $this->generate('string', 32, ':punct:'),
                                             'general_short_description' => $this->generate('string', 32, ':punct:'),
                                             'general_sku'               => $this->generate('string', 32, ':punct:')
-                ));
+                                       ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
@@ -229,6 +238,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears</p>
      *
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3397
      * @test
      */
     public function longValuesInRequiredFields()
@@ -240,7 +251,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
                                             'general_description'       => $this->generate('string', 255, ':alnum:'),
                                             'general_short_description' => $this->generate('string', 255, ':alnum:'),
                                             'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                ));
+                                       ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
@@ -264,6 +275,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3391
      * @test
      */
     public function incorrectSkuLengthInDownloadable()
@@ -291,6 +304,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3393
      * @test
      */
     public function invalidPriceInDownloadable($invalidPrice)
@@ -319,6 +334,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3395
      * @test
      */
     public function invalidSpecialPriceInDownloadable($invalidValue)
@@ -348,6 +365,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3389
      * @test
      */
     public function emptyTierPriceFields($emptyTierPrice)
@@ -386,6 +405,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3396
      * @test
      */
     public function invalidTierPriceInDownloadable($invalidTierData)
@@ -420,6 +441,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3394
      * @test
      */
     public function invalidQtyInDownloadable($invalidQty)
@@ -455,7 +478,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>6. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
-
+     *
+     * @TestlinkId    TL-MAGE-3387
      * @test
      * @depends requiredFieldsInDownloadable
      * @dataProvider emptyFieldForSamplesDataProvider
@@ -465,7 +489,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         // Data
         $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
         $productData['downloadable_information_data']['downloadable_sample_1'] =
-                $this->loadData('downloadable_samples', array($emptyField => '%noValue%'));
+            $this->loadData('downloadable_samples', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
 
@@ -499,6 +523,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @TestlinkId    TL-MAGE-3386
      * @test
      * @depends requiredFieldsInDownloadable
      * @dataProvider emptyFieldForLinksDataProvider
@@ -508,7 +533,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         // Data
         $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
         $productData['downloadable_information_data']['downloadable_link_1'] =
-                $this->loadData('downloadable_links', array($emptyField => '%noValue%'));
+            $this->loadData('downloadable_links', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -542,6 +567,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
+     *
+     * @TestlinkId    TL-MAGE-3392
      * @test
      */
     public function invalidLinksPriceInDownloadable($invalidValue)
@@ -549,7 +576,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
         $productData['downloadable_information_data']['downloadable_link_1'] =
-                $this->loadData('downloadable_links', array('downloadable_link_row_price' => $invalidValue));
+            $this->loadData('downloadable_links', array('downloadable_link_row_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying

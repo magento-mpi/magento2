@@ -87,9 +87,10 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * Test Realizing precondition for duplicating products.
      *
      * @param $attrData
-     * @depends createConfigurableAttribute
+     *
      * @return array $productData
      * @test
+     * @depends createConfigurableAttribute
      * @group preConditions
      */
     public function createProducts($attrData)
@@ -128,9 +129,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @param $attrData
      * @param $productData
+     *
+     * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @test
+     * @TestlinkId    TL-MAGE-3431
      */
     public function duplicateSimple($attrData, $productData)
     {
@@ -170,9 +173,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @param $attrData
      * @param $productData
+     *
+     * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @test
+     * @TestlinkId	TL-MAGE-3432
      */
     public function duplicateVirtual($attrData, $productData)
     {
@@ -213,10 +218,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @param $attrData
      * @param $productData
+     *
+     * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @test
-     *
+     * @TestlinkId	TL-MAGE-3429
      * @group skip_due_to_bug
      */
     public function duplicateDownloadable($attrData, $productData)
@@ -261,9 +267,10 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @param $productData
-     * @depends createProducts
      *
      * @test
+     * @TestlinkId    TL-MAGE-3430
+     * @depends createProducts
      */
     public function duplicateGrouped($productData)
     {
@@ -313,9 +320,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @param $data
      * @param $productData
-     * @depends createProducts
-     * @dataProvider duplicateBundleDataProvider
+     *
      * @test
+     * @dataProvider duplicateBundleDataProvider
+     * @depends createProducts
+     * @TestlinkId	TL-MAGE-3427
      */
     public function duplicateBundle($data, $productData)
     {
@@ -371,15 +380,16 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>6. Open created product;</p>
      * <p>7. Click "Duplicate" button;</p>
      * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     *
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
      * @param $attrData
      * @param $productData
+     *
+     * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @test
+     * @TestlinkId    TL-MAGE-3428
      */
     public function duplicateConfigurable($attrData, $productData)
     {

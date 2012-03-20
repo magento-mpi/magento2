@@ -67,6 +67,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Create a simple product for tests</p>
      *
+     * @return string
      * @test
      */
     public function createSimpleProduct()
@@ -88,6 +89,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Received the message that the tag has been saved.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3494
      */
     public function createNew()
     {
@@ -112,6 +114,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Received error message "This is a required field"</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3496
      */
     public function withEmptyTagName()
     {
@@ -134,11 +137,12 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
+     * @param array $specialValue
+     *
+     * @test
      * @dataProvider withSpecialValuesDataProvider
      * @depends createNew
-     * @test
-     *
-     * @param array $specialValue
+     * @TestlinkId	TL-MAGE-3497
      */
     public function withSpecialValues(array $specialValue)
     {
@@ -181,8 +185,11 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>The assigned tag is displayed.</p>
      *
-     * @depends createSimpleProduct
+     * @param string $product
+     *
      * @test
+     * @depends createSimpleProduct
+     * @TestlinkId    TL-MAGE-3495
      */
     public function productTaggedByAdministrator($product)
     {

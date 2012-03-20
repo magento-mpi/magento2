@@ -64,13 +64,14 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @TestlinkId    TL-MAGE-5333
      * @test
      */
     public function onlyRequiredFieldsInVirtual()
     {
         //Data
         $productData = $this->loadData('virtual_product_required', null,
-                        array('general_name', 'general_sku'));
+                                       array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -91,6 +92,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5334
      * @test
      */
     public function allFieldsInVirtual()
@@ -121,6 +124,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Error message appears;</p>
      *
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5336
      * @test
      */
     public function existSkuInVirtual($productData)
@@ -147,6 +152,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5337
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
@@ -154,16 +161,16 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Data
         if ($emptyField == 'general_sku') {
             $productData = $this->loadData('virtual_product_required',
-                            array($emptyField => '%noValue%'));
+                                           array($emptyField => '%noValue%'));
         } elseif ($emptyField == 'general_visibility') {
             $productData = $this->loadData('virtual_product_required',
-                            array($emptyField => '-- Please Select --'), 'general_sku');
+                                           array($emptyField => '-- Please Select --'), 'general_sku');
         } elseif ($emptyField == 'inventory_qty') {
             $productData = $this->loadData('virtual_product_required', array($emptyField => ''),
-                            'general_sku');
+                                           'general_sku');
         } else {
             $productData = $this->loadData('virtual_product_required',
-                            array($emptyField => '%noValue%'), 'general_sku');
+                                           array($emptyField => '%noValue%'), 'general_sku');
         }
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
@@ -200,20 +207,22 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5338
      * @test
      */
     public function specialCharactersInRequiredFields()
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array(
-                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                            'general_sku'               => $this->generate('string', 32, ':punct:')
-                ));
+                                       array(
+                                            'general_name'              => $this->generate('string', 32, ':punct:'),
+                                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                                            'general_sku'               => $this->generate('string', 32, ':punct:')
+                                       ));
         $productSearch = $this->loadData('product_search',
-                        array('product_sku' => $productData['general_sku']));
+                                         array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -242,14 +251,14 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array(
-                            'general_name'              => $this->generate('string', 255, ':alnum:'),
-                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                            'general_sku'               => $this->generate('string', 64, ':alnum:')
-                ));
+                                       array(
+                                            'general_name'              => $this->generate('string', 255, ':alnum:'),
+                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                                            'general_sku'               => $this->generate('string', 64, ':alnum:')
+                                       ));
         $productSearch = $this->loadData('product_search',
-                        array('product_sku' => $productData['general_sku']));
+                                         array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -272,13 +281,15 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5340
      * @test
      */
     public function incorrectSkuLengthInVirtual()
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array('general_sku' => $this->generate('string', 65, ':alnum:')));
+                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -305,7 +316,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array('prices_price' => $invalidPrice), 'general_sku');
+                                       array('prices_price' => $invalidPrice), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -327,13 +338,15 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5342
      * @test
      */
     public function invalidSpecialPriceInVirtual($invalidValue)
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array('prices_special_price' => $invalidValue), 'general_sku');
+                                       array('prices_special_price' => $invalidValue), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -356,6 +369,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5343
      * @test
      */
     public function emptyTierPriceFields($emptyTierPrice)
@@ -363,7 +378,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('virtual_product_required', null, 'general_sku');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                        array($emptyTierPrice => '%noValue%'));
+                                                                   array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -394,13 +409,15 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5344
      * @test
      */
     public function invalidTierPriceInVirtual($invalidTierData)
     {
         //Data
         $tierData = array(
-            'prices_tier_price_qty' => $invalidTierData,
+            'prices_tier_price_qty'   => $invalidTierData,
             'prices_tier_price_price' => $invalidTierData
         );
         $productData = $this->loadData('virtual_product_required', null, 'general_sku');
@@ -428,13 +445,15 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInVirtual
+     *
+     * @TestlinkId    TL-MAGE-5345
      * @test
      */
     public function invalidQtyInVirtual($invalidQty)
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                        array('inventory_qty' => $invalidQty), 'general_sku');
+                                       array('inventory_qty' => $invalidQty), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying

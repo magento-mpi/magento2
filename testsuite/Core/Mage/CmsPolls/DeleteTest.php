@@ -56,6 +56,7 @@ class Core_Mage_CmsPolls_DeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the Poll has been deleted.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3222
      */
     public function deleteNewPoll()
     {

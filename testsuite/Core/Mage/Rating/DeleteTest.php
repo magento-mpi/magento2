@@ -79,8 +79,11 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - Rating removed from the list</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3478
      */
     public function deleteRatingUsedInReview($data)
     {
@@ -126,6 +129,7 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - Rating removed from the list</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3477
      */
     public function deleteRatingNotUsedInReview()
     {

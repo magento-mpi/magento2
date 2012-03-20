@@ -68,10 +68,11 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is deleted, confirmation message appears;</p>
      *
-     * @dataProvider deleteSingleProductDataProvider
-     * @test
-     *
      * @param string $type
+     *
+     * @test
+     * @dataProvider deleteSingleProductDataProvider
+     * @TestlinkId    TL-MAGE-3425
      */
     public function deleteSingleProduct($type)
     {
@@ -114,7 +115,10 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      * <p>7. Click "Delete" button;</p>
      * <p>Expected result:</p>
      * <p>Product is deleted, confirmation message appears;</p>
+     *
+     * @return array
      * @test
+     * @TestlinkId	TL-MAGE-3424
      */
     public function deleteSingleConfigurableProduct()
     {
@@ -156,12 +160,12 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     /**
      * Delete product that used in configurable
      *
-     * @depends deleteSingleConfigurableProduct
-     * @dataProvider deleteAssociatedToConfigurableDataProvider
-     * @test
-     *
      * @param string $type
      * @param array $attrData
+     *
+     * @test
+     * @dataProvider deleteAssociatedToConfigurableDataProvider
+     * @depends deleteSingleConfigurableProduct
      */
     public function deleteAssociatedToConfigurable($type, $attrData)
     {
@@ -201,11 +205,11 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     /**
      * Delete product that used in Grouped or bundle
      *
-     * @test
-     * @dataProvider deleteAssociatedProductDataProvider
-     *
      * @param string $associatedType
      * @param string $type
+     *
+     * @test
+     * @dataProvider deleteAssociatedProductDataProvider
      */
     public function deleteAssociatedProduct($associatedType, $type)
     {
@@ -258,6 +262,8 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are deleted.</p>
      * <p>Success Message is displayed.</p>
+     * @test
+     * @TestlinkId    TL-MAGE-3426
      */
     public function throughMassAction()
     {

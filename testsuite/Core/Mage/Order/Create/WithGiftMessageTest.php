@@ -80,6 +80,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3284
      */
     public function giftMessagePerOrder($simpleSku)
     {
@@ -115,6 +116,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3283
      */
     public function giftMessageForProduct($simpleSku)
     {
@@ -150,6 +152,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3285
      */
     public function giftMessagesWithEmptyFields($simpleSku)
     {

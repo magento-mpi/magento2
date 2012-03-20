@@ -97,9 +97,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      * @param string $payment
      * @param array $testData
      *
+     * @test
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
-     * @test
+     * @TestlinkId TL-MAGE-3206
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
@@ -163,9 +164,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      * @param string $payment
      * @param array $testData
      *
-     * @depends preconditionsForTests
-     * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
+     * @dataProvider differentPaymentMethodsWith3DDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3205
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {

@@ -99,9 +99,13 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This is a required field"</p>
      *
+     * @param string $emptyField
+     * @param array $loginData
+     *
+     * @test
      * @dataProvider loginEmptyOneFieldDataProvider
      * @depends loginValidUser
-     * @test
+     * @TestlinkId TL-MAGE-3154
      */
     public function loginEmptyOneField($emptyField, $loginData)
     {
@@ -130,8 +134,11 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid User Name or Password."</p>
      *
-     * @depends loginValidUser
+     * @param array $loginData
+     *
      * @test
+     * @depends loginValidUser
+     * @TestlinkId TL-MAGE-3157
      */
     public function loginNonExistantUser($loginData)
     {
@@ -151,8 +158,11 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid User Name or Password."</p>
      *
-     * @depends loginValidUser
+     * @param array $loginData
+     *
      * @test
+     * @depends loginValidUser
+     * @TestlinkId TL-MAGE-3156
      */
     public function loginIncorrectPassword($loginData)
     {
@@ -174,8 +184,9 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
      *
-     * @depends loginValidUser
      * @test
+     * @depends loginValidUser
+     * @TestlinkId TL-MAGE-3155
      */
     public function loginInactiveAdminAccount()
     {
@@ -206,8 +217,9 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
      *
-     * @depends loginValidUser
      * @test
+     * @depends loginValidUser
+     * @TestlinkId TL-MAGE-3158
      */
     public function loginWithoutPermissions()
     {
@@ -238,6 +250,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>"This is a required field" message appears;</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-3150
      */
     public function forgotEmptyPassword()
     {
@@ -261,6 +274,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>"If there is an account associated.." message appears;</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-3152
      */
     public function forgotPasswordInvalidEmail()
     {
@@ -285,6 +299,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Please check your email and click Back to Login."</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-3151
      */
     public function forgotPasswordCorrectEmail()
     {
@@ -322,6 +337,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>User still can login, since the password hasn't been reset.</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-3153
      */
     public function forgotPasswordOldPassword()
     {

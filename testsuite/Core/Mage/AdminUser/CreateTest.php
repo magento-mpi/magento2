@@ -80,9 +80,10 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user successfully saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends navigationTest
-     *
+     * @return array
      * @test
+     * @depends navigationTest
+     * @TestlinkId TL-MAGE-3144
      */
     public function withRequiredFieldsOnly()
     {
@@ -111,6 +112,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * @param array $userData
      *
      * @test
+     * @TestlinkId TL-MAGE-3148
      */
     public function withUserNameThatAlreadyExists($userData)
     {
@@ -132,10 +134,11 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>User is not created. Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @param array $userData
      *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3147
      */
     public function withUserEmailThatAlreadyExists($userData)
     {
@@ -158,10 +161,13 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Message "This is a required field." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param string $emptyField
+     * @param string $messageCount
      *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3143
      */
     public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
@@ -200,9 +206,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3146
      */
     public function withSpecialCharactersExeptEmail()
     {
@@ -235,9 +241,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Message "The user has been saved." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3141
      */
     public function withLongValues()
     {
@@ -275,10 +281,13 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>New user is not saved.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withInvalidPasswordDataProvider
+     * @param string $wrongPasswords
+     * @param string $errorMessage
      *
      * @test
+     * @dataProvider withInvalidPasswordDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3140
      */
     public function withInvalidPassword($wrongPasswords, $errorMessage)
     {
@@ -326,10 +335,12 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "Please enter a valid email." OR "Please enter a valid email address.
      * For example johndoe@domain.com." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withInvalidEmailDataProvider
+     * @param string $invalidEmail
      *
      * @test
+     * @dataProvider withInvalidEmailDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3139
      */
     public function withInvalidEmail($invalidEmail)
     {
@@ -365,9 +376,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error Message "This account is inactive." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3138
      */
     public function inactiveUser()
     {
@@ -400,9 +411,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Logged in to Admin.</p>.
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3145
      */
     public function withRole()
     {
@@ -434,9 +445,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error Message "Access denied." is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3142
      */
     public function withoutRole()
     {

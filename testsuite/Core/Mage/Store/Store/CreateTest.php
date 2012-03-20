@@ -84,6 +84,7 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3618
      */
     public function withRequiredFieldsOnly()
     {
@@ -103,9 +104,13 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Store is not created.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param $emptyField
+     * @param $fieldType
+     *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId    TL-MAGE-3617
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -142,8 +147,9 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Store is created. Success Message is displayed.</p>
      * <p>Length of field "Name" is 255 characters.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3616
      */
     public function withLongValues()
     {
@@ -167,8 +173,9 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Store is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3619
      */
     public function withSpecialCharactersInName()
     {

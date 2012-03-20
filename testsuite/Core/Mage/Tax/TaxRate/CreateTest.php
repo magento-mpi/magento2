@@ -67,10 +67,12 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Tax Rate created, success message appears</p>
      *
-     * @dataProvider withRequiredFieldsOnlyDataProvider
      * @param string $taxRateDataSetName
+     *
      * @return array $taxRateData
      * @test
+     * @dataProvider withRequiredFieldsOnlyDataProvider
+     * @TestlinkId TL-MAGE-3506
      */
     public function withRequiredFieldsOnly($taxRateDataSetName)
     {
@@ -126,10 +128,11 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @dataProvider withEmptyRequiredFieldsDataProvider
      * @param string $emptyFieldName Name of the field to leave empty
-     * @test
      *
+     * @test
+     * @dataProvider withEmptyRequiredFieldsDataProvider
+     * @TestlinkId    TL-MAGE-3506
      * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName)
@@ -164,10 +167,11 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @dataProvider withSpecialValuesDataProvider
      * @param array $specialValue
-     * @test
      *
+     * @test
+     * @dataProvider withSpecialValuesDataProvider
+     * @TestlinkId TL-MAGE-3509
      * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
@@ -203,10 +207,12 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withInvalidValuesForRangeDataProvider
      * @param array $specialValue
+     *
      * @test
+     * @dataProvider withInvalidValuesForRangeDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3508
      */
     public function withInvalidValuesForRange($specialValue)
     {
@@ -241,10 +247,12 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message: Please enter a valid number in this field.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withInvalidValueForRatePercentDataProvider
      * @param array $specialValue
+     *
      * @test
+     * @dataProvider withInvalidValueForRatePercentDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3507
      */
     public function withInvalidValueForRatePercent($specialValue)
     {
@@ -275,8 +283,9 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields have the same values.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3505
      */
     public function withSelectedState()
     {
@@ -308,9 +317,8 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * <p>Cleanup:</p>
      * <p>Delete the created store view.</p>
      *
-     * @depends withRequiredFieldsOnly
-     *
      * @test
+     * @depends withRequiredFieldsOnly
      */
     public function withStoreViewTitle()
     {

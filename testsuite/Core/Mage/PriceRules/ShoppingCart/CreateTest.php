@@ -55,11 +55,13 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Expected results:</p>
      * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
-     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @param string $fieldName
      * @param string $fieldType
-     * @group skip_due_to_bug
+     *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @TestlinkId TL-MAGE-3316
+     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($fieldName, $fieldType)
     {
@@ -96,10 +98,8 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Expected results:</p>
      * <p>Rule is created where applicable;</p>
      *
-     * Bug MAGE-5625
-     *
      * @test
-     *
+     * @TestlinkId	TL-MAGE-3320
      * @group skip_due_to_bug
      */
     public function createWithRequiredFieldsWithSpecialSymbols()
@@ -129,8 +129,8 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Rule is created;</p>
      *
      * @return string   Returns coupon code
-     *
      * @test
+     * @TestlinkId	TL-MAGE-3319
      */
     public function createWithRequiredFields()
     {
@@ -152,6 +152,7 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Rule is created;</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3315
      */
     public function createWithAllFields()
     {
@@ -171,6 +172,7 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Rule is created;</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3318
      */
     public function createWithoutCoupon()
     {
@@ -198,9 +200,10 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * <p>Rule is not created; Messsage "Coupon with the same code already exists." appears.</p>
      *
      * @param string    Coupon Code
-     * @depends createWithRequiredFields
      *
      * @test
+     * @depends createWithRequiredFields
+     * @TestlinkId TL-MAGE-3317
      */
     public function createWithExistingCoupon($coupon)
     {

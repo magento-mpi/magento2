@@ -62,7 +62,9 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * <p>Store View is created.</p>
      * <p>Success Message is displayed</p>
      *
+     * @return array
      * @test
+     * @TestlinkId TL-MAGE-3486
      */
     public function creationStoreView()
     {
@@ -87,8 +89,10 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - "The store view has been deleted."</p>
      *
-     * @depends creationStoreView
+     * @param $storeViewData
      * @test
+     * @depends creationStoreView
+     * @TestlinkId	TL-MAGE-3487
      */
     public function deleteStoreViewWithoutBackup($storeViewData)
     {

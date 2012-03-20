@@ -65,6 +65,7 @@ class Core_Mage_PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result: Success message appears, rule removed from the list</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3314
      */
     public function deleteCatalogPriceRule()
     {

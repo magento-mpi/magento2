@@ -122,9 +122,10 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * @param string $ruleType
      * @param array $testData
      *
+     * @test
      * @dataProvider applyRuleToSimpleFrontDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId	TL-MAGE-3308
      */
     public function applyRuleToSimpleFront($ruleType, $testData)
     {

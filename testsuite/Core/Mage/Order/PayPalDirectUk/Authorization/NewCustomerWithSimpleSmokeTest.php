@@ -155,6 +155,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3296
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -230,6 +231,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3295
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -308,6 +310,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3297
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -334,6 +337,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3298
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -366,7 +370,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -392,6 +396,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3299
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -436,6 +441,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3300
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -475,6 +481,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3294
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

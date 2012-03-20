@@ -81,9 +81,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Success Message is displayed</p>
      *
      * @param array $productData
-     * @depends preconditionsCreateProduct
+     *
      * @return array $checkoutData
      * @test
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5313
      */
     public function withRequiredFieldsOnly($productData = array())
     {
@@ -118,8 +120,10 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Error Message is displayed.</p>
      *
      * @param array $checkoutData
-     * @depends withRequiredFieldsOnly
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-5314
      */
     public function withEmailThatAlreadyExists(array $checkoutData)
     {
@@ -143,9 +147,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is registered. Success Message is displayed.</p>
      * <p>Length of fields are 255 characters.</p>
      *
-     * @param $productData
-     * @depends preconditionsCreateProduct
+     * @param array $productData
+     *
      * @test
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5315
      */
     public function withLongValues($productData)
     {
@@ -187,13 +193,15 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param $field
-     * @param $fieldType
-     * @param $productData
+     * @param string $field
+     * @param string $fieldType
+     * @param array $productData
+     *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends preconditionsCreateProduct
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-5316
      */
     public function withRequiredFieldsEmpty($field,$fieldType,$productData)
     {
@@ -249,8 +257,10 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Success Message is displayed</p>
      *
      * @param $productData
-     * @depends preconditionsCreateProduct
+     *
      * @test
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5317
      */
     public function withSpecialCharacters($productData)
     {
@@ -294,14 +304,15 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param $field
-     * @param $fieldName
-     * @param $fieldValue
-     * @param $productData
-     * @dataProvider withLongValuesNotValidDataProvider
-     * @depends preconditionsCreateProduct
+     * @param string $field
+     * @param string $fieldName
+     * @param string $fieldValue
+     * @param array $productData
      *
      * @test
+     * @dataProvider withLongValuesNotValidDataProvider
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5318
      */
     public function withLongValuesNotValid($field, $fieldName, $fieldValue, $productData)
     {
@@ -350,10 +361,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends preconditionsCreateProduct
-     * @param $productData
+     * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5319
      */
     public function withInvalidZipCode($productData)
     {
@@ -397,14 +409,15 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param $invalidEmail
-     * @param $productData
+     * @param string $invalidEmail
+     * @param array $productData
+     *
+     * @test
      * @dataProvider withInvalidEmailDataProvider
      * @depends preconditionsCreateProduct
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-5320
      */
-
     public function withInvalidEmail($invalidEmail,$productData)
     {
         //Data
@@ -448,13 +461,15 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param $invalidPassword
-     * @param $errorMessage
-     * @param $productData
+     * @param string $invalidPassword
+     * @param string $errorMessage
+     * @param array $productData
+     *
+     * @test
      * @dataProvider withInvalidPasswordDataProvider
      * @depends preconditionsCreateProduct
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-5321
      */
     public function withInvalidPassword($invalidPassword, $errorMessage,$productData)
     {

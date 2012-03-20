@@ -92,7 +92,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-312:Invoice for full order</p>
+     * <p>Invoice for full order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -115,6 +115,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      *
      * @test
      * @depends orderSmoke
+     * @TestlinkId	TL-MAGE-3606
      */
     public function fullInvoice($orderData)
     {
@@ -128,7 +129,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-313:Invoice for part of order</p>
+     * <p>Invoice for part of order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -153,6 +154,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3610
      */
     public function partialInvoice($orderData, $sku)
     {
@@ -169,7 +171,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-319:Credit Memo for whole invoice<p>
+     * <p>Credit Memo for whole invoice<p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -193,6 +195,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      *
      * @test
      * @depends orderSmoke
+     * @TestlinkId	TL-MAGE-319
      */
     public function fullCreditMemoWithCheck($orderData)
     {
@@ -205,7 +208,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-418:Credit Memo for part of invoice</p>
+     * <p>Credit Memo for part of invoice</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -231,6 +234,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3609
      */
     public function partialCreditMemoWithCheck($orderData, $sku)
     {
@@ -246,7 +250,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-316:Shipment for order</p>
+     * <p>Shipment for order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -269,6 +273,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      *
      * @test
      * @depends orderSmoke
+     * @TestlinkId	TL-MAGE-3607
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -282,7 +287,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-317:Shipment for part of order</p>
+     * <p>Shipment for part of order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -307,6 +312,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      * @test
      * @depends orderSmoke
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3611
      */
     public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
@@ -359,6 +365,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      *
      * @test
      * @depends orderSmoke
+     * @TestlinkId	TL-MAGE-3608
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -378,7 +385,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -403,6 +410,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      *
      * @test
      * @depends orderSmoke
+     * @TestlinkId	TL-MAGE-3612
      */
     public function reorderPendingOrder($orderData)
     {

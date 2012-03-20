@@ -58,11 +58,17 @@
         <log type="testdox-html" target="./var/logs/testdox.html"/>
         <log type="testdox-text" target="./var/logs/testdox.txt"/>
     </logging>
-
-    <!-- Test listeners -->
     <listeners>
         <listener class="Mage_Listener_EventListener">
         </listener>
+        <listener class="Mage_Testlink_Listener">
+            <arguments>
+                <string>Project Name</string>
+                <string>http://localhost/testlink/lib/api/xmlrpc.php</string>
+                <string>user token</string>
+                <string>Test Plan Name(ID)</string>
+                <string>build number</string>
+            </arguments>
+        </listener>
     </listeners>
-
 </phpunit>

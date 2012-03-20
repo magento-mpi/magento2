@@ -77,7 +77,9 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the block has been saved.</p>
      *
+     * @return array
      * @test
+     * @TestlinkId TL-MAGE-3129
      */
     public function createNewWithReqField()
     {
@@ -100,8 +102,11 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received an error message about already existing identifier.</p>
      *
-     * @depends createNewWithReqField
+     * @param array $setData
+     *
      * @test
+     * @depends createNewWithReqField.
+     * @TestlinkId	TL-MAGE-3131
      */
     public function withExistingIdentifier($setData)
     {
@@ -123,6 +128,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Received the message that the block has been saved.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3224
      */
     public function createNewWithAllWidgets()
     {
@@ -146,11 +152,12 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
+     * @param array $specialValue
+     *
+     * @test
      * @dataProvider withSpecialValuesDataProvider
      * @depends createNewWithReqField
-     * @test
-     *
-     * @param array $specialValue
+     * @TestlinkId    TL-MAGE-3227
      */
     public function withSpecialValues(array $specialValue)
     {
@@ -188,11 +195,12 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @dataProvider withEmptyRequiredFieldsDataProvider
-     * @test
+     * @param string $emptyField
+     * @param string $fieldType
      *
-     * @param string $emptyField Name of the field to leave empty
-     * @param string $validationMessage Validation message to be verified
+     * @test
+     * @dataProvider withEmptyRequiredFieldsDataProvider
+     * @TestlinkId TL-MAGE-3225
      */
     public function withEmptyRequiredFields($emptyField, $fieldType)
     {
@@ -228,8 +236,11 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received an error message about invalid XML identifier.</p>
      *
-     * @dataProvider withInvalidXmlIdentifierDataProvider
+     * @param string $invalidValue
+     *
      * @test
+     * @dataProvider withInvalidXmlIdentifierDataProvider
+     * @TestlinkId TL-MAGE-3226
      */
     public function withInvalidXmlIdentifier($invalidValue)
     {

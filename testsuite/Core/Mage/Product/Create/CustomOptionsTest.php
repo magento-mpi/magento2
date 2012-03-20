@@ -66,6 +66,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, susses message appears;</p>
      *
+     * @TestlinkId    TL-MAGE-3382
      * @test
      */
     public function productWithAllTypesCustomOption()
@@ -99,7 +100,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyCustomField
+     *
      * @dataProvider emptyFieldInCustomOptionDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3376
      * @test
      */
     public function emptyFieldInCustomOption($emptyCustomField)
@@ -107,7 +111,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
-                array($emptyCustomField => '%noValue%'));
+                                                                array($emptyCustomField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -144,7 +148,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param string $optionDataName
+     *
      * @dataProvider emptyOptionRowTitleInCustomOptionDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3377
      * @test
      */
     public function emptyOptionRowTitleInCustomOption($optionDataName)
@@ -152,7 +159,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                array('custom_options_title' => '%noValue%'));
+                                                                array('custom_options_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -187,7 +194,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidData
+     *
      * @dataProvider invalidNumericValueDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3379
      * @test
      */
     public function invalidSortOrderInCustomOption($invalidData)
@@ -195,7 +205,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $invalidSortOrder = array(
             'custom_options_general_sort_order' => $invalidData,
-            'custom_options_sort_order' => $invalidData
+            'custom_options_sort_order'         => $invalidData
         );
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect', $invalidSortOrder);
@@ -225,7 +235,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidData
+     *
      * @dataProvider invalidNumericValueDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3378
      * @test
      */
     public function invalidMaxCharInCustomOption($invalidData)
@@ -233,7 +246,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_field',
-                array('custom_options_max_characters' => $invalidData));
+                                                                array('custom_options_max_characters' => $invalidData));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -269,7 +282,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @param $optionDataName
      * @param $message
+     *
      * @dataProvider invalidCustomOptionDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3383
      * @test
      *
      * @group skip_due_to_bug
@@ -279,7 +295,9 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                array('custom_options_price' => $this->generate('string', 9, ':punct:')));
+                                                                array('custom_options_price' => $this->generate('string',
+                                                                                                                9,
+                                                                                                                ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -305,7 +323,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @param $optionDataName
      * @param $message
+     *
      * @dataProvider invalidCustomOptionDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3384
      * @test
      *
      * @group skip_due_to_bug
@@ -315,7 +336,9 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                array('custom_options_price' => $this->generate('string', 9, ':alpha:')));
+                                                                array('custom_options_price' => $this->generate('string',
+                                                                                                                9,
+                                                                                                                ':alpha:')));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -356,7 +379,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;;</p>
      *
      * @param $optionName
+     *
      * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3380
      * @test
      *
      * @group skip_due_to_bug
@@ -400,7 +426,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $optionName
+     *
      * @dataProvider negativeNumberInCustomOptionsPricePosDataProvider
+     *
+     * @TestlinkId    TL-MAGE-3381
      * @test
      */
     public function negativeNumberInCustomOptionsPricePos($optionName)

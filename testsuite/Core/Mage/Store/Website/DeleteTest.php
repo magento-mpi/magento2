@@ -66,6 +66,7 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3491
      */
     public function deleteWithoutStore()
     {
@@ -93,6 +94,7 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3492
      */
     public function deleteWithStore()
     {
@@ -123,6 +125,7 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3493
      */
     public function deleteWithStoreAndStoreView()
     {
@@ -156,6 +159,7 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3490
      */
     public function deleteWithAssignedProduct()
     {

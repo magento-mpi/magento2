@@ -43,8 +43,9 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Create Customer for tests</p>
-     * @test
+     *
      * @return array
+     * @test
      */
     public function createCustomer()
     {
@@ -64,8 +65,9 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
-     * @test
+     *
      * @return string
+     * @test
      */
     public function createCategory()
     {
@@ -86,12 +88,12 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Create Simple Products for tests</p>
-     * @depends createCategory
-     * @test
      *
      * @param $category
      *
      * @return mixed
+     * @test
+     * @depends createCategory
      */
     public function createProduct($category)
     {
@@ -116,14 +118,16 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>8. Check tag displaying on the page</p>
      * <p>9. Open current tag - page with assigned product opens</p>
      * <p>10. Tag is assigned to correct product</p>
-     * @dataProvider tagNameDataProvider
-     * @depends createCustomer
-     * @depends createProduct
-     * @test
      *
      * @param $tags
      * @param $customer
      * @param $product
+     *
+     * @test
+     * @dataProvider tagNameDataProvider
+     * @depends createCustomer
+     * @depends createProduct
+     * @TestlinkId TL-MAGE-3651
      */
     public function frontendTagVerificationLoggedCustomer($tags, $customer, $product)
     {
@@ -171,14 +175,16 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>8. Change the status of created Tag;</p>
      * <p>9. Goto Frontend;</p>
      * <p>10. Check Tag displaying on category page;</p>
-     * @depends createCustomer
-     * @depends createCategory
-     * @depends createProduct
-     * @test
      *
      * @param $customer
      * @param $category
      * @param $product
+     *
+     * @test
+     * @depends createCustomer
+     * @depends createCategory
+     * @depends createProduct
+     * @TestlinkId    TL-MAGE-3650
      */
     public function frontendTagVerificationInCategory($customer, $category, $product)
     {
@@ -214,10 +220,12 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Customer is redirected to the login page.</p>
      * <p>The tag hasn't been added for moderation in backend.</p>
-     * @depends createProduct
-     * @test
      *
      * @param $product
+     *
+     * @test
+     * @depends createProduct
+     * @TestlinkId    TL-MAGE-3652
      */
     public function frontendTagVerificationNotLoggedCustomer($product)
     {

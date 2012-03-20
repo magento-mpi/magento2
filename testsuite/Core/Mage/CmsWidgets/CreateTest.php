@@ -143,13 +143,15 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with all fields filled</p>
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
+     *
+     * @param string $dataWidgetType
+     * @param string $category
+     *
+     * @test
      * @dataProvider widgetTypesDataProvider
      * @depends createCategory
      * @depends createProducts
-     * @test
-     *
-     * @param $dataWidgetType
-     * @param $category
+     * @TestlinkId TL-MAGE-3229
      */
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $category)
     {
@@ -194,13 +196,15 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create all types of widgets with required fields filled</p>
      * <p>Expected result</p>
      * <p>Widgets are created successfully</p>
+     *
+     * @param string $dataWidgetType
+     * @param string $category
+     *
+     * @test
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @depends createProducts
-     * @test
-     *
-     * @param $dataWidgetType
-     * @param $category
+     * @TestlinkId	TL-MAGE-3230
      */
     public function createAllTypesOfWidgetsReqFields($dataWidgetType, $category)
     {
@@ -246,6 +250,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider withEmptyFieldsDataProvider
      * @depends createCategory
      * @depends createProducts
+     * @TestlinkId	TL-MAGE-3231
      */
     public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
     {

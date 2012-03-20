@@ -99,13 +99,14 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createProductForAssociatedDataProvider
-     * @depends createAttribute
      * @param string $productDataSet
      * @param string $productType
      * @param array $attrData
      *
      * @test
+     * @dataProvider createProductForAssociatedDataProvider
+     * @depends createAttribute
+     * @TestlinkId	TL-MAGE-523
      */
     public function createProductForAssociated($productDataSet, $productType, $attrData)
     {
@@ -170,11 +171,12 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createSimpleTypesProductsDataProvider
      * @param string $productType
      * @param string $productDataSet
      *
      * @test
+     * @dataProvider createSimpleTypesProductsDataProvider
+     * @TestlinkId	TL-MAGE-5326
      */
     public function createSimpleTypesProducts($productDataSet, $productType)
     {
@@ -247,6 +249,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Checkout is successful;</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-5328
      */
     public function createGroupedProduct()
     {
@@ -302,10 +305,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createBundleProductsDataProvider
      * @param string $productDataSet
      *
      * @test
+     * @dataProvider createBundleProductsDataProvider
+     * @TestlinkId	TL-MAGE-5329
      */
     public function createBundleProducts($productDataSet)
     {
@@ -380,12 +384,13 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createConfigurableDataProvider
-     * @depends createAttribute
      * @param string $productDataSet
      * @param array $attrData
      *
      * @test
+     * @dataProvider createConfigurableDataProvider
+     * @depends createAttribute
+     * @TestlinkId TL-MAGE-5330
      */
     public function createConfigurableWithSimple($productDataSet, $attrData)
     {
@@ -438,12 +443,13 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createConfigurableDataProvider
-     * @depends createAttribute
      * @param string $productDataSet
      * @param array $attrData
      *
      * @test
+     * @dataProvider createConfigurableDataProvider
+     * @depends createAttribute
+     * @TestlinkId	TL-MAGE-5331
      */
     public function createConfigurableWithVirtual($productDataSet, $attrData)
     {
@@ -499,12 +505,13 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @dataProvider createConfigurableDataProvider
-     * @depends createAttribute
      * @param string $productDataSet
      * @param array $attrData
      *
      * @test
+     * @dataProvider createConfigurableDataProvider
+     * @depends createAttribute
+     * @TestlinkId	TL-MAGE-5332
      */
     public function createConfigurableWithDownloadable($productDataSet, $attrData)
     {

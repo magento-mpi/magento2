@@ -92,6 +92,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * @test
      * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3253
      */
     public function emptyRequiredFieldsInBillingAddress($emptyField, $simpleSku)
     {
@@ -164,6 +165,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * @test
      * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3254
      * @group skip_due_to_bug
      */
     public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
@@ -228,6 +230,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3258
      */
     public function withoutGotShippingMethod($simpleSku)
     {
@@ -262,6 +265,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3257
      */
     public function withGotShippingMethod($simpleSku)
     {
@@ -299,6 +303,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3256
      */
     public function noProductsChosen()
     {
@@ -328,6 +333,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3255
      */
     public function noPaymentMethodChosen($simpleSku)
     {

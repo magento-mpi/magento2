@@ -65,6 +65,7 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
      *
      * @test
      * @dataProvider orderWithProductWithValidationMessageDataProvider
+     * @TestlinkId	TL-MAGE-3286
      */
     public function orderWithProductWithValidationMessage($productData, $message, $productQty)
     {

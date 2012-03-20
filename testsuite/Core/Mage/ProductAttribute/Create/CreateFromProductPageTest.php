@@ -80,8 +80,11 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
      * <p>New attribute successfully created.
      * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @dataProvider onProductPageWithRequiredFieldsOnlyDataProvider
+     * @param $attributeType
+     *
      * @test
+     * @dataProvider onProductPageWithRequiredFieldsOnlyDataProvider
+     * @TestlinkId	TL-MAGE-3322
      */
     public function onProductPageWithRequiredFieldsOnly($attributeType)
     {

@@ -71,6 +71,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Poll is displayed on Homepage</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3217
      */
     public function createNew()
     {
@@ -98,8 +99,12 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @dataProvider withEmptyRequiredFieldsDataProvider
+     * @param string $emptyField
+     * @param string $fieldType
+     *
      * @test
+     * @dataProvider withEmptyRequiredFieldsDataProvider
+     * @TestlinkId	TL-MAGE-3220
      */
     public function withEmptyRequiredFields($emptyField, $fieldType)
     {
@@ -133,6 +138,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Received error message "Please, add some answers to this poll first."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3221
      */
     public function withoutAnswer()
     {
@@ -153,8 +159,9 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received error message "Your answers contain duplicates."</p>
      *
-     * @depends createNew
      * @test
+     * @depends createNew
+     * @TestlinkId	TL-MAGE-3218
      */
     public function identicalAnswer()
     {
@@ -176,8 +183,9 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Poll should not be displayed.</p>
      *
-     * @depends createNew
      * @test
+     * @depends createNew
+     * @TestlinkId	TL-MAGE-3216
      */
     public function closedIsNotDispalyed()
     {
@@ -214,8 +222,9 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Poll should not be available for vote</p>
      *
-     * @depends createNew
      * @test
+     * @depends createNew
+     * @TestlinkId TL-MAGE-3219
      */
     public function votePoll()
     {

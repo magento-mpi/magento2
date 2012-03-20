@@ -87,11 +87,12 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
-     * @depends createCustomerTest
      *
      * @param array $searchData
      *
      * @test
+     * @depends createCustomerTest
+     * @TestlinkId	TL-MAGE-3604
      */
     public function withRequiredFieldsOnly(array $searchData)
     {
@@ -117,13 +118,14 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Customer address isn't added. Customer info is not saved.</p>
      * <p>Error Message is displayed</p>
-     * @depends createCustomerTest
-     * @dataProvider withRequiredFieldsEmptyDataProvider
      *
      * @param string $emptyField
      * @param array $searchData
      *
      * @test
+     * @depends createCustomerTest
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @TestlinkId TL-MAGE-3604
      * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
@@ -184,8 +186,9 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      *
      * @param array $searchData
      *
-     * @depends createCustomerTest
      * @test
+     * @depends createCustomerTest
+     * @TestlinkId	TL-MAGE-3605
      */
     public function withSpecialCharactersExceptCountry(array $searchData)
     {
@@ -236,10 +239,9 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      *
      * @param array $searchData
      *
-     * @depends createCustomerTest
      * @test
-
-
+     * @depends createCustomerTest
+     * @TestlinkId	TL-MAGE-3603
      */
     public function withLongValuesExceptCountry(array $searchData)
     {
@@ -290,10 +292,9 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      *
      * @param array $searchData
      *
-     * @depends createCustomerTest
      * @test
-
-
+     * @depends createCustomerTest
+     * @TestlinkId	TL-MAGE-3601
      */
     public function withDefaultBillingAddress(array $searchData)
     {
@@ -328,8 +329,9 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      *
      * @param array $searchData
      *
-     * @depends createCustomerTest
      * @test
+     * @depends createCustomerTest
+     * @TestlinkId	TL-MAGE-3602
      */
     public function withDefaultShippingAddress(array $searchData)
     {

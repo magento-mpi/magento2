@@ -57,8 +57,10 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
      *
      * @param $productType
      * @param $availability
-     * @dataProvider reviewInfoInProductDetailsDataProvider
+     *
      * @test
+     * @dataProvider reviewInfoInProductDetailsDataProvider
+     * @TestlinkId    TL-MAGE-3469
      */
     public function reviewInfoInProductDetails($productType, $availability)
     {

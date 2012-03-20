@@ -63,6 +63,7 @@ class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the block has been deleted.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3228
      */
     public function deleteNew()
     {

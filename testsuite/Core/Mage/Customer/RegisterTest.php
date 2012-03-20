@@ -56,7 +56,9 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is registered.</p>
      * <p>Success Message is displayed</p>
      *
+     * @return array
      * @test
+     * @TestlinkId	TL-MAGE-3245
      */
     public function withRequiredFieldsOnly()
     {
@@ -83,8 +85,11 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $userData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3239
      */
     public function withEmailThatAlreadyExists(array $userData)
     {
@@ -105,8 +110,9 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is registered. Success Message is displayed.</p>
      * <p>Length of fields are 255 characters.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3242
      */
     public function withLongValues()
     {
@@ -144,9 +150,13 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param string $field
+     * @param string $messageCount
+     *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-3244
      */
     public function withRequiredFieldsEmpty($field, $messageCount)
     {
@@ -186,8 +196,9 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is registered.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3246
      */
     public function withSpecialCharacters()
     {
@@ -221,9 +232,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param array $longValue
+     *
+     * @test
      * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-3243
      */
     public function withLongValuesNotValid($longValue)
     {
@@ -259,9 +273,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param array $invalidEmail
+     *
+     * @test
      * @dataProvider withInvalidEmailDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-3240
      */
     public function withInvalidEmail($invalidEmail)
     {
@@ -294,9 +311,13 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param array $invalidPassword
+     * @param string $errorMessage
+     *
+     * @test
      * @dataProvider withInvalidPasswordDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId	TL-MAGE-3241
      */
     public function withInvalidPassword($invalidPassword, $errorMessage)
     {
@@ -315,22 +336,4 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
             array(array('password' => 1234567, 'password_confirmation' => 12345678), 'passwords_not_match'),
         );
     }
-
-//    /**
-//     * @TODO
-//     * @test
-//     */
-//    public function fromOnePageCheckoutPage()
-//    {
-//        $this->markTestIncomplete();
-//    }
-//
-//    /**
-//     * @TODO
-//     * @test
-//     */
-//    public function fromMultipleCheckoutPage()
-//    {
-//        $this->markTestIncomplete();
-//    }
 }

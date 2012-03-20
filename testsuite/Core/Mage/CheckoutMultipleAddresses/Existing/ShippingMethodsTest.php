@@ -123,6 +123,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5232
      */
     public function withSimpleProducts($shipment, $shippingOrigin, $shippingDestination, $testData)
     {
@@ -171,6 +172,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5233
      */
     public function withSimpleAndVirtualProducts($shipment, $shippingOrigin, $shippingDestination, $testData)
     {

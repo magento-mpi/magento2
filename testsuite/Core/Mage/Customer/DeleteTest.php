@@ -64,6 +64,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3237
      */
     public function single()
     {
@@ -94,6 +95,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3238
      */
     public function throughMassAction()
     {

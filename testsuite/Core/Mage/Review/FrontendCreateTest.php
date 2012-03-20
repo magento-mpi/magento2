@@ -53,6 +53,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * @test
+     * @return array
      */
     public function preconditionsForTests()
     {
@@ -108,8 +109,11 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is present into the list and has type - "Guest";</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-440
      */
     public function addReviewByGuest($data)
     {
@@ -148,8 +152,11 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is present into the list and has type - "Guest";</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-457
      */
     public function addReviewByGuestWithRating($data)
     {
@@ -188,9 +195,11 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is assigned to correct product</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-456
      */
     public function addReviewByLoggedCustomer($data)
     {
@@ -227,9 +236,13 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is not created. Empty Required Field message appears.</p>
      *
+     * @param $emptyFieldName
+     * @param $data
+     *
+     * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId    TL-MAGE-3568
      */
     public function withEmptyRequiredFields($emptyFieldName, $data)
     {
@@ -263,9 +276,13 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is created. Review can be opened on the backend.</p>
      *
+     * @param $reviewData
+     * @param $data
+     *
+     * @test
      * @dataProvider frontendReviewSpecialCharactersDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId    TL-MAGE-3569
      */
     public function frontendReviewSpecialCharacters($reviewData, $data)
     {

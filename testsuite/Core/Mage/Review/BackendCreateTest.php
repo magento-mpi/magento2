@@ -92,8 +92,11 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>5. Go to Frontend</p>
      * <p>6. Verify review on product page;</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-5350
      */
     public function requiredFieldsWithoutRating($data)
     {
@@ -132,8 +135,11 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>4. Verify review in category;</p>
      * <p>5. Verify review on product page;</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3484
      */
     public function requiredFieldsWithRating($data)
     {
@@ -171,9 +177,14 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears</p>
      *
+     * @param $emptyField
+     * @param $fieldType
+     * @param $data
+     *
+     * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId    TL-MAGE-3482
      */
     public function withEmptyRequiredFields($emptyField, $fieldType, $data)
     {
@@ -217,8 +228,11 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the review has been saved.</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3481
      */
     public function withLongValues($data)
     {
@@ -247,8 +261,11 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the review has been saved.</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3485
      */
     public function withSpecialCharacters($data)
     {
@@ -281,8 +298,11 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - status updated</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3479
      */
     public function changeStatusOfReview($data)
     {

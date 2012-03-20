@@ -83,6 +83,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3188
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
@@ -125,6 +126,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3189
      */
     public function withVirtualProductAndCustomerWithoutAddress($data)
     {

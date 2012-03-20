@@ -84,8 +84,10 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends navigation
+     * @return array
      * @test
+     * @depends navigation
+     * @TestlinkId	TL-MAGE-3618
      */
     public function withRequiredFieldsOnly()
     {
@@ -110,8 +112,11 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $websiteData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3614
      */
     public function withCodeThatAlreadyExists(array $websiteData)
     {
@@ -131,9 +136,12 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param $emptyField
+     *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3617
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -166,8 +174,9 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is created. Success Message is displayed.</p>
      * <p>Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3616
      */
     public function withLongValues()
     {
@@ -194,8 +203,9 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3619
      */
     public function withSpecialCharactersInName()
     {
@@ -219,9 +229,12 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>Website is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @dataProvider withInvalidCodeDataProvider
-     * @depends withRequiredFieldsOnly
+     * @param $invalidCode
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @dataProvider withInvalidCodeDataProvider
+     * @TestlinkId    TL-MAGE-3615
      */
     public function withInvalidCode($invalidCode)
     {
@@ -250,8 +263,9 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Create first store</p>
      * <p>3. Create second store</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-5347
      */
     public function withSeveralStoresAssignedToOneRootCategory()
     {
@@ -283,8 +297,9 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Create first store view</p>
      * <p>4. Create second store view</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-5349
      */
     public function withSeveralStoresViewsInOneStore()
     {

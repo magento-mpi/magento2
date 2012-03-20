@@ -127,6 +127,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @test
      * @dataProvider typesOfCaptureDataProvider
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5373
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -202,6 +203,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5374
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -280,6 +282,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5375
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -306,6 +309,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5377
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -338,7 +342,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -364,6 +368,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5378
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -409,6 +414,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5379
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -444,6 +450,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5380
      */
     public function orderWithSoloCard($testData)
     {

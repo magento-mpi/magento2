@@ -87,6 +87,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3265
      * @group skip_due_to_bug
      */
     public function newCustomerWithoutAddress($simpleSku)
@@ -136,6 +137,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3260
      * @group skip_due_to_bug
      */
     public function newCustomerWithAddress($simpleSku)
@@ -190,6 +192,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3261
      */
     public function newCustomerWithExistEmail($simpleSku)
     {
@@ -232,6 +235,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3262
      */
     public function newCustomerWithLongEmail($simpleSku)
     {
@@ -267,9 +271,9 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3263
      */
     public function newCustomerWithNotCorrectEmail($simpleSku)
     {
@@ -309,7 +313,8 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @param string $simpleSku
      *
      * @test
-     * @depends preconditionsForTests
+     * @depends preconditionsForTests.
+     * @TestlinkId	TL-MAGE-3264
      */
     public function newCustomerWithNotValidEmail($simpleSku)
     {
@@ -347,6 +352,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3266
      */
     public function orderCompleteReqFields($simpleSku)
     {

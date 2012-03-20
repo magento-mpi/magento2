@@ -72,8 +72,10 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - rating saved</p>
      *
-     * @depends preconditionsForTests
+     * @return array
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3474
      */
     public function withRequiredFieldsOnly()
     {
@@ -99,6 +101,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Error message appears - "This is a required field";</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3470
      */
     public function withEmptyDefaultValue()
     {
@@ -123,8 +126,11 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Rating is not saved, Message appears "already exists."</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param $ratingData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3471
      */
     public function withExistingRatingName($ratingData)
     {
@@ -147,8 +153,11 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - rating saved</p>
      *
-     * @depends preconditionsForTests
+     * @param $storeView
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-435
      */
     public function withAllFields($storeView)
     {
@@ -173,8 +182,11 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the rating has been saved.</p>
      *
-     * @depends preconditionsForTests
+     * @param $storeView
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3473
      */
     public function withLongValues($storeView)
     {
@@ -199,8 +211,10 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message that the rating has been saved.</p>
      *
+     * @param $storeView
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3475
      */
     public function withSpecialCharacters($storeView)
     {

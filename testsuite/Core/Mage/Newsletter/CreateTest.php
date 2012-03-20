@@ -76,10 +76,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>7. Verify the email in subscribers list</p>
      * <p>Expected result: The email is present in the subscribers list</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3250
      */
     public function guestUseValidNotExistCustomerEmail($category)
     {
@@ -110,9 +111,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
+     *
      * @test
+     * @TestlinkId TL-MAGE-3239
+     * @depends preconditionsForTests
      */
     public function guestUseValidExistCustomerEmail($category)
     {
@@ -141,10 +144,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3249
      */
     public function guestInvalidEmail($category)
     {
@@ -169,10 +173,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Validation message is displayed</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @TestlinkId	TL-MAGE-3248
+     * @depends preconditionsForTests
      */
     public function guestEmptyEmail($category)
     {
@@ -196,10 +201,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message is displayed</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3251
      */
     public function guestLongValidEmail($category)
     {
@@ -226,10 +232,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>8. Verify the email in subscribers list</p>
      * <p>Expected result: The email is present in the subscribers list</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5399
      */
     public function customerUseOwnEmail($category)
     {
@@ -268,10 +275,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s has been removed from the list</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3247
      */
     public function deleteSubscriber($category)
     {
@@ -313,10 +321,11 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * <p>11. Check confirmation message</p>
      * <p>Expected result: Subscriber`s email status has changed</p>
      *
-     * @param $category
-     * @depends preconditionsForTests
+     * @param string $category
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3252
      */
     public function subscriberUnsubscribe($category)
     {

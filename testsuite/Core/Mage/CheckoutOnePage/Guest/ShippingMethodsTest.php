@@ -113,6 +113,7 @@ class Core_Mage_CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3192
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {

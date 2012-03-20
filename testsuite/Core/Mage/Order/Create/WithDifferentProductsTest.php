@@ -126,6 +126,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @test
      * @dataProvider withoutOptionsDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3281, TL-MAGE-3282, TL-MAGE-3279
      */
     public function withoutOptions($productType, $order, $testData)
     {
@@ -154,6 +155,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      *
      * @test
      * @dataProvider productDataProvider
+     * @TestlinkId	TL-MAGE-3278
      */
     public function withCustomOptions($productType, $order)
     {
@@ -185,6 +187,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Order is created;</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3280
      */
     public function withDownloadableConfigProduct()
     {
@@ -220,6 +223,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @test
      * @dataProvider productDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3271, TL-MAGE-3272
      */
     public function withBundleProduct($productType, $order, $testData)
     {
@@ -263,6 +267,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @test
      * @dataProvider withoutOptionsDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3274, TL-MAGE-3275, TL-MAGE-3273
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
@@ -296,6 +301,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @test
      * @dataProvider withoutOptionsDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3276, TL-MAGE-3277
      */
     public function withGroupedProduct($productType, $order, $testData)
     {

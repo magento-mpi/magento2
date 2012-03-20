@@ -64,6 +64,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @TestlinkId    TL-MAGE-3409
      * @test
      */
     public function onlyRequiredFieldsInGrouped()
@@ -90,6 +91,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3400
      * @test
      */
     public function allFieldsInGrouped()
@@ -118,6 +121,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3402
      * @test
      */
     public function existSkuInGrouped($productData)
@@ -144,6 +149,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-15
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
@@ -187,18 +194,20 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3410
      * @test
      */
     public function specialCharactersInRequiredFields()
     {
         //Data
         $productData = $this->loadData('grouped_product_required',
-                array(
-                    'general_name'              => $this->generate('string', 32, ':punct:'),
-                    'general_description'       => $this->generate('string', 32, ':punct:'),
-                    'general_short_description' => $this->generate('string', 32, ':punct:'),
-                    'general_sku'               => $this->generate('string', 32, ':punct:')
-                ));
+                                       array(
+                                            'general_name'              => $this->generate('string', 32, ':punct:'),
+                                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                                            'general_sku'               => $this->generate('string', 32, ':punct:')
+                                       ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
@@ -222,18 +231,20 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3408
      * @test
      */
     public function longValuesInRequiredFields()
     {
         //Data
         $productData = $this->loadData('grouped_product_required',
-                array(
-                    'general_name'              => $this->generate('string', 255, ':alnum:'),
-                    'general_description'       => $this->generate('string', 255, ':alnum:'),
-                    'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                    'general_sku'               => $this->generate('string', 64, ':alnum:')
-                ));
+                                       array(
+                                            'general_name'              => $this->generate('string', 255, ':alnum:'),
+                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                                            'general_sku'               => $this->generate('string', 64, ':alnum:')
+                                       ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
@@ -257,13 +268,15 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3407
      * @test
      */
     public function incorrectSkuLengthInGrouped()
     {
         //Data
         $productData = $this->loadData('grouped_product_required',
-                array('general_sku' => $this->generate('string', 65, ':alnum:')));
+                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -287,6 +300,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3405
      * @test
      */
     public function groupedWithSimpleProduct()
@@ -294,7 +309,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_search_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $simpleData['general_sku']),
+                                       array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
@@ -328,6 +344,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3406
      * @test
      */
     public function groupedWithVirtualProduct()
@@ -335,7 +353,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_search_sku' => $virtualData['general_sku']), array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $virtualData['general_sku']),
+                                       array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
@@ -369,16 +388,18 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
+     *
+     * @TestlinkId    TL-MAGE-3404
      * @test
      */
     public function groupedWithDownloadableProduct()
     {
         //Data
         $downloadableData = $this->loadData('downloadable_product_required', null,
-                array('general_name', 'general_sku'));
+                                            array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_search_sku' => $downloadableData['general_sku']),
-                array('general_name', 'general_sku'));
+                                       array('associated_search_sku' => $downloadableData['general_sku']),
+                                       array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($downloadableData, 'downloadable');
@@ -414,17 +435,19 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * @depends groupedWithSimpleProduct
      * @depends groupedWithVirtualProduct
      * @depends groupedWithDownloadableProduct
+     *
+     * @TestlinkId    TL-MAGE-3403
      * @test
      */
     public function groupedWithAllTypesProduct($simpleSku, $virtualSku, $downloadableSku)
     {
         //Data
         $groupedData = $this->loadData('grouped_product_required', array('associated_search_sku' => $simpleSku),
-                array('general_name', 'general_sku'));
+                                       array('general_name', 'general_sku'));
         $groupedData['associated_grouped_data']['associated_grouped_2'] =
-                $this->loadData('associated_grouped', array('associated_search_sku' => $virtualSku));
+            $this->loadData('associated_grouped', array('associated_search_sku' => $virtualSku));
         $groupedData['associated_grouped_data']['associated_grouped_3'] =
-                $this->loadData('associated_grouped', array('associated_search_sku' => $downloadableSku));
+            $this->loadData('associated_grouped', array('associated_search_sku' => $downloadableSku));
         $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');

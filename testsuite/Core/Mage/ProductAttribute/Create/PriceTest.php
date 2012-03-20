@@ -80,8 +80,10 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Price" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends navigation
+     * @return array
      * @test
+     * @depends navigation
+     * @TestlinkId    TL-MAGE-3553
      */
     public function withRequiredFieldsOnly()
     {
@@ -108,8 +110,11 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Price" type] shouldn't be created.</p>
      * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $attrData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-5355
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
@@ -130,9 +135,12 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Price" type] shouldn't be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
-     * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly
+     * @param $emptyField
+     *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly.
+     * @TestlinkId TL-MAGE-3552
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -178,9 +186,13 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *
+     * @param $wrongAttributeCode
+     * @param $validationMessage
+     *
+     * @test
      * @dataProvider withInvalidAttributeCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId    TL-MAGE-3549
      */
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
@@ -217,9 +229,12 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>Error JS message: 'Please use numbers only in this field.</p>
      * <p>Please avoid spaces or other characters such as dots or commas.' is displayed.</p>
      *
+     * @param $invalidPosition
+     *
+     * @test
      * @dataProvider withInvalidPositionDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId    TL-MAGE-3550
      */
     public function withInvalidPosition($invalidPosition)
     {
@@ -257,8 +272,9 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Price" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-5356
      */
     public function withSpecialCharactersInTitle()
     {
@@ -288,8 +304,9 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      * <p>New attribute ["Price" type] successfully created.</p>
      * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3551
      */
     public function withLongValues()
     {

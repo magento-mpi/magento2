@@ -54,7 +54,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>TL-MAGE-74:Attribute Set creation - based on Default</p>
+     * <p>Attribute Set creation - based on Default</p>
      * <p>Steps</p>
      * <p>1. Click button "Add New Set"</p>
      * <p>2. Fill in fields</p>
@@ -62,7 +62,9 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
+     * @return string
      * @test
+     * @TestlinkId TL-MAGE-3161
      */
     public function basedOnDefault()
     {
@@ -76,7 +78,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>TL-MAGE-76:Attribute Set creation - existing name</p>
+     * <p>Attribute Set creation - existing name</p>
      * <p>Preconditions:</p>
      * <p>Attribute set created based on default</p>
      * <p>Steps</p>
@@ -86,8 +88,11 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Received error message "Attribute set with the "attrSet_name" name already exists."</p>
      *
-     * @depends basedOnDefault
+     * @param string $attributeSetName
+     *
      * @test
+     * @depends basedOnDefault
+     * @TestlinkId TL-MAGE-3164
      */
     public function withNameThatAlreadyExists($attributeSetName)
     {
@@ -101,15 +106,16 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>TL-MAGE-75:Attribute Set creation - empty name</p>
+     * <p>Attribute Set creation - empty name</p>
      * <p>Steps</p>
      * <p>1. Click button "Add New Set"</p>
      * <p>2. Click button "Save Attribute Set"</p>
      * <p>Expected result</p>
      * <p>Received error message "This is a required field."</p>
      *
-     * @depends basedOnDefault
      * @test
+     * @depends basedOnDefault
+     * @TestlinkId TL-MAGE-3162
      */
     public function withEmptyName()
     {
@@ -132,8 +138,9 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
-     * @depends basedOnDefault
      * @test
+     * @depends basedOnDefault
+     * @TestlinkId TL-MAGE-3163
      */
     public function withLongValues()
     {
@@ -158,8 +165,9 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
-     * @depends basedOnDefault
      * @test
+     * @depends basedOnDefault
+     * @TestlinkId TL-MAGE-3165
      */
     public function withSpecialCharacters()
     {
@@ -177,7 +185,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>TL-MAGE-77:Add user product attributes</p>
+     * <p>Add user product attributes</p>
      * <p>Preconditions</p>
      * <p>Product Attribute created</p>
      * <p>Steps</p>
@@ -190,8 +198,9 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
-     * @depends basedOnDefault
+     * @return array
      * @test
+     * @depends basedOnDefault
      */
     public function addUserProductAttributesToNewGroup()
     {
@@ -233,8 +242,11 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
-     * @depends addUserProductAttributesToNewGroup
+     * @param array $setData
+     *
      * @test
+     * @depends addUserProductAttributesToNewGroup
+     * @TestlinkId TL-MAGE-3160
      */
     public function basedOnCustom($setData)
     {

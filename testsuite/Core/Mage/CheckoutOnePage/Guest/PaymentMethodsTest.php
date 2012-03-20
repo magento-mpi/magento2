@@ -100,6 +100,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @test
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3191
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
@@ -166,6 +167,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @test
      * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3190
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {

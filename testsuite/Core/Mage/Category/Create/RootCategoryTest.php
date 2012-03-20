@@ -69,7 +69,9 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Root Category created, success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3640
      */
     public function rootCategoryWithRequiredFieldsOnly()
     {
@@ -90,7 +92,9 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Root Category created, success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3638
      */
     public function rootCategoryWithAllFields()
     {
@@ -111,11 +115,13 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Root Category not created, error message appears</p>
-     * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @test
      *
-     * @param $emptyField
-     * @param $fieldType
+     * @param string $emptyField
+     * @param string $fieldType
+     *
+     * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @TestlinkId TL-MAGE-3639
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {

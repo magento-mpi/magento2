@@ -82,6 +82,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      * @test
      * @dataProvider addressEmptyFieldsDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3195
      */
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
@@ -125,6 +126,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      * @test
      * @dataProvider addressEmptyFieldsDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3196
      */
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
@@ -215,6 +217,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3198
      */
     public function frontShippingAddressUseBillingAddress($data)
     {
@@ -254,6 +257,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3199
      */
     public function shippingMethodNotDefined($data)
     {
@@ -307,6 +311,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3197
      */
     public function frontPaymentMethodNotDefined($data)
     {

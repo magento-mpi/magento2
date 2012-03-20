@@ -126,7 +126,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-312:Invoice for full order</p>
+     * <p>Invoice for full order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -149,6 +149,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3573
      */
     public function fullInvoiceWithSavedCC($orderData)
     {
@@ -162,7 +163,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-313:Invoice for part of order</p>
+     * <p>Invoice for part of order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -187,6 +188,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3577
      */
     public function partialInvoiceWithCreditCard($orderData, $sku)
     {
@@ -203,7 +205,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-319:Credit Memo for whole invoice<p>
+     * <p>Credit Memo for whole invoice<p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -227,6 +229,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3576
      */
     public function fullCreditMemoWithCreditCard($orderData)
     {
@@ -239,7 +242,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-418:Credit Memo for part of invoice</p>
+     * <p>Credit Memo for part of invoice</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -264,7 +267,8 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @depends preconditionsForTests
+     * @depends preconditionsForTests.
+     * @TestlinkId	TL-MAGE-3576
      */
     public function partialCreditMemoWithCreditCard($orderData, $sku)
     {
@@ -280,7 +284,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-316:Shipment for order</p>
+     * <p>Shipment for order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -304,6 +308,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3574
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -317,7 +322,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-317:Shipment for part of order</p>
+     * <p>Shipment for part of order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -343,6 +348,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3578
      */
     public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
@@ -374,6 +380,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3575
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -406,7 +413,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -432,6 +439,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3579
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -468,11 +476,12 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @param string $card
      * @param bool $needSetUp
-     * @param array $orderData                                                                              l
+     * @param array $orderData
      *
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId TL-MAGE-3572
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

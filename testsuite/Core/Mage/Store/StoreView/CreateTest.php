@@ -85,8 +85,10 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends navigation
+     * @return array
      * @test
+     * @depends navigation
+     * @TestlinkId TL-MAGE-3628
      */
     public function withRequiredFieldsOnly()
     {
@@ -111,8 +113,10 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
+     * @param array $storeViewData
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3624
      */
     public function withCodeThatAlreadyExists(array $storeViewData)
     {
@@ -132,9 +136,12 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
-     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param $emptyField
+     *
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId    TL-MAGE-3627
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -167,8 +174,9 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is created. Success Message is displayed.</p>
      * <p>Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3626
      */
     public function withLongValues()
     {
@@ -195,8 +203,9 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId	TL-MAGE-3630
      */
     public function withSpecialCharactersInName()
     {
@@ -220,8 +229,9 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is not created.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3629
      */
     public function withSpecialCharactersInCode()
     {
@@ -245,9 +255,12 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Store View is not created.</p>
      * <p>Error Message is displayed.</p>
      *
+     * @param $invalidCode
+     *
+     * @test
      * @dataProvider withInvalidCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
+     * @TestlinkId    TL-MAGE-3625
      */
     public function withInvalidCode($invalidCode)
     {

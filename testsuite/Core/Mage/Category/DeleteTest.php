@@ -70,7 +70,9 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Click "Delete" button</p>
      * <p>Expected result</p>
      * <p>Root category Deleted, Success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3167
      */
     public function deleteRootCategory()
     {
@@ -96,7 +98,9 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Click "Delete" button</p>
      * <p>Expected result</p>
      * <p>Subcategory Deleted, Success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3170
      */
     public function deleteSubCategory()
     {
@@ -121,7 +125,9 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Select Root Category</p>
      * <p>Expected result</p>
      * <p>Verify that button "Delete" is absent on the page</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3171
      */
     public function rootCategoryThatCannotBeDeleted()
     {
@@ -160,7 +166,9 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Click "Delete" button</p>
      * <p>Expected result</p>
      * <p>Subcategory Deleted, Success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3168
      */
     public function deleteRootCategoryWithSubcategories()
     {
@@ -193,7 +201,9 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Click "Delete" button</p>
      * <p>Expected result</p>
      * <p>Subcategory Deleted, Success message appears</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3169
      */
     public function deleteRootCategoryWithSubcategoriesHavingProducts()
     {

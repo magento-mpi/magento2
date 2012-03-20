@@ -93,8 +93,11 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - review removed from the list</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-3600
      */
     public function deleteWithRating($data)
     {
@@ -124,8 +127,11 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - review removed from the list</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
+     *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-461
      */
     public function deleteWithoutRating($data)
     {
@@ -155,9 +161,11 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>3. Click "Submit" button;</p>
      * <p>Success message appears - review removed from the list</p>
      *
-     * @depends preconditionsForTests
+     * @param $data
      *
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId    TL-MAGE-459
      */
     public function deleteMassAction($data)
     {

@@ -66,6 +66,7 @@ class Core_Mage_Store_Store_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The store has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3489
      */
     public function deleteWithoutStoreView()
     {
@@ -93,6 +94,7 @@ class Core_Mage_Store_Store_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The store has been deleted."</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3488
      */
     public function deletableWithStoreView()
     {

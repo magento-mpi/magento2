@@ -120,6 +120,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      * @test
      * @dataProvider typesOfCaptureDataProvider
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5381
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -195,6 +196,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5382
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -273,6 +275,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5383
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -299,6 +302,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5384
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -331,7 +335,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -402,6 +406,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends orderWithSwitchMaestroCard
+     * @TestlinkId	TL-MAGE-5386
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -437,6 +442,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5387
      */
     public function orderWithSoloCard($sku)
     {

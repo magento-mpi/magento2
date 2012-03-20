@@ -108,6 +108,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3234
      */
     public function addProductToCompareListFromProductPage($data)
     {
@@ -138,6 +139,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3233
      */
     public function addProductToCompareListFromCatalogPage($data)
     {
@@ -171,6 +173,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3236
      */
     public function removeProductFromCompareBlockList($data)
     {
@@ -199,7 +202,8 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * @param array $data
      *
      * @test
-     * @depends preconditionsForTests
+     * @depends preconditionsForTests.
+     * @TestlinkId	TL-MAGE-3235
      */
     public function emptyCompareListIsNotAvailable($data)
     {

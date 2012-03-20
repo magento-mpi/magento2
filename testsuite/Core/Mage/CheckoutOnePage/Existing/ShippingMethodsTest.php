@@ -112,6 +112,7 @@ class Core_Mage_CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Seleni
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3187
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {

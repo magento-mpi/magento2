@@ -99,6 +99,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
      * @test
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3186
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
@@ -172,6 +173,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
      * @test
      * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3185
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {

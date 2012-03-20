@@ -65,8 +65,11 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      * <p>Attribute successfully deleted.</p>
      * <p>Success message: 'The product attribute has been deleted.' is displayed.</p>
      *
-     * @dataProvider deleteProductAttributeDeletableDataProvider
+     * @param $dataName
+     *
      * @test
+     * @dataProvider deleteProductAttributeDeletableDataProvider
+     * @TestlinkId    TL-MAGE-3343
      */
     public function deleteProductAttributeDeletable($dataName)
     {
@@ -106,7 +109,9 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      * <p>1.Search and open system attribute.</p>
      * <p>Expected result:</p>
      * <p>"Delete Attribute" button isn't present.</p>
+     *
      * @test
+     * @TestlinkId	TL-MAGE-3342
      */
     public function deletedSystemAttribute()
     {

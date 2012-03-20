@@ -82,8 +82,9 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      *
      * @param array $data
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3203
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
@@ -123,8 +124,9 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      *
      * @param array $data
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3204
      */
     public function withVirtualProductAndCustomerWithoutAddress($data)
     {

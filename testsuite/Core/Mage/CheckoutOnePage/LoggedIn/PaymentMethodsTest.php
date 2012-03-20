@@ -98,9 +98,10 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * @param string $payment
      * @param array $testData
      *
-     * @depends preconditionsForTests
-     * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @test
+     * @dataProvider differentPaymentMethodsWithout3DDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3201
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
@@ -170,9 +171,10 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
      * @param string $payment
      * @param array $testData
      *
-     * @depends preconditionsForTests
-     * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @test
+     * @dataProvider differentPaymentMethodsWith3DDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3200
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {

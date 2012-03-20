@@ -69,8 +69,10 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     * @test
+     *
      * @return string
+     * @test
+     * @TestlinkId TL-MAGE-3645
      */
     public function withRequiredFieldsOnly()
     {
@@ -93,10 +95,12 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Root Category created, success message appears</p>
+     *
+     * @param string $rooCat
+     *
      * @test
      * @depends withRequiredFieldsOnly
-     *
-     * @param $rooCat
+     * @TestlinkId TL-MAGE-3642
      */
     public function rootCategoryWithAllFields($rooCat)
     {
@@ -117,12 +121,14 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory not created, error message appears</p>
+     *
+     * @param string $emptyField
+     * @param string $fieldType
+     *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @test
-     *
-     * @param $emptyField
-     * @param $fieldType
+     * @TestlinkId TL-MAGE-3644
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -152,10 +158,12 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     * @depends withRequiredFieldsOnly
-     * @test
      *
-     * @param $rooCat
+     * @param string $rooCat
+     *
+     * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3644
      */
     public function withSpecialCharacters($rooCat)
     {
@@ -178,10 +186,12 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     * @depends withRequiredFieldsOnly
-     * @test
      *
-     * @param $rooCat
+     * @param string $rooCat
+     *
+     * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3644
      */
     public function withLongValues($rooCat)
     {
@@ -205,10 +215,12 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>4. Click "Save Category" button</p>
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
-     * @depends withRequiredFieldsOnly
-     * @test
      *
-     * @param $rooCat
+     * @param string $rooCat
+     *
+     * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-3641
      */
     public function nestedSubCategory($rooCat)
     {

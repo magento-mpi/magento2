@@ -65,6 +65,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
      * <p>Message "The user has been deleted." is displayed.</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-3149
      */
     public function deleteAdminUserDeletable()
     {
@@ -87,6 +88,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
      * <p>Delete logged in as Admin User</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-5228
      */
     public function deleteAdminUserCurrent()
     {

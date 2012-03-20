@@ -80,6 +80,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3269
      */
     public function amountLessThanGrandTotal($simpleSku)
     {
@@ -113,6 +114,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3268
      */
     public function amountGreaterThanGrandTotal($simpleSku)
     {
@@ -145,6 +147,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3270
      */
     public function wrongCode($simpleSku)
     {

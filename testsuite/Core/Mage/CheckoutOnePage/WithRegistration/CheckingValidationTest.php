@@ -59,7 +59,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * <p>2. Click "Checkout" button</p>
      * <p>Expected Result</p>
      * <p>Shopping Cart is Empty page appears</p>
+     *
      * @test
+     * @TestlinkId	TL-MAGE-5309
      */
     public function emptyShoppingCart()
     {
@@ -85,8 +87,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-5310
      */
     public function checkoutMethodNotDefined($simpleSku)
     {
@@ -127,9 +130,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $fieldName
      * @param string $simpleSku
      *
+     * @test
      * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId	TL-MAGE-3596
      */
     public function emptyRequiredFieldsInBillingAddress($field, $fieldName, $simpleSku)
     {
@@ -192,8 +196,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3599
      */
     public function incorrectPasswordLength($simpleSku)
     {
@@ -235,9 +240,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $wrongValue
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     * @dataProvider incorrectEmailDataProvider
      * @test
+     * @dataProvider incorrectEmailDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3598
      */
     public function incorrectEmail($wrongValue, $simpleSku)
     {
@@ -285,8 +291,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3594
      */
     public function existEmail($simpleSku)
     {
@@ -316,9 +323,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $dataName
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     * @dataProvider specialValuesForAddressFieldsDataProvider
      * @test
+     * @dataProvider specialValuesForAddressFieldsDataProvider
+     * @depends preconditionsForTests
      */
     public function specialValuesForAddressFields($dataName, $simpleSku)
     {
@@ -361,9 +368,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $fieldName
      * @param string $simpleSku
      *
+     * @test
      * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      * @depends preconditionsForTests
-     * @test
+     * @TestlinkId	TL-MAGE-3597
      */
     public function emptyRequiredFieldsInShippingAddress($field, $fieldName, $simpleSku)
     {
@@ -425,9 +433,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $fieldName
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     * @dataProvider addressLongValuesDataProvider
      * @test
+     * @dataProvider addressLongValuesDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3595
      */
     public function billingAddressLongValues($field, $fieldName, $simpleSku)
     {
@@ -469,9 +478,10 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @param string $fieldName
      * @param string $simpleSku
      *
-     * @depends preconditionsForTests
-     * @dataProvider addressLongValuesDataProvider
      * @test
+     * @dataProvider addressLongValuesDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5311
      */
     public function shippingAddressLongValues($field, $fieldName, $simpleSku)
     {

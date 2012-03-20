@@ -109,15 +109,16 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @dataProvider createShippingAddressEmptyRequiredFieldsDataProvider
      * @param string $emptyField
      * @param string $fieldType
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @dataProvider createShippingAddressEmptyRequiredFieldsDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5269
      */
     public function createShippingAddressEmptyRequiredFields($emptyField, $fieldType, $customerData, $productData)
     {
@@ -181,12 +182,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5271
      */
     public function createShippingAddressSpecialChars($customerData, $productData) //Enter New Address page
     {
@@ -236,12 +238,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5272
      */
     public function createShippingAddressLongValues($customerData, $productData) //Enter New Address
     {
@@ -291,14 +294,15 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Product removed from Shoping cart</p>
      * <p>TODO MAGE-5312</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @dataProvider selectAddressesPageInvalidQtyDataProvider
      * @param string $invalidQty
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @dataProvider selectAddressesPageInvalidQtyDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5273
      */
     public function selectAddressesPageInvalidQty($invalidQty, $customerData, $productData) //Enter New Address
     {
@@ -352,13 +356,14 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Error Message is displayed.
      * <p>(Please select shipping methods for all addresses)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @depends preconditionsConfigureShippingMethods
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @depends preconditionsConfigureShippingMethods
+     * @TestlinkId	TL-MAGE-5274
      */
     public function shippingMethodNotSelected($customerData, $productData)
     {
@@ -398,15 +403,16 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is not added.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @dataProvider createBillingAddressEmptyRequiredFieldsDataProvider
      * @param string $emptyBillingField
      * @param string $fieldType
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @dataProvider createBillingAddressEmptyRequiredFieldsDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5275
      */
     public function createBillingAddressEmptyRequiredFields($emptyBillingField, $fieldType, $customerData, $productData)
     {
@@ -464,12 +470,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5276
      */
     public function createBillingAddressSpecialChars($customerData, $productData) //Enter New Address page
     {
@@ -511,12 +518,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5277
      */
     public function createBillingAddressLongValues($customerData, $productData) //Enter New Address
     {
@@ -557,12 +565,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Error Message is displayed.
      * <p>(Payment method is not defined)</p>
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId	TL-MAGE-5278
      */
     public function paymentMethodNotSelected($customerData, $productData) //Not selected Payment Method
     {
@@ -592,15 +601,16 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Expected result:</p>
      * <p>Error Message is displayed.
      *
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @dataProvider emptyCardInfoDataProvider
      * @param string $emptyField
      * @param string $fieldType
      * @param array $customerData
      * @param array $productData
      *
      * @test
+     * @dataProvider emptyCardInfoDataProvider
+     * @depends preconditionsCreateCustomer
+     * @depends preconditionsCreateProduct
+     * @TestlinkId TL-MAGE-5279
      */
     public function emptyCardInfo($emptyField, $fieldType, $customerData, $productData) //For Credit Card (saved) only
     {

@@ -66,6 +66,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @return array $productData
      * @test
+     * @TestlinkId    TL-MAGE-3359
      */
     public function requiredFieldsForDynamicSmoke()
     {
@@ -90,7 +91,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @test
-     *
+     * @TestlinkId TL-MAGE-3360
      */
     public function requiredFieldsForFixedSmoke()
     {
@@ -115,6 +116,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3344
      */
     public function allFieldsForDynamic()
     {
@@ -144,6 +146,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3345
      */
     public function allFieldsForFixed()
     {
@@ -173,8 +176,10 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Error message appears;</p>
      *
      * @param $productData
-     * @depends requiredFieldsForDynamicSmoke
+     *
      * @test
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3351
      */
     public function existSkuInBundle($productData)
     {
@@ -200,10 +205,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @param $emptyField
      * @param $fieldType
-     * @dataProvider emptyRequiredFieldInBundleDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider emptyRequiredFieldInBundleDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3349
      */
     public function emptyRequiredFieldInBundle($emptyField, $fieldType)
     {
@@ -247,19 +253,18 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
-     * @depends requiredFieldsForDynamicSmoke
      * @test
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3361
      */
     public function specialCharactersInRequiredFields()
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
-                array(
-                    'general_name'              => $this->generate('string', 32, ':punct:'),
-                    'general_description'       => $this->generate('string', 32, ':punct:'),
-                    'general_short_description' => $this->generate('string', 32, ':punct:'),
-                    'general_sku'               => $this->generate('string', 32, ':punct:')
-                ));
+                                       array('general_name'             => $this->generate('string', 32, ':punct:'),
+                                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                                            'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -282,20 +287,19 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
-     * @depends requiredFieldsForDynamicSmoke
      * @test
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3358
      */
     public function longValuesInRequiredFields()
     {
         //Data
         $productData = $this->loadData('fixed_bundle_required',
-                array(
-                    'general_name'              => $this->generate('string', 255, ':alnum:'),
-                    'general_description'       => $this->generate('string', 255, ':alnum:'),
-                    'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                    'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                    'general_weight'            => 99999999.9999
-                ));
+                                       array('general_name'             => $this->generate('string', 255, ':alnum:'),
+                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
+                                            'general_weight'            => 99999999.9999));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -317,15 +321,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>5. Click 'Save' button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
-     *
-     * @depends requiredFieldsForDynamicSmoke
      * @test
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3352
      */
     public function incorrectSkuLengthInBundle()
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
-                array('general_sku' => $this->generate('string', 65, ':alnum:')));
+                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -344,15 +348,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>5. Click 'Save' button;</p>
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
-     *
      * @test
+     * @TestlinkId    TL-MAGE-3357
      * @group skip_due_to_bug
      */
     public function invalidWeightInBundle()
     {
         //Data
         $productData = $this->loadData('fixed_bundle_required',
-                array('general_weight' => $this->generate('string', 9, ':punct:')));
+                                       array('general_weight' => $this->generate('string', 9, ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -372,10 +376,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPrice
-     * @dataProvider invalidNumericFieldDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider invalidNumericFieldDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3354
      */
     public function invalidPriceInBundle($invalidPrice)
     {
@@ -401,10 +406,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidValue
-     * @dataProvider invalidNumericFieldDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider invalidNumericFieldDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3355
      */
     public function invalidSpecialPriceInBundle($invalidValue)
     {
@@ -431,17 +437,18 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyTierPrice
-     * @dataProvider emptyTierPriceFieldsInBundleDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider emptyTierPriceFieldsInBundleDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3350
      */
     public function emptyTierPriceFieldsInBundle($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                array($emptyTierPrice => '%noValue%'));
+                                                                   array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -471,9 +478,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidTierData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @test
+     * @TestlinkId    TL-MAGE-3356
      */
     public function invalidTierPriceInBundle($invalidTierData)
     {
@@ -507,15 +516,16 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @depends requiredFieldsForDynamicSmoke
      * @test
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3348
      */
     public function emptyBundleItemsTitle()
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                array('bundle_items_default_title' => '%noValue%'));
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+                                                                      array('bundle_items_default_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -538,17 +548,18 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPosition
-     * @dataProvider invalidNumericFieldDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider invalidNumericFieldDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3353
      */
     public function invalidPositionForBundleItems($invalidPosition)
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                array('bundle_items_position' => $invalidPosition));
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+                                                                      array('bundle_items_position' => $invalidPosition));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -573,18 +584,19 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @param $dataBundleType
-     * @dataProvider bundleTypeDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider bundleTypeDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3346
      */
     public function bundleWithSimpleProduct($dataBundleType)
     {
         //Data
         $simpleData = $this->loadData('simple_product_required');
         $bundleData = $this->loadData($dataBundleType);
-        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                array('bundle_items_search_sku' => $simpleData['general_sku']));
+        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
+                                                                     array('bundle_items_search_sku' => $simpleData['general_sku']));
         $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
@@ -616,10 +628,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @param $dataBundleType
-     * @dataProvider bundleTypeDataProvider
-     * @depends requiredFieldsForDynamicSmoke
      *
      * @test
+     * @dataProvider bundleTypeDataProvider
+     * @depends requiredFieldsForDynamicSmoke
+     * @TestlinkId    TL-MAGE-3347
      */
     public function bundleWithVirtualProduct($dataBundleType)
     {
@@ -627,7 +640,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $virtualData = $this->loadData('virtual_product_required');
         $bundleData = $this->loadData($dataBundleType);
         $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                array('bundle_items_search_sku' => $virtualData['general_sku']));
+                                                                     array('bundle_items_search_sku' => $virtualData['general_sku']));
         $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');

@@ -148,6 +148,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3289
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -194,6 +195,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3288
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -242,6 +244,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3290
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -268,6 +271,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3291
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -300,7 +304,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     }
 
     /**
-     * <p>TL-MAGE-321:Reorder.</p>
+     * <p>Reorder.</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -326,6 +330,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3292
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -369,6 +374,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3293
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -408,6 +414,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
+     * @TestlinkId	TL-MAGE-3287
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {

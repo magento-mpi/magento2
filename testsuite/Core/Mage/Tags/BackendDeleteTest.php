@@ -64,6 +64,7 @@ class Core_Mage_Tags_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the tag has been deleted.</p>
      *
      * @test
+     * @TestlinkId	TL-MAGE-3498
      */
     public function deleteNew()
     {

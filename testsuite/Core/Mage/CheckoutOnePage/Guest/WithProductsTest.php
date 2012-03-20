@@ -83,6 +83,7 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
      *
      * @test
      * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3193
      */
     public function withSimpleProduct($data)
     {
@@ -116,8 +117,9 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
      *
      * @param array $data
      *
-     * @depends preconditionsForTests
      * @test
+     * @depends preconditionsForTests
+     * @TestlinkId	TL-MAGE-3194
      */
     public function withVirtualProduct($data)
     {

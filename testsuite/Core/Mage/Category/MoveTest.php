@@ -61,7 +61,9 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
      * <p>3.Move first root category to second one;</p>
      * <p>Expected result:</p>
      * <p>Category is moved successfully</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3173
      */
     public function rootCategoryToRoot()
     {
@@ -90,7 +92,9 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
      * <p>3.Move first root category with sub to second root;</p>
      * <p>Expected result:</p>
      * <p>Category is moved successfully</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3174
      */
     public function rootWithSubToRoot()
     {
@@ -120,7 +124,9 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
      * <p>3.Move first sub category to second sub;</p>
      * <p>Expected result:</p>
      * <p>Category is moved successfully</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3175
      */
     public function subToSubNestedCategory()
     {
@@ -156,7 +162,9 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
      * <p>3.Move first root category assigned to store to second root;</p>
      * <p>Expected result:</p>
      * <p>Category is not moved</p>
+     *
      * @test
+     * @TestlinkId TL-MAGE-3172
      */
     public function rootCategoryAssignedToWebsite()
     {
