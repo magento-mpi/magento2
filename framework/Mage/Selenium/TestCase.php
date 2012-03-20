@@ -3014,4 +3014,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         throw $e;
     }
+
+    /**
+     * Operation System definition
+     *
+     * @return string
+     */
+    protected function detectOS()
+    {
+        $osName = $this->getEval('navigator.userAgent');
+        if(preg_match('/Windows/i', $osName)){
+            $osName = 'Windows';
+        } elseif (preg_match('/Linux/i', $osName)){
+            $osName = 'Linux';
+        } elseif (preg_match('/Macintosh/i', $osName)){
+            $osName = 'MacOS';
+        } else {
+            throw new Exception('System is not defined');
+        }
+        return $osName;
+    }
 }
