@@ -66,56 +66,15 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     public function isValidDataForCreateAssociationWithCountry(array $data)
     {
-        $isValid = true;
-        if (!array_key_exists('country_id', $data) || '' == trim($data['country_id'])) {
-            $this->_addError('"Country" is required.');
-            $isValid = false;
-        } else {
-            if (!is_string($data['country_id'])) {
-                $this->_addError('Invalid country identifier type.');
-                $isValid = false;
-            } else {
-                $validator = new Zend_Validate_StringLength(array('min' => 2, 'max' => 3));
-                if (!$validator->isValid($data['country_id'])) {
-                    $this->_addError("Country is not between '2' and '3' inclusively.");
-                    $isValid = false;
-                } else {
-                    /* @var $country Mage_Directory_Model_Country */
-                    $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
-                    if (!$country->getId()) {
-                        $this->_addError('Country does not exist.');
-                        $isValid = false;
-                    }
-                }
-            }
-        }
-
-        // break the validation if the country is not valid
-        if (!$isValid) {
+        // Check the country
+        $country = $this->_checkCountry($data);
+        if (false == $country) {
+            // break the validation if the country is not valid
             return false;
         }
 
-        /* @var $regions Mage_Directory_Model_Resource_Region_Collection */
-        $regions = $country->getRegions();
-
-        // Is it the country with predifined regions?
-        if ($regions->count()) {
-            if (!array_key_exists('region', $data)) {
-                $this->_addError('State/Province is required');
-                $isValid = false;
-            } else {
-                $count = $regions->addFieldToFilter(array('default_name', 'code'),
-                    array($data['region'], $data['region']))
-                    ->clear()
-                    ->count();
-                if (!$count) {
-                    $this->_addError('Region does not exist');
-                    $isValid = false;
-                }
-            }
-        }
-
-        return $isValid;
+        // Check the region
+        return $this->_checkRegion($data, $country);
     }
 
     /**
@@ -127,97 +86,102 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     public function isValidDataForChangeAssociationWithCountry(Mage_Customer_Model_Address $address, array $data)
     {
-        $isValid = true;
-
         if (!isset($data['country_id']) && !isset($data['region'])) {
-            return $isValid;
+            return true;
         }
 
         // Check the country
-        if (isset($data['country_id'])) {
-            if (!is_string($data['country_id'])) {
-                $this->_addError('Invalid country identifier type');
-                $isValid = false;
-            } else {
-                /* @var $country Mage_Directory_Model_Country */
-                $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
-                if (!$country->getId()) {
-                    $this->_addError('Country does not exist');
-                    $isValid = false;
-                }
+        if (array_key_exists('country_id', $data)) {
+            $country = $this->_checkCountry($data);
+            if (false == $country) {
+                // break the validation if the country is not valid
+                return false;
             }
-            // break the validation if the country is not valid
-            if (!$isValid) {
+        } else {
+            // if the country is not passed load the current country
+            $country = $address->getCountryModel();
+        }
+
+        // Check the region
+        return $this->_checkRegion($data, $country);
+    }
+
+    /**
+     * Check country
+     *
+     * @param array $data
+     * @return bool|Mage_Directory_Model_Country
+     */
+    protected function _checkCountry($data)
+    {
+        if (!array_key_exists('country_id', $data)) {
+            $this->_addError('"Country" is required.');
+            return false;
+        }
+
+        if (!is_string($data['country_id'])) {
+            $this->_addError('Invalid country identifier type.');
+            return false;
+        }
+
+        if ('' == trim($data['country_id'])) {
+            $this->_addError('"Country" is required.');
+            return false;
+        }
+
+        $validator = new Zend_Validate_StringLength(array('min' => 2, 'max' => 3));
+        if (!$validator->isValid($data['country_id'])) {
+            $this->_addError("Country is not between '2' and '3' inclusively.");
+            return false;
+        }
+
+        /* @var $country Mage_Directory_Model_Country */
+        $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+        if (!$country->getId()) {
+            $this->_addError('Country does not exist.');
+            return false;
+        }
+
+        return $country;
+    }
+
+    /**
+     * Check region
+     *
+     * @param array $data
+     * @param Mage_Directory_Model_Country $country
+     * @return bool
+     */
+    protected function _checkRegion($data, $country)
+    {
+        /* @var $regions Mage_Directory_Model_Resource_Region_Collection */
+        $regions = $country->getRegions();
+        // Is it the country with predifined regions?
+        if ($regions->count()) {
+            if (!array_key_exists('region', $data) || empty($data['region'])) {
+                $this->_addError('"State/Province" is required.');
+                return false;
+            }
+
+            if (!is_string($data['region'])) {
+                $this->_addError('Invalid "State/Province" type.');
+                return false;
+            }
+
+            $count = $regions->addFieldToFilter(array('default_name', 'code'), array($data['region'], $data['region']))
+                ->clear()
+                ->count();
+            if (!$count) {
+                $this->_addError('State/Province does not exist.');
+                return false;
+            }
+        } else {
+            if (array_key_exists('region', $data) && !is_string($data['region'])) {
+                $this->_addError('Invalid "State/Province" type.');
                 return false;
             }
         }
 
-        // if the country is not passed load the current country
-        if (!isset($country)) {
-            /* @var $country Mage_Directory_Model_Country */
-            $country = $address->getCountryModel();
-        }
-        /* @var $regions Mage_Directory_Model_Resource_Region_Collection */
-        $regions = $country->getRegions();
-
-        // Check the region
-        if (!isset($data['region'])) {
-            // Is it the country with predifined regions?
-            if ($regions->count()) {
-                $this->_addError('State/Province is required');
-            }
-        } else {
-            if (!is_string($data['region']) || ($regions->count() && empty($data['region']))) {
-                $this->_addError('Invalid State/Province type');
-                $isValid = false;
-            } else {
-                // Is it the country with predifined regions?
-                if ($regions->count()) {
-                    $count = $regions->addFieldToFilter(array('default_name', 'code'),
-                        array($data['region'], $data['region']))
-                        ->clear()
-                        ->count();
-                    if (!$count) {
-                        $this->_addError('Region does not exist');
-                        $isValid = false;
-                    }
-                }
-            }
-        }
-
-        return $isValid;
-    }
-
-    /**
-     * Returns an array of errors
-     *
-     * @return array
-     */
-    public function getErrors2()
-    {
-        // business asked to avoid additional validation message, so we filter it here
-        $errors        = array();
-        $helper        = Mage::helper('eav');
-        $requiredAttrs = array();
-        $isRequiredRE  = '/^' . str_replace('%s', '(.+)', preg_quote($helper->__('"%s" is a required value.'))). '$/';
-        $greaterThanRE = '/^' . str_replace(
-            '%s', '(.+)', preg_quote($helper->__('"%s" length must be equal or greater than %s characters.'))
-        ) . '$/';
-
-        // find all required attributes labels
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error, $matches)) {
-                $requiredAttrs[$matches[1]] = true;
-            }
-        }
-        // exclude additional messages for required attributes been failed
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error)
-                || !preg_match($greaterThanRE, $error, $matches)
-                || !isset($requiredAttrs[$matches[1]])) {
-                $errors[] = $error;
-            }
-        }
-        return $errors;
+        return true;
     }
 }

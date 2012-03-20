@@ -155,7 +155,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
-        $dataForCreate = $this->_getAddressData();
 
         $dataForCreate['country_id'] = array('testsdata');
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
@@ -177,7 +176,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
-        $dataForCreate = $this->_getAddressData();
 
         $dataForCreate['country_id'] = '   ';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
@@ -199,7 +197,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
-        $dataForCreate = $this->_getAddressData();
 
         $dataForCreate['country_id'] = 'INVALID_LENGTH';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
@@ -222,7 +219,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
-        $dataForCreate = $this->_getAddressData();
 
         $dataForCreate['country_id'] = '_C';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
@@ -231,6 +227,94 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertEquals($responseData['messages']['error'][0]['message'], 'Country does not exist.');
+    }
+
+    /**
+     * Test unsuccessful address create with empty region when region is required
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithEmtyRegionWhenRegionIsRequired($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+
+        $dataForCreate['country_id'] = 'US'; // for US region is required
+        unset($dataForCreate['region']);
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], '"State/Province" is required.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is required
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithInvalidRegionWhenRegionIsRequired($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+
+        $dataForCreate['country_id'] = 'US'; // for US region is required
+        $dataForCreate['region'] = array('testdata');
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+    }
+
+    /**
+     * Test unsuccessful address create with unavailable region when region is required
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithUnavailableRegionWhenRegionIsRequired($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+
+        $dataForCreate['country_id'] = 'US'; // for US region is required
+        $dataForCreate['region'] = 'INVALID_REGION';
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is not required
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithInvalidRegionWhenRegionIsNotRequired($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+
+        $dataForCreate['country_id'] = 'UA'; // for UA region is not required
+        $dataForCreate['region'] = array('testdata');
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
     }
 
     /**
@@ -320,7 +404,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test update customer address
+     * Test successful update customer address
      *
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
@@ -358,7 +442,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test update customer address with partial data
+     * Test successful update customer address with partial data
      *
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
@@ -398,6 +482,109 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test successful update customer address country association when region is required (WITH passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressCountryAssociationWhenRegionIsRequiredCase1($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'US'; // for US region is required
+        $dataForUpdate['region'] = 'New York';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful update customer address country association when region is required (WITHOUT passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressCountryAssociationWhenRegionIsRequiredCase2($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
+        $dataForUpdate['region'] = 'New York';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful update customer address country association when region is not required (WITH passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase1($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
+        $dataForUpdate['region'] = 'New York';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful update customer address country association when region is not required
+     * (WITHOUT passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase2($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $fixtureCustomerAddress->setCountryId('UA')->save();
+
+        unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
+        $dataForUpdate['region'] = 'New York';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful update customer address country association when region is not required (WITH passed country_id
+     * and WITHOUT passed region)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase3($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
+        unset($dataForUpdate['region']);
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+    }
+
+    /**
      * Test unsuccessful address update with empty required fields
      *
      * @param string $attributeCode
@@ -425,6 +612,269 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($responseData['messages']['error'] as $error) {
             $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
         }
+    }
+
+    /**
+     * Test unsuccessful address update with invalid country identifier
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithInvalidCountryIdentifier($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = array('testsdata');
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid country identifier type.');
+    }
+
+    /**
+     * Test unsuccessful address update with country identifier as spaces
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithCountryIdentifierAsSpaces($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = '   ';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], '"Country" is required.');
+    }
+
+    /**
+     * Test unsuccessful address update with wrong length country identifier
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithWrongLengthCountryIdentifier($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'INVALID_LENGTH';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'],
+            "Country is not between '2' and '3' inclusively.");
+    }
+
+    /**
+     * Test unsuccessful address update with unavailable country
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithUnavailableCountry($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = '_C';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Country does not exist.');
+    }
+
+    /**
+     * Test unsuccessful address create with empty region when region is required (WITH passed country_id)
+     * If country_id not passed too then it is successful update
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithEmtyRegionWhenRegionIsRequired($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'US'; // for US region is required
+        unset($dataForUpdate['region']);
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], '"State/Province" is required.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is required (WITH passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsRequiredCase1($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'US'; // for US region is required
+        $dataForUpdate['region'] = array('testdata');
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is not required (WITHOUT passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsRequiredCase2($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
+        $dataForUpdate['region'] = array('testdata');
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+    }
+
+    /**
+     * Test unsuccessful address create with unavailable region when region is required (WITH passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithUnavailableRegionWhenRegionIsRequiredCase1($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'US'; // for US region is required
+        $dataForUpdate['region'] = 'INVALID_REGION';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+    }
+
+    /**
+     * Test unsuccessful address create with unavailable region when region is required (WITHOUT passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithUnavailableRegionWhenRegionIsRequiredCase2($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
+        $dataForUpdate['region'] = 'INVALID_REGION';
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is not required (WITH passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsNotRequiredCase1($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+
+        $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
+        $dataForUpdate['region'] = array('testdata');
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+    }
+
+    /**
+     * Test unsuccessful address create with invalid region when region is not required (WITHOUT passed country_id)
+     *
+     * @param array $dataForUpdate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsNotRequiredCase2($dataForUpdate)
+    {
+        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
+        $fixtureCustomerAddress = $this->getFixture('customer')
+            ->getAddressesCollection()
+            ->getFirstItem();
+        $fixtureCustomerAddress->setCountryId('UA')->save();
+
+        unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
+        $dataForUpdate['region'] = array('testdata');
+        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
     }
 
     /**
