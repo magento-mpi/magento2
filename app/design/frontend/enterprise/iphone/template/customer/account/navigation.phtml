@@ -47,6 +47,7 @@
 </div>
 <a href="#" class="show-links" id="show-links">Show()</a>
 <script type="text/javascript">
+//<![CDATA[
     document.observe('dom:loaded', function () {
         $('show-links').observe('click', function (e) {
             $('account-navigation').setStyle({ 'left' : 0 });
@@ -57,4 +58,5 @@
             e.preventDefault();
         });
     });
+//]]>
 </script>

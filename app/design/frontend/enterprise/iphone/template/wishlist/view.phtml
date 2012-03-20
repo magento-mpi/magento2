@@ -76,7 +76,7 @@
                     <button type="submit" class="update-wishlist" title="<?php echo $this->__('Update Wishlist') ?>" name="do"><?php echo $this->__('Update Wishlist') ?></button>
                 </li>
                 <li class="remove-all-button">
-                    <a href="#">Remove All</a>
+                    <a href="#"><?php echo $this->__('Remove All')?></a>
                 </li>
                 <?php if($this->isSaleable()):?>
                     <li><span class="add-all-to-cart" title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()"><?php echo $this->__('Add All to Cart') ?></span></li>
