@@ -55,7 +55,7 @@
                             </h2>
                             <?php echo $this->getPriceHtml($product, true) ?>
                             <?php echo $this->getDetailsHtml($item) ?>
-                            
+
                             <span class="nobr" style="display:none;"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
 
                             <?php if ($item->canHaveQty() && $isVisibleProduct): ?>
@@ -71,7 +71,7 @@
                             <?php else: ?>
                                 <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                             <?php endif; ?>
-                            
+
                             <textarea style="display:none;" name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->getCommentValue($item); ?></textarea>
                         </div>
                         <?php if ($this->getEnabled() && $entityValues):?>
