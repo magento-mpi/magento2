@@ -17,6 +17,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
+
     /** @var Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute */
     protected $_block = null;
 

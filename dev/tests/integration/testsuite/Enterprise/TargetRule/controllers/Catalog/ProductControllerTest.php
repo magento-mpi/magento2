@@ -15,7 +15,9 @@
 class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @covers Enterprise/TargetRule/view/frontend/catalog/product/list/related.html
+     * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/related.html
+     * Checks if related products are displayed
+     *
      * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
      */
     public function testProductViewActionRelated()
@@ -26,12 +28,14 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
         $this->markTestIncomplete('Bug MAGE-6555');
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('Related Products', $content);
+        $this->assertContains('<div class="box-collateral box-related">', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 
     /**
-     * @covers Enterprise/TargetRule/view/frontend/catalog/product/list/upsell.html in scope of MAGETWO-774
+     * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/upsell.html
+     * Checks if up-sell products are displayed
+     *
      * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
      */
     public function testProductViewActionUpsell()
@@ -40,9 +44,10 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
          * add @magentoDataFixture Enterprise/TargetRule/_files/upsell.php after fix
          */
         $this->markTestIncomplete('Bug MAGE-6555');
+
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('You may also be interested in the following product(s)', $content);
+        $this->assertContains('<div class="box-collateral box-up-sell">', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 }

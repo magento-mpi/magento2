@@ -15,10 +15,9 @@
 class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentControllerTest
     extends Mage_Adminhtml_Utility_Controller
 {
-    protected $_segment = null;
-
     /**
-     * @covers Enterprise/CustomerSegment/view/adminhtml/report/detail/grid/container.phtml
+     * Checks if child 'grid' block is found in
+     * Enterprise/CustomerSegment/view/adminhtml/report/detail/grid/container.phtml
      */
     public function testSegmentAction()
     {
@@ -26,7 +25,10 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
          * add @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php after fix
          */
         $this->markTestIncomplete('Bug MAGE-6535');
-        $this->dispatch('admin/report_customer_customersegment/detail/segment_id/1');
+
+        $segment = new Enterprise_CustomerSegment_Model_Segment;
+        $segment->load('Customer Segment 1', 'name');
+        $this->dispatch('admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
         $this->assertContains('segmentGridJsObject', $content);
     }

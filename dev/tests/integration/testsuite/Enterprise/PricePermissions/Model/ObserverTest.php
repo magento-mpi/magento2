@@ -14,6 +14,7 @@
  */
 class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
 
     protected function setUp()
@@ -22,7 +23,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $this->_layout = new Mage_Core_Model_Layout;
     }
 
-    public function testAdminhtmlBlockHtmlBeforeAPO()
+    public function testAdminhtmlBlockHtmlBeforeProductOpt()
     {
         $parentBlock = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', 'admin.product.options');
         $optionsBlock = $this->_layout->addBlock(
@@ -31,7 +32,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
             'admin.product.options'
         );
 
-        $this->_initSession(false);
+        $this->_initSession();
         $this->_runAdminhtmlBlockHtmlBefore($parentBlock);
 
         $this->assertFalse($optionsBlock->getCanEditPrice());
@@ -50,7 +51,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
             'adminhtml.catalog.product.edit.tab.bundle.option'
         );
 
-        $this->_initSession(false);
+        $this->_initSession();
         $this->_runAdminhtmlBlockHtmlBefore($parentBlock);
 
         $this->assertFalse($parentBlock->getCanReadPrice());
@@ -59,7 +60,12 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $this->assertFalse($selectionBlock->getCanEditPrice());
     }
 
-    protected function _runAdminhtmlBlockHtmlBefore($block)
+    /**
+     * Prepare event and run Enterprise_PricePermissions_Model_Observer::adminhtmlBlockHtmlBefore
+     *
+     * @param Mage_Core_Block_Abstract $block
+     */
+    protected function _runAdminhtmlBlockHtmlBefore(Mage_Core_Block_Abstract $block)
     {
         $event = new Varien_Event_Observer();
         $event->setBlock($block);
@@ -68,14 +74,14 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $observer->adminhtmlBlockHtmlBefore($event);
     }
 
-    protected function _initSession($isAllowed)
+    /**
+     * Prepare session
+     */
+    protected function _initSession()
     {
         $user = new Mage_Admin_Model_User;
         $user->setId(1)->setRole(true);
-        $acl = $this->getMock('Mage_Admin_Model_Resource_Acl', array('isAllowed'));
-        $acl->expects(self::any())
-            ->method('isAllowed')
-            ->will($this->returnValue($isAllowed));
-        Mage::getSingleton('Mage_Admin_Model_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
+        $session = new Mage_Admin_Model_Session;
+        $session->setUpdatedAt(time())->setUser($user);
     }
 }

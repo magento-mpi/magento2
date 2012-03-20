@@ -12,32 +12,51 @@
 /**
  * @group module:Enterprise_AdminGws
  */
-
 class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
+     * Possible scopes for admin role
+     */
+    const SCOPE_WEBSITES = 'websites';
+    const SCOPE_STORES = 'stores';
+
+    /**
+     * Admin role
+     *
      * @var Mage_Admin_Model_Roles
      */
-    protected $_role = null;
+    protected static $_role = null;
+
     /**
+     * Admin user
+     *
      * @var Mage_Admin_Model_User
      */
-    protected $_user = null;
+    protected static $_user = null;
 
     protected function setUp()
     {
         parent::setUp();
         Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
     }
+
+    protected function tearDown()
+    {
+        self::$_role = null;
+        self::$_user = null;
+        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();
+        parent::tearDown();
+    }
+
     /**
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
+     * @magentoDataFixture roleDataFixtureWebsites
+     * @magentoDataFixture loginDataFixture
      */
     public function testValidateCatalogPermissionsWebsites()
     {
-        $this->_initRole('websites');
-        $this->_login();
         $this->dispatch('admin/catalog_category/edit/3');
         $result = $this->getResponse()->getBody();
         $this->assertContains('limited_website_ids', $result);
@@ -47,63 +66,98 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
+     * @magentoDataFixture roleDataFixtureStores
+     * @magentoDataFixture loginDataFixture
      */
     public function testValidateCatalogPermissionsStoreGroups()
     {
-        $this->_initRole('stores');
-        $this->_login();
         $this->dispatch('admin/catalog_category/edit/id/3');
         $result = $this->getResponse()->getBody();
         $this->assertContains('New Permission', $result);
         $this->assertContains('{{html_id}}_delete_button', $result);
     }
 
-    protected function _initRole($scope)
+    /**
+     * Creates role with websites scope
+     *
+     * @static
+     */
+    public static function roleDataFixtureWebsites()
     {
-        $this->_role = new Mage_Admin_Model_Roles;
-        $this->_role->setName($scope . 'Allowed')
+        self::initRole(self::SCOPE_WEBSITES);
+    }
+
+    /**
+     * Creates role with stores scope
+     *
+     * @static
+     */
+    public static function roleDataFixtureStores()
+    {
+        self::initRole(self::SCOPE_STORES);
+    }
+
+    /**
+     * Creates role with specified scope
+     *
+     * @static
+     * @param $scope string
+     */
+    protected static function initRole($scope)
+    {
+        self::$_role = new Mage_Admin_Model_Roles;
+        self::$_role->setName($scope . 'Allowed')
             ->setGwsIsAll(0)
             ->setRoleType('G')
             ->setPid('1');
-        if ('websites' == $scope) {
-            $this->_role->setGwsWebsites(Mage::app()->getWebsite()->getId());
+        if (self::SCOPE_WEBSITES == $scope) {
+            self::$_role->setGwsWebsites(Mage::app()->getWebsite()->getId());
         } else {
-            $this->_role->setGwsStoreGroups(Mage::app()->getWebsite()->getDefaultGroupId());
+            self::$_role->setGwsStoreGroups(Mage::app()->getWebsite()->getDefaultGroupId());
         }
-        $this->_role->save();
+        self::$_role->save();
 
         Mage::getModel('Mage_Admin_Model_Rules')
-            ->setRoleId($this->_role->getId())
+            ->setRoleId(self::$_role->getId())
             ->setResources(array('all'))
             ->saveRel();
     }
 
-    protected function _login()
+    /**
+     * Creates admin user with current role and performs login for this user
+     *
+     * @static
+     */
+    public static function loginDataFixture()
     {
+        if (is_null(self::$_role)) {
+            throw new Magento_Exception('Can not create user: role does not exist');
+        }
         $login = 'admingws_user';
         $password = '123123q';
-        $this->_user = new Mage_Admin_Model_User;
-        $this->_user->setFirstname('Name')
+        self::$_user = new Mage_Admin_Model_User;
+        self::$_user->setFirstname('Name')
             ->setLastname('Lastname')
             ->setEmail('example@magento.com')
             ->setUsername($login)
             ->setPassword($password)
             ->setIsActive('1')
             ->save();
-        $this->_user->setRoleIds(array($this->_role->getId()))
-            ->setRoleUserId($this->_user->getUserId())
+        self::$_user->setRoleIds(array(self::$_role->getId()))
+            ->setRoleUserId(self::$_user->getUserId())
             ->saveRelations();
-        $session = new Mage_Admin_Model_Session();
+        $session = new Mage_Admin_Model_Session;
         $session->login($login, $password);
     }
 
-    protected function tearDown()
+    /**
+     * Performs logout
+     *
+     * @static
+     */
+    public static function loginDataFixtureRollback()
     {
-        $this->_user->delete();
-        $this->_role->delete();
-        $this->_user = null;
-        $this->_role = null;
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();
-        parent::tearDown();
+        $session = new Mage_Admin_Model_Session;
+        $session->logout();
     }
 }

@@ -111,8 +111,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
-                $switchBlock->setDefaultStoreName(Mage::helper('Enterprise_CatalogEvent_Helper_Data')
-                    ->__('Default Values'))
+                $switchBlock->setDefaultStoreName($this->__('Default Values'))
                     ->setSwitchUrl($this->getUrl('*/*/*', array('_current' => true, 'store' => null)));
             }
         }

@@ -1,24 +1,19 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Banner
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_Banner
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Enterprise_Banner
-     */
-
+/**
+ * @group module:Enterprise_Banner
+ */
 class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
 {
-    protected $_role = null;
-    protected $_user = null;
-    protected $_session = null;
-
     /**
      * @dataProvider prepareLayoutDataProvider
      */
@@ -59,40 +54,5 @@ class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_F
                 'promo_catalog_edit_tabs',
             ),
         );
-    }
-
-    protected function _initWebsiteRole()
-    {
-        $this->_role = new Mage_Admin_Model_Roles;
-        $this->_role->setName('WebsitesAllowed')
-            ->setGwsIsAll(0)
-            ->setRoleType('G')
-            ->setPid('1')
-            ->setGwsWebsites(Mage::app()->getWebsite()->getId());
-        $this->_role->save();
-
-        Mage::getModel('Mage_Admin_Model_Rules')
-            ->setRoleId($this->_role->getId())
-            ->setResources(array())
-            ->saveRel();
-    }
-
-    protected function _login()
-    {
-        $login = 'admingws_user';
-        $password = '123123q';
-        $this->_user = new Mage_Admin_Model_User;
-        $this->_user->setFirstname('Name')
-            ->setLastname('Lastname')
-            ->setEmail('example@magento.com')
-            ->setUsername($login)
-            ->setPassword($password)
-            ->setIsActive('1')
-            ->save();
-        $this->_user->setRoleIds(array($this->_role->getId()))
-            ->setRoleUserId($this->_user->getUserId())
-            ->saveRelations();
-        $this->_session = new Mage_Admin_Model_Session();
-        $this->_session->login($login, $password);
     }
 }

@@ -10,7 +10,7 @@
  */
 
 $data = array(
-    'name' => 'test',
+    'name' => 'Customer Segment 1',
     'is_active' => '1',
 );
 $segment = new Enterprise_CustomerSegment_Model_Segment;

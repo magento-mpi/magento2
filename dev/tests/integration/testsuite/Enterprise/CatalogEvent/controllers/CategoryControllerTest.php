@@ -15,29 +15,35 @@
 class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
-     * @covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons()
-     * in scope of MAGETWO-774
+     * Covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Add Event button
+     *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testEditCategoryAction()
     {
         $this->dispatch('admin/catalog_category/edit/id/3');
-        $this->assertContains('Add Event...', $this->getResponse()->getBody());
+        $this->assertContains(
+            'onclick="setLocation(\'http://localhost/index.php/admin/catalog_event/new/category_id/',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**
-     * @covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons()
-     * in scope of MAGETWO-774
+     * Covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Edit Event button
+     *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture eventDataFixture
      */
     public function testEditCategoryActionEditEvent()
     {
-        $this->_addEvent();
         $this->dispatch('admin/catalog_category/edit/id/3');
-        $this->assertContains('Edit Event...', $this->getResponse()->getBody());
+        $this->assertContains(
+            'onclick="setLocation(\'http://localhost/index.php/admin/catalog_event/edit/id/',
+            $this->getResponse()->getBody()
+        );
     }
 
-    protected function _addEvent()
+    public static function eventDataFixture()
     {
         $event = new Enterprise_CatalogEvent_Model_Event;
         $event->setStoreId(0);

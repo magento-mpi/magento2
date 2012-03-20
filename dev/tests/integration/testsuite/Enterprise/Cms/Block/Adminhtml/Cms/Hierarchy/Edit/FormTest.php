@@ -1,21 +1,22 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Cms
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_Cms
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Enterprise_Cms
-     */
+/**
+ * @group module:Enterprise_Cms
+ */
 class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
+
     /** @var Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
     protected $_block = null;
 

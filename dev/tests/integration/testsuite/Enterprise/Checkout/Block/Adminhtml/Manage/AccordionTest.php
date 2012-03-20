@@ -1,21 +1,23 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Checkout
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_Checkout
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Enterprise_Checkout
-     */
+/**
+ * @group module:Enterprise_Checkout
+ */
 class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
+
+    /** @var Enterprise_Checkout_Block_Adminhtml_Manage_Accordion */
     protected $_block = null;
 
     protected function setUp()
@@ -27,7 +29,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
 
     public function testToHtml()
     {
-        $this->_initAcl(true);
+        $this->_initAcl();
         $parentName = $this->_block->getNameInLayout();
         $this->_block->setArea('adminhtml');
 
@@ -59,14 +61,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
         $this->assertContains($blockContent, $html);
     }
 
-    protected function _initAcl($return)
+    /**
+     * Substitutes real ACL object for mocked one to make it always return TRUE
+     */
+    protected function _initAcl()
     {
         $user = new Mage_Admin_Model_User;
         $user->setId(1)->setRole(true);
         $acl = $this->getMock('Mage_Admin_Model_Resource_Acl', array('isAllowed'));
         $acl->expects(self::any())
             ->method('isAllowed')
-            ->will($this->returnValue($return));
+            ->will($this->returnValue(true));
         Mage::getSingleton('Mage_Admin_Model_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
     }
 }

@@ -1,29 +1,27 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Checkout
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_Checkout
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Enterprise_Checkout
-     */
+/**
+ * @group module:Enterprise_Checkout
+ */
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
-    protected $_layout;
     /** @var Mage_Core_Block_Abstract */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = new Mage_Core_Model_Layout;
-        $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
+        $layout = new Mage_Core_Model_Layout;
+        $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
     }
 
     public function testPrepareLayout()

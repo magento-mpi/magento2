@@ -14,6 +14,7 @@
  */
 class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
 
     protected function setUp()
@@ -30,12 +31,15 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
         $this->_layout->addBlock('Mage_Adminhtml_Block_Template', $childBlock, $parentBlock);
         $gridBlock = $this->_layout->addBlock('Mage_Adminhtml_Block_Template', 'banners_grid_serializer', $childBlock);
 
-        $this->_initSession(false);
-        $this->assertEquals(
+        $this->assertSame(
             $gridBlock,
             $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer')
         );
-        $this->_runAdminhtmlBlockHtmlBefore($block);
+        Mage::getConfig()->setNode('modules/Enterprise_Banner/active', '1');
+        $event = new Varien_Event_Observer();
+        $event->setBlock($block);
+        $observer = new Enterprise_PromotionPermissions_Model_Observer;
+        $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
     }
@@ -46,25 +50,5 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
             array('promo_quote_edit_tabs', 'salesrule.related.banners'),
             array('promo_catalog_edit_tabs', 'catalogrule.related.banners'),
         );
-    }
-
-    protected function _runAdminhtmlBlockHtmlBefore($block)
-    {
-        Mage::getConfig()->setNode('modules/Enterprise_Banner/active', '1');
-        $event = new Varien_Event_Observer();
-        $event->setBlock($block);
-        $observer = new Enterprise_PromotionPermissions_Model_Observer;
-        $observer->adminhtmlBlockHtmlBefore($event);
-    }
-
-    protected function _initSession($return)
-    {
-        $user = new Mage_Admin_Model_User;
-        $user->setId(1)->setRole(true);
-        $acl = $this->getMock('Mage_Admin_Model_Resource_Acl', array('isAllowed'));
-        $acl->expects(self::any())
-            ->method('isAllowed')
-            ->will($this->returnValue($return));
-        Mage::getSingleton('Mage_Admin_Model_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
     }
 }
