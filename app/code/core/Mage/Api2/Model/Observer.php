@@ -56,4 +56,31 @@ class Mage_Api2_Model_Observer
             $resourceModel->saveAdminToRoleRelation($user->getId(), $roles[0]);
         }
     }
+
+    /**
+     * After save attribute if it is not visible on front remove it from Attribute ACL
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Api2_Model_Observer
+     */
+    public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
+    {
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $attribute = $observer->getEvent()->getAttribute();
+        if ($attribute->getIsUserDefined() && $attribute->dataHasChangedFor('is_visible_on_front')
+            && !$attribute->getIsVisibleOnFront()) {
+            /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
+            $collection = Mage::getResourceModel('api2/acl_filter_attribute_collection');
+            /** @var $aclFilter Mage_Api2_Model_Acl_Filter_Attribute */
+            foreach ($collection as $aclFilter) {
+                if ($aclFilter->getResourceId() != Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL) {
+                    $allowedAttributes = explode(',', $aclFilter->getAllowedAttributes());
+                    $allowedAttributes = array_diff($allowedAttributes, array($attribute->getAttributeCode()));
+                    $aclFilter->setAllowedAttributes(implode(',', $allowedAttributes))->save();
+                }
+            }
+        }
+
+        return $this;
+    }
 }

@@ -198,5 +198,15 @@
                 </api2>
             </updates>
         </layout>
+        <events>
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <api2>
+                        <class>api2/observer</class>
+                        <method>catalogAttributeSaveAfter</method>
+                    </api2>
+                </observers>
+            </catalog_entity_attribute_save_after>
+        </events>
     </adminhtml>
 </config>
