@@ -208,7 +208,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertEquals($responseData['messages']['error'][0]['message'],
-            "Country is not between '2' and '3', inclusively.");
+            "Country is not between '2' and '3' inclusively.");
     }
 
     /**

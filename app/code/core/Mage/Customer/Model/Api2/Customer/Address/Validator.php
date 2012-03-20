@@ -75,9 +75,9 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
                 $this->_addError('Invalid country identifier type.');
                 $isValid = false;
             } else {
-                $validator = new Zend_Validate_Between(array('min' => 2, 'max' => 3, 'inclusive' => true));
+                $validator = new Zend_Validate_StringLength(array('min' => 2, 'max' => 3));
                 if (!$validator->isValid($data['country_id'])) {
-                    $this->_addError("Country is not between '2' and '3', inclusively.");
+                    $this->_addError("Country is not between '2' and '3' inclusively.");
                     $isValid = false;
                 } else {
                     /* @var $country Mage_Directory_Model_Country */
