@@ -43,6 +43,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      * Get table column names and column numbers
      *
      * @param string $tableHeadName
+     * @param bool $transforKeys
+     *
      * @return array
      */
     public function getColumnNamesAndNumbers($tableHeadName = 'product_table_head', $transforKeys = true)
@@ -124,7 +126,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                         foreach ($values as $k => $v) {
                             if ($k % 2 != 0 && isset($values[$k - 1])) {
                                 $productValues['product_' . $i][$key . '_'
-                                        . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                                    . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
                             }
                         }
                     } else {
@@ -153,7 +155,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     /**
      * Get all order prices info in Shopping Cart
      *
-     * @return type
+     * @return array
      */
     public function getOrderPriceData()
     {
@@ -166,8 +168,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                 if (!preg_match('/\$\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
                     $fieldName = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $fieldName)), '_');
                 }
-                $fielValue = $this->getText($setXpath . "[$i]/*[2]");
-                $returnData[$fieldName] = trim($fielValue, "\x00..\x1F");
+                $fieldValue = $this->getText($setXpath . "[$i]/*[2]");
+                $returnData[$fieldName] = trim($fieldValue, "\x00..\x1F");
             }
         }
 
@@ -196,7 +198,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         $expectedProductQty = count($productData);
         if ($actualProductQty != $expectedProductQty) {
             $this->addVerificationMessage("'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
-                    . $expectedProductQty . "'");
+                                              . $expectedProductQty . "'");
         } else {
             for ($i = 1; $i <= $actualProductQty; $i++) {
                 $productName = '';
@@ -273,10 +275,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
 
     /**
      *
-     * @param type $shippingMethod
-     * @param type $validate
+     * @param array $shippingMethod
      */
-    public function chooseShipping($shippingMethod, $validate)
+    public function chooseShipping($shippingMethod)
     {
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
@@ -295,7 +296,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                     $this->waitForAjax();
                 } else {
                     $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                            . $shipService . '" is currently unavailable.');
+                                                      . $shipService . '" is currently unavailable.');
                 }
             } else {
                 $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
@@ -318,7 +319,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                 $this->type($this->_getControlXpath('field', 'product_qty'), 0);
             }
             $this->clickButton('update_shopping_cart');
-            $this->assertTrue($this->successMessage('shopping_cart_is_empty'), 'Shopping cart is not empty');
+            $this->assertMessagePresent('success', 'shopping_cart_is_empty');
         }
     }
 
@@ -329,8 +330,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function frontMoveToWishlist($productNameSet)
     {
-        if (is_string($productNameSet))
+        if (is_string($productNameSet)) {
             $productNameSet = array($productNameSet);
+        }
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
             if ($this->controlIsPresent('checkbox', 'move_to_wishlist')) {
@@ -346,13 +348,15 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      * Verifies if the product(s) are in the Shopping Cart
      *
      * @param string|array $productNameSet Product name (string) or array of product names to check
-     * @return true|array True if the products are all present.
+     *
+     * @return bool|array True if the products are all present.
      *                    Otherwise returns an array of product names that are absent.
      */
     public function frontShoppingCartHasProducts($productNameSet)
     {
-        if (is_string($productNameSet))
+        if (is_string($productNameSet)) {
             $productNameSet = array($productNameSet);
+        }
         $absentProducts = array();
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);

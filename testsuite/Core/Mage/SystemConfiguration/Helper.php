@@ -70,9 +70,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
                 $this->fillForm($settings, $tab);
                 $this->saveForm('save_config');
-                $this->assertTrue($this->successMessage('success_saved_config'), 'Configuration are not saved');
+                $this->assertMessagePresent('success', 'success_saved_config');
             }
-
         }
     }
 

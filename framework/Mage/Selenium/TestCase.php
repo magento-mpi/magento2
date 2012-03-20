@@ -1069,7 +1069,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $message Message ID from UIMap
      *
-     * @return bool
+     * @return array
      */
     public function checkMessage($message)
     {
@@ -1100,7 +1100,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param null|string $message Error message ID from UIMap OR XPath of the error message (by default = null)
      *
-     * @return bool
+     * @return array
      */
     public function errorMessage($message = null)
     {
@@ -1114,7 +1114,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param null|string $message Success message ID from UIMap OR XPath of the success message (by default = null)
      *
-     * @return bool
+     * @return array
      */
     public function successMessage($message = null)
     {
@@ -1128,7 +1128,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param null|string $message Validation message ID from UIMap OR XPath of the validation message (by default = null)
      *
-     * @return bool
+     * @return array
      */
     public function validationMessage($message = null)
     {

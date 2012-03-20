@@ -38,4 +38,4 @@ not_display_out_of_stock_products:
     tab_1:
         tab_name: catalog_inventory
         configuration:
-            display_out_of_stock_products: Yes
+            display_out_of_stock_products: No
