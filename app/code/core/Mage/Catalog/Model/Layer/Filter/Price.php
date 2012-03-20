@@ -279,7 +279,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         );
 
         if ($appliedInterval) {
-            if ($appliedInterval[0] == $appliedInterval[1]) {
+            if ($appliedInterval[0] == $appliedInterval[1] || $appliedInterval[1] === '0') {
                 return array();
             }
             $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
