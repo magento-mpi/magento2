@@ -67,18 +67,25 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
     public function isValidDataForCreateAssociationWithCountry(array $data)
     {
         $isValid = true;
-        if (!isset($data['country_id'])) {
-            $this->_addError('Country is required');
+        if (!array_key_exists('country_id', $data) || '' == trim($data['country_id'])) {
+            $this->_addError('"Country" is required.');
+            $isValid = false;
         } else {
-            if (!is_string($data['country_id']) || empty($data['country_id'])) {
-                $this->_addError('Invalid country identifier type');
+            if (!is_string($data['country_id'])) {
+                $this->_addError('Invalid country identifier type.');
                 $isValid = false;
             } else {
-                /* @var $country Mage_Directory_Model_Country */
-                $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
-                if (!$country->getId()) {
-                    $this->_addError('Country does not exist');
+                $validator = new Zend_Validate_Between(array('min' => 2, 'max' => 3, 'inclusive' => true));
+                if (!$validator->isValid($data['country_id'])) {
+                    $this->_addError("Country is not between '2' and '3', inclusively.");
                     $isValid = false;
+                } else {
+                    /* @var $country Mage_Directory_Model_Country */
+                    $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+                    if (!$country->getId()) {
+                        $this->_addError('Country does not exist.');
+                        $isValid = false;
+                    }
                 }
             }
         }
@@ -93,7 +100,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
 
         // Is it the country with predifined regions?
         if ($regions->count()) {
-            if (!isset($data['region'])) {
+            if (!array_key_exists('region', $data)) {
                 $this->_addError('State/Province is required');
                 $isValid = false;
             } else {
@@ -128,7 +135,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
 
         // Check the country
         if (isset($data['country_id'])) {
-            if (!is_string($data['country_id']) || empty($data['country_id'])) {
+            if (!is_string($data['country_id'])) {
                 $this->_addError('Invalid country identifier type');
                 $isValid = false;
             } else {
@@ -186,7 +193,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      *
      * @return array
      */
-    public function getErrors()
+    public function getErrors2()
     {
         // business asked to avoid additional validation message, so we filter it here
         $errors        = array();

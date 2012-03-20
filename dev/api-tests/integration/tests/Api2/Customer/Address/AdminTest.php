@@ -145,6 +145,95 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test unsuccessful address create with invalid country identifier
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithInvalidCountryIdentifier($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getAddressData();
+
+        $dataForCreate['country_id'] = array('testsdata');
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid country identifier type.');
+    }
+
+    /**
+     * Test unsuccessful address create with country identifier as spaces
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithCountryIdentifierAsSpaces($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getAddressData();
+
+        $dataForCreate['country_id'] = '   ';
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], '"Country" is required.');
+    }
+
+    /**
+     * Test unsuccessful address create with wrong length country identifier
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithWrongLengthCountryIdentifier($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getAddressData();
+
+        $dataForCreate['country_id'] = 'INVALID_LENGTH';
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'],
+            "Country is not between '2' and '3', inclusively.");
+    }
+
+    /**
+     * Test unsuccessful address create with unavailable country
+     *
+     * @param array $dataForCreate
+     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @dataProvider providerAddressData
+     */
+    public function testCreateCustomerAddressWithUnavailableCountry($dataForCreate)
+    {
+        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
+        $fixtureCustomer = $this->getFixture('customer');
+        $dataForCreate = $this->_getAddressData();
+
+        $dataForCreate['country_id'] = '_C';
+        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+
+        $responseData = $restResponse->getBody();
+        $this->assertArrayHasKey('error', $responseData['messages']);
+        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Country does not exist.');
+    }
+
+    /**
      * Test filter data in create customer address
      *
      * @param $dataForCreate
