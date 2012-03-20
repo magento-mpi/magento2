@@ -44,14 +44,14 @@
                         $isVisibleProduct = $product->isVisibleInSiteVisibility();
                     ?>
                     <li <?php if (!$item->canHaveQty()) echo 'class="no-qty"' ?>>
-                        <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(90, 90); ?>" width="45" height="45" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                        <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(90, 90); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                         <div class="wishlist-item">
                             <h2>
                                 <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove btn-remove2"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
                                 <?php if ($isVisibleProduct): ?>
                                     <a class="btn-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('E') ?></a>
                                 <?php endif ?>
-                                <a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a>
+                                <a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
                             </h2>
                             <?php echo $this->getPriceHtml($product, true) ?>
                             <?php echo $this->getDetailsHtml($item) ?>
