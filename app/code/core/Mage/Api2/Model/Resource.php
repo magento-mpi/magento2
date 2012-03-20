@@ -738,11 +738,18 @@ abstract class Mage_Api2_Model_Resource
     {
         $filter = $this->getRequest()->getFilter();
 
-        if (!method_exists($collection, 'addAttributeToFilter') || !$filter) {
+        if (!$filter) {
             return $this;
         }
         if (!is_array($filter)) {
             $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+        }
+        if (method_exists($collection, 'addAttributeToFilter')) {
+            $methodName = 'addAttributeToFilter';
+        } elseif (method_exists($collection, 'addFieldToFilter')) {
+            $methodName = 'addFieldToFilter';
+        } else {
+            return $this;
         }
         $allowedAttributes = $this->getFilter()->getAllowedAttributes(self::OPERATION_ATTRIBUTE_READ);
 
@@ -757,7 +764,7 @@ abstract class Mage_Api2_Model_Resource
             unset($filterEntry['attribute']);
 
             try {
-                $collection->addAttributeToFilter($attributeCode, $filterEntry);
+                $collection->$methodName($attributeCode, $filterEntry);
             } catch(Exception $e) {
                 $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
             }
