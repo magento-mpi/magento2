@@ -85,12 +85,22 @@
                         <read>
                             <has_custom_options>1</has_custom_options>
                             <tier_price>1</tier_price>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
                         </read>
                     </customer>
                     <guest>
                         <read>
                             <has_custom_options>1</has_custom_options>
                             <tier_price>1</tier_price>
+                            <total_reviews_count>1</total_reviews_count>
+                            <url>1</url>
+                            <buy_now_url>1</buy_now_url>
+                            <has_custom_options>1</has_custom_options>
+                            <is_in_stock>1</is_in_stock>
                         </read>
                     </guest>
                 </entity_only_attributes>
