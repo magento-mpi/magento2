@@ -76,8 +76,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $this->_applyCategoryFilter($collection);
         $this->_applyCollectionModifiers($collection);
         $products = $collection->load();
-        // add tier prices to items that are already loaded
-        $collection->addTierPriceData();
 
         /** @var Mage_Catalog_Model_Product $product */
         foreach ($products as $product) {
