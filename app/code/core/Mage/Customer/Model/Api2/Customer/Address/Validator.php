@@ -34,101 +34,9 @@
 class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Model_Resource_Validator_Eav
 {
     /**
-     * A list of all available countries in a form of country ID => array(region name => region ID, ...)
-     *
-     * @var array
+     * Separator for multistreet
      */
-    protected $_countries = null;
-
-    /**
-     * Validatior object constructor
-     *
-     * @param array $options
-     */
-    public function __construct($options)
-    {
-        parent::__construct($options);
-
-        $this->_loadCountries();
-    }
-
-    /**
-     * Lazy load and return country list
-     *
-     * @return array|null
-     */
-    protected function _loadCountries()
-    {
-        if (null === $this->_countries) {
-            /** @var $countriesCollection Mage_Directory_Model_Resource_Country_Collection */
-            $countriesCollection = Mage::getResourceModel('directory/country_collection');
-            $this->_countries    = array();
-
-            foreach ($countriesCollection as $country) {
-                $this->_countries[$country->getId()] = array();
-            }
-            /** @var $regionsCollection Mage_Directory_Model_Resource_Region_Collection */
-            $regionsCollection = Mage::getResourceModel('directory/region_collection');
-
-            foreach ($regionsCollection->getItems() as $region) {
-                $this->_countries[$region->getCountryId()][$region->getName()] = $region->getId();
-                $this->_countries[$region->getCountryId()][$region->getCode()] = $region->getId();
-            }
-        }
-        return $this->_countries;
-    }
-
-    /**
-     * Validate country identifier
-     *
-     * @param string $countryId
-     * @return bool
-     */
-    protected function _isCountryIdValid($countryId)
-    {
-        if (!is_string($countryId)) {
-            $this->_addError('Invalid country identifier type');
-
-            return false;
-        }
-        if (!isset($this->_countries[$countryId])) {
-            $this->_addError('Country does not exist');
-
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates region
-     *
-     * @param string $countryId
-     * @param string $region
-     * @return bool
-     */
-    protected function _isCountryRegionValid($countryId, $region)
-    {
-        if (!is_string($region) && false !== $region) {
-            $this->_addError('Invalid State/Province type');
-
-            return false;
-        }
-        $region = trim($region);
-
-        if (!empty($this->_countries[$countryId])) {
-            if (!strlen($region)) {
-                $this->_addError('State/Province is required');
-
-                return false;
-            }
-            if (!isset($this->_countries[$countryId][$region])) {
-                $this->_addError('State/Province is invalid');
-
-                return false;
-            }
-        }
-        return true;
-    }
+    const STREET_SEPARATOR = '; ';
 
     /**
      * Filter request data.
@@ -138,25 +46,139 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     public function filter(array $data)
     {
-        foreach ($data as &$field) {
-            if (is_string($field) && !strlen(trim($field))) {
-                $field = null;
-            }
-        }
-        unset($field);
+        $data = parent::filter($data);
 
-        return parent::filter($data);
+        // If the array contains more than two elements, then combine the extra elements in a string
+        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
+            $data['street'][1] .= self::STREET_SEPARATOR
+                . implode(self::STREET_SEPARATOR, array_slice($data['street'], 2));
+            $filteredData['street'] = array_slice($data['street'], 0, 2);
+        }
+
+        return $data;
     }
 
     /**
-     * Return country regions
+     * Validate data for create association with the country
      *
-     * @param string $countryId Country identifier
-     * @return array
+     * @param array $data
+     * @return bool
      */
-    public function getCountryRegions($countryId)
+    public function isValidDataForCreateAssociationWithCountry(array $data)
     {
-        return isset($this->_countries[$countryId]) ? $this->_countries[$countryId] : array();
+        $isValid = true;
+        if (!isset($data['country_id'])) {
+            $this->_addError('Country is required');
+        } else {
+            if (!is_string($data['country_id']) || empty($data['country_id'])) {
+                $this->_addError('Invalid country identifier type');
+                $isValid = false;
+            } else {
+                /* @var $country Mage_Directory_Model_Country */
+                $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+                if (!$country->getId()) {
+                    $this->_addError('Country does not exist');
+                    $isValid = false;
+                }
+            }
+        }
+
+        // break the validation if the country is not valid
+        if (!$isValid) {
+            return false;
+        }
+
+        /* @var $regions Mage_Directory_Model_Resource_Region_Collection */
+        $regions = $country->getRegions();
+
+        // Is it the country with predifined regions?
+        if ($regions->count()) {
+            if (!isset($data['region'])) {
+                $this->_addError('State/Province is required');
+                $isValid = false;
+            } else {
+                $count = $regions->addFieldToFilter(array('default_name', 'code'),
+                    array($data['region'], $data['region']))
+                    ->clear()
+                    ->count();
+                if (!$count) {
+                    $this->_addError('Region does not exist');
+                    $isValid = false;
+                }
+            }
+        }
+
+        return $isValid;
+    }
+
+    /**
+     * Validate data for change association with the country
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @param array $data
+     * @return bool
+     */
+    public function isValidDataForChangeAssociationWithCountry(Mage_Customer_Model_Address $address, array $data)
+    {
+        $isValid = true;
+
+        if (!isset($data['country_id']) && !isset($data['region'])) {
+            return $isValid;
+        }
+
+        // Check the country
+        if (isset($data['country_id'])) {
+            if (!is_string($data['country_id']) || empty($data['country_id'])) {
+                $this->_addError('Invalid country identifier type');
+                $isValid = false;
+            } else {
+                /* @var $country Mage_Directory_Model_Country */
+                $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+                if (!$country->getId()) {
+                    $this->_addError('Country does not exist');
+                    $isValid = false;
+                }
+            }
+            // break the validation if the country is not valid
+            if (!$isValid) {
+                return false;
+            }
+        }
+
+        // if the country is not passed load the current country
+        if (!isset($country)) {
+            /* @var $country Mage_Directory_Model_Country */
+            $country = $address->getCountryModel();
+        }
+        /* @var $regions Mage_Directory_Model_Resource_Region_Collection */
+        $regions = $country->getRegions();
+
+        // Check the region
+        if (!isset($data['region'])) {
+            // Is it the country with predifined regions?
+            if ($regions->count()) {
+                $this->_addError('State/Province is required');
+            }
+        } else {
+            if (!is_string($data['region']) || ($regions->count() && empty($data['region']))) {
+                $this->_addError('Invalid State/Province type');
+                $isValid = false;
+            } else {
+                // Is it the country with predifined regions?
+                if ($regions->count()) {
+                    $count = $regions->addFieldToFilter(array('default_name', 'code'),
+                        array($data['region'], $data['region']))
+                        ->clear()
+                        ->count();
+                    if (!$count) {
+                        $this->_addError('Region does not exist');
+                        $isValid = false;
+                    }
+                }
+            }
+        }
+
+        return $isValid;
     }
 
     /**
@@ -190,18 +212,5 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
             }
         }
         return $errors;
-    }
-
-    /**
-     * Validate entity
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function isValidData(array $data)
-    {
-        return parent::isValidData($data)
-            && $this->_isCountryIdValid($data['country_id'])
-            && $this->_isCountryRegionValid($data['country_id'], $data['region']);
     }
 }

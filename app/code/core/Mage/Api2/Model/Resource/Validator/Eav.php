@@ -67,22 +67,13 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     protected $_eavForm;
 
     /**
-     * Operation. One of Mage_Api2_Model_Resource::OPERATION_... constant
-     *
-     * @var string
-     */
-    protected $_operation;
-
-    /**
      * Construct. Set all depends.
      *
      * Required parameteres for options:
      * - resource
-     * - operation
      *
      * @param array $options
      * @throws Exception If passed parameter 'resource' is wrong
-     * @throws Exception If passed parameter 'operation' is empty
      * @throws Exception If config parameter 'formPath' is empty
      * @throws Exception If config parameter 'formCode' is empty
      * @throws Exception If config parameter 'entity' is wrong
@@ -96,11 +87,6 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         }
         $resource = $options['resource'];
         $userType = $resource->getUserType();
-
-        if (empty($options['operation'])) {
-            throw new Exception("Passed parameter 'operation' is empty.");
-        }
-        $this->_operation = $options['operation'];
 
         $validationConfig = $resource->getConfig()->getValidationConfig(
             $resource->getResourceType(), self::CONFIG_NODE_KEY);
@@ -140,25 +126,44 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
      */
     public function filter(array $data)
     {
-        return $this->_eavForm->extractData($this->_eavForm->prepareRequest($data));
+        return array_intersect_key($this->_eavForm->extractData($this->_eavForm->prepareRequest($data)), $data);
     }
 
     /**
      * Validate entity.
+     * If the $partial parameter is TRUE, then we validate only those parameters that were passed.
+     *
      * If fails validation, then this method returns false, and
      * getErrors() will return an array of errors that explain why the
      * validation failed.
      *
-     * @param  array $data
+     * @param array $data
+     * @param bool $partial
      * @return bool
      */
-    public function isValidData(array $data)
+    public function isValidData(array $data, $partial = false)
     {
-        $errors = $this->_eavForm->validateData($data);
-        if (true !== $errors) {
+        $errors = array();
+        foreach ($this->_eavForm->getAttributes() as $attribute) {
+            if ($partial && !array_key_exists($attribute->getAttributeCode(), $data)) {
+                continue;
+            }
+            if ($this->_eavForm->ignoreInvisible() && !$attribute->getIsVisible()) {
+                continue;
+            }
+
+            $result = Mage_Eav_Model_Attribute_Data::factory($attribute, $this->_eavForm->getEntity())
+                ->setExtractedData($data)->validateValue($data[$attribute->getAttributeCode()]);
+            if ($result !== true) {
+                $errors = array_merge($errors, $result);
+            }
+        }
+
+        if (count($errors)) {
             $this->_setErrors($errors);
             return false;
         }
+
         return true;
     }
 }

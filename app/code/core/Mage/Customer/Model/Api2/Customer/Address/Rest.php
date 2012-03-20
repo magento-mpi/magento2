@@ -43,38 +43,32 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     protected function _create(array $data)
     {
         /* @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('customer_id'));
         $validator = $this->_getValidator();
 
-        // If the array contains more than two elements, then combine the extra elements in a string
-        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
-            $data['street'][1] .= self::STREET_SEPARATOR
-                . implode(self::STREET_SEPARATOR, array_slice($data['street'], 2));
-            $data['street'] = array_slice($data['street'], 0, 2);
-        }
         $data = $validator->filter($data);
-
-        if (!$validator->isValidData($data)) {
+        if (!$validator->isValidData($data) || !$validator->isValidDataForCreateAssociationWithCountry($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
-        $data['region'] = $this->_getRegionId($data['country_id'], $data['region']);
 
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::getModel('customer/address');
-        $customerAddress->setData($data);
-        $customerAddress->setCustomer($customer);
+        $data['region'] = $this->_getRegionIdByNameOrCode($data['region']);
+
+        /* @var $address Mage_Customer_Model_Address */
+        $address = Mage::getModel('customer/address');
+        $address->setData($data);
+        $address->setCustomer($customer);
 
         try {
-            $customerAddress->save();
+            $address->save();
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-        return $this->_getLocation($customerAddress);
+        return $this->_getLocation($address);
     }
 
     /**
@@ -117,7 +111,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     protected function _getCollectionForRetrieve()
     {
         /* @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('customer_id'));
 
         /* @var $collection Mage_Customer_Model_Resource_Address_Collection */
         $collection = $customer->getAddressesCollection();
@@ -135,8 +129,8 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
     protected function _getDefaultAddressesInfo(Mage_Customer_Model_Address $address)
     {
         return array(
-            'is_default_billing'  => (int) $this->_isDefaultBillingAddress($address),
-            'is_default_shipping' => (int) $this->_isDefaultShippingAddress($address)
+            'is_default_billing'  => (int)$this->_isDefaultBillingAddress($address),
+            'is_default_shipping' => (int)$this->_isDefaultShippingAddress($address)
         );
     }
 
@@ -148,37 +142,24 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
      */
     protected function _update(array $data)
     {
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
+        /* @var $address Mage_Customer_Model_Address */
+        $address = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
         $validator = $this->_getValidator();
 
-        // If the array contains more than two elements, then combine the extra elements in a string
-        if (isset($data['street']) && is_array($data['street']) && count($data['street']) > 2) {
-            $data['street'][1] .= self::STREET_SEPARATOR
-                . implode(self::STREET_SEPARATOR, array_slice($data['street'], 2));
-            $data['street'] = array_slice($data['street'], 0, 2);
-        }
-        $filteredData = $validator->filter($data);
-
-        // set not-changed data from current address
-        foreach ($filteredData as $key => $attrValue) {
-            if (!array_key_exists($key, $data)) {
-                $filteredData[$key] = $customerAddress->getData($key);
-            }
-        }
-        $filteredData += $data;
-
-        if (!$validator->isValidData($filteredData)) {
+        $data = $validator->filter($data);
+        if (!$validator->isValidData($data, true)
+            || !$validator->isValidDataForChangeAssociationWithCountry($address, $data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
-        $filteredData['region'] = $this->_getRegionId($filteredData['country_id'], $filteredData['region']);
-        $customerAddress->addData($filteredData);
+
+        $data['region'] = $this->_getRegionIdByNameOrCode($data['region']);
+        $address->addData($data);
 
         try {
-            $customerAddress->save();
+            $address->save();
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -191,57 +172,21 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
      */
     protected function _delete()
     {
-        /* @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
+        /* @var $address Mage_Customer_Model_Address */
+        $address = $this->_loadCustomerAddressById($this->getRequest()->getParam('id'));
 
-        if ($this->_isDefaultBillingAddress($customerAddress) || $this->_isDefaultShippingAddress($customerAddress)) {
+        if ($this->_isDefaultBillingAddress($address) || $this->_isDefaultShippingAddress($address)) {
             $this->_critical(
                 'Address is default for customer so is not allowed to be deleted',
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST
             );
         }
         try {
-            $customerAddress->delete();
+            $address->delete();
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             $this->_critical(self::RESOURCE_INTERNAL_ERROR);
         }
-    }
-
-    /**
-     * Load customer address by id
-     *
-     * @param int $id
-     * @return Mage_Customer_Model_Address
-     */
-    protected function _loadCustomerAddressById($id)
-    {
-        /* @var $address Mage_Customer_Model_Address */
-        $address = Mage::getModel('customer/address')->load($id);
-
-        if (!$address->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        $address->addData($this->_getDefaultAddressesInfo($address));
-
-        return $address;
-    }
-
-    /**
-     * Load customer by id
-     *
-     * @param int $id
-     * @throws Mage_Api2_Exception
-     * @return Mage_Customer_Model_Customer
-     */
-    protected function _loadCustomerById($id)
-    {
-        /* @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($id);
-        if (!$customer->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        return $customer;
     }
 }

@@ -34,26 +34,6 @@
 class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
 {
     /**
-     * Separator for multistreet
-     */
-    const STREET_SEPARATOR = '; ';
-
-    /**
-     * Find region identifier by its name
-     *
-     * @param string $countryId Country identifier
-     * @param string $region Region name
-     * @return string
-     */
-    protected function _getRegionId($countryId, $region)
-    {
-        // convert region name into ID
-        $countries = $this->_getValidator()->getCountryRegions($countryId);
-
-        return isset($countries[$region]) ? $countries[$region] : $region;
-    }
-
-    /**
      * Resource specific method to retrieve attributes' codes. May be overriden in child.
      *
      * @return array
@@ -70,9 +50,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
      */
     protected function _getValidator()
     {
-        return Mage::getSingleton(
-            'customer/api2_customer_address_validator', array('resource' => $this, 'operation' => self::OPERATION_CREATE
-        ));
+        return Mage::getModel('customer/api2_customer_address_validator', array('resource' => $this));
     }
 
     /**
@@ -95,5 +73,57 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     protected function _isDefaultShippingAddress(Mage_Customer_Model_Address $address)
     {
         return $address->getCustomer()->getDefaultShipping() == $address->getId();
+    }
+
+    /**
+     * Get region id by name or code
+     * If id is not found then return passed $region
+     *
+     * @param string $region
+     * @return int|string
+     */
+    protected function _getRegionIdByNameOrCode($region)
+    {
+        $id = Mage::getResourceModel('directory/region_collection')
+            ->addFieldToFilter(array('default_name', 'code'), array($region, $region))
+            ->getFirstItem()
+            ->getId();
+        return $id ? $id : $region;
+    }
+
+    /**
+     * Load customer address by id
+     *
+     * @param int $id
+     * @return Mage_Customer_Model_Address
+     */
+    protected function _loadCustomerAddressById($id)
+    {
+        /* @var $address Mage_Customer_Model_Address */
+        $address = Mage::getModel('customer/address')->load($id);
+
+        if (!$address->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        $address->addData($this->_getDefaultAddressesInfo($address));
+
+        return $address;
+    }
+
+    /**
+     * Load customer by id
+     *
+     * @param int $id
+     * @throws Mage_Api2_Exception
+     * @return Mage_Customer_Model_Customer
+     */
+    protected function _loadCustomerById($id)
+    {
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer')->load($id);
+        if (!$customer->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        return $customer;
     }
 }

@@ -202,7 +202,7 @@
                         <action_type>entity</action_type>
                     </route_entity>
                     <route_collection>
-                        <route>/customers/:id/addresses</route>
+                        <route>/customers/:customer_id/addresses</route>
                         <action_type>collection</action_type>
                     </route_collection>
                 </routes>
