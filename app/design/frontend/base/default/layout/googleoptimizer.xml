@@ -36,9 +36,7 @@ Product view
             <block type="googleoptimizer/code_product" before="-" name="googleoptimizer.control.script">
                 <action method="setScriptType"><scriptType>control_script</scriptType></action>
             </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="googleoptimizer/code_product" after="-" name="googleoptimizer.tracking.script">
+            <block type="googleoptimizer/code_product" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
                 <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
             </block>
         </reference>
@@ -49,9 +47,7 @@ Product view
             <block type="googleoptimizer/code_category" before="-" name="googleoptimizer.control.script">
                 <action method="setScriptType"><scriptType>control_script</scriptType></action>
             </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="googleoptimizer/code_category" after="-" name="googleoptimizer.tracking.script">
+            <block type="googleoptimizer/code_category" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
                 <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
             </block>
         </reference>
@@ -62,9 +58,7 @@ Product view
             <block type="googleoptimizer/code_category" before="-" name="googleoptimizer.control.script">
                 <action method="setScriptType"><scriptType>control_script</scriptType></action>
             </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="googleoptimizer/code_category" after="-" name="googleoptimizer.tracking.script">
+            <block type="googleoptimizer/code_category" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
                 <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
             </block>
         </reference>
@@ -75,16 +69,14 @@ Product view
             <block type="googleoptimizer/code_page" before="-" name="googleoptimizer.control.script">
                 <action method="setScriptType"><scriptType>control_script</scriptType></action>
             </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="googleoptimizer/code_page" after="-" name="googleoptimizer.tracking.script">
+            <block type="googleoptimizer/code_page" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
                 <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
             </block>
         </reference>
     </cms_page>
 
     <checkout_cart_index>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>checkout_cart</pageType></action>
@@ -93,7 +85,7 @@ Product view
     </checkout_cart_index>
 
     <checkout_onepage_index>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>checkout_onepage</pageType></action>
@@ -102,7 +94,7 @@ Product view
     </checkout_onepage_index>
 
     <checkout_onepage_success>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>checkout_onepage_success</pageType></action>
@@ -111,7 +103,7 @@ Product view
     </checkout_onepage_success>
 
     <checkout_multishipping_success>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>checkout_multishipping_success</pageType></action>
@@ -120,7 +112,7 @@ Product view
     </checkout_multishipping_success>
 
     <checkout_multishipping>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>checkout_multishipping</pageType></action>
@@ -129,7 +121,7 @@ Product view
     </checkout_multishipping>
 
     <customer_account_create>
-        <reference name="before_body_end">
+        <reference name="head">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
                 <action method="setPageType"><pageType>customer_account_create</pageType></action>
