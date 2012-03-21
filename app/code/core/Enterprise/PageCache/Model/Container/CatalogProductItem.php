@@ -55,13 +55,6 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
     protected $_itemPosition;
 
     /**
-     * Flag switched in getter to store data immediately after info cache is initialized
-     *
-     * @var bool
-     */
-    protected $_isInfoCacheEmpty = false;
-
-    /**
      * Info cache additional id
      *
      * @var null|string
@@ -168,9 +161,6 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
                     $info = $cacheRecord[$this->_getInfoCacheId()];
                 }
             }
-            if (!$info) {
-                $this->_isInfoCacheEmpty = true;
-            }
             self::$_sharedInfoData[$placeholderName]['info'] = $info;
         }
         return isset($key) ? (isset($info[$key]) ? $info[$key] : null) : $info;
@@ -254,10 +244,6 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
                 }
             }
 
-            if ($this->_isInfoCacheEmpty && !empty(self::$_sharedInfoData[$placeholderName]['info'])) {
-                $this->_saveInfoCache();
-            }
-
             if (is_null($this->_itemPosition)) {
                 $this->_itemPosition = self::$_sharedInfoData[$placeholderName]['cursor'];
             }
@@ -330,12 +316,23 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             return '';
         }
 
+        /** @var $item Mage_Catalog_Model_Product */
         $item = Mage::getModel('catalog/product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($itemId);
 
         $block = $this->_getPlaceHolderBlock();
         $block->setItem($item);
+
+        $priceBlock = $this->_placeholder->getAttribute('price_block_type_' . $item->getTypeId() . '_block');
+        if (!empty($priceBlock)) {
+            $block->addPriceBlockType(
+                $item->getTypeId(),
+                $priceBlock,
+                $this->_placeholder->getAttribute('price_block_type_' . $item->getTypeId() . '_template')
+            );
+        }
+
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();

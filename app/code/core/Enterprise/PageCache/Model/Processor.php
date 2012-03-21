@@ -270,7 +270,7 @@ class Enterprise_PageCache_Model_Processor
      * Get page content from cache storage
      *
      * @param string $content
-     * @return string | false
+     * @return string|false
      */
     public function extractContent($content)
     {
@@ -294,7 +294,6 @@ class Enterprise_PageCache_Model_Processor
             return false;
         }
         if (!$content && $this->isAllowed()) {
-
             $subprocessorClass = $this->getMetadata('cache_subprocessor');
             if (!$subprocessorClass) {
                 return $content;
@@ -393,7 +392,7 @@ class Enterprise_PageCache_Model_Processor
          * restore session_id in content whether content is completely processed or not
          */
         $sidCookieName = $this->getMetadata('sid_cookie_name');
-        $sidCookieValue = ($sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '');
+        $sidCookieValue = $sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '';
         Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
 
         if ($isProcessed) {
@@ -409,11 +408,11 @@ class Enterprise_PageCache_Model_Processor
 
             // restore original routing info
             $routingInfo = array(
-                    'aliases'              => $this->getMetadata('routing_aliases'),
-                    'requested_route'      => $this->getMetadata('routing_requested_route'),
-                    'requested_controller' => $this->getMetadata('routing_requested_controller'),
-                    'requested_action'     => $this->getMetadata('routing_requested_action')
-                );
+                'aliases'              => $this->getMetadata('routing_aliases'),
+                'requested_route'      => $this->getMetadata('routing_requested_route'),
+                'requested_controller' => $this->getMetadata('routing_requested_controller'),
+                'requested_action'     => $this->getMetadata('routing_requested_action')
+            );
 
             Mage::app()->getRequest()->setRoutingInfo($routingInfo);
             return false;
