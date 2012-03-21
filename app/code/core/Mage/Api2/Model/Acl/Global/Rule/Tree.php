@@ -107,6 +107,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     protected $_initialized = false;
 
     /**
+     * Flag if resource has entity only attributes
+     *
+     * @var bool
+     */
+    protected $_hasEntityOnlyAttributes = false;
+
+    /**
      * Constructor
      *
      * In the constructor should be set tree type: attributes or privileges.
@@ -513,5 +520,27 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     public function getResourcesPermissions()
     {
         return $this->_resourcesPermissions;
+    }
+
+    /**
+     * Set has entity only attributes flag
+     *
+     * @param bool $hasEntityOnlyAttributes
+     * @return Mage_Api2_Model_Acl_Global_Rule_Tree
+     */
+    public function setHasEntityOnlyAttributes($hasEntityOnlyAttributes)
+    {
+        $this->_hasEntityOnlyAttributes = $hasEntityOnlyAttributes;
+        return $this;
+    }
+
+    /**
+     * Get has entity only attributes flag
+     *
+     * @return bool
+     */
+    public function getHasEntityOnlyAttributes()
+    {
+        return $this->_hasEntityOnlyAttributes;
     }
 }

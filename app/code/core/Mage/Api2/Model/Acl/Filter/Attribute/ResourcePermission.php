@@ -49,6 +49,13 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
     protected $_userType;
 
     /**
+     * Flag if resource has entity only attributes
+     *
+     * @var bool
+     */
+    protected $_hasEntityOnlyAttributes = false;
+
+    /**
      * Get resources permissions for selected role
      *
      * @return array
@@ -109,6 +116,11 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                                 ->setUserType($this->_userType);
 
                             foreach ($operations as $operation => $operationLabel) {
+                                if (!$this->_hasEntityOnlyAttributes
+                                    && $config->getResourceEntityOnlyAttributes($resource, $this->_userType,
+                                    $operation)) {
+                                    $this->_hasEntityOnlyAttributes = true;
+                                }
                                 $availableAttributes = $resourceModel->getAvailableAttributes(
                                     $this->_userType,
                                     $operation
@@ -153,5 +165,15 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
         }
         $this->_userType = $userType;
         return $this;
+    }
+
+    /**
+     * Get flag value
+     *
+     * @return bool
+     */
+    public function getHasEntityOnlyAttributes()
+    {
+        return $this->_hasEntityOnlyAttributes;
     }
 }
