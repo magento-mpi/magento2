@@ -280,11 +280,12 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
                 foreach ($requiredFields as $field) {
                     $this->assertArrayHasKey($field, $resultProductData, "'$field' field is missing in response");
                 }
-                $fieldsMustNotBeSet = array('image_url', 'is_in_stock', 'total_reviews_count', 'url', 'buy_now_url',
+                $fieldsMustNotBeSet = array('is_in_stock', 'total_reviews_count', 'url', 'buy_now_url',
                     'tier_price', 'has_custom_options');
                 foreach ($fieldsMustNotBeSet as $field) {
                     $this->assertArrayNotHasKey($field, $resultProductData, "'$field' field should not be in response");
                 }
+                $this->_checkGetImageUrl($resultProductData);
                 // check attribute values
                 foreach ($resultProductData as $key => $resultProductValue) {
                     if (!is_array($resultProductValue)) {
@@ -324,11 +325,8 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
      * @param array $productData
      * @param string $productId
      */
-    protected function _checkGetUrls(&$productData, $productId)
+    protected function _checkGetProductUrls(&$productData, $productId)
     {
-        $this->assertNotEmpty($productData['image_url'], 'Image url is not set');
-        unset($productData['image_url']);
-
         $this->assertContains($productId, $productData['url'], 'Product url seems to be invalid');
         $this->_testUrlWithCurl($productData, 'url');
         unset($productData['url']);
@@ -337,7 +335,28 @@ class Api2_Catalog_Products_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $this->assertContains('checkout/cart/add', $productData['buy_now_url'], 'Buy now url seems to be invalid');
         $this->_testUrlWithCurl($productData, 'buy_now_url', 302);
         unset($productData['buy_now_url']);
+    }
 
+    /**
+     * Check if product image URL is correct
+     *
+     * @param array $productData
+     * @param string $productId
+     */
+    protected function _checkGetImageUrl(&$productData, $productId)
+    {
+        $this->assertNotEmpty($productData['image_url'], 'Image url is not set');
+        $this->_testUrlWithCurl($productData, 'image_url');
+        unset($productData['image_url']);
+    }
+
+    /**
+     * Check if product total reviews count is correct
+     *
+     * @param array $productData
+     */
+    protected function _checkGetTotalReviewCount(&$productData)
+    {
         $this->assertGreaterThanOrEqual(0, $productData['total_reviews_count']);
         unset($productData['total_reviews_count']);
     }
