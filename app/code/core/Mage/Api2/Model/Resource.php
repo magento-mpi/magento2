@@ -98,6 +98,11 @@ abstract class Mage_Api2_Model_Resource
     const DEFAULT_PAGE_SIZE = 10;
 
     /**
+     * Max page size
+     */
+    const MAX_PAGE_SIZE = 100;
+
+    /**
      * Request
      *
      * @var Mage_Api2_Model_Request
@@ -719,13 +724,22 @@ abstract class Mage_Api2_Model_Resource
      */
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
-        $request    = $this->getRequest();
-        $pageNumber = $request->getPageNumber();
-        $orderField = $request->getOrderField();
-
+        $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
             $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
         }
+
+        $pageSize   = $this->getRequest()->getPageSize();
+        if (null == $pageSize) {
+            $pageSize = self::DEFAULT_PAGE_SIZE;
+        } else {
+            if ($pageSize != abs($pageSize) || $pageSize >= self::MAX_PAGE_SIZE) {
+                $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
+            }
+        }
+
+        $orderField = $this->getRequest()->getOrderField();
+
         if (null !== $orderField) {
             $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
             if (!is_string($orderField)
@@ -733,9 +747,9 @@ abstract class Mage_Api2_Model_Resource
 
                 $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
-            $collection->setOrder($orderField, $request->getOrderDirection());
+            $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());
         }
-        $collection->setCurPage($pageNumber)->setPageSize(self::DEFAULT_PAGE_SIZE);
+        $collection->setCurPage($pageNumber)->setPageSize($pageSize);
 
         return $this->_applyFilter($collection);
     }

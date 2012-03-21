@@ -328,6 +328,19 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Test for getPageSize() method
+     */
+    public function testGetPageSize()
+    {
+        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE, 5);
+        $this->assertNull($this->_request->getPageSize());
+
+        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $this->assertEquals(5, $this->_request->getPageSize());
+    }
+
+    /**
      * Test for getRequestedAttributes() method
      */
     public function testGetRequestedAttributes()

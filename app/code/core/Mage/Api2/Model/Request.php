@@ -43,6 +43,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     const QUERY_PARAM_REQ_ATTRS   = 'attrs';
     const QUERY_PARAM_PAGE_NUM    = 'page';
+    const QUERY_PARAM_PAGE_SIZE   = 'limit';
     const QUERY_PARAM_ORDER_FIELD = 'order';
     const QUERY_PARAM_ORDER_DIR   = 'dir';
     const QUERY_PARAM_FILTER      = 'filter';
@@ -247,6 +248,16 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getPageNumber()
     {
         return $this->getQuery(self::QUERY_PARAM_PAGE_NUM);
+    }
+
+    /**
+     * Retrieve page size requested by API user
+     *
+     * @return mixed
+     */
+    public function getPageSize()
+    {
+        return $this->getQuery(self::QUERY_PARAM_PAGE_SIZE);
     }
 
     /**
