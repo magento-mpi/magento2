@@ -70,7 +70,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $controllerClass
      * @param string $expectedArea
-     * @dataProvider getLayoutDataProvider
+     * @dataProvider controllerAreaDesignDataProvider
      * @magentoAppIsolation enabled
      */
     public function testGetLayout($controllerClass, $expectedArea)
@@ -79,16 +79,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
         $this->assertInstanceOf('Mage_Core_Model_Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
-    }
-
-    public function getLayoutDataProvider()
-    {
-        return array(
-            'install'  => array('Mage_Install_Controller_Action',    'install'),
-            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend'),
-            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml'),
-            'api'      => array('Mage_Api_Controller_Action',        'adminhtml'),
-        );
     }
 
     /**
@@ -166,8 +156,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatch()
     {
-        $this->markTestIncomplete('MAGETWO-753');
-
         $request = new Magento_Test_Request();
         $request->setDispatched();
 
@@ -202,7 +190,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store design/theme/full_name           default/iphone/default
      * @magentoAppIsolation  enabled
      *
-     * @dataProvider preDispatchDataProvider
+     * @dataProvider controllerAreaDesignDataProvider
      *
      * @param string $controllerClass
      * @param string $expectedArea
@@ -211,8 +199,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
-        $this->markTestIncomplete('MAGETWO-753');
-
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
         $controller->preDispatch();
@@ -223,7 +209,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function preDispatchDataProvider()
+    public function controllerAreaDesignDataProvider()
     {
         return array(
             'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/default/default'),

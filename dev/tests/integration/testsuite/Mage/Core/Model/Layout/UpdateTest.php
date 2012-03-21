@@ -54,15 +54,6 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->_model->asString());
     }
 
-    public function testResetUpdates()
-    {
-        $this->_model->addUpdate('test1');
-        $this->_model->addUpdate('test2');
-        $this->_model->resetUpdates();
-        $this->assertEmpty($this->_model->asArray());
-        $this->assertEmpty($this->_model->asString());
-    }
-
     public function testAddHandle()
     {
         $this->assertEmpty($this->_model->getHandles());
@@ -75,16 +66,6 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_model->addHandle('test');
         $this->_model->removeHandle('test');
         $this->assertEmpty($this->_model->getHandles());
-    }
-
-    public function testResetHandles()
-    {
-        $this->_model->addHandle('test1');
-        $this->_model->addHandle('test2');
-        $this->_model->addPageHandles(array('catalog_category_view'));
-        $this->_model->resetHandles();
-        $this->assertEmpty($this->_model->getHandles());
-        $this->assertEmpty($this->_model->getPageHandles());
     }
 
     public function testAddPageHandles()

@@ -14,6 +14,17 @@
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container extends Mage_Core_Block_Html_Select
 {
     /**
+     * Assign attributes for the HTML select element
+     */
+    protected function _construct()
+    {
+        $this->setName('block');
+        $this->setClass('required-entry select');
+        $this->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\','
+            . ' this.up(\'div.group_container\'), this.value)"');
+    }
+
+    /**
      * Add necessary options
      *
      * @return Mage_Core_Block_Abstract

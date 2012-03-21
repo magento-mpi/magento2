@@ -116,17 +116,6 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Reset all registered updates
-     *
-     * @return Mage_Core_Model_Layout_Update
-     */
-    public function resetUpdates()
-    {
-        $this->_updates = array();
-        return $this;
-    }
-
-    /**
      * Add XML update instruction
      *
      * @param string $update
@@ -156,18 +145,6 @@ class Mage_Core_Model_Layout_Update
     public function asString()
     {
         return implode('', $this->_updates);
-    }
-
-    /**
-     * Reset all registered layout handles
-     *
-     * @return Mage_Core_Model_Layout_Update
-     */
-    public function resetHandles()
-    {
-        $this->_handles = array();
-        $this->_pageHandles = array();
-        return $this;
     }
 
     /**

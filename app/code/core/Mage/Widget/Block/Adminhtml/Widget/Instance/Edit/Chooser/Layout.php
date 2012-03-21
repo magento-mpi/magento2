@@ -22,15 +22,16 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
     {
         if (!$this->getOptions()) {
             $this->addOption('', Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --'));
-            $layoutUpdate = $this->_getLayoutUpdate(array(
+            $layoutUpdateParams = array(
                 'area'    => $this->getArea(),
                 'package' => $this->getPackage(),
                 'theme'   => $this->getTheme(),
-            ));
+            );
             $pageTypes = array();
-            foreach ($layoutUpdate->getPageTypesHierarchy() as $pageTypeName => $pageTypeInfo) {
+            $pageTypesAll = $this->_getLayoutUpdate($layoutUpdateParams)->getPageTypesHierarchy();
+            foreach ($pageTypesAll as $pageTypeName => $pageTypeInfo) {
+                $layoutUpdate = $this->_getLayoutUpdate($layoutUpdateParams);
                 $layoutUpdate->addPageHandles(array($pageTypeName));
-                $layoutUpdate->resetUpdates();
                 $layoutUpdate->load();
                 if (!$layoutUpdate->getContainers()) {
                     continue;
