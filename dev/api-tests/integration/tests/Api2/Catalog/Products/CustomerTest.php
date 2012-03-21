@@ -77,9 +77,12 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         if (self::getFixture('tmp_customer_address')) {
             self::deleteFixture('tmp_customer_address', true);
         }
-        $this->_customerDefaultBillingAddress->setIsDefaultBilling(true)->save();
-        $this->_customerDefaultShippingAddress->setIsDefaultShipping(true)->save();
-
+        if (is_object($this->_customerDefaultBillingAddress)) {
+            $this->_customerDefaultBillingAddress->setIsDefaultBilling(true)->save();
+        }
+        if (is_object($this->_customerDefaultShippingAddress)) {
+            $this->_customerDefaultShippingAddress->setIsDefaultShipping(true)->save();
+        }
         parent::tearDown();
     }
 
