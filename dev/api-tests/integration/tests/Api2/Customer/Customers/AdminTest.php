@@ -260,7 +260,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $collection = $this->_customer->getCollection();
         $collection->setOrder('entity_id', Varien_Data_Collection::SORT_ORDER_ASC);
 
-        $this->assertSame($collection->getAllIds(Mage_Api2_Model_Resource::DEFAULT_PAGE_SIZE), $customerIds);
+        $this->assertSame($collection->getAllIds(Mage_Api2_Model_Resource::PAGE_SIZE_DEFAULT), $customerIds);
     }
 
     /**

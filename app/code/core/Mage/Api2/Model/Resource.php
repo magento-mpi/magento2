@@ -92,15 +92,12 @@ abstract class Mage_Api2_Model_Resource
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
     /**#@-*/
 
-    /**
-     * Default page size
+    /**#@+
+     * Collection page sizes
      */
-    const DEFAULT_PAGE_SIZE = 10;
-
-    /**
-     * Max page size
-     */
-    const MAX_PAGE_SIZE = 100;
+    const PAGE_SIZE_DEFAULT = 10;
+    const PAGE_SIZE_MAX     = 100;
+    /**#@-*/
 
     /**
      * Request
@@ -729,11 +726,11 @@ abstract class Mage_Api2_Model_Resource
             $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
         }
 
-        $pageSize   = $this->getRequest()->getPageSize();
+        $pageSize = $this->getRequest()->getPageSize();
         if (null == $pageSize) {
-            $pageSize = self::DEFAULT_PAGE_SIZE;
+            $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
-            if ($pageSize != abs($pageSize) || $pageSize >= self::MAX_PAGE_SIZE) {
+            if ($pageSize != abs($pageSize) || $pageSize >= self::PAGE_SIZE_MAX) {
                 $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
             }
         }
