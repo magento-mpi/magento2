@@ -35,6 +35,34 @@
 class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Customer
 {
     /**
+     * Identifier of existent default billing address for test customer for backup purposes
+     *
+     * @var Mage_Customer_Model_Address
+     */
+    protected $_customerDefaultBillingAddress;
+
+    /**
+     * Identifier of existent default shipping address for test customer for backup purposes
+     *
+     * @var Mage_Customer_Model_Address
+     */
+    protected $_customerDefaultShippingAddress;
+
+    /**
+     * Sets up the fixture.
+     */
+    public function setUp()
+    {
+        $customer = Mage::getModel('customer/customer');
+        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+
+        $this->_customerDefaultBillingAddress = $customer->getDefaultBillingAddress();
+        $this->_customerDefaultShippingAddress = $customer->getDefaultShippingAddress();
+
+        $this->_addAddressToCustomer($customer);
+    }
+
+    /**
      * Delete fixtures
      */
     protected function tearDown()
@@ -46,6 +74,12 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
                 $this->addModelToDelete($product, true);
             }
         }
+        if (self::getFixture('tmp_customer_address')) {
+            self::deleteFixture('tmp_customer_address', true);
+        }
+        $this->_customerDefaultBillingAddress->setIsDefaultBilling(true)->save();
+        $this->_customerDefaultShippingAddress->setIsDefaultShipping(true)->save();
+
         parent::tearDown();
     }
 
@@ -67,6 +101,7 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function testGet()
     {
+        self::deleteFixture('tmp_customer_address', true);
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
 
@@ -110,14 +145,6 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function testGetWithTaxCalculation()
     {
-        // assure that customer has appropriate billing and shipping addresses
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer');
-        $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
-        if (!$customer->getDefaultBillingAddress() || !$customer->getDefaultShippingAddress()) {
-            $this->_addAddressToCustomer($customer);
-        }
-
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple_taxes');
         $this->assertEquals(10, $product->getPrice(), 'Product price is expected to be 10 for tax calculation tests');
@@ -215,6 +242,8 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         ));
         $address->setCustomer($customer);
         $address->save();
+
+        Magento_Test_Webservice::setFixture('tmp_customer_address', $address);
     }
 
     /**
