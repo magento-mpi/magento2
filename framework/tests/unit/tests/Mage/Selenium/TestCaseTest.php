@@ -643,4 +643,38 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $instance->setUrlPostfix(null);
         $this->assertTrue($instance->checkCurrentPage('home'));
     }
+
+    /**
+     * @covers Mage_Selenium_TestCase::detectOS
+     */
+    public function testCheckOsType()
+    {
+        //Stub
+        $driverStub = $this->getMock('Mage_Selenium_Driver', array('getEval'));
+        $driverStub->expects($this->at(0))
+            ->method('getEval')
+            ->will($this->returnValue('Windows')
+        );
+        $driverStub->expects($this->at(1))
+            ->method('getEval')
+            ->will($this->returnValue('Linux')
+        );
+        $driverStub->expects($this->at(2))
+            ->method('getEval')
+            ->will($this->returnValue('Macintosh')
+        );
+        $driverStub->expects($this->at(3))
+            ->method('getEval')
+            ->will($this->returnValue('PalmOS')
+        );
+        //Steps
+        $instance = new Mage_Selenium_TestCase();
+        $reflector = new ReflectionProperty('Mage_Selenium_TestCase', 'drivers');
+        $reflector->setAccessible(true);
+        $reflector->setValue($instance, array($driverStub));
+        $this->assertEquals('Windows', $instance->detectOS(), 'System name is incorrect');
+        $this->assertEquals('Linux', $instance->detectOS(), 'System name is incorrect');
+        $this->assertEquals('MacOS', $instance->detectOS(), 'System name is incorrect');
+        $this->assertEquals('Unknown OS', $instance->detectOS(), 'System name is incorrect');
+    }
 }

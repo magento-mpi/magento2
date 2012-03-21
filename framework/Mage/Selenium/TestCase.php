@@ -1815,6 +1815,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Operation System definition
+     *
+     * @return string Windows|Linux|MacOS|Unknown OS
+     */
+    public function detectOS()
+    {
+
+        $osName = $this->getEval('navigator.userAgent');
+        if(preg_match('/Windows/i', $osName)){
+            return 'Windows';
+        } elseif (preg_match('/Linux/i', $osName)){
+            return 'Linux';
+        } elseif (preg_match('/Macintosh/i', $osName)){
+            return 'MacOS';
+        }
+        return 'Unknown OS';
+    }
+
+    /**
      * Clicks a control with the specified name and type.
      *
      * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
@@ -3013,25 +3032,5 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function onNotSuccessfulTest(Exception $e)
     {
         throw $e;
-    }
-
-    /**
-     * Operation System definition
-     *
-     * @return string
-     */
-    protected function detectOS()
-    {
-        $osName = $this->getEval('navigator.userAgent');
-        if(preg_match('/Windows/i', $osName)){
-            $osName = 'Windows';
-        } elseif (preg_match('/Linux/i', $osName)){
-            $osName = 'Linux';
-        } elseif (preg_match('/Macintosh/i', $osName)){
-            $osName = 'MacOS';
-        } else {
-            throw new Exception('System is not defined');
-        }
-        return $osName;
     }
 }
