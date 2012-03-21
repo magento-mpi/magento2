@@ -162,7 +162,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid country identifier type.');
+        $this->assertEquals('Invalid country identifier type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -183,7 +183,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], '"Country" is required.');
+        $this->assertEquals('"Country" is required.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -204,8 +204,8 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'],
-            "Country is not between '2' and '3' inclusively.");
+        $this->assertEquals("Country is not between '2' and '3' inclusively.",
+            $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -226,7 +226,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Country does not exist.');
+        $this->assertEquals('Country does not exist.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -248,7 +248,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], '"State/Province" is required.');
+        $this->assertEquals('"State/Province" is required.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -270,7 +270,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -292,7 +292,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+        $this->assertEquals('State/Province does not exist.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -314,7 +314,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -344,7 +344,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
         $createdCustomerAddress = Mage::getModel('customer/address')
             ->load($addressId);
-        $this->assertEquals($createdCustomerAddress->getData('firstname'), 'testFirstnameTest');
+        $this->assertEquals('testFirstnameTest', $createdCustomerAddress->getData('firstname'));
 
         // Restore data
         $attribute->setInputFilter($currentInputFilter)->save();
@@ -634,7 +634,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid country identifier type.');
+        $this->assertEquals('Invalid country identifier type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -657,7 +657,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], '"Country" is required.');
+        $this->assertEquals('"Country" is required.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -680,8 +680,8 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'],
-            "Country is not between '2' and '3' inclusively.");
+        $this->assertEquals("Country is not between '2' and '3' inclusively.",
+            $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -704,7 +704,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Country does not exist.');
+        $this->assertEquals('Country does not exist.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -729,7 +729,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], '"State/Province" is required.');
+        $this->assertEquals('"State/Province" is required.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -753,7 +753,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -777,7 +777,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -801,7 +801,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+        $this->assertEquals('State/Province does not exist.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -825,7 +825,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'State/Province does not exist.');
+        $this->assertEquals('State/Province does not exist.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -849,7 +849,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -874,7 +874,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals($responseData['messages']['error'][0]['message'], 'Invalid "State/Province" type.');
+        $this->assertEquals('Invalid "State/Province" type.', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -905,7 +905,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('customer/address')
             ->load($fixtureCustomerAddress->getId());
-        $this->assertEquals($updatedCustomerAddress->getData('firstname'), 'testFirstnameTest');
+        $this->assertEquals('testFirstnameTest', $updatedCustomerAddress->getData('firstname'));
 
         // Restore data
         $attribute->setInputFilter($currentInputFilter)->save();

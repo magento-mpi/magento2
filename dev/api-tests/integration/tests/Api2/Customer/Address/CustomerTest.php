@@ -183,7 +183,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
         $createdCustomerAddress = Mage::getModel('customer/address')
             ->load($addressId);
-        $this->assertEquals($createdCustomerAddress->getData('firstname'), 'testFirstnameTest');
+        $this->assertEquals('testFirstnameTest', $createdCustomerAddress->getData('firstname'));
 
         // Restore data
         $attribute->setInputFilter($currentInputFilter)->save();
@@ -370,7 +370,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('customer/address')
             ->load($fixtureCustomerAddress->getId());
-        $this->assertEquals($updatedCustomerAddress->getData('firstname'), 'testFirstnameTest');
+        $this->assertEquals('testFirstnameTest', $updatedCustomerAddress->getData('firstname'));
 
         // Restore data
         $attribute->setInputFilter($currentInputFilter)->save();
