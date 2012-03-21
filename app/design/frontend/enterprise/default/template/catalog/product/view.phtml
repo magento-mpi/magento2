@@ -55,7 +55,7 @@
                         <?php echo $this->getChildHtml('alert_urls') ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                     </div>
-                    <?php echo $this->getChildHtml('tierprices') ?>
+                    <?php echo ($_product->getCanShowPrice() === false) ? '' : $this->getChildHtml('tierprices'); ?>
                     <?php echo $this->getChildHtml('extrahint') ?>
 
                     <?php if (!$this->hasOptions()):?>
