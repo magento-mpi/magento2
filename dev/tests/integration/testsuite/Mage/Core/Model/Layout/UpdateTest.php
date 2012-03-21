@@ -228,27 +228,6 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCacheId()
-    {
-        $actualCacheIdOne = $this->_model->getCacheId();
-        $this->assertNotEmpty($actualCacheIdOne);
-        $this->assertEquals($actualCacheIdOne, $this->_model->getCacheId(), 'Cache id must be invariant.');
-
-        $this->_model->addHandle('handle_one');
-        $actualCacheIdTwo = $this->_model->getCacheId();
-        $this->assertNotEmpty($actualCacheIdTwo);
-        $this->assertNotEquals($actualCacheIdOne, $actualCacheIdTwo, 'Cache id must take handles into account.');
-    }
-
-    public function testSetCacheId()
-    {
-        $expectedCacheId = 'some_cache_identifier';
-        $this->_model->setCacheId($expectedCacheId);
-        $this->assertEquals($expectedCacheId, $this->_model->getCacheId());
-        $this->_model->addHandle('some_handle');
-        $this->assertEquals($expectedCacheId, $this->_model->getCacheId(), 'Cache id must not rely on handles.');
-    }
-
     /**
      * @magentoDataFixture Mage/Core/Model/Layout/_files/db_layout_update.php
      */

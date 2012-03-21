@@ -51,20 +51,6 @@ class Mage_Core_Model_Layout_Update
     protected $_layoutUpdatesCache;
 
     /**
-     * Cache key
-     *
-     * @var string
-     */
-    protected $_cacheId;
-
-    /**
-     * Cache prefix
-     *
-     * @var string
-     */
-    protected $_cachePrefix;
-
-    /**
      * Cumulative array of update XML strings
      *
      * @var array
@@ -93,18 +79,26 @@ class Mage_Core_Model_Layout_Update
     protected $_subst = array();
 
     /**
-     * Class constructor
+     * Constructor
+     *
+     * @param array $arguments
      */
     public function __construct(array $arguments = array())
     {
-        $this->_area    = isset($arguments['area'])    ? $arguments['area']    : Mage::getDesign()->getArea();
-        $this->_package = isset($arguments['package']) ? $arguments['package'] : Mage::getDesign()->getPackageName();
-        $this->_theme   = isset($arguments['theme'])   ? $arguments['theme']   : Mage::getDesign()->getTheme();
-        $this->_storeId = Mage::app()->getStore(isset($arguments['store']) ? $arguments['store'] : null)->getId();
-        $subst = Mage::getConfig()->getPathVars();
-        foreach ($subst as $k => $v) {
-            $this->_subst['from'][] = '{{' . $k . '}}';
-            $this->_subst['to'][] = $v;
+        /* Default values */
+        $arguments += array(
+            'area'    => Mage::getDesign()->getArea(),
+            'package' => Mage::getDesign()->getPackageName(),
+            'theme'   => Mage::getDesign()->getTheme(),
+            'store'   => null,
+        );
+        $this->_area    = $arguments['area'];
+        $this->_package = $arguments['package'];
+        $this->_theme   = $arguments['theme'];
+        $this->_storeId = Mage::app()->getStore($arguments['store'])->getId();
+        foreach (Mage::getConfig()->getPathVars() as $key => $value) {
+            $this->_subst['from'][] = '{{' . $key . '}}';
+            $this->_subst['to'][] = $value;
         }
     }
 
@@ -357,57 +351,6 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Retrieve cache identifier for the added handles
-     *
-     * @return string
-     */
-    public function getCacheId()
-    {
-        if ($this->_cacheId) {
-            return $this->_cacheId;
-        }
-        return 'LAYOUT_' . $this->_storeId . md5(join('__', $this->getHandles()));
-    }
-
-    /**
-     * Set cache id
-     *
-     * @param string $cacheId
-     * @return Mage_Core_Model_Layout_Update
-     */
-    public function setCacheId($cacheId)
-    {
-        $this->_cacheId = $cacheId;
-        return $this;
-    }
-
-    public function loadCache()
-    {
-        if (!Mage::app()->useCache('layout')) {
-            return false;
-        }
-
-        if (!$result = Mage::app()->loadCache($this->getCacheId())) {
-            return false;
-        }
-
-        $this->addUpdate($result);
-
-        return true;
-    }
-
-    public function saveCache()
-    {
-        if (!Mage::app()->useCache('layout')) {
-            return false;
-        }
-        $str = $this->asString();
-        $tags = $this->getHandles();
-        $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
-        return Mage::app()->saveCache($str, $this->getCacheId(), $tags, null);
-    }
-
-    /**
      * Load layout updates by handles
      *
      * @param array|string $handles
@@ -418,23 +361,35 @@ class Mage_Core_Model_Layout_Update
     {
         if (is_string($handles)) {
             $handles = array($handles);
-        } elseif (!is_array($handles)) {
+        } else if (!is_array($handles)) {
             throw new Magento_Exception('Invalid layout update handle');
         }
 
-        foreach ($handles as $handle) {
-            $this->addHandle($handle);
+        $this->addHandle($handles);
+
+        $cacheId = false;
+        if (Mage::app()->useCache('layout')) {
+            $cacheId = 'LAYOUT_' . $this->_storeId . md5(join('__', $this->getHandles()));
         }
 
-        if ($this->loadCache()) {
-            return $this;
+        if ($cacheId) {
+            $result = Mage::app()->loadCache($cacheId);
+            if ($result) {
+                $this->addUpdate($result);
+                return $this;
+            }
         }
 
         foreach ($this->getHandles() as $handle) {
             $this->_merge($handle);
         }
 
-        $this->saveCache();
+        if ($cacheId) {
+            $cacheTags = $this->getHandles();
+            $cacheTags[] = self::LAYOUT_GENERAL_CACHE_TAG;
+            Mage::app()->saveCache($this->asString(), $cacheId, $cacheTags, null);
+        }
+
         return $this;
     }
 
@@ -567,46 +522,40 @@ class Mage_Core_Model_Layout_Update
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-        /* @var $design Mage_Core_Model_Design_Package */
-        $design = Mage::getSingleton('Mage_Core_Model_Design_Package');
-
         $layoutParams = array('_area' => $this->_area, '_package' => $this->_package, '_theme' => $this->_theme);
 
         /*
          * Allow to modify declared layout updates.
          * For example, the module can remove all its updates to not participate in rendering depending on settings.
          */
-        $updatesRoot = Mage::app()->getConfig()->getNode($this->_area . '/layout/updates');
+        $updatesRootPath = $this->_area . '/layout/updates';
+        $updatesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
         Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
 
         /* Layout update files declared in configuration */
         $updateFiles = array();
         foreach ($updatesRoot->children() as $updateNode) {
-            if ($updateNode->file) {
-                $module = $updateNode->getAttribute('module');
-                if (!$module) {
-                    $updateNodePath = $this->_area . '/layout/updates/' . $updateNode->getName();
-                    throw new Magento_Exception(
-                        "Layout update instruction '{$updateNodePath}' must specify the module."
-                    );
-                }
-                if ($module && Mage::getStoreConfigFlag("advanced/modules_disable_output/$module", $this->_storeId)) {
-                    continue;
-                }
-                /* Resolve layout update filename with fallback to the module */
-                $filename = $design->getLayoutFilename(
-                    (string)$updateNode->file,
-                    $layoutParams + array('_module' => $module)
+            $module = $updateNode->getAttribute('module');
+            $file = (string)$updateNode->file;
+            if (!$module || !$file) {
+                $updateNodePath = $updatesRootPath . '/' . $updateNode->getName();
+                throw new Magento_Exception(
+                    "Layout update instruction '{$updateNodePath}' must specify module and file."
                 );
-                if (!is_readable($filename)) {
-                    throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
-                }
-                $updateFiles[] = $filename;
             }
+            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/$module", $this->_storeId)) {
+                continue;
+            }
+            /* Resolve layout update filename with fallback to the module */
+            $filename = Mage::getDesign()->getLayoutFilename($file, $layoutParams + array('_module' => $module));
+            if (!is_readable($filename)) {
+                throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
+            }
+            $updateFiles[] = $filename;
         }
 
         /* Custom local layout updates file for the current theme */
-        $filename = $design->getLayoutFilename('local.xml', $layoutParams);
+        $filename = Mage::getDesign()->getLayoutFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
         }
@@ -615,14 +564,11 @@ class Mage_Core_Model_Layout_Update
         foreach ($updateFiles as $filename) {
             $fileStr = file_get_contents($filename);
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
+            /** @var $fileXml Varien_Simplexml_Element */
             $fileXml = simplexml_load_string($fileStr, $this->getElementClass());
-            if (!$fileXml instanceof SimpleXMLElement) {
-                continue;
-            }
             $layoutStr .= $fileXml->innerXml();
         }
         $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
-
         $layoutXml = simplexml_load_string($layoutStr, $this->getElementClass());
         return $layoutXml;
     }
