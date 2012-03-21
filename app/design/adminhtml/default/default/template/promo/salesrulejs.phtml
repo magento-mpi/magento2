@@ -112,7 +112,7 @@ Ajax.Responders.register({
     onComplete: function() {
         if ($('promo_catalog_edit_tabs_coupons_section_content')
             && $('promo_catalog_edit_tabs_coupons_section_content').visible()
-            && Ajax.activeRequestCount==0
+            && Ajax.activeRequestCount == 0
         ) {
             handleCouponsTabContentActivity();
         }
