@@ -264,7 +264,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureCustomer = $this->getFixture('customer');
 
         $dataForCreate['country_id'] = 'US'; // for US region is required
-        $dataForCreate['region'] = array('testdata');
+        $dataForCreate['region'] = 123;
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -308,7 +308,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureCustomer = $this->getFixture('customer');
 
         $dataForCreate['country_id'] = 'UA'; // for UA region is not required
-        $dataForCreate['region'] = array('testdata');
+        $dataForCreate['region'] = 123;
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -747,7 +747,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getFirstItem();
 
         $dataForUpdate['country_id'] = 'US'; // for US region is required
-        $dataForUpdate['region'] = array('testdata');
+        $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -771,7 +771,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getFirstItem();
 
         unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
-        $dataForUpdate['region'] = array('testdata');
+        $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -843,7 +843,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getFirstItem();
 
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
-        $dataForUpdate['region'] = array('testdata');
+        $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -868,7 +868,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureCustomerAddress->setCountryId('UA')->save();
 
         unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
-        $dataForUpdate['region'] = array('testdata');
+        $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
