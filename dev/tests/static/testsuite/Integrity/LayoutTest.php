@@ -37,7 +37,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        foreach (Utility_Files::getLayoutFiles(array(), false) as $file) {
+        foreach (Utility_Files::init()->getLayoutFiles(array(), false) as $file) {
             $xml = simplexml_load_file($file);
             $containers = $xml->xpath('/layout//container[@as]') ?: array();
             foreach ($containers as $node) {
@@ -95,7 +95,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function designHandlesDataProvider()
     {
-        $files = Utility_Files::getLayoutFiles(array(
+        $files = Utility_Files::init()->getLayoutFiles(array(
             'include_code' => false,
             'area' => 'frontend'
         ));
@@ -127,7 +127,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             return $this->_codeFrontendHandles;
         }
 
-        $files = Utility_Files::getLayoutFiles(array(
+        $files = Utility_Files::init()->getLayoutFiles(array(
             'include_design' => false,
             'area' => 'frontend'
         ));
@@ -194,7 +194,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         $handles = array();
         foreach ($this->_getPackagesAndThemes() as $packageAndTheme) {
-            $files = Utility_Files::getLayoutFiles($packageAndTheme);
+            $files = Utility_Files::init()->getLayoutFiles($packageAndTheme);
             $packageAndTheme['include_design'] = (int) $packageAndTheme['include_design'];
             $idPackageAndTheme = implode('_', $packageAndTheme);
 
@@ -320,7 +320,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFilesDataProvider()
     {
-        return Utility_Files::getLayoutFiles();
+        return Utility_Files::init()->getLayoutFiles();
     }
 
     /**
@@ -350,7 +350,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function getChildBlockDataProvider()
     {
         $result = array();
-        foreach (Utility_Files::getPhpFiles(true, false, true, false) as $file) {
+        foreach (Utility_Files::init()->getPhpFiles(true, false, true, false) as $file) {
             $aliases = Utility_Classes::getAllMatches(file_get_contents($file), '/\->getChildBlock\(\'([^\']+)\'\)/x');
             foreach ($aliases as $alias) {
                 $result[$file] = array($alias);

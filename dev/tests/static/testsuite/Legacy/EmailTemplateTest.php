@@ -30,6 +30,6 @@ class Legacy_EmailTemplateTest extends PHPUnit_Framework_TestCase
 
     public function obsoleteDirectivesDataProvider()
     {
-        return Utility_Files::getEmailTemplates();
+        return Utility_Files::init()->getEmailTemplates();
     }
 }

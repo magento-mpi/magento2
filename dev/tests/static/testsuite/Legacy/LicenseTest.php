@@ -37,11 +37,12 @@ class Legacy_LicenseTest extends PHPUnit_Framework_TestCase
 
     public function legacyCommentDataProvider()
     {
+        $root = Utility_Files::init()->getPathToSource();
         $recursiveIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            PATH_TO_SOURCE_CODE, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
+            $root, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
         ));
 
-        $rootFolderName = substr(strrchr(PATH_TO_SOURCE_CODE, DIRECTORY_SEPARATOR), 1);
+        $rootFolderName = substr(strrchr($root, DIRECTORY_SEPARATOR), 1);
         $extensions = '(xml|css|php|phtml|js|dist|sample|additional)';
         $paths =  array(
             $rootFolderName . '/[^/]+\.' . $extensions,

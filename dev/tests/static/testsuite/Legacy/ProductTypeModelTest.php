@@ -32,7 +32,7 @@ class Legacy_ProductTypeModelTest extends PHPUnit_Framework_TestCase
 
     public function getSetProductDataProvider()
     {
-        $root = PATH_TO_SOURCE_CODE;
+        $root = Utility_Files::init()->getPathToSource();
         $files = array(
             "$root/app/code/core/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php",
             "$root/app/code/core/Mage/Bundle/Model/Product/Type.php",

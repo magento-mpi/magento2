@@ -15,6 +15,8 @@
 class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
+     * @param string $uri
+     * @param string $content
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
      * @magentoDataFixture Enterprise/Rma/_files/rma.php
      * @dataProvider isResponseContainDataProvider

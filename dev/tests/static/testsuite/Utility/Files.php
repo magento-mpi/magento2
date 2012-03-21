@@ -12,11 +12,39 @@
 class Utility_Files
 {
     /**
+     * @var Utility_Files
+     */
+    protected static $_instance = null;
+
+    /**
      * In-memory cache for the data sets
      *
      * @var array
      */
     protected static $_cache = array();
+
+    /**
+     * @var string
+     */
+    protected $_path = '';
+
+    /**
+     * Setter/Getter for an instance of self
+     *
+     * @param Utility_Files $instance
+     * @return Utility_Files
+     * @throws Exception when there is no instance set
+     */
+    public static function init(Utility_Files $instance = null)
+    {
+        if ($instance) {
+            self::$_instance = $instance;
+        }
+        if (!self::$_instance) {
+            throw new Exception('Instance is not set yet.');
+        }
+        return self::$_instance;
+    }
 
     /**
      * Compose PHPUnit's data sets that contain each file as the first argument
@@ -35,38 +63,57 @@ class Utility_Files
     }
 
     /**
+     * Set path to source code
+     *
+     * @param string $pathToSource
+     */
+    public function __construct($pathToSource)
+    {
+        $this->_path = $pathToSource;
+    }
+
+    /**
+     * Getter for _path
+     *
+     * @return string
+     */
+    public function getPathToSource()
+    {
+        return $this->_path;
+    }
+
+    /**
      * Returns array of PHP-files, that use or declare Magento application classes and Magento libs
      *
-     * @param bool $appCode
-     * @param bool $otherCode
-     * @param bool $templates
+     * @param bool $appCode   application PHP-code
+     * @param bool $otherCode non-application PHP-code (doesn't include "dev" directory)
+     * @param bool $templates application PHTML-code
      * @param bool $asDataSet
      * @return array
      */
-    public static function getPhpFiles($appCode = true, $otherCode = true, $templates = true, $asDataSet = true)
+    public function getPhpFiles($appCode = true, $otherCode = true, $templates = true, $asDataSet = true)
     {
-        $key = __METHOD__ . "/{$appCode}/{$otherCode}/{$templates}";
+        $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$otherCode}/{$templates}";
         if (!isset(self::$_cache[$key])) {
-            $root = PATH_TO_SOURCE_CODE;
             $pool = $namespace = $module = $area = $package = $theme = '*';
 
             $files = array();
             if ($appCode) {
-                $files = array_merge($files, glob($root . '/app/*.php', GLOB_NOSORT | GLOB_BRACE),
-                    self::_getFiles(array("{$root}/app/code/{$pool}/{$namespace}/{$module}"), '*.php')
+                $files = array_merge($files, glob($this->_path . '/app/*.php', GLOB_NOSORT | GLOB_BRACE),
+                    self::_getFiles(array("{$this->_path}/app/code/{$pool}/{$namespace}/{$module}"), '*.php')
                 );
             }
             if ($otherCode) {
-                $files = array_merge($files, glob($root . '/pub/*.php', GLOB_NOSORT | GLOB_BRACE),
-                    self::_getFiles(array("{$root}/downloader"), '*.php'),
-                    self::_getFiles(array("{$root}/lib/{Mage,Magento,Varien}"), '*.php')
+                $files = array_merge($files, glob($this->_path . '/pub/*.php', GLOB_NOSORT | GLOB_BRACE),
+                    self::_getFiles(array("{$this->_path}/downloader"), '*.php'),
+                    self::_getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
                 );
             }
             if ($templates) {
                 $files = array_merge($files,
-                    self::_getFiles(array("{$root}/app/code/{$pool}/{$namespace}/{$module}"), '*.phtml'),
+                    self::_getFiles(array("{$this->_path}/app/code/{$pool}/{$namespace}/{$module}"), '*.phtml'),
                     self::_getFiles(
-                        array("{$root}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'
+                        array("{$this->_path}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'
                     )
                 );
             }
@@ -84,7 +131,7 @@ class Utility_Files
      *
      * @return array
      */
-    public static function getXmlFiles()
+    public function getXmlFiles()
     {
         return array_merge(
             self::getConfigFiles(),
@@ -99,14 +146,14 @@ class Utility_Files
      * @param array $excludedFileNames
      * @return array
      */
-    public static function getConfigFiles(
+    public function getConfigFiles(
         $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml')
     ) {
-        $cacheKey = __METHOD__ . '|' . serialize(func_get_args());
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (isset(self::$_cache[$cacheKey])) {
             return self::$_cache[$cacheKey];
         }
-        $files = glob(PATH_TO_SOURCE_CODE . "/app/code/*/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+        $files = glob($this->_path . "/app/code/*/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
         $files = array_filter($files, function ($file) use ($excludedFileNames) {
             return !in_array(basename($file), $excludedFileNames);
         });
@@ -134,9 +181,8 @@ class Utility_Files
      * @param bool $asDataSet
      * @return array
      */
-    public static function getLayoutFiles($incomingParams = array(), $asDataSet = true)
+    public function getLayoutFiles($incomingParams = array(), $asDataSet = true)
     {
-         $root = PATH_TO_SOURCE_CODE;
          $params = array(
             'pool' => '*',
             'namespace' => '*',
@@ -152,13 +198,13 @@ class Utility_Files
                 $params[$key] = $incomingParams[$key];
             }
         }
-        $cacheKey = md5(implode('|', $params));
+        $cacheKey = md5($this->_path . '|' . implode('|', $params));
 
         if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
             $files = array();
             if ($params['include_code']) {
                 $files = self::_getFiles(
-                    array("{$root}/app/code/{$params['pool']}/{$params['namespace']}/{$params['module']}"
+                    array("{$this->_path}/app/code/{$params['pool']}/{$params['namespace']}/{$params['module']}"
                         . "/view/{$params['area']}"),
                     '*.xml'
                 );
@@ -167,12 +213,12 @@ class Utility_Files
                 $files = array_merge(
                     $files,
                     self::_getFiles(
-                        array("{$root}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
+                        array("{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
                             . "/{$params['namespace']}_{$params['module']}"),
                         '*.xml'
                     ),
                     glob(
-                        "{$root}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}/local.xml",
+                        "{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}/local.xml",
                         GLOB_NOSORT
                     )
                 );
@@ -191,23 +237,23 @@ class Utility_Files
      *
      * @return array
      */
-    public static function getJsFiles()
+    public function getJsFiles()
     {
-        if (isset(self::$_cache[__METHOD__])) {
-            return self::$_cache[__METHOD__];
+        $key = __METHOD__ . $this->_path;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
         }
-        $root = PATH_TO_SOURCE_CODE;
         $pool = $namespace = $module = $area = $package = $theme = $skin = '*';
         $files = self::_getFiles(
             array(
-                "{$root}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
-                "{$root}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
-                "{$root}/pub/js/{mage,varien}"
+                "{$this->_path}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
+                "{$this->_path}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
+                "{$this->_path}/pub/js/{mage,varien}"
             ),
             '*.js'
         );
         $result = self::composeDataSets($files);
-        self::$_cache[__METHOD__] = $result;
+        self::$_cache[$key] = $result;
         return $result;
     }
 
@@ -216,14 +262,15 @@ class Utility_Files
      *
      * @return array
      */
-    public static function getEmailTemplates()
+    public function getEmailTemplates()
     {
-        if (isset(self::$_cache[__METHOD__])) {
-            return self::$_cache[__METHOD__];
+        $key = __METHOD__ . $this->_path;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
         }
-        $files = self::_getFiles(array(PATH_TO_SOURCE_CODE . '/app/code/*/*/*/view/email'), '*.html');
+        $files = self::_getFiles(array($this->_path . '/app/code/*/*/*/view/email'), '*.html');
         $result = self::composeDataSets($files);
-        self::$_cache[__METHOD__] = $result;
+        self::$_cache[$key] = $result;
         return $result;
     }
 
@@ -253,13 +300,13 @@ class Utility_Files
      * @param string &$path
      * @return bool
      */
-    public static function codePoolClassFileExists($class, &$path = '')
+    public function codePoolClassFileExists($class, &$path = '')
     {
         $path = implode('/', explode('_', $class)) . '.php';
-        return file_exists(PATH_TO_SOURCE_CODE . "/app/code/core/{$path}")
-            || file_exists(PATH_TO_SOURCE_CODE . "/app/code/community/{$path}")
-            || file_exists(PATH_TO_SOURCE_CODE . "/app/code/local/{$path}")
-            || file_exists(PATH_TO_SOURCE_CODE . "/lib/{$path}")
+        return file_exists($this->_path . "/app/code/core/{$path}")
+            || file_exists($this->_path . "/app/code/community/{$path}")
+            || file_exists($this->_path . "/app/code/local/{$path}")
+            || file_exists($this->_path . "/lib/{$path}")
         ;
     }
 }

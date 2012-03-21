@@ -51,6 +51,6 @@ class Legacy_Mage_Widget_XmlTest extends PHPUnit_Framework_TestCase
      */
     public function widgetXmlFilesDataProvider()
     {
-        return Utility_Files::getConfigFiles('widget.xml');
+        return Utility_Files::init()->getConfigFiles('widget.xml');
     }
 }

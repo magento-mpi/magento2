@@ -15,7 +15,7 @@ class Magento_Test_ResponseTest extends PHPUnit_Framework_TestCase
     {
         $response = new Magento_Test_Response();
         $this->assertTrue($response->canSendHeaders());
-        $this->assertTrue($response->canSendHeaders(false));
+        $this->assertFalse($response->canSendHeaders(false));
     }
 }
 

@@ -612,10 +612,8 @@ class Enterprise_PageCache_Model_Observer
     public function changedCustomerSegmentIds(Varien_Event_Observer $observer)
     {
         $segmentIds = is_array($observer->getSegmentIds()) ? $observer->getSegmentIds() : array();
-        $segmentsIdsString= implode(',', $segmentIds);
-        if ($segmentIds && $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS)) {
-            $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
-        }
+        $segmentsIdsString = implode(',', $segmentIds);
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
     }
 
     /**

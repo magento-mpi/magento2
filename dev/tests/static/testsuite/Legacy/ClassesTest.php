@@ -16,12 +16,20 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
-     * @dataProvider Utility_Files::getPhpFiles
+     * @dataProvider phpCodeDataProvider
      */
     public function testPhpCode($file)
     {
         $classes = self::collectPhpCodeClasses(file_get_contents($file));
         $this->_assertNonFactoryName($classes);
+    }
+
+    /**
+     * @return array
+     */
+    public function phpCodeDataProvider()
+    {
+        return Utility_Files::init()->getPhpFiles();
     }
 
     /**
@@ -99,7 +107,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Utility_Files::getConfigFiles();
+        return Utility_Files::init()->getConfigFiles();
     }
 
     /**
@@ -122,7 +130,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Utility_Files::getLayoutFiles();
+        return Utility_Files::init()->getLayoutFiles();
     }
 
     /**

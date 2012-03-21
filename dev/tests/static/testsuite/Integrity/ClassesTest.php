@@ -21,7 +21,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @dataProvider Utility_Files::getPhpFiles
+     * @dataProvider phpFileDataProvider
      */
     public function testPhpFile($file)
     {
@@ -63,6 +63,14 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return array
+     */
+    public function phpFileDataProvider()
+    {
+        return Utility_Files::init()->getPhpFiles();
+    }
+
+    /**
      * Special case: collect resource helper references in PHP-code
      *
      * @param string $contents
@@ -93,7 +101,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Utility_Files::getConfigFiles();
+        return Utility_Files::init()->getConfigFiles();
     }
 
     /**
@@ -124,7 +132,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Utility_Files::getLayoutFiles();
+        return Utility_Files::init()->getLayoutFiles();
     }
 
     /**
@@ -179,7 +187,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                     continue;
                 }
                 $this->assertTrue(isset(self::$_existingClasses[$class])
-                    || Utility_Files::codePoolClassFileExists($class)
+                    || Utility_Files::init()->codePoolClassFileExists($class)
                 );
                 self::$_existingClasses[$class] = 1;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {

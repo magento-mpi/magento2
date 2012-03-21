@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/../../../../static/testsuite/Utility/Classes.php';
-
 /**
  * @group integrity
  */

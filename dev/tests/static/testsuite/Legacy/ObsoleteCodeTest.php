@@ -48,7 +48,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileDataProvider()
     {
-        return Utility_Files::getPhpFiles();
+        return Utility_Files::init()->getPhpFiles();
     }
 
     /**
@@ -66,7 +66,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function xmlFileDataProvider()
     {
-        return Utility_Files::getXmlFiles();
+        return Utility_Files::init()->getXmlFiles();
     }
 
     /**
@@ -84,7 +84,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function jsFileDataProvider()
     {
-        return Utility_Files::getJsFiles();
+        return Utility_Files::init()->getJsFiles();
     }
 
     /**
@@ -264,7 +264,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                     $row['suggestion'] = sprintf(self::SUGGESTION_MESSAGE, $row['suggestion']);
                 }
                 if ($row['directory']) {
-                    $row['directory'] = PATH_TO_SOURCE_CODE . '/' . $row['directory'];
+                    $row['directory'] = Utility_Files::init()->getPathToSource() . '/' . $row['directory'];
                 }
                 $result[$key] = $row;
             } else {
