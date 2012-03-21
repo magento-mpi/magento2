@@ -54,7 +54,9 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        return Mage::helper('bundle/catalog_product_configuration')->getSelectionFinalPrice($this->getItem(), $selectionProduct);
+        $helper = Mage::helper('bundle/catalog_product_configuration');
+        $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
+        return $result;
     }
 
     /**
