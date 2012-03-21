@@ -67,6 +67,8 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ);
         $availableAttributes = array_keys($this->getAvailableAttributes($this->getUserType(),
             Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ));
+        // available attributes not contain image attribute, but it needed for get image_url
+        $availableAttributes[] = 'image';
         $collection->addStoreFilter($store->getId())
             ->addPriceData($this->_getCustomerGroupId(), $store->getWebsiteId())
             ->addAttributeToSelect(array_diff($availableAttributes, $entityOnlyAttributes))
@@ -123,10 +125,10 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $productData['final_price_without_tax'] = $this->_applyTaxToPrice($finalPrice, false);
 
         $productData['is_saleable'] = $product->getIsSalable();
+        $productData['image_url'] = (string) Mage::helper('catalog/image')->init($product, 'image');
 
         if ($this->getActionType() == self::ACTION_TYPE_ENTITY) {
             // define URLs
-            $productData['image_url'] = $productHelper->getImageUrl($product);
             $productData['url'] = $productHelper->getProductUrl($product->getId());
             /** @var $cartHelper Mage_Checkout_Helper_Cart */
             $cartHelper = Mage::helper('checkout/cart');
