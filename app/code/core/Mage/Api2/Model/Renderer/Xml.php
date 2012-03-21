@@ -44,14 +44,25 @@ class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
     const ARRAY_NON_ASSOC_ITEM_NAME = 'data_item';
 
     /**
-     * Unavailable Chars which must be not used in the tag names
+     * Chars for replacement in the tag name
      *
      * @var array
      */
-    protected $_unavailableChars = array(
-        '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+',
-        ',', '/', ';', '<', '=', '>', '?', '@', '[', '\\', ']',
-        '^', '`', '{', '|', '}', '~'
+    protected $_replacementInTagName = array(
+        '!' => '', '"' => '', '#' => '', '$' => '', '%' => '', '&' => '', '\'' => '',
+        '(' => '', ')' => '', '*' => '', '+' => '', ',' => '', '/' => '', ';' => '',
+        '<' => '', '=' => '', '>' => '', '?' => '', '@' => '', '[' => '', '\\' => '',
+        ']' => '', '^' => '', '`' => '', '{' => '', '|' => '', '}' => '', '~' => '',
+        ' ' => '_', ':' => '_'
+    );
+
+    /**
+     * Chars for replacement in the tag value
+     *
+     * @var array
+     */
+    protected $_replacementInTagValue = array(
+        '&' => '&amp;' // replace "&" with HTML entity, because by default not replaced
     );
 
     /**
@@ -64,85 +75,79 @@ class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
     /**
      * Convert Array to XML
      *
-     * @param array|object $data
+     * @param mixed $data
      * @return string
      */
     public function render($data)
     {
-        $data = $this->_prepareData($data, true);
-        $writer = Mage::getModel('api2/renderer_xml_writer');
-        $config = new Zend_Config($data);
-        $writer->setConfig($config);
+        /* @var $writer Mage_Api2_Model_Renderer_Xml_Writer */
+        $writer = Mage::getModel('api2/renderer_xml_writer', array(
+            'config' => new Zend_Config($this->_prepareData($data, true))
+        ));
         return $writer->render();
     }
 
     /**
      * Prepare convert data
      *
-     * @param $data
+     * @param mixed $data
      * @param bool $root
      * @return array
      * @throws Exception
      */
     protected function _prepareData($data, $root = false)
     {
-        if ($root && !is_array($data) && !is_object($data)) {
-            $data = array($data);
-        }
         if (!is_array($data) && !is_object($data)) {
-            throw new Exception('Prepare data must be an object or an array.');
-        }
-        $data = ($data instanceof Varien_Object ? $data->toArray() : (array) $data);
-        //check non associative array
-        $keys = implode(array_keys($data), '');
-        if ((string) (int) $keys === ltrim($keys, 0) || $keys === '0') {
-            $dataLoop = $data;
-            unset($data);
-            $data = array(self::ARRAY_NON_ASSOC_ITEM_NAME => &$dataLoop);
-            $assoc = false;
-        } else {
-            $dataLoop = &$data;
-            $assoc = true;
-        }
-        foreach ($dataLoop as $key => $value) {
-            if (0 === strpos($key, self::ARRAY_NON_ASSOC_ITEM_NAME)) {
-                //skip processed data with renamed key name
-                continue;
-            }
-
-            //process item value
-            if (is_array($value) || is_object($value)) {
-                //process array or object item
-                $dataLoop[$key] = $this->_prepareData($value);
+            if ($root) {
+                $data = array($data);
             } else {
-                //replace "&" with HTML entity, because by default not replaced
-                $dataLoop[$key] = str_replace('&', '&amp;', $value);
-            }
-
-            //process item key name
-            if ($assoc) {
-                if (is_numeric($key)) {
-                    //tag names must not begin with the digits
-                    $newKey = self::ARRAY_NON_ASSOC_ITEM_NAME . '_' . $key;
-                } else {
-                    //replace unavailable chars
-                    $newKey = trim($key);
-                    $newKey = str_replace($this->_unavailableChars, '', $newKey);
-                    $newKey = str_replace(array(' ', ':'), '_', $newKey);
-                    $newKey = trim($newKey, '_');
-
-                    if (preg_match($this->_protectedTagNamePattern, $newKey)) {
-                        //tag names must not begin with the digits
-                        $newKey = self::ARRAY_NON_ASSOC_ITEM_NAME . '_' . $newKey;
-                    }
-                }
-                if ($newKey !== $key) {
-                    $dataLoop[$newKey] = $dataLoop[$key];
-                    unset($dataLoop[$key]);
-                }
+                throw new Exception('Prepare data must be an object or an array.');
             }
         }
-        return $data;
+        $data = is_object($data) && $data instanceof Varien_Object ? $data->toArray() : (array)$data;
+        $isAssoc = !preg_match('/^\d+$/', implode(array_keys($data), ''));
+
+        $preparedData = array();
+        foreach ($data as $key => $value) {
+            $value = is_array($value) || is_object($value) ? $this->_prepareData($value) : $this->_prepareValue($value);
+            if ($isAssoc) {
+                $preparedData[$this->_prepareKey($key)] = $value;
+            } else {
+                $preparedData[self::ARRAY_NON_ASSOC_ITEM_NAME][] = $value;
+            }
+        }
+        return $preparedData;
+    }
+
+    /**
+     * Prepare value
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _prepareValue($value)
+    {
+        return str_replace(
+            array_keys($this->_replacementInTagValue),
+            array_values($this->_replacementInTagValue),
+            $value
+        );
+    }
+
+    /**
+     * Prepare key and replace unavailable chars
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function _prepareKey($key)
+    {
+        $key = str_replace(array_keys($this->_replacementInTagName), array_values($this->_replacementInTagName), $key);
+        $key = trim($key, '_');
+        if (preg_match($this->_protectedTagNamePattern, $key)) {
+            $key = self::ARRAY_NON_ASSOC_ITEM_NAME . '_' . $key;
+        }
+        return $key;
     }
 
     /**
