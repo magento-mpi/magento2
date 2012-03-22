@@ -260,10 +260,9 @@ class Mage_Api2_Model_Server
      * @param Mage_Api2_Model_Response $response
      * @return Mage_Api2_Model_Server
      */
-    protected function _renderException(Exception $exception,
-                                      Mage_Api2_Model_Renderer_Interface $renderer,
-                                      Mage_Api2_Model_Response $response)
-    {
+    protected function _renderException(Exception $exception, Mage_Api2_Model_Renderer_Interface $renderer,
+        Mage_Api2_Model_Response $response
+    ) {
         if ($exception instanceof Mage_Api2_Exception && $exception->getCode()) {
             $httpCode = $exception->getCode();
         } else {

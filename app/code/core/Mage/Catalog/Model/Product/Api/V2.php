@@ -342,9 +342,9 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
      *                                        otherwise - try to determine identifier type automatically
      * @return boolean
      */
-    public function setSpecialPrice(
-        $productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null, $identifierType = null)
-    {
+    public function setSpecialPrice($productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null,
+        $identifierType = null
+    ) {
         $obj = new stdClass();
         $obj->special_price = $specialPrice;
         $obj->special_from_date = $fromDate;

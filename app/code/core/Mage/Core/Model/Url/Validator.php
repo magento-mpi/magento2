@@ -40,6 +40,15 @@ class Mage_Core_Model_Url_Validator extends Zend_Validate_Abstract
     /**#@-*/
 
     /**
+     * Object constructor
+     */
+    public function __construct()
+    {
+        // set translated message template
+        $this->setMessage(Mage::helper('core')->__("Invalid URL '%value%'."), self::INVALID_URL);
+    }
+
+    /**
      * Validation failure message template definitions
      *
      * @var array

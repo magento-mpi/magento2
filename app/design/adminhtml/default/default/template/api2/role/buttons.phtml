@@ -23,9 +23,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-/** @var $this Mage_Adminhtml_Block_Api_Tab_Roleinfo */
-
 ?>
+<?php /** @var $this Mage_Adminhtml_Block_Api_Tab_Roleinfo */ ?>
 <div class="content-header">
     <table cellspacing="0">
         <tr>
@@ -47,5 +46,7 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
+//<![CDATA[
     var roleForm = new varienForm('role_edit_form');
+//]]>
 </script>

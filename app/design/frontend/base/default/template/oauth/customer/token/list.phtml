@@ -61,7 +61,11 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <script type="text/javascript">decorateTable('my-apps-table')</script>
+        <script type="text/javascript">
+        //<![CDATA[
+            decorateTable('my-apps-table');
+        //]]>
+        </script>
     <?php echo $this->getToolbarHtml() ?>
 <?php else: ?>
     <p><?php echo $this->__('You have no applications.'); ?></p>

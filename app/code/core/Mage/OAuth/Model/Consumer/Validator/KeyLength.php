@@ -73,13 +73,11 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
      */
     protected function _initMessageTemplates()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
-        //init messages
         $_messageTemplates[self::TOO_LONG] =
-                $helper->__("%name% '%value%' is too long. It must has length %min% symbols.");
+            Mage::helper('oauth')->__("%name% '%value%' is too long. It must has length %min% symbols.");
         $_messageTemplates[self::TOO_SHORT] =
-                $helper->__("%name% '%value%' is too short. It must has length %min% symbols.");
+            Mage::helper('oauth')->__("%name% '%value%' is too short. It must has length %min% symbols.");
+
         return $this;
     }
 

@@ -130,10 +130,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isWebsiteAssignedToProduct(
-        Mage_Core_Model_Website $website,
-        Mage_Catalog_Model_Product $product
-    )
+    public function isWebsiteAssignedToProduct(Mage_Core_Model_Website $website, Mage_Catalog_Model_Product $product)
     {
         if (false === array_search($website->getId(), $product->getWebsiteIds())) {
             $this->_addError(sprintf('Product #%d isn\'t assigned to website #%d', $product->getId(),

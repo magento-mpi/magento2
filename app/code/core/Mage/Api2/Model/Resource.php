@@ -742,8 +742,8 @@ abstract class Mage_Api2_Model_Resource
         if (null !== $orderField) {
             $operation = Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ;
             if (!is_string($orderField)
-                || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))) {
-
+                || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))
+            ) {
                 $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
             $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());
@@ -781,7 +781,8 @@ abstract class Mage_Api2_Model_Resource
         foreach ($filter as $filterEntry) {
             if (!is_array($filterEntry)
                 || !array_key_exists('attribute', $filterEntry)
-                || !in_array($filterEntry['attribute'], $allowedAttributes)) {
+                || !in_array($filterEntry['attribute'], $allowedAttributes)
+            ) {
                 $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
             }
             $attributeCode = $filterEntry['attribute'];

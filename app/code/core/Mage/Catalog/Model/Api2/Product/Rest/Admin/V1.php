@@ -279,7 +279,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             $product->setData('use_config_gift_wrapping_available',
                 $productData['use_config_gift_wrapping_available']);
             if (!$productData['use_config_gift_wrapping_available']
-                && ($product->getData('gift_wrapping_available') === null)) {
+                && ($product->getData('gift_wrapping_available') === null)
+            ) {
                 $product->setData('gift_wrapping_available', (int) Mage::getStoreConfig(
                     Enterprise_GiftWrapping_Helper_Data::XML_PATH_ALLOWED_FOR_ITEMS, $product->getStoreId()));
             }
@@ -290,7 +291,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         }
         // Create Permanent Redirect for old URL key
         if (!$product->isObjectNew()  && isset($productData['url_key'])
-            && isset($productData['url_key_create_redirect'])) {
+            && isset($productData['url_key_create_redirect'])
+        ) {
             $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
         }
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -298,7 +300,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             //Unset data if object attribute has no value in current store
             if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
-                && !$attribute->isScopeGlobal()) {
+                && !$attribute->isScopeGlobal()
+            ) {
                 $product->setData($attribute->getAttributeCode(), false);
             }
 
@@ -369,8 +372,10 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     protected function _isAllowedAttribute($attribute, $attributes = null)
     {
         $isAllowed = true;
-        if (is_array($attributes) && !(in_array($attribute->getAttributeCode(), $attributes)
-            || in_array($attribute->getAttributeId(), $attributes))) {
+        if (is_array($attributes)
+            && !(in_array($attribute->getAttributeCode(), $attributes)
+            || in_array($attribute->getAttributeId(), $attributes))
+        ) {
             $isAllowed = false;
         }
         return $isAllowed;

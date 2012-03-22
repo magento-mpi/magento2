@@ -132,8 +132,8 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      * @return string
      */
     public function create($orderIncrementId, $itemsQty = array(), $comment = null, $email = false,
-                           $includeComment = false)
-    {
+        $includeComment = false
+    ) {
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
 
         /**
