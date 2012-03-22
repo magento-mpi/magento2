@@ -80,10 +80,11 @@ abstract class Mage_Api2_Model_Resource
     /**#@+
      *  Default collection resources error messages
      */
-    const RESOURCE_COLLECTION_PAGING_ERROR     = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR   = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR  = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
+    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
     /**#@-*/
 
     /**#@+
@@ -730,8 +731,8 @@ abstract class Mage_Api2_Model_Resource
         if (null == $pageSize) {
             $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
-            if ($pageSize != abs($pageSize) || $pageSize >= self::PAGE_SIZE_MAX) {
-                $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
+            if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
+                $this->_critical(self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR);
             }
         }
 
