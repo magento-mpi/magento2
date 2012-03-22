@@ -119,9 +119,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
             Mage::getModel('enterprise_rma/item_form')->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
-            'label'=> $reasonOtherAttribute->getStoreLabel(),
-            'name' => 'reason_other',
-            'required' => false
+            'label'     => $reasonOtherAttribute->getStoreLabel(),
+            'name'      => 'reason_other',
+            'maxlength' => 255,
+            'required'  => false
         ));
 
         $fieldset->addField('reason', 'select', array(
