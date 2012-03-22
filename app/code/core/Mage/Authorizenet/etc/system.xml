@@ -146,6 +146,8 @@
                         <merchant_email translate="label">
                             <label>Merchant's Email</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-email</validate>
+                            <backend_model>adminhtml/system_config_backend_email_address</backend_model>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

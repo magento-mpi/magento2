@@ -110,6 +110,8 @@
                             <label>Vendor Email</label>
                             <comment>General contact email will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-email</validate>
+                            <backend_model>adminhtml/system_config_backend_email_address</backend_model>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
