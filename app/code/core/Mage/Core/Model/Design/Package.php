@@ -268,6 +268,23 @@ class Mage_Core_Model_Design_Package
             array_walk($themeDirs, function(&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";
             });
+            # Start temporary block
+            //TODO:: MAGETWO-804: remove this block after area adminhtml will be renamed to backend
+            /**
+             * Add one more fallback level for module view directory for adminhtml area
+             * First of all we are checking file existence in /module/view/backend directory
+             * than we are checking file existence in /module/view/adminhtml directory
+             * It is necessary for supporting two admin areas (adminhtml and backend) at the same time
+             */
+            if ('adminhtml' == $this->getArea()) {
+                $baseViewPath = Mage::getConfig()->getModuleDir('view', $module);
+                $additionalPath = array();
+                array_walk($moduleDirs, function($path) use (&$additionalPath, $baseViewPath) {
+                    $additionalPath[] = str_replace($baseViewPath . '/adminhtml', $baseViewPath . '/backend', $path);
+                });
+                $moduleDirs = array_merge($additionalPath, $moduleDirs);
+            }
+            # End temporary block
             $dirs = array_merge($themeDirs, $moduleDirs);
         }
         $dirs = array_merge($dirs, $extraDirs);
