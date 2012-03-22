@@ -156,15 +156,17 @@ class Routine
     {
         $paths = array();
         foreach ($list as $globPattern) {
-            $subPaths = glob($globPattern, GLOB_BRACE);
-            if (false !== $subPaths) {
-                $paths = array_merge($paths, $subPaths);
+            $path = $workingDir . DIRECTORY_SEPARATOR . $globPattern;
+            $subPaths = glob($path, GLOB_BRACE);
+            if (false === $subPaths) {
+                throw new Exception("No real paths found by glob pattern: {$path}");
             }
+            $paths = array_merge($paths, $subPaths);
         }
         $paths = array_unique($paths);
 
         foreach ($paths as $path) {
-            $real = realpath($workingDir . DIRECTORY_SEPARATOR . $path);
+            $real = realpath($path);
             if (is_dir($real)) {
                 self::$skipDirectories[] = $real;
             } elseif (is_file($real)) {

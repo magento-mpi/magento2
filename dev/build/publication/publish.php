@@ -36,22 +36,22 @@ $canPush = !isset($options['no-push']);
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
 try {
-    // determine commit message from changelog
-    $commitMsg = file_get_contents(__DIR__ . '/changelog.txt');
-    $commitMsg = explode('------', $commitMsg);
-    $commitMsg = trim($commitMsg[0]);
+    // compare if changelog is different from current
+    $sourceLogFile = realpath(__DIR__ . '/../../../changelog.markdown');
+    $log = file_get_contents($sourceLogFile);
+    $targetLogFile = realpath($targetDir . '/changelog.markdown');
+    if ($targetLogFile && $log == file_get_contents($targetLogFile)) {
+        throw new Exception("Aborting attempt to publish with old changelog."
+            . " Contents of these files are not supposed to be equal: {$sourceLogFile} and {$targetLogFile}"
+        );
+    }
+    $commitMsg = trim(getTopMarkdownSection($log));
     if (empty($commitMsg)) {
         throw new Exception('No commit message found in changelog.');
     }
 
     // clone target and merge source into it
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
-    exec("$gitCmd log -1", $output);
-    if ($commitMsg == getOriginalCommitMessage($output)) {
-        throw new Exception('The last commit message in the target repository is the same as the last entry'
-            . " in changelog.txt file. Most likely you forgot to update the changelog.txt):\n\n{$commitMsg}"
-        );
-    }
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
     execVerbose("$gitCmd checkout $targetBranch");
@@ -59,7 +59,10 @@ try {
     // Copy files from source repository to our working tree and index
     execVerbose("$gitCmd checkout source/$sourceBranch -- .");
     // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
-    execVerbose("$gitCmd diff --name-only -z source/$sourceBranch | xargs -0 -r $gitCmd rm -f");
+    $files = execVerbose("$gitCmd diff --name-only source/$sourceBranch");
+    foreach ($files as $file) {
+        execVerbose("$gitCmd rm -f %s", $file);
+    }
 
     // remove files that must not be published
     $extruderDir = __DIR__ . '/extruder';
@@ -96,6 +99,7 @@ try {
  * Execute a command with automatic escaping of arguments
  *
  * @param string $command
+ * @return array
  */
 function execVerbose($command)
 {
@@ -103,30 +107,32 @@ function execVerbose($command)
     $args = array_map('escapeshellarg', $args);
     $args[0] = $command;
     $command = call_user_func_array('sprintf', $args);
-    echo $command . "\n";
-    passthru($command, $exitCode);
-    echo "\n";
+    echo $command . PHP_EOL;
+    exec($command, $output, $exitCode);
+    foreach ($output as $line) {
+        echo $line . PHP_EOL;
+    }
     if (0 !== $exitCode) {
         throw new Exception("Command is passed with error code: ". $exitCode);
     }
+    return $output;
 }
 
 /**
- * Parse a git log entry and find the commit message from it
+ * Get the top section of a text in markdown format
  *
- * The returned message is trimmed.
- *
- * @param array $output Output returned in second argument of exec()
+ * @param string $contents
  * @return string
+ * @link http://daringfireball.net/projects/markdown/syntax
  */
-function getOriginalCommitMessage($output)
+function getTopMarkdownSection($contents)
 {
-    $message = '';
-    do {
-        $fragment = array_shift($output);
-    } while ($fragment != ''); // the fragment with empty string is a divider between meta info and commit message
-    foreach ($output as $fragment) {
-        $message .= substr($fragment, 4); // each line of the message is crippled with 4 spaces in the beginning
+    $parts = preg_split('/[=\-]{4,}/s', $contents);
+    if (!isset($parts[1])) {
+        return '';
     }
-    return trim($message);
+    $parts[1] = explode("\n", trim($parts[1]));
+    array_pop($parts[1]);
+    $parts[1] = implode("\n", $parts[1]);
+    return $parts[0] . $parts[1];
 }
