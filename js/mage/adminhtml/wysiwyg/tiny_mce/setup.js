@@ -226,11 +226,11 @@ tinyMceWysiwygSetup.prototype =
         });
         if (Prototype.Browser.IE) {
             // workaround for IE textarea redraw bug
-        	window.setTimeout(function() {
+            window.setTimeout(function() {
                 if ($(this.id)) {
                     $(this.id).value = $(this.id).value;
                 }
-        	}.bind(this), 0);
+            }.bind(this), 0);
         }
     },
 
