@@ -21,16 +21,11 @@ class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_Controller
      */
     protected $_session;
 
-    /**
-     * @var Mage_Admin_Utility_User
-     */
-    static protected $_utilityUser;
-
     protected function setUp()
     {
         parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
 
+        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
         Mage_Admin_Utility_User::getInstance()
             ->createAdmin();
 
@@ -40,10 +35,11 @@ class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_Controller
 
     protected function tearDown()
     {
+        $this->_session->logout();
         Mage_Admin_Utility_User::getInstance()
             ->destroyAdmin();
-
         Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();
+
         parent::tearDown();
     }
 }
