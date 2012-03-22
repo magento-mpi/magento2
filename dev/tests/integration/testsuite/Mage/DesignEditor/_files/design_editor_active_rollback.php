@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$utility = Mage_Admin_Utility_User::getInstance();
-$utility->destroyAdmin();
-
 $session = new Mage_DesignEditor_Model_Session();
 $session->deactivateDesignEditor();
+$session->logout();
+
+$utility = Mage_Admin_Utility_User::getInstance();
+$utility->destroyAdmin();

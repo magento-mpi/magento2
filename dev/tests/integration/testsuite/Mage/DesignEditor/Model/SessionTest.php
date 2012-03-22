@@ -15,6 +15,11 @@
 class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Mage_Admin_Model_Session
+     */
+    protected static $_adminSession;
+
+    /**
      * @var Mage_DesignEditor_Model_Session
      */
     protected $_model;
@@ -48,11 +53,29 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isDesignEditorActive());
     }
 
+    /**
+     * @magentoDataFixture loginAdmin
+     */
     public function testActivateDesignEditor()
     {
         $this->assertFalse($this->_model->isDesignEditorActive());
         $this->_model->activateDesignEditor();
         $this->assertTrue($this->_model->isDesignEditorActive());
+    }
+
+    public static function loginAdmin()
+    {
+        Mage_Admin_Utility_User::getInstance()
+            ->createAdmin();
+        self::$_adminSession = new Mage_Admin_Model_Session();
+        self::$_adminSession->login('user', 'password');
+    }
+
+    public static function loginAdminRollback()
+    {
+        self::$_adminSession->logout();
+        Mage_Admin_Utility_User::getInstance()
+            ->destroyAdmin();
     }
 
     /**
