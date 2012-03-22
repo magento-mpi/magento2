@@ -55,7 +55,7 @@
                 </li>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
                 <li class="note">
-                    <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+                    <a href="<?php echo $this->helper('customer')->getForgotPasswordUrl()?>"><?php echo $this->__('Forgot Your Password?') ?></a>
                 </li>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
                 <li class="buttons-set">
