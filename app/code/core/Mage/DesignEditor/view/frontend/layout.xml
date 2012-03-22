@@ -14,7 +14,7 @@
         <label>Design Editor Toolbar</label>
         <reference name="head">
             <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
-            <action method="addJs"><file>jquery/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui-1.8.17.custom.min.js</file></action>

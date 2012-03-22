@@ -31,7 +31,7 @@ return array(
     'pub/js/firebug',
     'pub/js/flash',
     'pub/js/jscolor',
-    'pub/js/jquery/jquery-1.7.1.min.js',
+    'pub/js/jquery',
     'pub/js/lib/boxover.js',
     'pub/js/lib/ccard.js',
     'pub/js/lib/ds-sleight.js',
