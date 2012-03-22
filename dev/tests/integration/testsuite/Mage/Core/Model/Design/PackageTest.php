@@ -44,39 +44,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         mkdir(self::$_pubJslib, 0777);
         copy($fixtureDir . '/skin/file.css', self::$_pubJslib . '/file.css');
         copy($fixtureDir . '/skin/script.js', self::$_pubJslib . '/script.js');
-
-        # Start temporary block
-        //TODO:: MAGETWO-804: remove this block after area adminhtml will be renamed to backend
-        $testFilePaths = array(
-            '/app/code/core/Mage/Widget/view/backend/backend_file.txt',
-            '/app/code/core/Mage/Widget/view/adminhtml/adminhtml_file.txt',
-        );
-
-        foreach ($testFilePaths as $file) {
-            $moduleFilePath = Mage::getBaseDir() . $file;
-            $fixtureFilePath = $fixtureDir . $file;
-            mkdir(dirname($moduleFilePath), 0777, true);
-            copy($fixtureFilePath, $moduleFilePath);
-        }
-        # End temporary block
-
     }
 
     public static function tearDownAfterClass()
     {
         Varien_Io_File::rmdirRecursive(self::$_pubJslib);
-        # Start temporary block
-        //TODO:: MAGETWO-804: remove this block after area adminhtml will be renamed to backend
-        $testFilePaths = array(
-            '/app/code/core/Mage/Widget/view/backend/backend_file.txt',
-            '/app/code/core/Mage/Widget/view/adminhtml/adminhtml_file.txt',
-        );
-        foreach ($testFilePaths as $file) {
-            $moduleFilePath = Mage::getBaseDir() . $file;
-            @unlink($moduleFilePath);
-            Varien_Io_File::rmdirRecursive(dirname($moduleFilePath), false);
-        }
-        # End temporary block
     }
 
     protected function setUp()
@@ -150,31 +122,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array('fallback.phtml', array('_package' => 'package', '_theme' => 'custom_theme')),
         );
     }
-
-    # Start temporary block
-    //TODO:: MAGETWO-804: remove this block after area adminhtml will be renamed to backend
-    /**
-     * @param $file
-     * @param $params
-     * @dataProvider getTemplateFilenameFallbackDataProvider
-     */
-    public function testGetTemplateFilenameFallback($file, $params)
-    {
-        $this->_model->setArea('adminhtml');
-        $this->assertFileExists($this->_model->getTemplateFilename($file, $params));
-    }
-
-    /**
-     * @return array
-     */
-    public function getTemplateFilenameFallbackDataProvider()
-    {
-        return array(
-            array('backend_file.txt', array('_module' => 'Mage_Widget')),
-            array('adminhtml_file.txt', array('_module' => 'Mage_Widget')),
-        );
-    }
-    # End temporary block
     /*
     public function testGetThemeLocaleFile()
     {
