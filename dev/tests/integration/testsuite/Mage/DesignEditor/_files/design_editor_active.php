@@ -13,5 +13,5 @@ $utility = Mage_Admin_Utility_User::getInstance();
 $utility->createAdmin();
 
 $session = new Mage_DesignEditor_Model_Session();
-$session->login('user', 'password');
+$session->login(Mage_Admin_Utility_User::CRED_USERNAME, Mage_Admin_Utility_User::CRED_PASSWORD);
 $session->activateDesignEditor();

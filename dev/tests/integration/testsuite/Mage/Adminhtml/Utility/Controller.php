@@ -30,7 +30,7 @@ class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_Controller
             ->createAdmin();
 
         $this->_session = new Mage_Admin_Model_Session();
-        $this->_session->login('user', 'password');
+        $this->_session->login(Mage_Admin_Utility_User::CRED_USERNAME, Mage_Admin_Utility_User::CRED_PASSWORD);
     }
 
     protected function tearDown()

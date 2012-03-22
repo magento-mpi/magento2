@@ -68,7 +68,7 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         Mage_Admin_Utility_User::getInstance()
             ->createAdmin();
         self::$_adminSession = new Mage_Admin_Model_Session();
-        self::$_adminSession->login('user', 'password');
+        self::$_adminSession->login(Mage_Admin_Utility_User::CRED_USERNAME, Mage_Admin_Utility_User::CRED_PASSWORD);
     }
 
     public static function loginAdminRollback()

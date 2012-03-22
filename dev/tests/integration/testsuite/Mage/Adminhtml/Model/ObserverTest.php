@@ -82,7 +82,13 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function _buildObserver()
     {
         $request = Mage::app()->getRequest();
-        $request->setPost('login', array('username' => 'user', 'password' => 'password'));
+        $request->setPost(
+            'login',
+            array(
+                'username' => Mage_Admin_Utility_User::CRED_USERNAME,
+                'password' => Mage_Admin_Utility_User::CRED_PASSWORD
+            )
+        );
 
         $controller = new Varien_Object(array('request' => $request));
         $event = new Varien_Object(array('controller_action' => $controller));

@@ -26,7 +26,7 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
     public function testNewActionLoggedUser()
     {
         $admin = new Mage_Admin_Model_User;
-        $admin->loadByUsername('user');
+        $admin->loadByUsername(Mage_Admin_Utility_User::CRED_USERNAME);
         $session = Mage::getSingleton('Mage_Rss_Model_Session');
         $session->setAdmin($admin);
 

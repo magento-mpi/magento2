@@ -14,6 +14,9 @@
  */
 class Mage_Admin_Utility_User
 {
+    const CRED_USERNAME = 'user';
+    const CRED_PASSWORD = 'password';
+
     /**
      * @var Mage_Admin_Utility_User
      */
@@ -65,8 +68,8 @@ class Mage_Admin_Utility_User
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
             'email'     => 'admin@example.com',
-            'username'  => 'user',
-            'password'  => 'password',
+            'username'  => self::CRED_USERNAME,
+            'password'  => self::CRED_PASSWORD,
             'is_active' => 1
         ));
         $this->_user->save();

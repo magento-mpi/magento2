@@ -47,8 +47,8 @@ class Mage_Rss_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testAuthAdminLogin()
     {
-        $_SERVER['PHP_AUTH_USER'] = 'user';
-        $_SERVER['PHP_AUTH_PW'] = 'password';
+        $_SERVER['PHP_AUTH_USER'] = Mage_Admin_Utility_User::CRED_USERNAME;
+        $_SERVER['PHP_AUTH_PW'] = Mage_Admin_Utility_User::CRED_PASSWORD;
         $this->assertInstanceOf('Mage_Admin_Model_User', $this->_helper->authAdmin(''));
 
         $response = Mage::app()->getResponse();
