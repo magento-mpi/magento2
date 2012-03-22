@@ -38,14 +38,11 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Authenticates admin user and checks ACL. No redirection is done if secret key is missing.
+     * Authenticates admin user and checks ACL. Returns user model upon successful authentication.
+     * If user authentication fails, then shows error and exits php instantly.
      *
-     * Possible results:
-     * - Mage_Admin_Model_User - user logged in and appropriate model is loaded
-     * - false - not used currently (it just exits when user is not logged in)
-     *
-     * @param $path
-     * @return Mage_Admin_Model_User|bool
+     * @param string $path
+     * @return Mage_Admin_Model_User
      */
     public function authAdmin($path)
     {
@@ -62,6 +59,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
             $session->setAdmin($user);
             return $user;
         } else {
+            // Error is shown and exit() is called
             Mage::helper('Mage_Core_Helper_Http')->authFailed();
         }
     }

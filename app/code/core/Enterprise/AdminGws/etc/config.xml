@@ -41,6 +41,14 @@
                     </enterprise_admingws>
                 </observers>
             </rss_catalog_review_collection_select>
+            <admin_roles_load_after>
+                <observers>
+                    <enterprise_admingws>
+                        <class>Enterprise_AdminGws_Model_Observer</class>
+                        <method>addDataAfterRoleLoad</method>
+                    </enterprise_admingws>
+                </observers>
+            </admin_roles_load_after>
         </events>
     </global>
     <adminhtml>
@@ -52,14 +60,6 @@
             </updates>
         </layout>
         <events>
-            <admin_roles_load_after>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Observer</class>
-                        <method>addDataAfterRoleLoad</method>
-                    </enterprise_admingws>
-                </observers>
-            </admin_roles_load_after>
             <admin_roles_save_before>
                 <observers>
                     <enterprise_admingws>

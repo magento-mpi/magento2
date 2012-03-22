@@ -25,15 +25,14 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
      */
     public function testNewActionLoggedUser()
     {
-        $admin = new Varien_Object(array('id' => 1));
+        $admin = new Mage_Admin_Model_User;
+        $admin->loadByUsername('user');
         $session = Mage::getSingleton('Mage_Rss_Model_Session');
         $session->setAdmin($admin);
 
-        $user = new Mage_Admin_Model_User;
-        $user->loadByUsername('user');
         $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $adminSession->setUpdatedAt(time())
-            ->setUser($user);
+            ->setUser($admin);
 
         $this->dispatch('rss/order/new/');
 

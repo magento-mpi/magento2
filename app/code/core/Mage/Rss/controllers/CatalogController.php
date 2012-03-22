@@ -16,8 +16,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
+class Mage_Rss_CatalogController extends Mage_Rss_Controller_AdminhtmlAbstract
 {
+    /**
+     * Returns map of action to acl paths, needed to check user's access to a specific action
+     *
+     * @return array
+     */
+    protected function _getAdminAclMap()
+    {
+        return array(
+            'notifystock' => 'catalog/products',
+            'review' => 'catalog/reviews_ratings'
+        );
+    }
+
     protected function isFeedEnable($code)
     {
         return Mage::getStoreConfig('rss/catalog/'.$code);
@@ -93,33 +106,5 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
             $this->loadLayout(false);
             $this->renderLayout();
         }
-    }
-
-    /**
-     * Controller predispatch method to change area for some specific action.
-     *
-     * @return Mage_Rss_CatalogController
-     */
-    public function preDispatch()
-    {
-        $path = null;
-        switch ($this->getRequest()->getActionName()) {
-            case 'notifystock':
-                $path = 'catalog/products';
-                break;
-            case 'review':
-                $path = 'catalog/reviews_ratings';
-                break;
-        }
-
-        if ($path) {
-            $user = Mage::helper('Mage_Rss_Helper_Data')->authAdmin($path);
-            if (!is_object($user)) {
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                return $this;
-            }
-        }
-
-        return parent::preDispatch();
     }
 }

@@ -42,38 +42,11 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      */
-    public function testLoginSuccessfulWithRedirect()
-    {
-        $result = $this->_model->login('user', 'password');
-        $this->assertTrue($result);
-
-        $response = Mage::app()->getResponse();
-        $code = $response->getHttpResponseCode();
-        $this->assertTrue(($code >= 300) && ($code < 400));
-
-        $headers = $response->getHeaders();
-        $isRedirectFound = false;
-        foreach ($headers as $header) {
-            if ($header['name'] == 'Location') {
-                $isRedirectFound = true;
-                break;
-            }
-        }
-        $this->assertTrue($isRedirectFound);
-    }
-
-    /**
-     * @magentoConfigFixture current_store admin/security/use_form_key 0
-     */
-    public function testLoginSuccessfulWithoutRedirect()
+    public function testLoginSuccessful()
     {
         $result = $this->_model->login('user', 'password');
         $this->assertInstanceOf('Mage_Admin_Model_User', $result);
         $this->assertGreaterThan(time() - 10, $this->_model->getUpdatedAt());
-
-        $response = Mage::app()->getResponse();
-        $code = $response->getHttpResponseCode();
-        $this->assertFalse(($code >= 300) && ($code < 400));
     }
 
     public function testLogout()

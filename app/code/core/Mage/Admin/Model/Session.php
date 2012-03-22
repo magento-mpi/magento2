@@ -66,10 +66,9 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      *
      * @param  string $username
      * @param  string $password
-     * @param  Mage_Core_Controller_Request_Http $request
      * @return Mage_Admin_Model_User|bool
      */
-    public function login($username, $password, $request = null)
+    public function login($username, $password)
     {
         if (empty($username) || empty($password)) {
             return false;
@@ -95,22 +94,12 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 
             Mage::dispatchEvent('admin_session_user_login_success', array('user' => $user));
 
-            $requestUri = $this->_getRequestUri($request);
-            if ($requestUri) {
-                Mage::app()->getResponse()->setRedirect($requestUri);
-                return true;
-            }
+            return $user;
         } catch (Mage_Core_Exception $e) {
             Mage::dispatchEvent('admin_session_user_login_failed',
                 array('user_name' => $username, 'exception' => $e));
-            if ($request && !$request->getParam('messageSent')) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                $request->setParam('messageSent', true);
-            }
             return false;
         }
-
-        return $user;
     }
 
     /**
@@ -225,22 +214,5 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $this->_isFirstPageAfterLogin = (bool)$value;
         return $this->setIsFirstVisit($this->_isFirstPageAfterLogin);
-    }
-
-    /**
-     * Custom REQUEST_URI logic
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @return string|null
-     */
-    protected function _getRequestUri($request = null)
-    {
-        if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
-            return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/*/*', array('_current' => true));
-        } elseif ($request) {
-            return $request->getRequestUri();
-        } else {
-            return null;
-        }
     }
 }
