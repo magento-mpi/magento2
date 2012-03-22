@@ -414,7 +414,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
             $user->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->authenticate(TESTS_CUSTOMER_EMAIL, TESTS_CUSTOMER_PASSWORD);
             if (!$user->getId()) {
-                throw new Magento_Test_Exception('Admin user not found. Check credentials from config file.');
+                throw new Magento_Test_Exception('Customer user not found. Check credentials from config file.');
             }
             self::$_defaultCustomer = $user;
         }
