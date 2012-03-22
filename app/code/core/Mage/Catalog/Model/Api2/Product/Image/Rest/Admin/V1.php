@@ -58,33 +58,33 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
         unset($data['file_content']);
 
         $apiTempDir = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('api/session')->getSessionId();
+        $imageFileName = $this->_getFileName($data);
 
         try {
             $ioAdapter = new Varien_Io_File();
             $ioAdapter->checkAndCreateFolder($apiTempDir);
             $ioAdapter->open(array('path' => $apiTempDir));
-            $imageTempFileName = $this->_getFileName($data);
-            $ioAdapter->write($imageTempFileName, $imageFileContent, 0666);
+            $ioAdapter->write($imageFileName, $imageFileContent, 0666);
             unset($imageFileContent);
 
             // try to create Image object to check if image data is valid
             try {
-                new Varien_Image($apiTempDir . DS . $imageTempFileName);
+                new Varien_Image($apiTempDir . DS . $imageFileName);
             } catch (Exception $e) {
                 $ioAdapter->rmdir($apiTempDir, true);
                 $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
             }
             $product = $this->_getProduct();
-            $imageFileName = $this->_getMediaGallery()->addImage($product, $apiTempDir . DS . $imageTempFileName);
+            $imageFileUri = $this->_getMediaGallery()->addImage($product, $apiTempDir . DS . $imageFileName);
             $ioAdapter->rmdir($apiTempDir, true);
             // updateImage() must be called to add image data that is missing after addImage() call
-            $this->_getMediaGallery()->updateImage($product, $imageFileName, $data);
+            $this->_getMediaGallery()->updateImage($product, $imageFileUri, $data);
 
             if (isset($data['types'])) {
-                $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFileName);
+                $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFileUri);
             }
             $product->save();
-            return $this->_getImageLocation($this->_getCreatedImageId($imageFileName));
+            return $this->_getImageLocation($this->_getCreatedImageId($imageFileUri));
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -96,17 +96,17 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
      * Get added image ID
      *
      * @throws Mage_Api2_Exception
-     * @param string $imageFileName
+     * @param string $imageFileUri
      * @return int
      */
-    protected function _getCreatedImageId($imageFileName)
+    protected function _getCreatedImageId($imageFileUri)
     {
         $imageId = null;
 
         $imageData = Mage::getResourceModel('catalog/product_attribute_backend_media')
             ->loadGallery($this->_getProduct(), $this->_getMediaGallery());
         foreach ($imageData as $image) {
-            if ($image['file'] == $imageFileName) {
+            if ($image['file'] == $imageFileUri) {
                 $imageId = $image['value_id'];
                 break;
             }
@@ -153,16 +153,16 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     protected function _update(array $data)
     {
         $imageId = (int)$this->getRequest()->getParam('image');
-        $imageFile = $this->_getImageFileById($imageId);
+        $imageFileUri = $this->_getImageFileById($imageId);
         $product = $this->_getProduct();
-        $this->_getMediaGallery()->updateImage($product, $imageFile, $data);
+        $this->_getMediaGallery()->updateImage($product, $imageFileUri, $data);
         if (isset($data['types']) && is_array($data['types'])) {
-            $assignedTypes = $this->_getImageTypesAssignedToProduct($imageFile);
+            $assignedTypes = $this->_getImageTypesAssignedToProduct($imageFileUri);
             $typesToBeCleared = array_diff($assignedTypes, $data['types']);
             if (count($typesToBeCleared) > 0) {
                 $this->_getMediaGallery()->clearMediaAttribute($product, $typesToBeCleared);
             }
-            $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFile);
+            $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFileUri);
         }
         try {
             $product->save();
@@ -182,8 +182,8 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     {
         $imageId = (int)$this->getRequest()->getParam('image');
         $product = $this->_getProduct();
-        $file = $this->_getImageFileById($imageId);
-        $this->_getMediaGallery()->removeImage($product, $file);
+        $imageFileUri = $this->_getImageFileById($imageId);
+        $this->_getMediaGallery()->removeImage($product, $imageFileUri);
         try {
             $product->save();
         } catch (Mage_Core_Exception $e) {
