@@ -39,7 +39,21 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @var Mage_Customer_Model_Customer
      */
-    protected $_currentCustomer = null;
+    protected static $_currentCustomer;
+
+    /**
+     * Identifier of existent default billing address for test customer for backup purposes
+     *
+     * @var Mage_Customer_Model_Address
+     */
+    protected static $_customerDefaultBillingAddress;
+
+    /**
+     * Identifier of existent default shipping address for test customer for backup purposes
+     *
+     * @var Mage_Customer_Model_Address
+     */
+    protected static $_customerDefaultShippingAddress;
 
     /**
      * Lazy loaded address eav required attributes
@@ -49,19 +63,24 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     protected $_requiredAttributes = array();
 
     /**
-     * Sets up the current customer
+     * Prepare ACL
      */
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->_initCurrentCustomer();
+        parent::setUpBeforeClass();
 
-        parent::setUp();
+        self::$_currentCustomer = Mage::getModel('customer/customer')
+            ->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
+
+        // backup default addresses
+        self::$_customerDefaultBillingAddress = self::$_currentCustomer->getDefaultBillingAddress();
+        self::$_customerDefaultShippingAddress = self::$_currentCustomer->getDefaultShippingAddress();
     }
 
     /**
      * Delete fixtures
      */
-    public function tearDown()
+    protected function tearDown()
     {
         Magento_Test_Webservice::deleteFixture('customer', true);
         $fixtureAddresses = $this->getFixture('addresses');
@@ -75,6 +94,21 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     }
 
     /**
+     * Delete acl fixture after test case
+     */
+    public static function tearDownAfterClass()
+    {
+        // restore customer addresses
+        if (is_object(self::$_customerDefaultBillingAddress)) {
+            self::$_customerDefaultBillingAddress->setIsDefaultBilling(true)->save();
+        }
+        if (is_object(self::$_customerDefaultShippingAddress)) {
+            self::$_customerDefaultShippingAddress->setIsDefaultShipping(true)->save();
+        }
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test create customer address
      *
      * @param array $dataForCreate
@@ -82,7 +116,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function testCreateCustomerAddress($dataForCreate)
     {
-        $restResponse = $this->callPost('customers/' . $this->_currentCustomer->getId() . '/addresses', $dataForCreate);
+        $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
@@ -122,7 +156,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         // Remove required field
         unset($dataForCreate[$attributeCode]);
 
-        $restResponse = $this->callPost('customers/' . $this->_currentCustomer->getId() . '/addresses', $dataForCreate);
+        $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
@@ -147,7 +181,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         // Set required field as empty
         $dataForCreate[$attributeCode] = NULL;
 
-        $restResponse = $this->callPost('customers/' . $this->_currentCustomer->getId() . '/addresses', $dataForCreate);
+        $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
@@ -170,13 +204,17 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     {
         /* @var $attribute Mage_Customer_Model_Entity_Attribute */
         $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'firstname');
+
+        $attribute->setAttributeModel(null);
+        $attribute->setBackendModel(null);
+
         $currentInputFilter = $attribute->getInputFilter();
         $attribute->setInputFilter('striptags')->save();
 
         // Set data for filtering
         $dataForCreate['firstname'] = 'testFirstname<b>Test</b>';
 
-        $restResponse = $this->callPost('customers/' . $this->_currentCustomer->getId() . '/addresses', $dataForCreate);
+        $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
@@ -187,6 +225,8 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
 
         // Restore data
         $attribute->setInputFilter($currentInputFilter)->save();
+
+        $this->addModelToDelete($createdCustomerAddress, true);
     }
 
     /**
@@ -196,9 +236,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     public function testGetCustomerAddress()
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = end(self::getFixture('addresses'));
         $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -210,7 +248,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
                 $this->assertEquals($value, explode("\n", $fixtureCustomerAddress->getData('street')));
                 continue;
             }
-            $this->assertEquals($value, $fixtureCustomerAddress->getData($field));
+            $this->assertEquals($value, $fixtureCustomerAddress->getData($field), 'Invalid value for ' . $field);
         }
     }
 
@@ -221,7 +259,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function testGetCustomerAddresses()
     {
-        $restResponse = $this->callGet('customers/' . $this->_currentCustomer->getId() . '/addresses');
+        $restResponse = $this->callGet('customers/' . self::$_currentCustomer->getId() . '/addresses');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
@@ -232,7 +270,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
             $customerAddressesIds[] = $customerAddress['entity_id'];
         }
         /* @var $customerAddresses Mage_Customer_Model_Resource_Address_Collection */
-        $customerAddresses = $this->_currentCustomer->getAddressesCollection();
+        $customerAddresses = self::$_currentCustomer->getAddressesCollection();
         foreach ($customerAddresses as $customerAddress) {
             $this->assertContains($customerAddress->getId(), $customerAddressesIds);
         }
@@ -248,9 +286,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     public function testUpdateCustomerAddress($dataForUpdate)
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -286,9 +322,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         $dataForUpdate = array_slice($dataForUpdate, count($dataForUpdate)/2);
 
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -322,9 +356,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     public function testUpdateCustomerAddressWithEmptyRequiredFields($attributeCode)
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $dataForUpdate = $this->_getAddressData();
 
         // Set required field as empty
@@ -352,9 +384,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     public function testFilteringInUpdateCustomerAddress($dataForUpdate)
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
 
         /* @var $attribute Mage_Customer_Model_Entity_Attribute */
         $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'firstname');
@@ -384,10 +414,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     public function testDeleteCustomerAddress()
     {
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->_currentCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
-
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -409,9 +436,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
 
         // get another customer address
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $fixtureCustomer
-            ->getAddressesCollection()
-            ->getFirstItem();
+        $fixtureCustomerAddress = reset(self::getFixture('addresses'));
 
         // data is not empty
         $data = array('firstname' => 'test firstname');
@@ -531,19 +556,5 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
             }
         }
         return $this->_requiredAttributes;
-    }
-
-    /**
-     * Init current customer
-     *
-     * @return Api2_Customer_Addresses_CustomerTest
-     */
-    protected function _initCurrentCustomer()
-    {
-        if (null === $this->_currentCustomer) {
-            $this->_currentCustomer = Mage::getModel('customer/customer')
-                ->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
-        }
-        return $this;
     }
 }
