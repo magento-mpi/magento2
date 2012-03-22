@@ -22,6 +22,7 @@ class Magento_Test_Response extends Mage_Core_Controller_Response_Http
      *
      * @param bool $throw
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function canSendHeaders($throw = false)
     {
