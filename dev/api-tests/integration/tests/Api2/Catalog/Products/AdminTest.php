@@ -745,8 +745,10 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->clearInstance()
             ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->load($product->getId());
-        // Validate URL Key - all special chars should be replaced with dash sign
-        $productDataForUpdate['url_key'] = '123-abc';
+        if (isset($productDataForUpdate['url_key'])) {
+            // Validate URL Key - all special chars should be replaced with dash sign
+            $productDataForUpdate['url_key'] = '123-abc';
+        }
         unset($productDataForUpdate['url_key_create_redirect']);
         $this->_checkProductData($updatedProduct, $productDataForUpdate);
     }
@@ -761,10 +763,26 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
         $productDataSpecialChars = require dirname(__FILE__)
             . '/../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+        $productDataZeroValidValuesAsStrings = array(
+            'tax_class_id' => '0',
+            'sku' => '0',
+            'weight' => '0',
+            'price' => '0',
+            'stock_data' => array('qty' => '0'),
+        );
+        $productDataZeroValidValuesAsIntegers = array(
+            'tax_class_id' => 0,
+            'sku' => 0,
+            'weight' => 0,
+            'price' => 0,
+            'stock_data' => array('qty' => 0),
+        );
 
         return array(
             array($productDataSpecialChars),
             array($productData),
+            array($productDataZeroValidValuesAsStrings),
+            array($productDataZeroValidValuesAsIntegers),
         );
     }
 

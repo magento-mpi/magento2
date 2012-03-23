@@ -213,7 +213,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                     $this->_addError(sprintf('Missing "%s" in request.', $key));
                     continue;
                 }
-            } else if (empty($data[$key])) {
+            } else if (!is_numeric($data[$key]) && empty($data[$key])) {
                 $this->_addError(sprintf('Empty value for "%s" in request.', $key));
             }
         }
@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
         if ($this->_isUpdate() && !isset($data['sku'])) {
             return true;
         }
-        if (!Zend_Validate::is($data['sku'], 'StringLength', array('min' => 0, 'max' => 64))) {
+        if (!Zend_Validate::is((string)$data['sku'], 'StringLength', array('min' => 0, 'max' => 64))) {
             $this->_addError('SKU length should be 64 characters maximum.');
         }
     }
