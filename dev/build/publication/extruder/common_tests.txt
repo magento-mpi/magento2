@@ -1,5 +1,4 @@
 // Files, that are not published with any Magento edition, but are necessary for testing and CI builds
 // ---------------------------------------------------
 dev/build
-dev/tests/performance
 dev/tests/static/testsuite/Php/_files/whitelist/magento2.txt

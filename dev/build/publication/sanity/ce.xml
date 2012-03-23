@@ -44,6 +44,7 @@
         </item>
         <item>
             <word>mssql</word>
+            <word>sqlsrv</word>
             <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Bootstrap/_files/local-custom.xml</path>
         </item>
         <item>
