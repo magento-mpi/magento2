@@ -60,7 +60,6 @@ class Mage_Adminhtml_Model_Observer
      * Handler for controller_action_predispatch event
      *
      * @param Varien_Event_Observer $observer
-     * @return void
      */
     public function actionPreDispatchAdmin($observer)
     {

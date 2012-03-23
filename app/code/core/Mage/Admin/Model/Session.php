@@ -59,10 +59,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Try to login user in admin. Possible results:
      * - Mage_Admin_Model_User - user logged in and appropriate model is loaded
-     * - true - user logged in, however no work can be done on it, because browser is redirected
      * - false - user not logged in
-     *
-     * If $request is provided, then in case of redirect it will be marked as dispatched.
      *
      * @param  string $username
      * @param  string $password
