@@ -197,7 +197,12 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         } else {
             $this->_configBrowsers = $config;
         }
-        Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
+        if (count($this->_configBrowsers) == 1) {
+            Mage_Selenium_TestCase::$_singleBrowser = $this->_configBrowsers[self::DEFAULT_BROWSER];
+        } else {
+            Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
+        }
+
         return $this;
     }
 

@@ -37,21 +37,18 @@ browsers:
          host: 'localhost'
          port: 4444
          timeout: 40
-         restartBrowser: true
     firefox: &firefox
          name: 'Firefox'
          browser: '*chrome'
          host: 'localhost'
          port: 4444
          timeout: 40
-         restartBrowser: false
     iexplorer: &iexplorer
          name: 'Internet Explorer'
          browser: '*iexplore'
          host: 'localhost'
          port: 4444
          timeout: 60
-         restartBrowser: false
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -61,6 +58,8 @@ browsers:
 framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
+    #work only if tests are run for single browser
+    shareSession: true
     coverageScriptUrl: ''
     #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
     captureScreenshotOnFailure: true
@@ -108,7 +107,7 @@ applications:
                 password: 'paypal_sandbox_password'
             paypal_developer: &paypalDeveloper
                 url: 'https://developer.paypal.com/'
-                base_page_uimap: 'home'
+                base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'

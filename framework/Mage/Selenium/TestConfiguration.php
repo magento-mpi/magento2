@@ -96,6 +96,12 @@ class Mage_Selenium_TestConfiguration
     protected $_testHelperClassNames = array();
 
     /**
+     * Handle to log file
+     * @var null|resource
+     */
+    protected $_logFile = null;
+
+    /**
      * Constructor defined as private to implement singleton
      */
     private function __construct()
@@ -135,6 +141,7 @@ class Mage_Selenium_TestConfiguration
     public function init()
     {
         $this->_initConfig();
+        $this->_initLogFile($this->getHelper('config')->getLogDir());
         $this->_initFixturesPaths();
         $this->_initTestHelperClassNames();
         $this->_initFixtures();
@@ -147,6 +154,20 @@ class Mage_Selenium_TestConfiguration
     protected function _initConfig()
     {
         $this->getHelper('config');
+        return $this;
+    }
+
+    /**
+     * Initialize log file
+     * @param string $dirPath
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initLogFile($dirPath)
+    {
+        if (is_null($this->_logFile)) {
+            $this->_logFile = fopen($dirPath . DIRECTORY_SEPARATOR
+                                        . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
+        }
         return $this;
     }
 
@@ -179,6 +200,18 @@ class Mage_Selenium_TestConfiguration
         $this->getHelper('uimap');
         $this->getHelper('data');
         return $this;
+    }
+
+    /**
+     * Get log file
+     * @return null|resource
+     */
+    public function getLogFile()
+    {
+        if (empty($this->_logFile)) {
+            $this->_initLogFile($this->getHelper('config')->getLogDir());
+        }
+        return $this->_logFile;
     }
 
     /**
@@ -307,50 +340,5 @@ class Mage_Selenium_TestConfiguration
             }
         }
         return $currNode;
-    }
-
-    /**
-     * Initializes new driver connection with specific configuration
-     *
-     * @param array $browser
-     *
-     * @return Mage_Selenium_Driver
-     * @throws InvalidArgumentException
-     */
-    public function addDriverConnection(array $browser)
-    {
-        if (!isset($browser['name'])) {
-            $browser['name'] = '';
-        }
-        if (!isset($browser['browser'])) {
-            $browser['browser'] = '';
-        }
-        if (!isset($browser['host'])) {
-            $browser['host'] = 'localhost';
-        }
-        if (!isset($browser['port'])) {
-            $browser['port'] = 4444;
-        }
-        if (!isset($browser['timeout'])) {
-            $browser['timeout'] = 30;
-        }
-        if (!isset($browser['httpTimeout'])) {
-            $browser['httpTimeout'] = 45;
-        }
-        if (!isset($browser['restartBrowser'])) {
-            $browser['restartBrowser'] = true;
-        }
-        $driver = new Mage_Selenium_Driver();
-        $driver->setLogHandle($this->getHelper('config')->getLogDir());
-        $driver->setName($browser['name']);
-        $driver->setBrowser($browser['browser']);
-        $driver->setHost($browser['host']);
-        $driver->setPort($browser['port']);
-        $driver->setTimeout($browser['timeout']);
-        $driver->setHttpTimeout($browser['httpTimeout']);
-        $driver->setContiguousSession($browser['restartBrowser']);
-        $driver->setBrowserUrl($this->_configHelper->getBaseUrl());
-
-        return $driver;
     }
 }
