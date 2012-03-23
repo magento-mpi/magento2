@@ -163,7 +163,6 @@
                 --no-push
                 "/>
         </exec>
-<!--
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
                 -w ${dir.publication_target}
@@ -171,7 +170,6 @@
                 -v
                 "/>
         </exec>
--->
         <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
             <property name="env.build_customization_dir" value="../../customization/publicce"/>
             <target name="unit-tests-magento"/>
