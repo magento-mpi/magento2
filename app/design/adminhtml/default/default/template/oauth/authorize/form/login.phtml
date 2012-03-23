@@ -35,7 +35,7 @@
 <div class="login-container">
     <div class="login-box">
         <div class="login-form">
-            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+            <?php echo $this->getMessagesBlock()->toHtml() ?>
             <?php if (!$this->getHasException()): ?>
                 <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
                     <fieldset>
