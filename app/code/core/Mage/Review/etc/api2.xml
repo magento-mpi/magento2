@@ -28,7 +28,7 @@
 <config>
     <api2>
         <resources>
-            <review>
+            <review translate="title" module="api2">
                 <group>catalog_product</group>
                 <model>review/api2_review</model>
                 <working_model>review/review</working_model>
@@ -50,7 +50,7 @@
                         <delete>1</delete>
                     </admin>
                 </privileges>
-                <attributes>
+                <attributes translate="review_id created_at entity_pk_value status posted_by stores user_type nickname title detail rating_summary detailed_rating" module="api2">
                     <review_id>Review ID</review_id>
                     <created_at>Created On</created_at>
                     <entity_pk_value>Product ID</entity_pk_value>
