@@ -50,7 +50,13 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
         if ($this->getAmountPrefix()) {
             $amount = $this->getAmountPrefix().$amount;
         }
-        $label = Mage::helper('sales')->__($this->getTitle()) . ':';
+
+        $title = $this->getTitle();
+        if ($this->getTitleSourceField()) {
+            $title = $this->getTitle() . '(' . $this->getTitleDescription() . ')';
+        }
+        $label = Mage::helper('sales')->__($title) . ':';
+
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
         $total = array(
             'amount'    => $amount,
@@ -135,5 +141,15 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
     public function getAmount()
     {
         return $this->getSource()->getDataUsingMethod($this->getSourceField());
+    }
+
+    /**
+     * Get title description from source
+     *
+     * @return mixed
+     */
+    public function getTitleDescription()
+    {
+        return $this->getSource()->getDataUsingMethod($this->getTitleSourceField());
     }
 }
