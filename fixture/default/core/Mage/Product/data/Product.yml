@@ -536,8 +536,8 @@ duplicate_simple:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku
     general_weight: 2.56
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: simple-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -620,8 +620,8 @@ virtual_product:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: virtual-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -689,8 +689,8 @@ duplicate_virtual:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: virtual-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -909,8 +909,8 @@ duplicate_fixed_bundle:
     general_sku: bundle_sku
     general_weight_type: Fixed
     general_weight: 0.111
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: fixed-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -975,8 +975,8 @@ duplicate_dynamic_bundle:
     general_sku_type: Dynamic
     general_sku: bundle_sku
     general_weight_type: Dynamic
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: dynamic-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1061,8 +1061,8 @@ grouped_product:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1100,8 +1100,8 @@ duplicate_grouped:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1178,8 +1178,8 @@ configurable_product:
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1227,8 +1227,8 @@ duplicate_configurable:
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1301,8 +1301,8 @@ downloadable_product:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1356,8 +1356,8 @@ duplicate_downloadable:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 12/12/2012
+    general_news_to: 12/12/2013
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
