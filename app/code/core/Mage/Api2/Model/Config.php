@@ -60,7 +60,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      * Initializes XML for this configuration
      * Local cache configuration
      *
-     * @param string|Varien_Simplexml_Element $sourceData
+     * @param string|Varien_Simplexml_Element|null $sourceData
      */
     public function __construct($sourceData = null)
     {
@@ -419,7 +419,6 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
      * @param string $resourceType Resource type
      * @param int $lowerOrEqualsTo OPTIONAL If specified - return version equal or lower to
      * @return int
-     * @throws Mage_Api2_Exception
      */
     public function getResourceLastVersion($resourceType, $lowerOrEqualsTo = null)
     {

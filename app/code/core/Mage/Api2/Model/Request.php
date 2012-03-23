@@ -94,7 +94,6 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      * Retrieve accept types understandable by requester in a form of array sorted by quality descending
      *
      * @return array
-     * @throws Mage_Api2_Exception
      */
     public function getAcceptTypes()
     {
@@ -190,7 +189,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     /**
      * Get resource model class name
      *
-     * @return string
+     * @return string|null
      */
     public function getModel()
     {
@@ -300,7 +299,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     /**
      * Retrieve action type
      *
-     * @return string
+     * @return string|null
      */
     public function getActionType()
     {

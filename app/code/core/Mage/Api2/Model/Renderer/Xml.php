@@ -68,7 +68,7 @@ class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
     /**
      * Protected pattern for check chars in the begin of tag name
      *
-     * @var array
+     * @var string
      */
     protected $_protectedTagNamePattern = '/^[0-9,.-]/';
 
@@ -90,7 +90,7 @@ class Mage_Api2_Model_Renderer_Xml implements Mage_Api2_Model_Renderer_Interface
     /**
      * Prepare convert data
      *
-     * @param mixed $data
+     * @param array|Varien_Object $data
      * @param bool $root
      * @return array
      * @throws Exception

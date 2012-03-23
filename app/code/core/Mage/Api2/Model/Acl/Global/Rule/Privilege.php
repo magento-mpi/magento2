@@ -40,24 +40,22 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
      */
     static public function toOptionArray()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
         return array(
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_CREATE,
-                'label' => $helper->__('Create')
+                'label' => Mage::helper('api2')->__('Create')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
-                'label' => $helper->__('Retrieve')
+                'label' => Mage::helper('api2')->__('Retrieve')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_UPDATE,
-                'label' => $helper->__('Update')
+                'label' => Mage::helper('api2')->__('Update')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_DELETE,
-                'label' => $helper->__('Delete')
+                'label' => Mage::helper('api2')->__('Delete')
             )
         );
     }

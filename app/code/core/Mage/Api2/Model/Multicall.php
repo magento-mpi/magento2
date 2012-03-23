@@ -157,9 +157,11 @@ class Mage_Api2_Model_Multicall
     }
 
     /**
-     * @param $subresourceName
-     * @param $data
-     * @param null $parentResourceIdFieldName
+     * Prepare internal request
+     *
+     * @param string $subresourceName
+     * @param array $data
+     * @param string|null $parentResourceIdFieldName
      * @return Mage_Api2_Model_Request_Internal
      */
     protected function _prepareRequest($subresourceName, $data, $parentResourceIdFieldName = null)
@@ -259,7 +261,7 @@ class Mage_Api2_Model_Multicall
      * Retrieve created resource id from response
      *
      * @param Mage_Api2_Model_Response $response
-     * @return string
+     * @return string|int
      */
     protected function _getCreatedResourceId($response)
     {

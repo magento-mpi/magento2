@@ -58,6 +58,7 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
         if (null === $this->_resourcesPermissions) {
             $roleConfigNodeName = $this->_role->getConfigNodeName();
             $rulesPairs = array();
+            $allowedType = Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
 
             if ($this->_role) {
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
@@ -67,14 +68,11 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
                 /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
                 foreach ($rules as $rule) {
                     $resourceId = $rule->getResourceId();
-                    $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$rule->getPrivilege()] =
-                            Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
+                    $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$rule->getPrivilege()] = $allowedType;
                 }
             } else {
                 //make resource "all" as default for new item
-                $rulesPairs = array(
-                    Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL =>
-                    Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW);
+                $rulesPairs = array(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL => $allowedType);
             }
 
             //set permissions to resources
@@ -100,8 +98,8 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
                     } elseif (!empty($allowedPrivileges[$privilege])
                         && !isset($rulesPairs[$resourceId][$roleConfigNodeName]['privileges'][$privilege])
                     ) {
-                        $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$privilege] =
-                            Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
+                        $deniedType = Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_DENY;
+                        $rulesPairs[$resourceId]['privileges'][$roleConfigNodeName][$privilege] = $deniedType;
                     }
                 }
             }

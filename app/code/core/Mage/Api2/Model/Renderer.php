@@ -38,6 +38,7 @@ abstract class Mage_Api2_Model_Renderer
      *
      * @param array|string $acceptTypes
      * @throws Mage_Api2_Exception
+     * @throws Exception
      * @return Mage_Api2_Model_Renderer_Interface
      */
     public static function factory($acceptTypes)
@@ -74,9 +75,7 @@ abstract class Mage_Api2_Model_Renderer
 
         $adapter = Mage::getModel($adapterPath);
         if (!$adapter) {
-            throw new Exception(sprintf(
-                'Response renderer adapter for content type "%s" not found.',
-                $type));
+            throw new Exception(sprintf('Response renderer adapter for content type "%s" not found.', $type));
         }
 
         return $adapter;

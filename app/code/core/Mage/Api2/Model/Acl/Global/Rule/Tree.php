@@ -74,7 +74,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     /**
      * Resources from config model
      *
-     * @var array
+     * @var Varien_Simplexml_Element
      */
     protected $_resourcesConfig;
 
@@ -190,7 +190,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         } else {
             $resources = array();
             $checkedResources = explode(',', Mage::app()->getRequest()->getParam('resource'));
-            $prefixResource  = self::NAME_RESOURCE  . self::ID_SEPARATOR;
+            $prefixResource  = self::NAME_RESOURCE . self::ID_SEPARATOR;
             switch ($this->_type) {
                 case self::TYPE_PRIVILEGE:
                     $prefixPrivilege = self::NAME_PRIVILEGE . self::ID_SEPARATOR;
@@ -439,24 +439,24 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
     /**
      * Add privileges
      *
-     * @param array $item                       Tree node
-     * @param Varien_Simplexml_Element $node    XML node
-     * @param string $name                      Node name
-     * @param string $privilege                 Privilege name
+     * @param array $item Tree node
+     * @param Varien_Simplexml_Element $node XML node
+     * @param string $name Node name
+     * @param string $privilege Privilege name
      * @return bool
      */
     protected function _addAttribute(&$item, Varien_Simplexml_Element $node, $name, $privilege)
     {
         $cnt = 0;
-        foreach ($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'] as $key=>$attribute) {
+        foreach ($this->_resourcesPermissions[$name]['operations'][$privilege]['attributes'] as $key => $attribute) {
             $title = $attribute['title'];
             $status = $attribute['status'];
 
             $checked = $status == Mage_Api2_Model_Acl_Global_Rule_Permission::TYPE_ALLOW;
-            $item['checked'] = $checked ?$checked   :$item['checked'];
+            $item['checked'] = $checked ? $checked : $item['checked'];
             $item[self::NAME_CHILDREN][] = array(
-                'id'   => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name
-                    . self::ID_SEPARATOR . $privilege . self::ID_SEPARATOR . $key,
+                'id' => self::NAME_ATTRIBUTE . self::ID_SEPARATOR . $name . self::ID_SEPARATOR . $privilege
+                    . self::ID_SEPARATOR . $key,
                 'text' => $title,
                 'checked' => $checked,
                 'sort_order' => ++$cnt,
@@ -471,7 +471,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
      *
      * @param array $a
      * @param array $b
-     * @return boolean
+     * @return int
      */
     protected function _sortTree($a, $b)
     {
