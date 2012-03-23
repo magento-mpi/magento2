@@ -1,23 +1,24 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Core
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Mage_Core
-     */
+/**
+ * @group module:Mage_Core
+ */
 class Mage_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Layout
      */
     protected $_layout;
+
     /**
      * @var Mage_Core_Block_Text_List
      */
@@ -37,7 +38,8 @@ class Mage_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
             array('block3', 'Mage_Core_Block_Text', 'text3'),
         );
         foreach ($children as $child) {
-            $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())->setText($child[2]);
+            $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())
+                ->setText($child[2]);
         }
         $html = $this->_block->toHtml();
         $this->assertEquals('text1text2text3', $html);

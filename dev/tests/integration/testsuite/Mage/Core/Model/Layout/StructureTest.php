@@ -1,17 +1,17 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Core
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Mage_Core
-     */
+/**
+ * @group module:Mage_Core
+ */
 class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -37,14 +37,12 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
 
         $this->_model->insertElement($parent, $child1, 'block');
         $parentName = $this->_model->getParentName($child1);
-        $this->assertInternalType('string', $parentName);
         $this->assertEquals($parent, $parentName);
 
         $this->_model->insertElement('', $parent, 'block');
         $this->assertEmpty($this->_model->getParentName($parent));
         $this->_model->insertElement($parent, $child2, 'block');
         $parentName = $this->_model->getParentName($child2);
-        $this->assertInternalType('string', $parentName);
         $this->assertEquals($parent, $parentName);
     }
 }

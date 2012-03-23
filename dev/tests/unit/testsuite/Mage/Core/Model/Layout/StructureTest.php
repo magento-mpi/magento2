@@ -36,7 +36,6 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
 
         $this->_model->insertElement($parent, $child, 'block');
         $parentName = $this->_model->getParentName($child);
-        $this->assertInternalType('string', $parentName);
         $this->assertEquals($parent, $parentName);
     }
 
@@ -76,45 +75,39 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->_model->insertBlock('', $parent);
         $result = $this->_model->getChildName($parent, $alias);
         $this->assertEquals($child, $result);
-        $this->assertInternalType('string', $result);
     }
 
-    public function testGetElementAlias()
+    public function testSetGetElementAlias()
     {
-        $alias = 'alias';
+        $alias1 = 'alias1';
+        $alias2 = 'alias1';
         $name = 'name';
-        $this->_model->insertBlock('', $name, $alias);
-        $this->assertEquals($alias, $this->_model->getElementAlias($name));
+        $this->_model->insertBlock('', $name, $alias1);
+        $this->assertEquals($alias1, $this->_model->getElementAlias($name));
+        $this->_model->setElementAlias($name, $alias2);
+        $this->assertEquals($alias2, $this->_model->getElementAlias($name));
     }
 
-    /**
-     * @covers Mage_Core_Model_Layout_Structure::setElementAttribute
-     * @covers Mage_Core_Model_Layout_Structure::getElementAttribute
-     */
-    public function testSetGetElementAttribute()
+    public function testRenameElement()
     {
         $name1 = 'name1';
         $name2 = 'name2';
-        $alias = 'alias';
-        $attr = 'attr';
 
-        $this->assertEmpty($this->_model->getElementAttribute($name1, 'name'));
-
+        $this->assertFalse($this->_model->hasElement($name1));
         $this->_model->insertBlock('', $name1);
+        $this->assertTrue($this->_model->hasElement($name1));
+        $this->_model->renameElement($name1, $name2);
+        $this->assertFalse($this->_model->hasElement($name1));
+        $this->assertTrue($this->_model->hasElement($name2));
+    }
 
-        $this->assertTrue($this->_model->setElementAttribute($name1, 'name', $name2));
-        $this->assertEmpty($this->_model->getElementAttribute($name1, 'name'));
-        $this->assertEquals($name2, $this->_model->getElementAttribute($name2, 'name'));
-
-        $this->assertFalse($this->_model->setElementAttribute($name1, 'alias', $alias));
-
-        $this->assertTrue($this->_model->setElementAttribute($name2, 'alias', $alias));
-        $this->assertEquals($alias, $this->_model->getElementAttribute($name2, 'alias'));
-
-        $this->assertTrue($this->_model->setElementAttribute($name2, 'attr', $attr));
-        $this->assertEquals($attr, $this->_model->getElementAttribute($name2, 'attr'));
-
-        $this->assertTrue($this->_model->setElementAttribute($name2, 'attr', $attr));
+    public function testGetElementAttribute()
+    {
+        $name = 'name';
+        $options = array('attribute' => 'value');
+        $this->_model->insertElement('', $name, 'block', '', '', '', $options);
+        $this->assertEquals($options['attribute'], $this->_model->getElementAttribute($name, 'attribute'));
+        $this->assertFalse($this->_model->getElementAttribute($name, 'invalid_attribute'));
     }
 
     public function testMove()
@@ -168,7 +161,6 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->_model->insertBlock($parent, $child, $alias);
         $result = $this->_model->getChildName($parent, $alias);
         $this->assertEquals($child, $result);
-        $this->assertInternalType('string', $result);
     }
 
     /**

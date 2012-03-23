@@ -67,10 +67,11 @@
                 <?php endif; ?>
             </div>
             <div class="product-collateral">
+                <?php $layout = $this->getLayout(); ?>
                 <?php foreach ($this->getGroupChildNames('detailed_info') as $name):?>
-                        <?php $html = $this->getLayout()->renderElement($name); ?>
+                        <?php $html = $layout->renderElement($name); ?>
                         <?php if (!$html) continue; ?>
-                        <?php $alias = $this->getLayout()->getElementAlias($name); ?>
+                        <?php $alias = $layout->getElementAlias($name); ?>
                         <div class="box-collateral <?php echo "box-{$alias}"?>">
                             <?php if ($title = $this->getChildData($alias, 'title')):?>
                             <h2><?php echo $this->escapeHtml($title); ?></h2>

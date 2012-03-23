@@ -63,7 +63,7 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
      *
      * Advanced version of getBlockName() method: gets name for container as well as for block
      *
-     * @return bool|string
+     * @return string|bool
      */
     public function getElementName()
     {

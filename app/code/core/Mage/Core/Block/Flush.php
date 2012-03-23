@@ -25,8 +25,9 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 
         ob_implicit_flush();
 
+        $layout = $this->getLayout();
         foreach ($this->getChildNames() as $name) {
-            echo $this->getLayout()->renderElement($name);
+            echo $layout->renderElement($name);
         }
     }
 

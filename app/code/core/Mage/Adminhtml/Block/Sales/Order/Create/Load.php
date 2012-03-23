@@ -21,8 +21,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Load extends Mage_Core_Block_Templ
     protected function _toHtml()
     {
         $result = array();
+        $layout = $this->getLayout();
         foreach ($this->getChildNames() as $name) {
-            $result[$name] = $this->getLayout()->renderElement($name);
+            $result[$name] = $layout->renderElement($name);
         }
         $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');

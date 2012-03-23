@@ -49,6 +49,10 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         foreach ($layoutXml as $handle) {
             $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');
         }
+        foreach ($layoutXml->xpath('@helper') as $action) {
+            $this->assertNotContains('/', $action->getAtrtibute('helper'));
+            $this->assertContains('::', $action->getAtrtibute('helper'));
+        }
         if (false !== strpos($layoutFile, 'app/code/core/Mage/Adminhtml/view/adminhtml/sales.xml')) {
             $this->markTestIncomplete("The file {$layoutFile} has to use Mage_Core_Block_Text_List, \n"
                 . 'there is no solution to get rid of it right now.'

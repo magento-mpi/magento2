@@ -201,12 +201,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Collect directly supported by xmlconnect methods
          */
-        foreach ($this->getChildNames() as $name) {
-            $block = $this->getLayout()->getBlock($name);
-            if (!$block) {
-                continue;
-            }
-
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
             $method = $block->getMethod();
             if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
                 continue;

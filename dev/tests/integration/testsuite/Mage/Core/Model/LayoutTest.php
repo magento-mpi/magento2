@@ -149,7 +149,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider createBlockDataProvider
      */
-    public function testCreateBlock($blockType, $blockName, array $blockData, $expectedName, $expectedAnonSuffix = null)
+    public function testCreateBlock($blockType, $blockName, array $blockData, $expectedName)
     {
         $expectedData = $blockData + array('type' => $blockType);
 
@@ -158,7 +158,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_layout, $block->getLayout());
         $this->assertRegExp($expectedName, $block->getNameInLayout());
         $this->assertEquals($expectedData, $block->getData());
-        $this->assertEquals($expectedAnonSuffix, $block->getAnonSuffix());
     }
 
     public function createBlockDataProvider()
@@ -170,7 +169,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 array('type' => 'Mage_Core_Block_Template'),
                 '/^some_block_name_full_class$/'
             ),
-            'anonymous block' => array(
+            'no name block' => array(
                 'Mage_Core_Block_Text_List',
                 '',
                 array(
@@ -179,13 +178,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 ),
                 '/^ANONYMOUS_.+/'
             ),
-            'anonymous suffix' => array(
-                'Mage_Core_Block_Template',
-                '.some_anonymous_suffix',
-                array('type' => 'Mage_Core_Block_Template'),
-                '/^ANONYMOUS_.+/',
-                'some_anonymous_suffix'
-            )
         );
     }
 
@@ -206,35 +198,38 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param $block
-     * @param string $name
-     * @param string $parent
-     * @param string $alias
-     * @param bool $after
-     * @param string $sibling
-     * @param bool $expected
-     * @dataProvider addBlockDataProvider
-     */
-    public function testAddBlock($block, $name = '', $parent = '', $alias = '', $after = true, $sibling = '',
-        $expected = true
-    ) {
-        $result = $this->_layout->addBlock($block, $name, $parent, $alias, $after, $sibling);
-        if ($expected) {
-            if (is_string($block)) {
-                $this->assertInstanceOf($block, $result);
-            } elseif ($block instanceof Mage_Core_Block_Abstract) {
-                $this->assertEquals($block, $result);
-            }
-        }
+    public function testAddBlock()
+    {
+        $parentName = 'parent';
+        $name1 = 'block1';
+        $block = $this->_layout->addBlock('Mage_Core_Block_Text', $name1, $parentName . '', 'alias1');
+        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
+        $this->assertTrue($this->_layout->hasElement($name1));
+        $this->assertEquals($parentName, $this->_layout->getParentName($name1));
+        $this->assertEquals('alias1', $this->_layout->getElementAlias($name1));
+        $this->assertEquals($name1, $this->_layout->getChildName($parentName, 'alias1'));
+
+        $name2 = 'block2';
+        $block2 = $this->_layout->addBlock(new Mage_Core_Block_Text, $name2, $parentName, 'alias2', true, $name1);
+        $this->assertInstanceOf('Mage_Core_Block_Text', $block2);
+        $this->assertEquals(array($name1, $name2), $this->_layout->getChildNames($parentName));
+        $this->assertTrue($this->_layout->hasElement($name2));
     }
 
-    public function addBlockDataProvider()
+    public function testGetChildBlock()
     {
-        return array(
-            array('Mage_Core_Block_Text', 'child', 'parent', 'alias', true, 'sibling', true),
-            array(new Mage_Core_Block_Text, 'child', 'parent', 'alias', true, 'sibling', true),
-        );
+        $block = $this->_layout->addBlock('Mage_Core_Block_Text', 'block', 'parent', 'block_alias');
+        $this->_layout->insertContainer('parent', 'container', 'container_alias');
+        $this->assertSame($block, $this->_layout->getChildBlock('parent', 'block_alias'));
+        $this->assertFalse($this->_layout->getChildBlock('parent', 'container_alias'));
+    }
+
+    public function testGetChildBlocks()
+    {
+        $block1 = $this->_layout->addBlock('Mage_Core_Block_Text', 'block1', 'parent');
+        $this->_layout->insertContainer('parent', 'container');
+        $block2 = $this->_layout->addBlock('Mage_Core_Block_Template', 'block2', 'parent');
+        $this->assertEquals(array($block1, $block2), $this->_layout->getChildBlocks('parent'));
     }
 
     /**

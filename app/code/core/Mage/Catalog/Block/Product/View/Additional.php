@@ -31,8 +31,9 @@ class Mage_Catalog_Block_Product_View_Additional extends Mage_Core_Block_Templat
     {
         if (is_null($this->_list)) {
             $this->_list = array();
+            $layout = $this->getLayout();
             foreach ($this->getChildNames() as $name) {
-                $this->_list[] = $this->getLayout()->renderElement($name);
+                $this->_list[] = $layout->renderElement($name);
             }
         }
         return $this->_list;

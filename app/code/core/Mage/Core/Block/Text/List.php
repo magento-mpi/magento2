@@ -19,8 +19,9 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
     protected function _toHtml()
     {
         $this->setText('');
+        $layout = $this->getLayout();
         foreach ($this->getChildNames() as $child) {
-            $this->addText($this->getLayout()->renderElement($child));
+            $this->addText($layout->renderElement($child));
         }
         return parent::_toHtml();
     }

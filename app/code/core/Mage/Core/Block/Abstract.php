@@ -42,13 +42,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_layout;
 
     /**
-     * Suffix for name of anonymous block
-     *
-     * @var string
-     */
-    protected $_anonSuffix;
-
-    /**
      * Request object
      *
      * @var Zend_Controller_Request_Http
@@ -61,13 +54,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Mage_Core_Block_Messages
      */
     protected $_messagesBlock               = null;
-
-    /**
-     * Whether this block was not explicitly named
-     *
-     * @var boolean
-     */
-    protected $_isAnonymous                 = false;
 
     /**
      * Block html frame open tag
@@ -201,88 +187,45 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Check if block is using auto generated (Anonymous) name
-     * @return bool
-     */
-    public function isAnonymous()
-    {
-        return $this->_isAnonymous;
-    }
-
-    /**
-     * Set the anonymous flag
-     *
-     * @param  bool $flag
-     * @return Mage_Core_Block_Abstract
-     */
-    public function setIsAnonymous($flag)
-    {
-        $this->_isAnonymous = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Returns anonymous block suffix
-     *
-     * @return string
-     */
-    public function getAnonSuffix()
-    {
-        return $this->_anonSuffix;
-    }
-
-    /**
-     * Set anonymous suffix for current block
-     *
-     * @param string $suffix
-     * @return Mage_Core_Block_Abstract
-     */
-    public function setAnonSuffix($suffix)
-    {
-        $this->_anonSuffix = $suffix;
-        return $this;
-    }
-
-    /**
      * Returns block alias
      *
-     * @return string|bool
+     * @return string
      */
     public function getBlockAlias()
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return false;
+            return '';
         }
         return $layout->getElementAlias($this->getNameInLayout());
     }
 
     /**
-     * Set block's name in layout and unsets previous link if such exists.
+     * Sets/changes name of a block in layout
      *
      * @param string $name
      * @return Mage_Core_Block_Abstract
      */
     public function setNameInLayout($name)
     {
-        $oldName = $this->_nameInLayout;
-        if (!empty($oldName) && $this->getLayout()) {
-            $this->getLayout()->renameElement($oldName, $name);
+        $layout = $this->getLayout();
+        if (!empty($this->_nameInLayout) && $layout) {
+            $layout->renameElement($this->_nameInLayout, $name);
         }
         $this->_nameInLayout = $name;
         return $this;
     }
 
     /**
-     * Retrieve sorted list of children.
+     * Retrieves sorted list of child names
      *
-     * @return array|bool
+     * @return array
      */
     public function getChildNames()
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return false;
+            return array();
         }
         return $layout->getChildNames($this->getNameInLayout());
     }
@@ -306,13 +249,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @param   string $alias
      * @param   Mage_Core_Block_Abstract|string $block
-     * @return  Mage_Core_Block_Abstract|bool
+     * @return  Mage_Core_Block_Abstract
      */
     public function setChild($alias, $block)
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return false;
+            return $this;
         }
         if (!is_string($block)) {
             $block = $block->getNameInLayout();
@@ -326,13 +269,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * Unset child block
      *
      * @param  string $alias
-     * @return Mage_Core_Block_Abstract|bool
+     * @return Mage_Core_Block_Abstract
      */
     public function unsetChild($alias)
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return false;
+            return $this;
         }
         $layout->unsetChild($this->getNameInLayout(), $alias);
         return $this;
@@ -379,13 +322,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Unset all children blocks
      *
-     * @return Mage_Core_Block_Abstract|bool
+     * @return Mage_Core_Block_Abstract
      */
     public function unsetChildren()
     {
         $layout = $this->getLayout();
         if (!$layout) {
-            return false;
+            return $this;
         }
         $name = $this->getNameInLayout();
         $children = $layout->getChildNames($name);
@@ -403,12 +346,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getChildBlock($alias)
     {
-        if (!$this->getLayout()) {
+        $layout = $this->getLayout();
+        if (!$layout) {
             return false;
         }
-        $name = $this->getLayout()->getChildName($this->getNameInLayout(), $alias);
+        $name = $layout->getChildName($this->getNameInLayout(), $alias);
         if ($name) {
-            return $this->getLayout()->getBlock($name);
+            return $layout->getBlock($name);
         }
         return false;
     }
@@ -475,13 +419,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getBlockHtml($name)
     {
-        if (!($layout = $this->getLayout()) && (!$this->getAction() || !($layout = $this->getAction()->getLayout()))) {
-            return '';
+        if (($layout = $this->getLayout()) || ($this->getAction() && ($layout = $this->getAction()->getLayout()))) {
+            $block = $layout->getBlock($name);
+            if ($block) {
+                return $block->toHtml();
+            }
         }
-        if (!($block = $layout->getBlock($name))) {
-            return '';
-        }
-        return $block->toHtml();
+        return '';
     }
 
     /**

@@ -25,16 +25,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Core_
      */
     protected function _toHtml()
     {
-        $children = $this->getChildNames();
+        $children = $this->getLayout()->getChildBlocks($this->getNameInLayout());
         $total = count($children);
         $i = 0;
         $this->setText('');
-        foreach ($children as $name) {
-            $block = $this->getLayout()->getBlock($name);
-            if (!$block) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block: %s', $name));
-            }
-
+        /** @var $block Mage_Core_Block_Abstract  */
+        foreach ($children as $block) {
             $i++;
             $block->setIsLastFieldset($i == $total);
 

@@ -25,8 +25,7 @@ class Mage_Wishlist_Block_Customer_Wishlist_Items extends Mage_Core_Block_Templa
     public function getColumns()
     {
         $columns = array();
-        foreach ($this->getChildNames() as $name) {
-            $child = $this->getLayout()->getBlock($name);
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $child) {
             if ($child->isEnabled()){
                 $columns[] = $child;
             }

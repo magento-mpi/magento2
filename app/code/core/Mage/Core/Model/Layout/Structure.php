@@ -63,16 +63,16 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Get parent element by name
      *
-     * @param $name
+     * @param string $name
      * @return bool|string
      */
     public function getParentName($name)
     {
-        $elements = $this->_findByXpath("//element[@name='$name']");
+        $elements = $this->_getElementsByName($name);
         $length = $elements->length;
         if ($length) {
             if ($length > 1) {
-                Mage::logException(new Magento_Exception("Too many parents found: " . $length));
+                Mage::logException(new Magento_Exception("Too many parents found for element [$name]: " . $length));
             }
             $element = $elements->item($length - 1);
             return $element->parentNode->getAttribute('name');
@@ -83,7 +83,7 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Get sorted list of child aliases by parent name
      *
-     * @param $parentName
+     * @param string $parentName
      * @return array
      */
     public function getChildNames($parentName)
@@ -99,13 +99,16 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Move node to necessary parent node. If node doesn't exist, creates it
      *
-     * @param $parentName
-     * @param $elementName
-     * @param $alias
+     * @param string $parentName
+     * @param string $elementName
+     * @param string $alias
      * @return Mage_Core_Model_Layout_Structure
      */
     public function setChild($parentName, $elementName, $alias)
     {
+        if (empty($alias)) {
+            $alias = $elementName;
+        }
         $element = $this->_getElementByName($elementName);
         if (!$element) {
             $this->insertBlock($parentName, $elementName, $alias);
@@ -120,9 +123,22 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
+     * Sets alias for an element with specified name
+     *
+     * @param string $name
+     * @param string $alias
+     * @return Mage_Core_Model_Layout_Structure|string
+     */
+    public function setElementAlias($name, $alias)
+    {
+        $this->_setElementAttribute($name, 'alias', $alias);
+        return $this;
+    }
+
+    /**
      * Get element alias by name
      *
-     * @param $name
+     * @param string $name
      * @return string
      */
     public function getElementAlias($name)
@@ -131,23 +147,16 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Set element attribute
+     * Change element's name
      *
-     * @param string $name
-     * @param string $attribute
-     * @param string $value
-     * @return bool
+     * @param string $oldName
+     * @param string $newName
+     * @return Mage_Core_Model_Layout_Structure|string
      */
-    public function setElementAttribute($name, $attribute, $value)
+    public function renameElement($oldName, $newName)
     {
-        /** @var $element DOMElement */
-        $element = $this->_getElementByXpath("//element[@name='$name']");
-        if (!$element) {
-            return false;
-        }
-        $element->setAttribute($attribute, $value);
-
-        return true;
+        $this->_setElementAttribute($oldName, 'name', $newName);
+        return $this;
     }
 
     /**
@@ -159,8 +168,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getElementAttribute($name, $attribute)
     {
-        /** @var $element DOMElement */
-        $element = $this->_getElementByXpath("//element[@name='$name']");
+        $element = $this->_getElementByName($name);
         if ($element && $element->hasAttribute($attribute)) {
             return $element->getAttribute($attribute);
         }
@@ -169,10 +177,29 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
+     * Set element attribute
+     *
+     * @param string $name
+     * @param string $attribute
+     * @param string $value
+     * @return bool
+     */
+    protected function _setElementAttribute($name, $attribute, $value)
+    {
+        $element = $this->_getElementByName($name);
+        if (!$element) {
+            return false;
+        }
+        $element->setAttribute($attribute, $value);
+
+        return true;
+    }
+
+    /**
      * Move child element to new parent
      *
-     * @param $childName
-     * @param $parent
+     * @param string $childName
+     * @param string $parent
      * @return Mage_Core_Model_Layout_Structure
      */
     public function move($childName, $parent)
@@ -188,8 +215,8 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Remove child from parent element
      *
-     * @param $parentName
-     * @param $alias
+     * @param string $parentName
+     * @param string $alias
      * @return Mage_Core_Model_Layout_Structure
      */
     public function unsetChild($parentName, $alias)
@@ -206,26 +233,25 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Remove element from the structure
+     * Remove elements with specified name from the structure
      *
      * @param string $name
-     * @return bool
+     * @return Mage_Core_Model_Layout_Structure
      */
     public function unsetElement($name)
     {
-        $element = $this->_getElementByXpath("element[@name='$name']");
-        if ($element) {
+        foreach ($this->_getElementsByName($name) as $element) {
             $element->parentNode->removeChild($element);
         }
 
-        return true;
+        return $this;
     }
 
     /**
      * Get child name by parent name and alias
      *
-     * @param $parentName
-     * @param $alias
+     * @param string $parentName
+     * @param string $alias
      * @return string|bool
      */
     public function getChildName($parentName, $alias)
@@ -263,14 +289,14 @@ class Mage_Core_Model_Layout_Structure
             $alias = $name;
         }
 
-        $child = $this->_getChildNode($name);
+        $child = $this->_getTempOrNewNode($name);
         $child->setAttribute('type', $type);
         $child->setAttribute('alias', $alias);
         foreach ($options as $optName => $value) {
             $child->setAttribute($optName, $value);
         }
 
-        $parentNode = $this->_getParentNode($parentName);
+        $parentNode = $this->_findOrCreateParentNode($parentName);
         $this->_clearExistingChild($parentNode, $alias);
 
         $siblingNode = $this->_getSiblingElement($parentNode, $after, $sibling);
@@ -280,20 +306,20 @@ class Mage_Core_Model_Layout_Structure
             $parentNode->appendChild($child);
         }
 
-        return $child->getAttribute('name');
+        return $name;
     }
 
     /**
-     * Get child node with specified name, create new if doesn't exist
+     * Gets temporary node with specified name, creates new node if it doesn't exist
      *
-     * @param $name
+     * @param string $name
      * @return DOMElement|null
      */
-    protected function _getChildNode($name)
+    protected function _getTempOrNewNode($name)
     {
         $child = $this->_getElementByXpath("//element[not(@type) and @name='$name']");
         if (!$child) {
-            if ($length = $this->_findByXpath("//element[@name='$name']")->length) {
+            if ($length = $this->_getElementsByName($name)->length) {
                 Mage::logException(new Magento_Exception("Element with name [$name] already exists (" . $length . ')'));
             }
             $child = $this->_dom->createElement('element');
@@ -303,14 +329,14 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Get parent node with specified name, create new if doesn't exist
+     * Gets parent node with specified name, creates new if it doesn't exist
+     * If $parentNode is not specified, returns root document node
      *
-     * @param $parentName
+     * @param string $parentName
      * @return bool|DOMElement|DOMNode
      */
-    protected function _getParentNode($parentName)
+    protected function _findOrCreateParentNode($parentName)
     {
-        $parentNode = false;
         if ($parentName) {
             $parentNode = $this->_getElementByName($parentName);
             if (!$parentNode) {
@@ -318,8 +344,7 @@ class Mage_Core_Model_Layout_Structure
                 $parentNode->setAttribute('name', $parentName);
                 $this->_dom->appendChild($parentNode);
             }
-        }
-        if (!$parentNode) {
+        } else {
             $parentNode = $this->_dom->firstChild;
         }
         return $parentNode;
@@ -330,17 +355,17 @@ class Mage_Core_Model_Layout_Structure
      *
      * @param DOMElement $parentNode
      * @param string $after
-     * @param string $siblingName
+     * @param string $sibling
      * @return DOMElement|bool
      */
-    protected function _getSiblingElement(DOMElement $parentNode, $after, $siblingName)
+    protected function _getSiblingElement(DOMElement $parentNode, $after, $sibling)
     {
         if (!$parentNode->hasChildNodes()) {
-            $siblingName = '';
+            $sibling = '';
         }
         $siblingNode = false;
-        if ('' !== $siblingName) {
-            $siblingNode = $this->_getChildElement($parentNode->getAttribute('name'), $siblingName);
+        if ('' !== $sibling) {
+            $siblingNode = $this->_getChildElement($parentNode->getAttribute('name'), $sibling);
             if ($siblingNode && $after) {
                 if (isset($siblingNode->nextSibling)) {
                     $siblingNode = $siblingNode->nextSibling;
@@ -365,9 +390,9 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _clearExistingChild(DOMElement $parentNode, $alias)
     {
-        $exist = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
-        if ($exist) {
-            $parentNode->removeChild($exist);
+        $existent = $this->_getElementByXpath("element[@alias='$alias']", $parentNode);
+        if ($existent) {
+            $parentNode->removeChild($existent);
             return true;
         }
         return false;
@@ -376,8 +401,8 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Add new block to necessary position in the structure
      *
-     * @param $parentName
-     * @param $name
+     * @param string $parentName
+     * @param string $name
      * @param string $alias
      * @param string $sibling
      * @param bool $after
@@ -386,14 +411,14 @@ class Mage_Core_Model_Layout_Structure
      */
     public function insertBlock($parentName, $name, $alias = '', $after = true, $sibling = '', $options = array())
     {
-        return $this->insertElement($parentName, $name, 'block', $alias, $after, $sibling, $options);
+        return $this->insertElement($parentName, $name, self::ELEMENT_TYPE_BLOCK, $alias, $after, $sibling, $options);
     }
 
     /**
      * Add new container to necessary position in the structure
      *
-     * @param $parentName
-     * @param $name
+     * @param string $parentName
+     * @param string $name
      * @param string $alias
      * @param string $sibling
      * @param bool $after
@@ -402,47 +427,53 @@ class Mage_Core_Model_Layout_Structure
      */
     public function insertContainer($parentName, $name, $alias = '', $after = true, $sibling = '', $options = array())
     {
-        return $this->insertElement($parentName, $name, 'container', $alias, $after, $sibling, $options);
+        return $this->insertElement(
+            $parentName, $name, self::ELEMENT_TYPE_CONTAINER, $alias, $after, $sibling, $options
+        );
     }
 
     /**
      * Check if element with specified name exists in the structure
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
     public function hasElement($name)
     {
-        return $this->_findByXpath("//element[@name='$name']")->length > 0;
+        return $this->_getElementsByName($name)->length > 0;
     }
 
     /**
      * Get children count
      *
-     * @param string $parentName
+     * @param string $name
      * @return int
      */
-    public function getChildrenCount($parentName)
+    public function getChildrenCount($name)
     {
-        return $this->_findByXpath("//element[@name='$parentName']/element")->length;
+        return $this->_findByXpath("//element[@name='$name']/element")->length;
     }
 
     /**
      * Add element to parent group
      *
      * @param string $name
-     * @param string $parentName
-     * @param string $parentGroupName
+     * @param string $groupName
      * @return bool
      */
-    public function addToParentGroup($name, $parentName, $parentGroupName)
+    public function addToParentGroup($name, $groupName)
     {
+        $parentName = $this->getParentName($name);
+        if (!$parentName) {
+            return false;
+        }
         $parentElement = $this->_getElementByName($parentName);
-        if ($this->_getElementByXpath("groups/group[@name='$parentGroupName']/child[@name='$name']", $parentElement)) {
+        if (!$parentElement
+            || $this->_getElementByXpath("groups/group[@name='$groupName']/child[@name='$name']", $parentElement)) {
             return false;
         }
 
-        $group = $this->_getElementByXpath("groups/group[@name='$parentGroupName']", $parentElement);
+        $group = $this->_getElementByXpath("groups/group[@name='$groupName']", $parentElement);
         if (!$group) {
             $groups = $this->_getElementByXpath('groups', $parentElement);
             if (!$groups) {
@@ -451,7 +482,7 @@ class Mage_Core_Model_Layout_Structure
             }
             $group = $this->_dom->createElement('group');
             $groups->appendChild($group);
-            $group->setAttribute('name', $parentGroupName);
+            $group->setAttribute('name', $groupName);
         }
 
         $child = $this->_dom->createElement('child');
@@ -464,7 +495,7 @@ class Mage_Core_Model_Layout_Structure
     /**
      * Get element names for specified group
      *
-     * @param string $name
+     * @param string $name Name of an element containing group
      * @param string $groupName
      * @return array
      */
@@ -488,18 +519,19 @@ class Mage_Core_Model_Layout_Structure
      */
     public function isBlock($name)
     {
-        return $this->_findByXpath("//element[@name='$name' and @type='block']")->length > 0;
+        return $this->_findByXpath("//element[@name='$name' and @type='" .self::ELEMENT_TYPE_BLOCK. "']")->length > 0;
     }
 
     /**
      * Check if element with specified name is container
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
     public function isContainer($name)
     {
-        return $this->_findByXpath("//element[@name='$name' and @type='container']")->length > 0;
+        return $this->_findByXpath("//element[@name='$name' and @type='" .self::ELEMENT_TYPE_CONTAINER. "']")
+            ->length > 0;
     }
 
     /**
@@ -523,12 +555,12 @@ class Mage_Core_Model_Layout_Structure
      *
      * @param string $parentName
      * @param string $alias
-     * @return DOMElement|bool
+     * @return DOMElement|null
      */
     protected function _getChildElement($parentName, $alias)
     {
         if (!$alias) {
-            return false;
+            return null;
         }
         return $this->_getElementByXpath("//element[@name='$parentName']/element[@alias='$alias']");
     }
@@ -538,19 +570,21 @@ class Mage_Core_Model_Layout_Structure
      *
      * @param DOMElement $element
      * @param string $newParent
+     * @return Mage_Core_Model_Layout_Structure
+     * @throws Magento_Exception
      */
     protected function _move($element, $newParent)
     {
-        $parentNode = false;
-        if ($newParent) {
-            $parentNode = $this->_getElementByXpath("//element[@name='$newParent']");
-        }
+        $parentNode = $this->_findOrCreateParentNode($newParent);
         if (!$parentNode) {
-            $parentNode = $this->_dom->firstChild;
+            throw new Magento_Exception(
+                "Can not move element [" . $element->getAttribute('name') . "]: parent is not found"
+            );
         }
 
         $this->_clearExistingChild($parentNode, $element->getAttribute('alias'));
         $parentNode->appendChild($element);
+        return $this;
     }
 
     /**
@@ -562,6 +596,15 @@ class Mage_Core_Model_Layout_Structure
     protected function _getElementByName($name)
     {
         return $this->_getElementByXpath("//element[@name='$name']");
+    }
+
+    /**
+     * @param string $name
+     * @return DOMNodeList
+     */
+    protected function _getElementsByName($name)
+    {
+        return $this->_findByXpath("//element[@name='$name']");
     }
 
     /**
@@ -584,14 +627,14 @@ class Mage_Core_Model_Layout_Structure
      *
      * Gets element by xpath
      *
-     * @param $xpath
+     * @param string $xpath
      * @param null|DOMElement $context
      * @return null|DOMElement
      */
     protected function _getElementByXpath($xpath, $context = null)
     {
         $elements = $this->_findByXpath($xpath, $context);
-        if ($elements) {
+        if ($elements->length) {
             return $elements->item(0);
         } else {
             return null;
