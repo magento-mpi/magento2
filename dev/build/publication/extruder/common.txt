@@ -26,3 +26,4 @@ lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php
 lib/Varien/Db/Statement/Oracle.php
 lib/Varien/Db/Statement/Pdo/Mssql.php
+lib/Varien/Db/Statement/Sqlsrv.php

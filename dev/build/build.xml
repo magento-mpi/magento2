@@ -47,22 +47,15 @@
         </exec>
     </target>
 
-    <!-- make sure to retain dev/build in working copy, just with a different alias -->
-    <target name="preserve-build-files">
-        <copy todir="${basedir}/_build" failonerror="true">
-            <fileset dir="${basedir}/dev/build"/>
-        </copy>
-    </target>
-
     <!-- execute extruder, perform license notices replacement and sanity check -->
-    <target name="sanity-ce" depends="preserve-build-files,prepare-ce">
+    <target name="sanity-ce" depends="prepare-ce">
         <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/_build/publication/license/license-tool.php --
+            <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
                 -w ${basedir} -e ce -v"/>
         </exec>
         <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/_build/publication/sanity/sanity.php --
-                -w ${basedir} -c ${basedir}/_build/publication/sanity/ce.xml -v"/>
+            <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
+                -w ${basedir} -c ${basedir}/dev/build/publication/sanity/ce.xml -v"/>
         </exec>
     </target>
 

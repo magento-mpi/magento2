@@ -54,6 +54,7 @@ class Routine
         ),
         'php'   => array('*.php', '*.php.sample'),
         'phtml' => array('*.phtml'),
+        'html'  => array('*.html', '*.htm'),
         'css'   => array('*.css'),
         'js'    => array('*.js'),
         'flex'  => array('*.as'),
