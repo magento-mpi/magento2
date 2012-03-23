@@ -51,7 +51,6 @@ class Mage_Api2_Model_Auth_User_Guest extends Mage_Api2_Model_Auth_User_Abstract
     /**
      * Retrieve user type
      *
-     * @abstract
      * @return string
      */
     public function getType()

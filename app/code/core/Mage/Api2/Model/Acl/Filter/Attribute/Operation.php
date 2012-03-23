@@ -34,7 +34,7 @@
 class Mage_Api2_Model_Acl_Filter_Attribute_Operation
 {
     /**
-     * Options getter
+     * Get options paramets
      *
      * @return array
      */
@@ -55,7 +55,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute_Operation
     }
 
     /**
-     * Options getter with "key-value" format
+     * Get options in "key-value" format
      *
      * @return array
      */

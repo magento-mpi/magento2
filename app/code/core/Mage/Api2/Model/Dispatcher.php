@@ -79,8 +79,6 @@ class Mage_Api2_Model_Dispatcher
     /**
      * Pack resource model class path from components and try to load it
      *
-     * @static
-     * @param string $model Model prefix (usually from <model> config node)
      * @param string $apiType API type
      * @param string $userType API User type (e.g. admin, customer, guest)
      * @param int $version Requested version

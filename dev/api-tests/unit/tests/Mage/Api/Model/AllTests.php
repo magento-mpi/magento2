@@ -11,7 +11,6 @@ class Mage_Api_Model_AllTests
     /**
      * Get suite with all tests
      *
-     * @static
      * @return PHPUnit_Framework_TestSuite
      */
     public static function suite()

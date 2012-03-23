@@ -85,7 +85,7 @@ class Mage_Api2_Model_Acl_Filter
      * Strip attributes in of collection items
      *
      * @param array $items
-     * @return mixed
+     * @return array
      */
     public function collectionIn($items)
     {
@@ -99,7 +99,7 @@ class Mage_Api2_Model_Acl_Filter
      * Strip attributes out of collection items
      *
      * @param array $items
-     * @return mixed
+     * @return array
      */
     public function collectionOut($items)
     {
@@ -114,7 +114,6 @@ class Mage_Api2_Model_Acl_Filter
      *
      * @param string $operationType OPTIONAL One of Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_... constant
      * @return array
-     * @throw Exception
      */
     public function getAllowedAttributes($operationType = null)
     {

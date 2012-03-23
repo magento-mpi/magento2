@@ -49,7 +49,6 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
     /**
      * Create new test category attribute with options
      *
-     * @static
      * @return void
      */
     public static function setUpBeforeClass()
@@ -68,7 +67,6 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
     /**
      * Delete new test category attribute and its options
      *
-     * @static
      * @return void
      */
     public static function tearDownAfterClass()

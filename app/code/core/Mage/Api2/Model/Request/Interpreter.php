@@ -36,7 +36,6 @@ abstract class Mage_Api2_Model_Request_Interpreter
     /**
      * Request body interpreters factory
      *
-     * @static
      * @param string $type
      * @return Mage_Api2_Model_Request_Interpreter_Interface
      * @throws Exception|Mage_Api2_Exception

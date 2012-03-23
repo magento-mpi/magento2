@@ -71,7 +71,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     }
 
     /**
-     * Get button
+     * Get back button HTML
      *
      * @return string
      */
@@ -81,7 +81,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     }
 
     /**
-     * Reset button
+     * Get reset button HTML
      *
      * @return string
      */
@@ -91,7 +91,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     }
 
     /**
-     * Save button
+     * Get save button HTML
      *
      * @return string
      */

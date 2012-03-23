@@ -36,7 +36,6 @@ interface Mage_Api2_Model_Renderer_Interface
     /**
      * Render content in a certain format
      *
-     * @abstract
      * @param array|object $data
      * @return string
      */

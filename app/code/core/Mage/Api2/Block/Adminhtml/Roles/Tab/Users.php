@@ -55,7 +55,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     /**
      * Prepare collection
      *
-     * @return Mage_Api2_Block_Adminhtml_Roles_Grid
+     * @return Mage_Api2_Block_Adminhtml_Roles_Tab_Users
      */
     protected function _prepareCollection()
     {
@@ -78,7 +78,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     /**
      * Prepare columns
      *
-     * @return Mage_Api2_Block_Adminhtml_Roles_Grid
+     * @return Mage_Api2_Block_Adminhtml_Roles_Tab_Users
      */
     protected function _prepareColumns()
     {
@@ -175,7 +175,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     * Whether tab is visible
+     * Whether tab is hidden
      *
      * @return bool
      */

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Yesno
     }
 
     /**
-     * Options getter with "key-value" format
+     * Get options in "key-value" format
      *
      * @return array
      */

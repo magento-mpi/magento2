@@ -49,6 +49,8 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
 
     /**
      * Hook before html rendering
+     *
+     * @return Mage_Api2_Block_Adminhtml_Roles_Tabs
      */
     protected function _beforeToHtml()
     {
@@ -58,6 +60,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tabs extends Mage_Adminhtml_Block_Widget_T
         } else {
             $this->setActiveTab('api2_role_section_info');
         }
-        parent::_beforeToHtml();
+        return parent::_beforeToHtml();
     }
 }

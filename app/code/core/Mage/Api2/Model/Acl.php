@@ -41,21 +41,21 @@ class Mage_Api2_Model_Acl extends Zend_Acl
     protected $_rolesCollection;
 
     /**
-     * Retrieve API2 config model instance
+     * API2 config model instance
      *
      * @var Mage_Api2_Model_Config
      */
     protected $_config;
 
     /**
-     * Retrieve resource type of request
+     * Resource type of request
      *
      * @var string
      */
     protected $_resourceType;
 
     /**
-     * Retrieve operation of request
+     * Operation of request
      *
      * @var string
      */

@@ -36,7 +36,6 @@ abstract class Mage_Api2_Model_Renderer
     /**
      * Get Renderer of given type
      *
-     * @static
      * @param array|string $acceptTypes
      * @throws Mage_Api2_Exception
      * @return Mage_Api2_Model_Renderer_Interface

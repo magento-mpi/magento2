@@ -64,8 +64,8 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
                 ->setData('use_ajax', true);
 
         $this->_treeModel = Mage::getModel(
-            'api2/acl_global_rule_tree',
-            array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE));
+            'api2/acl_global_rule_tree', array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
+        );
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     }
 
     /**
-     * Whether tab is visible
+     * Whether tab is hidden
      *
      * @return bool
      */

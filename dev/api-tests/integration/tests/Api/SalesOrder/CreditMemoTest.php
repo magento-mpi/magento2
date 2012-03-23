@@ -51,8 +51,6 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
     /**
      * Delete created fixtures
-     *
-     * @static
      */
     static public function tearDownAfterClass()
     {

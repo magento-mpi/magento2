@@ -61,7 +61,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     /**
      * Permissions model
      *
-     * @var array
+     * @var Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
      */
     protected $_permissionModel;
 
@@ -78,7 +78,7 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     /**
      * Before save actions
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Api2_Model_Acl_Global_Role
      */
     protected function _beforeSave()
     {
@@ -96,10 +96,8 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
             $helper = Mage::helper('core');
 
             Mage::throwException(
-                Mage::helper('api2')->__(
-                    '%s role is a special one and can\'t be changed.',
-                    $helper->escapeHtml($this->getRoleName())
-                )
+                Mage::helper('api2')->__('%s role is a special one and can\'t be changed.',
+                    $helper->escapeHtml($this->getRoleName()))
             );
         }
 
@@ -119,10 +117,8 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
             $helper = Mage::helper('core');
 
             Mage::throwException(
-                Mage::helper('api2')->__(
-                    '%s role is a special one and can\'t be deleted.',
-                    $helper->escapeHtml($this->getRoleName())
-                )
+                Mage::helper('api2')->__('%s role is a special one and can\'t be deleted.',
+                    $helper->escapeHtml($this->getRoleName()))
             );
         }
 
@@ -157,9 +153,8 @@ class Mage_Api2_Model_Acl_Global_Role extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Is role a system role?
+     * Get role system belonging
      *
-     * @static
      * @param Mage_Api2_Model_Acl_Global_Role $role
      * @return bool
      */

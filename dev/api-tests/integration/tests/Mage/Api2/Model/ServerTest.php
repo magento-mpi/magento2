@@ -37,7 +37,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Product model data fixture
      *
-     * @static
      * @var Mage_Catalog_Model_Product
      */
     protected static $_product;
@@ -45,7 +44,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Customer model data fixture
      *
-     * @static
      * @var Mage_Customer_Model_Customer
      */
     protected static $_customer;
@@ -53,7 +51,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Consumer model data fixture
      *
-     * @static
      * @var Mage_OAuth_Model_Consumer
      */
     protected static $_consumer;
@@ -61,7 +58,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Token model data fixture
      *
-     * @static
      * @var Mage_OAuth_Model_Token
      */
     protected static $_token;
@@ -83,7 +79,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Set product data fixture
      *
-     * @static
      * @return void
      */
     public static function productDataFixture()
@@ -109,7 +104,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Set customer data fixture
      *
-     * @static
      * @return void
      */
     public static function customerDataFixture()
@@ -131,7 +125,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Set consumer data fixture
      *
-     * @static
      * @return void
      */
     public static function consumerDataFixture()
@@ -153,7 +146,6 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Set token data fixture
      *
-     * @static
      * @return void
      */
     public static function tokenDataFixture()

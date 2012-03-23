@@ -36,7 +36,6 @@ abstract class Mage_OAuth_Block_Authorize_ButtonBaseAbstract extends Mage_OAuth_
     /**
      * Get confirm url path
      *
-     * @abstract
      * @return string
      */
     abstract public function getConfirmUrlPath();
@@ -44,7 +43,6 @@ abstract class Mage_OAuth_Block_Authorize_ButtonBaseAbstract extends Mage_OAuth_
     /**
      * Get reject url path
      *
-     * @abstract
      * @return string
      */
     abstract public function getRejectUrlPath();

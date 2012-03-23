@@ -48,7 +48,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute extends Mage_Core_Model_Abstract
     /**
      * Permissions model
      *
-     * @var array
+     * @var Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
      */
     protected $_permissionModel;
 

@@ -306,7 +306,6 @@ class Mage_Api2_Model_Server
     /**
      * Retrieve api types
      *
-     * @static
      * @return array
      */
     public static function getApiTypes()

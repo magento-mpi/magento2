@@ -41,7 +41,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
     /**#@-*/
 
     /**
-     * Options getter
+     * Get options parameters
      *
      * @return array
      */
@@ -60,7 +60,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
     }
 
     /**
-     * Options getter with "key-value" format
+     * Get options in "key-value" format
      *
      * @return array
      */

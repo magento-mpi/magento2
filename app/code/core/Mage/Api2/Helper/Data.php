@@ -105,7 +105,7 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($types) {
             foreach ($types->asArray() as $type => $params) {
-                if (!empty($type['allowed'])) {
+                if (!empty($params['allowed'])) {
                     $userModels[$type] = $params['model'];
                 }
             }
@@ -163,7 +163,7 @@ class Mage_Api2_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check if ALL attributes allowed
+     * Check if ALL attributes are allowed
      *
      * @param string $userType
      * @return bool

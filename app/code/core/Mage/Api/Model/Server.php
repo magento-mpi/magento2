@@ -79,7 +79,7 @@ class Mage_Api_Model_Server
      * @param string $handler Handler name
      * @return Mage_Api_Model_Server
      */
-    public function init(Mage_Api_Controller_Action $controller, $adapter='default', $handler='default')
+    public function init(Mage_Api_Controller_Action $controller, $adapter = 'default', $handler = 'default')
     {
         $this->initialize($adapter, $handler);
 

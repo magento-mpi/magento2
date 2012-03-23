@@ -120,7 +120,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
     }
 
     /**
-     * Whether tab is visible
+     * Whether tab is hidden
      *
      * @return bool
      */

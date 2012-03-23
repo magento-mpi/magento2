@@ -55,7 +55,6 @@ abstract class Mage_OAuth_Block_AuthorizeBaseAbstract extends Mage_OAuth_Block_A
     /**
      * Retrieve reject URL path
      *
-     * @abstract
      * @return string
      */
     abstract public function getRejectUrlPath();

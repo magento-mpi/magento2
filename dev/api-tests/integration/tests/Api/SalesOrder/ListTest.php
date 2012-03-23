@@ -80,8 +80,6 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
 
     /**
      * Delete created fixtures
-     *
-     * @static
      */
     static public function tearDownAfterClass()
     {

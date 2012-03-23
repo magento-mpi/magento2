@@ -38,7 +38,6 @@ interface Mage_Api2_Model_Acl_PermissionInterface
      *
      * Get permissions list with set permissions
      *
-     * @abstract
      * @return array
      */
     public function getResourcesPermissions();

@@ -79,8 +79,9 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
 
                     /** @var $rule Mage_Api2_Model_Acl_Filter_Attribute */
                     if (null !== $rule->getAllowedAttributes()) {
-                        $allowedAttributes[$rule->getResourceId()][$rule->getOperation()]
-                            = explode(',', $rule->getAllowedAttributes());
+                        $allowedAttributes[$rule->getResourceId()][$rule->getOperation()] = explode(
+                            ',', $rule->getAllowedAttributes()
+                        );
                     }
                 }
 
@@ -99,7 +100,8 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                     $operations = $operationSource->toArray();
 
                     if (empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_CREATE])
-                        && empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_UPDATE])) {
+                        && empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_UPDATE])
+                    ) {
                         unset($operations[Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_WRITE]);
                     }
                     if (empty($resourceUserPrivileges[Mage_Api2_Model_Resource::OPERATION_RETRIEVE])) {
@@ -117,8 +119,8 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
 
                             foreach ($operations as $operation => $operationLabel) {
                                 if (!$this->_hasEntityOnlyAttributes
-                                    && $config->getResourceEntityOnlyAttributes($resource, $this->_userType,
-                                    $operation)) {
+                                    && $config->getResourceEntityOnlyAttributes($resource, $this->_userType, $operation)
+                                ) {
                                     $this->_hasEntityOnlyAttributes = true;
                                 }
                                 $availableAttributes = $resourceModel->getAvailableAttributes(

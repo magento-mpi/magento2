@@ -34,7 +34,7 @@
 class Mage_Api2_Model_Acl_Global_Rule_Privilege
 {
     /**
-     * Options getter
+     * Get options parameters
      *
      * @return array
      */
@@ -63,19 +63,17 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
     }
 
     /**
-     * Options getter with "key-value" format
+     * Get options in "key-value" format
      *
      * @return array
      */
     static public function toArray()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
         return array(
-            Mage_Api2_Model_Resource::OPERATION_CREATE   => $helper->__('Create'),
-            Mage_Api2_Model_Resource::OPERATION_RETRIEVE => $helper->__('Retrieve'),
-            Mage_Api2_Model_Resource::OPERATION_UPDATE   => $helper->__('Update'),
-            Mage_Api2_Model_Resource::OPERATION_DELETE   => $helper->__('Delete')
+            Mage_Api2_Model_Resource::OPERATION_CREATE   => Mage::helper('api2')->__('Create'),
+            Mage_Api2_Model_Resource::OPERATION_RETRIEVE => Mage::helper('api2')->__('Retrieve'),
+            Mage_Api2_Model_Resource::OPERATION_UPDATE   => Mage::helper('api2')->__('Update'),
+            Mage_Api2_Model_Resource::OPERATION_DELETE   => Mage::helper('api2')->__('Delete')
         );
     }
 }

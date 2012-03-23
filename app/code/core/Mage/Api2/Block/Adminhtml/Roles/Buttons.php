@@ -30,7 +30,7 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method Mage_Api2_Block_Adminhtml_Roles_Tabs setRole(Mage_Api2_Model_Acl_Global_Role $role)
+ * @method Mage_Api2_Block_Adminhtml_Roles_Buttons setRole(Mage_Api2_Model_Acl_Global_Role $role)
  * @method Mage_Api2_Model_Acl_Global_Role getRole()
  */
 class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Template
@@ -47,7 +47,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     /**
      * Preparing global layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Mage_Api2_Block_Adminhtml_Roles_Buttons
      */
     protected function _prepareLayout()
     {
@@ -82,7 +82,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     }
 
     /**
-     * Get button
+     * Get back button HTML
      *
      * @return string
      */
@@ -92,7 +92,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     }
 
     /**
-     * Get button
+     * Get reset button HTML
      *
      * @return string
      */
@@ -102,7 +102,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     }
 
     /**
-     * Get button
+     * Get save button HTML
      *
      * @return string
      */
@@ -112,7 +112,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     }
 
     /**
-     * Get button
+     * Get delete button HTML
      *
      * @return string
      */
