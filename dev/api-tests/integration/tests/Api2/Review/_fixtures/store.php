@@ -18,25 +18,23 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Review
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @category    Paas
+ * @package     tests
+ * @subpackage  integration_tests
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+if (!Magento_Test_Webservice::getFixture('store')) {
+    $website = Mage::app()->getWebsite();
+    $store = new Mage_Core_Model_Store();
+    $store->setData(array(
+        'group_id' => $website->getDefaultGroupId(),
+        'name' => 'Test Store View',
+        'code' => 'store_' . uniqid(),
+        'is_active' => true,
+        'website_id' => $website->getId()
+    ))->save();
 
-/**
- * Review status
- *
- * @category   Mage
- * @package    Mage_Review
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-class Mage_Review_Model_Review_Status extends Mage_Core_Model_Abstract
-{
-
-    public function __construct()
-    {
-        $this->_init('review/review_status');
-    }
+    Mage::app()->reinitStores();
+    Magento_Test_Webservice::setFixture('store', $store);
 }

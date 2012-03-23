@@ -78,6 +78,9 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
 
         $validationConfig = $this->_resource->getConfig()->getValidationConfig(
             $this->_resource->getResourceType(), self::CONFIG_NODE_KEY);
+        if (!is_array($validationConfig)) {
+            $validationConfig = array();
+        }
         $this->_buildValidatorsChain($validationConfig);
     }
 
@@ -144,14 +147,15 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
      * validation failed.
      *
      * @param array $data
+     * @param bool $isPartial
      * @return bool
      */
-    public function isValidData(array $data)
+    public function isValidData(array $data, $isPartial = false)
     {
         $isValid = true;
 
         // required fields
-        if (count($this->_requiredFields) > 0) {
+        if (!$isPartial && count($this->_requiredFields) > 0) {
             $notEmptyValidator = new Zend_Validate_NotEmpty();
             foreach ($this->_requiredFields as $requiredField) {
                 if (!$notEmptyValidator->isValid(isset($data[$requiredField]) ? $data[$requiredField] : null)) {

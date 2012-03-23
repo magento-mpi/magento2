@@ -246,7 +246,8 @@ class Magento_Test_Webservice_Rest_Adapter
 
         if ($this->_token !== null) {
             $utility = new Zend_Oauth_Http_Utility();
-            $params += array(
+            $oauthParams =
+            $oauthParams = array(
                 'oauth_consumer_key'     => $this->_consumer->getKey(),
                 'oauth_nonce'            => $utility->generateNonce(),
                 'oauth_signature_method' => self::OAUTH_SIGNATURE_METHOD,
@@ -254,7 +255,7 @@ class Magento_Test_Webservice_Rest_Adapter
                 'oauth_version'          => self::OAUTH_VERSION,
                 'oauth_token'            => $this->_token->getToken(),
             );
-            $params['oauth_signature'] = $utility->sign($params,
+            $oauthParams['oauth_signature'] = $utility->sign($params + $oauthParams,
                 self::OAUTH_SIGNATURE_METHOD,
                 $this->_consumer->getSecret(),
                 $this->_token->getSecret(),
@@ -263,7 +264,7 @@ class Magento_Test_Webservice_Rest_Adapter
             );
 
             $authHeaders = array('OAuth realm="Test Realm"');
-            foreach ($params as $key => $value) {
+            foreach ($oauthParams as $key => $value) {
                 $authHeaders[] = $key . '="' . $value . '"';
             }
             $this->_client->setHeaders('Authorization', implode(',', $authHeaders));
