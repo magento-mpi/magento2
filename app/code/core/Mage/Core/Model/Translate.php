@@ -192,14 +192,6 @@ class Mage_Core_Model_Translate
      */
     protected function _loadModuleTranslation($moduleName, $files, $forceReload=false)
     {
-        /**
-         * If module translation declared as short tag in configuration
-         * than add translation file name based on locale
-         */
-        if (empty($files)) {
-            $files = array($this->getLocale() . '.csv');
-        }
-
         foreach ($files as $file) {
             $file = $this->_getModuleFilePath($moduleName, $file);
             $this->_addData($this->_getFileData($file), $moduleName, $forceReload);
@@ -282,12 +274,8 @@ class Mage_Core_Model_Translate
     protected function _getModuleFilePath($module, $fileName)
     {
         //$file = Mage::getConfig()->getModuleDir('locale', $module);
-        $file = Mage::getConfig()->getModuleDir('translate', $module);
-        $file .= DS . $this->getConfig(self::CONFIG_KEY_AREA) . DS. $this->getLocale() . '.csv';
-        if (false == file_exists($file)) {
-            $file = Mage::getBaseDir('locale');
-            $file.= DS.$this->getLocale().DS.$fileName;
-        }
+        $file = Mage::getBaseDir('locale');
+        $file.= DS.$this->getLocale().DS.$fileName;
         return $file;
     }
 
