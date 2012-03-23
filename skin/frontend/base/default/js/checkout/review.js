@@ -189,6 +189,22 @@ OrderReviewController.prototype = {
     },
 
     /**
+     * Copy element value from shipping to billing address
+     * @param el
+     */
+    _copyElementValue: function(el)
+    {
+        var newId = el.id.replace('shipping:','billing:');
+        if (newId && $(newId) && $(newId).type != 'hidden') {
+            $(newId).value = el.value;
+            $(newId).setAttribute('readonly', 'readonly');
+            $(newId).addClassName('local-validation');
+            $(newId).setStyle({opacity:.5});
+            $(newId).disable();
+        }
+    },
+
+    /**
      * Copy data from shipping address to billing
      */
     _copyShippingToBilling : function (event)
@@ -197,16 +213,9 @@ OrderReviewController.prototype = {
             return;
         }
         if (this._copyElement.checked) {
-            $$('[id^="shipping:"]').each(function(el){
-                var newId = el.id.replace('shipping:','billing:');
-                if (newId && $(newId) && $(newId).type != 'hidden') {
-                    $(newId).value = el.value;
-                    $(newId).setAttribute('readonly', 'readonly');
-                    $(newId).addClassName('local-validation');
-                    $(newId).setStyle({opacity:.5});
-                    $(newId).disable();
-                }
-            });
+            this._copyElementValue($('shipping:country_id'));
+            billingRegionUpdater.update();
+            $$('[id^="shipping:"]').each(this._copyElementValue);
             this._clearValidation('billing');
         } else {
             $$('[id^="billing:"]').invoke('enable');
