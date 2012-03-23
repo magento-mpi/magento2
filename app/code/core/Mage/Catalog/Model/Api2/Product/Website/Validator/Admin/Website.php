@@ -94,6 +94,9 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
     /**
      * Check if it possible to copy from store "store_from"
      *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Core_Model_Website $website
+     * @param array $storeData
      * @return \Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website
      */
     protected function _checkStoreFrom($product, $website, $storeData)
@@ -124,6 +127,8 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
     /**
      * Check if it possible to copy into store "store_to"
      *
+     * @param Mage_Core_Model_Website $website
+     * @param array $storeData
      * @return \Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website
      */
     protected function _checkStoreTo($website, $storeData)
@@ -145,7 +150,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
 
         if (!in_array($storeTo->getId(), $website->getStoreIds())) {
             $this->_addError(sprintf('Store #%d to which we will copy the information does not belong'
-                . ' to the website #%d being added.', $storeTo->getId(), $data['website_id']));
+                . ' to the website #%d being added.', $storeTo->getId(), $website->getId()));
         }
 
         return $this;
