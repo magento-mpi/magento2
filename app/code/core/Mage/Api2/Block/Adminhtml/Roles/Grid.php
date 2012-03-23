@@ -67,30 +67,28 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
         $this->addColumn('entity_id', array(
-            'header'    => $helper->__('ID'),
-            'index'     => 'entity_id',
-            'align'     => 'right',
-            'width'     => '50px',
+            'header' => Mage::helper('oauth')->__('ID'),
+            'index'  => 'entity_id',
+            'align'  => 'right',
+            'width'  => '50px',
         ));
 
         $this->addColumn('role_name', array(
-            'header'    => $helper->__('Role Name'),
-            'index'     => 'role_name',
-            'escape'    => true,
+            'header' => Mage::helper('oauth')->__('Role Name'),
+            'index'  => 'role_name',
+            'escape' => true,
         ));
 
         $this->addColumn('tole_user_type', array(
-            'header'         => $helper->__('User Type'),
+            'header'         => Mage::helper('oauth')->__('User Type'),
             'sortable'       => false,
             'frame_callback' => array($this, 'decorateUserType')
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => $helper->__('Created At'),
-            'index'     => 'created_at'
+            'header' => Mage::helper('oauth')->__('Created At'),
+            'index'  => 'created_at'
         ));
 
         parent::_prepareColumns();
@@ -135,18 +133,15 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
      */
     public function decorateUserType($renderedValue, $row, $column, $isExport)
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
-
         switch ($row->getEntityId()) {
             case Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID:
-                $userType = $helper->__('Guest');
+                $userType = Mage::helper('api2')->__('Guest');
                 break;
             case Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID:
-                $userType = $helper->__('Customer');
+                $userType = Mage::helper('api2')->__('Customer');
                 break;
             default:
-                $userType = $helper->__('Admin');
+                $userType = Mage::helper('api2')->__('Admin');
                 break;
         }
         return $userType;

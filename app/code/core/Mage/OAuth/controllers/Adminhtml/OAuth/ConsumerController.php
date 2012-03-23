@@ -115,12 +115,8 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
     {
         $id = (int) $this->getRequest()->getParam('id');
 
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
-
         if (!$id) {
-            $this->_getSession()->addError(
-                $helper->__('Invalid ID parameter.'));
+            $this->_getSession()->addError(Mage::helper('oauth')->__('Invalid ID parameter.'));
             $this->_redirect('*/*/index');
             return;
         }
@@ -130,8 +126,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         $model->load($id);
 
         if (!$model->getId()) {
-            $this->_getSession()->addError(
-                $helper->__('Entry with ID #%s not found.', $id));
+            $this->_getSession()->addError(Mage::helper('oauth')->__('Entry with ID #%s not found.', $id));
             $this->_redirect('*/*/index');
             return;
         }
@@ -271,22 +266,21 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         $consumerId = (int) $this->getRequest()->getParam('id');
         if ($consumerId) {
             try {
-                /** @var $helper Mage_OAuth_Helper_Data */
-                $helper = Mage::helper('oauth');
-
                 /** @var $consumer Mage_OAuth_Model_Consumer */
                 $consumer = Mage::getModel('oauth/consumer')->load($consumerId);
                 if (!$consumer->getId()) {
-                    Mage::throwException($helper->__('Unable to find a consumer.'));
+                    Mage::throwException(Mage::helper('oauth')->__('Unable to find a consumer.'));
                 }
 
                 $consumer->delete();
 
-                $this->_getSession()->addSuccess($helper->__('The consumer has been deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('oauth')->__('The consumer has been deleted.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, $helper->__('An error occurred while deleting the consumer.'));
+                $this->_getSession()->addException(
+                    $e, Mage::helper('oauth')->__('An error occurred while deleting the consumer.')
+                );
             }
         }
         $this->_redirect('*/*/index');

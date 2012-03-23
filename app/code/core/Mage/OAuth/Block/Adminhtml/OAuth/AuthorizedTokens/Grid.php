@@ -70,10 +70,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
         $this->addColumn('entity_id', array(
-            'header'    => $helper->__('ID'),
+            'header'    => Mage::helper('oauth')->__('ID'),
             'index'     => 'entity_id',
             'align'     => 'right',
             'width'     => '50px',

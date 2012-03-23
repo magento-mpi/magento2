@@ -82,9 +82,6 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
-
         $this->addColumn('filter_in_role_users', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
@@ -95,32 +92,22 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('user_id', array(
-            'header'    => $helper->__('ID'),
-            'index'     => 'user_id',
-            'align'     => 'right',
-            'width'     => '50px',
+            'header' => Mage::helper('api2')->__('ID'), 'index' => 'user_id', 'align' => 'right', 'width' => '50px',
         ));
 
         $this->addColumn('username', array(
-            'header'    =>Mage::helper('adminhtml')->__('User Name'),
-            'align'     =>'left',
-            'index'     =>'username'
+            'header' => Mage::helper('adminhtml')->__('User Name'), 'align' => 'left', 'index' => 'username'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('adminhtml')->__('First Name'),
-            'align'     =>'left',
-            'index'     =>'firstname'
+            'header' => Mage::helper('adminhtml')->__('First Name'), 'align' => 'left', 'index' => 'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
-            'align'     =>'left',
-            'index'     =>'lastname'
+            'header' => Mage::helper('adminhtml')->__('Last Name'), 'align' => 'left', 'index' => 'lastname'
         ));
 
-        parent::_prepareColumns();
-        return $this;
+        return parent::_prepareColumns();
     }
 
     /**

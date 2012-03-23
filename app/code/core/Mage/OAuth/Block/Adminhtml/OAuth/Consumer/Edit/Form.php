@@ -61,40 +61,30 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
      */
     protected function _prepareForm()
     {
-        $model  = $this->getModel();
-        $form   = new Varien_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
+        $model = $this->getModel();
+        $form = new Varien_Data_Form(array(
+            'id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'
         ));
 
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
-
-        $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => $helper->__('Consumer Information'),
-            'class'     => 'fieldset-wide'
+        $fieldset = $form->addFieldset('base_fieldset', array(
+            'legend' => Mage::helper('oauth')->__('Consumer Information'), 'class' => 'fieldset-wide'
         ));
 
         if ($model->getId()) {
-            $fieldset->addField('id', 'hidden', array(
-                'name'      => 'id',
-                'value'     => $model->getId(),
-            ));
+            $fieldset->addField('id', 'hidden', array('name' => 'id', 'value' => $model->getId()));
         }
-
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => $helper->__('Name'),
-            'title'     => $helper->__('Name'),
+            'label'     => Mage::helper('oauth')->__('Name'),
+            'title'     => Mage::helper('oauth')->__('Name'),
             'required'  => true,
             'value'     => $model->getName(),
         ));
 
         $fieldset->addField('key', 'text', array(
             'name'      => 'key',
-            'label'     => $helper->__('Key'),
-            'title'     => $helper->__('Key'),
+            'label'     => Mage::helper('oauth')->__('Key'),
+            'title'     => Mage::helper('oauth')->__('Key'),
             'disabled'  => true,
             'required'  => true,
             'value'     => $model->getKey(),
@@ -102,8 +92,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
 
         $fieldset->addField('secret', 'text', array(
             'name'      => 'secret',
-            'label'     => $helper->__('Secret'),
-            'title'     => $helper->__('Secret'),
+            'label'     => Mage::helper('oauth')->__('Secret'),
+            'title'     => Mage::helper('oauth')->__('Secret'),
             'disabled'  => true,
             'required'  => true,
             'value'     => $model->getSecret(),
@@ -111,8 +101,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
 
         $fieldset->addField('callback_url', 'text', array(
             'name'      => 'callback_url',
-            'label'     => $helper->__('Callback URL'),
-            'title'     => $helper->__('Callback URL'),
+            'label'     => Mage::helper('oauth')->__('Callback URL'),
+            'title'     => Mage::helper('oauth')->__('Callback URL'),
             'required'  => false,
             'value'     => $model->getCallbackUrl(),
             'class'     => 'validate-url',
@@ -120,8 +110,8 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
 
         $fieldset->addField('rejected_callback_url', 'text', array(
             'name'      => 'rejected_callback_url',
-            'label'     => $helper->__('Rejected Callback URL'),
-            'title'     => $helper->__('Rejected Callback URL'),
+            'label'     => Mage::helper('oauth')->__('Rejected Callback URL'),
+            'title'     => Mage::helper('oauth')->__('Rejected Callback URL'),
             'required'  => false,
             'value'     => $model->getRejectedCallbackUrl(),
             'class'     => 'validate-url',

@@ -60,46 +60,36 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_Consumer_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid
      */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('oauth/consumer')->getCollection();
         $this->setCollection($collection);
-        parent::_prepareCollection();
-        return $this;
+
+        return parent::_prepareCollection();
     }
 
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_Consumer_Grid
+     * @return Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
         $this->addColumn('entity_id', array(
-            'header'    => $helper->__('ID'),
-            'index'     => 'entity_id',
-            'align'     => 'right',
-            'width'     => '50px',
-
+            'header' => Mage::helper('oauth')->__('ID'), 'index' => 'entity_id', 'align' => 'right', 'width' => '50px'
         ));
 
         $this->addColumn('name', array(
-            'header'    => $helper->__('Consumer Name'),
-            'index'     => 'name',
-            'escape'    => true,
+            'header' => Mage::helper('oauth')->__('Consumer Name'), 'index' => 'name', 'escape' => true
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => $helper->__('Created At'),
-            'index'     => 'created_at'
+            'header' => Mage::helper('oauth')->__('Created At'), 'index' => 'created_at'
         ));
 
-        parent::_prepareColumns();
-        return $this;
+        return parent::_prepareColumns();
     }
 
     /**
