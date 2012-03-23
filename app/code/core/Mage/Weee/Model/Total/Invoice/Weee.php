@@ -90,9 +90,6 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
 
             $invoice->setSubtotal($invoice->getSubtotal() + $totalTax);
             $invoice->setBaseSubtotal($invoice->getBaseSubtotal() + $baseTotalTax);
-
-            $invoice->setGrandTotal($invoice->getGrandTotal() + $totalTax);
-            $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTotalTax);
         } else {
             $allowedTax = $order->getTaxAmount() - $order->getTaxInvoiced() - $invoice->getTaxAmount();
             $allowedBaseTax = $order->getBaseTaxAmount() - $order->getBaseTaxInvoiced() - $invoice->getBaseTaxAmount();
@@ -102,6 +99,9 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
             $invoice->setTaxAmount($invoice->getTaxAmount() + $totalTax);
             $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseTotalTax);
         }
+
+        $invoice->setGrandTotal($invoice->getGrandTotal() + $totalTax);
+        $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTotalTax);
 
         return $this;
     }
