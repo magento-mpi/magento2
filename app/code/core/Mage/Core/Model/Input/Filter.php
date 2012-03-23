@@ -215,102 +215,152 @@ class Mage_Core_Model_Input_Filter implements Zend_Filter_Interface
      *
      * @param array $data
      * @param array|null $filters
-     * @param bool $simpleFilterList
+     * @param bool $isFilterListSimple
      * @return array
      * @throws Exception    Exception when filter is not found or not instance of defined instances
      */
-    protected function _filter(array $data, &$filters = null, $simpleFilterList = false)
+    protected function _filter(array $data, &$filters = null, $isFilterListSimple = false)
     {
         if (null === $filters) {
             $filters = &$this->_filters;
         }
         foreach ($data as $key => $value) {
-            if (!$simpleFilterList && !empty($filters[$key])) {
+            if (!$isFilterListSimple && !empty($filters[$key])) {
                 $itemFilters = $filters[$key];
-            } elseif ($simpleFilterList && !empty($filters)) {
+            } elseif ($isFilterListSimple && !empty($filters)) {
                 $itemFilters = $filters;
             } else {
                 continue;
             }
 
-            if (!$simpleFilterList && is_array($value) && isset($filters[$key]['children_filters'])) {
-                $value = $this->_filter(
-                    $value,
-                    $filters[$key]['children_filters'],
-                    !(!is_numeric(implode('', array_keys($filters[$key]['children_filters'])))));
+            if (!$isFilterListSimple && is_array($value) && isset($filters[$key]['children_filters'])) {
+                $isChildrenFilterListSimple = is_numeric(implode('', array_keys($filters[$key]['children_filters'])));
+                $value = $this->_filter($value, $filters[$key]['children_filters'], $isChildrenFilterListSimple);
             } else {
                 foreach ($itemFilters as $filterData) {
-                    //case Zend_Filter
-                    if (is_object($filterData) || isset($filterData['zend']) || isset($filterData['model'])) {
-                        if (is_object($filterData)) {
-                            /** @var $filter Zend_Filter_Interface */
-                            $filter = $filterData;
-                        } elseif (isset($filterData['model'])) {
-                            /**
-                             * Get Magento filters
-                             */
-                            /** @var $filter Zend_Filter_Interface */
-                            $filter = $filterData['model'];
-                            if (!isset($filterData['args'])) {
-                                $filterData['args'] = null;
-                            } else {
-                                //use only first element because Mage factory cannot get more
-                                $filterData['args'] = $filterData['args'][0];
-                            }
-                            if (is_string($filterData['model'])) {
-                                $filter = Mage::getModel($filterData['model'], $filterData['args']);
-                            }
-                            if (!($filter instanceof Zend_Filter_Interface)) {
-                                throw new Exception('Filter is not instance of Zend_Filter_Interface');
-                            }
-                        } elseif (isset($filterData['zend'])) {
-                            /**
-                             * Get native Zend_Filter
-                             */
-                            /** @var $filter Zend_Filter_Interface */
-                            $filter = $filterData['zend'];
-                            if (is_string($filter)) {
-                                $class = new ReflectionClass('Zend_Filter_' . $filter);
-                                if ($class->implementsInterface('Zend_Filter_Interface')) {
-                                    if (isset($filterData['args']) && $class->hasMethod('__construct')) {
-                                        $filter = $class->newInstanceArgs($filterData['args']);
-                                    } else {
-                                        $filter = $class->newInstance();
-                                    }
-                                } else {
-                                    throw new Exception('Filter is not instance of Zend_Filter_Interface');
-                                }
-                            }
-                        } else {
-                            continue;
-                        }
-                        //filtering
-                        $value = $filter->filter($value);
-                    } elseif (isset($filterData['helper'])) {
-                        /**
-                         * Filtering via Magento helper method
-                         */
-                        if (empty($filterData['args'])) {
-                            $filterData['args'] = array();
-                        }
-                        /** @var $helper Mage_Core_Helper_Abstract */
-                        $helper = $filterData['helper'];
-                        if (is_string($helper)) {
-                            $helper = Mage::helper($helper);
-                        }
-                        if (!($helper instanceof Mage_Core_Helper_Abstract)) {
-                            throw new Exception("Filter '{$filterData['helper']}' not found");
-                        }
-                        $filterData['args'] = array(-100 => $value) + $filterData['args'];
-                        //filtering
-                        $value = call_user_func_array(
-                            array($helper, $filterData['method']),
-                            $filterData['args']);
+                    if ($zendFilter = $this->_getZendFilter($filterData)) {
+                        $value = $zendFilter->filter($value);
+                    } elseif ($filtrationHelper = $this->_getFiltrationHelper($filterData)) {
+                        $value = $this->_applyFiltrationWithHelper($value, $filtrationHelper, $filterData);
                     }
                 }
             }
             $data[$key] = $value;
         }
         return $data;
+    }
+
+    /**
+     * Call specified helper method for $value filtration
+     *
+     * @param mixed $value
+     * @param Mage_Core_Helper_Abstract $helper
+     * @param array $filterData
+     * @return mixed
+     */
+    protected function _applyFiltrationWithHelper($value, Mage_Core_Helper_Abstract $helper, array $filterData)
+    {
+        if (!isset($filterData['method']) || empty($filterData['method'])) {
+            throw new Exception("Helper filtration method is not set");
+        }
+        if (!isset($filterData['args']) || empty($filterData['args'])) {
+            $filterData['args'] = array();
+        }
+        $filterData['args'] = array(-100 => $value) + $filterData['args'];
+        // apply filter
+        $value = call_user_func_array(array($helper, $filterData['method']), $filterData['args']);
+        return $value;
+    }
+
+    /**
+     * Try to create Magento helper for filtration based on $filterData. Return false on failure
+     *
+     * @param $filterData
+     * @return bool|Mage_Core_Helper_Abstract
+     * @throws Exception
+     */
+    protected function _getFiltrationHelper($filterData)
+    {
+        $helper = false;
+        if (isset($filterData['helper'])) {
+            $helper = $filterData['helper'];
+            if (is_string($helper)) {
+                $helper = Mage::helper($helper);
+            }
+            if (!($helper instanceof Mage_Core_Helper_Abstract)) {
+                throw new Exception("Filter '{$filterData['helper']}' not found");
+            }
+        }
+        return $helper;
+    }
+
+    /**
+     * Try to create Zend filter based on $filterData. Return false on failure
+     *
+     * @param $filterData
+     * @return bool|Zend_Filter_Interface
+     */
+    protected function _getZendFilter($filterData)
+    {
+        $zendFilter = false;
+        if (is_object($filterData) && $filterData instanceof Zend_Filter_Interface) {
+            /** @var $zendFilter Zend_Filter_Interface */
+            $zendFilter = $filterData;
+        } elseif (isset($filterData['model'])) {
+            $zendFilter = $this->_createCustomZendFilter($filterData);
+        } elseif (isset($filterData['zend'])) {
+            $zendFilter = $this->_createNativeZendFilter($filterData);
+        }
+        return $zendFilter;
+    }
+
+    /**
+     * Get Magento filters
+     *
+     * @param $filterData
+     * @return Zend_Filter_Interface
+     * @throws Exception
+     */
+    protected function _createCustomZendFilter($filterData)
+    {
+        $filter = $filterData['model'];
+        if (!isset($filterData['args'])) {
+            $filterData['args'] = null;
+        } else {
+            //use only first element because Mage factory cannot get more
+            $filterData['args'] = $filterData['args'][0];
+        }
+        if (is_string($filterData['model'])) {
+            $filter = Mage::getModel($filterData['model'], $filterData['args']);
+        }
+        if (!($filter instanceof Zend_Filter_Interface)) {
+            throw new Exception('Filter is not instance of Zend_Filter_Interface');
+        }
+        return $filter;
+    }
+
+    /**
+     * Get native Zend_Filter
+     *
+     * @param $filterData
+     * @return Zend_Filter_Interface
+     * @throws Exception
+     */
+    protected function _createNativeZendFilter($filterData)
+    {
+        $filter = $filterData['zend'];
+        if (is_string($filter)) {
+            $class = new ReflectionClass('Zend_Filter_' . $filter);
+            if ($class->implementsInterface('Zend_Filter_Interface')) {
+                if (isset($filterData['args']) && $class->hasMethod('__construct')) {
+                    $filter = $class->newInstanceArgs($filterData['args']);
+                } else {
+                    $filter = $class->newInstance();
+                }
+            } else {
+                throw new Exception('Filter is not instance of Zend_Filter_Interface');
+            }
+        }
+        return $filter;
     }
 }
