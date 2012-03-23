@@ -56,7 +56,6 @@
 
     <!-- execute extruder, perform license notices replacement and sanity check -->
     <target name="sanity-ce" depends="preserve-build-files,prepare-ce">
-        <!-- include prepare-ce -->
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}_build/publication/license/license-tool.php --
                 -w ${basedir} -e ce -v"/>
