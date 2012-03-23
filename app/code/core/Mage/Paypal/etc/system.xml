@@ -78,7 +78,6 @@
                             <show_in_website>1</show_in_website>
                             <sort_order>10</sort_order>
                             <validate>validate-email</validate>
-                            <backend_model>adminhtml/system_config_backend_email_address</backend_model>
                         </business_account>
                     </fields>
                 </account>
