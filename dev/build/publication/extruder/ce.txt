@@ -34,13 +34,11 @@ app/etc/modules/Enterprise_*.xml
 app/locale/*/Enterprise_*.csv
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
-dev/tests/integration/testsuite/integrity/ClassesTest.php
-dev/tests/integration/testsuite/integrity/DeprecatesTest.php
-dev/tests/integration/testsuite/integrity/LicenseTest.php
 dev/tests/integration/testsuite/integrity/modular/SkinFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 dev/tests/integration/testsuite/Theme/Enterprise
 dev/tests/integration/testsuite/Theme/Pro
+dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php

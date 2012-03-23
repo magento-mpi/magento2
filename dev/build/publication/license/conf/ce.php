@@ -38,7 +38,7 @@ $config = array(
     'app/code/local' => $magentoOslAfl,
     'app/design'     => $magentoAfl,
     'app/etc'        => array('xml' => 'AFL'),
-    'dev'            => array_merge($magentoOslAfl, array('sql' => 'OSL')),
+    'dev'            => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
     'downloader'     => $magentoOslAfl,
     'lib/flex'       => array('xml' => 'AFL', 'flex' => 'AFL'),
     'lib/Mage'       => $magentoOslAfl,

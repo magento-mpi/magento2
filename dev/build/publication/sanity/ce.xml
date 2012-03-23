@@ -11,19 +11,23 @@
 -->
 <config>
     <words>
-        <word>oracle</word>
-        <word>mssql</word>
-        <word>enterprise</word>
-        <word>{license_notice}</word>
         <word>{copyright}</word>
         <word>{license_link}</word>
-        <word>biz@magento.com</word>
-        <word>ukpromerchant</word>
-        <word>petervarien</word>
-        <word>magentoTEST</word>
+        <word>{license_notice}</word>
         <word>123123q</word>
+        <word>biz@magento.com</word>
+        <word>enterprise</word>
+        <word>magentoTEST</word>
+        <word>mssql</word>
+        <word>oracle</word>
+        <word>petervarien</word>
+        <word>sqlsrv</word>
+        <word>ukpromerchant</word>
     </words>
     <whitelist>
+        <item>
+            <path>app/Mage.php</path>
+        </item>
         <item>
             <word>oracle</word>
             <path>app/code/core/Mage/Reports/Model/Resource/Report/Abstract.php</path>
@@ -32,6 +36,11 @@
             <word>oracle</word>
             <word>mssql</word>
             <path>dev/tests/integration/framework/Magento/Test/Bootstrap.php</path>
+        </item>
+        <item>
+            <word>oracle</word>
+            <word>mssql</word>
+            <path>dev/tests/integration/framework/Magento/Test/Listener/Annotation/Isolation.php</path>
         </item>
         <item>
             <word>mssql</word>

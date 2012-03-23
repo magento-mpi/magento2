@@ -92,7 +92,7 @@ class Mage_PageCache_Model_Observer
      * Temporary disabling full page caching if Design Editor was launched.
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_PageCache_Model_Observer
+     * @return Mage_PageCache_Model_Observer
      */
     public function designEditorSessionActivate(Varien_Event_Observer $observer)
     {
@@ -107,7 +107,7 @@ class Mage_PageCache_Model_Observer
      * Activating full page cache after Design Editor was deactivated
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_PageCache_Model_Observer
+     * @return Mage_PageCache_Model_Observer
      */
     public function designEditorSessionDeactivate(Varien_Event_Observer $observer)
     {
