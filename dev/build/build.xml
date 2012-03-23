@@ -47,6 +47,26 @@
         </exec>
     </target>
 
+    <!-- make sure to retain dev/build in working copy, just with a different alias -->
+    <target name="preserve-build-files">
+        <copy todir="${basedir}/_build" failonerror="true">
+            <fileset dir="${basedir}/dev/build"/>
+        </copy>
+    </target>
+
+    <!-- execute extruder, perform license notices replacement and sanity check -->
+    <target name="sanity-ce" depends="preserve-build-files,prepare-ce">
+        <!-- include prepare-ce -->
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}_build/publication/license/license-tool.php --
+                -w ${basedir} -e ce -v"/>
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/_build/publication/sanity/sanity.php --
+                -w ${basedir} -c ${basedir}/_build/publication/sanity/ce.xml -v"/>
+        </exec>
+    </target>
+
     <!-- product unit tests -->
     <target name="unit-tests-magento">
         <exec dir="dev/tests/unit" executable="phpunit" failonerror="true">
@@ -144,6 +164,7 @@
                 --no-push
                 "/>
         </exec>
+<!--
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
                 -w ${dir.publication_target}
@@ -151,6 +172,7 @@
                 -v
                 "/>
         </exec>
+-->
         <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
             <property name="env.build_customization_dir" value="../../customization/publicce"/>
             <target name="unit-tests-magento"/>
