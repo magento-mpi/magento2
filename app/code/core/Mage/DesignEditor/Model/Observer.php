@@ -24,18 +24,29 @@ class Mage_DesignEditor_Model_Observer
     protected $_wrappingRenderer = null;
 
     /**
-     * Applies custom skin to store, if design editor is active and custom skin is chosen
+     * Handler for 'controller_action_predispatch' event
+     */
+    public function preDispatch()
+    {
+        /* Deactivate the design editor, if the admin session has been already expired */
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_getSession()->deactivateDesignEditor();
+        }
+        /* Apply custom design to the current page */
+        if ($this->_getSession()->isDesignEditorActive() && $this->_getSession()->getSkin()) {
+            Mage::getDesign()->setDesignTheme($this->_getSession()->getSkin());
+        }
+    }
+
+    /**
+     * Add the design editor toolbar to the current page
      *
      * @param Varien_Event_Observer $observer
      */
-    public function applyDesign(Varien_Event_Observer $observer)
+    public function addToolbar(Varien_Event_Observer $observer)
     {
-        $session = $this->_getSession();
-        if (!$session->isDesignEditorActive()) {
+        if (!$this->_getSession()->isDesignEditorActive()) {
             return;
-        }
-        if ($session->getSkin()) {
-            Mage::getDesign()->setDesignTheme($session->getSkin());
         }
         $layout = $observer->getEvent()->getLayout();
         if (in_array('ajax_index', $layout->getUpdate()->getHandles())) {
@@ -45,12 +56,11 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Disable blocks HTML output caching, if the design editor is active
+     * Disable blocks HTML output caching
      */
     public function disableBlocksOutputCaching()
     {
-        $session = $this->_getSession();
-        if (!$session->isDesignEditorActive()) {
+        if (!$this->_getSession()->isDesignEditorActive()) {
             return;
         }
         Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP);
@@ -63,18 +73,18 @@ class Mage_DesignEditor_Model_Observer
      */
     public function setDesignEditorFlag(Varien_Event_Observer $observer)
     {
-        $block = $observer->getEvent()->getLayout()->getBlock('head');
-        if (!$block) {
+        if (!$this->_getSession()->isDesignEditorActive()) {
             return;
         }
-        $session = $this->_getSession();
-        if ($session->isDesignEditorActive()) {
+        /** @var $block Mage_Page_Block_Html_Head */
+        $block = $observer->getEvent()->getLayout()->getBlock('head');
+        if ($block) {
             $block->setDesignEditorActive(true);
         }
     }
 
     /**
-     * Returns session for Magento Design Editor
+     * Retrieve session instance for the design editor
      *
      * @return Mage_DesignEditor_Model_Session
      */
@@ -124,15 +134,5 @@ class Mage_DesignEditor_Model_Observer
     public function adminSessionUserLogout()
     {
         $this->_getSession()->deactivateDesignEditor();
-    }
-
-    /**
-     * Deactivate the design editor, if the admin session has been already expired
-     */
-    public function ensureDesignEditorDeactivation()
-    {
-        if (!$this->_getSession()->isLoggedIn()) {
-            $this->_getSession()->deactivateDesignEditor();
-        }
     }
 }

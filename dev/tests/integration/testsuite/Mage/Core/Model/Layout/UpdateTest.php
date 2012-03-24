@@ -19,20 +19,16 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
         /* Point application to predefined layout fixtures */
         Mage::getConfig()->setOptions(array(
             'design_dir' => dirname(__DIR__) . '/_files/design',
         ));
         Mage::getDesign()->setDesignTheme('test/default/default');
-
         /* Disable loading and saving layout cache */
         Mage::app()->getCacheInstance()->banUse('layout');
-    }
 
-    protected function setUp()
-    {
         $this->_model = new Mage_Core_Model_Layout_Update(array(
             'area'    => 'frontend',
             'package' => 'test',
@@ -207,6 +203,46 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             'page type with parent'    => array('catalog_category_default', 'default'),
             'deeply nested page type'  => array('catalog_category_layered', 'catalog_category_default'),
         );
+    }
+
+    public function testLoad()
+    {
+        $layoutHandle = 'layout_test_handle';
+        $expectedText = 'Text declared in the frontend/test/test_theme';
+        $model = new Mage_Core_Model_Layout_Update(
+            array('area' => 'frontend', 'package' => 'test', 'theme'=> 'test_theme')
+        );
+        $this->assertNotContains($layoutHandle, $model->getHandles());
+        $this->assertNotContains($expectedText, $model->asString());
+        $model->load($layoutHandle);
+        $this->assertContains($layoutHandle, $model->getHandles());
+        $this->assertContains($expectedText, $model->asString());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testLoadCache()
+    {
+        Mage::app()->getCacheInstance()->allowUse('layout');
+
+        $layoutHandle = 'layout_test_handle';
+        $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
+        $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';
+
+        $model = new Mage_Core_Model_Layout_Update(
+            array('area' => 'frontend', 'package' => 'test', 'theme'=> 'test_theme')
+        );
+        $model->load($layoutHandle);
+        $this->assertContains($expectedTextThemeOne, $model->asString());
+        $this->assertNotContains($expectedTextThemeTwo, $model->asString());
+
+        $model = new Mage_Core_Model_Layout_Update(
+            array('area' => 'frontend', 'package' => 'test', 'theme'=> 'cache_test_theme')
+        );
+        $model->load($layoutHandle);
+        $this->assertContains($expectedTextThemeTwo, $model->asString());
+        $this->assertNotContains($expectedTextThemeOne, $model->asString());
     }
 
     /**

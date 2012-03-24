@@ -37,7 +37,7 @@
                 <observers>
                     <designeditor>
                         <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>ensureDesignEditorDeactivation</method>
+                        <method>preDispatch</method>
                     </designeditor>
                 </observers>
             </controller_action_predispatch>
@@ -45,7 +45,7 @@
                 <observers>
                     <designeditor>
                         <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>applyDesign</method>
+                        <method>addToolbar</method>
                     </designeditor>
                 </observers>
             </controller_action_layout_load_before>

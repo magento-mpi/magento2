@@ -344,29 +344,18 @@ class Mage_Core_Model_Layout_Update
 
         $this->addHandle($handles);
 
-        $cacheId = false;
-        if (Mage::app()->useCache('layout')) {
-            $cacheId = 'LAYOUT_' . $this->_storeId . md5(join('__', $this->getHandles()));
-        }
-
-        if ($cacheId) {
-            $result = Mage::app()->loadCache($cacheId);
-            if ($result) {
-                $this->addUpdate($result);
-                return $this;
-            }
+        $cacheId = $this->_getCacheId(md5(implode('|', $this->getHandles())));
+        $result = $this->_loadCache($cacheId);
+        if ($result) {
+            $this->addUpdate($result);
+            return $this;
         }
 
         foreach ($this->getHandles() as $handle) {
             $this->_merge($handle);
         }
 
-        if ($cacheId) {
-            $cacheTags = $this->getHandles();
-            $cacheTags[] = self::LAYOUT_GENERAL_CACHE_TAG;
-            Mage::app()->saveCache($this->asString(), $cacheId, $cacheTags, null);
-        }
-
+        $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
         return $this;
     }
 
@@ -476,19 +465,57 @@ class Mage_Core_Model_Layout_Update
         if ($this->_layoutUpdatesCache) {
             return $this->_layoutUpdatesCache;
         }
-        $canCacheLayout = Mage::app()->useCache('layout');
-        $cacheKey = "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_package}_{$this->_theme}";
-        $cachedLayoutStr = $canCacheLayout ? Mage::app()->loadCache($cacheKey) : null;
-        if ($cachedLayoutStr) {
-            $result = simplexml_load_string($cachedLayoutStr, $this->getElementClass());
+        $cacheId = $this->_getCacheId();
+        $result = $this->_loadCache($cacheId);
+        if ($result) {
+            $result = simplexml_load_string($result, $this->getElementClass());
         } else {
             $result = $this->_loadFileLayoutUpdatesXml();
-            if ($canCacheLayout) {
-                Mage::app()->saveCache($result->asXml(), $cacheKey, array(self::LAYOUT_GENERAL_CACHE_TAG), null);
-            }
+            $this->_saveCache($result->asXml(), $cacheId);
         }
         $this->_layoutUpdatesCache = $result;
         return $result;
+    }
+
+    /**
+     * Retrieve cache identifier taking into account current area/package/theme/store
+     *
+     * @param string $suffix
+     * @return string
+     */
+    protected function _getCacheId($suffix = '')
+    {
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_package}_{$this->_theme}{$suffix}";
+    }
+
+    /**
+     * Retrieve data from the cache, if the layout caching is allowed, or FALSE otherwise
+     *
+     * @param string $cacheId
+     * @return string|false
+     */
+    protected function _loadCache($cacheId)
+    {
+        if (!Mage::app()->useCache('layout')) {
+            return false;
+        }
+        return Mage::app()->loadCache($cacheId);
+    }
+
+    /**
+     * Save data to the cache, if the layout caching is allowed
+     *
+     * @param string $data
+     * @param string $cacheId
+     * @param array $cacheTags
+     */
+    protected function _saveCache($data, $cacheId, array $cacheTags = array())
+    {
+        if (!Mage::app()->useCache('layout')) {
+            return;
+        }
+        $cacheTags[] = self::LAYOUT_GENERAL_CACHE_TAG;
+        Mage::app()->saveCache($data, $cacheId, $cacheTags, null);
     }
 
     /**

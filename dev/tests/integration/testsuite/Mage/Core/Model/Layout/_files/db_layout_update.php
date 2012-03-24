@@ -12,14 +12,13 @@
  */
 
 $layoutUpdate = new Mage_Core_Model_Layout_Data;
-$design = Mage::getDesign();
 $layoutUpdate->setData((array(
     'handle' => 'fixture_handle',
     'xml' => '<reference name="root"><block type="Mage_Core_Block_Template" template="dummy.phtml"/></reference>',
     'sort_order' => 0,
-    'store_id' => Mage::app()->getStore()->getId(),
-    'area' => $design->getArea(),
-    'package' => $design->getPackageName(),
-    'theme' => $design->getTheme(),
+    'store_id' => 1,
+    'area' => 'frontend',
+    'package' => 'test',
+    'theme' => 'default',
 )));
 $layoutUpdate->save();

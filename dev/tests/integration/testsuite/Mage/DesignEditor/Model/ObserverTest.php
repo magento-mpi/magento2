@@ -37,50 +37,70 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoConfigFixture current_store admin/security/session_lifetime 100
      */
-    public function testApplyDesign()
+    public function testPreDispatchDeactivateDesignEditor()
     {
-        $newSkin = 'default/default/blank';
-        $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
-
+        /** @var $session Mage_DesignEditor_Model_Session */
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $session->setSkin($newSkin);
-
-        $this->_observer->applyDesign($this->_eventObserver);
-        $this->assertEquals($newSkin, Mage::getDesign()->getDesignTheme());
-        $this->assertContains(
-            Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE,
-            Mage::app()->getLayout()->getUpdate()->getHandles()
-        );
+        $this->assertNotEmpty($session->getData(Mage_DesignEditor_Model_Session::SESSION_DESIGN_EDITOR_ACTIVE));
+        /* active admin session */
+        $this->_observer->preDispatch($this->_eventObserver);
+        $this->assertNotEmpty($session->getData(Mage_DesignEditor_Model_Session::SESSION_DESIGN_EDITOR_ACTIVE));
+        /* expired admin session */
+        $session->setUpdatedAt(time() - 101);
+        $this->_observer->preDispatch($this->_eventObserver);
+        $this->assertEmpty($session->getData(Mage_DesignEditor_Model_Session::SESSION_DESIGN_EDITOR_ACTIVE));
     }
 
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
-    public function testApplyCustomSkinChangesNothingWhenNoSkin()
+    public function testPreDispatchApplyDesign()
+    {
+        $newSkin = 'default/default/blank';
+        $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
+        Mage::getSingleton('Mage_DesignEditor_Model_Session')->setSkin($newSkin);
+        $this->_observer->preDispatch($this->_eventObserver);
+        $this->assertEquals($newSkin, Mage::getDesign()->getDesignTheme());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testPreDispatchApplyDesignIgnoreNoSkin()
     {
         $currentSkin = Mage::getDesign()->getDesignTheme();
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $this->assertEmpty($session->getSkin());
-        $this->_observer->applyDesign($this->_eventObserver);
+        $this->assertEmpty(Mage::getSingleton('Mage_DesignEditor_Model_Session')->getSkin());
+        $this->_observer->preDispatch($this->_eventObserver);
         $this->assertEquals($currentSkin, Mage::getDesign()->getDesignTheme());
     }
 
     /**
      * @magentoAppIsolation enabled
      */
-    public function testApplyCustomSkinInactive()
+    public function testPreDispatchApplyDesignInactive()
     {
         $newSkin = 'default/default/blank';
         $oldSkin = Mage::getDesign()->getDesignTheme();
         $this->assertNotEquals($newSkin, $oldSkin);
-
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $session->setSkin($newSkin);
-
-        $this->_observer->applyDesign($this->_eventObserver);
+        Mage::getSingleton('Mage_DesignEditor_Model_Session')->setSkin($newSkin);
+        $this->_observer->preDispatch($this->_eventObserver);
         $this->assertEquals($oldSkin, Mage::getDesign()->getDesignTheme());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testAddToolbar()
+    {
+        $layoutUpdate = Mage::app()->getLayout()->getUpdate();
+        $this->assertNotContains(Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE, $layoutUpdate->getHandles());
+        $this->_observer->addToolbar($this->_eventObserver);
+        $this->assertContains(Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE, $layoutUpdate->getHandles());
     }
 
     /**
@@ -102,6 +122,20 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
         $this->_observer->disableBlocksOutputCaching(new Varien_Event_Observer());
         $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
+    }
+
+    /**
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testSetDesignEditorFlag()
+    {
+        $headBlock = new Mage_Page_Block_Html_Head();
+        $layout = new Mage_Core_Model_Layout();
+        $layout->addBlock($headBlock, 'head');
+        $this->assertEmpty($headBlock->getDesignEditorActive());
+        $observerData = new Varien_Event_Observer(array('event' => new Varien_Object(array('layout' => $layout))));
+        $this->_observer->setDesignEditorFlag($observerData);
+        $this->assertNotEmpty($headBlock->getDesignEditorActive());
     }
 
     /**
