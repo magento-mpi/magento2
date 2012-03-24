@@ -68,16 +68,6 @@ Catalog layout
         </block>
     </rss_catalog_tag>
 
-    <rss_catalog_notifystock translate="label" type="page" parent="rss_catalog_new">
-        <label>RSS Notify Stock</label>
-        <block type="Mage_Rss_Block_Catalog_NotifyStock" output="1" name="rss.catalog.notifystock" />
-    </rss_catalog_notifystock>
-
-    <rss_catalog_review translate="label" type="page" parent="rss_catalog_new">
-        <label>RSS Review</label>
-        <block type="Mage_Rss_Block_Catalog_Review" output="1" name="rss.catalog.review" />
-    </rss_catalog_review>
-
     <rss_catalog_category translate="label" type="page" parent="rss_catalog_new">
         <label>RSS Catalog Category</label>
         <block type="Mage_Rss_Block_Catalog_Category" output="1" name="rss.catalog.category">
@@ -87,11 +77,7 @@ Catalog layout
 <!--
 Order layout
 -->
-    <rss_order_new translate="label" type="page" parent="rss_index_index">
-        <label>RSS New Order</label>
-        <block type="Mage_Rss_Block_Order_New" output="1" name="rss.order.new"/>
-    </rss_order_new>
-    <rss_order_status translate="label" type="page" parent="rss_order_new">
+    <rss_order_status translate="label" type="page" parent="rss_index_index">
         <label>RSS Order Status</label>
         <block type="Mage_Rss_Block_Order_Status" output="1" name="rss.order.status"/>
     </rss_order_status>
