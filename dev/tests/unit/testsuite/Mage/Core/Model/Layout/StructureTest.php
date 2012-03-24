@@ -344,5 +344,9 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('container1', $this->_model->insertContainer('', 'container1'));
         $this->assertEquals('block3', $this->_model->insertBlock('container1', 'block3'));
         $this->assertTrue($this->_model->isManipulationAllowed('block3'));
+
+        // container under container
+        $this->assertEquals('container2', $this->_model->insertContainer('container1', 'container2'));
+        $this->assertTrue($this->_model->isManipulationAllowed('container2'));
     }
 }

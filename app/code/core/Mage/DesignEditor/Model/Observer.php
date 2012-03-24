@@ -107,24 +107,28 @@ class Mage_DesignEditor_Model_Observer
         }
 
         if (!$this->_wrappingRenderer) {
-            $this->_wrappingRenderer = Mage::getModel('Mage_Core_Block_Template');
+            $this->_wrappingRenderer = Mage::getModel('Mage_Core_Block_Template', array(
+                'template' => 'Mage_DesignEditor::wrapping.phtml'
+            ));
         }
 
+        $event = $observer->getEvent();
         /** @var $structure Mage_Core_Model_Layout_Structure */
-        $structure = $observer->getEvent()->getStructure();
+        $structure = $event->getData('structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = $observer->getEvent()->getLayout();
-        $name = $observer->getEvent()->getElementName();
+        $layout = $event->getData('layout');
+        $name = $event->getData('element_name');
+        /** @var $transport Varien_Object */
+        $transport = $event->getData('transport');
 
         $block = $layout->getBlock($name);
         $isVdeToolbar = ($block && 0 === strpos(get_class($block), 'Mage_DesignEditor_Block_'));
 
         if ($structure->isManipulationAllowed($name) && !$isVdeToolbar) {
-            $this->_wrappingRenderer
-                ->setTemplate('Mage_DesignEditor::wrapping.phtml')
-                ->setData(array('element_name' => $name, 'element_html' => $layout->getRenderingOutput()))
-            ;
-            $layout->setRenderingOutput($this->_wrappingRenderer->toHtml());
+            $this->_wrappingRenderer->setData(array(
+                'element_name' => $name, 'element_html' => $transport->getData('output')
+            ));
+            $transport->setData('output', $this->_wrappingRenderer->toHtml());
         }
     }
 

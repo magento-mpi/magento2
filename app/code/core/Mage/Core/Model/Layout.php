@@ -15,6 +15,7 @@
  * @category   Mage
  * @package    Mage_Core
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
@@ -71,9 +72,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * A vairable for transporting output into observer during rendering
      *
-     * @var string
+     * @var Varien_Object
      */
-    protected $_renderingOutput = '';
+    protected $_renderingOutput = null;
 
     /**
      * Available options for containers in layout
@@ -109,9 +110,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function __construct(array $arguments = array())
     {
         $this->_area = isset($arguments['area']) ? $arguments['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
-        $this->_structure = Mage::getModel('Mage_Core_Model_Layout_Structure');
+        if (isset($arguments['structure'])) {
+            if ($arguments['structure'] instanceof Mage_Core_Model_Layout_Structure) {
+                $this->_structure = $arguments['structure'];
+            } else {
+                throw new Magento_Exception('Expected instance of Mage_Core_Model_Layout_Structure.');
+            }
+        } else {
+            $this->_structure = Mage::getModel('Mage_Core_Model_Layout_Structure');
+        }
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
+        $this->_renderingOutput = new Varien_Object;
     }
 
     /**
@@ -514,13 +524,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
             $this->_renderElementCache[$name] = $result;
         }
-        $this->setRenderingOutput($this->_renderElementCache[$name]);
+        $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
         Mage::dispatchEvent('core_layout_render_element', array(
             'element_name' => $name,
             'structure'    => $this->_structure,
             'layout'       => $this,
+            'transport'    => $this->_renderingOutput,
         ));
-        return $this->_renderingOutput;
+        return $this->_renderingOutput->getData('output');
     }
 
     /**
@@ -568,30 +579,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $html = sprintf('<%1$s%2$s%3$s>%4$s</%1$s>', $htmlTag, $htmlId, $htmlClass, $html);
 
         return $html;
-    }
-
-    /**
-     * Set output for rendering an element
-     *
-     * Makes sense only while execution is within renderElement()
-     *
-     * @param string $value
-     * @return Mage_Core_Model_Layout
-     */
-    public function setRenderingOutput($value)
-    {
-        $this->_renderingOutput = $value;
-        return $this;
-    }
-
-    /**
-     * Get output for rendering an element
-     *
-     * @return string
-     */
-    public function getRenderingOutput()
-    {
-        return $this->_renderingOutput;
     }
 
     /**

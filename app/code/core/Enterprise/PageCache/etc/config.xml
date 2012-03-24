@@ -242,14 +242,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_front_send_response_before>
-            <core_block_abstract_to_html_after>
+            <core_layout_render_element>
                 <observers>
                     <enterprise_pagecache>
                         <class>Enterprise_PageCache_Model_Observer</class>
                         <method>renderBlockPlaceholder</method>
                     </enterprise_pagecache>
                 </observers>
-            </core_block_abstract_to_html_after>
+            </core_layout_render_element>
             <customer_login>
                 <observers>
                     <enterprise_pagecache>

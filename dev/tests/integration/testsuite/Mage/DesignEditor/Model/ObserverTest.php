@@ -148,31 +148,29 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testWrapPageElement($elementName, $expectedOutput)
     {
         // create a layout object mock with fixture data
-        $utility = new Mage_Core_Utility_Layout($this);
-        $layoutMock = $utility->getLayoutFromFixture(__DIR__ . '/../_files/observer_test.xml');
-
-        // replace layout structure instance (protected argument), so that it could be used in observer
         $structure = new Mage_Core_Model_Layout_Structure;
-        $structureProperty = new ReflectionProperty(get_class($layoutMock), '_structure');
-        $structureProperty->setAccessible(true);
-        $structureProperty->setValue($layoutMock, $structure);
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layoutMock = $utility->getLayoutFromFixture(
+            __DIR__ . '/../_files/observer_test.xml', array(array('structure' => $structure))
+        );
 
         // load the fixture data. This will populate layout structure as well
         $layoutMock->getUpdate()->addHandle('test_handle')->load();
         $layoutMock->generateXml()->generateBlocks();
 
         $expectedContent = 'test_content';
-        $layoutMock->setRenderingOutput($expectedContent);
+        $transport = new Varien_Object(array('output' => $expectedContent));
         $observer = new Varien_Event_Observer(array(
             'event' => new Varien_Event(array(
                 'structure' => $structure,
                 'layout' => $layoutMock,
                 'element_name' => $elementName,
+                'transport' => $transport,
             ))
         ));
 
         $this->_observer->wrapPageElement($observer);
-        $this->assertEquals(sprintf($expectedOutput, $expectedContent), $layoutMock->getRenderingOutput());
+        $this->assertStringMatchesFormat(sprintf($expectedOutput, $expectedContent), $transport->getData('output'));
     }
 
     /**
@@ -181,8 +179,9 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function wrapPageElementDataProvider()
     {
         return array(
-            array('test.text', '<br class="vde_marker" block_name="test.text"' . "\n" . '    marker_type="start"/>'
-                        . "\n" . '%s<br class="vde_marker" marker_type="end"/>' . "\n"),
+            array('test.text',
+                '<div class="vde_element_wrapper">%%w<div class="vde_element_title">test.text</div>%%w%s%%w</div>'
+            ),
             array('toolbar', '%s'),
             array('test.text3', '%s'),
         );

@@ -82,16 +82,4 @@ class Mage_LoadTest_Model_Observer
             $session->blockStart($block->getNameInLayout(), $block->setUseLayout());
         }
     }
-
-    public function toHtmlAfter(Varien_Event_Observer $observer)
-    {
-        $session = Mage::getSingleton('Mage_LoadTest_Model_Session');
-        /* @var $session Mage_LoadTest_Model_Session */
-        $block = $observer->getEvent()->getBlock();
-
-        $toProcess = $session->isToProcess();
-        if ($toProcess) {
-            $session->blockStop($block->getNameInLayout());
-        }
-    }
 }

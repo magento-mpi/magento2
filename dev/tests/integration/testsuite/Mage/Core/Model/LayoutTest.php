@@ -49,12 +49,23 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testConstructorWrongStructure()
+    {
+        new Mage_Core_Model_Layout(array('structure' => false));
+    }
+
     public function constructorDataProvider()
     {
         return array(
             'default area'  => array(array(), Mage_Core_Model_Design_Package::DEFAULT_AREA),
             'frontend area' => array(array('area' => 'frontend'), 'frontend'),
             'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
+            'structure'     => array(
+                array('structure' => new Mage_Core_Model_Layout_Structure), Mage_Core_Model_Design_Package::DEFAULT_AREA
+            ),
         );
     }
 
@@ -119,18 +130,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $utility = new Mage_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
-        $layout->getUpdate()->addHandle('a_handle')->load();
+        $layout->getUpdate()->load('a_handle');
         $layout->generateXml()->generateBlocks();
         $this->assertEmpty($layout->renderElement('nonexisting_element'));
         $this->assertEquals('Value: 1Value: 2', $layout->renderElement('container1'));
         $this->assertEquals('Value: 1', $layout->renderElement('block1'));
-    }
-
-    public function testSetGetRenderingOutput()
-    {
-        $this->assertEmpty($this->_layout->getRenderingOutput());
-        $this->assertSame($this->_layout, $this->_layout->setRenderingOutput('test'));
-        $this->assertEquals('test', $this->_layout->getRenderingOutput());
     }
 
     public function testSetUnsetBlock()

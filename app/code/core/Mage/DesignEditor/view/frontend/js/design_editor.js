@@ -56,35 +56,15 @@
     DesignEditor.prototype._init = function () {
         this._dragged = null;
         this._placeholder = null;
-
-        this._templateWrapper = '<div class="vde_block_wrapper" />';
-        this._templateBlockTitle = '<div class="vde_block_title">%BLOCK_NAME%</div>';
         this._templatePlaceholder = '<div class="vde_placeholder"></div>';
 
-        this._wrapBlocks()
-            ._enableDragging();
-        return this;
-    }
-
-    DesignEditor.prototype._wrapBlocks = function () {
-        var thisObj = this;
-        $('.vde_marker[marker_type=start]')
-            .filter(function (index) {
-                return $(this).parent().css('display') == 'block';
-            })
-            .each(function (index) {
-                var marker = $(this);
-                var titleHtml = thisObj._templateBlockTitle.replace('%BLOCK_NAME%', marker.attr('block_name'));
-                $(titleHtml).insertAfter(marker);
-                marker.nextUntil('.vde_marker[marker_type=end]').wrapAll(thisObj._templateWrapper);
-            });
-        $('.vde_marker').remove();
+        this._enableDragging();
         return this;
     }
 
     DesignEditor.prototype._enableDragging = function () {
         var thisObj = this;
-        $('.vde_block_wrapper').draggable({
+        $('.vde_element_wrapper').draggable({
             helper: 'clone',
             revert: true,
             start: function (event, ui) {thisObj._onDragStarted(event, ui)},
@@ -166,20 +146,20 @@
     }
 
     DesignEditor.prototype._turnHighlightingOn = function () {
-        $('.vde_block_wrapper').each(function () {
+        $('.vde_element_wrapper').each(function () {
             var elem = $(this);
             var children = elem.prop('vdeChildren');
             elem.show().append(children).removeProp('vdeChildren');
-            elem.children('.vde_block_title').slideDown('fast');
+            elem.children('.vde_element_title').slideDown('fast');
         });
         return this;
     }
 
     DesignEditor.prototype._turnHighlightingOff = function () {
-        $('.vde_block_wrapper').each(function () {
+        $('.vde_element_wrapper').each(function () {
             var elem = $(this);
-            elem.children('.vde_block_title').slideUp('fast', function () {
-                var children = elem.children(':not(.vde_block_title)');
+            elem.children('.vde_element_title').slideUp('fast', function () {
+                var children = elem.children(':not(.vde_element_title)');
                 elem.after(children).hide().prop('vdeChildren', children);
             });
         });

@@ -75,11 +75,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected static $_urlModel;
 
     /**
-     * @var Varien_Object
-     */
-    private static $_transportObject;
-
-    /**
      * Class constructor
      *
      * @param array $data
@@ -571,17 +566,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($this->_frameOpenTag) {
             $html = '<'.$this->_frameOpenTag.'>'.$html.'<'.$this->_frameCloseTag.'>';
         }
-
-        /**
-         * Use single transport object instance for all blocks
-         */
-        if (self::$_transportObject === null) {
-            self::$_transportObject = new Varien_Object;
-        }
-        self::$_transportObject->setHtml($html);
-        Mage::dispatchEvent('core_block_abstract_to_html_after',
-                array('block' => $this, 'transport' => self::$_transportObject));
-        $html = self::$_transportObject->getHtml();
 
         return $html;
     }

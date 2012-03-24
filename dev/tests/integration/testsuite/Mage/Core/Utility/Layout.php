@@ -46,11 +46,12 @@ class Mage_Core_Utility_Layout
      * Retrieve new layout model instance with layout updates from a fixture file
      *
      * @param string $layoutUpdatesFile
+     * @param array $args
      * @return Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
      */
-    public function getLayoutFromFixture($layoutUpdatesFile)
+    public function getLayoutFromFixture($layoutUpdatesFile, array $args = array())
     {
-        $layout = $this->_testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'));
+        $layout = $this->_testCase->getMock('Mage_Core_Model_Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
         $layout->expects(PHPUnit_Framework_TestCase::any())

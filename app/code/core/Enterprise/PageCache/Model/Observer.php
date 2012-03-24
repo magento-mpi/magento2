@@ -262,6 +262,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Render placeholder tags around the block if needed
      *
+     * Event: core_layout_render_element
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
@@ -270,13 +271,22 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->_isEnabled) {
             return $this;
         }
-        $block = $observer->getEvent()->getBlock();
-        $transport = $observer->getEvent()->getTransport();
+        $event = $observer->getEvent();
+        /** @var $structure Mage_Core_Model_Layout_Structure */
+        $structure = $event->getData('structure');
+        $name = $event->getData('element_name');
+        if (!$structure->isBlock($name)) {
+            return $this;
+        }
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = $event->getData('layout');
+        $block = $layout->getBlock($name);
+        $transport = $event->getData('transport');
         $placeholder = $this->_config->getBlockPlaceholder($block);
         if ($transport && $placeholder && !$block->getSkipRenderTag()) {
-            $blockHtml = $transport->getHtml();
+            $blockHtml = $transport->getData('output');
             $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();
-            $transport->setHtml($blockHtml);
+            $transport->setData('output', $blockHtml);
         }
         return $this;
     }
