@@ -11,6 +11,7 @@
 
 /**
  * @group module:Mage_Admin
+ * @magentoDataFixture Mage/Admin/_files/user.php
  */
 class Mage_Admin_Model_UserTest extends PHPUnit_Framework_TestCase
 {
@@ -22,14 +23,6 @@ class Mage_Admin_Model_UserTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Admin_Model_User;
-        Mage_Admin_Utility_User::getInstance()
-            ->createAdmin();
-    }
-
-    public function tearDown()
-    {
-        Mage_Admin_Utility_User::getInstance()
-            ->destroyAdmin();
     }
 
     /**
