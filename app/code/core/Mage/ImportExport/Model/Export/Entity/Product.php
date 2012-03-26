@@ -718,7 +718,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                             '_super_products_sku'           => $optionValues['sku'],
                             '_super_attribute_code'         => $optionValues['attribute_code'],
                             '_super_attribute_option'       => $optionValues['option_title'],
-                            '_super_attribute_price_corr'   => $optionValues['pricing_value']
+                            '_super_attribute_price_corr'   => $optionValues['pricing_value'] . ($optionValues['pricing_is_percent'] ? '%' : '')
                         );
                     }
                 }
