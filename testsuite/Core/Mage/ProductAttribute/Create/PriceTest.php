@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3552
      */
     public function withRequiredFieldsEmpty($emptyField)

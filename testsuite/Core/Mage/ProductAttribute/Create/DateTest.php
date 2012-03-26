@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3327
      */
     public function withRequiredFieldsEmpty($emptyField)
@@ -148,7 +148,7 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
         if ($emptyField == 'apply_to') {
             $attrData = $this->loadData('product_attribute_date', array($emptyField => 'Selected Product Types'),
                     'attribute_code');
-        } elseif ($emptyField == 'admin_title') {
+        } else {
             $attrData = $this->loadData('product_attribute_date', array($emptyField => '%noValue%'), 'attribute_code');
         }
         //Steps

@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestC
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3531
      */
     public function withRequiredFieldsEmpty($emptyField)

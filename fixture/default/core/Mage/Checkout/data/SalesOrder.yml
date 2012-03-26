@@ -145,7 +145,7 @@ new_customer:
     last_name: 'Stevenson'
     suffix: 'Jr'
     email: 'test_purpose@example.com'
-    date_of_birth: 01/01/1976
+    date_of_birth: 01/01/76
     tax_vat_number: '123123'
     gender: 'Male'
     send_welcome_email: No
