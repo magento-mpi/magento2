@@ -26,25 +26,19 @@
 
 
 /**
- * Ogone DirectLink payment block
+ * Payone payment block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author      Magento
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payone_Gate
+    extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
 {
     /**
-     * Whether to include billing parameters in Payment Bridge source URL
+     * Payone payment code
      *
-     * @var bool
+     * @var string
      */
-    protected $_sendBilling = true;
-
-    /**
-     * Whether to include shipping parameters in Payment Bridge source URL
-     *
-     * @var bool
-     */
-    protected $_sendShipping = true;
+    protected $_code = 'payone_gate';
 }

@@ -67,7 +67,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      *
      * @var string
      */
-    protected $_iframeScrolling = 'no';
+    protected $_iframeScrolling = 'auto';
 
     /**
      * Whether to allow iframe body reloading
@@ -92,6 +92,43 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      *
      */
     abstract public function getSourceUrl();
+
+    /**
+     * Create default billing address request data
+     *
+     * @return array
+     */
+    protected function _getAddressInfo()
+    {
+        $address = $this->_getCurrentCustomer()->getDefaultBillingAddress();
+
+        $addressFileds    = array(
+            'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
+            'company', 'city', 'country_id', 'telephone', 'fax', 'postcode',
+        );
+
+        $result = array();
+        if ($address) {
+            foreach ($addressFileds as $addressField) {
+                if ($address->hasData($addressField)) {
+                    $result[$addressField] = $address->getData($addressField);
+                }
+            }
+            //Streets must be transfered separately
+            $streets = $address->getStreet();
+            $result['street'] = array_shift($streets);
+            $street2 = array_shift($streets);
+            if ($street2) {
+                $result['street2'] = $street2;
+            }
+            //Region code lookup
+            $region = Mage::getModel('directory/region')->load($address->getData('region_id'));
+            if ($region && $region->getId()) {
+                $result['region'] = $region->getCode();
+            }
+        }
+        return $result;
+    }
 
     /**
      * Create and return iframe block
@@ -235,6 +272,38 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         $customer = $this->_getCurrentCustomer();
         if ($customer && $customer->getEmail()) {
             return Mage::helper('enterprise_pbridge')->getCustomerIdentifierByEmail($customer->getEmail());
+        }
+        return null;
+    }
+
+    /**
+     * Return current merchant and customer email
+     *
+     *
+     * @internal param $storeId
+     * @return null|string
+     */
+    public function getCustomerEmail()
+    {
+        $customer = $this->_getCurrentCustomer();
+        if ($customer && $customer->getEmail()) {
+            return $customer->getEmail();
+        }
+        return null;
+    }
+
+    /**
+     * Return current merchant and customer name
+     *
+     *
+     * @internal param $storeId
+     * @return null|string
+     */
+    public function getCustomerName()
+    {
+        $customer = $this->_getCurrentCustomer();
+        if ($customer && $customer->getName()) {
+            return $customer->getName();
         }
         return null;
     }

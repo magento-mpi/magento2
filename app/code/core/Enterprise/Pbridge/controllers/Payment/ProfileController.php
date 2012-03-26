@@ -24,27 +24,42 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Ogone DirectLink payment block
+ * Saved Payment (CC profiles) controller
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Payment_ProfileController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Whether to include billing parameters in Payment Bridge source URL
+     * Check whether Payment Profiles functionality enabled
      *
-     * @var bool
+     * @return Enterprise_Pbridge_Payment_ProfileController
      */
-    protected $_sendBilling = true;
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_pbridge')->arePaymentProfilesEnables()) {
+            if ($this->getRequest()->getActionName() != 'noroute') {
+                $this->_forward('noroute');
+            }
+        }
+        return $this;
+    }
 
     /**
-     * Whether to include shipping parameters in Payment Bridge source URL
-     *
-     * @var bool
+     * Payment Bridge frame with Saved Payment profiles
      */
-    protected $_sendShipping = true;
+    public function indexAction()
+    {
+        if(!Mage::getSingleton('customer/session')->getCustomerId()) {
+            Mage::getSingleton('customer/session')->authenticate($this);
+            return;
+        }
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }

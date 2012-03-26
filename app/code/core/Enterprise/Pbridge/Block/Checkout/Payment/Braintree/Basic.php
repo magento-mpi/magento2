@@ -23,28 +23,13 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-
-
 /**
- * Ogone DirectLink payment block
+ * iPagare payment block
  *
  * @category    Enterprise
- * @package     Enterprise_Pbridge
+ * @package     Enterprise_Braintree
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Checkout_Payment_Braintree_Basic extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
-    /**
-     * Whether to include billing parameters in Payment Bridge source URL
-     *
-     * @var bool
-     */
-    protected $_sendBilling = true;
-
-    /**
-     * Whether to include shipping parameters in Payment Bridge source URL
-     *
-     * @var bool
-     */
-    protected $_sendShipping = true;
 }

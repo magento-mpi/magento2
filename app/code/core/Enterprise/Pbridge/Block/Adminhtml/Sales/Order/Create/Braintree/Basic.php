@@ -23,28 +23,20 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-
-
 /**
- * Ogone DirectLink payment block
+ * Braintree payment block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Braintree_Basic
+    extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
 {
     /**
-     * Whether to include billing parameters in Payment Bridge source URL
+     * Braintree payment code
      *
-     * @var bool
+     * @var string
      */
-    protected $_sendBilling = true;
-
-    /**
-     * Whether to include shipping parameters in Payment Bridge source URL
-     *
-     * @var bool
-     */
-    protected $_sendShipping = true;
+    protected $_code = 'braintree_basic';
 }

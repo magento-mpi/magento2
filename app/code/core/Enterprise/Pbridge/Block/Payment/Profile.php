@@ -26,25 +26,38 @@
 
 
 /**
- * Ogone DirectLink payment block
+ * Payment Profiles Iframe block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Payment_Profile extends Enterprise_Pbridge_Block_Iframe_Abstract
 {
     /**
-     * Whether to include billing parameters in Payment Bridge source URL
+     * Default iframe height
      *
-     * @var bool
+     * @var string
      */
-    protected $_sendBilling = true;
+    protected $_iframeHeight = '600';
 
     /**
-     * Whether to include shipping parameters in Payment Bridge source URL
+     * Getter for Payment Profiles Iframe source URL.
+     * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
+     * Can include quote shipping and billing address if its required in payment processing
      *
-     * @var bool
+     * @return string
      */
-    protected $_sendShipping = true;
+    public function getSourceUrl()
+    {
+        return Mage::helper('enterprise_pbridge')->getPaymentProfileUrl(
+            array(
+                'billing_address' => $this->_getAddressInfo(),
+                'css_url'         => $this->getCssUrl(),
+                'customer_id'     => $this->getCustomerIdentifier(),
+                'customer_name'   => $this->getCustomerName(),
+                'customer_email'  => $this->getCustomerEmail()
+            )
+        );
+    }
 }

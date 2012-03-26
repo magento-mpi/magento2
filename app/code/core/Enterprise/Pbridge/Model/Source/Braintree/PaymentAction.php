@@ -24,27 +24,23 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Ogone DirectLink payment block
- *
- * @category    Enterprise
- * @package     Enterprise_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Braintree Payment Action Dropdown source
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Ogone extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Model_Source_Braintree_PaymentAction
 {
     /**
-     * Whether to include billing parameters in Payment Bridge source URL
-     *
-     * @var bool
+     * Return list of available payment actions for gateway
+     * @return array
      */
-    protected $_sendBilling = true;
-
-    /**
-     * Whether to include shipping parameters in Payment Bridge source URL
-     *
-     * @var bool
-     */
-    protected $_sendShipping = true;
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'label' => Mage::helper('enterprise_pbridge')->__('Authorization')),
+            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'label' => Mage::helper('enterprise_pbridge')->__('Sale')),
+        );
+    }
 }
+
