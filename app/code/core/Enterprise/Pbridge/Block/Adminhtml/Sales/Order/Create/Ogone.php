@@ -53,5 +53,5 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Ogone
      *
      * @var bool
      */
-    protected $_sendShipping = true;    
+    protected $_sendShipping = true;
 }
