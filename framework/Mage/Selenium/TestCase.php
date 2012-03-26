@@ -275,9 +275,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!isset($browser['httpTimeout'])) {
             $browser['httpTimeout'] = 45;
         }
-        if (!isset($browser['restartBrowser'])) {
-            $browser['restartBrowser'] = true;
-        }
         $driver = new Mage_Selenium_Driver();
         $driver->setName($browser['name']);
         $driver->setBrowser($browser['browser']);
