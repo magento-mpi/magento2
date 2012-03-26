@@ -227,7 +227,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = array();
 
         // get all children
-        if (Mage::helper('catalog/category_flat')->isAvailable()) {
+        // If Flat Data enabled then use it but only on frontend
+        if (Mage::helper('catalog/category_flat')->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {

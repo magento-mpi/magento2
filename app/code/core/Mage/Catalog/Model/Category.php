@@ -113,10 +113,12 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Initialize resource mode
      *
+     * @return void
      */
     protected function _construct()
     {
-        if (Mage::helper('catalog/category_flat')->isAvailable()) {
+        // If Flat Data enabled then use it but only on frontend
+        if (Mage::helper('catalog/category_flat')->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
             $this->_init('catalog/category_flat');
             $this->_useFlatResource = true;
         } else {
