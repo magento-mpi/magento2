@@ -399,7 +399,9 @@ $CONFIG['translates'] = array(
     'Enterprise_Checkout' => array(
         'app/code/core/Enterprise/Checkout/',
         'app/design/adminhtml/default/default/layout/enterprise/checkout.xml',
-        'app/design/adminhtml/default/default/template/enterprise/checkout/'
+        'app/design/adminhtml/default/default/template/enterprise/checkout/',
+        'app/design/frontend/enterprise/default/layout/checkout.xml',
+        'app/design/frontend/enterprise/default/template/checkout/'
     ),
     'Enterprise_Cms' => array(
         'app/code/core/Enterprise/Cms/',
