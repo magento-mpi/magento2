@@ -193,13 +193,10 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             } else {
                 unset($config[self::DEFAULT_BROWSER]);
                 $this->_configBrowsers = $config;
+                Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
             }
         } else {
             $this->_configBrowsers = $config;
-        }
-        if (count($this->_configBrowsers) == 1) {
-            Mage_Selenium_TestCase::$_singleBrowser = $this->_configBrowsers[self::DEFAULT_BROWSER];
-        } else {
             Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
         }
 
@@ -254,6 +251,18 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     public function setCurrentPageId($pageId)
     {
         $this->_currentPageId = $pageId;
+    }
+
+    /**
+     * Get all browsers configs
+     * @return array
+     */
+    public function getConfigBrowsers()
+    {
+        if (empty($this->_configBrowsers)) {
+            $this->_loadConfigBrowsers();
+        }
+        return $this->_configBrowsers;
     }
 
     /**

@@ -87,12 +87,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public $frameworkConfig;
 
     /**
-     * Settings for one broswer
-     * @var array
-     */
-    public static $_singleBrowser = array();
-
-    /**
      * Saves HTML content of the current page if the test failed
      * @var bool
      */
@@ -342,11 +336,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function prepareBrowserSession()
     {
+        $browsers = $this->_configHelper->getConfigBrowsers();
         if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
-            $this->setupSpecificBrowser(self::$_singleBrowser);
+            $this->setupSpecificBrowser($browsers['default']);
             $this->shareSession($this->prepareTestSession());
         } elseif (empty(self::$browsers)) {
-            $this->setupSpecificBrowser(self::$_singleBrowser);
+            $this->setupSpecificBrowser($browsers['default']);
             $this->prepareTestSession();
         } else {
             $this->frameworkConfig['shareSession'] = false;
