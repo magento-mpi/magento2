@@ -127,7 +127,7 @@ function execVerbose($command)
  */
 function getTopMarkdownSection($contents)
 {
-    $parts = preg_split('/[=\-]{4,}/', $contents);
+    $parts = preg_split('/^[=\-]+\s*$/m', $contents);
     if (!isset($parts[1])) {
         return '';
     }
