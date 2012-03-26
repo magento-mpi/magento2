@@ -37,9 +37,9 @@ $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/
 
 try {
     // compare if changelog is different from current
-    $sourceLogFile = realpath(__DIR__ . '/../../../changelog.markdown');
+    $sourceLogFile = realpath(__DIR__ . '/../../../CHANGELOG.markdown');
     $log = file_get_contents($sourceLogFile);
-    $targetLogFile = realpath($targetDir . '/changelog.markdown');
+    $targetLogFile = realpath($targetDir . '/CHANGELOG.markdown');
     if ($targetLogFile && $log == file_get_contents($targetLogFile)) {
         throw new Exception("Aborting attempt to publish with old changelog."
             . " Contents of these files are not supposed to be equal: {$sourceLogFile} and {$targetLogFile}"
@@ -127,12 +127,13 @@ function execVerbose($command)
  */
 function getTopMarkdownSection($contents)
 {
-    $parts = preg_split('/[=\-]{4,}/s', $contents);
+    $parts = preg_split('/[=\-]{4,}/', $contents);
     if (!isset($parts[1])) {
         return '';
     }
-    $parts[1] = explode("\n", trim($parts[1]));
-    array_pop($parts[1]);
-    $parts[1] = implode("\n", $parts[1]);
-    return $parts[0] . $parts[1];
+    list($title, $body) = $parts;
+    $body = explode("\n", trim($body));
+    array_pop($body);
+    $body = implode("\n", $body);
+    return $title . $body;
 }

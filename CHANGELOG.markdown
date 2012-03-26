@@ -1,7 +1,6 @@
-Update as of 3/23/2012
+Update as of 3/26/2012
 ======================
 
-* Fetched updates from Magento 1 up to March 2 2012. Refer to [Magento 1 release notes](http://www.magentocommerce.com/download/release_notes) for details.
 * Introduced concept of containers and "page types" in layout.
   * Containers replace `Mage_Core_Block_Text_List` and `Mage_Page_Block_Html_Wrapper`
   * Widgets now utilize page types and containers instead of "handles" and "block references"
@@ -18,6 +17,7 @@ Update as of 3/23/2012
   * Failures of tests in developer mode
   * `app/etc/local.xml` affected integration tests
 * Addressed pull requests and issues from Github
+* Fetched updates from Magento 1 up to March 2 2012. Refer to [Magento 1 release notes](http://www.magentocommerce.com/download/release_notes) for details.
 
 Update as of 2/29/2012
 ======================
