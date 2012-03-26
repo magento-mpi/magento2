@@ -39,6 +39,12 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
     const XML_PATH_COOKIE_RESTRICTION  = 'web/cookie/cookie_restriction';
 
     /**
+     * Cookie restriction lifetime configuration path
+     */
+    const XML_PATH_COOKIE_RESTRICTION_LIFETIME = 'web/cookie/cookie_restriction_lifetime';
+
+
+    /**
      * Check if noscript notice should be displayed
      *
      * @return boolean
@@ -56,6 +62,16 @@ class Mage_Page_Block_Html_Notices extends Mage_Core_Block_Template
     public function displayDemoNotice()
     {
         return Mage::getStoreConfig('design/head/demonotice');
+    }
+
+    /**
+     * Get cookie restriction lifetime (in seconds)
+     *
+     * @return int
+     */
+    public function getCookieRestrictionLifetime()
+    {
+        return (int)Mage::getStoreConfig(self::XML_PATH_COOKIE_RESTRICTION_LIFETIME);
     }
 
     /**
