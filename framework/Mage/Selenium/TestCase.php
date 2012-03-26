@@ -1495,6 +1495,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function validatePage($page = '')
     {
+        $this->getCurrentLocationArea();
         if ($page) {
             $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
         } else {
