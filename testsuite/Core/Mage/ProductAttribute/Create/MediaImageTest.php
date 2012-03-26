@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_Create_MediaImageTest extends Mage_Selenium_Tes
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3561
      */
     public function withRequiredFieldsEmpty($emptyField)

@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3557
      */
     public function withRequiredFieldsEmpty($emptyField)
