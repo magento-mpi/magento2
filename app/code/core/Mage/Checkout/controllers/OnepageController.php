@@ -309,8 +309,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             return;
         }
         if ($this->getRequest()->isPost()) {
-//            $postData = $this->getRequest()->getPost('billing', array());
-//            $data = $this->_filterPostData($postData);
             $data = $this->getRequest()->getPost('billing', array());
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 
@@ -320,7 +318,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
             if (!isset($result['error'])) {
-                /* check quote for virtual */
                 if ($this->getOnepage()->getQuote()->isVirtual()) {
                     $result['goto_section'] = 'payment';
                     $result['update_section'] = array(
@@ -380,9 +377,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping_method', '');
             $result = $this->getOnepage()->saveShippingMethod($data);
-            /*
-            $result will have erro data if shipping method is empty
-            */
+            // $result will contain error data if shipping method is empty
             if(!$result) {
                 Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
                         array('request'=>$this->getRequest(),
@@ -420,6 +415,10 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             // set payment to quote
             $result = array();
             $data = $this->getRequest()->getPost('payment', array());
+            if ($data && Mage::app()->getStore()->roundPrice($this->getOnepage()->getQuote()->getGrandTotal()) == 0) {
+                $data['method'] = 'free';
+            }
+
             $result = $this->getOnepage()->savePayment($data);
 
             // get section and redirect data
@@ -505,9 +504,15 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                     return;
                 }
             }
-            if ($data = $this->getRequest()->getPost('payment', false)) {
+
+            $data = $this->getRequest()->getPost('payment', array());
+            if ($data) {
+                if (Mage::app()->getStore()->roundPrice($this->getOnepage()->getQuote()->getGrandTotal()) == 0) {
+                    $data['method'] = 'free';
+                }
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }
+
             $this->getOnepage()->saveOrder();
 
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();

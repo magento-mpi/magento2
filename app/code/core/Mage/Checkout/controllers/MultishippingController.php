@@ -388,26 +388,6 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         $this->renderLayout();
     }
 
-//    public function billingPostAction()
-//    {
-//        if(!$this->_validateBilling()) {
-//            return;
-//        }
-//
-//        $payment = $this->getRequest()->getPost('payment');
-//        try {
-//            $this->_getCheckout()->setPaymentMethod($payment);
-//            $this->_getState()->setActiveStep(
-//                Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW
-//            );
-//            $this->_redirect('*/*/overview');
-//        }
-//        catch (Exception $e) {
-//            $this->_getCheckoutSession()->addError($e->getMessage());
-//            $this->_redirect('*/*/billing');
-//        }
-//    }
-
     /**
      * Validation of selecting of billing address
      *
@@ -446,6 +426,11 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
 
         try {
             $payment = $this->getRequest()->getPost('payment');
+            if ($payment
+                && Mage::app()->getStore()->roundPrice($this->_getCheckout()->getQuote()->getGrandTotal()) == 0
+            ) {
+                $payment['method'] = 'free';
+            }
             $this->_getCheckout()->setPaymentMethod($payment);
 
             $this->_getState()->setCompleteStep(

@@ -143,7 +143,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 
         /**
          * Payment availability related with quote totals.
-         * We have recollect quote totals before checking
+         * We have to recollect quote totals before checking
          */
         $this->getQuote()->collectTotals();
 
