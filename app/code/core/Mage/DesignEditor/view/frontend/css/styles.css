@@ -47,20 +47,20 @@
 }
 
 .vde_element_wrapper {
-    border: 1px solid green;
+    border: 1px solid blue;
     padding: 2px;
 }
 .vde_element_wrapper.vde_container {
-    border: 1px dashed red;
+    border: 1px dashed green;
 }
 .vde_container > .vde_element_title {
-    background-color: red;
+    background-color: green;
 }
 .vde_element_wrapper.vde_container.vde_draggable {
     border-style: solid;
 }
 .vde_element_title {
-    background-color: green;
+    background-color: blue;
     padding: 2px;
     color: white;
     font-size: 11px;
