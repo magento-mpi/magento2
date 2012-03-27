@@ -103,7 +103,7 @@ class Mage_Api_Model_Server_Adapter_Xmlrpc
     public function run()
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
-        
+
         $this->_xmlRpc = new Zend_XmlRpc_Server();
         $this->_xmlRpc->setEncoding($apiConfigCharset)
             ->setClass($this->getHandler());

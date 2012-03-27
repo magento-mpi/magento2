@@ -238,9 +238,12 @@ class Mage_Api_Model_Server_Adapter_Soap
         do {
             $retry = false;
             try {
-                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding' => $apiConfigCharset));
+                $this->_soap = new Zend_Soap_Server(
+                    $this->getWsdlUrl(array("wsdl" => 1)), array('encoding' => $apiConfigCharset)
+                );
             } catch (SoapFault $e) {
-                if (false !== strpos($e->getMessage(), "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")) {
+                $importMessage = "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'";
+                if (false !== strpos($e->getMessage(), $importMessage)) {
                     $retry = true;
                     sleep(1);
                 } else {
