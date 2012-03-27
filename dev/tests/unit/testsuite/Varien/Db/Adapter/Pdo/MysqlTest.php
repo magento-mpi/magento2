@@ -20,6 +20,11 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     const ERROR_DDL_MESSAGE = 'DDL statements are not allowed in transactions';
 
     /**
+     * Custom error handler message
+     */
+    const CUSTOM_ERROR_HANDLER_MESSAGE = 'Custom error handler message';
+
+    /**
      * Adapter for test
      * @var Varien_Db_Adapter_Pdo_Mysql
      */
@@ -94,34 +99,77 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
              ->will($this->returnValue(1));
 
         $mockAdapter->beginTransaction();
+
+        set_error_handler(array(
+            'Varien_Db_Adapter_Pdo_MysqlTest',
+            'errorHandler'
+        ));
+
+        Mage::setIsDeveloperMode(true);
+        $this->assertTrue(Mage::getIsDeveloperMode());
+
         try {
             $mockAdapter->query("CREATE table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) !== false);
         }
 
         try {
             $mockAdapter->query("ALTER table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) !== false);
         }
 
         try {
             $mockAdapter->query("TRUNCATE table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) !== false);
         }
 
         try {
             $mockAdapter->query("RENAME table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) !== false);
         }
 
         try {
             $mockAdapter->query("DROP table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) !== false);
+        }
+
+        Mage::setIsDeveloperMode(false);
+        $this->assertFalse(Mage::getIsDeveloperMode());
+
+        try {
+            $mockAdapter->query("CREATE table user");
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
+        }
+
+        $this->assertFalse(Mage::getIsDeveloperMode());
+        try {
+            $mockAdapter->query("ALTER table user");
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
+        }
+
+        try {
+            $mockAdapter->query("TRUNCATE table user");
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
+        }
+
+        try {
+            $mockAdapter->query("RENAME table user");
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
+        }
+
+        try {
+            $mockAdapter->query("DROP table user");
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
         }
 
         try {
@@ -137,5 +185,14 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
             $this->assertFalse($e instanceof Zend_Db_Adapter_Exception);
         }
+
+        restore_error_handler();
+    }
+
+    public function errorHandler($errno, $errstr, $errfile, $errline) {
+        call_user_func(Mage_Core_Model_App::DEFAULT_ERROR_HANDLER,
+            $errno, $errstr, $errfile, $errline
+        );
+        throw new Exception(self::CUSTOM_ERROR_HANDLER_MESSAGE);
     }
 }
