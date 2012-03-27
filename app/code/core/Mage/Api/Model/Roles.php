@@ -41,6 +41,8 @@
  * @method Mage_Api_Model_Roles setUserId(int $value)
  * @method string getRoleName()
  * @method Mage_Api_Model_Roles setRoleName(string $value)
+ * @method string getName()
+ * @method Mage_Api_Model_Role setName() setName(string $name)
  *
  * @category    Mage
  * @package     Mage_Api
@@ -48,6 +50,14 @@
  */
 class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 {
+    /**
+     * Filters
+     *
+     * @var array
+     */
+    protected $_filters;
+
+
     protected function _construct()
     {
         $this->_init('api/roles');
@@ -135,4 +145,33 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * Filter data before save
+     *
+     * @return Mage_Api_Model_Roles
+     */
+    protected function _beforeSave()
+    {
+        $this->filter();
+        parent::_beforeSave();
+        return $this;
+    }
+
+    /**
+     * Filter set data
+     *
+     * @return Mage_Api_Model_Roles
+     */
+    public function filter()
+    {
+        $data = $this->getData();
+        if (!$this->_filters || !$data) {
+            return $this;
+        }
+        /** @var $filter Mage_Core_Model_Input_Filter */
+        $filter = Mage::getModel('core/input_filter');
+        $filter->setFilters($this->_filters);
+        $this->setData($filter->filter($data));
+        return $this;
+    }
 }
