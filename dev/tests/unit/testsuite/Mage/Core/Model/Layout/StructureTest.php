@@ -107,7 +107,7 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $options = array('attribute' => 'value');
         $this->_model->insertElement('', $name, 'block', '', '', '', $options);
         $this->assertEquals($options['attribute'], $this->_model->getElementAttribute($name, 'attribute'));
-        $this->assertFalse($this->_model->getElementAttribute($name, 'invalid_attribute'));
+        $this->assertEquals('', $this->_model->getElementAttribute($name, 'invalid_attribute'));
     }
 
     public function testMove()
@@ -299,9 +299,9 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->_model->insertBlock($parent, $child1);
         $this->assertEmpty($this->_model->getGroupChildNames($parent, $group1));
         $this->assertEmpty($this->_model->getGroupChildNames($parent, $group2));
-        $this->_model->addToParentGroup($child1, $parent, $group1);
+        $this->_model->addToParentGroup($child1, $group1);
         $this->_model->insertBlock($parent, $child2);
-        $this->_model->addToParentGroup($child2, $parent, $group2);
+        $this->_model->addToParentGroup($child2, $group2);
         $this->assertEquals(array($child1), $this->_model->getGroupChildNames($parent, $group1));
         $this->assertEquals(array($child2), $this->_model->getGroupChildNames($parent, $group2));
     }

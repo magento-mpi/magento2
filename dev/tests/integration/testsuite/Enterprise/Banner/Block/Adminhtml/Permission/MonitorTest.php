@@ -15,6 +15,10 @@
 class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $blockType
+     * @param string $blockName
+     * @param string $tabsType
+     * @param string $tabsName
      * @dataProvider prepareLayoutDataProvider
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
