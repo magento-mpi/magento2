@@ -94,8 +94,6 @@ return array(
     '_sendUploadResponse' => array('class_scope' => 'Mage_Adminhtml_CustomerController'),
     '_sendUploadResponse' => array('class_scope' => 'Mage_Adminhtml_Newsletter_SubscriberController'),
     '_setAttribteValue',
-    'actionPreDispatchAdmin' => array('class_scope' => 'Mage_Admin_Model_Observer'),
-    'actionPostDispatchAdmin' => array('class_scope' => 'Mage_Admin_Model_Observer'),
     'addBackupedFilter',
     'addConfigField' => array('class_scope' => 'Mage_Core_Model_Resource_Setup'),
     'addConstraint' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
