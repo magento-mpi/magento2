@@ -95,11 +95,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
             )
             ->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tabs'));
 
-        $this->_addJs(
-            $this->getLayout()
-                ->createBlock('adminhtml/template')
-                ->setTemplate('permissions/user_roles_grid_js.phtml')
-        );
+        $this->getLayout()->getBlock('adminhtml.permissions.user.edit')
+            ->setData('action', $this->getUrl('*/permissions_user/save'));
+
         $this->renderLayout();
     }
 
