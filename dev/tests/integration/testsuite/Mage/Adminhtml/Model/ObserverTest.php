@@ -40,7 +40,6 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture adminUserFixture
      * @magentoAppIsolation enabled
      */
     public function testActionPreDispatchAdminLoggedRedirect()
@@ -57,7 +56,6 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture adminUserFixture
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store admin/security/use_form_key 0
      */
@@ -75,7 +73,7 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Builds a dummy observer for testing adminPreDispath method
+     * Builds a dummy observer for testing adminPreDispatch method
      *
      * @return Varien_Object
      */
@@ -85,8 +83,8 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setPost(
             'login',
             array(
-                'username' => Mage_Admin_Utility_User::CRED_USERNAME,
-                'password' => Mage_Admin_Utility_User::CRED_PASSWORD
+                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
+                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
             )
         );
 
@@ -94,17 +92,5 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $event = new Varien_Object(array('controller_action' => $controller));
         $observer = new Varien_Object(array('event' => $event));
         return $observer;
-    }
-
-    public static function adminUserFixture()
-    {
-        Mage_Admin_Utility_User::getInstance()
-            ->createAdmin();
-    }
-
-    public static function adminUserFixtureRollback()
-    {
-        Mage_Admin_Utility_User::getInstance()
-            ->destroyAdmin();
     }
 }

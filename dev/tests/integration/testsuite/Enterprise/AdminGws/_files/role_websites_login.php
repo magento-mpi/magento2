@@ -34,7 +34,7 @@ $user = new Mage_Admin_Model_User();
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',
-    'email'     => 'admin@example.com',
+    'email'     => 'admingws@example.com',
     'username'  => 'admingws_user',
     'password'  => 'admingws_password',
     'is_active' => 1

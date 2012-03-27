@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-$utility = Mage_Admin_Utility_User::getInstance();
-$utility->createAdmin();
-
 $session = new Mage_DesignEditor_Model_Session();
-$session->login(Mage_Admin_Utility_User::CRED_USERNAME, Mage_Admin_Utility_User::CRED_PASSWORD);
+$session->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
