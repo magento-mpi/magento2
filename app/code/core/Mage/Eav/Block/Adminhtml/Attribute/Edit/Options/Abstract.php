@@ -151,7 +151,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
                 foreach ($this->getStores() as $store) {
                     $storeValues = $this->getStoreOptionValues($store->getId());
                     $value['store' . $store->getId()] = isset($storeValues[$option->getId()])
-                        ? $storeValues[$option->getId()] : '';
+                        ? Mage::helper('core')->escapeHtml($storeValues[$option->getId()]) : '';
                 }
                 $values[] = new Varien_Object($value);
             }
