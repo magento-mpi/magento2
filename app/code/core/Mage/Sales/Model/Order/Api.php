@@ -106,7 +106,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
                         'shipping_lastname'=>"$shippingAliasName.lastname"
                     )
             );
-        
+
         if (is_array($filters)) {
             try {
                 foreach ($filters as $field => $value) {
