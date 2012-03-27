@@ -1237,7 +1237,7 @@ duplicate_configurable:
     prices_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: 3/1/12
-    prices_special_price_to: 9/9/11
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
@@ -1301,15 +1301,15 @@ downloadable_product:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 01/01/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: 3/1/12
-    prices_special_price_to: 9/9/11
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -1356,15 +1356,15 @@ duplicate_downloadable:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 01/01/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: 3/1/12
-    prices_special_price_to: 9/9/11
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
