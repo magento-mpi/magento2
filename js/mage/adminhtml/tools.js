@@ -143,7 +143,7 @@ function toggleValueElements(checkbox, container, excludedElements, checked){
                 if (isDisabled) {
                     elem.addClassName('disabled');
                 } else {
-                   elem.removeClassName('disabled');
+                    elem.removeClassName('disabled');
                 }
                 if (elem.nodeName.toLowerCase() == 'img') {
                     isDisabled ? elem.hide() : elem.show();
