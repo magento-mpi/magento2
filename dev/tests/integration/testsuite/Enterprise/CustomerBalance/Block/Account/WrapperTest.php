@@ -15,11 +15,11 @@
 class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoConfigFixture modules/Enterprise_CustomerBalance/active 1
      * @magentoDataFixture Enterprise/CustomerBalance/_files/history.php
      */
     public function testToHtml()
     {
-        Mage::getConfig()->setNode('modules/Enterprise_CustomerBalance/active', '1');
         $session = new Mage_Customer_Model_Session;
         $session->login('customer@example.com', 'password');
 
@@ -31,11 +31,7 @@ class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Frame
         $html = $layout->getOutput();
 
         $this->assertContains('<div class="storecredit">', $html);
-
-        $balancePos = strpos($html, '<div class="account-balance">');
-        $historyPos = strpos($html, '<table id="customerbalance-history" class="data-table">');
-        $this->assertGreaterThan(0, $balancePos);
-        $this->assertGreaterThan(0, $historyPos);
-        $this->assertTrue($historyPos > $balancePos);
+        $format = '%A<div class="account-balance">%A<table id="customerbalance-history" class="data-table">%A';
+        $this->assertStringMatchesFormat($format, $html);
     }
 }

@@ -17,5 +17,6 @@ $reward->save();
 
 $history = Mage::getModel('Enterprise_Reward_Model_Reward_History');
 $history->setRewardId($reward->getId())
-    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+    ->setAdditionalData('');
 $history->save();

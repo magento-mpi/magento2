@@ -28,13 +28,8 @@ class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_Test
         $layout->generateXml()->generateBlocks();
         $layout->addOutputElement('customer.reward');
 
-        $html = $layout->getOutput();
-        $infoPos = strpos($html, '<div class="box info-box">');
-        $historyPos = strpos($html, '<table id="reward-history" class="data-table">');
-        $subscriptionPos = strpos($html, 'id="subscribe_updates"');
-        $this->assertGreaterThan(0, $infoPos);
-        $this->assertGreaterThan(0, $historyPos);
-        $this->assertGreaterThan(0, $subscriptionPos);
-        $this->assertTrue($infoPos < $historyPos && $historyPos < $subscriptionPos);
+        $format = '%A<div class="box info-box">%A<table id="reward-history" class="data-table">%A'
+            . 'id="subscribe_updates"%A';
+        $this->assertStringMatchesFormat($format, $layout->getOutput());
     }
 }
