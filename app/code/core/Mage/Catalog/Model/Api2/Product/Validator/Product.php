@@ -341,8 +341,9 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             /** @var $catalogHelper Mage_Catalog_Helper_Data */
             $catalogHelper = Mage::helper('catalog');
             $website = Mage::getModel('core/website')->load($data['website_id']);
-            if (is_null($website->getId()) || ($data['website_id'] !== 0
-                && $catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL)) {
+            $isAllWebsitesValue = is_numeric($data['website_id']) && ($data['website_id'] == 0);
+            $isWebsitePriceScope = $catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_WEBSITE;
+            if (is_null($website->getId()) || ($isWebsitePriceScope && !$isAllWebsitesValue)) {
                 $this->_addError(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet));
             }
         }
@@ -521,7 +522,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 $sourceModel = Mage::getSingleton($sourceModelName);
                 if ($sourceModel) {
                     $allowedValues = $this->_getAttributeAllowedValues($sourceModel->toOptionArray());
-                    if (!in_array($data[$field], $allowedValues, true)) {
+                    $useStrictMode = !is_numeric($data[$field]);
+                    if (!in_array($data[$field], $allowedValues, $useStrictMode)) {
                         $this->_addError(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet));
                     }
                 }
@@ -544,7 +546,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             if (isset($data[$field])) {
                 $allowedValues = $this->_getAttributeAllowedValues(
                     Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
-                if (!in_array($data[$field], $allowedValues, true)) {
+                $useStrictMode = !is_numeric($data[$field]);
+                if (!in_array($data[$field], $allowedValues, $useStrictMode)) {
                     $this->_addError(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet));
                 }
             }

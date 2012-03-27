@@ -777,12 +777,94 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'price' => 0,
             'stock_data' => array('qty' => 0),
         );
+        $validNumericValues = array(
+            'attribute_set_id' => 4,
+            'msrp_enabled' => 2,
+            'msrp_display_actual_price_type' => 4,
+            'is_returnable' => 2,
+            'price' => 100.50,
+            'special_price' => 50.50,
+            'weight' => 3,
+            'msrp' => 50.00,
+            'gift_wrapping_price' => 5,
+            'status' => 1,
+            'visibility' => 4,
+            'enable_googlecheckout' => 1,
+            'tax_class_id' => 4,
+            'group_price' => array(array('website_id' => 0, 'cust_group' => 1, 'price' => 20.0000)),
+            'tier_price' => array(array('website_id' => 0, 'cust_group' => 1, 'price' => 10.0000,
+                'price_qty' => 5.0000)),
+            'stock_data' => array(
+                'qty' => 654.0000,
+                'min_qty' => 0.0000,
+                'use_config_min_qty' => 1,
+                'is_qty_decimal' => 0,
+                'backorders' => 0,
+                'use_config_backorders' => 1,
+                'min_sale_qty' => 1.0000,
+                'use_config_min_sale_qty' => 1,
+                'max_sale_qty' => 0.0000,
+                'use_config_max_sale_qty' => 1,
+                'is_in_stock' => 1,
+                'notify_stock_qty' => 5,
+                'use_config_notify_stock_qty' => 0,
+                'manage_stock' => 1,
+                'use_config_manage_stock' => 0,
+                'use_config_qty_increments' => 1,
+                'qty_increments' => 0.0000,
+                'use_config_enable_qty_inc' => 1,
+                'enable_qty_increments' => 0,
+                'is_decimal_divided' => 0
+            )
+        );
+        $validNumericValuesAsStrings = array(
+            'attribute_set_id' => '4',
+            'msrp_enabled' => '2',
+            'msrp_display_actual_price_type' => '4',
+            'is_returnable' => '2',
+            'price' => '100.50',
+            'special_price' => '50.50',
+            'weight' => '3',
+            'msrp' => '50.00',
+            'gift_wrapping_price' => '5',
+            'status' => '1',
+            'visibility' => '4',
+            'enable_googlecheckout' => '1',
+            'tax_class_id' => '4',
+            'group_price' => array(array('website_id' => '0', 'cust_group' => '1', 'price' => '20.0000')),
+            'tier_price' => array(array('website_id' => '0', 'cust_group' => '1', 'price' => '10.0000',
+                'price_qty' => '5.0000')),
+            'stock_data' => array(
+                'use_config_manage_stock' => '0',
+                'manage_stock' => '1',
+                'qty' => '654.0000',
+                'min_qty' => '0.0000',
+                'use_config_min_qty' => '1',
+                'is_qty_decimal' => '0',
+                'backorders' => '0',
+                'use_config_backorders' => '1',
+                'min_sale_qty' => '1.0000',
+                'use_config_min_sale_qty' => '1',
+                'max_sale_qty' => '0.0000',
+                'use_config_max_sale_qty' => '1',
+                'is_in_stock' => '1',
+                'notify_stock_qty' => '5',
+                'use_config_notify_stock_qty' => '0',
+                'use_config_qty_increments' => '1',
+                'qty_increments' => '0.0000',
+                'use_config_enable_qty_inc' => '1',
+                'enable_qty_increments' => '0',
+                'is_decimal_divided' => '0'
+            )
+        );
 
         return array(
             array($productDataSpecialChars),
             array($productData),
             array($productDataZeroValidValuesAsStrings),
             array($productDataZeroValidValuesAsIntegers),
+            array($validNumericValues),
+            array($validNumericValuesAsStrings),
         );
     }
 
@@ -1070,18 +1152,20 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
         foreach ($dateAttributes as $attribute) {
-            $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
-                $attribute .' is not equal.');
+            if (isset($expectedData[$attribute])) {
+                $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
+                    $attribute . ' is not equal.');
+            }
         }
         $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data'));
         $productAttributes = array_diff_key($expectedData, array_flip($exclude));
         foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute), $attribute .' is not equal.');
+            $this->assertEquals($value, $product->getData($attribute), $attribute . ' is not equal.');
         }
         if (isset($expectedData['stock_data'])) {
             $stockItem = $product->getStockItem();
             foreach ($expectedData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute), $attribute .' is not equal.');
+                $this->assertEquals($value, $stockItem->getData($attribute), $attribute . ' is not equal.');
             }
         }
     }
