@@ -96,6 +96,13 @@
         </translate>
     </frontend>
     <default>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <dhl_folder>dhl</dhl_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
         <carriers>
             <dhl>
                 <account/>

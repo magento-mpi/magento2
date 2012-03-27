@@ -271,6 +271,7 @@
                 <configuration_update_time>3600</configuration_update_time>
                 <allowed_resources>
                     <compiled_css_folder>css</compiled_css_folder>
+                    <compiled_css_secure_folder>css_secure</compiled_css_secure_folder>
                     <compiled_js_folder>js</compiled_js_folder>
                 </allowed_resources>
             </media_storage_configuration>
