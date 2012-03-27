@@ -342,8 +342,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             $catalogHelper = Mage::helper('catalog');
             $website = Mage::getModel('core/website')->load($data['website_id']);
             $isAllWebsitesValue = is_numeric($data['website_id']) && ($data['website_id'] == 0);
-            $isWebsitePriceScope = $catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_WEBSITE;
-            if (is_null($website->getId()) || ($isWebsitePriceScope && !$isAllWebsitesValue)) {
+            $isGlobalPriceScope = (int)$catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL;
+            if (is_null($website->getId()) || ($isGlobalPriceScope && !$isAllWebsitesValue)) {
                 $this->_addError(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet));
             }
         }
