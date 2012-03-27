@@ -1104,6 +1104,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $this->_errors[] = Mage::helper('usa')->__('There is no items in this order');
         }
 
+        $countryParams = $this->getCountryParams(
+            Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+        );
+        if (!$countryParams->getData()) {
+            $this->_errors[] = Mage::helper('usa')->__("Please, specify origin country");
+        }
+
         if (!empty($this->_errors)) {
             return $this->_showError();
         }
