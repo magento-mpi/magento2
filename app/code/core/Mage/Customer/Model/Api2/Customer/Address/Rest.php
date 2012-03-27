@@ -54,7 +54,9 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
             $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
-        $data['region'] = $this->_getRegionIdByNameOrCode($data['region']);
+        if (isset($data['region'])) {
+            $data['region'] = $this->_getRegionIdByNameOrCode($data['region']);
+        }
 
         /* @var $address Mage_Customer_Model_Address */
         $address = Mage::getModel('customer/address');
