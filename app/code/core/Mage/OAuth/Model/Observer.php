@@ -103,6 +103,7 @@ class Mage_OAuth_Model_Observer
                 ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();
+            exit();
         }
     }
 
@@ -126,6 +127,7 @@ class Mage_OAuth_Model_Observer
                 ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();
+            exit();
         }
     }
 }

@@ -125,12 +125,6 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
-        if ($simple) {
-            /** @var $style Mage_OAuth_Block_Authorize_Style */
-            $style = $layout->getBlock('oauth.authorize.style');
-            $style->setIsLogged($logged);
-        }
-
         $block->setIsSimple($simple)
             ->setToken($this->getRequest()->getQuery('oauth_token'))
             ->setHasException($isException);

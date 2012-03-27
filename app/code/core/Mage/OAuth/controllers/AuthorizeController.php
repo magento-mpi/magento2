@@ -81,10 +81,6 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
-        if ($simple) {
-            $layout->getBlock('oauth.authorize.style')->setData('is_logged', $logged);
-        }
-
         /** @var $helper Mage_Core_Helper_Url */
         $helper = Mage::helper('core/url');
         $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
