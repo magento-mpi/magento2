@@ -979,6 +979,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement',
                                                                   'fieldNameWithValidationMessage', $page);
         self::$_messages['success'] = $this->getElementsByXpath(self::$_basicXpathMessages['success']);
+        self::$_messages['notice'] = $this->getElementsByXpath(self::$_basicXpathMessages['notice']);
         self::$_messages['error'] = $this->getElementsByXpath(self::$_basicXpathMessages['error']);
         self::$_messages['validation'] = $this->getElementsByXpath(self::$_basicXpathMessages['validation'],
                                                                    'text', $fieldNameWithValidationMessage);
@@ -1623,11 +1624,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                . 'Current page "' . $this->getCurrentPage() . '": '
-                . $e->getMessage() . ' - "' . $elementName . '"' . "\n"
-                . 'Messages on current page:' . "\n"
-                . self::messagesToString($this->getMessagesOnPage());
+                . 'Current page "' . $this->getCurrentPage() . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
+            if (strlen($messagesOnPage) > 0) {
+                $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
+            }
         }
         if (isset($e) && $fieldSetsNotInTab != null) {
             foreach ($fieldSetsNotInTab as $fieldset) {
@@ -1703,8 +1705,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $messages = $this->getCurrentUimapPage()->getAllElements('messages');
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
+            if (strlen($messagesOnPage) > 0) {
+                $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
+            }
             throw new RuntimeException($errorMessage);
         }
         return $messageLocator;
@@ -2240,6 +2246,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
+        return $this->clickControlAndWaitMessage('button', $buttonName, $validate);
+    }
+
+    /**
+     * Click control and wait message
+     *
+     * @param string $controlType Type of control (e.g. button|link)
+     * @param string $controlName Name of a control from UIMap
+     * @param bool $validate
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function clickControlAndWaitMessage($controlType, $controlName, $validate = true)
+    {
         $this->_parseMessages();
         foreach (self::$_messages as $key => $value) {
             self::$_messages[$key] = array_unique($value);
@@ -2257,7 +2277,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 ${$message} .= $exclude;
             }
         }
-        $this->clickButton($buttonName, false);
+        $this->clickControl($controlType, $controlName, false);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         if ($validate) {

@@ -248,24 +248,24 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
         Default Store View: Dropdown_StoreView
     option_1:
         is_default: No
-        admin_option_name: Dropdown_Option_Admin_1
+        admin_option_name: Option_Admin_%randomize%
         option_position: 1
         store_view_titles:
-            Default Store View: Dropdown_StoreView_1
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
     option_2:
         is_default: %noValue%
-        admin_option_name: Dropdown_Option_Admin_2
+        admin_option_name: Option_Admin_%randomize%
         option_position: 2
         store_view_titles:
-            Default Store View: Dropdown_Option_StoreView_2
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
     option_3:
         is_default: %noValue%
-        admin_option_name: Dropdown_Option_Admin_3
+        admin_option_name: Option_Admin_%randomize%
         option_position: 3
         store_view_titles:
-            Default Store View: Dropdown_Option_StoreView_3
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
 
 # Test Datasets for Add New Price type Product Attribute

@@ -55,9 +55,8 @@ dashboard:
                     general_elements:
                         xpath:
                         pageelements:
-
                             qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
-                            fieldNameWithValidationMessage: "/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]"
+                            fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]//label/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//div[@id='loading-mask' and not(contains(@style,'display: none'))]"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"

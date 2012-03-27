@@ -1746,54 +1746,48 @@ bundle_options_to_add_to_shopping_cart:
         parameters:
             title: Multiple Select
         options_to_choose:
-            custom_option_multiselect: %noValue%
+            custom_option_multiselect: %subProduct_1%
     option_2:
         parameters:
             title: Checkbox
-            optionTitle: %noValue%
+            optionTitle: %subProduct_2%
         options_to_choose:
             custom_option_checkbox: Yes
     option_3:
         parameters:
-            title: Checkbox
-            optionTitle: %noValue%
-        options_to_choose:
-            custom_option_checkbox: Yes
-    option_4:
-        parameters:
             title: Radio Buttons
-            optionTitle: %noValue%
+            optionTitle: %subProduct_3%
         options_to_choose:
             custom_option_radiobutton: Yes
             bundle_item_qty: 3
-    option_5:
+    option_4:
         parameters:
             title: Drop-down
         options_to_choose:
-            custom_option_dropdown: %noValue%
+            custom_option_dropdown: %subProduct_4%
             bundle_item_qty: 3
 
 configurable_options_to_add_to_shopping_cart:
     option_1:
         parameters:
-            title: test
+            title: %noValue%
         options_to_choose:
             custom_option_dropdown: %noValue%
 
 grouped_options_to_add_to_shopping_cart:
     option_1:
         parameters:
-            subproductName: %noValue%
+            subproductName: %subProduct_1%
         options_to_choose:
             grouped_subproduct_qty: 1
     option_2:
         parameters:
-            subproductName: hucfu_Simple Product Visible
+            subproductName: %subProduct_2%
         options_to_choose:
             grouped_subproduct_qty: 1
     option_3:
         parameters:
-            subproductName: hucfu_Simple Product Visible
+            subproductName: %subProduct_3%
         options_to_choose:
             grouped_subproduct_qty: 1
 
