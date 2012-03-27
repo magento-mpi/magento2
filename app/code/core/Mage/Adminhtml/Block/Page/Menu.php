@@ -316,10 +316,10 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _isEnabledModuleOutput(Varien_Simplexml_Element $child)
     {
-        $helperName       = 'adminhtml';
-        $childAttributes  = $child->attributes();
+        $helperName      = 'adminhtml';
+        $childAttributes = $child->attributes();
         if (isset($childAttributes['module'])) {
-            $helperName   = (string)$childAttributes['module'];
+            $helperName  = (string)$childAttributes['module'];
         }
 
         return Mage::helper($helperName)->isModuleOutputEnabled();
