@@ -119,6 +119,46 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
     }
 
     /**
+     * Validate attribute value for attributes with source models
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param mixed $attrValue
+     * @return array|bool
+     */
+    protected function _validateAttributeWithSource(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $attrValue)
+    {
+        $errors = array();
+
+        // validate attributes with source models
+        if (null !== $attrValue && $attribute->getSourceModel()) {
+            if (!is_array($attrValue)) {
+                $attrValue = array($attrValue);
+            }
+            $possibleValues = $attribute->getSource()->getAllOptions(false);
+
+            foreach ($attrValue as $value) {
+                if (is_scalar($value)) {
+                    $value = (string) $value;
+                    $valueIsValid = false;
+
+                    foreach ($possibleValues as $optionData) {
+                        if ($value === $optionData['value'] || $value === $optionData['label']) {
+                            $valueIsValid = true;
+                            break;
+                        }
+                    }
+                    if (!$valueIsValid) {
+                        $errors[] = 'Invalid value "' . $value . '" for '. $attribute->getAttributeCode();
+                    }
+                } else {
+                    $errors[] = 'Invalid value type for ' . $attribute->getAttributeCode();
+                }
+            }
+        }
+        return $errors ? $errors : true;
+    }
+
+    /**
      * Filter request data.
      *
      * @param  array $data
@@ -151,22 +191,24 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
             if ($this->_eavForm->ignoreInvisible() && !$attribute->getIsVisible()) {
                 continue;
             }
-            if (!isset($data[$attribute->getAttributeCode()])) {
-                $data[$attribute->getAttributeCode()] = null;
-            }
+            $attrValue = isset($data[$attribute->getAttributeCode()]) ? $data[$attribute->getAttributeCode()] : null;
 
             $result = Mage_Eav_Model_Attribute_Data::factory($attribute, $this->_eavForm->getEntity())
-                ->setExtractedData($data)->validateValue($data[$attribute->getAttributeCode()]);
+                ->setExtractedData($data)
+                ->validateValue($attrValue);
+
             if ($result !== true) {
                 $errors = array_merge($errors, $result);
+            } else {
+                $result = $this->_validateAttributeWithSource($attribute, $attrValue);
+
+                if (true !== $result) {
+                    $errors = array_merge($errors, $result);
+                }
             }
         }
+        $this->_setErrors($errors);
 
-        if (count($errors)) {
-            $this->_setErrors($errors);
-            return false;
-        }
-
-        return true;
+        return $errors ? false : true;
     }
 }
