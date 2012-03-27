@@ -50,6 +50,15 @@
     border: 1px solid green;
     padding: 2px;
 }
+.vde_element_wrapper.vde_container {
+    border: 1px dashed red;
+}
+.vde_container > .vde_element_title {
+    background-color: red;
+}
+.vde_element_wrapper.vde_container.vde_draggable {
+    border-style: solid;
+}
 .vde_element_title {
     background-color: green;
     padding: 2px;
@@ -59,6 +68,7 @@
     height: 13px;
     text-align: left;
     line-height: 12px;
+    cursor: default;
 }
 
 .vde_placeholder {

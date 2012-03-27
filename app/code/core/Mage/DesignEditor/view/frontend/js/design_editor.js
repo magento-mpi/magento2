@@ -64,7 +64,7 @@
 
     DesignEditor.prototype._enableDragging = function () {
         var thisObj = this;
-        $('.vde_element_wrapper').draggable({
+        $('.vde_element_wrapper.vde_draggable').draggable({
             helper: 'clone',
             revert: true,
             start: function (event, ui) {thisObj._onDragStarted(event, ui)},
@@ -148,8 +148,9 @@
     DesignEditor.prototype._turnHighlightingOn = function () {
         $('.vde_element_wrapper').each(function () {
             var elem = $(this);
-            var children = elem.prop('vdeChildren');
-            elem.show().append(children).removeProp('vdeChildren');
+            var children = $('[vde_parent_element="' + elem.attr('id') + '"]');
+            children.removeAttr('vde_parent_element');
+            elem.show().append(children);
             elem.children('.vde_element_title').slideDown('fast');
         });
         return this;
@@ -160,7 +161,8 @@
             var elem = $(this);
             elem.children('.vde_element_title').slideUp('fast', function () {
                 var children = elem.children(':not(.vde_element_title)');
-                elem.after(children).hide().prop('vdeChildren', children);
+                children.attr('vde_parent_element', elem.attr('id'));
+                elem.after(children).hide();
             });
         });
         return this;
