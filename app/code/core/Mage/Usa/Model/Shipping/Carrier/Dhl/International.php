@@ -1100,7 +1100,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
         //Skip by item validation if there is no items in request
-        if(!count($this->getAllItems($request))) {
+        if (!count($this->getAllItems($request))) {
             $this->_errors[] = Mage::helper('usa')->__('There is no items in this order');
         }
 
@@ -1108,7 +1108,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         );
         if (!$countryParams->getData()) {
-            $this->_errors[] = Mage::helper('usa')->__("Please, specify origin country");
+            $this->_errors[] = Mage::helper('usa')->__('Please, specify origin country');
         }
 
         if (!empty($this->_errors)) {
