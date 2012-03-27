@@ -26,6 +26,7 @@ return array(
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',
     'Mage_Adminhtml_Block_Tree',
     'Mage_Adminhtml_Helper_Rss',
+    'Mage_Adminhtml_Model_Observer',
     'Mage_Adminhtml_Model_System_Config_Source_Shipping_Allowedmethods',
     'Mage_Adminhtml_Rss_CatalogController',
     'Mage_Adminhtml_Rss_OrderController',
