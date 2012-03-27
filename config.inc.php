@@ -569,12 +569,34 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
+    'Mage_Api2' => array(
+        'app/code/core/Mage/Api2/',
+        'app/design/adminhtml/default/default/template/api2/',
+        'app/design/adminhtml/default/default/layout/api2.xml',
+    ),
+    'Mage_OAuth' => array(
+        'app/code/core/Mage/OAuth/',
+        'app/design/adminhtml/default/default/template/oauth/',
+        'app/design/adminhtml/default/default/layout/oauth.xml',
+        'app/design/frontend/base/default/template/oauth/',
+        'app/design/frontend/base/default/layout/oauth.xml',
+        'app/design/frontend/enterprise/default/template/oauth/',
+        'app/design/frontend/enterprise/default/layout/oauth.xml',
+    ),
+    'Mage_ImportExport' => array(
+        'app/code/core/Mage/Mage_ImportExport/',
+        'app/design/adminhtml/default/default/template/importexport',
+        'app/design/adminhtml/default/default/layout/importexport.xml',
+    ),
 );
 
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Mage_Api',
+    'api2'              => 'Mage_Api2',
+    'oauth'             => 'Mage_OAuth',
+    'importexport'      => 'Mage_ImportExport',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Mage_Catalog',
