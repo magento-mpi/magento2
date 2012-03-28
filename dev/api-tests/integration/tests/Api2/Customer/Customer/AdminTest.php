@@ -263,25 +263,15 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      * @dataProvider dataProviderForUpdateDropDownsWithInvalidValues
      * @param string $field
      * @param mixed $value
-     * @param array $errorMessages
      */
-    public function testUpdateDropDownsWithInvalidValues($field, $value, $errorMessages)
+    public function testUpdateDropDownsWithInvalidValues($field, $value)
     {
-        $requiredFields = array(
-            'firstname' => 'TestFirstname',
-            'lastname' => 'TestLastname',
-            'email' => 'e' . substr(microtime(), 2, 4) . 'testemail@example.com',
-            'website_id' => 1,
-            'group_id' => 1,
-            'gender' => 1
-        );
-        $customerData = array_merge($requiredFields, array($field => $value));
+        $customerData = array($field => $value);
         $response = $this->callPut('customers/' . $this->_customer->getId(), $customerData);
         $responseData = $response->getBody();
         $this->assertArrayHasKey('messages', $responseData, "Response must have messages.");
         $this->assertArrayHasKey('error', $responseData['messages'], "Response must contain errors.");
-        $expectedErrors = isset($errorMessages) ? $errorMessages : array("Invalid value \"$value\" for $field",
-            "Resource data pre-validation error.");
+        $expectedErrors = array("Invalid value \"$value\" for $field", "Resource data pre-validation error.");
         $errors = $responseData['messages']['error'];
         foreach ($errors as $error) {
             $this->assertTrue(in_array($error['message'], $expectedErrors),
@@ -298,8 +288,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     {
         return array(
             array('website_id', -1),
-            array('website_id', 'invalid',
-                array('Invalid website code requested: invalid', 'Unhandled simple errors.')),
+            array('website_id', 'invalid'),
             array('gender', -1),
             array('gender', 0),
             array('gender', 3),
@@ -331,11 +320,9 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      */
     public function dataProviderForUpdateDropDownsWithValidValues()
     {
-        $requiredFields = array('firstname' => 'TestFirstname', 'lastname' => 'TestLastname',
-            'email' => 'e' . substr(microtime(), 2, 4) . 'testemail@example.com');
         $dropdownData = array(
-            array(array_merge(array('website_id' => 1, 'group_id' => 1, 'gender' => 1), $requiredFields)),
-            array(array_merge(array('website_id' => '1', 'group_id' => '1', 'gender' => '1'), $requiredFields)),
+            array(array('website_id' => 1, 'group_id' => 1, 'gender' => 1)),
+            array(array('website_id' => '1', 'group_id' => '1', 'gender' => '1')),
         );
         return $dropdownData;
     }

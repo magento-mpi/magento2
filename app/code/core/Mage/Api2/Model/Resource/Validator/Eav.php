@@ -142,8 +142,8 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
                     $valueIsValid = false;
 
                     foreach ($possibleValues as $optionData) {
-                        if (is_numeric($optionData['value']) && $value == $optionData['value']
-                            || !is_numeric($optionData['value']) && $value === $optionData['value']
+                        if (is_numeric($value) && $value == $optionData['value']
+                            || !is_numeric($value) && $value === $optionData['value']
                         ) {
                             $valueIsValid = true;
                             break;
