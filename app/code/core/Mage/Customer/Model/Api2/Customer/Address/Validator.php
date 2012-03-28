@@ -135,38 +135,4 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
 
         return true;
     }
-
-    /**
-     * Returns an array of errors
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        // business asked to avoid additional validation message, so we filter it here
-        $errors        = array();
-        $helper        = Mage::helper('eav');
-        $requiredAttrs = array();
-        $isRequiredRE  = '/^' . str_replace('%s', '(.+)', preg_quote($helper->__('"%s" is a required value.'))). '$/';
-        $greaterThanRE = '/^' . str_replace(
-            '%s', '(.+)', preg_quote($helper->__('"%s" length must be equal or greater than %s characters.'))
-        ) . '$/';
-
-        // find all required attributes labels
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error, $matches)) {
-                $requiredAttrs[$matches[1]] = true;
-            }
-        }
-        // exclude additional messages for required attributes been failed
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error)
-                || !preg_match($greaterThanRE, $error, $matches)
-                || !isset($requiredAttrs[$matches[1]])
-            ) {
-                $errors[] = $error;
-            }
-        }
-        return $errors;
-    }
 }
