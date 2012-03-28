@@ -105,14 +105,14 @@
             </updates>
         </layout>
         <events>
-            <model_config_data_save_before>
+            <admin_system_config_changed_section_payment>
                 <observers>
                     <enterprise_pbridge>
                         <class>enterprise_pbridge/observer</class>
                         <method>updatePaymentProfileStatus</method>
                     </enterprise_pbridge>
                 </observers>
-            </model_config_data_save_before>
+            </admin_system_config_changed_section_payment>
         </events>
     </adminhtml>
     <admin>
