@@ -236,7 +236,9 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
         $output = array();
 
         foreach ($fields as $field) {
-            $output[] = array($field);
+            if ('website_id' !== $field) {
+                $output[] = array($field);
+            }
         }
 
         return $output;
@@ -287,8 +289,6 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     public function dataProviderForUpdateDropDownsWithInvalidValues()
     {
         return array(
-            array('website_id', -1),
-            array('website_id', 'invalid'),
             array('gender', -1),
             array('gender', 0),
             array('gender', 3),
