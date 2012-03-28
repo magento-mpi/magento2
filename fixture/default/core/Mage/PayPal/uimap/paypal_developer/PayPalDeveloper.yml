@@ -155,6 +155,11 @@ developer_create_test_account_2:
     title: PayPal Sandbox - Sandbox
     uimap: *developerForm
 
+developer_create_test_account_failed:
+    mca: us/cgi-bin/devscr?cmd=_sandbox-acct-session&pro_error_occured_account_create=1
+    title: PayPal Sandbox - Sandbox
+    uimap: *developerForm
+
 developer_create_test_account_us:
     mca: us/cgi-bin/devscr?cmd=_create-account-session
     title: PayPal Sandbox - Sandbox
