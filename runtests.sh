@@ -116,7 +116,7 @@ echo "And browser is name of link to default browser (by default: *firefox)"
 echo "Do NOT use '*' in passing parameters."
 echo "Example: 'runtests.sh mage:googlechrome, enterprise:firefox, mage:firefox' \
  will execute 3 instances of tests at the same time."
-echo "For each run of the script new folder inside the PWD will be created.
+echo "For each run of the script new folder inside the PWD will be created."
 echo "********************************************************************************"
 
 if [ "$*" ]
