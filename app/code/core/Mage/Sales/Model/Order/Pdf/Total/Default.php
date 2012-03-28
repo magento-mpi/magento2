@@ -51,11 +51,12 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
             $amount = $this->getAmountPrefix().$amount;
         }
 
-        $title = $this->getTitle();
+        $title = Mage::helper('sales')->__($this->getTitle());
         if ($this->getTitleSourceField()) {
-            $title = $this->getTitle() . '(' . $this->getTitleDescription() . ')';
+            $label = $title . ' (' . $this->getTitleDescription() . '):';
+        } else {
+            $label = $title . ':';
         }
-        $label = Mage::helper('sales')->__($title) . ':';
 
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
         $total = array(
