@@ -68,7 +68,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function getParentName($name)
     {
-        $elements = $this->_getElementsByName($name);
+        $elements = $this->_getAllElementsByName($name);
         $length = $elements->length;
         if ($length) {
             if ($length > 1) {
@@ -97,7 +97,7 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Move node to necessary parent node. If node doesn't exist, creates it
+     * Move node to necessary parent node. If node doesn't exist, create it
      *
      * @param string $parentName
      * @param string $elementName
@@ -112,12 +112,10 @@ class Mage_Core_Model_Layout_Structure
         $element = $this->_getElementByName($elementName);
         if (!$element) {
             $this->insertBlock($parentName, $elementName, $alias);
-            return $this;
         } else {
             $element->setAttribute('alias', $alias);
+            $this->_move($element, $parentName);
         }
-
-        $this->_move($element, $parentName);
 
         return $this;
     }
@@ -155,7 +153,9 @@ class Mage_Core_Model_Layout_Structure
      */
     public function renameElement($oldName, $newName)
     {
-        $this->_setElementAttribute($oldName, 'name', $newName);
+        if (!empty($newName)) {
+            $this->_setElementAttribute($oldName, 'name', $newName);
+        }
         return $this;
     }
 
@@ -240,7 +240,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function unsetElement($name)
     {
-        foreach ($this->_getElementsByName($name) as $element) {
+        foreach ($this->_getAllElementsByName($name) as $element) {
             $element->parentNode->removeChild($element);
         }
 
@@ -319,7 +319,7 @@ class Mage_Core_Model_Layout_Structure
     {
         $child = $this->_getElementByXpath("//element[not(@type) and @name='$name']");
         if (!$child) {
-            if ($length = $this->_getElementsByName($name)->length) {
+            if ($length = $this->_getAllElementsByName($name)->length) {
                 Mage::logException(new Magento_Exception("Element with name [$name] already exists (" . $length . ')'));
             }
             $child = $this->_dom->createElement('element');
@@ -361,7 +361,7 @@ class Mage_Core_Model_Layout_Structure
     protected function _getSiblingElement(DOMElement $parentNode, $after, $sibling)
     {
         if (!$parentNode->hasChildNodes()) {
-            $sibling = '';
+            return false;
         }
         $siblingNode = false;
         if ('' !== $sibling) {
@@ -440,7 +440,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function hasElement($name)
     {
-        return $this->_getElementsByName($name)->length > 0;
+        return $this->_getAllElementsByName($name)->length > 0;
     }
 
     /**
@@ -519,7 +519,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function isBlock($name)
     {
-        return $this->_findByXpath("//element[@name='$name' and @type='" .self::ELEMENT_TYPE_BLOCK. "']")->length > 0;
+        return $this->_findByXpath("//element[@name='$name' and @type='" . self::ELEMENT_TYPE_BLOCK. "']")->length > 0;
     }
 
     /**
@@ -530,7 +530,7 @@ class Mage_Core_Model_Layout_Structure
      */
     public function isContainer($name)
     {
-        return $this->_findByXpath("//element[@name='$name' and @type='" .self::ELEMENT_TYPE_CONTAINER. "']")
+        return $this->_findByXpath("//element[@name='$name' and @type='" . self::ELEMENT_TYPE_CONTAINER. "']")
             ->length > 0;
     }
 
@@ -575,7 +575,7 @@ class Mage_Core_Model_Layout_Structure
      */
     protected function _move($element, $newParent)
     {
-        $parentNode = $this->_findOrCreateParentNode($newParent);
+        $parentNode = $this->_getElementByName($newParent);
         if (!$parentNode) {
             throw new Magento_Exception(
                 "Can not move element [" . $element->getAttribute('name') . "]: parent is not found"
@@ -602,7 +602,7 @@ class Mage_Core_Model_Layout_Structure
      * @param string $name
      * @return DOMNodeList
      */
-    protected function _getElementsByName($name)
+    protected function _getAllElementsByName($name)
     {
         return $this->_findByXpath("//element[@name='$name']");
     }

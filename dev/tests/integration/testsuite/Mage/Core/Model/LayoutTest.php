@@ -111,6 +111,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'notification_survey',
             'notification_security',
             'messages',
+            'ANONYMOUS_0',
             'index_notifications',
             'index_notifications_copy'
         );

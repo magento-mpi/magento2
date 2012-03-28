@@ -65,6 +65,18 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
         $this->assertContains('<meta name="description" content="Simple Product 1 Meta Description" />', $responseBody);
     }
 
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testViewActionConfigurable()
+    {
+        $this->dispatch('catalog/product/view/id/1');
+        $html = $this->getResponse()->getBody();
+        $format = '%Alass="product-options" id="product-options-wrapper">%A'
+            . '<div class="product-options-bottom">%A';
+        $this->assertStringMatchesFormat($format, $html);
+    }
+
     public function testViewActionNoProductId()
     {
         $this->dispatch('catalog/product/view/id/');

@@ -99,6 +99,9 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->_model->renameElement($name1, $name2);
         $this->assertFalse($this->_model->hasElement($name1));
         $this->assertTrue($this->_model->hasElement($name2));
+        $this->_model->renameElement($name2, '');
+        $this->assertTrue($this->_model->hasElement($name2));
+        $this->assertFalse($this->_model->hasElement(''));
     }
 
     public function testGetElementAttribute()

@@ -32,6 +32,7 @@
             </block>
 
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
+            <block type="Mage_Core_Block_Text" as="no_name"/>
         </block>
     </layout_test_handle_sample>
 

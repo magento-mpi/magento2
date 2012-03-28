@@ -273,14 +273,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
 
         if ($this->_structure->isBlock($elementName)) {
-            $block = $this->_generateBlock($node);
-            $updatedName = $block->getNameInLayout();
-            if (empty($name)) {
-                if (empty($alias)) {
-                    $this->_structure->setElementAlias($elementName, $updatedName);
-                }
-                $this->_structure->renameElement($elementName, $updatedName);
-            }
+            $node['name'] = $elementName;
+            $this->_generateBlock($node);
         } else {
             $this->_removeBlock($name);
         }
@@ -297,7 +291,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Remove block from blocks list
      *
-     * @param $name
+     * @param string $name
      * @return Mage_Core_Model_Layout
      */
     protected function _removeBlock($name)
@@ -786,18 +780,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Creates block and add to layout
+     * Create block and add to layout
      *
-     * @param string $type
+     * @param string|Mage_Core_Block_Abstract $block
      * @param string $name
      * @param array $attributes
      * @return Mage_Core_Block_Abstract
      */
-    protected function _createBlock($type, $name='', array $attributes = array())
+    protected function _createBlock($block, $name='', array $attributes = array())
     {
-        $block = $this->_getBlockInstance($type, $attributes);
+        $block = $this->_getBlockInstance($block, $attributes);
 
-        $block->setType($type);
+        $block->setType(get_class($block));
         $block->setNameInLayout($name);
         $block->addData($attributes);
         $block->setLayout($this);
@@ -851,7 +845,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Create block object instance based on block type
      *
-     * @param string $block
+     * @param string|Mage_Core_Block_Abstract $block
      * @param array $attributes
      * @return Mage_Core_Block_Abstract
      */
@@ -937,8 +931,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function removeOutputElement($name)
     {
-        if (false !== ($key = array_search($name, $this->_output))) {
-            unset($this->_output[$key]);
+        if (isset($this->_output[$name])) {
+            unset($this->_output[$name]);
         }
         return $this;
     }
