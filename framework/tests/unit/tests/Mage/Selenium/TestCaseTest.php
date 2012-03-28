@@ -677,4 +677,70 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEquals('MacOS', $instance->detectOS(), 'System name is incorrect');
         $this->assertEquals('Unknown OS', $instance->detectOS(), 'System name is incorrect');
     }
+
+    /**
+     * @covers getTestId
+     */
+    public function testGetTestId()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $id = $inst->getTestId();
+        $this->assertTrue(is_string($id), 'Incorrect type of data');
+    }
+
+    /**
+     * @covers setTestId
+     */
+    public function testSetTestId()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setTestId('12345');
+        $id = $inst->getTestId();
+        $this->assertEquals('12345', $id, 'Incorrect value');
+        $this->assertTrue(is_string($id), 'Incorrect type of data');
+    }
+
+    /**
+     * @covers getScreenshotPath
+     */
+    public function testGetScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $path = $inst->getScreenshotPath();
+        $this->assertTrue(is_string($path), 'Incorrect path');
+    }
+
+    /**
+     * @covers setScreenshotPath
+     */
+    public function testSetScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setScreenshotPath('d:\Temp');
+        $path = $inst->getScreenshotPath();
+        $this->assertEquals('d:\Temp', $path, 'Incorrect value');
+        $this->assertTrue(is_string($path), 'Incorrect path');
+    }
+
+    /**
+     * @covers getDefaultScreenshotPath
+     */
+    public function testGetDefaultScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $path = $inst->getDefaultScreenshotPath();
+        $this->assertTrue(is_string($path), 'Incorrect path');
+    }
+
+    /**
+     * @covers setDefaultScreenshotPath
+     */
+    public function testSetDefaultScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setDefaultScreenshotPath('d:\Temp');
+        $path = $inst->getDefaultScreenshotPath();
+        $this->assertEquals('d:\Temp', $path, 'Incorrect value');
+        $this->assertTrue(is_string($path), 'Incorrect path');
+    }
 }
