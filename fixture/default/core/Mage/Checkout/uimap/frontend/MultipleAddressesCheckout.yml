@@ -144,6 +144,13 @@ checkout_multishipping_addresses:
                             qty: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[2]//input[@type='text']
         messages: *checkoutMessages
 
+checkout_multishipping_addresses_post:
+    mca: checkout/multishipping/addressesPost/
+    title: Ship to Multiple Addresses - Magento Commerce
+    uimap:
+        form: *checkoutMultishipping
+        messages: *checkoutMessages
+
 checkout_multishipping_add_new_address:
     mca: checkout/multishipping_address/newShipping/
     title: Create Shipping Address - Magento Commerce

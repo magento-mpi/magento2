@@ -38,9 +38,10 @@ home:
                         links:
                             my_account: //a[@title='My Account']
                             my_wishlist: //a[contains(@title,'My Wishlist')]
-                            my_cart: //a[@title='My Cart']
+                            my_cart: //a[contains(@title,'My Cart')]
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
+                            log_out: //a[@title='Log Out']
                         dropdowns:
                             your_language: //select[@id='select-language']
                 -

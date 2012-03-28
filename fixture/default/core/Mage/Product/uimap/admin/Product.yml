@@ -327,6 +327,8 @@ new_product:
                                         related_search_position_from: //input[@name='position[from]']
                                         related_search_position_to: //input[@name='position[to]']
                                         related_product_position: %productXpath%//input[@name='position']
+                                    checkboxes:
+                                        selected_related_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     up_sells: &upSellsProductsTab
                         xpath: //a[@title='Up-sells']/span

@@ -28,7 +28,7 @@
 paypal_developer_home:
     mca:
     title: PayPal Sandbox - Log In
-    uimap:
+    uimap: &loginPage
         form:
             fieldsets:
                 -
@@ -43,6 +43,11 @@ paypal_developer_home:
                             login_password: //input[@id='login_password']
                         links:
                             trouble_logging_in: //a[text()='Trouble Logging In?']
+
+paypal_developer_home_not_logged:
+    mca: cgi-bin/devscr?__track=_home:login/main:_login-submit
+    title: PayPal Sandbox - Log In
+    uimap: *loginPage
 
 paypal_developer_logged_in:
     mca: cgi-bin/devscr?cmd=_login-done&login_access=0
@@ -147,6 +152,11 @@ developer_create_test_account:
 
 developer_create_test_account_2:
     mca: devscr?cmd=_create-account-session
+    title: PayPal Sandbox - Sandbox
+    uimap: *developerForm
+
+developer_create_test_account_failed:
+    mca: us/cgi-bin/devscr?cmd=_sandbox-acct-session&pro_error_occured_account_create=1
     title: PayPal Sandbox - Sandbox
     uimap: *developerForm
 

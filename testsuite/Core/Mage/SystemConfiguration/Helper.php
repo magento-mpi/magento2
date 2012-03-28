@@ -71,6 +71,15 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $this->fillForm($settings, $tab);
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
+                $this->verifyForm($settings, $tab);
+                if ($this->getParsedMessages('verification')) {
+                    foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
+                        if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
+                            unset(self::$_messages['verification'][$key]);
+                        }
+                    }
+                    $this->assertEmptyVerificationErrors();
+                }
             }
         }
     }
