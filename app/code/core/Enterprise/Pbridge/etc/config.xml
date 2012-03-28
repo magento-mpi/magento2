@@ -198,6 +198,7 @@
             <paybox_direct>
                 <payment_action>authorize</payment_action>
                 <title>Paybox Direct</title>
+                <using_pbridge>1</using_pbridge>
             </paybox_direct>
         </payment>
     </default>
