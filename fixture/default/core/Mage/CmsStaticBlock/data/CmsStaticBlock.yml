@@ -37,8 +37,8 @@ search_static_block:
     filter_block_modified_to: %noValue%
 
 static_block_with_all_widgets:
-    block_title: static_block_title
-    block_identifier: static_block_identifier
+    block_title: static_block_title_%randomize%
+    block_identifier: static_block_identifier_%randomize%
     store_view: All Store Views
     block_status: Enabled
     content:
