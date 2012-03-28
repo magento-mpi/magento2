@@ -71,14 +71,14 @@
             </oauth_setup>
         </resources>
         <events>
-            <customer_customer_authenticated>
+            <before_login_post_redirect>
                 <observers>
                     <oauth>
                         <class>oauth/observer</class>
                         <method>afterCustomerLogin</method>
                     </oauth>
                 </observers>
-            </customer_customer_authenticated>
+            </before_login_post_redirect>
             <admin_session_user_login_success>
                 <observers>
                     <oauth>

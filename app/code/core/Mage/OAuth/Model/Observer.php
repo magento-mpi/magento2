@@ -39,7 +39,7 @@ class Mage_OAuth_Model_Observer
      * @param string $userType
      * @return string
      */
-    protected function _getAfterAuthUrl($userType)
+    protected function _getAuthorizeUrl($userType)
     {
         $simple = Mage::app()->getRequest()->getParam('simple');
 
@@ -73,32 +73,15 @@ class Mage_OAuth_Model_Observer
     }
 
     /**
-     * Redirect customer to callback page after login success
+     * Redirect customer to callback page after login
      *
      * @param Varien_Event_Observer $observer
-     * @return void
      */
     public function afterCustomerLogin(Varien_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            /** @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('customer/session');
-            $session->setAfterAuthUrl($this->_getAfterAuthUrl(Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER));
-        }
-    }
-
-    /**
-     * Redirect admin to authorize controller after login success
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function afterAdminLogin(Varien_Event_Observer $observer)
-    {
-        if (null !== $this->_getOauthToken()) {
-            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
-
-            $url = $this->_getAfterAuthUrl($userType);
+            $userType = Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER;
+            $url = $this->_getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
@@ -107,6 +90,29 @@ class Mage_OAuth_Model_Observer
         }
     }
 
+    /**
+     * Redirect admin to authorize controller after login success
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function afterAdminLogin(Varien_Event_Observer $observer)
+    {
+        if (null !== $this->_getOauthToken()) {
+            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
+            $url = $this->_getAuthorizeUrl($userType);
+            Mage::app()->getResponse()
+                ->setRedirect($url)
+                ->sendHeaders()
+                ->sendResponse();
+            exit();
+        }
+    }
+
+    /**
+     * Redirect admin to authorize controller after login fail
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function afterAdminLoginFailed(Varien_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
@@ -114,15 +120,8 @@ class Mage_OAuth_Model_Observer
             $session = Mage::getSingleton('admin/session');
             $session->addError($observer->getException()->getMessage());
 
-            $params = array('oauth_token' => $this->_getOauthToken());
-
-            if (Mage::app()->getRequest()->getParam('simple')) {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
-            } else {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN;
-            }
-            $url = Mage::getUrl($route, array('_query' => $params));
-
+            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
+            $url = $this->_getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()

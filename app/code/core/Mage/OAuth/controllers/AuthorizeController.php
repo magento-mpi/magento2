@@ -101,9 +101,10 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     protected function _initConfirmPage($simple = false)
     {
         $this->loadLayout();
+
+        /** @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton($this->_sessionName);
         try {
-            /** @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton($this->_sessionName);
             /** @var $server Mage_OAuth_Model_Server */
             $server = Mage::getModel('oauth/server');
 
@@ -156,7 +157,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
 
             /** @var $block Mage_OAuth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');
-            $block->setIsSimple($simple . ($simple ? '&simple=1' : ''));
+            $block->setIsSimple($simple);
 
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
