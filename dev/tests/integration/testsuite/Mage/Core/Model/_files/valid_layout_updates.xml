@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layouts>
     <a_handle>
         <container name="container1">
             <block type="Mage_Core_Block_Template" name="block1" template="Mage_Core::test.phtml">
@@ -21,4 +21,4 @@
             </block>
         </container>
     </a_handle>
-</layout>
+</layouts>

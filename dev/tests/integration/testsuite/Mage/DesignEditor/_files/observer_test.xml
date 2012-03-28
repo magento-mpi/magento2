@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layouts>
     <test_handle>
         <block type="Mage_Core_Block_Text" name="non_draggable_block"/>
         <container name="root">
@@ -24,4 +24,4 @@
         </block>
         <container name="after_body_start" label="Page Top"/>
     </test_handle>
-</layout>
+</layouts>
