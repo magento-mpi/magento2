@@ -94,7 +94,7 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
-     * Wrap each element of a page that is being rendered, with a block-level HTML-element to hightligt it in VDE
+     * Wrap each element of a page that is being rendered, with a block-level HTML-element to highlight it in VDE
      *
      * Subscriber to event 'core_layout_render_element'
      *
@@ -125,18 +125,12 @@ class Mage_DesignEditor_Model_Observer
         $isVdeToolbar = ($block && 0 === strpos(get_class($block), 'Mage_DesignEditor_Block_'));
         $isDraggable = $structure->isManipulationAllowed($elementName) && !$isVdeToolbar;
 
-        $isContainer = $structure->isContainer($elementName);
-        if ($isContainer) {
-            $containers = $layout->getUpdate()->getContainers();
-            $elementTitle = $containers[$elementName];
-        } else {
-            $elementTitle = $elementName;
-        }
+        $isContainer = $layout->isContainer($elementName);
+        $elementTitle = $isContainer ? $structure->getElementAttribute($elementName, 'label') : $elementName;
 
         if ($isDraggable || $isContainer) {
-            $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
             $this->_wrappingRenderer->setData(array(
-                'element_id'    => $elementId,
+                'element_id'    => "vde_element_$elementName",
                 'element_title' => $elementTitle,
                 'element_html'  => $transport->getData('output'),
                 'is_draggable'  => $isDraggable,
