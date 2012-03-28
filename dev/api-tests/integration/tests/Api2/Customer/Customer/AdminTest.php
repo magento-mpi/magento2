@@ -258,6 +258,89 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     }
 
     /**
+     * Test unsuccessful update of drop down attributes. Check customer drop down fields validation
+     *
+     * @dataProvider dataProviderForUpdateDropDownsWithInvalidValues
+     * @param string $field
+     * @param mixed $value
+     * @param array $errorMessages
+     */
+    public function testUpdateDropDownsWithInvalidValues($field, $value, $errorMessages)
+    {
+        $requiredFields = array(
+            'firstname' => 'TestFirstname',
+            'lastname' => 'TestLastname',
+            'email' => 'e' . substr(microtime(), 2, 4) . 'testemail@example.com',
+            'website_id' => 1,
+            'group_id' => 1,
+            'gender' => 1
+        );
+        $customerData = array_merge($requiredFields, array($field => $value));
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $customerData);
+        $responseData = $response->getBody();
+        $this->assertArrayHasKey('messages', $responseData, "Response must have messages.");
+        $this->assertArrayHasKey('error', $responseData['messages'], "Response must contain errors.");
+        $expectedErrors = isset($errorMessages) ? $errorMessages : array("Invalid value \"$value\" for $field",
+            "Resource data pre-validation error.");
+        $errors = $responseData['messages']['error'];
+        foreach ($errors as $error) {
+            $this->assertTrue(in_array($error['message'], $expectedErrors),
+                'Error message is invalid: ' . $error['message']);
+        }
+    }
+
+    /**
+     * Provider of invalid drop down fields values
+     *
+     * @return array
+     */
+    public function dataProviderForUpdateDropDownsWithInvalidValues()
+    {
+        return array(
+            array('website_id', -1),
+            array('website_id', 'invalid',
+                array('Invalid website code requested: invalid', 'Unhandled simple errors.')),
+            array('gender', -1),
+            array('gender', 0),
+            array('gender', 3),
+            array('group_id', -1),
+            array('group_id', 0),
+            array('group_id', 4),
+            array('group_id', 'invalid'),
+            array('group_id', 'invalid'),
+        );
+    }
+
+    /**
+     * Test successful drop down attributes update.
+     * Check if validation works correct with values of different types (int, string)
+     *
+     * @dataProvider dataProviderForUpdateDropDownsWithValidValues
+     * @param $customerData
+     */
+    public function testUpdateDropDownsWithValidValues($customerData)
+    {
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $customerData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+    }
+
+    /**
+     * Provider of valid drop down fields values
+     *
+     * @return array
+     */
+    public function dataProviderForUpdateDropDownsWithValidValues()
+    {
+        $requiredFields = array('firstname' => 'TestFirstname', 'lastname' => 'TestLastname',
+            'email' => 'e' . substr(microtime(), 2, 4) . 'testemail@example.com');
+        $dropdownData = array(
+            array(array_merge(array('website_id' => 1, 'group_id' => 1, 'gender' => 1), $requiredFields)),
+            array(array_merge(array('website_id' => '1', 'group_id' => '1', 'gender' => '1'), $requiredFields)),
+        );
+        return $dropdownData;
+    }
+
+    /**
      * Test delete customer
      */
     public function testDelete()
