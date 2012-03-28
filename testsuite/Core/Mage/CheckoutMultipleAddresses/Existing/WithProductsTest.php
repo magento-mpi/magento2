@@ -208,6 +208,9 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createSimpleTypesProducts($productDataSet, $productType, $customerData)
     {
+        if(empty(self::$_products['simple_product_visible'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData($productDataSet);
         $customOptions = $this->loadData('custom_options_to_add_to_shopping_cart');
@@ -287,6 +290,11 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createGroupedProduct($customerData)
     {
+        if(empty(self::$_products['simple_product_visible']) ||
+           empty(self::$_products['virtual_product_visible']) ||
+           empty(self::$_products['downloadable_product_visible_multi_checkout'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData('grouped_product_visible',
             array('associated_search_sku' => self::$_products['simple_product_visible']['general_sku']),
@@ -352,6 +360,10 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createBundleProducts($productDataSet, $customerData)
     {
+        if(empty(self::$_products['simple_product_visible']) ||
+           empty(self::$_products['virtual_product_visible'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData($productDataSet, array('add_product_1/bundle_items_search_sku' =>
             self::$_products['simple_product_visible']['general_sku'],
@@ -438,6 +450,9 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createConfigurableWithSimple($productDataSet, $customerData, $attrData)
     {
+        if(empty(self::$_products['simple_product_visible'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],
@@ -502,6 +517,10 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createConfigurableWithVirtual($productDataSet, $customerData, $attrData)
     {
+        if(empty(self::$_products['simple_product_visible']) ||
+           empty(self::$_products['virtual_product_visible'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],
@@ -569,6 +588,10 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      */
     public function createConfigurableWithDownloadable($productDataSet, $customerData, $attrData)
     {
+        if(empty(self::$_products['simple_product_visible']) ||
+           empty(self::$_products['downloadable_product_visible_multi_checkout'])) {
+               $this->markTestSkipped('Required products have not been created.');
+        }
         //Data
         $productData = $this->loadData($productDataSet, array(
             'configurable_attribute_title' => $attrData['admin_title'],

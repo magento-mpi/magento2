@@ -35,10 +35,12 @@
  */
 class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
 {
-    protected static $productsInStock = array();
-    protected static $productsOutOfStock = array();
-    protected function assertPreConditions()
-    {}
+    protected static $productTypes = array('simple',
+                                           'virtual',
+                                           'downloadable',
+                                           'bundle',
+                                           'configurable',
+                                           'grouped');
 
     /**
      * <p>Preconditions</p>
@@ -86,67 +88,61 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
 
         return $productData['general_sku'];
     }
+
     /**
      * <p>Preconditions</p>
      * <p>Create products for linking in stock</p>
      *
-     * @dataProvider productTypesDataProvider
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
-     *
-     * @test
+     * @return array
      */
-    public function createProductsForLinkingInStock($productType, $attrData, $simple)
+    public function createProductsForLinkingInStock($attrData, $simple)
     {
-        $productData = $this->loadData($productType. '_product_related',
-                                           array('bundle_items_search_sku' => $simple,
-                                                 'configurable_attribute_title' => $attrData['admin_title'],
-                                                 'associated_search_sku' => $simple));
-        $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, $productType);
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        self::$productsInStock[$productType]['general_name'] = $productData['general_name'];
-        self::$productsInStock[$productType]['general_sku'] = $productData['general_sku'];
+        $productsInStock = array();
+        foreach (self::$productTypes as $productType) {
+            $productData = $this->loadData($productType. '_product_related',
+                                               array('bundle_items_search_sku' => $simple,
+                                                     'configurable_attribute_title' => $attrData['admin_title'],
+                                                     'associated_search_sku' => $simple));
+            $this->loginAdminUser();
+            $this->navigate('manage_products');
+            $this->productHelper()->createProduct($productData, $productType);
+            $this->assertMessagePresent('success', 'success_saved_product');
+            $productsInStock[$productType]['general_name'] = $productData['general_name'];
+            $productsInStock[$productType]['general_sku'] = $productData['general_sku'];
+        }
+        return $productsInStock;
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Create products for linking out of stock</p>
      *
-     * @dataProvider productTypesDataProvider
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
-     *
-     * @test
+     * @return array
      */
-    public function createProductsForLinkingOutOfStock($productType, $attrData, $simple)
+    public function createProductsForLinkingOutOfStock($attrData, $simple)
     {
-        $productData = $this->loadData($productType. '_product_related',
-                                           array('bundle_items_search_sku' => $simple,
-                                                 'configurable_attribute_title' => $attrData['admin_title'],
-                                                 'associated_search_sku' => $simple,
-                                                 'inventory_stock_availability' => 'Out of Stock'));
-        $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, $productType);
-        $this->assertMessagePresent('success', 'success_saved_product');
+        $productsOutOfStock = array();
+        foreach (self::$productTypes as $productType) {
+            $productData = $this->loadData($productType. '_product_related',
+                                               array('bundle_items_search_sku' => $simple,
+                                                     'configurable_attribute_title' => $attrData['admin_title'],
+                                                     'associated_search_sku' => $simple,
+                                                     'inventory_stock_availability' => 'Out of Stock'));
+            $this->loginAdminUser();
+            $this->navigate('manage_products');
+            $this->productHelper()->createProduct($productData, $productType);
+            $this->assertMessagePresent('success', 'success_saved_product');
 
-        self::$productsOutOfStock[$productType]['general_name'] = $productData['general_name'];
-        self::$productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
-    }
-
-    public function productTypesDataProvider()
-    {
-        return array(
-            array('simple'),
-            array('virtual'),
-            array('downloadable'),
-            array('bundle'),
-            array('configurable'),
-            array('grouped')
-        );
+            $productsOutOfStock[$productType]['general_name'] = $productData['general_name'];
+            $productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
+        }
+        return $productsOutOfStock;
     }
 
     /**
@@ -165,14 +161,14 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingInStock
      * @test
      */
-    public function relatedInStock($simple)
+    public function relatedInStock($simple, $productsInStock)
     {
         $productData1 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $productData2 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $productData1['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
             } else {
@@ -192,7 +188,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $i = 1;
         $errors = array();
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
             } else {
@@ -225,12 +221,12 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingOutOfStock
      * @test
      */
-    public function relatedOutOfStock($simple)
+    public function relatedOutOfStock($simple, $productsOutOfStock)
     {
         $productData = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $productData['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
         }
         $this->loginAdminUser();
@@ -243,7 +239,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $this->addParameter('productName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'related_product')) {
                 $errors[] = 'Related Product ' . $prod['general_name'] . ' is on the page';
@@ -271,14 +267,14 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingInStock
      * @test
      */
-    public function crossSellsInStock($simple)
+    public function crossSellsInStock($simple, $productsInStock)
     {
         $productData1 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $productData2 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $productData1['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
             } else {
@@ -298,7 +294,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $i = 1;
         $errors = array();
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
                 $this->productHelper()->frontAddProductToCart();
@@ -335,12 +331,12 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingOutOfStock
      * @test
      */
-    public function crossSellsOutOfStock($simple)
+    public function crossSellsOutOfStock($simple, $productsOutOfStock)
     {
         $productData = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $productData['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
         }
         $this->loginAdminUser();
@@ -354,7 +350,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         $this->productHelper()->frontAddProductToCart();
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $this->addParameter('crosssellProductName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'crosssell_product')) {
                 $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is on the page';
@@ -381,14 +377,14 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingInStock
      * @test
      */
-    public function upSellsInStock($simple)
+    public function upSellsInStock($simple, $productsInStock)
     {
         $productData1 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $productData2 = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $productData1['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
             } else {
@@ -408,7 +404,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $i = 1;
         $errors = array();
-        foreach (self::$productsInStock as $prod) {
+        foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
             } else {
@@ -441,12 +437,12 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      * @depends createProductsForLinkingOutOfStock
      * @test
      */
-    public function upSellsOutOfStock($simple)
+    public function upSellsOutOfStock($simple, $productsOutOfStock)
     {
         $productData = $this->loadData('bundle_product_for_linking_products',
                                        array('bundle_items_search_sku' => $simple));
         $i = 1;
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $productData['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
         }
         $this->loginAdminUser();
@@ -459,7 +455,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        foreach (self::$productsOutOfStock as $prod) {
+        foreach ($productsOutOfStock as $prod) {
             $this->addParameter('productName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'upsell_product')) {
                 $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is on the page';

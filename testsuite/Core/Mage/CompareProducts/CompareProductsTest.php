@@ -35,8 +35,6 @@
  */
 class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
 {
-    protected $_useTearDown = false;
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -47,16 +45,6 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->addParameter('id', '0');
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->compareProductsHelper()->frontCloseComparePopup();
-        if ($this->_useTearDown) {
-            $this->frontend();
-            $this->compareProductsHelper()->frontClearAll();
-            $this->_useTearDown = false;
-        }
     }
 
     /**
@@ -121,10 +109,13 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
                               'Product is not available in Compare widget');
         }
         //Steps
-        $this->compareProductsHelper()->frontOpenComparePopup();
+        $popupId = $this->compareProductsHelper()->frontOpenComparePopup();
         //Verifying
         $this->compareProductsHelper()->frontVerifyProductDataInComparePopup($verify);
-        $this->_useTearDown = true;
+        //Cleanup
+        $this->compareProductsHelper()->frontCloseComparePopup($popupId);
+        $this->frontend();
+        $this->compareProductsHelper()->frontClearAll();
     }
 
     /**
@@ -151,12 +142,14 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
             $this->assertMessagePresent('success', 'product_added_to_comparison');
             $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                               'Product is not available in Compare widget');
-            $this->compareProductsHelper()->frontOpenComparePopup();
+            $popupId = $this->compareProductsHelper()->frontOpenComparePopup();
             $this->assertTrue($this->controlIsPresent('link', 'product_title'),
                               'There is no expected product in Compare Products popup');
-            $this->compareProductsHelper()->frontCloseComparePopup();
+            $this->compareProductsHelper()->frontCloseComparePopup($popupId);
         }
-        $this->_useTearDown = true;
+        //Cleanup
+        $this->frontend();
+        $this->compareProductsHelper()->frontClearAll();
     }
 
     /**
