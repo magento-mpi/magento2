@@ -131,18 +131,20 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
 
         // validate attributes with source models
         if (null !== $attrValue && $attribute->getSourceModel()) {
-            if (!is_array($attrValue)) {
-                $attrValue = array($attrValue);
+            if ('multiselect' !== $attribute->getFrontendInput() && is_array($attrValue)) {
+                return array('Invalid value type for ' . $attribute->getAttributeCode());
             }
             $possibleValues = $attribute->getSource()->getAllOptions(false);
 
-            foreach ($attrValue as $value) {
+            foreach ((array) $attrValue as $value) {
                 if (is_scalar($value)) {
                     $value = (string) $value;
                     $valueIsValid = false;
 
                     foreach ($possibleValues as $optionData) {
-                        if ($value === $optionData['value'] || $value === $optionData['label']) {
+                        if (is_numeric($optionData['value']) && $value == $optionData['value']
+                            || !is_numeric($optionData['value']) && $value === $optionData['value']
+                        ) {
                             $valueIsValid = true;
                             break;
                         }
