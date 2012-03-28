@@ -33,15 +33,33 @@
  */
 class Mage_OAuth_Model_Observer
 {
+
     /**
-     * Get callback url
+     * Is current authorize page is simple
+     *
+     * @return boolean
+     */
+    protected function _getIsSimple()
+    {
+        $simple = false;
+        if (stristr(Mage::app()->getRequest()->getActionName(), 'simple')
+            || !is_null(Mage::app()->getRequest()->getParam('simple', null))
+        ) {
+            $simple = true;
+        }
+
+        return $simple;
+    }
+
+    /**
+     * Get authorize endpoint url
      *
      * @param string $userType
      * @return string
      */
     protected function _getAuthorizeUrl($userType)
     {
-        $simple = Mage::app()->getRequest()->getParam('simple');
+        $simple = $this->_getIsSimple();
 
         if (Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
             if ($simple) {

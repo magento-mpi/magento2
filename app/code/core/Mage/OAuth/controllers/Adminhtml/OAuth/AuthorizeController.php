@@ -56,7 +56,22 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     public function preDispatch()
     {
         $this->getRequest()->setParam('forwarded', true);
+
+        // check login data before it set null in Mage_Admin_Model_Observer::actionPreDispatchAdmin
+        $loginError = $this->_checkLoginIsEmpty();
+
         parent::preDispatch();
+
+        // call after parent::preDispatch(); to get session started
+        if ($loginError) {
+            Mage::getSingleton('adminhtml/session')
+                ->addError(Mage::helper('adminhtml')->__('Invalid User Name or Password.'));
+            $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+            $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
+            $this->_redirect('*/*/*', $params);
+        }
     }
 
     /**
@@ -222,6 +237,27 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $this->renderLayout();
 
         return $this;
+    }
+
+    /**
+     * Check is login data has empty login or pass
+     * See Mage_Admin_Model_Session: there is no any error message if login or password is empty
+     *
+     * @return boolean
+     */
+    protected function _checkLoginIsEmpty()
+    {
+        $error = false;
+        $action = $this->getRequest()->getActionName();
+        if (($action == 'index' || $action == 'simple') && $this->getRequest()->getPost('login')) {
+            $postLogin  = $this->getRequest()->getPost('login');
+            $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
+            $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
+            if (empty($username) || empty($password)) {
+                $error = true;
+            }
+        }
+        return $error;
     }
 
     /**
