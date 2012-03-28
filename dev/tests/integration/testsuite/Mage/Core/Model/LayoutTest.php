@@ -49,24 +49,29 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
-    /**
-     * @expectedException Magento_Exception
-     */
-    public function testConstructorWrongStructure()
-    {
-        new Mage_Core_Model_Layout(array('structure' => false));
-    }
-
     public function constructorDataProvider()
     {
         return array(
             'default area'  => array(array(), Mage_Core_Model_Design_Package::DEFAULT_AREA),
             'frontend area' => array(array('area' => 'frontend'), 'frontend'),
             'backend area'  => array(array('area' => 'adminhtml'), 'adminhtml'),
-            'structure'     => array(
-                array('structure' => new Mage_Core_Model_Layout_Structure), Mage_Core_Model_Design_Package::DEFAULT_AREA
-            ),
         );
+    }
+
+    public function testConstructorStructure()
+    {
+        $structure = new Mage_Core_Model_Layout_Structure;
+        $structure->insertContainer('', 'test.container');
+        $layout = new Mage_Core_Model_Layout(array('structure' => $structure));
+        $this->assertTrue($layout->hasElement('test.container'));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorWrongStructure()
+    {
+        new Mage_Core_Model_Layout(array('structure' => false));
     }
 
     public function testGetUpdate()

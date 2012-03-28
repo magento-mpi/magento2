@@ -70,7 +70,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_directOutput = false;
 
     /**
-     * A vairable for transporting output into observer during rendering
+     * A variable for transporting output into observer during rendering
      *
      * @var Varien_Object
      */
@@ -114,7 +114,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if ($arguments['structure'] instanceof Mage_Core_Model_Layout_Structure) {
                 $this->_structure = $arguments['structure'];
             } else {
-                throw new Magento_Exception('Expected instance of Mage_Core_Model_Layout_Structure.');
+                throw new InvalidArgumentException('Expected instance of Mage_Core_Model_Layout_Structure.');
             }
         } else {
             $this->_structure = Mage::getModel('Mage_Core_Model_Layout_Structure');

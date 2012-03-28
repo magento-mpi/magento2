@@ -42,10 +42,6 @@
     background-color: #fff;
 }
 
-.vde_marker {
-    display: none;
-}
-
 .vde_element_wrapper {
     border: 1px solid blue;
     padding: 2px;
