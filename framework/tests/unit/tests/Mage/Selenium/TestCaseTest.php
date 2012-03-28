@@ -679,68 +679,41 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * @covers getTestId
+     * @covers Mage_Selenium_TestCase::setTestId
+     * @covers Mage_Selenium_TestCase::getTestId
      */
-    public function testGetTestId()
-    {
-        $inst = new Mage_Selenium_TestCase();
-        $id = $inst->getTestId();
-        $this->assertTrue(is_string($id), 'Incorrect type of data');
-    }
-
-    /**
-     * @covers setTestId
-     */
-    public function testSetTestId()
+    public function testSetGetTestId()
     {
         $inst = new Mage_Selenium_TestCase();
         $inst->setTestId('12345');
         $id = $inst->getTestId();
         $this->assertEquals('12345', $id, 'Incorrect value');
-        $this->assertTrue(is_string($id), 'Incorrect type of data');
+        $this->assertInternalType('string', $id);
     }
 
     /**
-     * @covers getScreenshotPath
+     * @covers Mage_Selenium_TestCase::setScreenshotPath
+     * @covers Mage_Selenium_TestCase::getScreenshotPath
      */
-    public function testGetScreenshotPath()
-    {
-        $inst = new Mage_Selenium_TestCase();
-        $path = $inst->getScreenshotPath();
-        $this->assertTrue(is_string($path), 'Incorrect path');
-    }
-
-    /**
-     * @covers setScreenshotPath
-     */
-    public function testSetScreenshotPath()
+    public function testSetGetScreenshotPath()
     {
         $inst = new Mage_Selenium_TestCase();
         $inst->setScreenshotPath('d:\Temp');
         $path = $inst->getScreenshotPath();
         $this->assertEquals('d:\Temp', $path, 'Incorrect value');
-        $this->assertTrue(is_string($path), 'Incorrect path');
+        $this->assertInternalType('string', $path);
     }
 
     /**
-     * @covers getDefaultScreenshotPath
+     * @covers Mage_Selenium_TestCase::setDefaultScreenshotPath
+     * @covers Mage_Selenium_TestCase::getDefaultScreenshotPath
      */
-    public function testGetDefaultScreenshotPath()
-    {
-        $inst = new Mage_Selenium_TestCase();
-        $path = $inst->getDefaultScreenshotPath();
-        $this->assertTrue(is_string($path), 'Incorrect path');
-    }
-
-    /**
-     * @covers setDefaultScreenshotPath
-     */
-    public function testSetDefaultScreenshotPath()
+    public function testSetGetDefaultScreenshotPath()
     {
         $inst = new Mage_Selenium_TestCase();
         $inst->setDefaultScreenshotPath('d:\Temp');
         $path = $inst->getDefaultScreenshotPath();
-        $this->assertEquals('d:\Temp', $path, 'Incorrect value');
-        $this->assertTrue(is_string($path), 'Incorrect path');
+        $this->assertEquals('d:\Temp', $path);
+        $this->assertInternalType('string', $path);
     }
 }

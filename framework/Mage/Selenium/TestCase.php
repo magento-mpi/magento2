@@ -1838,10 +1838,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
 	 * @return string
 	 */
-         public function getTestId()
-         {
-             return $this->testId;
-         }
+    public function getTestId()
+    {
+        return $this->testId;
+    }
 
     /**
      * Set test case Id
@@ -1885,9 +1885,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setDefaultScreenshotPath($path)
     {
-        Mage_Selenium_TestConfiguration::getInstance()
-            ->getHelper('config')
-            ->setScreenshotDir($path);
+        $this->_configHelper->setScreenshotDir($path);
         $this->setScreenshotPath($path);
 
         return $this;
@@ -1900,9 +1898,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getDefaultScreenshotPath()
     {
-        return Mage_Selenium_TestConfiguration::getInstance()
-            ->getHelper('config')
-            ->getScreenshotDir();
+        return $this->_configHelper->getScreenshotDir();
     }
 
     /**
