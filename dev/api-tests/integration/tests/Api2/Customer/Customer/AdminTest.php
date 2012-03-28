@@ -223,28 +223,6 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     }
 
     /**
-     * Test update customer withous required fields
-     *
-     * @param string $attributeCode
-     * @dataProvider providerRequiredAttributes
-     */
-    public function testUpdateWithoutRequiredField($attributeCode)
-    {
-        $this->_customer->unsetData($attributeCode);
-
-        $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
-        $responseData = $response->getBody();
-
-        $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
-        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
-
-        foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
-        }
-    }
-
-    /**
      * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
      *
      * @return array
