@@ -172,10 +172,12 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
         }
 
+        restore_error_handler();
+
         try {
             $mockAdapter->query("SELECT * FROM user");
         } catch (Exception $e) {
-            $this->assertFalse($e instanceof Zend_Db_Adapter_Exception);
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) === false);
         }
 
         $select = new Zend_Db_Select($mockAdapter);
@@ -183,10 +185,8 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         try {
             $mockAdapter->query($select);
         } catch (Exception $e) {
-            $this->assertFalse($e instanceof Zend_Db_Adapter_Exception);
+            $this->assertTrue(strpos($e->getMessage(), self::ERROR_DDL_MESSAGE) === false);
         }
-
-        restore_error_handler();
     }
 
     public function errorHandler($errno, $errstr, $errfile, $errline) {
