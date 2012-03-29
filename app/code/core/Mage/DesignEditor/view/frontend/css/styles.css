@@ -71,6 +71,19 @@
     cursor: default;
 }
 
+.vde_container.vde_container_hover {
+    border-color: red;
+}
+.vde_container.vde_container_hover > .vde_element_title {
+    background-color: red;
+}
+
+.ui-sortable-placeholder {
+    background-color: #ff9;
+    border-color: #ff9 !important;
+    visibility: visible !important;
+}
+
 .vde_toolbar_row {
     margin-bottom: 5px;
 }
