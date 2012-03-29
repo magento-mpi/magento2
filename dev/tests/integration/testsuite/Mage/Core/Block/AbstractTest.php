@@ -338,7 +338,14 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blockFour = $this->_createBlockWithLayout($name4);
         $parent->insert($blockFour, $name1, true);
         $this->assertSame(3, array_search($name4, $parent->getChildNames()));
+    }
 
+    public function testInsertWithoutCreateBlock()
+    {
+        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent->insert('block');
+        $this->assertFalse($parent->getLayout()->hasElement('block'));
+        $this->assertEquals(array(), $parent->getChildNames());
     }
 
     public function testAppend()

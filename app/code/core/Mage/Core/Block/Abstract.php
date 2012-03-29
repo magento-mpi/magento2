@@ -436,10 +436,17 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if (!$layout) {
             return false;
         }
-        if ($block instanceof Mage_Core_Block_Abstract) {
-            $block = $block->getNameInLayout();
+        if (is_string($block)) {
+            /*
+             * if we don't have block - don't throw exception because
+             * block could be simply removed using layout method remove
+             */
+            $block = $layout->getBlock($block);
         }
-        $this->getLayout()->insertBlock($this->getNameInLayout(), $block, $alias, $after, $siblingName);
+        if ($block instanceof Mage_Core_Block_Abstract) {
+            $blockName = $block->getNameInLayout();
+            $this->getLayout()->insertBlock($this->getNameInLayout(), $blockName, $alias, $after, $siblingName);
+        }
         return $this;
     }
 
