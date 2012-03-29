@@ -274,4 +274,32 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
 
         $this->callModelDelete($category, true);
     }
+
+    /**
+     * Test delete root category
+     */
+    public function testRootCategoryDelete()
+    {
+        try {
+            $result = $this->call('category.delete', array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
+        } catch (SoapFault $e) {
+            $result = array(
+                'faultcode' => $e->faultcode,
+                'faultstring' => $e->faultstring
+            );
+        } catch (Zend_XmlRpc_Client_FaultException $e) {
+            $result = array(
+                'faultcode' => $e->getCode(),
+                'faultstring' => $e->getMessage()
+            );
+        }
+
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(105, $result['faultcode'], 'Fault code is not right.');
+        $this->assertEquals('Cannot remove the system category.', $result['faultstring'],
+            'Exception message is not right.');
+
+        $category = new Mage_Catalog_Model_Category();
+        $this->assertNotNull($category->load(Mage_Catalog_Model_Category::TREE_ROOT_ID)->getId());
+    }
 }
