@@ -149,18 +149,12 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             if ($pageMca === false || $pageMca === null) {
                 continue;
             }
-            if ($area == 'admin' || $area == 'frontend') {
-                if ($paramsDecorator) {
-                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
-                }
-                if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                    $appropriatePages[] = $page;
-                }
-            } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
-                if ($paramsDecorator) {
-                    $page->assignParams($paramsDecorator);
-                }
-                return $page;
+            $pageMca = preg_quote($pageMca);
+            if ($paramsDecorator) {
+                $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+            }
+            if (preg_match(';^' . $pageMca . '$;', $mca)) {
+                $appropriatePages[] = $page;
             }
         }
         if (!empty($appropriatePages)) {
@@ -184,6 +178,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      *
      * @param string $mca
      * @param string $page_mca
+     * @deprecated
      *
      * @return bool
      */
