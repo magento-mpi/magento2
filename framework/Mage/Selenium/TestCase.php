@@ -1847,7 +1847,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Set test case Id
      *
      * @param $testId
-     * @return string
+     * @return Mage_Selenium_TestCase
      */
     public function setTestId($testId)
     {
@@ -1869,7 +1869,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Set screenshot path (current test)
      *
      * @param $path
-     * @return string
+     * @return Mage_Selenium_TestCase
      */
     public function setScreenshotPath($path)
     {
@@ -1881,7 +1881,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Set default screenshot path (config)
      *
      * @param string $path
-     * @return string
+     * @return Mage_Selenium_TestCase
      */
     public function setDefaultScreenshotPath($path)
     {
