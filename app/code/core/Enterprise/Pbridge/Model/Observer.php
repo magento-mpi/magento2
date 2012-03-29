@@ -60,25 +60,24 @@ class Enterprise_Pbridge_Model_Observer
      */
     public function updatePaymentProfileStatus(Varien_Event_Observer $observer)
     {
-        $groups = $observer->getEvent()->getData('object')->getGroups();
+        $website = Mage::app()->getWebsite($observer->getEvent()->getData('website'));
+        $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
+            && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
+        $authorizenetEnabled = $website->getConfig('payment/authorizenet/active')
+            && $website->getConfig('payment/authorizenet/payment_profiles_enabled');
 
         $profileStatus = null;
-        $braintreeEnabled = isset($groups['braintree_basic']['fields']['active']['value'])
-            && $groups['braintree_basic']['fields']['active']['value']
-            && isset($groups['braintree_basic']['fields']['payment_profiles_enabled']['value'])
-            && $groups['braintree_basic']['fields']['payment_profiles_enabled']['value'];
-        $authorizenetEnabled = isset($groups['authorizenet']['fields']['active']['value'])
-            && $groups['authorizenet']['fields']['active']['value']
-            && isset($groups['authorizenet']['fields']['payment_profiles_enabled']['value'])
-            && $groups['authorizenet']['fields']['payment_profiles_enabled']['value'];
 
         if ($braintreeEnabled || $authorizenetEnabled) {
             $profileStatus = 1;
-        } elseif (isset($groups['braintree_basic']['fields']) || isset($groups['authorizenet']['fields'])) {
+        } else {
             $profileStatus = 0;
         }
+
         if ($profileStatus !== null) {
-            Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus);
+            $scope = $observer->getEvent()->getData('website') ? 'websites' : 'default';
+            Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
+            Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
         }
         return $this;
     }

@@ -103,6 +103,16 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     }
 
     /**
+     * Return back url to search result page
+     *
+     * @return string
+     */
+    public function getSearchBackUrl()
+    {
+        return $this->getUrl('*/search/results');
+    }
+
+    /**
      * Returns product price
      *
      * @param Enterprise_GiftRegistry_Model_Item $item
