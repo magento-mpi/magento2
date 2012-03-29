@@ -267,11 +267,11 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
             'Invalid "is_decimal_divided" value in the "stock_data" set.',
             'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
@@ -837,20 +837,20 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 'manage_stock' => '1',
                 'qty' => '654.0000',
                 'min_qty' => '0.0000',
-                'use_config_min_qty' => '1',
+                'use_config_min_qty' => '0',
                 'is_qty_decimal' => '0',
                 'backorders' => '0',
-                'use_config_backorders' => '1',
+                'use_config_backorders' => '0',
                 'min_sale_qty' => '1.0000',
-                'use_config_min_sale_qty' => '1',
+                'use_config_min_sale_qty' => '0',
                 'max_sale_qty' => '0.0000',
-                'use_config_max_sale_qty' => '1',
+                'use_config_max_sale_qty' => '0',
                 'is_in_stock' => '1',
                 'notify_stock_qty' => '5',
                 'use_config_notify_stock_qty' => '0',
                 'use_config_qty_increments' => '1',
                 'qty_increments' => '0.0000',
-                'use_config_enable_qty_inc' => '1',
+                'use_config_enable_qty_inc' => '0',
                 'enable_qty_increments' => '0',
                 'is_decimal_divided' => '0'
             )
@@ -1043,11 +1043,11 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
             'Invalid "is_decimal_divided" value in the "stock_data" set.',
             'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
