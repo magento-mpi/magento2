@@ -1841,6 +1841,74 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get TestCase Id
+     *
+	 * @return string
+	 */
+    public function getTestId()
+    {
+        return $this->testId;
+    }
+
+    /**
+     * Set test case Id
+     *
+     * @param $testId
+     * @return Mage_Selenium_TestCase
+     */
+    public function setTestId($testId)
+    {
+        $this->testId = $testId;
+        return $this;
+    }
+
+    /**
+     * Get screenshot path (current test)
+     *
+     * @return string
+     */
+    public function getScreenshotPath()
+    {
+        return $this->screenshotPath;
+    }
+
+    /**
+     * Set screenshot path (current test)
+     *
+     * @param $path
+     * @return Mage_Selenium_TestCase
+     */
+    public function setScreenshotPath($path)
+    {
+        $this->screenshotPath = $path;
+        return $this;
+    }
+
+    /**
+     * Set default screenshot path (config)
+     *
+     * @param string $path
+     * @return Mage_Selenium_TestCase
+     */
+    public function setDefaultScreenshotPath($path)
+    {
+        $this->_configHelper->setScreenshotDir($path);
+        $this->setScreenshotPath($path);
+
+        return $this;
+    }
+
+    /**
+     * Get default screenshot path (config)
+     *
+     * @return string
+     */
+    public function getDefaultScreenshotPath()
+    {
+        return $this->_configHelper->getScreenshotDir();
+    }
+
+    /**
      * Clicks a control with the specified name and type.
      *
      * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)

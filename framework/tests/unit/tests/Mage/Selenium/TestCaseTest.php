@@ -677,4 +677,43 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEquals('MacOS', $instance->detectOS(), 'System name is incorrect');
         $this->assertEquals('Unknown OS', $instance->detectOS(), 'System name is incorrect');
     }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setTestId
+     * @covers Mage_Selenium_TestCase::getTestId
+     */
+    public function testSetGetTestId()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setTestId('12345');
+        $id = $inst->getTestId();
+        $this->assertEquals('12345', $id, 'Incorrect value');
+        $this->assertInternalType('string', $id);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setScreenshotPath
+     * @covers Mage_Selenium_TestCase::getScreenshotPath
+     */
+    public function testSetGetScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setScreenshotPath('d:\Temp');
+        $path = $inst->getScreenshotPath();
+        $this->assertEquals('d:\Temp', $path, 'Incorrect value');
+        $this->assertInternalType('string', $path);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::setDefaultScreenshotPath
+     * @covers Mage_Selenium_TestCase::getDefaultScreenshotPath
+     */
+    public function testSetGetDefaultScreenshotPath()
+    {
+        $inst = new Mage_Selenium_TestCase();
+        $inst->setDefaultScreenshotPath('d:\Temp');
+        $path = $inst->getDefaultScreenshotPath();
+        $this->assertEquals('d:\Temp', $path);
+        $this->assertInternalType('string', $path);
+    }
 }
