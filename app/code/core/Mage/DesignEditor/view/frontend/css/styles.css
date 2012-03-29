@@ -43,10 +43,13 @@
 }
 
 .vde_element_wrapper {
+    margin-bottom: 1px;
+    padding: 4px;
     border: 1px solid blue;
-    padding: 2px;
 }
+
 .vde_element_wrapper.vde_container {
+    padding-bottom: 3px;
     border: 1px dashed green;
 }
 .vde_container > .vde_element_title {
@@ -56,8 +59,9 @@
     border-style: solid;
 }
 .vde_element_title {
-    background-color: blue;
+    margin: -4px 0 4px -4px;
     padding: 2px;
+    background-color: blue;
     color: white;
     font-size: 11px;
     max-width: 150px;
@@ -65,11 +69,6 @@
     text-align: left;
     line-height: 12px;
     cursor: default;
-}
-
-.vde_placeholder {
-    position: absolute;
-    background-color: #ff9;
 }
 
 .vde_toolbar_row {
@@ -81,10 +80,6 @@
     padding-left: 10px;
     padding-right: 10px;
     border-left: 1px solid black;
-}
-
-.ui-draggable-dragging {
-    z-index: 201;
 }
 
 #vde_toolbar:after,

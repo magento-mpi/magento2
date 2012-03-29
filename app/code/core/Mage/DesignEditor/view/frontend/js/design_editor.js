@@ -50,89 +50,24 @@
      * Class for design editor
      */
     DesignEditor = function () {
-        this._init();
+        this._enableDragDrop();
     }
 
-    DesignEditor.prototype._init = function () {
-        this._dragged = null;
-        this._placeholder = null;
-        this._templatePlaceholder = '<div class="vde_placeholder"></div>';
-
-        this._enableDragging();
-        return this;
-    }
-
-    DesignEditor.prototype._enableDragging = function () {
-        var thisObj = this;
-        $('.vde_element_wrapper.vde_draggable').draggable({
-            helper: 'clone',
+    DesignEditor.prototype._enableDragDrop = function () {
+        /* Enable reordering of draggable children within their containers */
+        $('.vde_element_wrapper.vde_container').sortable({
+            items: '.vde_element_wrapper.vde_draggable',
+            tolerance: 'pointer',
             revert: true,
-            start: function (event, ui) {thisObj._onDragStarted(event, ui)},
-            stop: function (event, ui) {thisObj._onDragStopped(event, ui)}
-        });
-        return this;
-    }
-
-    DesignEditor.prototype._triggerStartedEvent = function () {
-        $(document).trigger('started.vde', this);
-        return this;
-    }
-
-    DesignEditor.prototype._onDragStarted = function (event, ui) {
-        if (this._dragged) {
-            return this;
-        }
-        var dragged = $(event.target);
-        this._hideDragged(dragged)
-            ._resizeHelperSameAsDragged(ui.helper, dragged)
-            ._putPlaceholder();
-    }
-
-    DesignEditor.prototype._onDragStopped = function (event, ui) {
-        if (!this._dragged) {
-            return this;
-        }
-        this._removePlaceholder()
-            ._showDragged();
-    }
-
-    DesignEditor.prototype._hideDragged = function (dragged) {
-        this._showDragged(); // Maybe some other dragged element was hidden before, just restore it
-        this._dragged = dragged;
-        this._dragged.css('visibility', 'hidden');
-        return this;
-    }
-
-    DesignEditor.prototype._showDragged = function () {
-        if (!this._dragged) {
-            return this;
-        }
-        this._dragged.css('visibility', 'visible');
-        this._dragged = null;
-        return this;
-    }
-
-    DesignEditor.prototype._resizeHelperSameAsDragged = function (helper, dragged) {
-        helper.height(dragged.height())
-            .width(dragged.width());
-        return this;
-    }
-
-    DesignEditor.prototype._putPlaceholder = function () {
-        if (!this._placeholder) {
-            this._placeholder = $(this._templatePlaceholder);
-        }
-        this._placeholder.css('height', this._dragged.outerHeight() + 'px')
-            .css('width', this._dragged.outerWidth() + 'px');
-        this._placeholder.insertBefore(this._dragged);
-        return this;
-    }
-
-    DesignEditor.prototype._removePlaceholder = function () {
-        if (!this._placeholder) {
-            return this;
-        }
-        this._placeholder.remove();
+            helper: 'clone',
+            appendTo: 'body',
+            start: function(event, ui) {
+                /* Enable dropping of the elements outside of their containers */
+                var otherContainers = $('.vde_element_wrapper.vde_container').not(ui.item);
+                $(this).sortable('option', 'connectWith', otherContainers);
+                otherContainers.sortable('refresh');
+            }
+        }).disableSelection();
         return this;
     }
 
