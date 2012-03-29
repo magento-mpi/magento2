@@ -188,6 +188,7 @@
             <eway_direct>
                 <title>eWAY Direct</title>
                 <using_pbridge>1</using_pbridge>
+                <payment_action>authorize_capture</payment_action>
             </eway_direct>
             <payone_gate>
                 <title>Credit Card (Payone.de)</title>
