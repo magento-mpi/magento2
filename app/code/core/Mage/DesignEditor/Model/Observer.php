@@ -129,8 +129,9 @@ class Mage_DesignEditor_Model_Observer
         $elementTitle = $isContainer ? $structure->getElementAttribute($elementName, 'label') : $elementName;
 
         if ($isDraggable || $isContainer) {
+            $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
             $this->_wrappingRenderer->setData(array(
-                'element_id'    => "vde_element_$elementName",
+                'element_id'    => $elementId,
                 'element_title' => $elementTitle,
                 'element_html'  => $transport->getData('output'),
                 'is_draggable'  => $isDraggable,

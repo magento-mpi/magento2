@@ -193,7 +193,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'draggable block' => array(
                 'draggable_block',
                 '<b>Draggable Block</b>',
-                '<div id="vde_element_draggable_block" class="vde_element_wrapper vde_draggable">
+                '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable">
                     <div class="vde_element_title">draggable_block</div>
                     <b>Draggable Block</b>
                 </div>',
@@ -201,7 +201,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'non-draggable container' => array(
                 'non_draggable_container',
                 '<b>Non-Draggable Container Text</b>',
-                '<div id="vde_element_non_draggable_container" class="vde_element_wrapper vde_container">
+                '<div id="vde_element_bm9uX2RyYWdnYWJsZV9jb250YWluZXI" class="vde_element_wrapper vde_container">
                     <div class="vde_element_title">Non-Draggable Container</div>
                     <b>Non-Draggable Container Text</b>
                 </div>',
@@ -209,7 +209,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'draggable container' => array(
                 'draggable_container',
                 '<b>Draggable Container Text</b>',
-                '<div id="vde_element_draggable_container" class="vde_element_wrapper vde_draggable vde_container">
+                '<div id="vde_element_ZHJhZ2dhYmxlX2NvbnRhaW5lcg"
+                    class="vde_element_wrapper vde_draggable vde_container">
                     <div class="vde_element_title">Draggable Container</div>
                     <b>Draggable Container Text</b>
                 </div>',
@@ -218,7 +219,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 'after_body_start',
                 '<b>Page Top Container Text</b>',
                 '<div>VDE Toolbar</div>
-                <div id="vde_element_after_body_start" class="vde_element_wrapper vde_container">
+                <div id="vde_element_YWZ0ZXJfYm9keV9zdGFydA" class="vde_element_wrapper vde_container">
                     <div class="vde_element_title">Page Top</div>
                     <b>Page Top Container Text</b>
                 </div>',
