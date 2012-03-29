@@ -72,15 +72,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     public function isValidDataForCreateAssociationWithCountry(array $data)
     {
-        // Check the country
-        $country = $this->_checkCountry($data);
-        if (false == $country) {
-            // break the validation if the country is not valid
-            return false;
-        }
-
-        // Check the region
-        return $this->_checkRegion($data, $country);
+        return $this->_checkRegion($data, Mage::getModel('directory/country')->loadByCode($data['country_id']));
     }
 
     /**
@@ -95,60 +87,13 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
         if (!isset($data['country_id']) && !isset($data['region'])) {
             return true;
         }
-
-        // Check the country
-        if (array_key_exists('country_id', $data)) {
-            $country = $this->_checkCountry($data);
-            if (false == $country) {
-                // break the validation if the country is not valid
-                return false;
-            }
+        // If country is in data - it has been already validated. If no - load current country.
+        if (isset($data['country_id'])) {
+            $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
         } else {
-            // if the country is not passed load the current country
             $country = $address->getCountryModel();
         }
-
-        // Check the region
         return $this->_checkRegion($data, $country);
-    }
-
-    /**
-     * Check country
-     *
-     * @param array $data
-     * @return bool|Mage_Directory_Model_Country
-     */
-    protected function _checkCountry($data)
-    {
-        if (!array_key_exists('country_id', $data)) {
-            $this->_addError('"Country" is required.');
-            return false;
-        }
-
-        if (!is_string($data['country_id'])) {
-            $this->_addError('Invalid country identifier type.');
-            return false;
-        }
-
-        if ('' == trim($data['country_id'])) {
-            $this->_addError('"Country" is required.');
-            return false;
-        }
-
-        $validator = new Zend_Validate_StringLength(array('min' => 2, 'max' => 3));
-        if (!$validator->isValid($data['country_id'])) {
-            $this->_addError("Country is not between '2' and '3' inclusively.");
-            return false;
-        }
-
-        /* @var $country Mage_Directory_Model_Country */
-        $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
-        if (!$country->getId()) {
-            $this->_addError('Country does not exist.');
-            return false;
-        }
-
-        return $country;
     }
 
     /**
@@ -189,39 +134,5 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
         }
 
         return true;
-    }
-
-    /**
-     * Returns an array of errors
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        // business asked to avoid additional validation message, so we filter it here
-        $errors        = array();
-        $helper        = Mage::helper('eav');
-        $requiredAttrs = array();
-        $isRequiredRE  = '/^' . str_replace('%s', '(.+)', preg_quote($helper->__('"%s" is a required value.'))). '$/';
-        $greaterThanRE = '/^' . str_replace(
-            '%s', '(.+)', preg_quote($helper->__('"%s" length must be equal or greater than %s characters.'))
-        ) . '$/';
-
-        // find all required attributes labels
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error, $matches)) {
-                $requiredAttrs[$matches[1]] = true;
-            }
-        }
-        // exclude additional messages for required attributes been failed
-        foreach ($this->_errors as $error) {
-            if (preg_match($isRequiredRE, $error)
-                || !preg_match($greaterThanRE, $error, $matches)
-                || !isset($requiredAttrs[$matches[1]])
-            ) {
-                $errors[] = $error;
-            }
-        }
-        return $errors;
     }
 }

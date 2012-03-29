@@ -223,28 +223,6 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     }
 
     /**
-     * Test update customer withous required fields
-     *
-     * @param string $attributeCode
-     * @dataProvider providerRequiredAttributes
-     */
-    public function testUpdateWithoutRequiredField($attributeCode)
-    {
-        $this->_customer->unsetData($attributeCode);
-
-        $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
-        $responseData = $response->getBody();
-
-        $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
-        $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
-
-        foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
-        }
-    }
-
-    /**
      * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
      *
      * @return array
@@ -258,7 +236,9 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
         $output = array();
 
         foreach ($fields as $field) {
-            $output[] = array($field);
+            if ('website_id' !== $field) {
+                $output[] = array($field);
+            }
         }
 
         return $output;
@@ -277,6 +257,74 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
             'group_id'   => 1
         ));
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $response->getStatus());
+    }
+
+    /**
+     * Test unsuccessful update of drop down attributes. Check customer drop down fields validation
+     *
+     * @dataProvider dataProviderForUpdateDropDownsWithInvalidValues
+     * @param string $field
+     * @param mixed $value
+     */
+    public function testUpdateDropDownsWithInvalidValues($field, $value)
+    {
+        $customerData = array($field => $value);
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $customerData);
+        $responseData = $response->getBody();
+        $this->assertArrayHasKey('messages', $responseData, "Response must have messages.");
+        $this->assertArrayHasKey('error', $responseData['messages'], "Response must contain errors.");
+        $expectedErrors = array("Invalid value \"$value\" for $field", "Resource data pre-validation error.");
+        $errors = $responseData['messages']['error'];
+        foreach ($errors as $error) {
+            $this->assertTrue(in_array($error['message'], $expectedErrors),
+                'Error message is invalid: ' . $error['message']);
+        }
+    }
+
+    /**
+     * Provider of invalid drop down fields values
+     *
+     * @return array
+     */
+    public function dataProviderForUpdateDropDownsWithInvalidValues()
+    {
+        return array(
+            array('gender', -1),
+            array('gender', 0),
+            array('gender', 3),
+            array('group_id', -1),
+            array('group_id', 0),
+            array('group_id', 4),
+            array('group_id', 'invalid'),
+            array('group_id', 'invalid'),
+        );
+    }
+
+    /**
+     * Test successful drop down attributes update.
+     * Check if validation works correct with values of different types (int, string)
+     *
+     * @dataProvider dataProviderForUpdateDropDownsWithValidValues
+     * @param $customerData
+     */
+    public function testUpdateDropDownsWithValidValues($customerData)
+    {
+        $response = $this->callPut('customers/' . $this->_customer->getId(), $customerData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+    }
+
+    /**
+     * Provider of valid drop down fields values
+     *
+     * @return array
+     */
+    public function dataProviderForUpdateDropDownsWithValidValues()
+    {
+        $dropdownData = array(
+            array(array('website_id' => 1, 'group_id' => 1, 'gender' => 1)),
+            array(array('website_id' => '1', 'group_id' => '1', 'gender' => '1')),
+        );
+        return $dropdownData;
     }
 
     /**

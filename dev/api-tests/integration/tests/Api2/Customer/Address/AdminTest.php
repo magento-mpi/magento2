@@ -162,7 +162,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('Invalid country identifier type.', $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value type for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -183,29 +183,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('"Country" is required.', $responseData['messages']['error'][0]['message']);
-    }
-
-    /**
-     * Test unsuccessful address create with wrong length country identifier
-     *
-     * @param array $dataForCreate
-     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
-     * @dataProvider providerAddressData
-     */
-    public function testCreateCustomerAddressWithWrongLengthCountryIdentifier($dataForCreate)
-    {
-        /* @var $fixtureCustomer Mage_Customer_Model_Customer */
-        $fixtureCustomer = $this->getFixture('customer');
-
-        $dataForCreate['country_id'] = 'INVALID_LENGTH';
-        $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals("Country is not between '2' and '3' inclusively.",
-            $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value "   " for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -226,7 +204,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('Country does not exist.', $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value "_C" for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -634,7 +612,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('Invalid country identifier type.', $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value type for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -657,31 +635,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('"Country" is required.', $responseData['messages']['error'][0]['message']);
-    }
-
-    /**
-     * Test unsuccessful address update with wrong length country identifier
-     *
-     * @param array $dataForUpdate
-     * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
-     * @dataProvider providerAddressData
-     */
-    public function testUpdateCustomerAddressWithWrongLengthCountryIdentifier($dataForUpdate)
-    {
-        /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
-        $fixtureCustomerAddress = $this->getFixture('customer')
-            ->getAddressesCollection()
-            ->getFirstItem();
-
-        $dataForUpdate['country_id'] = 'INVALID_LENGTH';
-        $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals("Country is not between '2' and '3' inclusively.",
-            $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value "   " for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**
@@ -704,7 +658,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
-        $this->assertEquals('Country does not exist.', $responseData['messages']['error'][0]['message']);
+        $this->assertEquals('Invalid value "_C" for country_id', $responseData['messages']['error'][0]['message']);
     }
 
     /**

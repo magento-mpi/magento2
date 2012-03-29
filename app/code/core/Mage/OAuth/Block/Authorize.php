@@ -44,7 +44,11 @@ class Mage_OAuth_Block_Authorize extends Mage_OAuth_Block_AuthorizeBaseAbstract
         $helper = $this->helper('customer');
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
-            $url = rtrim($url, '/') . '/simple/1';
+            if (strstr($url, '?')) {
+                $url .= '&simple=1';
+            } else {
+                $url = rtrim($url, '/') . '/simple/1';
+            }
         }
         return $url;
     }
