@@ -178,10 +178,17 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                     // skip check when field will be validated later as a required one
                     && !(empty($value) && $attribute->getIsRequired())) {
                     $allowedValues = $this->_getAttributeAllowedValues($attribute->getSource()->getAllOptions());
-                    $useStrictMode = !is_numeric($value);
-                    if (!in_array($value, $allowedValues, $useStrictMode)
-                        && !$this->_isConfigValueUsed($data, $attributeCode)) {
-                        $this->_addError(sprintf('Invalid value for attribute "%s".', $attributeCode));
+                    if (!is_array($value)) {
+                        // make validation of select and multiselect identical
+                        $value = array($value);
+                    }
+                    foreach ($value as $selectValue) {
+                        $useStrictMode = !is_numeric($selectValue);
+                        if (!in_array($selectValue, $allowedValues, $useStrictMode)
+                            && !$this->_isConfigValueUsed($data, $attributeCode)) {
+                            $this->_addError(sprintf('Invalid value "%s" for attribute "%s".',
+                                $selectValue, $attributeCode));
+                        }
                     }
                 }
                 // Validate datetime attributes

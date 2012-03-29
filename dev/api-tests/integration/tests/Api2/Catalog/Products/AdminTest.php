@@ -283,7 +283,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
             'gift_message_available', 'gift_wrapping_available');
         foreach ($invalidValueAttributes as $attribute) {
-            $expectedErrors[] = sprintf('Invalid value for attribute "%s".', $attribute);
+            $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
         }
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
@@ -1059,7 +1059,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
             'gift_message_available', 'gift_wrapping_available');
         foreach ($invalidValueAttributes as $attribute) {
-            $expectedErrors[] = sprintf('Invalid value for attribute "%s".', $attribute);
+            $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".',
+                $productDataForUpdate[$attribute], $attribute);
         }
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
