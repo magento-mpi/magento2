@@ -62,7 +62,9 @@
             revert: true,
             helper: 'clone',
             appendTo: 'body',
+            placeholder: 'vde_placeholder',
             start: function(event, ui) {
+                thisObj._resizePlaceholder(ui.placeholder, ui.item);
                 thisObj._outlineDropContainer(this);
                 /* Enable dropping of the elements outside of their containers */
                 var otherContainers = $('.vde_element_wrapper.vde_container').not(ui.item);
@@ -77,6 +79,10 @@
             }
         }).disableSelection();
         return this;
+    };
+
+    DesignEditor.prototype._resizePlaceholder = function (placeholder, element) {
+        placeholder.css({height: $(element).outerHeight(true) + 'px'});
     };
 
     DesignEditor.prototype._outlineDropContainer = function (container) {
