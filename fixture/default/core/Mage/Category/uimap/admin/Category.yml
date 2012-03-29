@@ -127,8 +127,8 @@ manage_categories:
                                         category_products_search_sku: //input[@id='catalog_category_products_filter_sku']
                                         category_products_search_price_from: //input[@id='catalog_category_products_filter_price_from']
                                         category_products_search_price_to: //input[@id='catalog_category_products_filter_price_to']
-                                        category_products_search_position_from: //input@id='catalog_category_products_filter_position_from']
-                                        category_products_search_position_to: //input@id='catalog_category_products_filter_position_to']
+                                        category_products_search_position_from: //input[@id='catalog_category_products_filter_position_from']
+                                        category_products_search_position_to: //input[@id='catalog_category_products_filter_position_to']
                                         category_products_position: %productXpath%//input[@name='position']
         buttons:
             reset: //button[span='Reset']

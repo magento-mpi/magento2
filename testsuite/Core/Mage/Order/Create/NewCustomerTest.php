@@ -313,7 +313,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @param string $simpleSku
      *
      * @test
-     * @depends preconditionsForTests.
+     * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3264
      */
     public function newCustomerWithNotValidEmail($simpleSku)

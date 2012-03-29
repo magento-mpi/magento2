@@ -48,10 +48,9 @@ paypal_enable:
             email_associated_with_paypal_merchant_account: taf_d_1323432953_biz@magento.com
             website_payments_pro: No
             website_payments_pro_payflow_edition: No
-            payflow_pro_gateway_express_checkout: No
-            payflow_pro_gateway: No
             express_checkout: No
             website_payments_standard: No
+            payflow_pro_gateway: No
             payflow_link: No
 
 paypal_api_settings:

@@ -202,7 +202,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * @param array $data
      *
      * @test
-     * @depends preconditionsForTests.
+     * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3235
      */
     public function emptyCompareListIsNotAvailable($data)
