@@ -379,7 +379,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 }
                 $this->_validateBoolean($stockData, $fieldSet, 'enable_qty_increments', true);
                 if (isset($stockData['enable_qty_increments']) && (bool) $stockData['enable_qty_increments'] == true) {
-                    $this->_validatePositiveInteger($stockData, $fieldSet, 'qty_increments', false, true);
+                    $this->_validatePositiveNumeric($stockData, $fieldSet, 'qty_increments', false, true);
                 }
                 if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
                     $this->_validateSource($stockData, $fieldSet, 'backorders',
@@ -388,8 +388,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 }
             }
 
-            $this->_validatePositiveInteger($stockData, $fieldSet, 'min_sale_qty', false, true);
-            $this->_validatePositiveInteger($stockData, $fieldSet, 'max_sale_qty', false, true);
+            $this->_validatePositiveNumeric($stockData, $fieldSet, 'min_sale_qty', false, true);
+            $this->_validatePositiveNumeric($stockData, $fieldSet, 'max_sale_qty', false, true);
         }
     }
 
@@ -464,7 +464,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
     }
 
     /**
-     * Validate field to be a positive integer
+     * Validate field to be a positive number
      *
      * @param array $data
      * @param string $fieldSet
@@ -472,7 +472,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
      * @param bool $required
      * @param bool $skipIfConfigValueUsed
      */
-    protected function _validatePositiveInteger($data, $fieldSet, $field, $required = false,
+    protected function _validatePositiveNumeric($data, $fieldSet, $field, $required = false,
         $skipIfConfigValueUsed = false)
     {
         // in case when 'Use Config Settings' is selected no validation needed
@@ -481,9 +481,9 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 $this->_addError(sprintf('The "%s" value in the "%s" set is a required field.',$field, $fieldSet));
             }
 
-            if (isset($data[$field]) && (!is_int($data[$field]) || $data[$field] < 0)) {
+            if (isset($data[$field]) && (!is_numeric($data[$field]) || $data[$field] < 0)) {
                 $this->_addError(sprintf('Please use numbers only in the "%s" field in the "%s" set. ' .
-                    'Please avoid spaces or other characters such as dots or commas.', $field, $fieldSet));
+                    'Please avoid spaces or other non numeric characters.', $field, $fieldSet));
             }
         }
     }
