@@ -50,7 +50,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Description'),
-            'style' => 'width: 98%; height: 100px;'
+            'style' => 'height: 100px;'
         ));
 
         if (Mage::app()->isSingleStoreMode()) {

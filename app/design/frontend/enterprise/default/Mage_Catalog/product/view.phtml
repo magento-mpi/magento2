@@ -39,7 +39,7 @@
                         <?php echo $this->getChildHtml('alert_urls') ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                     </div>
-                    <?php echo $this->getChildHtml('tierprices') ?>
+                    <?php echo ($_product->getCanShowPrice() === false) ? '' : $this->getChildHtml('tierprices'); ?>
                     <?php echo $this->getChildHtml('extrahint') ?>
 
                     <?php if (!$this->hasOptions()):?>
@@ -147,6 +147,13 @@
             delete Validation.methods['required-entry'];
             delete Validation.methods['validate-one-required'];
             delete Validation.methods['validate-one-required-by-name'];
+            // Remove custom datetime validators
+            for (var methodName in Validation.methods) {
+                if (methodName.match(/^validate-datetime-.*/i)) {
+                    delete Validation.methods[methodName];
+                }
+            }
+
             if (this.validator.validate()) {
                 if (url) {
                     this.form.action = url;

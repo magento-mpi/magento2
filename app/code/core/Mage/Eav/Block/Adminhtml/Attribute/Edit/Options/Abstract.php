@@ -134,12 +134,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
                 $value['sort_order'] = $option->getSortOrder();
                 foreach ($this->getStores() as $store) {
                     $storeValues = $this->getStoreOptionValues($store->getId());
-                    if (isset($storeValues[$option->getId()])) {
-                        $value['store'.$store->getId()] = htmlspecialchars($storeValues[$option->getId()]);
-                    }
-                    else {
-                        $value['store'.$store->getId()] = '';
-                    }
+                    $value['store' . $store->getId()] = isset($storeValues[$option->getId()])
+                        ? $storeValues[$option->getId()] : '';
                 }
                 $values[] = new Varien_Object($value);
             }

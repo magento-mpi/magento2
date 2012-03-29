@@ -81,6 +81,11 @@
             </footer>
         </design>
         <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <enterprise_folder>enterprise</enterprise_folder>
+                </allowed_resources>
+            </media_storage_configuration>
             <adminnotification>
                 <feed_url>notifications.magentocommerce.com/enterprise/notifications.rss</feed_url>
             </adminnotification>

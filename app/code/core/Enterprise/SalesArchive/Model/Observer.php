@@ -145,4 +145,33 @@ class Enterprise_SalesArchive_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Replaces redirects to orders list page onto archive orders list page redirects when mass action performed from
+     * archive orders list page
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_SalesArchive_Model_Observer
+     */
+    public function replaceSalesOrderRedirect(Varien_Event_Observer $observer)
+    {
+        /**
+         * @var Mage_Adminhtml_Controller_Action $controller
+         */
+        $controller = $observer->getControllerAction();
+        /**
+         * @var Mage_Core_Controller_Response_Http $response
+         */
+        $response = $controller->getResponse();
+        /**
+         * @var Mage_Core_Controller_Request_Http $request
+         */
+        $request = $controller->getRequest();
+
+        if (!$response->isRedirect() || $request->getParam('origin') != 'archive') {
+            return $this;
+        }
+
+        $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+    }
 }

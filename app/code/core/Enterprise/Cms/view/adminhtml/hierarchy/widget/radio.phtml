@@ -17,11 +17,11 @@ $parameters = $this->getParameters();
 <div id="<?php echo $uniqueHash; ?>_new" style="display:none;">
     <dl style="margin-bottom:5px;">
         <input type="radio" name="parameters[radio]" value="0" id="general_<?php echo $uniqueHash; ?>">
-        <label for="general_<?php echo $uniqueHash; ?>"><?php echo $this->__('General Hierarchy for All Store Views'); ?></label>
+        <label for="general_<?php echo $uniqueHash; ?>"><?php echo $this->__('Single Hierarchy for All Store Views'); ?></label>
     </dl>
     <dl style="margin-bottom:5px;">
         <input type="radio" name="parameters[radio]" value="1" id="individual_<?php echo $uniqueHash; ?>">
-        <label for="individual_<?php echo $uniqueHash; ?>"><?php echo $this->__('Individual Hierarchy for Each Store View'); ?></label>
+        <label for="individual_<?php echo $uniqueHash; ?>"><?php echo $this->__('Specific Hierarchy for Each Store View'); ?></label>
     </dl>
 
 <?php foreach ($this->getAllStoreViewsList() as $store): ?>

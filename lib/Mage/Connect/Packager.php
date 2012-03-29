@@ -18,14 +18,11 @@
 
 class Mage_Connect_Packager
 {
-
     /**
      * Constructor
-     * @param Mage_connect_Config $config
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -324,7 +321,7 @@ class Mage_Connect_Packager
      * @param string/array $channels
      * @param Mage_Connect_Singleconfig $cacheObject
      * @param Mage_Connect_Rest $restObj optional
-     * @param bool $checkConflicts 
+     * @param bool $checkConflicts
      * @return array
      */
     public function getUpgradesList($channels, $cacheObject, $configObj, $restObj = null, $checkConflicts = false)
@@ -433,10 +430,10 @@ class Mage_Connect_Packager
 
             //print "Processing outer: {$keyOuter} \n";
             $hash[$keyOuter] = array (
-                        'name' => $package,
-                        'channel' => $chanName,             
-                        'version' => $version,
-                        'packages' => $dependencies,
+                'name'     => $package,
+                'channel'  => $chanName,
+                'version'  => $version,
+                'packages' => $dependencies,
             );
 
             if($withDepsRecursive) {
@@ -457,7 +454,6 @@ class Mage_Connect_Packager
             }
 
         } catch (Exception $e) {
-            //$this->_failed[] = array('name'=>$package, 'channel'=>$chanName, 'max'=>$versionMax, 'min'=>$versionMin, 'reason'=>$e->getMessage());
         }
 
         $level--;
@@ -480,9 +476,9 @@ class Mage_Connect_Packager
      * @param mixed $versionMin
      * @return mixed
      */
-    public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false, $withDepsRecursive = true, $forceRemote = false)
-    {
-
+    public function getDependenciesList($chanName, $package, $cache, $config, $versionMax = false, $versionMin = false,
+        $withDepsRecursive = true, $forceRemote = false
+    ) {
         static $level = 0;
         static $_depsHash = array();
         static $_deps = array();
@@ -514,12 +510,12 @@ class Mage_Connect_Packager
 
             //print "Processing outer: {$keyOuter} \n";
             $_depsHash[$keyOuter] = array (
-                        'name' => $package,
-                        'channel' => $chanName,             
-                        'downloaded_version' => $version,
-                        'min' => $versionMin,
-                        'max' => $versionMax,
-                        'packages' => $dependencies,
+                'name'               => $package,
+                'channel'            => $chanName,
+                'downloaded_version' => $version,
+                'min'                => $versionMin,
+                'max'                => $versionMax,
+                'packages'           => $dependencies,
             );
 
             if($withDepsRecursive) {
@@ -564,7 +560,13 @@ class Mage_Connect_Packager
                         if(!$cache->hasVersionRangeIntersect($pMin,$pMax, $hasMin, $hasMax)) {
                             $reason = "Detected {$pName} conflict of versions: {$hasMin}-{$hasMax} and {$pMin}-{$pMax}";
                             unset($_depsHash[$keyInner]);
-                            $_failed[] = array('name'=>$pName, 'channel'=>$pChannel, 'max'=>$pMax, 'min'=>$pMin, 'reason'=>$reason);
+                            $_failed[] = array(
+                                'name'    => $pName,
+                                'channel' => $pChannel,
+                                'max'     => $pMax,
+                                'min'     => $pMin,
+                                'reason'  => $reason
+                            );
                             continue;
                         }
                         $newMaxIsLess = version_compare($pMax, $hasMax, "<");
@@ -578,23 +580,26 @@ class Mage_Connect_Packager
                 }
             }
         } catch (Exception $e) {
-            $_failed[] = array('name'=>$package, 'channel'=>$chanName, 'max'=>$versionMax, 'min'=>$versionMin, 'reason'=>$e->getMessage());
+            $_failed[] = array(
+                'name'    => $package,
+                'channel' => $chanName,
+                'max'     => $versionMax,
+                'min'     => $versionMin,
+                'reason'  => $e->getMessage()
+            );
         }
-        
-        
+
         $level--;
         if($level == 0) {
             $out = $this->processDepsHash($_depsHash);
-            $deps = $_deps;   
+            $deps = $_deps;
             $failed = $_failed;
             $_depsHash = array();
             $_deps = array();
-            $_failed = array();    
-            return array('deps' => $deps, 'result' => $out, 'failed'=> $failed);    
+            $_failed = array();
+            return array('deps' => $deps, 'result' => $out, 'failed'=> $failed);
         }
-        
     }
-
 
     /**
      * Process dependencies hash
@@ -642,5 +647,4 @@ class Mage_Connect_Packager
         unset($graph, $nodes);
         return $out;
     }
-
 }

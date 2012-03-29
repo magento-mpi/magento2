@@ -29,11 +29,14 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
+                if (strlen($code) > Enterprise_GiftCardAccount_Helper_Data::GIFT_CARD_CODE_MAX_LENGTH) {
+                    Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Wrong gift card code.'));
+                }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
+                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));

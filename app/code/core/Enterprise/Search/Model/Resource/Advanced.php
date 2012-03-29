@@ -85,7 +85,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         }
 
         $field = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')
-                ->getSearchEngineFieldName($attribute);
+                ->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
             $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
@@ -96,14 +96,6 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
                 }
             }
             unset($val);
-        }
-
-
-        if ($attribute->usesSource()) {
-            $attribute->setStoreId(Mage::app()->getStore()->getId());
-            foreach ($value as &$val) {
-                $val = $attribute->getSource()->getOptionText($val);
-            }
         }
 
         if (empty($value)) {

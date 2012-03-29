@@ -11,6 +11,11 @@
 class Enterprise_GiftCardAccount_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Maximal gift card code length according to database table definitions (longer codes are truncated)
+     */
+    const GIFT_CARD_CODE_MAX_LENGTH = 255;
+
+    /**
      * Unserialize and return gift card list from specified object
      *
      * @param Varien_Object $from

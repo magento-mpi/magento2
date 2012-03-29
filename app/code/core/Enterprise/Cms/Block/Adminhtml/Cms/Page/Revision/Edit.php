@@ -80,7 +80,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         if ($config->canCurrentUserSaveRevision()) {
             $this->_updateButton('save', 'label', Mage::helper('Enterprise_Cms_Helper_Data')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
-            $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
+            $this->_updateButton(
+                'saveandcontinue',
+                'onclick',
+                'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');'
+            );
 
             // Adding button to create new version
             $this->_addButton('new_version', array(

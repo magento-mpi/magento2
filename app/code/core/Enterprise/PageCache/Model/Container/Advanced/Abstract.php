@@ -50,6 +50,8 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Abstract
      * @param string $data
      * @param string $id
      * @param array $tags
+     * @param null|int $lifetime
+     * @return Enterprise_PageCache_Model_Container_Advanced_Abstract
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {

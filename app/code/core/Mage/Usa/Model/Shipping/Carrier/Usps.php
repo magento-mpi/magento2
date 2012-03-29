@@ -623,6 +623,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                                 'Priority Mail International',
                                 'First-Class Mail International Package',
                                 'First-Class Mail International Large Envelope',
+                                'First-Class Mail International Parcel',
                             )
                         )
                     )
@@ -681,6 +682,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                                 'Express Mail International',
                                 'Priority Mail International',
                                 'First-Class Mail International Package',
+                                'First-Class Mail International Parcel',
                             )
                         )
                     )
@@ -703,6 +705,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                                 'Express Mail International',
                                 'Priority Mail International',
                                 'First-Class Mail International Package',
+                                'First-Class Mail International Parcel',
                             )
                         )
                     )
@@ -1172,7 +1175,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      */
     protected function _filterServiceName($name)
     {
-        $name = (string)preg_replace(array('~<[^/!][^>]+>.*</[^>]+>~sU', '~\<!--.*--\>~isU', '~<[^>]+>~is'), '', html_entity_decode($name));
+        $name = (string)preg_replace(array('~<[^/!][^>]+>.*</[^>]+>~sU', '~\<!--.*--\>~isU', '~<[^>]+>~is'), '',
+            html_entity_decode($name)
+        );
         $name = str_replace('*', '', $name);
 
         return $name;

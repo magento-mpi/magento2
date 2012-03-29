@@ -101,7 +101,7 @@ class Mage_Eav_Model_Config
     }
 
     /**
-     * Get object by idetifier
+     * Get object by identifier
      *
      * @param   mixed $id
      * @return  mixed
@@ -356,7 +356,7 @@ class Mage_Eav_Model_Config
      *
      * @param   mixed $entityType
      * @param   mixed $code
-     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return  Mage_Eav_Model_Entity_Attribute_Abstract|false
      */
     public function getAttribute($entityType, $code)
     {
@@ -389,7 +389,6 @@ class Mage_Eav_Model_Config
             return $attribute;
         }
 
-        $attribute = false;
         if (isset($this->_attributeData[$entityTypeCode][$code])) {
             $data = $this->_attributeData[$entityTypeCode][$code];
             unset($this->_attributeData[$entityTypeCode][$code]);
@@ -488,7 +487,9 @@ class Mage_Eav_Model_Config
             $this->_preloadedAttributes[$entityTypeCode] = $attributes;
         } else {
             $attributes = array_diff($attributes, $this->_preloadedAttributes[$entityTypeCode]);
-            $this->_preloadedAttributes[$entityTypeCode] = array_merge($this->_preloadedAttributes[$entityTypeCode], $attributes);
+            $this->_preloadedAttributes[$entityTypeCode] = array_merge($this->_preloadedAttributes[$entityTypeCode],
+                $attributes
+            );
         }
 
         if (empty($attributes)) {

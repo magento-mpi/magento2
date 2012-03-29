@@ -369,30 +369,30 @@ class Enterprise_Reward_Model_Observer
      * if customer has enough points to cover grand total
      *
      * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
      */
     public function preparePaymentMethod($observer)
     {
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
+
         $quote = $observer->getEvent()->getQuote();
         if (!is_object($quote) || !$quote->getId()) {
             return $this;
         }
+
         /* @var $reward Enterprise_Reward_Model_Reward */
         $reward = $quote->getRewardInstance();
         if (!$reward || !$reward->getId()) {
             return $this;
         }
-        $baseQuoteGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardCurrencyAmount();
+
+        $baseQuoteGrandTotal = $quote->getBaseGrandTotal() + $quote->getBaseRewardCurrencyAmount();
         if ($reward->isEnoughPointsToCoverAmount($baseQuoteGrandTotal)) {
             $paymentCode = $observer->getEvent()->getMethodInstance()->getCode();
             $result = $observer->getEvent()->getResult();
-            if ('free' === $paymentCode) {
-                $result->isAvailable = true;
-            } else {
-                $result->isAvailable = false;
-            }
+            $result->isAvailable = $paymentCode === 'free' && empty($result->isDeniedInConfig);
         }
         return $this;
     }

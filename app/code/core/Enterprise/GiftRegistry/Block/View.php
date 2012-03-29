@@ -9,6 +9,7 @@
  */
 
 /**
+ * @deprecated after 1.11.2.0
  * Gift registry view block
  */
 class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_Customer_Items

@@ -407,7 +407,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit customer segment collection
      *
-     * @deprecated after 1.11.2.0 use $this->limitRuleEntityCollection() for any rule based collection
+     * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
      * @param Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection $collection
      */
@@ -419,7 +419,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit price rules collection
      *
-     * @deprecated after 1.11.2.0 use $this->limitRuleEntityCollection() for any rule based collection
+     * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
      * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
      */

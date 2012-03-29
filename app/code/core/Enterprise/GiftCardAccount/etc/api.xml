@@ -42,7 +42,7 @@
                 <faults>
                     <not_exists>
                         <code>100</code>
-                        <message>Gift card does not exists.</message>
+                        <message>Gift card account does not exists.</message>
                     </not_exists>
                     <filters_invalid>
                         <code>101</code>

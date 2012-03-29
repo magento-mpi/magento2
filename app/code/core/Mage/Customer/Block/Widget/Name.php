@@ -26,11 +26,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
      */
     protected function _showConfig($key)
     {
-        $value = $this->getConfig($key);
-        if (empty($value)) {
-            return false;
-        }
-        return true;
+        return (bool)$this->getConfig($key);
     }
 
     /**
@@ -54,7 +50,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     }
 
     /**
-     * Retrieve name prefix dropdown options
+     * Retrieve name prefix drop-down options
      *
      * @return array|bool
      */
@@ -110,7 +106,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     }
 
     /**
-     * Retrieve name suffix dropdown options
+     * Retrieve name suffix drop-down options
      *
      * @return array|bool
      */
@@ -155,7 +151,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Mage_Customer_Model_Attribute|false
      */
     protected function _getAttribute($attributeCode)
     {
@@ -163,32 +159,16 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
             return parent::_getAttribute($attributeCode);
         }
 
-        $_attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
+        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
 
-        if ($this->getForceUseCustomerRequiredAttributes() && !$_attribute->getIsRequired()) {
+        if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);
             if ($customerAttribute && $customerAttribute->getIsRequired()) {
-                $_attribute = $customerAttribute;
+                $attribute = $customerAttribute;
             }
         }
 
-        return $_attribute;
-    }
-
-    /**
-     * Get string with frontend validation classes
-     *
-     * @param string $attributeCode
-     * @return string
-     */
-    public function getAttributeValidationClass($attributeCode)
-    {
-        $attribute = $this->_getAttribute($attributeCode);
-        if (!$attribute) {
-            return '';
-        }
-
-        return $attribute->getFrontend()->getClass();
+        return $attribute;
     }
 
     /**
@@ -200,9 +180,6 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     public function getStoreLabel($attributeCode)
     {
         $attribute = $this->_getAttribute($attributeCode);
-        if ($attribute) {
-            return $this->__($attribute->getStoreLabel());
-        }
-        return '';
+        return $attribute ? $this->__($attribute->getStoreLabel()) : '';
     }
 }

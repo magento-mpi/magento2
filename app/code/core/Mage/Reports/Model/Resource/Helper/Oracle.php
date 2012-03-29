@@ -115,9 +115,9 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
                 'period'            => $periodCol,
                 'store_id'          => 'tt.store_id',
                 'product_id'        => 'tt.product_id',
-                'product_name'      => new Zend_Db_expr('MAX(tt.product_name)'),
-                'product_price'     => new Zend_Db_expr('MAX(tt.product_price)'),
-                'total_qty' => new Zend_Db_expr('SUM(tt.' . $column . ')')
+                'product_name'      => new Zend_Db_Expr('MAX(tt.product_name)'),
+                'product_price'     => new Zend_Db_Expr('MAX(tt.product_price)'),
+                'total_qty'         => new Zend_Db_Expr('SUM(tt.' . $column . ')')
         ))->group(array('tt.store_id', $periodCol, 'tt.product_id'));
 
         // SubLevel 1

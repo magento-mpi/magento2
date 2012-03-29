@@ -20,7 +20,11 @@
     $methods = $this->getMethods();
     $oneMethod = count($methods) <= 1;
 ?>
-<?php
+<?php if (empty($methods)): ?>
+    <dt>
+        <?php echo $this->__('No Payment Methods') ?>
+    </dt>
+<?php else:
     foreach ($methods as $_method):
         $_code = $_method->getCode();
 ?>
@@ -38,7 +42,9 @@
         <?php echo $html; ?>
     </dd>
     <?php endif; ?>
-<?php endforeach; ?>
+<?php endforeach;
+    endif;
+?>
 </dl>
 <?php echo $this->getChildChildHtml('additional'); ?>
 <script type="text/javascript">

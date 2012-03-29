@@ -107,11 +107,11 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
     /**
      * Check if customer has enough points to cover total
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnoughPoints()
     {
-        $baseGrandTotal = $this->getQuote()->getBaseGrandTotal()+$this->getQuote()->getBaseRewardCurrencyAmount();
+        $baseGrandTotal = $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount();
         return $this->getReward()->isEnoughPointsToCoverAmount($baseGrandTotal);
     }
 }

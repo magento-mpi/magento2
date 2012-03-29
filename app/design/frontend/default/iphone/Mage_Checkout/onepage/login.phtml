@@ -63,7 +63,9 @@
                         <input type="password" class="input-text required-entry" id="login-password" name="login[password]" />
                     </div>
                 </li>
-                <?php echo $this->getChildHtml('form.additional.info'); ?>
+                <?php if (Mage::helper('core/captcha')->isRequired('user_login')): ?>
+                    <?php echo $this->getChildHtml('captcha') ?>
+                <?php endif ?>
             </ul>
         </fieldset>
         </form>

@@ -44,10 +44,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abs
      *
      * Must be overwritten in child classes
      *
-     * @param Varien_object $row
+     * @param Varien_Object $row
      * @return string
      */
-    protected function _getEditableView(Varien_object $row)
+    protected function _getEditableView(Varien_Object $row)
     {
         return parent::render($row);
     }
@@ -57,10 +57,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abs
      *
      * Must be overwritten in child classes
      *
-     * @param Varien_object $row
+     * @param Varien_Object $row
      * @return string
      */
-    protected function _getNonEditableView(Varien_object $row)
+    protected function _getNonEditableView(Varien_Object $row)
     {
         return parent::render($row);
     }

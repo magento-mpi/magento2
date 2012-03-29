@@ -16,7 +16,9 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstract implements Mage_Customer_Block_Address_Renderer_Interface
+class Mage_Customer_Block_Address_Renderer_Default
+    extends Mage_Core_Block_Abstract
+    implements Mage_Customer_Block_Address_Renderer_Interface
 {
     /**
      * Format type object
@@ -49,7 +51,9 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
 
     public function getFormat(Mage_Customer_Model_Address_Abstract $address=null)
     {
-        $countryFormat = is_null($address) ? false : $address->getCountryModel()->getFormat($this->getType()->getCode());
+        $countryFormat = is_null($address)
+            ? false
+            : $address->getCountryModel()->getFormat($this->getType()->getCode());
         $format = $countryFormat ? $countryFormat->getFormat() : $this->getType()->getDefaultFormat();
         return $format;
     }

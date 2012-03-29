@@ -964,4 +964,11 @@ interface Varien_Db_Adapter_Interface
      * @return mixed
      */
     public function decodeVarbinary($value);
+
+    /**
+     * Get adapter transaction level state. Return 0 if all transactions are complete
+     *
+     * @return int
+     */
+    public function getTransactionLevel();
 }

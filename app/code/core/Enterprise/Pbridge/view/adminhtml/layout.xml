@@ -21,4 +21,9 @@
         <block type="Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="1" />
     </adminhtml_pbridge_result>
 
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab"><name>customer_edit_tab_payment_profile</name><block>enterprise_pbridge/adminhtml_customer_edit_tab_payment_profile</block></action>
+        </reference>
+    </adminhtml_customer_edit>
 </layout>

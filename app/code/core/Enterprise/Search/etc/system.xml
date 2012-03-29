@@ -151,6 +151,7 @@
                         <search_recommendations_count translate="label">
                             <label>Search Recommendations Count</label>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-digits</validate>
                             <sort_order>81</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -50,6 +50,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Rea
         $html .= '<input type="text" '
             . 'name="items[' . $row->getId() . '][reason_other]" '
             . 'value="' . $this->escapeHtml($row->getReasonOther()) . '" '
+            . 'maxlength="255" '
             . 'class="input-text ' . $this->getColumn()->getInlineCss() . '" '
             . 'style="display:none" />';
 

@@ -264,10 +264,12 @@ if (!window.Varien)
     var Varien = new Object();
 
 Varien.showLoading = function(){
-    Element.show('loading-process');
+    var loader = $('loading-process');
+    loader && loader.show();
 }
 Varien.hideLoading = function(){
-    Element.hide('loading-process');
+    var loader = $('loading-process');
+    loader && loader.hide();
 }
 Varien.GlobalHandlers = {
     onCreate: function() {

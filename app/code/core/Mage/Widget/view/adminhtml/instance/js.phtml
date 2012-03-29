@@ -15,6 +15,10 @@ function setSettings(urlTemplate, typeElement, packageThemeElement) {
     var template = new Template(urlTemplate, templateSyntax);
     typeElement = $F(typeElement);
     packageThemeElement = $F(packageThemeElement).replace(/\//g, "-");
+    if (typeElement == '') {
+        alert('<?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('Mage_Widget_Helper_Data')->__('Undefined Widget Type.')); ?>');
+        return false;
+    }
     setLocation(template.evaluate({
         'type':    typeElement,
         'package_theme': packageThemeElement

@@ -24,6 +24,8 @@
             <?php endif; ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php /* Extensions placeholder */ ?>
+    <?php echo $this->getChildHtml('customer.form.login.extra')?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <div class="fieldset">
             <div class="col2-set">

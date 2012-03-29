@@ -13,11 +13,7 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-Enterprise.Wishlist.list = [
-<?php foreach($this->getWishlists() as $wishlist): ?>
-    {id: <?php echo $wishlist->getId();?>, name: '<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->escapeHtml($wishlist->getName())); ?>'},
-<?php endforeach; ?>
-];
+Enterprise.Wishlist.list = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getWishlistShortList()); ?>;
 if (!Enterprise.Wishlist.url) {
     Enterprise.Wishlist.url = {};
 }

@@ -57,33 +57,24 @@ while ($staging = $stagingCollection->fetchItem()) {
 if (!empty($backupTablesList)) {
     $connection = $installer->getConnection();
 
-    try {
-        $connection->beginTransaction();
+    foreach ($backupTablesList as $backupTable) {
+        foreach($connection->getForeignKeys($backupTable) as $keyName => $keyInfo) {
+            $connection->dropForeignKey($backupTable, $keyName);
 
-        foreach ($backupTablesList as $backupTable) {
-            foreach($connection->getForeignKeys($backupTable) as $keyName => $keyInfo) {
-                $connection->dropForeignKey($backupTable, $keyName);
+            $correctFkName = $connection->getForeignKeyName(
+                $keyInfo['TABLE_NAME'],
+                $keyInfo['COLUMN_NAME'],
+                $keyInfo['REF_TABLE_NAME'],
+                $keyInfo['REF_COLUMN_NAME']
+            );
 
-                $correctFkName = $connection->getForeignKeyName(
-                    $keyInfo['TABLE_NAME'],
-                    $keyInfo['COLUMN_NAME'],
-                    $keyInfo['REF_TABLE_NAME'],
-                    $keyInfo['REF_COLUMN_NAME']
-                );
-
-                $connection->addForeignKey(
-                    $correctFkName,
-                    $keyInfo['TABLE_NAME'],
-                    $keyInfo['COLUMN_NAME'],
-                    $keyInfo['REF_TABLE_NAME'],
-                    $keyInfo['REF_COLUMN_NAME']
-                );
-            }
+            $connection->addForeignKey(
+                $correctFkName,
+                $keyInfo['TABLE_NAME'],
+                $keyInfo['COLUMN_NAME'],
+                $keyInfo['REF_TABLE_NAME'],
+                $keyInfo['REF_COLUMN_NAME']
+            );
         }
-
-        $connection->commit();
-    } catch (Exception $e) {
-        $connection->rollback();
-        throw $e;
     }
 }

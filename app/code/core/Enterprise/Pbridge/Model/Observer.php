@@ -54,6 +54,36 @@ class Enterprise_Pbridge_Model_Observer
     }
 
     /**
+     * Update Payment Profiles functionality switcher
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Pbridge_Model_Observer
+     */
+    public function updatePaymentProfileStatus(Varien_Event_Observer $observer)
+    {
+        $groups = $observer->getEvent()->getData('object')->getGroups();
+
+        $profileStatus = null;
+        $braintreeEnabled = isset($groups['braintree_basic']['fields']['active']['value'])
+            && $groups['braintree_basic']['fields']['active']['value']
+            && isset($groups['braintree_basic']['fields']['payment_profiles_enabled']['value'])
+            && $groups['braintree_basic']['fields']['payment_profiles_enabled']['value'];
+        $authorizenetEnabled = isset($groups['authorizenet']['fields']['active']['value'])
+            && $groups['authorizenet']['fields']['active']['value']
+            && isset($groups['authorizenet']['fields']['payment_profiles_enabled']['value'])
+            && $groups['authorizenet']['fields']['payment_profiles_enabled']['value'];
+
+        if ($braintreeEnabled || $authorizenetEnabled) {
+            $profileStatus = 1;
+        } elseif (isset($groups['braintree_basic']['fields']) || isset($groups['authorizenet']['fields'])) {
+            $profileStatus = 0;
+        }
+        if ($profileStatus !== null) {
+            Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus);
+        }
+        return $this;
+    }
+
+    /**
      * Return system config value by key for specified payment method
      *
      * @param string $key

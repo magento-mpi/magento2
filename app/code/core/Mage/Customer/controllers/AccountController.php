@@ -165,7 +165,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $session = $this->_getSession();
 
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl()) {
-
             // Set default URL to redirect customer to
             $session->setBeforeAuthUrl(Mage::helper('Mage_Customer_Helper_Data')->getAccountUrl());
             // Redirect customer to the last page visited after logging in
@@ -554,7 +553,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             }
             $this->_getSession()
-                ->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Customer_Helper_Data')->escapeHtml($email)));
+                ->addSuccess(Mage::helper('Mage_Customer_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('customer')->escapeHtml($email)));
             $this->_redirect('*/*/');
             return;
         } else {
