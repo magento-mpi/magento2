@@ -425,12 +425,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     /**
      * @param Mage_Core_Block_Abstract|string $block
-     * @param string $siblingName
-     * @param bool $after
+     * @param string|null $siblingName
+     * @param bool|null $after
      * @param string $alias
      * @return Mage_Core_Block_Abstract|bool
      */
-    public function insert($block, $siblingName = '', $after = false, $alias = '')
+    public function insert($block, $siblingName = null, $after = null, $alias = '')
     {
         $layout = $this->getLayout();
         if (!$layout) {

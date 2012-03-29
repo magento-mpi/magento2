@@ -207,14 +207,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
     /**
      * Create layout blocks hierarchy from layout xml configuration
-     *
-     * @param Mage_Core_Model_Layout_Element|null $parent
      */
-    public function generateBlocks($parent=null)
+    public function generateBlocks()
     {
-        if (empty($parent)) {
-            $parent = $this->getNode();
-        }
+        $this->_generateBlocks($this->getNode());
+        $this->_structure->sortElements();
+    }
+
+    /**
+     * Recursive function, that goes through whole layout and create layout blocks hierarchy from xml configuration
+     *
+     * @param Mage_Core_Model_Layout_Element $parent
+     */
+    protected function _generateBlocks($parent)
+    {
         /** @var Mage_Core_Model_Layout_Element $node  */
         foreach ($parent as $node) {
             $attributes = $node->attributes();
@@ -225,11 +231,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case 'container':
                 case 'block':
                     $this->_generateElement($node, $parent);
-                    $this->generateBlocks($node);
+                    $this->_generateBlocks($node);
                     break;
 
                 case 'reference':
-                    $this->generateBlocks($node);
+                    $this->_generateBlocks($node);
                     break;
 
                 case 'action':
@@ -265,8 +271,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $alias = $name;
         }
 
+        if (isset($node['after'])) {
+            $after = true;
+        } else if (isset($node['before'])) {
+            $after = false;
+        } else {
+            $after = null;
+        }
         $sibling = $node->getSibling();
-        $after = !isset($node['before']);
 
         $options = $this->_extractContainerOptions($node);
         $elementName = $this->_structure
@@ -408,11 +420,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $parentName
      * @param string $name
      * @param string $alias
-     * @param bool $after
-     * @param string $sibling
+     * @param bool|null $after
+     * @param string|null $sibling
      * @return bool|string
      */
-    public function insertContainer($parentName, $name, $alias = '', $after = true, $sibling = '')
+    public function insertContainer($parentName, $name, $alias = '', $after = null, $sibling = null)
     {
         return $this->_structure->insertContainer($parentName, $name, $alias, $after, $sibling);
     }

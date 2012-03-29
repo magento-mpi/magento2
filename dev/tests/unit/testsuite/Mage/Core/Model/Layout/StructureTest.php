@@ -108,7 +108,7 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
     {
         $name = 'name';
         $options = array('attribute' => 'value');
-        $this->_model->insertElement('', $name, 'block', '', '', '', $options);
+        $this->_model->insertElement('', $name, 'block', '', null, null, $options);
         $this->assertEquals($options['attribute'], $this->_model->getElementAttribute($name, 'attribute'));
         $this->assertEquals('', $this->_model->getElementAttribute($name, 'invalid_attribute'));
     }
@@ -351,5 +351,138 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         // container under container
         $this->assertEquals('container2', $this->_model->insertContainer('container1', 'container2'));
         $this->assertTrue($this->_model->isManipulationAllowed('container2'));
+    }
+
+    /**
+     * @param array $instructions
+     * @param array $expectations
+     * @dataProvider sortElementsDataProvider
+     */
+    public function testSortElements($instructions, $expectations)
+    {
+        if (isset($expectations['incomplete'])) {
+            $this->markTestIncomplete('MAGETWO-839');
+        }
+        $this->_buildLayout($instructions);
+
+        $this->_model->sortElements();
+
+        foreach ($expectations as $parentName => $expectedChildNames) {
+            $actualChildNames = $this->_model->getChildNames($parentName);
+            $this->assertEquals($expectedChildNames, $actualChildNames);
+        }
+    }
+
+    /**
+     * Goes through instructions and adds blocks and containers to build a required layout structure
+     *
+     * @param array $instructions
+     */
+    protected function _buildLayout($instructions)
+    {
+        $this->_model->insertBlock('', 'root');
+        foreach ($instructions as $instruction) {
+            $parentName = isset($instruction['parent']) ? $instruction['parent'] : 'root';
+            $name = $instruction['name'];
+            if (isset($instruction['before'])) {
+                $after = false;
+                $sibling = $instruction['before'];
+            } else if (isset($instruction['after'])) {
+                $after = true;
+                $sibling = $instruction['after'];
+            } else {
+                $after = null;
+                $sibling = null;
+            }
+            $type = isset($instruction['type'])
+                ? $instruction['type'] : Mage_Core_Model_Layout_Structure::ELEMENT_TYPE_BLOCK;
+            $this->_model->insertElement($parentName, $name, $type, '', $after, $sibling);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function sortElementsDataProvider()
+    {
+        return array(
+            'at_top' => array(
+                'instructions' => array(
+                    array('name' => 'element1'),
+                    array('name' => 'element2'),
+                    array('name' => 'element3', 'before' => '-')
+                ),
+                'expectations' => array(
+                    'root' => array('element3', 'element1', 'element2')
+                )
+            ),
+            'at_bottom' => array(
+                'instructions' => array(
+                    array('name' => 'element1'),
+                    array('name' => 'element2', 'after' => '-'),
+                    array('name' => 'element3')
+                ),
+                'expectations' => array(
+                    'root' => array('element1', 'element3', 'element2')
+                )
+            ),
+            'after_further_created_element' => array(
+                'instructions' => array(
+                    array('name' => 'element1', 'after' => 'element2'),
+                    array('name' => 'element2')
+                ),
+                'expectations' => array(
+                    'root' => array('element2', 'element1')
+                )
+            ),
+            'before_further_created_element_deeper' => array(
+                'instructions' => array(
+                    array('name' => 'element1'),
+                    array('name' => 'element2'),
+                    array('name' => 'element2_1', 'parent' => 'element2'),
+                    array('name' => 'element2_2', 'parent' => 'element2', 'before' => 'element2_4'),
+                    array('name' => 'element2_3', 'parent' => 'element2'),
+                    array('name' => 'element2_4', 'parent' => 'element2')
+                ),
+                'expectations' => array(
+                    'root' => array('element1', 'element2'),
+                    'element1' => array(),
+                    'element2' => array('element2_1', 'element2_3', 'element2_2', 'element2_4')
+                )
+            ),
+            'before_element_that_is_after_another_element' => array(
+                'instructions' => array(
+                    array('name' => 'element1', 'before' => 'element2'),
+                    array('name' => 'element2', 'after' => 'element3'),
+                    array('name' => 'element3', 'before' => '-')
+                ),
+                'expectations' => array(
+                    'incomplete' => true,
+                    'root' => array('element3', 'element1', 'element2')
+                )
+            ),
+            'after_element_that_is_after_further_element' => array(
+                'instructions' => array(
+                    array('name' => 'element1', 'after' => 'element2'),
+                    array('name' => 'element2', 'after' => 'element3'),
+                    array('name' => 'element3')
+                ),
+                'expectations' => array(
+                    'incomplete' => true,
+                    'root' => array('element3', 'element2', 'element1')
+                )
+            ),
+            'before_further_element_that_is_before_previous_element' => array(
+                'instructions' => array(
+                    array('name' => 'element1', 'before' => 'element3'),
+                    array('name' => 'element2', 'before' => 'element1'),
+                    array('name' => 'element3', 'before' => 'element_non_existing')
+                ),
+                'expectations' => array(
+                    'incomplete' => true,
+                    'root' => array('element2', 'element1', 'element3')
+                )
+            )
+        );
     }
 }
