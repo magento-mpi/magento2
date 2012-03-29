@@ -1043,11 +1043,11 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
             'Invalid "is_decimal_divided" value in the "stock_data" set.',
             'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
-            . 'Please avoid spaces or other characters such as dots or commas.',
+            . 'Please avoid spaces or other non numeric characters.',
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
