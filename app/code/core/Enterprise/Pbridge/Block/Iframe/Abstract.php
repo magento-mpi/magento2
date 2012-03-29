@@ -271,7 +271,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     {
         $customer = $this->_getCurrentCustomer();
         if ($customer && $customer->getEmail()) {
-            return Mage::helper('enterprise_pbridge')->getCustomerIdentifierByEmail($customer->getEmail());
+            return Mage::helper('enterprise_pbridge')->getCustomerIdentifierByEmail($customer->getId());
         }
         return null;
     }
