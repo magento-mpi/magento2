@@ -279,7 +279,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      */
     public function addProductName()
     {
-        $productsId = array();
+        $productsId   = array();
         $productsData = array();
 
         foreach ($this->getItems() as $item) {
@@ -319,7 +319,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      */
     public function addProductToSelect()
     {
-        $resource    = Mage::getModel('catalog/product')->getResource();
+        $resource = Mage::getModel('catalog/product')->getResource();
 
         // add product attributes to select
         foreach (array('name' => 'value') as $field => $fieldName) {
