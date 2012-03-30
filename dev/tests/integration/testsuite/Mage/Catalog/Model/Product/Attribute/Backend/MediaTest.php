@@ -27,7 +27,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
     public static function setUpBeforeClass()
     {
         self::$_mediaTmpDir = Mage::getSingleton('catalog/product_media_config')->getTmpMediaPath();
-        $fixturesDir        = realpath(__DIR__.'/../../../../_files');
+        $fixturesDir        = realpath(dirname(__FILE__).'/../../../../_files');
         $mediaDir           = Mage::getSingleton('catalog/product_media_config')->getMediaPath();
 
         mkdir($mediaDir, 0777, true);

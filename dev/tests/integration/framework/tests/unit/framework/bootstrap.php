@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$rootDir = realpath(__DIR__ . '/../../../../../../../');
+$rootDir = realpath(dirname(__FILE__) . '/../../../../../../../');
 $codeDirs = array(
     $rootDir . '/lib/',
     $rootDir . '/app/', // locate Mage.php

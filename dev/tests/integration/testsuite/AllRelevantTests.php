@@ -19,7 +19,7 @@ class AllRelevantTests
         $suite = new Magento_Test_TestSuite_ModuleGroups(false);
         $suite->addTestFiles(
             File_Iterator_Factory::getFileIterator(
-                array(__DIR__),
+                array(dirname(__FILE__)),
                 array('Test.php')
             )
         );

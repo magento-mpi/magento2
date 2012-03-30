@@ -32,7 +32,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
 
     public static function setUpBeforeClass()
     {
-        self::$_fixtureDir = realpath(__DIR__ . '/../../../../_files');
+        self::$_fixtureDir = realpath(dirname(__FILE__) . '/../../../../_files');
         $mediaTmpDir = Mage::getSingleton('catalog/product_media_config')->getTmpMediaPath();
         mkdir("$mediaTmpDir/m/a", 0777, true);
         copy(self::$_fixtureDir . '/magento_image.jpg', $mediaTmpDir . '/m/a/magento_image.jpg');

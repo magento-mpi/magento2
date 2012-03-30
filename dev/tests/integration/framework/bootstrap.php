@@ -9,9 +9,12 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/Magento/Test/Bootstrap.php';
+ini_set('display_errors', true);
+error_reporting(E_ALL);
 
-$baseDir = dirname(__DIR__);
+require dirname(__FILE__) . '/Magento/Test/Bootstrap.php';
+
+$baseDir = dirname(dirname(__FILE__));
 
 /*
  * Setup include path for autoload purpose.

@@ -23,7 +23,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         /* Point application to predefined layout fixtures */
         Mage::getConfig()->setOptions(array(
-            'design_dir' => dirname(__DIR__) . '/_files/design',
+            'design_dir' => dirname(dirname(__FILE__)) . '/_files/design',
         ));
         Mage::getDesign()->setPackageName('test')
             ->setTheme('default');
@@ -86,7 +86,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             </core>
         ');
         $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+            dirname(__FILE__) . '/../_files/design/frontend/test/default/layout/core.xml'
         );
         $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
@@ -110,7 +110,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             </page>
         ');
         $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+            dirname(__FILE__) . '/../_files/design/frontend/test/default/layout/core.xml'
         );
         $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());

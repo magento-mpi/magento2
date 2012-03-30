@@ -44,7 +44,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith('frontend', $this->_block->getTemplateFile());
 
-        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
 
         // with template
         $template = 'dummy.phtml';
@@ -75,10 +75,10 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testAssign()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
 
         $this->_block->assign(array('varOne' => 'value1', 'varTwo' => 'value2'))
-            ->setScriptPath(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+            ->setScriptPath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
         $template = 'template_test_assign.phtml';
         $this->assertEquals('value1, value2', $this->_block->fetchView($template));
     }
@@ -120,7 +120,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testRenderView()
     {
         $this->assertEmpty($this->_block->renderView());
-        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
         Mage::getDesign()->setTheme('default');
         Mage::getDesign()->setPackageName('default');
         $this->_block->setTemplate('dummy.phtml');

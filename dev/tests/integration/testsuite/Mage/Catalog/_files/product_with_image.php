@@ -11,7 +11,7 @@
 
 $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 mkdir($mediaDir . '/m/a', 0777, true);
-copy(__DIR__ . '/magento_image.jpg', $mediaDir . '/m/a/magento_image.jpg');
+copy(dirname(__FILE__) . '/magento_image.jpg', $mediaDir . '/m/a/magento_image.jpg');
 
 
 $product = new Mage_Catalog_Model_Product();

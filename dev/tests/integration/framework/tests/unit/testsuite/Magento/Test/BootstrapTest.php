@@ -38,11 +38,11 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::$_magentoDir     = realpath(__DIR__ . '/../../../../../../../../..');
-        self::$_localXmlFile   = realpath(__DIR__ . '/../../../../../../etc/local-mysql.xml.dist');
-        self::$_globalEtcFiles = realpath(__DIR__ . '/../../../../../../../../../app/etc/*.xml');
-        self::$_moduleEtcFiles = realpath(__DIR__ . '/../../../../../../../../../app/etc/modules/*.xml');
-        self::$_tmpDir         = realpath(__DIR__ . '/../../../../../../tmp');
+        self::$_magentoDir     = realpath(dirname(__FILE__) . '/../../../../../../../../..');
+        self::$_localXmlFile   = realpath(dirname(__FILE__) . '/../../../../../../etc/local-mysql.xml.dist');
+        self::$_globalEtcFiles = realpath(dirname(__FILE__) . '/../../../../../../../../../app/etc/*.xml');
+        self::$_moduleEtcFiles = realpath(dirname(__FILE__) . '/../../../../../../../../../app/etc/modules/*.xml');
+        self::$_tmpDir         = realpath(dirname(__FILE__) . '/../../../../../../tmp');
     }
 
     public static function tearDownAfterClass()
@@ -195,7 +195,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'non existing local.xml' => array('local-non-existing.xml'),
-            'invalid local.xml'      => array(__DIR__ . '/Bootstrap/_files/local-invalid.xml'),
+            'invalid local.xml'      => array(dirname(__FILE__) . '/Bootstrap/_files/local-invalid.xml'),
         );
     }
 
@@ -212,8 +212,8 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'mysql'  => array(self::$_localXmlFile, 'mysql'),
-            'mssql'  => array(realpath(__DIR__ . '/../../../../../../etc/local-mssql.xml.dist'),  'mssql'),
-            'oracle' => array(realpath(__DIR__ . '/../../../../../../etc/local-oracle.xml.dist'), 'oracle'),
+            'mssql'  => array(realpath(dirname(__FILE__) . '/../../../../../../etc/local-mssql.xml.dist'),  'mssql'),
+            'oracle' => array(realpath(dirname(__FILE__) . '/../../../../../../etc/local-oracle.xml.dist'), 'oracle'),
         );
     }
 

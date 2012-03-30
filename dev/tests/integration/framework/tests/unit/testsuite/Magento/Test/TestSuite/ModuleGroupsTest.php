@@ -148,7 +148,7 @@ class Magento_Test_TestSuite_ModuleGroupsTest extends PHPUnit_Framework_TestCase
     protected function _fillTests($suite)
     {
         $fileIterator = File_Iterator_Factory::getFileIterator(
-            array(__DIR__ . '/_files/ModuleGroups'),
+            array(dirname(__FILE__) . '/_files/ModuleGroups'),
             '.php'
         );
 
