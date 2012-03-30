@@ -114,7 +114,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Additional params for navigation URL
      * @var string
      */
-    private $_urlPostfix = '';
+    private $_urlPostfix;
 
     /**
      * Testcase error
