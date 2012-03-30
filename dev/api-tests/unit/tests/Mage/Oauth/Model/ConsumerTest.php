@@ -81,6 +81,10 @@ class Mage_Oauth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
         $this->_lengthValidatorMock = $this->getModelMockBuilder('oauth/consumer_validator_keyLength')
             ->setMethods(array('isValid'))
             ->getMock();
+
+        $this->_lengthValidatorMock->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(true));
     }
 
     /**
