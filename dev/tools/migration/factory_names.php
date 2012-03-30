@@ -12,8 +12,7 @@
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
 
 // PHP code
-foreach (Util_Files::getPhpFiles() as $file) {
-    $file = array_shift($file);
+foreach (Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
     $classes = Legacy_ClassesTest::collectPhpCodeClasses($content);
     $factoryNames = array_filter($classes, 'isFactoryName');
@@ -43,10 +42,9 @@ foreach (Util_Files::getPhpFiles() as $file) {
 }
 
 // layouts
-foreach (Util_Files::getLayoutFiles() as $file) {
-    $file = array_shift($file);
+foreach (Utility_Files::init()->getLayoutFiles(array(), false) as $file) {
     $xml = simplexml_load_file($file);
-    $classes = Util_Classes::collectLayoutClasses($xml);
+    $classes = Utility_Classes::collectLayoutClasses($xml);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
