@@ -76,18 +76,18 @@
             <action method="setTemplate">
                 <template>oauth/authorize/head-simple.phtml</template>
             </action>
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml" />
+            <block type="oauth/authorize_style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
         </reference>
     </oauth_authorize_head_simple>
 
     <adminhtml_oauth_authorize_index translate="label">
         <label>OAuth authorization for admin</label>
         <reference name="root">
-            <action method="setTemplate"><template>empty.phtml</template></action>
+            <action method="setTemplate"><template>Mage_Page::empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
-            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
+            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
+            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
 
@@ -112,10 +112,10 @@
     <adminhtml_oauth_authorize_confirm translate="label">
         <label>Confirm token authorization for admin</label>
         <reference name="root">
-            <action method="setTemplate"><template>empty.phtml</template></action>
+            <action method="setTemplate"><template>Mage_Page::empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml" />
+            <block type="core/template" name="oauth.authorize.confirm" template="Mage_OAuth:authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
 
@@ -136,11 +136,11 @@
         <label>Reject token authorization for admin</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>empty.phtml</template>
+                <template>Mage_Page::empty.phtml</template>
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml" />
+            <block type="core/template" name="oauth.authorize.reject" template="Mage_OAuth:authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
 

@@ -34,7 +34,7 @@
             <action method="setTemplate">
                 <template>oauth/authorize/head-simple.phtml</template>
             </action>
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="oauth/authorize/simple-css.phtml" />
+            <block type="oauth/authorize_style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
         </reference>
     </oauth_authorize_head_simple>
 
@@ -46,8 +46,8 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
-            <block type="oauth/authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
+            <block type="oauth/authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
+            <block type="oauth/authorize_button" name="oauth.authorize.button" template="authorize/button.phtml" />
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -91,7 +91,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize_button" name="oauth.authorize.confirm" template="oauth/authorize/confirm.phtml"/>
+            <block type="oauth/authorize_button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -129,7 +129,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize_button" name="oauth.authorize.reject" template="oauth/authorize/reject.phtml"/>
+            <block type="oauth/authorize_button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -146,7 +146,7 @@
         <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/empty.phtml</template>
+                <template>Mage_Page::empty.phtml</template>
             </action>
         </reference>
         <remove name="header"/>
@@ -173,7 +173,7 @@
         <label>Customer My Account My OAuth Applications</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="oauth/customer_token_list" name="oauth_customer_token_list" template="oauth/customer/token/list.phtml"/>
+            <block type="oauth/customer_token_list" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
         </reference>
     </oauth_customer_token_index>
     <!-- EOF My Applications-->

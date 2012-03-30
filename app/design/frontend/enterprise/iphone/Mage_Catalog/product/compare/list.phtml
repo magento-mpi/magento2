@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    design
  * @package     base_default
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /* @var $this Mage_Catalog_Block_Product_Compare_List */
 ?>
@@ -44,24 +28,24 @@
                         <div class="compare-back-link">
                             <a href="javascript:history.back(1);">Back</a>
                         </div>
-                        <a href="#" onclick="removeAll(event, '<?php echo $this->helper('catalog/product_compare')->getClearListUrl(); ?>');" class="compare-clear-all">Clear All</a>
+                        <a href="#" onclick="removeAll(event, '<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getClearListUrl(); ?>');" class="compare-clear-all">Clear All</a>
                     </th>
                 <?php endif; ?>
                 <td>
                     <a class="product-image" href="#" onclick="setLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>">
-                        <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" />
+                        <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" />
                     </a>
                     <span class="loader" style="display:none;"></span>
-                    <a href="#" class="btn-remove" onclick="removeItem(event, '<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>', this);"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" height="10" width="10" /></a>
-                    <h2 class="product-name"><a href="#" onclick="setLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><?php echo $this->helper('catalog/output')->productAttribute($_item, $_item->getName(), 'name') ?></a></h2>
+                    <a href="#" class="btn-remove" onclick="removeItem(event, '<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>', this);"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" height="10" width="10" /></a>
+                    <h2 class="product-name"><a href="#" onclick="setLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><?php echo $this->helper('Mage_Catalog_Helper_Output')->productAttribute($_item, $_item->getName(), 'name') ?></a></h2>
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
-                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <ul class="add-to-links">
                             <li><a href="#" class="link-wishlist" onclick="setLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></li>
                         </ul>
@@ -85,13 +69,13 @@
                                 <?php echo $this->getPriceHtml($_item, true, '-compare-list-' . $_attribute->getCode()) ?>
                                 <?php break;
                             case "small_image": ?>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" />
+                                <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" />
                                 <?php break;
                             case "date":
                                   echo substr($this->getProductAttributeValue($_item, $_attribute),0,10);
                                   break;
                             default: ?>
-                                <?php echo $this->helper('catalog/output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
+                                <?php echo $this->helper('Mage_Catalog_Helper_Output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
                                 <?php break;
                         } ?>
                     </div>
@@ -110,11 +94,11 @@
                 <td>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-bottom') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
-                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <ul class="add-to-links">
                             <li><a href="#" class="link-wishlist" onclick="setLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></li>
                         </ul>

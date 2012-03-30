@@ -193,8 +193,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <api2>
-                    <file>api2.xml</file>
+                <api2 module="Mage_Api2">
+                    <file>layout.xml</file>
                 </api2>
             </updates>
         </layout>

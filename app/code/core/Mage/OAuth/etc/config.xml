@@ -129,8 +129,8 @@
         </translate>
         <layout>
             <updates>
-                <oauth>
-                    <file>oauth.xml</file>
+                <oauth module="Mage_OAuth">
+                    <file>layout.xml</file>
                 </oauth>
             </updates>
         </layout>
@@ -147,8 +147,8 @@
         </routers>
         <layout>
             <updates>
-                <oauth>
-                    <file>oauth.xml</file>
+                <oauth module="Mage_OAuth">
+                    <file>layout.xml</file>
                 </oauth>
             </updates>
         </layout>

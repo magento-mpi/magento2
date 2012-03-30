@@ -1,49 +1,35 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    design
  * @package     base_default
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 -->
 <layout version="0.1.0">
-    <sales_billing_agreement_index>
+    <sales_billing_agreement_index translate="label" type="page" parent="customer_account_index">
+        <label>Billing Agreement</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreements" name="customer.account.billing.agreement" template="sales/billing/agreements.phtml"/>
+            <block type="Mage_Sales_Block_Billing_Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
         </reference>
     </sales_billing_agreement_index>
 
-    <sales_billing_agreement_view>
+    <sales_billing_agreement_view translate="label" type="page" parent="sales_billing_agreement_index">
+        <label>Billing Agreement View</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreement_view" name="customer.account.billing.agreement" template="sales/billing/agreement/view.phtml"/>
+            <block type="Mage_Sales_Block_Billing_Agreement_View" name="customer.account.billing.agreement" template="billing/agreement/view.phtml"/>
         </reference>
     </sales_billing_agreement_view>
 

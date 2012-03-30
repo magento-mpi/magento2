@@ -1,28 +1,12 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    design
  * @package     default_iphone
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 Supported layout update handles (action):
@@ -69,7 +53,7 @@ Load this update on every page when customer is logged out
 
     <customer_logged_out>
         <!---<reference name="right">
-            <block type="customer/form_login" name="customer_form_mini_login" before="-" template="customer/form/mini.login.phtml"/>
+            <block type="Mage_Customer_Block_Form_Login" name="customer_form_mini_login" before="-" template="form/mini.login.phtml"/>
         </reference>-->
         <reference name="top.links">
             <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>100</position></action>
@@ -88,11 +72,11 @@ Layout for customer login page
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml">
-                <block type="core/captcha" name="captcha">
+            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml">
+                <block type="Mage_Core_Block_Captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>
@@ -108,17 +92,17 @@ Layout for customer login page
 Layout for customer log out page
 -->
 
-    <customer_account_logoutsuccess translate="label">
+    <customer_account_logoutsuccess translate="label" type="page" parent="customer_account">
         <label>Customer Account Logout Success</label>
         <!-- Mage_Customer -->
         <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="customer_logout" template="customer/logout.phtml"/>
+            <block type="Mage_Core_Block_Template" name="customer_logout" template="Mage_Customer::logout.phtml"/>
         </reference>
     </customer_account_logoutsuccess>
 
@@ -126,21 +110,19 @@ Layout for customer log out page
 New customer registration
 -->
 
-    <customer_account_create translate="label">
+    <customer_account_create translate="label" type="page" parent="customer_account">
         <label>Customer Account Registration Form</label>
         <!-- Mage_Customer -->
         <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="customer/form_register" name="customer_form_register" template="customer/form/register.phtml">
-                <block type="page/html_wrapper" name="customer.form.register.fields.before" as="form_fields_before" translate="label">
-                    <label>Form Fields Before</label>
-                </block>
-                <block type="core/captcha" name="captcha">
+            <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
+                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
+                <block type="Mage_Core_Block_Captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>
@@ -152,19 +134,19 @@ New customer registration
         </reference>
     </customer_account_create>
 
-    <customer_account_forgotpassword translate="label">
+    <customer_account_forgotpassword translate="label" type="page" parent="customer_account">
         <label>Customer Forgot Password Form</label>
         <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-            <action method="setHeaderTitle" translate="title" module="customer"><title>Password forgotten</title></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Password forgotten</title></action>
         </reference>
         <reference name="content">
-            <!--<block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>-->
-            <block type="customer/account_forgotpassword" name="forgotPassword" template="customer/form/forgotpassword.phtml">
-                <block type="core/captcha" name="captcha">
+            <!--<block type="Mage_Core_Block_Template" name="forgotPassword" template="Mage_Customer::form/forgotpassword.phtml"/>-->
+            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml">
+                <block type="Mage_Core_Block_Captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
                     </reference>
@@ -176,27 +158,28 @@ New customer registration
         </reference>
     </customer_account_forgotpassword>
 
-    <customer_account_confirmation>
+    <customer_account_confirmation translate="label" type="page" parent="customer_account">
+        <label>Customer Account Confirmation</label>
         <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-            <action method="setHeaderTitle" translate="title" module="customer"><title>Send confirmation link</title></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Send confirmation link</title></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="accountConfirmation" template="customer/form/confirmation.phtml"/>
+            <block type="Mage_Core_Block_Template" name="accountConfirmation" template="Mage_customer::form/confirmation.phtml"/>
         </reference>
     </customer_account_confirmation>
 
-    <customer_account_edit translate="label">
+    <customer_account_edit translate="label" type="page" parent="customer_account">
         <label>Customer Account Edit Form</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="customer"><title>Edit Account Info</title></action>
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Edit Account Info</title></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="customer/form_edit" name="customer_edit" template="customer/form/edit.phtml"/>
+            <block type="Mage_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml"/>
         </reference>
 
         <reference name="left">
@@ -208,27 +191,24 @@ New customer registration
 Customer account pages, rendered for all tabs in dashboard
 -->
 
-    <customer_account translate="label">
+    <customer_account translate="label" type="page" parent="default">
         <label>Customer My Account (All Pages)</label>
         <!--remove name="catalog.compare.sidebar"/>
         <remove name="sale.reorder.sidebar"/-->
         <!-- Mage_Customer -->
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
 
         <reference name="content">
-            <block type="page/html_wrapper" name="my.account.wrapper" translate="label">
-                <label>My Account Wrapper</label>
-                <action method="setElementClass"><value>my-account</value></action>
-            </block>
+            <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
 
         <reference name="content">
-            <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
-                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
-                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
-                <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+            <block type="Mage_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
+                <action method="addLink" translate="label" module="Mage_Customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+                <action method="addLink" translate="label" module="Mage_Customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
+                <action method="addLink" translate="label" module="Mage_Customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
             </block>
             <remove name="tags_popular"/>
 
@@ -239,20 +219,20 @@ Customer account pages, rendered for all tabs in dashboard
 Customer account home dashboard layout
 -->
 
-    <customer_account_index translate="label">
+    <customer_account_index translate="label" type="page" parent="customer_account">
         <label>Customer My Account Dashboard</label>
         <update handle="customer_account"/>
         <!-- Mage_Customer -->
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="customer/account_dashboard" name="customer_account_dashboard" template="customer/account/dashboard.phtml">
-                <block type="customer/account_dashboard_hello" name="customer_account_dashboard_hello" as="hello" template="customer/account/dashboard/hello.phtml"/>
-                <block type="core/template" name="customer_account_dashboard_top" as="top" />
-                <block type="customer/account_dashboard_info" name="customer_account_dashboard_info" as="info" template="customer/account/dashboard/info.phtml"/>
-                <block type="customer/account_dashboard_newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="customer/account/dashboard/newsletter.phtml"/>
-                <block type="customer/account_dashboard_address" name="customer_account_dashboard_address" as="address" template="customer/account/dashboard/address.phtml"/>
+            <block type="Mage_Customer_Block_Account_Dashboard" name="customer_account_dashboard" template="account/dashboard.phtml">
+                <block type="Mage_Customer_Block_Account_Dashboard_Hello" name="customer_account_dashboard_hello" as="hello" template="account/dashboard/hello.phtml"/>
+                <block type="Mage_Core_Block_Template" name="customer_account_dashboard_top" as="top" />
+                <block type="Mage_Customer_Block_Account_Dashboard_Info" name="customer_account_dashboard_info" as="info" template="account/dashboard/info.phtml"/>
+                <block type="Mage_Customer_Block_Account_Dashboard_Newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="account/dashboard/newsletter.phtml"/>
+                <block type="Mage_Customer_Block_Account_Dashboard_Address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml"/>
             </block>
         </reference>
 
@@ -262,12 +242,12 @@ Customer account home dashboard layout
 Customer account address book
 -->
 
-    <customer_address_index translate="label">
+    <customer_address_index translate="label" type="page" parent="customer_account_index">
         <label>Customer My Account Address Book</label>
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/address_book" name="address_book" template="customer/address/book.phtml"/>
+            <block type="Mage_Customer_Block_Address_Book" name="address_book" template="address/book.phtml"/>
         </reference>
     </customer_address_index>
 
@@ -275,12 +255,12 @@ Customer account address book
 Customer account address edit page
 -->
 
-    <customer_address_form translate="label">
+    <customer_address_form translate="label" type="page" parent="customer_address_index">
         <label>Customer My Account Address Edit Form</label>
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/address_edit" name="customer_address_edit" template="customer/address/edit.phtml"/>
+            <block type="Mage_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
     </customer_address_form>
 

@@ -40,14 +40,14 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      * Block template
      * @var string
      */
-    protected $_template = 'enterprise/pbridge/customer/edit/tab/payment/profile.phtml';
+    protected $_template = 'customer/edit/tab/payment/profile.phtml';
 
     /**
      * Default iframe template
      *
      * @var string
      */
-    protected $_iframeTemplate = 'enterprise/pbridge/iframe.phtml';
+    protected $_iframeTemplate = 'Enterprise_Pbridge::iframe.phtml';
 
     /**
      * Default iframe height

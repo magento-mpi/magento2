@@ -1,3 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
 <?php $this->setPreconfiguredValue(); ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $_associatedProducts = $this->getAssociatedProducts(); ?>
@@ -20,7 +37,7 @@
     <tbody>
     <?php if ($_hasAssociatedProducts): ?>
     <?php foreach ($_associatedProducts as $_item): ?>
-        <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+        <?php $_finalPriceInclTax = $this->helper('Mage_Tax_Helper_Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
         <tr>
             <td><?php echo $this->escapeHtml($_item->getName()) ?></td>
             <?php if ($this->getCanShowProductPrice($_product)): ?>

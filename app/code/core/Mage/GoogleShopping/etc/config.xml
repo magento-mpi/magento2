@@ -73,8 +73,8 @@
         </events>
         <layout>
             <updates>
-                <googleshopping>
-                    <file>googleshopping.xml</file>
+                <googleshopping module="Mage_GoogleShopping">
+                    <file>layout.xml</file>
                 </googleshopping>
             </updates>
         </layout>

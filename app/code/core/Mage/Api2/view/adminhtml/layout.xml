@@ -86,7 +86,7 @@
             </action>
         </reference>
         <reference name="js">
-            <block type="adminhtml/template" name="adminhtml.role.js.users.grid" template="api2/role/users_grid_js.phtml"/>
+            <block type="adminhtml/template" name="adminhtml.role.js.users.grid" template="Mage_Api2::role/users_grid_js.phtml"/>
         </reference>
     </adminhtml_api2_role_edit>
 
@@ -111,7 +111,7 @@
             </action>
         </reference>
         <reference name="js">
-            <block type="adminhtml/template" name="adminhtml.permissions.user.edit.tab.roles.js" template="api2/permissions/user/edit/tab/roles/js.phtml"/>
+            <block type="adminhtml/template" name="adminhtml.permissions.user.edit.tab.roles.js" template="Mage_Api2::permissions/user/edit/tab/roles/js.phtml"/>
         </reference>
     </adminhtml_permissions_user_edit>
 
@@ -125,7 +125,7 @@
     <adminhtml_api2_attribute_edit>
         <reference name="left">
             <block type="api2/adminhtml_attribute_tabs" name="api2.attribute.edit.tabs">
-                <block type="api2/adminhtml_attribute_tab_resource" name="api2.attribute.tab.resource" template="api2/attribute/resource.phtml"/>
+                <block type="api2/adminhtml_attribute_tab_resource" name="api2.attribute.tab.resource" template="attribute/resource.phtml"/>
                 <action method="addTab">
                     <name>api2_attribute_section_resources</name>
                     <block>api2.attribute.tab.resource</block>
