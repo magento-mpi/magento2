@@ -39,7 +39,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
