@@ -61,7 +61,7 @@ if ($attributeTableOld != $attributeTableNew) {
         ->enableTableKeys($attributeTableNew);
 }
 
-Mage::getModel('index/indexer')
+Mage::getModel('Mage_Index_Model_Indexer')
     ->getProcessByCode('catalog_category_flat')
     ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
 

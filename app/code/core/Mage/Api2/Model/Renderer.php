@@ -44,7 +44,7 @@ abstract class Mage_Api2_Model_Renderer
     public static function factory($acceptTypes)
     {
         /** @var $helper Mage_Api2_Helper_Data */
-        $helper   = Mage::helper('api2');
+        $helper   = Mage::helper('Mage_Api2_Helper_Data');
         $adapters = $helper->getResponseRenderAdapters();
 
         if (!is_array($acceptTypes)) {

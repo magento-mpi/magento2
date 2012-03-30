@@ -157,6 +157,6 @@ class Mage_Api2_Model_Dispatcher
      */
     public function getConfig()
     {
-        return Mage::getModel('api2/config');
+        return Mage::getModel('Mage_Api2_Model_Config');
     }
 }

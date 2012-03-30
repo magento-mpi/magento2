@@ -68,7 +68,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
         );
 
         /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */
-        $collection = Mage::getResourceModel('sales/order_item_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Item_Collection');
         $collection->setOrderFilter($order->getId());
         $this->_applyCollectionModifiers($collection);
         return $collection;
@@ -84,7 +84,7 @@ abstract class Mage_Sales_Model_Api2_Order_Items_Rest extends Mage_Sales_Model_A
     protected function _loadOrderById($id)
     {
         /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
         if (!$order->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

@@ -38,8 +38,8 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     public function getConfigureButtonHtml()
     {
         $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
-        $productId = $this->escapeHtml(Mage::helper('core')->jsonEncode($this->getProduct()->getId()));
-        $itemSku = $this->escapeHtml(Mage::helper('core')->jsonEncode($this->getItem()->getSku()));
+        $productId = $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getItem()->getSku()));
 
         /* @var $button Mage_Adminhtml_Block_Widget_Button */
         $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(

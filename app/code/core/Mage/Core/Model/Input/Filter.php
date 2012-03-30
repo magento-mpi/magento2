@@ -31,7 +31,7 @@
  * Example:
  * <code>
  * /** @var $filter Mage_Core_Model_Input_Filter {@*}
- * $filter = Mage::getModel('core/input_filter');
+ * $filter = Mage::getModel('Mage_Core_Model_Input_Filter');
  * $filter->setFilters(array(
  *      'list_values' => array(
  *          'children_filters' => array( //filters will applied to all children

@@ -40,7 +40,7 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('oauth/token', 'entity_id');
+        $this->_init('oauth_token', 'entity_id');
     }
 
     /**

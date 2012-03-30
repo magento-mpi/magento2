@@ -37,9 +37,9 @@ class Enterprise_Pbridge_Model_Source_Braintree_PaymentAction
     {
         return array(
             array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => Mage::helper('enterprise_pbridge')->__('Authorization')),
+                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorization')),
             array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('enterprise_pbridge')->__('Sale')),
+                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Sale')),
         );
     }
 }

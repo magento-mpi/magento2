@@ -60,11 +60,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
         $this->setId('api2_role_section_resources')
                 ->setData('default_dir', Varien_Db_Select::SQL_ASC)
                 ->setData('default_sort', 'sort_order')
-                ->setData('title', Mage::helper('api2')->__('Api Rules Information'))
+                ->setData('title', Mage::helper('Mage_Api2_Helper_Data')->__('Api Rules Information'))
                 ->setData('use_ajax', true);
 
         $this->_treeModel = Mage::getModel(
-            'api2/acl_global_rule_tree', array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
+            'Mage_Api2_Model_Acl_Global_Rule_Tree', array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
         );
     }
 
@@ -77,7 +77,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
     {
         $this->_prepareTreeModel();
         /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
 
@@ -94,7 +94,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
             $permissionModel->setFilterValue($role);
             $this->_treeModel->setResourcesPermissions($permissionModel->getResourcesPermissions());
         } else {
-            $role = Mage::getModel('api2/acl_global_role');
+            $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
         }
         $this->_treeModel->setRole($role);
         return $this;
@@ -118,7 +118,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Resources extends Mage_Adminhtml_Block
      */
     public function getTabLabel()
     {
-        return Mage::helper('api2')->__('Role API Resources');
+        return Mage::helper('Mage_Api2_Helper_Data')->__('Role API Resources');
     }
 
     /**

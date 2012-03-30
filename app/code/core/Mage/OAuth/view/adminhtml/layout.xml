@@ -29,27 +29,27 @@
     <!-- Consumers -->
     <adminhtml_oauth_consumer_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer" name="oauth_consumer"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer" name="oauth_consumer"/>
         </reference>
     </adminhtml_oauth_consumer_index>
 
     <adminhtml_oauth_consumer_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
+        <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid" name="oauth_consumer.grid" output="toHtml"/>
     </adminhtml_oauth_consumer_grid>
 
     <adminhtml_oauth_consumer_new>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
-                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit" name="oauth_consumer.edit">
+                <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form" name="form"/>
             </block>
         </reference>
     </adminhtml_oauth_consumer_new>
 
     <adminhtml_oauth_consumer_edit>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
-                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit" name="oauth_consumer.edit">
+                <block type="Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form" name="form"/>
             </block>
         </reference>
     </adminhtml_oauth_consumer_edit>
@@ -58,13 +58,13 @@
     <!-- My Applications -->
     <adminhtml_oauth_admin_token_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_admin_token" name="oauth_admin_token"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token" name="oauth_admin_token"/>
         </reference>
     </adminhtml_oauth_admin_token_index>
 
     <adminhtml_oauth_admin_token_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_admin_token_grid" name="oauth_admin_token.grid" output="toHtml"/>
+        <block type="Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid" name="oauth_admin_token.grid" output="toHtml"/>
     </adminhtml_oauth_admin_token_grid>
     <!-- EOF My Applications -->
 
@@ -76,7 +76,7 @@
             <action method="setTemplate">
                 <template>oauth/authorize/head-simple.phtml</template>
             </action>
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
+            <block type="Mage_OAuth_Block_Authorize_Style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
         </reference>
     </oauth_authorize_head_simple>
 
@@ -86,8 +86,8 @@
             <action method="setTemplate"><template>Mage_Page::empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
-            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="authorize/button.phtml" />
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button" name="oauth.authorize.button" template="authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
 
@@ -115,7 +115,7 @@
             <action method="setTemplate"><template>Mage_Page::empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="oauth.authorize.confirm" template="Mage_OAuth:authorize/confirm.phtml" />
+            <block type="Mage_Core_Block_Template" name="oauth.authorize.confirm" template="Mage_OAuth:authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
 
@@ -140,7 +140,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="oauth.authorize.reject" template="Mage_OAuth:authorize/reject.phtml" />
+            <block type="Mage_Core_Block_Template" name="oauth.authorize.reject" template="Mage_OAuth:authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
 
@@ -158,12 +158,12 @@
 
     <adminhtml_oauth_authorizedtokens_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorizedTokens" name="oauth_authorizedTokens"/>
+            <block type="Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens" name="oauth_authorizedTokens"/>
         </reference>
     </adminhtml_oauth_authorizedtokens_index>
 
     <adminhtml_oauth_authorizedtokens_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_authorizedTokens_grid" name="oauth_authorizedTokens.grid" output="toHtml"/>
+        <block type="Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid" name="oauth_authorizedTokens.grid" output="toHtml"/>
     </adminhtml_oauth_authorizedtokens_grid>
 </layout>

@@ -51,21 +51,21 @@ class Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct extends Mage_Payment
      * Info block type for backend
      * @var string
      */
-    protected $_infoBlockType = 'payment/info_cc';
+    protected $_infoBlockType = 'Mage_Payment_Block_Info_Cc';
 
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_paybox_direct';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Paybox_Direct';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_paybox_direct';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paybox_Direct';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -92,7 +92,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct extends Mage_Payment
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -248,7 +248,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct extends Mage_Payment
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

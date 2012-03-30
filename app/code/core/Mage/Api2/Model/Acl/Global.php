@@ -50,7 +50,7 @@ class Mage_Api2_Model_Acl_Global
         }
         /** @var $aclInstance Mage_Api2_Model_Acl */
         $aclInstance = Mage::getSingleton(
-            'api2/acl',
+            'Mage_Api2_Model_Acl',
             array('resource_type' => $resourceType, 'operation' => $operation)
         );
 

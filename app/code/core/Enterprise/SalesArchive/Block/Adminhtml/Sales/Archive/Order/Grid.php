@@ -82,27 +82,27 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
         }
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
-             'label'=> Mage::helper('sales')->__('Print Invoices'),
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Invoices'),
              'url'  => $this->getUrl('*/sales_archive/massPrintInvoices'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
-             'label'=> Mage::helper('sales')->__('Print Credit Memos'),
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Credit Memos'),
              'url'  => $this->getUrl('*/sales_archive/massPrintCreditMemos'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfdocs_order', array(
-             'label'=> Mage::helper('sales')->__('Print All'),
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print All'),
              'url'  => $this->getUrl('*/sales_archive/massPrintAllDocuments'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-             'label'=> Mage::helper('sales')->__('Print Packingslips'),
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Packingslips'),
              'url'  => $this->getUrl('*/sales_archive/massPrintPackingSlips'),
         ));
 
         $this->getMassactionBlock()->addItem('print_shipping_label', array(
-             'label'=> Mage::helper('sales')->__('Print Shipping Labels'),
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Labels'),
              'url'  => $this->getUrl('*/sales_archive/massPrintShippingLabel'),
         ));
 

@@ -67,7 +67,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
         $product = $this->_loadProductById($this->getRequest()->getParam('product_id'));
 
         /* @var $validator Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website */
-        $validator = Mage::getModel('catalog/api2_product_website_validator_admin_website');
+        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website');
         if (!$validator->isValidDataForWebsiteAssignmentToProduct($product, $data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -77,7 +77,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
 
         $websiteIds = $product->getWebsiteIds();
         /* @var $website Mage_Core_Model_Website */
-        $website = Mage::getModel('core/website')->load($data['website_id']);
+        $website = Mage::getModel('Mage_Core_Model_Website')->load($data['website_id']);
         $websiteIds[] = $website->getId(); // Existence of a website is checked in the validator
         $product->setWebsiteIds($websiteIds);
 
@@ -89,7 +89,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
              */
             if (isset($data['copy_to_stores'])) {
                 foreach ($data['copy_to_stores'] as $storeData) {
-                    Mage::getModel('catalog/product')
+                    Mage::getModel('Mage_Catalog_Model_Product')
                         ->setStoreId($storeData['store_from'])
                         ->load($product->getId())
                         ->setStoreId($storeData['store_to'])
@@ -124,7 +124,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
                     $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
                 }
                 /* @var $validator Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website */
-                $validator = Mage::getModel('catalog/api2_product_website_validator_admin_website');
+                $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website');
                 if (!$validator->isValidDataForWebsiteAssignmentToProduct($product, $singleData)) {
                     foreach ($validator->getErrors() as $error) {
                         $this->_errorMessage($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST, array(
@@ -136,7 +136,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
                 }
 
                 /* @var $website Mage_Core_Model_Website */
-                $website = Mage::getModel('core/website')->load($singleData['website_id']);
+                $website = Mage::getModel('Mage_Core_Model_Website')->load($singleData['website_id']);
                 $websiteIds[] = $website->getId(); // Existence of a website is checked in the validator
                 $product->setWebsiteIds($websiteIds);
 
@@ -147,7 +147,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
                  */
                 if (isset($singleData['copy_to_stores'])) {
                     foreach ($singleData['copy_to_stores'] as $storeData) {
-                        Mage::getModel('catalog/product')
+                        Mage::getModel('Mage_Catalog_Model_Product')
                             ->setStoreId($storeData['store_from'])
                             ->load($product->getId())
                             ->setStoreId($storeData['store_to'])
@@ -210,7 +210,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
         $website = $this->_loadWebsiteById($this->getRequest()->getParam('website_id'));
 
         /* @var $validator Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website */
-        $validator = Mage::getModel('catalog/api2_product_website_validator_admin_website');
+        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website');
         if (!$validator->isWebsiteAssignedToProduct($website, $product)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -241,7 +241,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Website_Rest extends Mage_Catalog
     protected function _getLocation($website)
     {
         /* @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(
             new Zend_Controller_Router_Route($this->getConfig()->getRouteWithEntityTypeAction($this->getResourceType()))

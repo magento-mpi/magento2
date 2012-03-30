@@ -91,7 +91,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
      */
     protected function _getFlag()
     {
-        return Mage::getSingleton('googleshopping/flag')->loadSelf();
+        return Mage::getSingleton('Mage_GoogleShopping_Model_Flag')->loadSelf();
     }
 
     /**
@@ -110,7 +110,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
 
         $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product', null);
-        $notifier = Mage::getModel('adminnotification/inbox');
+        $notifier = Mage::getModel('Mage_AdminNotification_Model_Inbox');
 
         try {
             $flag->lock();
@@ -119,14 +119,14 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
                 ->addProducts($productIds, $storeId);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__($e->getMessage()));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
             $notifier->addMajor(
-                Mage::helper('googleshopping')->__('An error has occured while adding products to google shopping account.'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('An error has occured while adding products to google shopping account.'),
                 $e->getMessage()
             );
             Mage::logException($e);
@@ -159,15 +159,15 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
                 ->deleteItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__($e->getMessage()));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('adminnotification/inbox')->addMajor(
-                Mage::helper('googleshopping')->__('An error has occured while deleting products from google shopping account.'),
-                Mage::helper('googleshopping')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
+            Mage::getModel('Mage_AdminNotification_Model_Inbox')->addMajor(
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('An error has occured while deleting products from google shopping account.'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
             Mage::logException($e);
             return;
@@ -199,15 +199,15 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
                 ->synchronizeItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('googleshopping')->__($e->getMessage()));
+            $this->_getSession()->addError(Mage::helper('Mage_GoogleShopping_Helper_Data')->__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('adminnotification/inbox')->addMajor(
-                Mage::helper('googleshopping')->__('An error has occured while deleting products from google shopping account.'),
-                Mage::helper('googleshopping')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
+            Mage::getModel('Mage_AdminNotification_Model_Inbox')->addMajor(
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('An error has occured while deleting products from google shopping account.'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
             Mage::logException($e);
             return;
@@ -259,7 +259,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             $params = array(
                 'is_running' => $this->_getFlag()->isLocked()
             );
-            return $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($params));
+            return $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($params));
         }
     }
 
@@ -280,7 +280,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
         );
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json')
-                ->setBody(Mage::helper('core')->jsonEncode(array('redirect' => $redirectUrl)));
+                ->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array('redirect' => $redirectUrl)));
         } else {
             $this->_redirect($redirectUrl);
         }

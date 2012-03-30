@@ -40,6 +40,6 @@ class Mage_OAuth_Model_Resource_Consumer extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _construct()
     {
-        $this->_init('oauth/consumer', 'entity_id');
+        $this->_init('oauth_consumer', 'entity_id');
     }
 }

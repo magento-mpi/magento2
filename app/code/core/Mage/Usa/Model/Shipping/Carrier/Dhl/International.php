@@ -466,42 +466,42 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     public function getDhlProducts($doc)
     {
         $docType = array(
-            '2' => Mage::helper('usa')->__('Easy shop'),
-            '5' => Mage::helper('usa')->__('Sprintline'),
-            '6' => Mage::helper('usa')->__('Secureline'),
-            '7' => Mage::helper('usa')->__('Express easy'),
-            '9' => Mage::helper('usa')->__('Europack'),
-            'B' => Mage::helper('usa')->__('Break bulk express'),
-            'C' => Mage::helper('usa')->__('Medical express'),
-            'D' => Mage::helper('usa')->__('Express worldwide'), // product content code: DOX
-            'U' => Mage::helper('usa')->__('Express worldwide'), // product content code: ECX
-            'K' => Mage::helper('usa')->__('Express 9:00'),
-            'L' => Mage::helper('usa')->__('Express 10:30'),
-            'G' => Mage::helper('usa')->__('Domestic economy select'),
-            'W' => Mage::helper('usa')->__('Economy select'),
-            'I' => Mage::helper('usa')->__('Break bulk economy'),
-            'N' => Mage::helper('usa')->__('Domestic express'),
-            'O' => Mage::helper('usa')->__('Others'),
-            'R' => Mage::helper('usa')->__('Globalmail business'),
-            'S' => Mage::helper('usa')->__('Same day'),
-            'T' => Mage::helper('usa')->__('Express 12:00'),
-            'X' => Mage::helper('usa')->__('Express envelope'),
+            '2' => Mage::helper('Mage_Usa_Helper_Data')->__('Easy shop'),
+            '5' => Mage::helper('Mage_Usa_Helper_Data')->__('Sprintline'),
+            '6' => Mage::helper('Mage_Usa_Helper_Data')->__('Secureline'),
+            '7' => Mage::helper('Mage_Usa_Helper_Data')->__('Express easy'),
+            '9' => Mage::helper('Mage_Usa_Helper_Data')->__('Europack'),
+            'B' => Mage::helper('Mage_Usa_Helper_Data')->__('Break bulk express'),
+            'C' => Mage::helper('Mage_Usa_Helper_Data')->__('Medical express'),
+            'D' => Mage::helper('Mage_Usa_Helper_Data')->__('Express worldwide'), // product content code: DOX
+            'U' => Mage::helper('Mage_Usa_Helper_Data')->__('Express worldwide'), // product content code: ECX
+            'K' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 9:00'),
+            'L' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 10:30'),
+            'G' => Mage::helper('Mage_Usa_Helper_Data')->__('Domestic economy select'),
+            'W' => Mage::helper('Mage_Usa_Helper_Data')->__('Economy select'),
+            'I' => Mage::helper('Mage_Usa_Helper_Data')->__('Break bulk economy'),
+            'N' => Mage::helper('Mage_Usa_Helper_Data')->__('Domestic express'),
+            'O' => Mage::helper('Mage_Usa_Helper_Data')->__('Others'),
+            'R' => Mage::helper('Mage_Usa_Helper_Data')->__('Globalmail business'),
+            'S' => Mage::helper('Mage_Usa_Helper_Data')->__('Same day'),
+            'T' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 12:00'),
+            'X' => Mage::helper('Mage_Usa_Helper_Data')->__('Express envelope'),
         );
 
         $nonDocType = array(
-            '1' => Mage::helper('usa')->__('Customer services'),
-            '3' => Mage::helper('usa')->__('Easy shop'),
-            '4' => Mage::helper('usa')->__('Jetline'),
-            '8' => Mage::helper('usa')->__('Express easy'),
-            'P' => Mage::helper('usa')->__('Express worldwide'),
-            'Q' => Mage::helper('usa')->__('Medical express'),
-            'E' => Mage::helper('usa')->__('Express 9:00'),
-            'F' => Mage::helper('usa')->__('Freight worldwide'),
-            'H' => Mage::helper('usa')->__('Economy select'),
-            'J' => Mage::helper('usa')->__('Jumbo box'),
-            'M' => Mage::helper('usa')->__('Express 10:30'),
-            'V' => Mage::helper('usa')->__('Europack'),
-            'Y' => Mage::helper('usa')->__('Express 12:00'),
+            '1' => Mage::helper('Mage_Usa_Helper_Data')->__('Customer services'),
+            '3' => Mage::helper('Mage_Usa_Helper_Data')->__('Easy shop'),
+            '4' => Mage::helper('Mage_Usa_Helper_Data')->__('Jetline'),
+            '8' => Mage::helper('Mage_Usa_Helper_Data')->__('Express easy'),
+            'P' => Mage::helper('Mage_Usa_Helper_Data')->__('Express worldwide'),
+            'Q' => Mage::helper('Mage_Usa_Helper_Data')->__('Medical express'),
+            'E' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 9:00'),
+            'F' => Mage::helper('Mage_Usa_Helper_Data')->__('Freight worldwide'),
+            'H' => Mage::helper('Mage_Usa_Helper_Data')->__('Economy select'),
+            'J' => Mage::helper('Mage_Usa_Helper_Data')->__('Jumbo box'),
+            'M' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 10:30'),
+            'V' => Mage::helper('Mage_Usa_Helper_Data')->__('Europack'),
+            'Y' => Mage::helper('Mage_Usa_Helper_Data')->__('Express 12:00'),
         );
 
         if ($this->_isDomestic) {
@@ -1092,7 +1092,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         );
         if (!$countryParams->getData()) {
-            $this->_errors[] = Mage::helper('usa')->__('Please, specify origin country');
+            $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('Please, specify origin country');
         }
 
         if (!empty($this->_errors)) {

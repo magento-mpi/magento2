@@ -35,9 +35,9 @@ $installer->startSetup();
 $adapter = $installer->getConnection();
 
 /**
- * Create table 'oauth/consumer'
+ * Create table 'oauth_consumer'
  */
-$table = $adapter->newTable($installer->getTable('oauth/consumer'))
+$table = $adapter->newTable($installer->getTable('oauth_consumer'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -66,7 +66,7 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
         ), 'Rejected callback URL')
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth/consumer'),
+            $installer->getTable('oauth_consumer'),
             array('key'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -74,21 +74,21 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth/consumer'),
+            $installer->getTable('oauth_consumer'),
             array('secret'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('secret'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('oauth/consumer', array('created_at')), array('created_at'))
-    ->addIndex($installer->getIdxName('oauth/consumer', array('updated_at')), array('updated_at'))
+    ->addIndex($installer->getIdxName('oauth_consumer', array('created_at')), array('created_at'))
+    ->addIndex($installer->getIdxName('oauth_consumer', array('updated_at')), array('updated_at'))
     ->setComment('OAuth Consumers');
 $adapter->createTable($table);
 
 /**
- * Create table 'oauth/token'
+ * Create table 'oauth_token'
  */
-$table = $adapter->newTable($installer->getTable('oauth/token'))
+$table = $adapter->newTable($installer->getTable('oauth_token'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true, 'unsigned' => true, 'nullable' => false, 'primary'  => true,
         ), 'Entity ID')
@@ -135,7 +135,7 @@ $table = $adapter->newTable($installer->getTable('oauth/token'))
         ), 'Token creation timestamp')
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth/token'),
+            $installer->getTable('oauth_token'),
             array('consumer_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX
         ),
@@ -143,30 +143,30 @@ $table = $adapter->newTable($installer->getTable('oauth/token'))
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX))
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth/token'),
+            $installer->getTable('oauth_token'),
             array('token'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('token'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('oauth/token', 'admin_id', $installer->getTable('admin/user'), 'user_id'),
+        $installer->getFkName('oauth_token', 'admin_id', $installer->getTable('admin_user'), 'user_id'),
         'admin_id',
-        $installer->getTable('admin/user'),
+        $installer->getTable('admin_user'),
         'user_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('oauth/token', 'consumer_id', 'oauth/consumer', 'entity_id'),
+        $installer->getFkName('oauth_token', 'consumer_id', 'oauth_consumer', 'entity_id'),
         'consumer_id',
-        $installer->getTable('oauth/consumer'),
+        $installer->getTable('oauth_consumer'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('oauth/token', 'customer_id', $installer->getTable('customer/entity'), 'entity_id'),
+        $installer->getFkName('oauth_token', 'customer_id', $installer->getTable('customer_entity'), 'entity_id'),
         'customer_id',
-        $installer->getTable('customer/entity'),
+        $installer->getTable('customer_entity'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -174,9 +174,9 @@ $table = $adapter->newTable($installer->getTable('oauth/token'))
 $adapter->createTable($table);
 
 /**
- * Create table 'oauth/nonce
+ * Create table 'oauth_nonce
  */
-$table = $adapter->newTable($installer->getTable('oauth/nonce'))
+$table = $adapter->newTable($installer->getTable('oauth_nonce'))
     ->addColumn('nonce', Varien_Db_Ddl_Table::TYPE_VARCHAR, 32, array(
         'nullable' => false
         ), 'Nonce String')
@@ -186,7 +186,7 @@ $table = $adapter->newTable($installer->getTable('oauth/nonce'))
         ), 'Nonce Timestamp')
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('oauth/nonce'),
+            $installer->getTable('oauth_nonce'),
             array('nonce'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),

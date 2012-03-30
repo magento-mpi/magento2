@@ -45,7 +45,7 @@ class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstr
      */
     public function getLabel()
     {
-        return Mage::helper('api2')->__('Customer');
+        return Mage::helper('Mage_Api2_Helper_Data')->__('Customer');
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Api2_Model_Auth_User_Customer extends Mage_Api2_Model_Auth_User_Abstr
     {
         if (!$this->_role) {
             /** @var $role Mage_Api2_Model_Acl_Global_Role */
-            $role = Mage::getModel('api2/acl_global_role')->load(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
+            $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role')->load(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
             if (!$role->getId()) {
                 throw new Exception('Customer role not found');
             }

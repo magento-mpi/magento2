@@ -148,7 +148,7 @@
                         <label for="confirmation"><?php echo $this->__('Confirm Password') ?></label>
                         <input type="password" name="confirmation" title="<?php echo $this->__('Confirm Password') ?>" id="confirmation" class="input-text required-entry validate-cpassword" />
                     </li>
-                    <?php if (Mage::helper('core/captcha')->isRequired('user_create')): ?>
+                    <?php if (Mage::helper('Mage_Core_Helper_Captcha')->isRequired('user_create')): ?>
                         <?php echo $this->getChildHtml('captcha') ?>
                     <?php endif ?>
                     <?php echo $this->getChildHtml('persistent.remember.me'); ?>

@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
 
         // Validate website
         /* @var $website Mage_Core_Model_Website */
-        $website = Mage::getModel('core/website')->load($data['website_id']);
+        $website = Mage::getModel('Mage_Core_Model_Website')->load($data['website_id']);
         if (!$website->getId()) {
             $this->_addError(sprintf('Website #%d not found.', $data['website_id']));
             return false;
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
 
         // Check if the store with the specified ID (from which we will copy the information) exists
         // and if it belongs to the product being edited
-        $storeFrom = Mage::getModel('core/store')->load($storeData['store_from']);
+        $storeFrom = Mage::getModel('Mage_Core_Model_Store')->load($storeData['store_from']);
         if (!$storeFrom->getId()) {
             $this->_addError(sprintf('Store not found #%d for website #%d.', $storeData['store_from'],
                 $website->getId()));
@@ -141,7 +141,7 @@ class Mage_Catalog_Model_Api2_Product_Website_Validator_Admin_Website extends Ma
 
         // Check if the store with the specified ID (to which we will copy the information) exists
         // and if it belongs to the website being added
-        $storeTo = Mage::getModel('core/store')->load($storeData['store_to']);
+        $storeTo = Mage::getModel('Mage_Core_Model_Store')->load($storeData['store_to']);
         if (!$storeTo->getId()) {
             $this->_addError(sprintf('Store not found #%d for website #%d.', $storeData['store_to'],
                 $website->getId()));

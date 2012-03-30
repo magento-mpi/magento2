@@ -43,7 +43,7 @@ class Mage_Customer_Model_Api2_Customer_Rest_Admin_V1 extends Mage_Customer_Mode
     protected function _retrieve()
     {
         /** @var $log Mage_Log_Model_Customer */
-        $log = Mage::getModel('log/customer');
+        $log = Mage::getModel('Mage_Log_Model_Customer');
         $log->loadByCustomer($this->getRequest()->getParam('id'));
 
         $data = parent::_retrieve();

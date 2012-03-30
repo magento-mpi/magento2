@@ -60,9 +60,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Admin_Model_Resource_User_Collection */
-        $collection = Mage::getModel('admin/user')->getCollection();
+        $collection = Mage::getModel('Mage_Admin_Model_User')->getCollection();
         $collection->getSelect()->joinLeft(
-            array('acl' => $collection->getTable('api2/acl_user')),
+            array('acl' => $collection->getTable('api2_acl_user')),
             'acl.admin_id = main_table.user_id',
             'role_id'
         );
@@ -92,19 +92,19 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('user_id', array(
-            'header' => Mage::helper('api2')->__('ID'), 'index' => 'user_id', 'align' => 'right', 'width' => '50px',
+            'header' => Mage::helper('Mage_Api2_Helper_Data')->__('ID'), 'index' => 'user_id', 'align' => 'right', 'width' => '50px',
         ));
 
         $this->addColumn('username', array(
-            'header' => Mage::helper('adminhtml')->__('User Name'), 'align' => 'left', 'index' => 'username'
+            'header' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'), 'align' => 'left', 'index' => 'username'
         ));
 
         $this->addColumn('firstname', array(
-            'header' => Mage::helper('adminhtml')->__('First Name'), 'align' => 'left', 'index' => 'firstname'
+            'header' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'), 'align' => 'left', 'index' => 'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header' => Mage::helper('adminhtml')->__('Last Name'), 'align' => 'left', 'index' => 'lastname'
+            'header' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'), 'align' => 'left', 'index' => 'lastname'
         ));
 
         return parent::_prepareColumns();
@@ -138,7 +138,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
      */
     public function getTabLabel()
     {
-        return Mage::helper('api2')->__('Role Users');
+        return Mage::helper('Mage_Api2_Helper_Data')->__('Role Users');
     }
 
     /**
@@ -228,7 +228,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Users extends Mage_Adminhtml_Block_Wid
                 $jsonUsers[$usrId] = 0;
             }
             /** @var $helper Mage_Core_Helper_Data */
-            $helper = Mage::helper('core');
+            $helper = Mage::helper('Mage_Core_Helper_Data');
             $result = $helper->jsonEncode((object) $jsonUsers);
         } else {
             $result = array_values($users);

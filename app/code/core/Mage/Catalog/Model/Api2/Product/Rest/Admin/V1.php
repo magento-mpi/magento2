@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     protected function _retrieveCollection()
     {
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('catalog/product_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $store = $this->_getStore();
         $collection->setStoreId($store->getId());
         $collection->addAttributeToSelect(array_keys(
@@ -134,7 +134,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     protected function _create(array $data)
     {
         /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
-        $validator = Mage::getModel('catalog/api2_product_validator_product', array(
+        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Validator_Product', array(
             'operation' => self::OPERATION_CREATE
         ));
 
@@ -154,7 +154,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $sku = $data['sku'];
 
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -187,7 +187,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->_getProduct();
         /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
-        $validator = Mage::getModel('catalog/api2_product_validator_product', array(
+        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Validator_Product', array(
             'operation' => self::OPERATION_UPDATE,
             'product'   => $product
         ));

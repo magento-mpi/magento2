@@ -68,7 +68,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('oauth/consumer');
+        $this->_init('Mage_OAuth_Model_Resource_Consumer');
     }
 
     /**
@@ -99,19 +99,19 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
             /** @var $validatorUrl Mage_Core_Model_Url_Validator */
-            $validatorUrl = Mage::getSingleton('core/url_validator');
+            $validatorUrl = Mage::getSingleton('Mage_Core_Model_Url_Validator');
 
             if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
-                Mage::throwException(Mage::helper('oauth')->__('Invalid Callback URL'));
+                Mage::throwException(Mage::helper('Mage_OAuth_Helper_Data')->__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$validatorUrl->isValid($this->getRejectedCallbackUrl())) {
-                Mage::throwException(Mage::helper('oauth')->__('Invalid Rejected Callback URL'));
+                Mage::throwException(Mage::helper('Mage_OAuth_Helper_Data')->__('Invalid Rejected Callback URL'));
             }
         }
 
         /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
         $validatorLength = Mage::getModel(
-            'oauth/consumer_validator_keyLength',
+            'Mage_OAuth_Model_Consumer_Validator_KeyLength',
             array('length' => self::KEY_LENGTH));
 
         $validatorLength->setName('Consumer Key');

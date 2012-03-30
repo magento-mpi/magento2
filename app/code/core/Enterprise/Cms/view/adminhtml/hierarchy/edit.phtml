@@ -480,7 +480,7 @@
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
 
-            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
+            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();

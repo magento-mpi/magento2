@@ -65,7 +65,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
                 'name' => 'store_id',
                 'values' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 

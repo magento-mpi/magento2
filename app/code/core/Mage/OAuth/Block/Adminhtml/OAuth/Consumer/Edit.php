@@ -65,7 +65,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
         $this->_mode = 'edit';
 
         $this->_addButton('save_and_continue', array(
-            'label'     => Mage::helper('oauth')->__('Save and Continue Edit'),
+            'label'     => Mage::helper('Mage_OAuth_Helper_Data')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class' => 'save'
         ), 100);
@@ -78,7 +78,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit extends Mage_Adminhtml_Bloc
         $this->_updateButton('delete', 'label', $this->__('Delete'));
 
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         if (!$this->getModel()->getId() || !$session->isAllowed('system/oauth/consumer/delete')) {
             $this->_removeButton('delete');
         }

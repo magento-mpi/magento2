@@ -42,7 +42,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
     protected function _create(array $data)
     {
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('api2/validator_eav', array(
+        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array(
             'resource'  => $this,
             'operation' => self::OPERATION_CREATE
         ));
@@ -56,7 +56,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         }
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setData($data);
 
         try {
@@ -106,7 +106,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
 
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('api2/validator_eav', array(
+        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array(
             'resource'  => $this,
             'operation' => self::OPERATION_UPDATE
         ));
@@ -140,7 +140,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
     protected function _loadCustomerById($id)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($id);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
@@ -155,7 +155,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
     protected function _getCollectionForRetrieve()
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('customer/customer_collection');
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         $collection->addAttributeToSelect(array_keys(
             $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
         ));

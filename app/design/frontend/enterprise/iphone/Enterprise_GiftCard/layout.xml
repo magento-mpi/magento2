@@ -24,7 +24,7 @@
         </reference>
     </catalog_product_view_type_giftcard>
 
-    <catalog_category_default>
+    <catalog_category_view_type_default>
         <reference name="product_list">
             <action method="addPriceBlockType">
                 <type>giftcard</type>
@@ -32,7 +32,7 @@
                 <template>catalog/product/price.phtml</template>
             </action>
         </reference>
-    </catalog_category_default>
+    </catalog_category_view_type_default>
 
     <catalog_category_view>
         <reference name="product_list">
@@ -44,7 +44,7 @@
         </reference>
     </catalog_category_view>
 
-    <catalog_category_layered>
+    <catalog_category_view_type_layered>
         <reference name="product_list">
             <action method="addPriceBlockType">
                 <type>giftcard</type>
@@ -52,7 +52,7 @@
                 <template>catalog/product/price.phtml</template>
             </action>
         </reference>
-    </catalog_category_layered>
+    </catalog_category_view_type_layered>
 
     <catalog_product_compare_index>
         <reference name="catalog.compare.list">

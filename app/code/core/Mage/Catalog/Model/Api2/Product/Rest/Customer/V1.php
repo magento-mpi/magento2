@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
     {
         $customer = $this->_getCustomer();
         /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
         $session->setCustomerId($customer->getId());
         $price = $this->_getPrice($price, $withTax, $customer->getPrimaryShippingAddress(),
             $customer->getPrimaryBillingAddress(), $customer->getTaxClassId());
@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Customer_V1 extends Mage_Catalog_Mode
     {
         if (is_null($this->_customer)) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load($this->getApiUser()->getUserId());
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getApiUser()->getUserId());
             if (!$customer->getId()) {
                 $this->_critical('Customer not found.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
             }

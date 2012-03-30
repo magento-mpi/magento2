@@ -97,7 +97,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Grid extends Mage_Adminhtml_Block_Widg
     public function getRowUrl($row)
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         if ($session->isAllowed('system/api/attributes/edit')) {
             return $this->getUrl('*/*/edit', array('type' => $row->getUserTypeCode()));
         }

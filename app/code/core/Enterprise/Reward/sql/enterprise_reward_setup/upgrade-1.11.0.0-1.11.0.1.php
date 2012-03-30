@@ -28,7 +28,7 @@
 $installer = $this;
 $installer->startSetup();
 $installer->getConnection()->changeColumn(
-    $installer->getTable('enterprise_reward/reward_history'),
+    $installer->getTable('enterprise_reward_history'),
     'created_at',
     'created_at',
     array(

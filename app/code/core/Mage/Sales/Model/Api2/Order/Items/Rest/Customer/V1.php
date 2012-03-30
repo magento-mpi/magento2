@@ -43,7 +43,7 @@ class Mage_Sales_Model_Api2_Order_Items_Rest_Customer_V1 extends Mage_Sales_Mode
     protected function _loadOrderById($id)
     {
         /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
         if (!$order->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

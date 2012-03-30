@@ -239,7 +239,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     public function sendInfo($shipmentIncrementId, $comment = '')
     {
         /* @var $shipment Mage_Sales_Model_Order_Shipment */
-        $shipment = Mage::getModel('sales/order_shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -249,7 +249,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $shipment->sendEmail(true, $comment)
                 ->setEmailSent(true)
                 ->save();
-            $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+            $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                 ->getUnnotifiedForInstance($shipment, Mage_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
             if ($historyItem) {
                 $historyItem->setIsCustomerNotified(1);

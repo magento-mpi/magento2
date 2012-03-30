@@ -57,11 +57,11 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
                 ->setData('use_ajax', true);
 
         $this->_treeModel = Mage::getModel(
-            'api2/acl_global_rule_tree',
+            'Mage_Api2_Model_Acl_Global_Rule_Tree',
             array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_ATTRIBUTE));
 
         /** @var $permissions Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission */
-        $permissions = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
+        $permissions = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission');
         $permissions->setFilterValue($this->getRequest()->getParam('type'));
         $this->_treeModel->setResourcesPermissions($permissions->getResourcesPermissions())
             ->setHasEntityOnlyAttributes($permissions->getHasEntityOnlyAttributes());
@@ -75,7 +75,7 @@ class Mage_Api2_Block_Adminhtml_Attribute_Tab_Resource extends Mage_Adminhtml_Bl
     public function getResTreeJson()
     {
         /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         return $helper->jsonEncode($this->_treeModel->getTreeResources());
     }
 

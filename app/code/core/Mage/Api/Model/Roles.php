@@ -157,7 +157,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
             return $this;
         }
         /** @var $filter Mage_Core_Model_Input_Filter */
-        $filter = Mage::getModel('core/input_filter');
+        $filter = Mage::getModel('Mage_Core_Model_Input_Filter');
         $filter->setFilters($this->_filters);
         $this->setData($filter->filter($data));
         return $this;

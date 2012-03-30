@@ -65,7 +65,7 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
-        $collection = Mage::getResourceModel('api2/acl_global_role_collection');
+        $collection = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role_Collection');
         $collection->addFieldToFilter('entity_id', array('nin' => Mage_Api2_Model_Acl_Global_Role::getSystemRoles()));
 
         $this->setCollection($collection);
@@ -136,7 +136,7 @@ class Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles
             $user = Mage::registry('permissions_user');
             if ($user->getId()) {
                 /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
-                $collection = Mage::getResourceModel('api2/acl_global_role_collection');
+                $collection = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role_Collection');
                 $collection->addFilterByAdminId($user->getId());
 
                 $userRoles = $collection->getAllIds();

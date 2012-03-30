@@ -61,7 +61,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     protected function _retrieveCollection()
     {
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('catalog/product_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $store = $this->_getStore();
         $entityOnlyAttributes = $this->getEntityOnlyAttributes($this->getUserType(),
             Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ);
@@ -112,7 +112,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     protected function _prepareProductForResponse(Mage_Catalog_Model_Product $product)
     {
         /** @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('catalog/product');
+        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         $productData = $product->getData();
         $product->setWebsiteId($this->_getStore()->getWebsiteId());
         // customer group is required in product for correct prices calculation
@@ -125,25 +125,25 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $productData['final_price_without_tax'] = $this->_applyTaxToPrice($finalPrice, false);
 
         $productData['is_saleable'] = $product->getIsSalable();
-        $productData['image_url'] = (string) Mage::helper('catalog/image')->init($product, 'image');
+        $productData['image_url'] = (string) Mage::helper('Mage_Catalog_Helper_Image')->init($product, 'image');
 
         if ($this->getActionType() == self::ACTION_TYPE_ENTITY) {
             // define URLs
             $productData['url'] = $productHelper->getProductUrl($product->getId());
             /** @var $cartHelper Mage_Checkout_Helper_Cart */
-            $cartHelper = Mage::helper('checkout/cart');
+            $cartHelper = Mage::helper('Mage_Checkout_Helper_Cart');
             $productData['buy_now_url'] = $cartHelper->getAddUrl($product);
 
             /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($product);
             }
             $productData['is_in_stock'] = $stockItem->getIsInStock();
 
             /** @var $reviewModel Mage_Review_Model_Review */
-            $reviewModel = Mage::getModel('review/review');
+            $reviewModel = Mage::getModel('Mage_Review_Model_Review');
             $productData['total_reviews_count'] = $reviewModel->getTotalReviews($product->getId(), true,
                 $this->_getStore()->getId());
 
@@ -195,7 +195,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         if (is_null($this->_product)) {
             $productId = $this->getRequest()->getParam('id');
             /** @var $productHelper Mage_Catalog_Helper_Product */
-            $productHelper = Mage::helper('catalog/product');
+            $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
             $product = $productHelper->getProduct($productId, $this->_getStore()->getId());
             if (!($product->getId())) {
                 $this->_critical(self::RESOURCE_NOT_FOUND);
@@ -238,7 +238,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
      */
     protected function _getCategoryById($categoryId)
     {
-        return Mage::getModel('catalog/category')->load($categoryId);
+        return Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
     }
 
     /**
@@ -261,7 +261,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
 
         if (is_null($priceIncludesTax)) {
             /** @var $config Mage_Tax_Model_Config */
-            $config = Mage::getSingleton('tax/config');
+            $config = Mage::getSingleton('Mage_Tax_Model_Config');
             $priceIncludesTax = $config->priceIncludesTax($store) || $config->getNeedUseShippingExcludeTax();
         }
 
@@ -271,14 +271,14 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
         $taxClassId = $product->getTaxClassId();
         if (is_null($percent)) {
             if ($taxClassId) {
-                $request = Mage::getSingleton('tax/calculation')
+                $request = Mage::getSingleton('Mage_Tax_Model_Calculation')
                     ->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
-                $percent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
+                $percent = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
             }
         }
         if ($taxClassId && $priceIncludesTax) {
-            $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false, $store);
-            $includingPercent = Mage::getSingleton('tax/calculation')
+            $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false, $store);
+            $includingPercent = Mage::getSingleton('Mage_Tax_Model_Calculation')
                 ->getRate($request->setProductClassId($taxClassId));
         }
 
@@ -311,7 +311,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
                          * this calculation is used for showing prices on catalog pages
                          */
                         if ($percent != 0) {
-                            $price = Mage::getSingleton('tax/calculation')->round($price);
+                            $price = Mage::getSingleton('Mage_Tax_Model_Calculation')->round($price);
                             $price = $this->_calculatePrice($price, $percent, true);
                         }
                     }
@@ -352,7 +352,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
     protected function _calculatePrice($price, $percent, $includeTax)
     {
         /** @var $calculator Mage_Tax_Model_Calculation */
-        $calculator = Mage::getSingleton('tax/calculation');
+        $calculator = Mage::getSingleton('Mage_Tax_Model_Calculation');
         $taxAmount = $calculator->calcTaxAmount($price, $percent, !$includeTax, false);
 
         return $includeTax ? $price + $taxAmount : $price - $taxAmount;

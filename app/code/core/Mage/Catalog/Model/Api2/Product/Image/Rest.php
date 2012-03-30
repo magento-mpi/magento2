@@ -159,7 +159,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
     }
 
     /**

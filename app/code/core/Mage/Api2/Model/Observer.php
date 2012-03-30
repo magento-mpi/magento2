@@ -52,7 +52,7 @@ class Mage_Api2_Model_Observer
             }
 
             /** @var $resourceModel Mage_Api2_Model_Resource_Acl_Global_Role */
-            $resourceModel = Mage::getResourceModel('api2/acl_global_role');
+            $resourceModel = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role');
             $resourceModel->saveAdminToRoleRelation($user->getId(), $roles[0]);
         }
     }
@@ -70,7 +70,7 @@ class Mage_Api2_Model_Observer
         if ($attribute->getIsUserDefined() && $attribute->dataHasChangedFor('is_visible_on_front')
             && !$attribute->getIsVisibleOnFront()) {
             /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
-            $collection = Mage::getResourceModel('api2/acl_filter_attribute_collection');
+            $collection = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection');
             /** @var $aclFilter Mage_Api2_Model_Acl_Filter_Attribute */
             foreach ($collection as $aclFilter) {
                 if ($aclFilter->getResourceId() != Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL) {

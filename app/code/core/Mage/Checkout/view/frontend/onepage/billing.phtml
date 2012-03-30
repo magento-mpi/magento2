@@ -40,7 +40,7 @@
                     </div>
         <?php endif; ?>
                 </li>
-        <?php $_streetValidationClass = $this->helper('customer/address')->getAttributeValidationClass('street'); ?>
+        <?php $_streetValidationClass = $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                     <div class="input-box">
@@ -55,7 +55,7 @@
                     </div>
                 </li>
         <?php endfor; ?>
-                <?php if ($this->helper('customer/address')->isVatAttributeVisible()) : ?>
+                <?php if ($this->helper('Mage_Customer_Helper_Address')->isVatAttributeVisible()) : ?>
                 <li class="wide">
                     <label for="billing:vat_id"><?php echo $this->__('VAT Number') ?></label>
                     <div class="input-box">

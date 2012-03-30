@@ -74,7 +74,7 @@ class Mage_Core_Helper_Cookie extends Mage_Core_Helper_Abstract
      */
     protected function _getAcceptedSaveCookiesWebsites()
     {
-        $serializedList = Mage::getSingleton('core/cookie')->get(self::IS_USER_ALLOWED_SAVE_COOKIE);
+        $serializedList = Mage::getSingleton('Mage_Core_Model_Cookie')->get(self::IS_USER_ALLOWED_SAVE_COOKIE);
         $unSerializedList = unserialize($serializedList);
         return is_array($unSerializedList) ? $unSerializedList : array();
     }

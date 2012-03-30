@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
         try {
             $this->_validateProductType($data);
             /** @var $productEntity Mage_Eav_Model_Entity_Type */
-            $productEntity = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
+            $productEntity = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
             $this->_validateAttributeSet($data, $productEntity);
             $this->_validateSku($data);
             $this->_validateGiftOptions($data);
@@ -254,7 +254,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             $this->_critical('Missing "attribute_set_id" in request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')->load($data['attribute_set_id']);
+        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($data['attribute_set_id']);
         if (!$attributeSet->getId() || $productEntity->getEntityTypeId() != $attributeSet->getEntityTypeId()) {
             $this->_critical('Invalid attribute set.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
@@ -339,8 +339,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             $this->_addError(sprintf('The "website_id" value in the "%s" set is a required field.', $fieldSet));
         } else {
             /** @var $catalogHelper Mage_Catalog_Helper_Data */
-            $catalogHelper = Mage::helper('catalog');
-            $website = Mage::getModel('core/website')->load($data['website_id']);
+            $catalogHelper = Mage::helper('Mage_Catalog_Helper_Data');
+            $website = Mage::getModel('Mage_Core_Model_Website')->load($data['website_id']);
             if (is_null($website->getId()) || ($data['website_id'] !== 0
                 && $catalogHelper->getPriceScope() == Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL)) {
                 $this->_addError(sprintf('Invalid "website_id" value in the "%s" set.', $fieldSet));
@@ -373,7 +373,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
                 if (isset($stockData['enable_qty_increments']) && (bool) $stockData['enable_qty_increments'] == true) {
                     $this->_validatePositiveInteger($stockData, $fieldSet, 'qty_increments', false, true);
                 }
-                if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+                if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
                     $this->_validateSource($stockData, $fieldSet, 'backorders',
                         'cataloginventory/source_backorders', true);
                     $this->_validateSource($stockData, $fieldSet, 'is_in_stock', 'cataloginventory/source_stock');
@@ -416,7 +416,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
             if (!is_numeric($data['cust_group'])) {
                 $this->_addError(sprintf('Invalid "cust_group" value in the "%s" set', $fieldSet));
             } else {
-                $customerGroup = Mage::getModel('customer/group')->load($data['cust_group']);
+                $customerGroup = Mage::getModel('Mage_Customer_Model_Group')->load($data['cust_group']);
                 if (is_null($customerGroup->getId())) {
                     $this->_addError(sprintf('Invalid "cust_group" value in the "%s" set', $fieldSet));
                 }
@@ -543,7 +543,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product extends Mage_Api2_Model_
         if (!($skipIfConfigValueUsed && $this->_isConfigValueUsed($data, $field))) {
             if (isset($data[$field])) {
                 $allowedValues = $this->_getAttributeAllowedValues(
-                    Mage::getSingleton('eav/entity_attribute_source_boolean')->getAllOptions());
+                    Mage::getSingleton('Mage_Eav_Model_Entity_Attribute_Source_Boolean')->getAllOptions());
                 if (!in_array($data[$field], $allowedValues, true)) {
                     $this->_addError(sprintf('Invalid "%s" value in the "%s" set.', $field, $fieldSet));
                 }

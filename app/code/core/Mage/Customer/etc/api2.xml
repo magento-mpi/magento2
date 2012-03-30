@@ -28,17 +28,17 @@
 <config>
     <api2>
         <resource_groups>
-            <customer translate="title" module="api2">
+            <customer translate="title" module="Mage_Api2">
                 <title>Customer</title>
                 <sort_order>130</sort_order>
             </customer>
         </resource_groups>
         <resources>
-            <customer translate="title" module="api2">
+            <customer translate="title" module="Mage_Api2">
                 <group>customer</group>
                 <sort_order>90</sort_order>
-                <model>customer/api2_customer</model>
-                <working_model>customer/customer</working_model>
+                <model>Mage_Customer_Model_Api2_Customer</model>
+                <working_model>Mage_Customer_Model_Customer</working_model>
                 <title>Customer</title>
                 <privileges>
                     <admin>
@@ -51,7 +51,7 @@
                         <update>1</update>
                     </customer>
                 </privileges>
-                <attributes translate="entity_id last_logged_in firstname lastname email website_id created_in group_id confirmation disable_auto_group_change" module="api2">
+                <attributes translate="entity_id last_logged_in firstname lastname email website_id created_in group_id confirmation disable_auto_group_change" module="Mage_Api2">
                     <entity_id>Customer ID</entity_id>
                     <last_logged_in>Last Logged In</last_logged_in>
                     <firstname>First Name</firstname>
@@ -98,15 +98,15 @@
                 <validators>
                     <eav>
                         <admin>
-                            <entity_model>customer/customer</entity_model>
-                            <form_model>customer/form</form_model>
+                            <entity_model>Mage_Customer_Model_Customer</entity_model>
+                            <form_model>Mage_Customer_Model_Form</form_model>
                             <form_code>
                                 <update>adminhtml_customer</update>
                             </form_code>
                         </admin>
                         <customer>
-                            <entity_model>customer/customer</entity_model>
-                            <form_model>customer/form</form_model>
+                            <entity_model>Mage_Customer_Model_Customer</entity_model>
+                            <form_model>Mage_Customer_Model_Form</form_model>
                             <form_code>
                                 <update>customer_account_edit</update>
                             </form_code>
@@ -125,11 +125,11 @@
                 </routes>
                 <versions>1</versions>
             </customer>
-            <customer_address translate="title" module="api2">
+            <customer_address translate="title" module="Mage_Api2">
                 <group>customer</group>
                 <sort_order>110</sort_order>
-                <model>customer/api2_customer_address</model>
-                <working_model>customer/address</working_model>
+                <model>Mage_Customer_Model_Api2_Customer_Address</model>
+                <working_model>Mage_Customer_Model_Address</working_model>
                 <title>Customer Address</title>
                 <privileges>
                     <admin>
@@ -145,7 +145,7 @@
                         <delete>1</delete>
                     </customer>
                 </privileges>
-                <attributes translate="entity_id is_default_billing is_default_shipping" module="api2">
+                <attributes translate="entity_id is_default_billing is_default_shipping" module="Mage_Api2">
                     <entity_id>Customer Address ID</entity_id>
                     <is_default_billing>Is Default Billing Address</is_default_billing>
                     <is_default_shipping>Is Default Shipping Address</is_default_shipping>
@@ -181,15 +181,15 @@
                 <validators>
                     <eav>
                         <admin>
-                            <entity_model>customer/address</entity_model>
-                            <form_model>customer/form</form_model>
+                            <entity_model>Mage_Customer_Model_Address</entity_model>
+                            <form_model>Mage_Customer_Model_Form</form_model>
                             <form_code>
                                 <update>adminhtml_customer_address</update>
                             </form_code>
                         </admin>
                         <customer>
-                            <entity_model>customer/address</entity_model>
-                            <form_model>customer/form</form_model>
+                            <entity_model>Mage_Customer_Model_Address</entity_model>
+                            <form_model>Mage_Customer_Model_Form</form_model>
                             <form_code>
                                 <update>customer_address_edit</update>
                             </form_code>

@@ -87,7 +87,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Wid
      */
     public function isProcessRunning()
     {
-        $flag = Mage::getModel('googleshopping/flag')->loadSelf();
+        $flag = Mage::getModel('Mage_GoogleShopping_Model_Flag')->loadSelf();
         return $flag->isLocked();
     }
 

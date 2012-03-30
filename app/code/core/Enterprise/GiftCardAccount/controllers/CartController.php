@@ -36,7 +36,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code))
+                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));

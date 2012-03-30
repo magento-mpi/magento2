@@ -104,7 +104,7 @@ class Mage_Api2_Model_Router
     public function routeApiType(Mage_Api2_Model_Request $request, $trimApiTypePath = true)
     {
         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
             throw new Mage_Api2_Exception('Request does not match type route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND);

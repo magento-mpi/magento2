@@ -63,7 +63,7 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
     protected function _getCollectionForRetrieve()
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Status_History_Collection */
-        $collection = Mage::getResourceModel('sales/order_status_history_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection');
         $collection->setOrderFilter($this->_loadOrderById($this->getRequest()->getParam(self::PARAM_ORDER_ID)));
 
         return $collection;
@@ -79,7 +79,7 @@ abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Mode
     protected function _loadOrderById($id)
     {
         /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
         if (!$order->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

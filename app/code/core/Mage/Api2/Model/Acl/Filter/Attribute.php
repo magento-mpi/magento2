@@ -59,7 +59,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_filter_attribute');
+        $this->_init('Mage_Api2_Model_Resource_Acl_Filter_Attribute');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute extends Mage_Core_Model_Abstract
     public function getPermissionModel()
     {
         if (null == $this->_permissionModel) {
-            $this->_permissionModel = Mage::getModel('api2/acl_filter_attribute_resourcePermission');
+            $this->_permissionModel = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission');
         }
         return $this->_permissionModel;
     }

@@ -30,7 +30,7 @@
                     <label for="pass"><?php echo $this->__('Enter your password') ?>:</label>
                     <input type="password" class="required-entry validate-password" name="login[password]" id="pass" placeholder="<?php echo $this->__('Password') ?>" />
                 </li>
-                <?php if (Mage::helper('core/captcha')->isRequired('user_login')): ?>
+                <?php if (Mage::helper('Mage_Core_Helper_Captcha')->isRequired('user_login')): ?>
                     <?php echo $this->getChildHtml('captcha') ?>
                 <?php endif ?>
             </ul>

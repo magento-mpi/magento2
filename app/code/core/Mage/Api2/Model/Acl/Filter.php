@@ -119,7 +119,7 @@ class Mage_Api2_Model_Acl_Filter
     {
         if (null === $this->_allowedAttributes) {
             /** @var $helper Mage_Api2_Helper_Data */
-            $helper = Mage::helper('api2/data');
+            $helper = Mage::helper('Mage_Api2_Helper_Data');
 
             if (null === $operationType) {
                 $operationType = $helper->getTypeOfOperation($this->_resource->getOperation());

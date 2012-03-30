@@ -54,10 +54,10 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
     protected function _prepareCollection()
     {
         /** @var $user Mage_Admin_Model_User */
-        $user = Mage::getSingleton('admin/session')->getData('user');
+        $user = Mage::getSingleton('Mage_Admin_Model_Session')->getData('user');
 
         /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('oauth/token')->getCollection();
+        $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                 ->addFilterByAdminId($user->getId());
@@ -75,7 +75,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('oauth')->__('ID'),
+            'header'    => Mage::helper('Mage_OAuth_Helper_Data')->__('ID'),
             'index'     => 'entity_id',
             'align'     => 'right',
             'width'     => '50px',
@@ -88,7 +88,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
         ));
 
         /** @var $sourceYesNo Mage_Adminhtml_Model_System_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('adminhtml/system_config_source_yesno');
+        $sourceYesNo = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno');
         $this->addColumn('revoked', array(
             'header'    => $this->__('Revoked'),
             'index'     => 'revoked',
@@ -114,15 +114,15 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
 
         $block->setFormFieldName('items');
         $block->addItem('enable', array(
-            'label' => Mage::helper('index')->__('Enable'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 0)),
         ));
         $block->addItem('revoke', array(
-            'label' => Mage::helper('index')->__('Revoke'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Revoke'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 1)),
         ));
         $block->addItem('delete', array(
-            'label' => Mage::helper('index')->__('Delete'),
+            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Delete'),
             'url'   => $this->getUrl('*/*/delete'),
         ));
 

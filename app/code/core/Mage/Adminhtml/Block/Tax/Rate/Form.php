@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('tax_postcode', 'text', array(
             'name'  => 'tax_postcode',
             'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
-            'note'  => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d.", Mage::helper('tax')->getPostCodeSubStringLength()),
+            'note'  => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
         ));
 
         $fieldset->addField('zip_from', 'text', array(
@@ -121,8 +121,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset->addField('rate', 'text', array(
             'name'     => 'rate',
-            'label'    => Mage::helper('tax')->__('Rate Percent'),
-            'title'    => Mage::helper('tax')->__('Rate Percent'),
+            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
+            'title'    => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
             'required' => true,
             'class'    => 'validate-not-negative-number'
         ));

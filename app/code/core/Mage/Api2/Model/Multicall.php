@@ -113,14 +113,14 @@ class Mage_Api2_Model_Multicall
             }
             $subresourceIdKey = (string)$subresource->id_param_name;
             /** @var $server Mage_Api2_Model_Server */
-            $server = Mage::getSingleton('api2/server');
+            $server = Mage::getSingleton('Mage_Api2_Model_Server');
 
             // create subresource item before linking it to main resource
             if (!array_key_exists($subresourceIdKey, $requestData)) {
                 $subresourceCreateResourceName = (string)$subresource->create_resource_name;
                 $internalRequest = $this->_prepareRequest($subresourceCreateResourceName, $requestData);
                 /** @var $internalCreateResponse Mage_Api2_Model_Response */
-                $internalCreateResponse = Mage::getModel('api2/response');
+                $internalCreateResponse = Mage::getModel('Mage_Api2_Model_Response');
                 $server->internalCall($internalRequest, $internalCreateResponse);
                 $createdSubresourceInstanceId = $this->_getCreatedResourceId($internalCreateResponse);
                 if (empty($createdSubresourceInstanceId)) {
@@ -136,7 +136,7 @@ class Mage_Api2_Model_Multicall
             $internalRequest = $this->_prepareRequest($subresourceName, $requestData, $parentResourceIdFieldName);
 
             /** @var $internalResponse Mage_Api2_Model_Response */
-            $internalResponse = Mage::getModel('api2/response');
+            $internalResponse = Mage::getModel('Mage_Api2_Model_Response');
             $server->internalCall($internalRequest, $internalResponse);
         } catch (Exception $e) {
             // TODO: implement strict mode
@@ -168,7 +168,7 @@ class Mage_Api2_Model_Multicall
     {
         $subresourceUri = $this->_createSubresourceUri($subresourceName, $parentResourceIdFieldName);
         /** @var $internalRequest Mage_Api2_Model_Request_Internal */
-        $internalRequest = Mage::getModel('api2/request_internal');
+        $internalRequest = Mage::getModel('Mage_Api2_Model_Request_Internal');
         $internalRequest->setRequestUri($subresourceUri);
         $internalRequest->setBodyParams($data);
         $internalRequest->setMethod('POST');
@@ -185,7 +185,7 @@ class Mage_Api2_Model_Multicall
     protected function _createSubresourceUri($subresourceName, $parentResourceIdFieldName = null)
     {
         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(
             new Zend_Controller_Router_Route($this->_getConfig()->getMainRoute($subresourceName))
@@ -218,7 +218,7 @@ class Mage_Api2_Model_Multicall
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('api2/config');
+        return Mage::getSingleton('Mage_Api2_Model_Config');
     }
 
     /**
@@ -228,7 +228,7 @@ class Mage_Api2_Model_Multicall
      */
     protected function _getResponse()
     {
-        return Mage::getSingleton('api2/response');
+        return Mage::getSingleton('Mage_Api2_Model_Response');
     }
 
     /**

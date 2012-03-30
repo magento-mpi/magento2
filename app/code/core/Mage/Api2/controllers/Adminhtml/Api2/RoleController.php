@@ -104,7 +104,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     {
         $id = (int) $this->getRequest()->getParam('id');
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('api2/acl_global_role')->load($id);
+        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role')->load($id);
 
         if (!$role->getId()) {
             $this->_getSession()->addError($this->__('Role "%s" not found.', $id));
@@ -154,7 +154,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
 
         $id = $request->getParam('id', false);
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('api2/acl_global_role')->load($id);
+        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role')->load($id);
 
         if (!$role->getId() && $id) {
             $this->_getSession()->addError(
@@ -190,7 +190,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
              * Save rules with resources
              */
             /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
-            $rule = Mage::getModel('api2/acl_global_rule');
+            $rule = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule');
             if ($id) {
                 $collection = $rule->getCollection();
                 $collection->addFilterByRoleId($role->getId());
@@ -203,7 +203,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
 
             /** @var $ruleTree Mage_Api2_Model_Acl_Global_Rule_Tree */
             $ruleTree = Mage::getSingleton(
-                'api2/acl_global_rule_tree',
+                'Mage_Api2_Model_Acl_Global_Rule_Tree',
                 array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_PRIVILEGE)
             );
             $resources = $ruleTree->getPostResources();
@@ -243,7 +243,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
 
         try {
             /** @var $model Mage_Api2_Model_Acl_Global_Role */
-            $model = Mage::getModel("api2/acl_global_role");
+            $model = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
             $model->load($id)->delete();
             $this->_getSession()->addSuccess($this->__('Role has been deleted.'));
         } catch (Mage_Core_Exception $e) {
@@ -263,7 +263,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     protected function _isAllowed()
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         return $session->isAllowed('system/api/roles_rest');
     }
 
@@ -273,12 +273,12 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     public function rolesGridAction()
     {
         /** @var $model Mage_Admin_Model_User */
-        $model = Mage::getModel('admin/user');
+        $model = Mage::getModel('Mage_Admin_Model_User');
         $model->load($this->getRequest()->getParam('user_id'));
 
         Mage::register('permissions_user', $model);
         $this->getResponse()
-            ->setBody($this->getLayout()->createBlock('api2/adminhtml_permissions_user_edit_tab_roles')->toHtml());
+            ->setBody($this->getLayout()->createBlock('Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles')->toHtml());
     }
 
     /**
@@ -294,7 +294,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         }
 
         /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('api2/acl_global_role');
+        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
         $role->setId($id);
 
         /** @var $resource Mage_Api2_Model_Resource_Acl_Global_Role  */
@@ -318,7 +318,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     protected function _deleteUserFromRole($adminId, $roleId)
     {
         /** @var $resourceModel Mage_Api2_Model_Resource_Acl_Global_Role */
-        $resourceModel = Mage::getResourceModel('api2/acl_global_role');
+        $resourceModel = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role');
         $resourceModel->deleteAdminToRoleRelation($adminId, $roleId);
         return $this;
     }
@@ -333,7 +333,7 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
     protected function _addUserToRole($adminId, $roleId)
     {
         /** @var $resourceModel Mage_Api2_Model_Resource_Acl_Global_Role */
-        $resourceModel = Mage::getResourceModel('api2/acl_global_role');
+        $resourceModel = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role');
         $resourceModel->saveAdminToRoleRelation($adminId, $roleId);
         return $this;
     }

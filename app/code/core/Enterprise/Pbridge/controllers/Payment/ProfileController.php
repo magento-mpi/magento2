@@ -41,7 +41,7 @@ class Enterprise_Pbridge_Payment_ProfileController extends Mage_Core_Controller_
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_pbridge')->arePaymentProfilesEnables()) {
+        if (!Mage::helper('Enterprise_Pbridge_Helper_Data')->arePaymentProfilesEnables()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -54,8 +54,8 @@ class Enterprise_Pbridge_Payment_ProfileController extends Mage_Core_Controller_
      */
     public function indexAction()
     {
-        if(!Mage::getSingleton('customer/session')->getCustomerId()) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if(!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
+            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
             return;
         }
 

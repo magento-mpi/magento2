@@ -40,7 +40,7 @@ class Mage_OAuth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('oauth/nonce', null);
+        $this->_init('oauth_nonce', null);
     }
 
     /**

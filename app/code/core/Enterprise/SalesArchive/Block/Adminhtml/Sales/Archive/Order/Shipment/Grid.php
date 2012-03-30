@@ -52,8 +52,8 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('core/url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('core/url')->addRequestParam($url, array('action' => 'shipment')));
+                $url = Mage::helper('Mage_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(Mage::helper('Mage_Core_Helper_Url')->addRequestParam($url, array('action' => 'shipment')));
             }
             return $this->_exportTypes;
         }

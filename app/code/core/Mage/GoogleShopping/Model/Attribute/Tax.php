@@ -45,7 +45,7 @@ class Mage_GoogleShopping_Model_Attribute_Tax extends Mage_GoogleShopping_Model_
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    Mage::throwException(Mage::helper('googleshopping')->__("Google shopping only supports %d tax rates per product", self::RATES_MAX));
+                    Mage::throwException(Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Google shopping only supports %d tax rates per product", self::RATES_MAX));
                 }
                 foreach ($regions as $region) {
                     $entry->addTax(array(
@@ -83,7 +83,7 @@ class Mage_GoogleShopping_Model_Attribute_Tax extends Mage_GoogleShopping_Model_
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return Mage::helper('googlecheckout')->zipRangeToZipPattern($zip);
+            return Mage::helper('Mage_GoogleCheckout_Helper_Data')->zipRangeToZipPattern($zip);
         }
     }
 }

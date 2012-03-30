@@ -62,7 +62,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_pbridge')->__('Credit Cards');
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Credit Cards');
     }
 
     /**
@@ -71,7 +71,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_pbridge')->__('Credit Cards');
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Credit Cards');
     }
 
     /**
@@ -123,7 +123,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getSourceUrl()
     {
-        return Mage::helper('enterprise_pbridge')->getPaymentProfileUrl(
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => null,

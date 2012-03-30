@@ -53,28 +53,28 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
     {
         $buttons = array(
             'backButton'    => array(
-                'label'     => Mage::helper('adminhtml')->__('Back'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
                 'onclick'   => sprintf("window.location.href='%s';", $this->getUrl('*/*/')),
                 'class'     => 'back'
             ),
             'resetButton'   => array(
-                'label'     => Mage::helper('adminhtml')->__('Reset'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
                 'onclick'   => 'window.location.reload()'
             ),
             'saveButton'    => array(
-                'label'     => Mage::helper('adminhtml')->__('Save Role'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Role'),
                 'onclick'   => 'roleForm.submit(); return false;',
                 'class'     => 'save'
             ),
             'deleteButton'  => array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Role'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Role'),
                 'onclick'   => '',  //roleId is not set at this moment, so we set script later
                 'class'     => 'delete'
             ),
         );
 
         foreach ($buttons as $name=>$data) {
-            $button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData($data);
+            $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($data);
             $this->setChild($name, $button);
         }
 
@@ -125,7 +125,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
         }
 
         $this->getChild('deleteButton')->setData('onclick', sprintf("deleteConfirm('%s', '%s')",
-            Mage::helper('adminhtml')->__('Are you sure you want to do this?'),
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?'),
             $this->getUrl('*/*/delete', array('id' => $this->getRole()->getId()))
         ));
 

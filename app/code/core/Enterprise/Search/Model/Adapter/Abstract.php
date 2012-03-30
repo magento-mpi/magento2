@@ -540,7 +540,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('Mage_Catalogsearch_Model_Resource_Fulltext')->getSeparator();
+        $this->_separator = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {

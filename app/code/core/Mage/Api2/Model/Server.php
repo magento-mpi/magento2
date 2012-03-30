@@ -73,7 +73,7 @@ class Mage_Api2_Model_Server
         // can not use response object case
         try {
             /** @var $response Mage_Api2_Model_Response */
-            $response = Mage::getSingleton('api2/response');
+            $response = Mage::getSingleton('Mage_Api2_Model_Response');
         } catch (Exception $e) {
             Mage::logException($e);
 
@@ -86,7 +86,7 @@ class Mage_Api2_Model_Server
         // can not render errors case
         try {
             /** @var $request Mage_Api2_Model_Request */
-            $request = Mage::getSingleton('api2/request');
+            $request = Mage::getSingleton('Mage_Api2_Model_Request');
             /** @var $renderer Mage_Api2_Model_Renderer_Interface */
             $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
         } catch (Exception $e) {
@@ -147,7 +147,7 @@ class Mage_Api2_Model_Server
     protected function _authenticate(Mage_Api2_Model_Request $request)
     {
         /** @var $authManager Mage_Api2_Model_Auth */
-        $authManager = Mage::getModel('api2/auth');
+        $authManager = Mage::getModel('Mage_Api2_Model_Auth');
 
         $this->_setAuthUser($authManager->authenticate($request));
         return $this->_getAuthUser();
@@ -191,7 +191,7 @@ class Mage_Api2_Model_Server
     protected function _route(Mage_Api2_Model_Request $request)
     {
         /** @var $router Mage_Api2_Model_Router */
-        $router = Mage::getModel('api2/router');
+        $router = Mage::getModel('Mage_Api2_Model_Router');
 
         $router->routeApiType($request, true)
             ->setRoutes($this->_getConfig()->getRoutes($request->getApiType()))
@@ -211,7 +211,7 @@ class Mage_Api2_Model_Server
     protected function _allow(Mage_Api2_Model_Request $request, Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
         /** @var $globalAcl Mage_Api2_Model_Acl_Global */
-        $globalAcl = Mage::getModel('api2/acl_global');
+        $globalAcl = Mage::getModel('Mage_Api2_Model_Acl_Global');
 
         if (!$globalAcl->isAllowed($apiUser, $request->getResourceType(), $request->getOperation())) {
             throw new Mage_Api2_Exception('Access denied', self::HTTP_FORBIDDEN);
@@ -235,7 +235,7 @@ class Mage_Api2_Model_Server
     )
     {
         /** @var $dispatcher Mage_Api2_Model_Dispatcher */
-        $dispatcher = Mage::getModel('api2/dispatcher');
+        $dispatcher = Mage::getModel('Mage_Api2_Model_Dispatcher');
         $dispatcher->setApiUser($apiUser)->dispatch($request, $response);
 
         return $this;
@@ -248,7 +248,7 @@ class Mage_Api2_Model_Server
      */
     protected function _getConfig()
     {
-        return Mage::getModel('api2/config');
+        return Mage::getModel('Mage_Api2_Model_Config');
     }
 
     /**

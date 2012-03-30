@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </li>
-            <?php $_streetValidationClass = $this->helper('customer/address')->getAttributeValidationClass('street'); ?>
+            <?php $_streetValidationClass = $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="street_1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
                     <div class="input-box">

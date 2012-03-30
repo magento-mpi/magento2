@@ -49,7 +49,7 @@ class Mage_Api2_Model_Auth_Adapter
     protected function _initAdapters()
     {
         /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
+        $helper = Mage::helper('Mage_Api2_Helper_Data');
 
         foreach ($helper->getAuthAdapters(true) as $adapterKey => $adapterParams) {
             $adapterModel = Mage::getModel($adapterParams['model']);

@@ -43,7 +43,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens extends Mage_Adminhtml_B
 
         $this->_blockGroup = 'oauth';
         $this->_controller = 'adminhtml_oAuth_authorizedTokens';
-        $this->_headerText = Mage::helper('adminhtml')->__('Authorized OAuth Tokens');
+        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Authorized OAuth Tokens');
 
         $this->_removeButton('add');
     }

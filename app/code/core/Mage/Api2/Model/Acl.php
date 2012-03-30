@@ -90,7 +90,7 @@ class Mage_Api2_Model_Acl extends Zend_Acl
     protected function _getRolesCollection()
     {
         if (null === $this->_rolesCollection) {
-            $this->_rolesCollection = Mage::getResourceModel('api2/acl_global_role_collection');
+            $this->_rolesCollection = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Role_Collection');
         }
         return $this->_rolesCollection;
     }
@@ -103,7 +103,7 @@ class Mage_Api2_Model_Acl extends Zend_Acl
     protected function _getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = Mage::getModel('api2/config');
+            $this->_config = Mage::getModel('Mage_Api2_Model_Config');
         }
         return $this->_config;
     }
@@ -143,7 +143,7 @@ class Mage_Api2_Model_Acl extends Zend_Acl
     protected function _setRules()
     {
         /** @var $rulesCollection Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
-        $rulesCollection = Mage::getResourceModel('api2/acl_global_rule_collection');
+        $rulesCollection = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Rule_Collection');
 
         /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
         foreach ($rulesCollection as $rule) {

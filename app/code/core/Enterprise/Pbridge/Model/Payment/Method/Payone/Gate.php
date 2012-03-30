@@ -62,14 +62,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
      *
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_payone_gate';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Payone_Gate';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_payone_gate';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payone_Gate';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -125,7 +125,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -179,7 +179,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
      */
     public function isAvailable($quote = null)
     {
-        return Mage::helper('enterprise_pbridge')->isEnabled($quote ? $quote->getStoreId() : null)
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
             && Mage_Payment_Model_Method_Abstract::isAvailable($quote);
     }
 
@@ -282,7 +282,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

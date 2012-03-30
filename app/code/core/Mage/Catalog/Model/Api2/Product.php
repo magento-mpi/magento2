@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Api2_Product extends Mage_Api2_Model_Resource
     {
         $attributes = $this->getAvailableAttributesFromConfig();
         /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type')->loadByCode('catalog_product');
+        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
         $entityOnlyAttrs = $this->getEntityOnlyAttributes($userType, $operation);
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {

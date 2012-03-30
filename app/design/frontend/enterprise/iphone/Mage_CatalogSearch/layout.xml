@@ -121,7 +121,7 @@ Advanced search results
         <reference name="content">
             <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
             <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="catalog">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>home</crumbName>
                     <crumbInfo>
                         <label>Home</label>
@@ -129,7 +129,7 @@ Advanced search results
                         <link>/</link>
                     </crumbInfo>
                 </action>
-                <action method="addCrumb" translate="crumbName" module="catalog">
+                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
                     <crumbName>categories</crumbName>
                     <crumbInfo>
                         <label>Categories</label>

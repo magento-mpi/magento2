@@ -40,7 +40,7 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('oauth/token');
+        $this->_init('Mage_OAuth_Model_Token', 'Mage_OAuth_Model_Resource_Token');
     }
 
     /**
@@ -54,7 +54,7 @@ class Mage_OAuth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
     {
         $select = $this->getSelect();
         $select->joinLeft(
-                    array('c' => $this->getTable('oauth/consumer')),
+                    array('c' => $this->getTable('oauth_consumer')),
                     'c.entity_id = main_table.consumer_id',
                     'name'
                 );

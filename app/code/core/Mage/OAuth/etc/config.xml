@@ -32,36 +32,6 @@
         </Mage_OAuth>
     </modules>
     <global>
-        <models>
-            <oauth>
-                <class>Mage_OAuth_Model</class>
-                <resourceModel>oauth_resource</resourceModel>
-            </oauth>
-            <oauth_resource>
-                <class>Mage_OAuth_Model_Resource</class>
-                <entities>
-                    <consumer>
-                        <table>oauth_consumer</table>
-                    </consumer>
-                    <token>
-                        <table>oauth_token</table>
-                    </token>
-                    <nonce>
-                        <table>oauth_nonce</table>
-                    </nonce>
-                </entities>
-            </oauth_resource>
-        </models>
-        <blocks>
-            <oauth>
-                <class>Mage_OAuth_Block</class>
-            </oauth>
-        </blocks>
-        <helpers>
-            <oauth>
-                <class>Mage_OAuth_Helper</class>
-            </oauth>
-        </helpers>
         <resources>
             <oauth_setup>
                 <setup>
@@ -74,7 +44,7 @@
             <customer_customer_authenticated>
                 <observers>
                     <oauth>
-                        <class>oauth/observer</class>
+                        <class>Mage_OAuth_Model_Observer</class>
                         <method>afterCustomerLogin</method>
                     </oauth>
                 </observers>
@@ -82,7 +52,7 @@
             <admin_session_user_login_success>
                 <observers>
                     <oauth>
-                        <class>oauth/observer</class>
+                        <class>Mage_OAuth_Model_Observer</class>
                         <method>afterAdminLogin</method>
                     </oauth>
                 </observers>
@@ -90,7 +60,7 @@
             <admin_session_user_login_failed>
                 <observers>
                     <oauth>
-                        <class>oauth/observer</class>
+                        <class>Mage_OAuth_Model_Observer</class>
                         <method>afterAdminLoginFailed</method>
                     </oauth>
                 </observers>
@@ -98,7 +68,7 @@
         </events>
         <template>
             <email>
-                <oauth_email_template translate="label" module="oauth">
+                <oauth_email_template translate="label" module="Mage_OAuth">
                     <label>Token Status Change</label>
                     <file>token.html</file>
                     <type>html</type>

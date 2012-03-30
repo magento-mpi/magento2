@@ -93,7 +93,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     protected function _initForm($simple = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
+        $server = Mage::getModel('Mage_OAuth_Model_Server');
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
@@ -149,7 +149,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $session = Mage::getSingleton($this->_sessionName);
 
         /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
+        $server = Mage::getModel('Mage_OAuth_Model_Server');
 
         $this->loadLayout();
 
@@ -163,7 +163,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
             $token = $server->authorizeToken($user->getId(), Mage_OAuth_Model_Token::USER_TYPE_ADMIN);
 
             /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
+            $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->getResponse()->setRedirect($callback . ($simple ? '&simple=1' : ''));
@@ -195,7 +195,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     protected function _initRejectPage($simple = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
+        $server = Mage::getModel('Mage_OAuth_Model_Server');
 
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -209,7 +209,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         try {
             $token = $server->checkAuthorizeRequest();
             /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
+            $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));

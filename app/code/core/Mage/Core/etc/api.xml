@@ -34,12 +34,12 @@
                     </store_not_exists>
                 </faults>
             </core_store>
-            <core_magento translate="title" module="core">
-                <model>core/magento_api</model>
+            <core_magento translate="title" module="Mage_Core">
+                <model>Mage_Core_Model_Magento_Api</model>
                 <title>Magento info API</title>
                 <acl>core/magento</acl>
                 <methods>
-                    <info translate="title" module="core">
+                    <info translate="title" module="Mage_Core">
                         <title>Get info about current Magento installation</title>
                         <acl>core/magento/info</acl>
                     </info>
@@ -74,9 +74,9 @@
                             <title>List of stores</title>
                         </list>
                     </store>
-                    <magento translate="title" module="core">
+                    <magento translate="title" module="Mage_Core">
                         <title>Magento info</title>
-                        <info translate="title" module="core">
+                        <info translate="title" module="Mage_Core">
                             <title>Retrieve info about current Magento installation</title>
                         </info>
                     </magento>

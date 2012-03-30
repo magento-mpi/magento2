@@ -35,9 +35,9 @@ $installer->startSetup();
 $adapter = $installer->getConnection();
 
 /**
- * Create table 'api2/acl_role'
+ * Create table 'api2_acl_role'
  */
-$table = $adapter->newTable($installer->getTable('api2/acl_role'))
+$table = $adapter->newTable($installer->getTable('api2_acl_role'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -55,14 +55,14 @@ $table = $adapter->newTable($installer->getTable('api2/acl_role'))
         ), 'Updated At')
     ->addColumn('role_name', Varien_Db_Ddl_Table::TYPE_VARCHAR,
         255, array('nullable'  => false), 'Name of role')
-    ->addIndex($installer->getIdxName('api2/acl_role', array('created_at')), array('created_at'))
-    ->addIndex($installer->getIdxName('api2/acl_role', array('updated_at')), array('updated_at'))
+    ->addIndex($installer->getIdxName('api2_acl_role', array('created_at')), array('created_at'))
+    ->addIndex($installer->getIdxName('api2_acl_role', array('updated_at')), array('updated_at'))
     ->setComment('Api2 Global ACL Roles');
 $adapter->createTable($table);
 
 // Create Guest and Customer User Roles
 $adapter->insertMultiple(
-    $installer->getTable('api2/acl_role'),
+    $installer->getTable('api2_acl_role'),
     array(
         array('role_name' => 'Guest'),
         array('role_name' => 'Customer')
@@ -70,9 +70,9 @@ $adapter->insertMultiple(
 );
 
 /**
- * Create table 'api2/acl_user'
+ * Create table 'api2_acl_user'
  */
-$table = $adapter->newTable($installer->getTable('api2/acl_user'))
+$table = $adapter->newTable($installer->getTable('api2_acl_user'))
     ->addColumn('admin_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'unsigned' => true,
             'nullable' => false,
@@ -83,23 +83,23 @@ $table = $adapter->newTable($installer->getTable('api2/acl_user'))
         ), 'Role ID')
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('api2/acl_user'),
+            $installer->getTable('api2_acl_user'),
             array('admin_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('admin_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('api2/acl_user', 'admin_id', 'admin/user', 'user_id'),
+        $installer->getFkName('api2_acl_user', 'admin_id', 'admin_user', 'user_id'),
         'admin_id',
-        $installer->getTable('admin/user'),
+        $installer->getTable('admin_user'),
         'user_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('api2/acl_user', 'role_id', 'api2/acl_role', 'entity_id'),
+        $installer->getFkName('api2_acl_user', 'role_id', 'api2_acl_role', 'entity_id'),
         'role_id',
-        $installer->getTable('api2/acl_role'),
+        $installer->getTable('api2_acl_role'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -107,9 +107,9 @@ $table = $adapter->newTable($installer->getTable('api2/acl_user'))
 $adapter->createTable($table);
 
 /**
- * Create table 'api2/acl_rule'
+ * Create table 'api2_acl_rule'
  */
-$table = $adapter->newTable($installer->getTable('api2/acl_rule'))
+$table = $adapter->newTable($installer->getTable('api2_acl_rule'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'primary'  => true,
             'identity' => true,
@@ -128,16 +128,16 @@ $table = $adapter->newTable($installer->getTable('api2/acl_rule'))
         ), 'ACL Privilege')
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('api2/acl_rule'),
+            $installer->getTable('api2_acl_rule'),
             array('role_id', 'resource_id', 'privilege'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('role_id', 'resource_id', 'privilege'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
-        $installer->getFkName('api2/acl_rule', 'role_id', 'api2/acl_role', 'entity_id'),
+        $installer->getFkName('api2_acl_rule', 'role_id', 'api2_acl_role', 'entity_id'),
         'role_id',
-        $installer->getTable('api2/acl_role'),
+        $installer->getTable('api2_acl_role'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -145,9 +145,9 @@ $table = $adapter->newTable($installer->getTable('api2/acl_rule'))
 $adapter->createTable($table);
 
 /**
-* Create table 'api2/acl_attribute'
+* Create table 'api2_acl_attribute'
 */
-$table = $adapter->newTable($installer->getTable('api2/acl_attribute'))
+$table = $adapter->newTable($installer->getTable('api2_acl_attribute'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -167,11 +167,11 @@ $table = $adapter->newTable($installer->getTable('api2/acl_attribute'))
             'nullable' => true
         ), 'Allowed attributes')
     ->addIndex(
-        $installer->getIdxName('api2/acl_attribute', array('user_type')),
+        $installer->getIdxName('api2_acl_attribute', array('user_type')),
         array('user_type'))
     ->addIndex(
         $installer->getIdxName(
-            $installer->getTable('api2/acl_attribute'),
+            $installer->getTable('api2_acl_attribute'),
             array('user_type', 'resource_id', 'operation'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),

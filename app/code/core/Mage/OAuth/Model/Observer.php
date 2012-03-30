@@ -82,7 +82,7 @@ class Mage_OAuth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('customer/session');
+            $session = Mage::getSingleton('Mage_Customer_Model_Session');
             $session->setAfterAuthUrl($this->_getAfterAuthUrl(Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER));
         }
     }
@@ -110,7 +110,7 @@ class Mage_OAuth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Admin_Model_Session */
-            $session = Mage::getSingleton('admin/session');
+            $session = Mage::getSingleton('Mage_Admin_Model_Session');
             $session->addError($observer->getException()->getMessage());
 
             $params = array('oauth_token' => $this->_getOauthToken());

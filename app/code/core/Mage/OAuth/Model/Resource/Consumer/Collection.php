@@ -40,6 +40,6 @@ class Mage_OAuth_Model_Resource_Consumer_Collection extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('oauth/consumer');
+        $this->_init('Mage_OAuth_Model_Consumer', 'Mage_OAuth_Model_Resource_Consumer');
     }
 }

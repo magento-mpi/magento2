@@ -66,7 +66,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
     protected function _getCollectionForRetrieve()
     {
         /* @var $collection Mage_CatalogInventory_Model_Resource_Stock_Item_Collection */
-        $collection = Mage::getResourceModel('cataloginventory/stock_item_collection');
+        $collection = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item_Collection');
         $this->_applyCollectionModifiers($collection);
         return $collection;
     }
@@ -83,7 +83,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
         $stockItem = $this->_loadStockItemById($this->getRequest()->getParam('id'));
 
         /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item */
-        $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_item', array(
+        $validator = Mage::getModel('Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item', array(
             'resource' => $this
         ));
 
@@ -119,7 +119,7 @@ abstract class Mage_CatalogInventory_Model_Api2_Stock_Item_Rest
                 }
 
                 /* @var $validator Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item */
-                $validator = Mage::getModel('cataloginventory/api2_stock_item_validator_item', array(
+                $validator = Mage::getModel('Mage_CatalogInventory_Model_Api2_Stock_Item_Validator_Item', array(
                     'resource' => $this
                 ));
                 if (!$validator->isValidSingleItemDataForMultiUpdate($itemData)) {

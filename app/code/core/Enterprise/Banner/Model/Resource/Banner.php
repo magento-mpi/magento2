@@ -225,7 +225,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             $select->where('banner_segments.segment_id IS NULL');
         } else {
             $select->joinLeft(
-                array('customer_segments' => $this->getTable('enterprise_customersegment/segment')),
+                array('customer_segments' => $this->getTable('enterprise_customersegment_segment')),
                 'customer_segments.segment_id = banner_segments.segment_id',
                 array()
             );

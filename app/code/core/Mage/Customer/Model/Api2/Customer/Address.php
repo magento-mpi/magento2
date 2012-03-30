@@ -50,7 +50,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
      */
     protected function _getValidator()
     {
-        return Mage::getModel('customer/api2_customer_address_validator', array('resource' => $this));
+        return Mage::getModel('Mage_Customer_Model_Api2_Customer_Address_Validator', array('resource' => $this));
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
      */
     protected function _getRegionIdByNameOrCode($region)
     {
-        $id = Mage::getResourceModel('directory/region_collection')
+        $id = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
             ->addFieldToFilter(array('default_name', 'code'), array($region, $region))
             ->getFirstItem()
             ->getId();
@@ -100,7 +100,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     protected function _loadCustomerAddressById($id)
     {
         /* @var $address Mage_Customer_Model_Address */
-        $address = Mage::getModel('customer/address')->load($id);
+        $address = Mage::getModel('Mage_Customer_Model_Address')->load($id);
 
         if (!$address->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
@@ -120,7 +120,7 @@ class Mage_Customer_Model_Api2_Customer_Address extends Mage_Api2_Model_Resource
     protected function _loadCustomerById($id)
     {
         /* @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($id);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }

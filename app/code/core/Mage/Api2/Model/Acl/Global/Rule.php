@@ -60,6 +60,6 @@ class Mage_Api2_Model_Acl_Global_Rule extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_global_rule');
+        $this->_init('Mage_Api2_Model_Acl_Global_Rule');
     }
 }

@@ -69,7 +69,7 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                 $allowedAttributes = array();
 
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
-                $rules = Mage::getResourceModel('api2/acl_filter_attribute_collection');
+                $rules = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection');
                 $rules->addFilterByUserType($this->_userType);
 
                 foreach ($rules as $rule) {
@@ -86,10 +86,10 @@ class Mage_Api2_Model_Acl_Filter_Attribute_ResourcePermission
                 }
 
                 /** @var $config Mage_Api2_Model_Config */
-                $config = Mage::getModel('api2/config');
+                $config = Mage::getModel('Mage_Api2_Model_Config');
 
                 /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
-                $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
+                $operationSource = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute_Operation');
 
                 foreach ($config->getResourcesTypes() as $resource) {
                     $resourceUserPrivileges = $config->getResourceUserPrivileges($resource, $this->_userType);

@@ -452,7 +452,7 @@ abstract class Mage_Api2_Model_Resource
     {
         if (!$this->_filter) {
             /** @var $filter Mage_Api2_Model_Acl_Filter */
-            $filter = Mage::getModel('api2/acl_filter', $this);
+            $filter = Mage::getModel('Mage_Api2_Model_Acl_Filter', $this);
             $this->setFilter($filter);
         }
         return $this->_filter;
@@ -604,7 +604,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getConfig()
     {
-        return Mage::getSingleton('api2/config');
+        return Mage::getSingleton('Mage_Api2_Model_Config');
     }
 
     /**
@@ -807,7 +807,7 @@ abstract class Mage_Api2_Model_Resource
     protected function _multicall($resourceInstanceId)
     {
         if (!$this->_multicall) {
-            $this->_multicall = Mage::getModel('api2/multicall');
+            $this->_multicall = Mage::getModel('Mage_Api2_Model_Multicall');
         }
         $resourceName = $this->getResourceType();
         return $this->_multicall->call($resourceInstanceId, $resourceName, $this->getRequest());
@@ -830,7 +830,7 @@ abstract class Mage_Api2_Model_Resource
         );
 
         /** @var $request Mage_Api2_Model_Request */
-        $request = Mage::getModel('api2/request');
+        $request = Mage::getModel('Mage_Api2_Model_Request');
 
         $request->setParams($requestParams);
 
@@ -855,7 +855,7 @@ abstract class Mage_Api2_Model_Resource
     protected function _isSubCallAllowed($resourceId)
     {
         /** @var $globalAcl Mage_Api2_Model_Acl_Global */
-        $globalAcl = Mage::getSingleton('api2/acl_global');
+        $globalAcl = Mage::getSingleton('Mage_Api2_Model_Acl_Global');
 
         try {
             return $globalAcl->isAllowed($this->getApiUser(), $resourceId, $this->getOperation());
@@ -885,7 +885,7 @@ abstract class Mage_Api2_Model_Resource
     protected function _getLocation($resource)
     {
         /* @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(
             new Zend_Controller_Router_Route($this->getConfig()->getRouteWithEntityTypeAction($this->getResourceType()))
@@ -1034,7 +1034,7 @@ abstract class Mage_Api2_Model_Resource
         $model = $this->getConfig()->getResourceWorkingModel($this->getResourceType());
 
         /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('eav/entity_type')->load($model, 'entity_model');
+        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->load($model, 'entity_model');
 
         /** @var $attribute Mage_Eav_Model_Entity_Attribute */
         foreach ($entityType->getAttributeCollection() as $attribute) {

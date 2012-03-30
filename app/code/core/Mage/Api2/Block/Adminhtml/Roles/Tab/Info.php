@@ -45,12 +45,12 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('adminhtml')->__('Role Information')
+            'legend'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information')
         ));
 
         $data = array(
             'name'  => 'role_name',
-            'label' => Mage::helper('adminhtml')->__('Role Name'),
+            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
             'id'    => 'role_name',
             'class' => 'required-entry',
             'required' => true,
@@ -58,9 +58,9 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
 
         if ($this->isHidden()) {
             /** @var $helper Mage_Core_Helper_Data */
-            $helper = Mage::helper('core');
+            $helper = Mage::helper('Mage_Core_Helper_Data');
 
-            $data['note'] = Mage::helper('api2')->__(
+            $data['note'] = Mage::helper('Mage_Api2_Helper_Data')->__(
                 '%s role is protected.',
                 $helper->escapeHtml($this->getRole()->getRoleName())
             );
@@ -96,7 +96,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Tab_Info extends Mage_Adminhtml_Block_Widg
      */
     public function getTabLabel()
     {
-        return Mage::helper('api2')->__('Role Info');
+        return Mage::helper('Mage_Api2_Helper_Data')->__('Role Info');
     }
 
     /**

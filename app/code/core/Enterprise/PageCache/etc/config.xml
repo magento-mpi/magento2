@@ -160,7 +160,7 @@
             <adminhtml_system_config_backend_cookie_save_after>
                 <observers>
                     <enterprise_pagecache>
-                        <class>enterprise_pagecache/observer</class>
+                        <class>Enterprise_PageCache_Model_Observer</class>
                         <method>invalidateCache</method>
                     </enterprise_pagecache>
                 </observers>

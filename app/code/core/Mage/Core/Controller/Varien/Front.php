@@ -311,7 +311,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
             || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
         ) {
-            $redirectUrl = Mage::getSingleton('core/url')->getRedirectUrl(
+            $redirectUrl = Mage::getSingleton('Mage_Core_Model_Url')->getRedirectUrl(
                 Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 

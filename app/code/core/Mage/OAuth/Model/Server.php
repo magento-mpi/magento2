@@ -298,7 +298,7 @@ class Mage_OAuth_Model_Server
      */
     protected function _initConsumer()
     {
-        $this->_consumer = Mage::getModel('oauth/consumer');
+        $this->_consumer = Mage::getModel('Mage_OAuth_Model_Consumer');
 
         $this->_consumer->load($this->_protocolParams['oauth_consumer_key'], 'key');
 
@@ -315,7 +315,7 @@ class Mage_OAuth_Model_Server
      */
     protected function _initToken()
     {
-        $this->_token = Mage::getModel('oauth/token');
+        $this->_token = Mage::getModel('Mage_OAuth_Model_Token');
 
         if (self::REQUEST_INITIATE != $this->_requestType) {
             $this->_validateTokenParam();
@@ -468,7 +468,7 @@ class Mage_OAuth_Model_Server
             $this->_throwException('', self::ERR_TIMESTAMP_REFUSED);
         }
         /** @var $nonceObj Mage_OAuth_Model_Nonce */
-        $nonceObj = Mage::getModel('oauth/nonce');
+        $nonceObj = Mage::getModel('Mage_OAuth_Model_Nonce');
 
         $nonceObj->load($nonce, 'nonce');
 

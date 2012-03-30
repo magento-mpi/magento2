@@ -42,7 +42,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token extends Mage_Adminhtml_Block_
 
         $this->_blockGroup = 'oauth';
         $this->_controller = 'adminhtml_oAuth_admin_token';
-        $this->_headerText = Mage::helper('adminhtml')->__('My Applications');
+        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('My Applications');
         $this->_removeButton('add');
     }
 }

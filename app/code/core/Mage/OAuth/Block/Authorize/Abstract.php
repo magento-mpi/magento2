@@ -63,7 +63,7 @@ abstract class Mage_OAuth_Block_Authorize_Abstract extends Mage_Core_Block_Templ
     public function __construct()
     {
         parent::__construct();
-        $this->_helper = Mage::helper('oauth');
+        $this->_helper = Mage::helper('Mage_OAuth_Helper_Data');
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class Mage_OAuth_Block_Authorize_Abstract extends Mage_Core_Block_Templ
     {
         if (null === $this->_consumer) {
             /** @var $token Mage_OAuth_Model_Token */
-            $token = Mage::getModel('oauth/token');
+            $token = Mage::getModel('Mage_OAuth_Model_Token');
             $token->load($this->getToken(), 'token');
             $this->_consumer = $token->getConsumer();
         }

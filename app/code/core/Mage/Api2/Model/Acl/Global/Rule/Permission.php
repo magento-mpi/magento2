@@ -50,11 +50,11 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
         return array(
             array(
                 'value' => self::TYPE_DENY,
-                'label' => Mage::helper('api2')->__('Deny')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Deny')
             ),
             array(
                 'value' => self::TYPE_ALLOW,
-                'label' => Mage::helper('api2')->__('Allow')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Allow')
             ),
         );
     }
@@ -67,8 +67,8 @@ class Mage_Api2_Model_Acl_Global_Rule_Permission
     static public function toArray()
     {
         return array(
-            self::TYPE_DENY  => Mage::helper('api2')->__('Deny'),
-            self::TYPE_ALLOW => Mage::helper('api2')->__('Allow'),
+            self::TYPE_DENY  => Mage::helper('Mage_Api2_Helper_Data')->__('Deny'),
+            self::TYPE_ALLOW => Mage::helper('Mage_Api2_Helper_Data')->__('Allow'),
         );
     }
 }

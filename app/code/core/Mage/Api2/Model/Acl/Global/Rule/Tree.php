@@ -129,13 +129,13 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         switch ($this->_type) {
             case self::TYPE_ATTRIBUTE:
                 /** @var $operationSource Mage_Api2_Model_Acl_Filter_Attribute_Operation */
-                $operationSource = Mage::getModel('api2/acl_filter_attribute_operation');
+                $operationSource = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute_Operation');
                 $this->_existOperations = $operationSource->toArray();
                 break;
 
             case self::TYPE_PRIVILEGE:
                 /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
-                $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+                $privilegeSource = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule_Privilege');
                 $this->_existPrivileges = $privilegeSource->toArray();
                 break;
 
@@ -158,7 +158,7 @@ class Mage_Api2_Model_Acl_Global_Rule_Tree extends Mage_Core_Helper_Abstract
         }
 
         /** @var $config Mage_Api2_Model_Config */
-        $config = Mage::getModel('api2/config');
+        $config = Mage::getModel('Mage_Api2_Model_Config');
         $this->_resourcesConfig = $config->getResourceGroups();
 
         if ($this->_type == self::TYPE_ATTRIBUTE && !$this->_existOperations) {

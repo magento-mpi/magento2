@@ -413,7 +413,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     protected function _getQuotes()
     {
-        $this->_result = Mage::getModel('shipping/rate_result');
+        $this->_result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
         // make separate request for Smart Post method
         $allowedMethods = explode(',', $this->getConfigData('allowed_methods'));
         if (in_array(self::RATE_REQUEST_SMARTPOST, $allowedMethods)) {

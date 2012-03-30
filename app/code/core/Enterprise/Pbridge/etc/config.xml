@@ -77,7 +77,7 @@
             <admin_system_config_changed_section_payment>
                 <observers>
                     <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
                         <method>updatePaymentProfileStatus</method>
                     </enterprise_pbridge>
                 </observers>
@@ -115,7 +115,7 @@
                 <enabled>1</enabled>
             </pbridge_authorizenet>
             <pbridge_eway_direct>
-                <model>enterprise_pbridge/payment_method_eway_direct</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
                 <active>1</active>
             </pbridge_eway_direct>
             <pbridge_verisign>

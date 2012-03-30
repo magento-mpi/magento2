@@ -34,7 +34,7 @@
             <action method="setTemplate">
                 <template>oauth/authorize/head-simple.phtml</template>
             </action>
-            <block type="oauth/authorize_style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
+            <block type="Mage_OAuth_Block_Authorize_Style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
         </reference>
     </oauth_authorize_head_simple>
 
@@ -47,8 +47,8 @@
         </reference>
         <reference name="content">
             <!-- Should be rendered one block -->
-            <block type="oauth/authorize" name="oauth.authorize.form" template="authorize/form/login.phtml" />
-            <block type="oauth/authorize_button" name="oauth.authorize.button" template="authorize/button.phtml" />
+            <block type="Mage_OAuth_Block_Authorize" name="oauth.authorize.form" template="authorize/form/login.phtml" />
+            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.button" template="authorize/button.phtml" />
         </reference>
         <remove name="top.links"/>
         <remove name="top.search"/>
@@ -87,7 +87,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize_button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
+            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
         </reference>
         <remove name="footer"/>
         <remove name="top.links"/>
@@ -126,7 +126,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="oauth/authorize" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
+            <block type="Mage_OAuth_Block_Authorize" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
         </reference>
         <remove name="footer"/>
         <remove name="top.links"/>
@@ -154,7 +154,7 @@
     <!-- My Applications-->
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="oauth">
+            <action method="addLink" translate="label" module="Mage_OAuth">
                 <name>OAuth Customer Tokens</name>
                 <path>oauth/customer_token</path>
                 <label>My Applications</label>
@@ -166,7 +166,7 @@
         <label>Customer My Account My OAuth Applications</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="oauth/customer_token_list" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
+            <block type="Mage_OAuth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
         </reference>
     </oauth_customer_token_index>
     <!-- EOF My Applications-->

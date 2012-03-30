@@ -136,7 +136,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
         }
 
         /* @var $country Mage_Directory_Model_Country */
-        $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+        $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($data['country_id']);
         if (!$country->getId()) {
             $this->_addError('Country does not exist.');
             return false;

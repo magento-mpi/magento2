@@ -91,7 +91,7 @@ class Mage_GoogleShopping_Model_MassOperations
                     }
                     $errors[] = $message;
                 } catch (Mage_Core_Exception $e) {
-                    $errors[] = Mage::helper('googleshopping')->__('The product "%s" cannot be added to Google Content. %s', $product->getName(), $e->getMessage());
+                    $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The product "%s" cannot be added to Google Content. %s', $product->getName(), $e->getMessage());
                 } catch (Exception $e) {
                     Mage::logException($e);
                     $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The product "%s" hasn\'t been added to Google Content.', $product->getName());
@@ -118,8 +118,8 @@ class Mage_GoogleShopping_Model_MassOperations
 
         if ($this->_flag->isExpired()) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('googleshopping')->__('Operation of adding products to Google Shopping expired.'),
-                Mage::helper('googleshopping')->__('Some products may have not been added to Google Shopping bacause of expiration')
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Operation of adding products to Google Shopping expired.'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Some products may have not been added to Google Shopping bacause of expiration')
             );
         }
 
@@ -174,7 +174,7 @@ class Mage_GoogleShopping_Model_MassOperations
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
                 } catch (Mage_Core_Exception $e) {
-                    $errors[] = Mage::helper('googleshopping')->__('The item "%s" cannot be updated at Google Content. %s', $item->getProduct()->getName(), $e->getMessage());
+                    $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The item "%s" cannot be updated at Google Content. %s', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
                 } catch (Exception $e) {
                     Mage::logException($e);
@@ -248,7 +248,7 @@ class Mage_GoogleShopping_Model_MassOperations
         }
         if (count($errors)) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('googleshopping')->__('Errors happened while deleting items from Google Shopping'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Errors happened while deleting items from Google Shopping'),
                 $errors
             );
         }
@@ -293,7 +293,7 @@ class Mage_GoogleShopping_Model_MassOperations
      */
     protected function _getNotifier()
     {
-        return Mage::getModel('adminnotification/inbox');
+        return Mage::getModel('Mage_AdminNotification_Model_Inbox');
     }
 
     /**
@@ -303,7 +303,7 @@ class Mage_GoogleShopping_Model_MassOperations
     {
         if (!$this->_hasError) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('googleshopping')->__('Google Shopping Error'),
+                Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Google Shopping Error'),
                 Mage::helper('Mage_GoogleShopping_Helper_Category')->getMessage()
             );
             $this->_hasError = true;

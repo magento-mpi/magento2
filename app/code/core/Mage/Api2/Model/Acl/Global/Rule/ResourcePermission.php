@@ -62,7 +62,7 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
 
             if ($this->_role) {
                 /** @var $rules Mage_Api2_Model_Resource_Acl_Global_Rule_Collection */
-                $rules = Mage::getResourceModel('api2/acl_global_rule_collection');
+                $rules = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Global_Rule_Collection');
                 $rules->addFilterByRoleId($this->_role->getId());
 
                 /** @var $rule Mage_Api2_Model_Acl_Global_Rule */
@@ -77,9 +77,9 @@ class Mage_Api2_Model_Acl_Global_Rule_ResourcePermission
 
             //set permissions to resources
             /** @var $config Mage_Api2_Model_Config */
-            $config = Mage::getModel('api2/config');
+            $config = Mage::getModel('Mage_Api2_Model_Config');
             /** @var $privilegeSource Mage_Api2_Model_Acl_Global_Rule_Privilege */
-            $privilegeSource = Mage::getModel('api2/acl_global_rule_privilege');
+            $privilegeSource = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule_Privilege');
             $privileges = array_keys($privilegeSource->toArray());
 
             /** @var $node Varien_Simplexml_Element */

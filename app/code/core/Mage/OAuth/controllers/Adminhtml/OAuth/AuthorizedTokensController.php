@@ -89,7 +89,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
 
         try {
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids)
@@ -133,7 +133,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
 
         try {
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids);
@@ -162,7 +162,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
     protected function _isAllowed()
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         return $session->isAllowed('system/oauth/authorizedTokens');
     }
 
@@ -176,7 +176,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
     {
         if (($adminId = $token->getAdminId())) {
             /** @var $session Mage_Admin_Model_Session */
-            $session = Mage::getSingleton('admin/session');
+            $session = Mage::getSingleton('Mage_Admin_Model_Session');
 
             /** @var $admin Mage_Admin_Model_User */
             $admin = $session->getUser();
@@ -188,7 +188,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
             $name  = $admin->getName(' ');
         } else {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer');
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
 
             $customer->load($token->getCustomerId());
 
@@ -196,7 +196,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensController extends Mage_Adminht
             $name  = $customer->getName();
         }
         /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
         $helper->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
     }

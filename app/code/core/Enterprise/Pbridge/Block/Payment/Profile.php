@@ -50,7 +50,7 @@ class Enterprise_Pbridge_Block_Payment_Profile extends Enterprise_Pbridge_Block_
      */
     public function getSourceUrl()
     {
-        return Mage::helper('enterprise_pbridge')->getPaymentProfileUrl(
+        return Mage::helper('Enterprise_Pbridge_Helper_Data')->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => $this->getCssUrl(),

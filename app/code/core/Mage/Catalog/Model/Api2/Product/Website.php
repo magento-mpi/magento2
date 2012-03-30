@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Api2_Product_Website extends Mage_Api2_Model_Resource
     protected function _loadProductById($id)
     {
         /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($id);
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($id);
         if (!$product->getId()) {
             $this->_critical(sprintf('Product #%s not found.', $id), Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Api2_Product_Website extends Mage_Api2_Model_Resource
     protected function _loadWebsiteById($id)
     {
         /* @var $website Mage_Core_Model_Website */
-        $website = Mage::getModel('core/website')->load($id);
+        $website = Mage::getModel('Mage_Core_Model_Website')->load($id);
         if (!$website->getId()) {
             $this->_critical(sprintf('Website #%s not found.', $id), Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }

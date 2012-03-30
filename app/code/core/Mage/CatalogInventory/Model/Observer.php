@@ -296,13 +296,13 @@ class Mage_CatalogInventory_Model_Observer
                 $quoteItem->addErrorInfo(
                     'cataloginventory',
                     Mage_CatalogInventory_Helper_Data::ERROR_QTY,
-                    Mage::helper('cataloginventory')->__('This product is currently out of stock.')
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('This product is currently out of stock.')
                 );
                 $quoteItem->getQuote()->addErrorInfo(
                     'stock',
                     'cataloginventory',
                     Mage_CatalogInventory_Helper_Data::ERROR_QTY,
-                    Mage::helper('cataloginventory')->__('Some of the products are currently out of stock.')
+                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products are currently out of stock.')
                 );
                 return $this;
             } else {

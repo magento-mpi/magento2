@@ -620,11 +620,11 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
         if ($createdFromOrders) {
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('There are no shipping labels related to selected orders.'));
+                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('There are no shipping labels related to selected orders.'));
             $this->_redirect('*/sales_order/index');
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('There are no shipping labels related to selected shipments.'));
+                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('There are no shipping labels related to selected shipments.'));
             $this->_redirect('*/sales_order_shipment/index');
         }
     }

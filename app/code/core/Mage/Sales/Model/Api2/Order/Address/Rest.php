@@ -84,7 +84,7 @@ abstract class Mage_Sales_Model_Api2_Order_Address_Rest extends Mage_Sales_Model
     protected function _getCollectionForRetrieve()
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
-        $collection = Mage::getResourceModel('sales/order_address_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Address_Collection');
         $collection->addAttributeToFilter('parent_id', $this->getRequest()->getParam(self::PARAM_ORDER_ID));
 
         return $collection;

@@ -91,10 +91,10 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
 
         try {
             /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('admin/session')->getData('user');
+            $user = Mage::getSingleton('Mage_Admin_Model_Session')->getData('user');
 
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
@@ -137,10 +137,10 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
 
         try {
             /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('admin/session')->getData('user');
+            $user = Mage::getSingleton('Mage_Admin_Model_Session')->getData('user');
 
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
@@ -168,7 +168,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
     protected function _isAllowed()
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
         return $session->isAllowed('system/acl/admin_token');
     }
 }

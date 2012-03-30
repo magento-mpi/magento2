@@ -47,10 +47,10 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     protected function _construct()
     {
         /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
 
         /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('oauth/token')->getCollection();
+        $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
                 ->addFilterByCustomerId($session->getCustomerId());
@@ -85,7 +85,7 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     protected function _prepareLayout()
     {
         /** @var $toolbar Mage_Page_Block_Html_Pager */
-        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_token.toolbar');
+        $toolbar = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'customer_token.toolbar');
         $toolbar->setCollection($this->_collection);
         $this->setChild('toolbar', $toolbar);
         parent::_prepareLayout();

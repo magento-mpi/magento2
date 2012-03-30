@@ -101,12 +101,12 @@ class Mage_Api2_Adminhtml_Api2_AttributeController extends Mage_Adminhtml_Contro
         try {
             /** @var $ruleTree Mage_Api2_Model_Acl_Global_Rule_Tree */
             $ruleTree = Mage::getSingleton(
-                'api2/acl_global_rule_tree',
+                'Mage_Api2_Model_Acl_Global_Rule_Tree',
                 array('type' => Mage_Api2_Model_Acl_Global_Rule_Tree::TYPE_ATTRIBUTE)
             );
 
             /** @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
-            $attribute = Mage::getModel('api2/acl_filter_attribute');
+            $attribute = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute');
 
             /** @var $collection Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection */
             $collection = $attribute->getCollection();

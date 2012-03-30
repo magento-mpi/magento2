@@ -61,7 +61,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
          * Check exists and writeable path
          */
         if (!$io->fileExists($realPath, false)) {
-            Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')->__('Please create the specified folder "%s" before saving the sitemap.', Mage::helper('core')->escapeHtml($this->getSitemapPath())));
+            Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')->__('Please create the specified folder "%s" before saving the sitemap.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$io->isWriteable($realPath)) {

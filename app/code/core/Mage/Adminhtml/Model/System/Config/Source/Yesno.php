@@ -36,8 +36,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Yesno
     public function toArray()
     {
         return array(
-            0 => Mage::helper('adminhtml')->__('No'),
-            1 => Mage::helper('adminhtml')->__('Yes'),
+            0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
+            1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
         );
     }
 

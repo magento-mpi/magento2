@@ -28,16 +28,16 @@
 <config>
     <api2>
         <resource_groups>
-            <cataloginventory translate="title" module="api2">
+            <cataloginventory translate="title" module="Mage_Api2">
                 <title>CatalogInventory</title>
                 <sort_order>120</sort_order>
             </cataloginventory>
         </resource_groups>
         <resources>
-            <stock_item translate="title" module="api2">
+            <stock_item translate="title" module="Mage_Api2">
                 <group>cataloginventory</group>
-                <model>cataloginventory/api2_stock_item</model>
-                <working_model>cataloginventory/stock_item</working_model>
+                <model>Mage_CatalogInventory_Model_Api2_Stock_Item</model>
+                <working_model>Mage_CatalogInventory_Model_Stock_Item</working_model>
                 <title>Stock Item</title>
                 <privileges>
                     <admin>
@@ -45,7 +45,7 @@
                         <update>1</update>
                     </admin>
                 </privileges>
-                <attributes translate="item_id product_id stock_id qty min_qty use_config_min_qty is_qty_decimal backorders use_config_backorders min_sale_qty use_config_min_sale_qty max_sale_qty use_config_max_sale_qty is_in_stock low_stock_date notify_stock_qty use_config_notify_stock_qty manage_stock use_config_manage_stock stock_status_changed_auto use_config_qty_increments qty_increments use_config_enable_qty_inc enable_qty_increments is_decimal_divided" module="api2">
+                <attributes translate="item_id product_id stock_id qty min_qty use_config_min_qty is_qty_decimal backorders use_config_backorders min_sale_qty use_config_min_sale_qty max_sale_qty use_config_max_sale_qty is_in_stock low_stock_date notify_stock_qty use_config_notify_stock_qty manage_stock use_config_manage_stock stock_status_changed_auto use_config_qty_increments qty_increments use_config_enable_qty_inc enable_qty_increments is_decimal_divided" module="Mage_Api2">
                     <item_id>Item ID</item_id>
                     <product_id>Product ID</product_id>
                     <stock_id>Stock ID</stock_id>
@@ -100,14 +100,14 @@
                 <validators>
                     <fields>
                         <manage_stock>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "manage_stock" field must be set to 0 or 1.</message>
                             </regex>
                         </manage_stock>
                         <use_config_manage_stock>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_manage_stock" field must be set to 0 or 1.</message>
@@ -121,7 +121,7 @@
                             </between>
                         </qty>
                         <min_qty>
-                            <float translate="message" module="api2">
+                            <float translate="message" module="Mage_Api2">
                                 <type>Float</type>
                                 <message>Please enter a valid number in "min_qty" field</message>
                             </float>
@@ -131,35 +131,35 @@
                             </between>
                         </min_qty>
                         <use_config_min_qty>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_min_qty" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_min_qty>
                         <is_qty_decimal>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "is_qty_decimal" field must be set to 0 or 1.</message>
                             </regex>
                         </is_qty_decimal>
                         <backorders>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1,2]$/</pattern></options>
                                 <message>The "is_qty_decimal" field must be set to 0, 1, or 2.</message>
                             </regex>
                         </backorders>
                         <use_config_backorders>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_backorders" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_backorders>
                         <min_sale_qty>
-                            <int translate="message" module="api2">
+                            <int translate="message" module="Mage_Api2">
                                 <type>Int</type>
                                 <message>Please enter a valid number in "min_sale_qty" field</message>
                             </int>
@@ -169,14 +169,14 @@
                             </between>
                         </min_sale_qty>
                         <use_config_min_sale_qty>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_min_sale_qty" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_min_sale_qty>
                         <max_sale_qty>
-                            <int translate="message" module="api2">
+                            <int translate="message" module="Mage_Api2">
                                 <type>Int</type>
                                 <message>Please enter a valid number in "max_sale_qty" field</message>
                             </int>
@@ -186,73 +186,73 @@
                             </between>
                         </max_sale_qty>
                         <use_config_max_sale_qty>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_max_sale_qty" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_max_sale_qty>
                         <is_in_stock>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "is_in_stock" field must be set to 0 or 1.</message>
                             </regex>
                         </is_in_stock>
                         <notify_stock_qty>
-                            <float translate="message" module="api2">
+                            <float translate="message" module="Mage_Api2">
                                 <type>Float</type>
                                 <message>Please enter a valid number in "notify_stock_qty" field</message>
                             </float>
                         </notify_stock_qty>
                         <use_config_notify_stock_qty>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_notify_stock_qty" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_notify_stock_qty>
                         <stock_status_changed_auto>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "stock_status_changed_auto" field must be set to 0 or 1.</message>
                             </regex>
                         </stock_status_changed_auto>
                         <use_config_qty_increments>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_qty_increments" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_qty_increments>
                         <qty_increments>
-                            <int translate="message" module="api2">
+                            <int translate="message" module="Mage_Api2">
                                 <type>Int</type>
                                 <message>Please use numbers only in "qty_increments" field. Please avoid spaces or other characters such as dots or commas.</message>
                             </int>
-                            <between translate="message" module="api2">
+                            <between translate="message" module="Mage_Api2">
                                 <type>Between</type>
                                 <options><min>0</min><max>99999999</max></options>
                                 <message>Please use numbers only in "qty_increments" field. Please avoid spaces or other characters such as dots or commas.</message>
                             </between>
                         </qty_increments>
                         <use_config_enable_qty_inc>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "use_config_enable_qty_inc" field must be set to 0 or 1.</message>
                             </regex>
                         </use_config_enable_qty_inc>
                         <enable_qty_increments>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "enable_qty_increments" field must be set to 0 or 1.</message>
                             </regex>
                         </enable_qty_increments>
                         <is_decimal_divided>
-                            <regex translate="message" module="api2">
+                            <regex translate="message" module="Mage_Api2">
                                 <type>Regex</type>
                                 <options><pattern>/^[0,1]$/</pattern></options>
                                 <message>The "is_decimal_divided" field must be set to 0 or 1.</message>

@@ -231,11 +231,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     }
                 }
                 $website = current($staging->getWebsites());
-                $website = Mage::getModel('core/website')->load($website['code']);
+                $website = Mage::getModel('Mage_Core_Model_Website')->load($website['code']);
                 if ($website->getId()) {
                     $redirectBack = true;
                     Mage::throwException(
-                        Mage::helper('enterprise_staging')->__('Website with the same code already exists.')
+                        Mage::helper('Enterprise_Staging_Helper_Data')->__('Website with the same code already exists.')
                     );
                 }
 

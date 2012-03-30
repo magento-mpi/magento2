@@ -113,7 +113,7 @@ class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Act
 
         try {
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
@@ -161,7 +161,7 @@ class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Act
 
         try {
             /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('oauth/token')->getCollection();
+            $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)

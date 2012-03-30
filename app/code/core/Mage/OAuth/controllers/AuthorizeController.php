@@ -49,7 +49,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
     protected function _initForm($simple = false)
     {
         /** @var $server Mage_OAuth_Model_Server */
-        $server = Mage::getModel('oauth/server');
+        $server = Mage::getModel('Mage_OAuth_Model_Server');
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
@@ -86,7 +86,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         }
 
         /** @var $helper Mage_Core_Helper_Url */
-        $helper = Mage::helper('core/url');
+        $helper = Mage::helper('Mage_Core_Helper_Url');
         $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
@@ -109,7 +109,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             /** @var $session Mage_Customer_Model_Session */
             $session = Mage::getSingleton($this->_sessionName);
             /** @var $server Mage_OAuth_Model_Server */
-            $server = Mage::getModel('oauth/server');
+            $server = Mage::getModel('Mage_OAuth_Model_Server');
 
             /** @var $block Mage_OAuth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
@@ -119,7 +119,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
 
             /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
+            $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
@@ -156,7 +156,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Mage_OAuth_Model_Server */
-            $server = Mage::getModel('oauth/server');
+            $server = Mage::getModel('Mage_OAuth_Model_Server');
 
             /** @var $block Mage_OAuth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');
@@ -165,7 +165,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             /** @var $token Mage_OAuth_Model_Token */
             $token = $server->checkAuthorizeRequest();
             /** @var $helper Mage_OAuth_Helper_Data */
-            $helper = Mage::helper('oauth');
+            $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));

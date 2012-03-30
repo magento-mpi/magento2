@@ -42,7 +42,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_role', 'entity_id');
+        $this->_init('api2_acl_role', 'entity_id');
     }
 
     /**
@@ -58,17 +58,17 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
             || Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID == $roleId
         ) {
             Mage::throwException(
-                Mage::helper('api2')->__('The role is a special one and not for assigning it to admin users.')
+                Mage::helper('Mage_Api2_Helper_Data')->__('The role is a special one and not for assigning it to admin users.')
             );
         }
 
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->getTable('api2/acl_user'), 'admin_id')
+            ->from($this->getTable('api2_acl_user'), 'admin_id')
             ->where('admin_id = ?', $adminId, Zend_Db::INT_TYPE);
 
         $write = $this->_getWriteAdapter();
-        $table = $this->getTable('api2/acl_user');
+        $table = $this->getTable('api2_acl_user');
 
         if (false === $read->fetchOne($select)) {
             $write->insert($table, array('admin_id' => $adminId, 'role_id' => $roleId));
@@ -89,7 +89,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
     public function deleteAdminToRoleRelation($adminId, $roleId)
     {
         $write = $this->_getWriteAdapter();
-        $table = $this->getTable('api2/acl_user');
+        $table = $this->getTable('api2_acl_user');
 
         $where = array(
             'role_id = ?' => $roleId,
@@ -111,7 +111,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role extends Mage_Core_Model_Resource_
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('api2/acl_user'))
+            ->from($this->getTable('api2_acl_user'))
             ->where('role_id=?', $role->getId());
 
         $users = $adapter->fetchCol($select);

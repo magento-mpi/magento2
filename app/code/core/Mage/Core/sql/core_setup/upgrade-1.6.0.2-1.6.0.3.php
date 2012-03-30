@@ -29,10 +29,10 @@ $installer = $this;
 
 $installer->startSetup();
 $connection = $installer->getConnection();
-$table = $installer->getTable('core/translate');
+$table = $installer->getTable('core_translate');
 
 $connection->dropIndex($table, $installer->getIdxName(
-    'core/translate',
+    'core_translate',
     array('store_id', 'locale', 'string'),
     Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
 ));
@@ -45,7 +45,7 @@ $connection->addColumn($table, 'crc_string', array(
 ));
 
 $connection->addIndex($table, $installer->getIdxName(
-    'core/translate',
+    'core_translate',
     array('store_id', 'locale', 'crc_string', 'string'),
     Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
 ), array('store_id', 'locale', 'crc_string', 'string'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);

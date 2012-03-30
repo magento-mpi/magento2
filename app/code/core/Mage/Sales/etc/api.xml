@@ -308,7 +308,7 @@
                             <info translate="title" module="Mage_Sales">
                                 <title>Retrieve shipment info</title>
                             </info>
-                            <send translate="title" module="sales">
+                            <send translate="title" module="Mage_Sales">
                                 <title>Send shipment info</title>
                             </send>
                         </shipment>

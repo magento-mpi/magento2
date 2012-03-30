@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
-                'options'       => Mage::helper('review')->getReviewStatuses(),
+                'options'       => Mage::helper('Mage_Review_Helper_Data')->getReviewStatuses(),
                 'width'         => '100px',
                 'filter_index'  => 'rt.status_id',
                 'index'         => 'status_id',

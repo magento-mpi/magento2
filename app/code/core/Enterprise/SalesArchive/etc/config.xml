@@ -64,7 +64,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_shipment_massPrintShippingLabel>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -72,7 +72,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_pdfshipments>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -80,7 +80,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_pdfinvoices>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -88,7 +88,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_pdfcreditmemos>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -96,7 +96,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_pdfdocs>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -104,7 +104,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_massHold>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -112,7 +112,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_massUnhold>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>
@@ -120,7 +120,7 @@
             <controller_action_postdispatch_adminhtml_sales_order_massCancel>
                 <observers>
                     <enterprise_salesarchive>
-                        <class>enterprise_salesarchive/observer</class>
+                        <class>Enterprise_SalesArchive_Model_Observer</class>
                         <method>replaceSalesOrderRedirect</method>
                     </enterprise_salesarchive>
                 </observers>

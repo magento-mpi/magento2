@@ -20,11 +20,11 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             $field = $fieldset->addField('store_id', 'select', array(
                 'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
                 'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
-                'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
                 'name'     => 'store_id',
                 'required' => true,
             ));
-            $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+            $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(

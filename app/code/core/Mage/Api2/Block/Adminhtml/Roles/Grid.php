@@ -54,7 +54,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
-        $collection = Mage::getModel('api2/acl_global_role')->getCollection();
+        $collection = Mage::getModel('Mage_Api2_Model_Acl_Global_Role')->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -68,26 +68,26 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header' => Mage::helper('oauth')->__('ID'),
+            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('ID'),
             'index'  => 'entity_id',
             'align'  => 'right',
             'width'  => '50px',
         ));
 
         $this->addColumn('role_name', array(
-            'header' => Mage::helper('oauth')->__('Role Name'),
+            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Role Name'),
             'index'  => 'role_name',
             'escape' => true,
         ));
 
         $this->addColumn('tole_user_type', array(
-            'header'         => Mage::helper('oauth')->__('User Type'),
+            'header'         => Mage::helper('Mage_OAuth_Helper_Data')->__('User Type'),
             'sortable'       => false,
             'frame_callback' => array($this, 'decorateUserType')
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('oauth')->__('Created At'),
+            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Created At'),
             'index'  => 'created_at'
         ));
 
@@ -114,7 +114,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
     public function getRowUrl($row)
     {
         /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('admin/session');
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
 
         if ($session->isAllowed('system/api/roles/edit')) {
             return $this->getUrl('*/*/edit', array('id' => $row->getId()));
@@ -135,13 +135,13 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
     {
         switch ($row->getEntityId()) {
             case Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID:
-                $userType = Mage::helper('api2')->__('Guest');
+                $userType = Mage::helper('Mage_Api2_Helper_Data')->__('Guest');
                 break;
             case Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID:
-                $userType = Mage::helper('api2')->__('Customer');
+                $userType = Mage::helper('Mage_Api2_Helper_Data')->__('Customer');
                 break;
             default:
-                $userType = Mage::helper('api2')->__('Admin');
+                $userType = Mage::helper('Mage_Api2_Helper_Data')->__('Admin');
                 break;
         }
         return $userType;

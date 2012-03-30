@@ -41,7 +41,7 @@
                     </div>
         <?php endif; ?>
                 </li>
-        <?php $_streetValidationClass = $this->helper('customer/address')->getAttributeValidationClass('street'); ?>
+        <?php $_streetValidationClass = $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                     <div class="input-box">
@@ -56,7 +56,7 @@
                     </div>
                 </li>
         <?php endfor; ?>
-                <?php if ($this->helper('customer/address')->isVatAttributeVisible()) : ?>
+                <?php if ($this->helper('Mage_Customer_Helper_Address')->isVatAttributeVisible()) : ?>
                 <li class="wide">
                     <label for="billing:vat_id"><?php echo $this->__('VAT Number') ?></label>
                     <div class="input-box">
@@ -193,7 +193,7 @@
     //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
 
-    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>, undefined, 'billing:postcode');
     if ($('onepage-guest-register-button')) {
         Event.observe($('onepage-guest-register-button'), 'click', function(event) {
             var billingRememberMe = $('co-billing-form').select('#remember-me-box');

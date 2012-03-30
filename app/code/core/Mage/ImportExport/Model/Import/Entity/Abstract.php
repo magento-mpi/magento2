@@ -256,7 +256,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         $startNewBunch   = false;
         $nextRowBackup   = array();
         $maxDataSize = Mage::getResourceHelper('Mage_ImportExport')->getMaxDataSize();
-        $bunchSize = Mage::helper('importexport')->getBunchSize();
+        $bunchSize = Mage::helper('Mage_ImportExport_Helper_Data')->getBunchSize();
 
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();
@@ -280,7 +280,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
 
                 if ($this->validateRow($rowData, $source->key())) { // add row to bunch for save
                     $rowData = $this->_prepareRowForDb($rowData);
-                    $rowSize = strlen(Mage::helper('core')->jsonEncode($rowData));
+                    $rowSize = strlen(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($rowData));
 
                     $isBunchSizeExceeded = ($bunchSize > 0 && count($bunchRows) >= $bunchSize);
 

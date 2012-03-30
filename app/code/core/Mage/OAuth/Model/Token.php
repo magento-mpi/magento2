@@ -89,7 +89,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('oauth/token');
+        $this->_init('Mage_OAuth_Model_Resource_Token');
     }
 
     /**
@@ -103,7 +103,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 
         //Cleanup old entries
         /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_OAuth_Helper_Data');
         if ($helper->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
         }
@@ -133,7 +133,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
             Mage::throwException('User type is unknown');
         }
         /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
         $this->setVerifier($helper->generateVerifier());
         $this->setAuthorized(1);
@@ -155,7 +155,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
             Mage::throwException('Can not convert due to token is not request type');
         }
         /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
         $this->setType(self::TYPE_ACCESS);
         $this->setToken($helper->generateToken());
@@ -175,7 +175,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     public function createRequestToken($consumerId, $callbackUrl)
     {
         /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_OAuth_Helper_Data');
 
         $this->setData(array(
             'consumer_id'  => $consumerId,
@@ -242,7 +242,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     public function validate()
     {
         /** @var $validatorUrl Mage_Core_Model_Url_Validator */
-        $validatorUrl = Mage::getSingleton('core/url_validator');
+        $validatorUrl = Mage::getSingleton('Mage_Core_Model_Url_Validator');
         if (Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
@@ -252,7 +252,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
 
         /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
         $validatorLength = Mage::getModel(
-            'oauth/consumer_validator_keyLength');
+            'Mage_OAuth_Model_Consumer_Validator_KeyLength');
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
@@ -287,7 +287,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         if (!$this->getData('consumer')) {
             /** @var $consumer Mage_OAuth_Model_Consumer */
-            $consumer = Mage::getModel('oauth/consumer');
+            $consumer = Mage::getModel('Mage_OAuth_Model_Consumer');
             $consumer->load($this->getConsumerId());
             $this->setData('consumer', $consumer);
         }

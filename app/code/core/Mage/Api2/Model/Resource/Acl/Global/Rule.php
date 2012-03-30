@@ -40,6 +40,6 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_rule', 'entity_id');
+        $this->_init('api2_acl_rule', 'entity_id');
     }
 }

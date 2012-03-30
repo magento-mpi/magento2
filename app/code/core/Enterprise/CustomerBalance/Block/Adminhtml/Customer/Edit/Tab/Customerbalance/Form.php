@@ -61,7 +61,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
             'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
         ));
-        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
         $field->setRenderer($renderer);
 
         $fieldset->addField('comment', 'text', array(

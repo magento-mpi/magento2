@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     protected function _create(array $data)
     {
         /* @var $validator Mage_Catalog_Model_Api2_Product_Image_Validator_Image */
-        $validator = Mage::getModel('catalog/api2_product_image_validator_image');
+        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Image_Validator_Image');
         if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
         }
         unset($data['file_content']);
 
-        $apiTempDir = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('api/session')->getSessionId();
+        $apiTempDir = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('Mage_Api_Model_Session')->getSessionId();
         $imageFileName = $this->_getFileName($data);
 
         try {
@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     {
         $imageId = null;
 
-        $imageData = Mage::getResourceModel('catalog/product_attribute_backend_media')
+        $imageData = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media')
             ->loadGallery($this->_getProduct(), $this->_getMediaGallery());
         foreach ($imageData as $image) {
             if ($image['file'] == $imageFileUri) {
@@ -220,7 +220,7 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
     protected function _getImageLocation($imageId)
     {
         /* @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(
             new Zend_Controller_Router_Route($this->getConfig()->getRouteWithEntityTypeAction($this->getResourceType()))

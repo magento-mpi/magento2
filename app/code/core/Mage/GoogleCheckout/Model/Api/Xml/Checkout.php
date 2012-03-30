@@ -107,7 +107,7 @@ EOT;
             $weightUnit = self::ITEM_WEIGHT_UNIT;
 
             $unitPrice = $item->getBaseCalculationPrice();
-            if (Mage::helper('weee')->includeInSubtotal()) {
+            if (Mage::helper('Mage_Weee_Helper_Data')->includeInSubtotal()) {
                 $unitPrice += $item->getBaseWeeeTaxAppliedAmount();
             }
 

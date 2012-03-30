@@ -40,7 +40,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_Collection extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_global_rule');
+        $this->_init('Mage_Api2_Model_Acl_Global_Rule', 'Mage_Api2_Model_Resource_Acl_Global_Rule');
     }
 
     /**

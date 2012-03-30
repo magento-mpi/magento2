@@ -28,11 +28,11 @@
 <config>
     <api2>
         <resource_groups>
-            <catalog translate="title" module="api2">
+            <catalog translate="title" module="Mage_Api2">
                 <title>Catalog</title>
                 <sort_order>30</sort_order>
                 <children>
-                    <catalog_product translate="title" module="api2">
+                    <catalog_product translate="title" module="Mage_Api2">
                         <title>Product</title>
                         <sort_order>50</sort_order>
                     </catalog_product>
@@ -42,8 +42,8 @@
         <resources>
             <product>
                 <group>catalog_product</group>
-                <model>catalog/api2_product</model>
-                <working_model>catalog/product</working_model>
+                <model>Mage_Catalog_Model_Api2_Product</model>
+                <working_model>Mage_Catalog_Model_Product</working_model>
                 <title>Catalog Product</title>
                 <sort_order>10</sort_order>
                 <privileges>
@@ -212,8 +212,8 @@
             </product>
             <product_category>
                 <group>catalog_product</group>
-                <model>catalog/api2_product_category</model>
-                <working_model>catalog/category</working_model>
+                <model>Mage_Catalog_Model_Api2_Pproduct_Category</model>
+                <working_model>Mage_Catalog_Model_Category</working_model>
                 <title>Product Category</title>
                 <sort_order>40</sort_order>
                 <privileges>
@@ -257,7 +257,7 @@
             </product_category>
             <product_image>
                 <group>catalog_product</group>
-                <model>catalog/api2_product_image</model>
+                <model>Mage_Catalog_Model_Api2_Product_Image</model>
                 <title>Product Image</title>
                 <sort_order>70</sort_order>
                 <privileges>
@@ -336,8 +336,8 @@
             </product_image>
             <product_website>
                 <group>catalog_product</group>
-                <model>catalog/api2_product_website</model>
-                <working_model>catalog/product_website</working_model>
+                <model>Mage_Catalog_Model_Api2_Product_Website</model>
+                <working_model>Mage_Catalog_Model_Product_Website</working_model>
                 <title>Product Website</title>
                 <sort_order>100</sort_order>
                 <privileges>

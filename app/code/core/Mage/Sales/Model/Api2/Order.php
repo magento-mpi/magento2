@@ -52,7 +52,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     protected function _addGiftMessageInfo(Mage_Sales_Model_Resource_Order_Collection $collection)
     {
         $collection->getSelect()->joinLeft(
-            array('gift_message' => $collection->getTable('giftmessage/message')),
+            array('gift_message' => $collection->getTable('gift_message')),
             'main_table.gift_message_id = gift_message.gift_message_id',
             array(
                 'gift_message_from' => 'gift_message.sender',
@@ -73,7 +73,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     protected function _addPaymentMethodInfo(Mage_Sales_Model_Resource_Order_Collection $collection)
     {
         $collection->getSelect()->joinLeft(
-            array('payment_method' => $collection->getTable('sales/order_payment')),
+            array('payment_method' => $collection->getTable('sales_flat_order_payment')),
             'main_table.entity_id = payment_method.parent_id',
             array('payment_method' => 'payment_method.method')
         );
@@ -99,7 +99,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
         }
         if ($taxInfoFields) {
             $collection->getSelect()->joinLeft(
-                array('order_tax' => $collection->getTable('sales/order_tax')),
+                array('order_tax' => $collection->getTable('sales_order_tax')),
                 'main_table.entity_id = order_tax.order_id',
                 $taxInfoFields
             );
@@ -123,7 +123,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
             // do addresses request if at least one attribute allowed
             if ($addressesFilter->getAllowedAttributes()) {
                 /* @var $collection Mage_Sales_Model_Resource_Order_Address_Collection */
-                $collection = Mage::getResourceModel('sales/order_address_collection');
+                $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Address_Collection');
 
                 $collection->addAttributeToFilter('parent_id', $orderIds);
 
@@ -143,7 +143,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     protected function _getCollectionForRetrieve()
     {
         /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
-        $collection = Mage::getResourceModel('sales/order_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection');
 
         $this->_applyCollectionModifiers($collection);
 
@@ -159,7 +159,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     protected function _getCollectionForSingleRetrieve($orderId)
     {
         /** @var $collection Mage_Sales_Model_Resource_Order_Collection */
-        $collection = Mage::getResourceModel('sales/order_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection');
 
         return $collection->addFieldToFilter($collection->getResource()->getIdFieldName(), $orderId);
     }
@@ -196,7 +196,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
     protected function _getCommentsCollection(array $orderIds)
     {
         /* @var $collection Mage_Sales_Model_Resource_Order_Status_History_Collection */
-        $collection = Mage::getResourceModel('sales/order_status_history_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection');
         $collection->setOrderFilter($orderIds);
 
         return $collection;
@@ -218,7 +218,7 @@ class Mage_Sales_Model_Api2_Order extends Mage_Api2_Model_Resource
             // do items request if at least one attribute allowed
             if ($itemsFilter->getAllowedAttributes()) {
                 /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */
-                $collection = Mage::getResourceModel('sales/order_item_collection');
+                $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Item_Collection');
 
                 $collection->addAttributeToFilter('order_id', $orderIds);
 

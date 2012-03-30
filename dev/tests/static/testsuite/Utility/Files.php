@@ -144,22 +144,24 @@ class Utility_Files
      *
      * @param string $fileNamePattern
      * @param array $excludedFileNames
+     * @param bool $asDataSet
      * @return array
      */
     public function getConfigFiles(
-        $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml')
+        $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), $asDataSet = true
     ) {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
-        if (isset(self::$_cache[$cacheKey])) {
-            return self::$_cache[$cacheKey];
+        if (!isset(self::$_cache[$cacheKey])) {
+            $files = glob($this->_path . "/app/code/*/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = array_filter($files, function ($file) use ($excludedFileNames) {
+                return !in_array(basename($file), $excludedFileNames);
+            });
+            self::$_cache[$cacheKey] = $files;
         }
-        $files = glob($this->_path . "/app/code/*/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
-        $files = array_filter($files, function ($file) use ($excludedFileNames) {
-            return !in_array(basename($file), $excludedFileNames);
-        });
-        $result = self::composeDataSets($files);
-        self::$_cache[$cacheKey] = $result;
-        return $result;
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
     }
 
     /**

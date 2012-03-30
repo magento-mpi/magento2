@@ -43,19 +43,19 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
         return array(
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_CREATE,
-                'label' => Mage::helper('api2')->__('Create')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Create')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
-                'label' => Mage::helper('api2')->__('Retrieve')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Retrieve')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_UPDATE,
-                'label' => Mage::helper('api2')->__('Update')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Update')
             ),
             array(
                 'value' => Mage_Api2_Model_Resource::OPERATION_DELETE,
-                'label' => Mage::helper('api2')->__('Delete')
+                'label' => Mage::helper('Mage_Api2_Helper_Data')->__('Delete')
             )
         );
     }
@@ -68,10 +68,10 @@ class Mage_Api2_Model_Acl_Global_Rule_Privilege
     static public function toArray()
     {
         return array(
-            Mage_Api2_Model_Resource::OPERATION_CREATE   => Mage::helper('api2')->__('Create'),
-            Mage_Api2_Model_Resource::OPERATION_RETRIEVE => Mage::helper('api2')->__('Retrieve'),
-            Mage_Api2_Model_Resource::OPERATION_UPDATE   => Mage::helper('api2')->__('Update'),
-            Mage_Api2_Model_Resource::OPERATION_DELETE   => Mage::helper('api2')->__('Delete')
+            Mage_Api2_Model_Resource::OPERATION_CREATE   => Mage::helper('Mage_Api2_Helper_Data')->__('Create'),
+            Mage_Api2_Model_Resource::OPERATION_RETRIEVE => Mage::helper('Mage_Api2_Helper_Data')->__('Retrieve'),
+            Mage_Api2_Model_Resource::OPERATION_UPDATE   => Mage::helper('Mage_Api2_Helper_Data')->__('Update'),
+            Mage_Api2_Model_Resource::OPERATION_DELETE   => Mage::helper('Mage_Api2_Helper_Data')->__('Delete')
         );
     }
 }

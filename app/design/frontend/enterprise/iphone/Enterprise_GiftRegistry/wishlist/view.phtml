@@ -26,8 +26,8 @@
 ?>
 <?php $entityValues = $this->getEntityValues() ?>
 <div class="my-wishlist">
-    <?php if ($this->helper('wishlist')->isRssAllow() && $this->hasWishlistItems()): ?>
-        <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
     <?php endif; ?>
     <h1><?php echo $this->__('My Wishlist') ?></h1>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -44,7 +44,7 @@
                         $isVisibleProduct = $product->isVisibleInSiteVisibility();
                     ?>
                     <li <?php if (!$item->canHaveQty()) echo 'class="no-qty"' ?>>
-                        <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(90, 90); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                        <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize(90, 90); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                         <div class="wishlist-item">
                             <h2>
                                 <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove btn-remove2"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
@@ -82,7 +82,7 @@
                                 <div class="gift-registry-select">
                                     <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                                         <?php foreach ($entityValues as $_entity):?>
-                                            <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40))?></option>
+                                            <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -143,10 +143,10 @@
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

@@ -45,7 +45,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
      */
     public function getLabel()
     {
-        return Mage::helper('api2')->__('Admin');
+        return Mage::helper('Mage_Api2_Helper_Data')->__('Admin');
     }
 
     /**
@@ -62,7 +62,7 @@ class Mage_Api2_Model_Auth_User_Admin extends Mage_Api2_Model_Auth_User_Abstract
             }
 
             /** @var $collection Mage_Api2_Model_Resource_Acl_Global_Role_Collection */
-            $collection = Mage::getModel('api2/acl_global_role')->getCollection();
+            $collection = Mage::getModel('Mage_Api2_Model_Acl_Global_Role')->getCollection();
             $collection->addFilterByAdminId($this->getUserId());
 
             /** @var $role Mage_Api2_Model_Acl_Global_Role */

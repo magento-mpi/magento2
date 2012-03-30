@@ -40,7 +40,7 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('api2/acl_filter_attribute');
+        $this->_init('Mage_Api2_Acl_Filter_Attribute', 'Mage_Api2_Model_Resource_Acl_Filter_Attribute');
     }
 
     /**

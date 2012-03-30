@@ -97,7 +97,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getRoutes($apiType)
     {
         /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('api2');
+        $helper = Mage::helper('Mage_Api2_Helper_Data');
         if (!$helper->isApiTypeSupported($apiType)) {
             throw new Mage_Api2_Exception(sprintf('API type "%s" is not supported', $apiType),
                 Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -120,7 +120,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
                     )
                 );
 
-                $routes[] = Mage::getModel('api2/route_' . $apiType, $arguments);
+                $routes[] = Mage::getModel('Mage_Api2_Model_Route_' . ucfirst($apiType), $arguments);
             }
         }
         return $routes;

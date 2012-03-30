@@ -169,7 +169,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     public function addStatusFilter($status)
     {
         if (is_string($status)) {
-            $statuses = array_flip(Mage::helper('review')->getReviewStatuses());
+            $statuses = array_flip(Mage::helper('Mage_Review_Helper_Data')->getReviewStatuses());
             $status = isset($statuses[$status]) ? $statuses[$status] : 0;
         }
         if (is_numeric($status)) {

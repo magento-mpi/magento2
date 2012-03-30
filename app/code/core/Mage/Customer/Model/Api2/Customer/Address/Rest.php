@@ -57,7 +57,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Address_Rest extends Mage_Custo
         $data['region'] = $this->_getRegionIdByNameOrCode($data['region']);
 
         /* @var $address Mage_Customer_Model_Address */
-        $address = Mage::getModel('customer/address');
+        $address = Mage::getModel('Mage_Customer_Model_Address');
         $address->setData($data);
         $address->setCustomer($customer);
 

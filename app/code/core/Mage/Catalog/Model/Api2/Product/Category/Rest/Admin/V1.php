@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
     protected function _create(array $data)
     {
         /* @var $validator Mage_Api2_Model_Resource_Validator_Fields */
-        $validator = Mage::getResourceModel('api2/validator_fields', array('resource' => $this));
+        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Fields', array('resource' => $this));
         if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Api2_Product_Category_Rest_Admin_V1 extends Mage_Catalo
     protected function _getLocation($resource)
     {
         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
-        $apiTypeRoute = Mage::getModel('api2/route_apiType');
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(new Zend_Controller_Router_Route(
             $this->getConfig()->getRouteWithEntityTypeAction($this->getResourceType())
