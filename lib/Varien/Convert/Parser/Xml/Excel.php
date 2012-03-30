@@ -132,8 +132,9 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                     }
                     $xml .= '<ss:Row>';
                     foreach ($fields as $fieldName) {
-                        $data = isset($row[$fieldName]) ? $row[$fieldName] : '';
-                        $xml .= '<ss:Cell><Data ss:Type="String">'.$data.'</Data></ss:Cell>';
+                        $data      = isset($row[$fieldName]) ? $row[$fieldName] : '';
+                        $fieldType = is_numeric($data) ? 'Number' : 'String';
+                        $xml .= '<ss:Cell><Data ss:Type="' . $fieldType . '">' . $data . '</Data></ss:Cell>';
                     }
                     $xml .= '</ss:Row>';
                 }
