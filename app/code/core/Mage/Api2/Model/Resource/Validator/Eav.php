@@ -139,17 +139,16 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
             foreach ((array) $attrValue as $value) {
                 if (is_scalar($value)) {
                     $value = (string) $value;
-                    $valueIsValid = false;
-
+                    $isValid = false;
                     foreach ($possibleValues as $optionData) {
-                        if (is_numeric($value) && $value == $optionData['value']
-                            || !is_numeric($value) && $value === $optionData['value']
-                        ) {
-                            $valueIsValid = true;
+                        // comparison without types check is performed only when both values are numeric
+                        $useStrictMode = !(is_numeric($value) && is_numeric($optionData['value']));
+                        $isValid = $useStrictMode ? $value === $optionData['value'] : $value == $optionData['value'];
+                        if ($isValid) {
                             break;
                         }
                     }
-                    if (!$valueIsValid) {
+                    if (!$isValid) {
                         $errors[] = 'Invalid value "' . $value . '" for '. $attribute->getAttributeCode();
                     }
                 } else {
