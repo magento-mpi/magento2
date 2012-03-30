@@ -112,6 +112,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
                 array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('error', 'code_already_exists');

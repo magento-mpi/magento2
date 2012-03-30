@@ -66,16 +66,20 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     /**
      * Removes all products from the Compare Products widget
      *
-     * Preconditions: page with Compare Products widget is opened
+     * Preconditions: page with Compare Products widget should be opened
      *
+     * @return bool Returns False if the operation could not be performed
+     * or the compare block is not present on the page
      */
     public function frontClearAll()
     {
-        if ($this->controlIsPresent('pageelement', 'compare_block_title')) {
+        if(!$this->controlIsPresent('pageelement', 'compare_block_title')) {
+            return false;
+        }
+        if($this->controlIsPresent('link', 'compare_clear_all')) {
             return $this->clickControlAndConfirm('link', 'compare_clear_all',
                             'confirmation_clear_all_from_compare');
         }
-        $this->fail('Compare static block is not available on this page');
     }
 
     /**

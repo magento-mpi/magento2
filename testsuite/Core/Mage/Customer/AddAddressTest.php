@@ -35,23 +35,14 @@
  */
 class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
-    protected static $_customerTitleParameter = null;
-    protected static $_customerSearchData = null;
+    protected static $_customerTitleParameter = '';
 
     /**
      * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
-        //Create a new customer for adding new addresses
         $this->loginAdminUser();
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
-        self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
-        self::$_customerSearchData = $searchData;
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
     }
 
     /**
@@ -66,6 +57,27 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create customer for add customer address tests</p>
+     * @group preConditions
+     * @return array
+     * @test
+     */
+    public function createCustomerTest()
+    {
+        //Data
+        $userData = $this->loadData('generic_customer_account', null, 'email');
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+        self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
+        //Steps
+        $this->customerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_customer');
+
+        $this->assertTrue(false);
+        return $searchData;
+    }
+
+    /**
      * <p>Add address for customer. Fill in only required field.</p>
      * <p>Steps:</p>
      * <p>1. Search and open customer.</p>
@@ -77,16 +89,19 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
      *
+     * @param array $searchData
+     *
      * @test
+     * @depends createCustomerTest
      * @TestlinkId	TL-MAGE-3604
      */
-    public function withRequiredFieldsOnly()
+    public function withRequiredFieldsOnly(array $searchData)
     {
         //Data
 
         $addressData = $this->loadData('generic_address');
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
@@ -106,13 +121,15 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed</p>
      *
      * @param string $emptyField
+     * @param array $searchData
      *
      * @test
+     * @depends createCustomerTest
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
      * @group skip_due_to_bug
      */
-    public function withRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
         //Data
         if ($emptyField != 'country') {
@@ -122,7 +139,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
                                                                    'state'      => '%noValue%'));
         }
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
@@ -168,10 +185,13 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed.</p>
      *
+     * @param array $searchData
+     *
      * @test
+     * @depends createCustomerTest
      * @TestlinkId	TL-MAGE-3605
      */
-    public function withSpecialCharactersExceptCountry()
+    public function withSpecialCharactersExceptCountry(array $searchData)
     {
         //Data
         $specialCharacters = array(
@@ -193,13 +213,13 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         );
         $addressData = $this->loadData('generic_address', $specialCharacters);
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
@@ -218,10 +238,13 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed. Length of fields are 255 characters.</p>
      *
+     * @param array $searchData
+     *
      * @test
+     * @depends createCustomerTest
      * @TestlinkId	TL-MAGE-3603
      */
-    public function withLongValuesExceptCountry()
+    public function withLongValuesExceptCountry(array $searchData)
     {
         //Data
         $longValues = array(
@@ -243,13 +266,13 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         );
         $addressData = $this->loadData('generic_address', $longValues);
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
@@ -268,22 +291,25 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
      *
+     * @param array $searchData
+     *
      * @test
+     * @depends createCustomerTest
      * @TestlinkId	TL-MAGE-3601
      */
-    public function withDefaultBillingAddress()
+    public function withDefaultBillingAddress(array $searchData)
     {
         //Data
         $addressData = $this->loadData('all_fields_address', array('default_shipping_address' => 'No'));
         //Steps
         // 1.Open customer
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
@@ -302,20 +328,23 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * <p>Customer address is added. Customer info is saved.</p>
      * <p>Success Message is displayed</p>
      *
+     * @param array $searchData
+     *
      * @test
+     * @depends createCustomerTest
      * @TestlinkId	TL-MAGE-3602
      */
-    public function withDefaultShippingAddress()
+    public function withDefaultShippingAddress(array $searchData)
     {
         $addressData = $this->loadData('all_fields_address', array('default_billing_address' => 'No'));
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->customerHelper()->openCustomer(self::$_customerSearchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->openTab('addresses');
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
