@@ -571,4 +571,22 @@ class Enterprise_GiftCardAccount_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Extend sales amount expression with gift card refunded value
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function extendSalesAmountExpression(Varien_Event_Observer $observer)
+    {
+        /** @var $expressionTransferObject Varien_Object */
+        $expressionTransferObject = $observer->getEvent()->getExpressionObject();
+        /** @var $adapter Varien_Db_Adapter_Interface */
+        $adapter = $observer->getEvent()->getCollection()->getConnection();
+        $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - %s');
+        $arguments = $expressionTransferObject->getArguments();
+        $arguments[] = $adapter->getIfNullSql('main_table.base_gift_cards_refunded', 0);
+        $expressionTransferObject->setArguments($arguments);
+    }
 }
