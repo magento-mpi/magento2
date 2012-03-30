@@ -775,8 +775,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function createBlock($type, $name = '', array $attributes = array())
     {
         $name = $this->_structure->insertBlock('', $name);
-        $type = $this->_createBlock($type, $name, $attributes);
-        return $type;
+        return $this->_createBlock($type, $name, $attributes);
     }
 
     /**
@@ -818,8 +817,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $name = $block->getNameInLayout();
         }
         $name = $this->_structure->insertBlock($parent, $name, $alias, $after, $sibling);
-        $block = $this->_createBlock($block, $name);
-        return $block;
+        return $this->_createBlock($block, $name);
     }
 
     /**
