@@ -346,41 +346,4 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
     }
-
-    /**
-     * <p>Void order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Saved Credit Card'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Void Order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Void successful</p>
-     *
-     * @param array $orderData
-     *
-     * @test
-     * @depends orderWithSwitchMaestroCard
-     */
-    public function voidPendingOrderFromOrderPage($orderData)
-    {
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_order');
-        //Steps
-        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_voided_order');
-    }
 }

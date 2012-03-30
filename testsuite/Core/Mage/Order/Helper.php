@@ -418,6 +418,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
+            $this->waitForAjax();
             if ($this->isAlertPresent()) {
                 $text = $this->getAlert();
                 $this->fail($text);
