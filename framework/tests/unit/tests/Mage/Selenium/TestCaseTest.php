@@ -81,29 +81,28 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $verificationMessage = 'testGetParsedMessages verification message';
 
         $instance->addMessage('error', $errorMessage);
-        $foo = $instance->getParsedMessages();
         $this->assertEquals($instance->getParsedMessages(), array('error' => array($errorMessage)));
         $this->assertEquals($instance->getParsedMessages('error'), array($errorMessage));
 
         $instance->addMessage('success', $successMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage)));
+                            array('error'  => array($errorMessage),
+                                 'success' => array($successMessage)));
         $this->assertEquals($instance->getParsedMessages('success'), array($successMessage));
 
         $instance->addMessage('validation', $validationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage),
-                      'validation' => array($validationMessage)));
+                            array('error'     => array($errorMessage),
+                                 'success'    => array($successMessage),
+                                 'validation' => array($validationMessage)));
         $this->assertEquals($instance->getParsedMessages('validation'), array($validationMessage));
 
         $instance->addMessage('verification', $verificationMessage);
         $this->assertEquals($instance->getParsedMessages(),
-                array('error' => array($errorMessage),
-                      'success' => array($successMessage),
-                      'validation' => array($validationMessage),
-                      'verification' => array($verificationMessage)));
+                            array('error'       => array($errorMessage),
+                                 'success'      => array($successMessage),
+                                 'validation'   => array($validationMessage),
+                                 'verification' => array($verificationMessage)));
         $this->assertEquals($instance->getParsedMessages('verification'), array($verificationMessage));
     }
 
@@ -189,7 +188,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_TestCase::loadData
      */
-    public function testLoadDataOverriden()
+    public function testLoadDataOverridden()
     {
         $instance = new Mage_Selenium_TestCase();
         $formData = $instance->loadData('unit_test_load_data');
@@ -218,12 +217,13 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
      *
      * @param array $input
      * @param $search_value
+     *
      * @return int
      */
     function getValuesCount(array $input, $search_value = null)
     {
         $count = (is_null($search_value)) ? count(array_keys($input)) : count(array_keys($input, $search_value));
-        foreach($input as $value) {
+        foreach ($input as $value) {
             if (is_array($value)) {
                 $count += $this->getValuesCount($value, $search_value);
             }
@@ -250,7 +250,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
      */
     public function testClearDataArray($inputArray, $expectedCount)
     {
-        //Setps
+        //Steps
         $instance = new Mage_Selenium_TestCase();
         $inputArray = $instance->clearDataArray($inputArray);
         $this->assertEquals($expectedCount, $this->getValuesCount($instance->clearDataArray($inputArray)));
@@ -271,7 +271,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
                     2 => array(
                         0 => '%someValue0%',
                         1 => '%someValue1%',
-                        2 =>array(
+                        2 => array(
                             '0' => '%noValue%',
                         ),
                         3 => '%some Value0%',
@@ -287,7 +287,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
                     4 => array(
                         0 => '%someValue0%',
                         1 => 'someValue1%',
-                        2 =>array(
+                        2 => array(
                             '%noValue%' => 'noValue',
                             'someValue' => 'noValue',
                         )
@@ -344,7 +344,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
      * @param $condition
      * @param $expCount
      */
-    public function testOverrideDataByCondition($overrideArray, $overrideKey, $overrideValue,  $condition, $expCount)
+    public function testOverrideDataByCondition($overrideArray, $overrideKey, $overrideValue, $condition, $expCount)
     {
         $instance = new Mage_Selenium_TestCase();
         $instance->overrideDataByCondition($overrideKey, $overrideValue, $overrideArray, $condition);
@@ -366,11 +366,11 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
                     2 => array(
                         0 => '%someValue0%',
                         1 => '%someValue0%',
-                        2 =>array(
+                        2 => array(
                             '0' => '%someValue0%',
                         )
                     )
-                ), 0, 1,'byValueKey', 2
+                ), 0, 1, 'byFieldKey', 2
             ),
             array(
                 array(
@@ -381,11 +381,11 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
                     4 => array(
                         0 => '%someValue0%',
                         1 => '%someValue0%',
-                        2 =>array(
+                        2 => array(
                             '%noValue%' => '%someValue0%',
                         )
                     )
-                ), 'someValue0', 1,'byValueParam', 0
+                ), 'someValue0', 1, 'byValueParam', 0
             ),
         );
     }
@@ -393,12 +393,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_TestCase::loadDataSet
      *
-     * @expectedException PHPUnit_Framework_Exception
+     * @expectedException RuntimeException
      */
     public function testLoadDataSetNotExisting()
     {
         $instance = new Mage_Selenium_TestCase();
-        $instance->loadDataSet('notExistingDataSet');
+        $instance->loadDataSet('UnitTestsData', 'notExistingDataSet');
     }
 
     /**
@@ -407,9 +407,10 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     public function testLoadDataSet()
     {
         //Expected Data
-        $expectedArray = array('key' => 'Value', 'sub_array' => array('key' => 'Value'));
+        $expectedArray = array('key'       => 'Value',
+                               'sub_array' => array('key' => 'Value'));
         $instance = new Mage_Selenium_TestCase();
-        $formData = $instance->loadDataSet('unit_test_load_data_set_simple');
+        $formData = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_simple');
         $this->assertNotEmpty($formData);
         $this->assertInternalType('array', $formData);
         $this->assertEquals($formData, $expectedArray);
@@ -421,15 +422,15 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     public function testLoadDataSetOverrideByValueKey()
     {
         $instance = new Mage_Selenium_TestCase();
-        $formData = $instance->loadDataSet('unit_test_load_data_set_recursive');
+        $formData = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive');
 
-        $formDataOverriddenName = $instance->loadDataSet('unit_test_load_data_set_recursive', array(
-            'key' => 'new Value' ,
-            'novalue_key' => 'new Value'));
+        $formDataOverriddenName = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive',
+                                                         array('key'        => 'new Value',
+                                                              'novalue_key' => 'new Value'));
         $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
-        $tst = array_diff($formDataOverriddenName, $formData);
-        $this->assertEquals(array('key' => 'new Value', 'novalue_key' => 'new Value'),
-            array_diff($formDataOverriddenName, $formData));
+        $this->assertEquals(array('key'        => 'new Value',
+                                 'novalue_key' => 'new Value'),
+                            array_diff($formDataOverriddenName, $formData));
     }
 
     /**
@@ -438,14 +439,15 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     public function testLoadDataSetOverrideByValueParam()
     {
         $instance = new Mage_Selenium_TestCase();
-        $formData = $instance->loadDataSet('unit_test_load_data_set_recursive');
+        $formData = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive');
 
-        $formDataOverriddenName = $instance->loadDataSet('unit_test_load_data_set_recursive', null, array(
-            'noValue' => 'new Value' ,
-            'no Value' => 'new Value'));
+        $formDataOverriddenName = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive', null,
+                                                         array('noValue' => 'new Value',
+                                                              'no Value' => 'new Value'));
         $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
-        $this->assertEquals(array('novalue_key' => 'new Value', 'some_key' => 'new Value'),
-            array_diff($formDataOverriddenName, $formData));
+        $this->assertEquals(array('novalue_key' => 'new Value',
+                                 'some_key'     => 'new Value'),
+                            array_diff($formDataOverriddenName, $formData));
     }
 
     /**
@@ -480,9 +482,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         $this->assertEquals(20, strlen($instance->generate('text', 20, '')));
         $this->assertEquals(26, strlen($instance->generate('text', 20, '', 'prefix')));
-        $this->assertStringStartsWith( 'prefix', $instance->generate('text', 20, '', 'prefix'));
+        $this->assertStringStartsWith('prefix', $instance->generate('text', 20, '', 'prefix'));
 
-        $this->assertStringMatchesFormat('%s', $instance->generate('text', 20, array('class'=>':alnum:')));
+        $this->assertStringMatchesFormat('%s', $instance->generate('text', 20, array('class'=> ':alnum:')));
         $this->assertRegExp('/[0-9 ]+/', $instance->generate('text', 20, ':digit:'));
 
         // Email generations
@@ -497,6 +499,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_TestCase::generate
      * @dataProvider testGenerateModifierDataProvider
+     *
      * @param $modifier
      */
     public function testGenerateModifierString($modifier)
@@ -508,18 +511,20 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_TestCase::generate
      * @dataProvider testGenerateModifierDataProvider
+     *
      * @param $modifier
      */
     public function testGenerateModifierText($modifier)
     {
         $instance = new Mage_Selenium_TestCase();
-        $randomText = $instance->generate('text', 100, array('class' => $modifier,'para' => 5));
+        $randomText = $instance->generate('text', 100, array('class' => $modifier,
+                                                            'para'   => 5));
         $this->assertEquals(5, count(explode("\n", $randomText)));
-        $this->assertRegExp('/[\s['. $modifier . ']]{100}/', $randomText);
+        $this->assertRegExp('/[\s[' . $modifier . ']]{100}/', $randomText);
 
         $randomText = $instance->generate('text', 100, $modifier);
         $this->assertEquals(1, count(explode("\n", $randomText)));
-        $this->assertRegExp('/[\s['. $modifier . ']]{100}/', $randomText);
+        $this->assertRegExp('/[\s[' . $modifier . ']]{100}/', $randomText);
     }
 
     public function testGenerateModifierDataProvider()
