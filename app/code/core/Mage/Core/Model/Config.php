@@ -1476,6 +1476,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function shouldUrlBeSecure($url)
     {
+        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
+            return false;
+        }
+
         if (!isset($this->_secureUrlCache[$url])) {
             $this->_secureUrlCache[$url] = false;
             $secureUrls = $this->getNode('frontend/secure_url');
