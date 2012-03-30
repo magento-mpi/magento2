@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Downloadable
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * Manage consumers controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Unset unused data from request
@@ -53,7 +53,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
     /**
      * Init titles
      *
-     * @return Mage_OAuth_Adminhtml_OAuth_ConsumerController
+     * @return Mage_Oauth_Adminhtml_Oauth_ConsumerController
      */
     public function preDispatch()
     {
@@ -87,7 +87,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      */
     public function newAction()
     {
-        /** @var $model Mage_OAuth_Model_Consumer */
+        /** @var $model Mage_Oauth_Model_Consumer */
         $model = Mage::getModel('oauth/consumer');
 
         $formData = $this->_getFormData();
@@ -95,7 +95,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             $this->_setFormData($formData);
             $model->addData($formData);
         } else {
-            /** @var $helper Mage_OAuth_Helper_Data */
+            /** @var $helper Mage_Oauth_Helper_Data */
             $helper = Mage::helper('oauth');
             $model->setKey($helper->generateConsumerKey());
             $model->setSecret($helper->generateConsumerSecret());
@@ -121,7 +121,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             return;
         }
 
-        /** @var $model Mage_OAuth_Model_Consumer */
+        /** @var $model Mage_Oauth_Model_Consumer */
         $model = Mage::getModel('oauth/consumer');
         $model->load($id);
 
@@ -155,7 +155,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
 
         $data = $this->_filter($this->getRequest()->getParams());
 
-        /** @var $model Mage_OAuth_Model_Consumer */
+        /** @var $model Mage_Oauth_Model_Consumer */
         $model = Mage::getModel('oauth/consumer');
 
         if ($id) {
@@ -181,7 +181,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
             } else {
                 // If an admin was started create a new consumer and at this moment he has been edited an existing
                 // consumer, we save the new consumer with a new key-secret pair
-                /** @var $helper Mage_OAuth_Helper_Data */
+                /** @var $helper Mage_Oauth_Helper_Data */
                 $helper = Mage::helper('oauth');
 
                 $data['key']    = $helper->generateConsumerKey();
@@ -250,7 +250,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
      * Set form data
      *
      * @param $data
-     * @return Mage_OAuth_Adminhtml_OAuth_ConsumerController
+     * @return Mage_Oauth_Adminhtml_Oauth_ConsumerController
      */
     protected function _setFormData($data)
     {
@@ -266,7 +266,7 @@ class Mage_OAuth_Adminhtml_OAuth_ConsumerController extends Mage_Adminhtml_Contr
         $consumerId = (int) $this->getRequest()->getParam('id');
         if ($consumerId) {
             try {
-                /** @var $consumer Mage_OAuth_Model_Consumer */
+                /** @var $consumer Mage_Oauth_Model_Consumer */
                 $consumer = Mage::getModel('oauth/consumer')->load($consumerId);
                 if (!$consumer->getId()) {
                     Mage::throwException(Mage::helper('oauth')->__('Unable to find a consumer.'));

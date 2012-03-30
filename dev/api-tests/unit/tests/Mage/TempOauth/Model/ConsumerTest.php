@@ -19,25 +19,25 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @subpackage  unit_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test OAuth consumer model
+ * Test Oauth consumer model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
+class Mage_Oauth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Valid url
      */
-    const VALID_URL = 'http://localhost';
+    const VALID_URL = 'http://localhost.com';
 
     /**
      * Invalid url
@@ -47,7 +47,7 @@ class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
     /**
      * OAuth consumer model instance
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_consumer;
 
@@ -66,10 +66,10 @@ class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        /** @var $helper Mage_OAuth_Helper_Data */
-        $helper = Mage::helper('oAuth');
+        /** @var $helper Mage_Oauth_Helper_Data */
+        $helper = Mage::helper('oauth');
 
-        $this->_consumer = Mage::getModel('oAuth/consumer');
+        $this->_consumer = Mage::getModel('oauth/consumer');
         $this->_consumer->setData(array(
             'name'         => 'Consumer name',
             'key'          => $helper->generateConsumerKey(),
@@ -78,7 +78,7 @@ class Mage_OAuth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
             'rejected_callback_url' => self::VALID_URL
         ));
 
-        $this->_lengthValidatorMock = $this->getModelMockBuilder('oAuth/consumer_validator_keyLength')
+        $this->_lengthValidatorMock = $this->getModelMockBuilder('oauth/consumer_validator_keyLength')
             ->setMethods(array('isValid'))
             ->getMock();
     }

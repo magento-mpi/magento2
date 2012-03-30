@@ -25,26 +25,24 @@
  */
 
 /**
- * Manage "My Applications" controller
- *
- * Applications for logged admin user
+ * Manage authorized tokens controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init titles
      *
-     * @return Mage_OAuth_Adminhtml_OAuth_Admin_TokenController
+     * @return Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensController
      */
     public function preDispatch()
     {
         $this->_title($this->__('System'))
-                ->_title($this->__('Permissions'))
-                ->_title($this->__('My Applications'));
+                ->_title($this->__('OAuth'))
+                ->_title($this->__('Authorized Tokens'));
         parent::preDispatch();
         return $this;
     }
@@ -54,7 +52,7 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->loadLayout()->_setActiveMenu('system/oauth');
         $this->renderLayout();
     }
 
@@ -90,21 +88,19 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
         }
 
         try {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('admin/session')->getData('user');
-
-            /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+            /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
-                    ->addFilterByAdminId($user->getId())
-                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids)
                     ->addFilterByRevoked(!$status);
 
-            /** @var $item Mage_OAuth_Model_Token */
+            /** @var $item Mage_Oauth_Model_Token */
             foreach ($collection as $item) {
                 $item->load($item->getId());
                 $item->setRevoked($status)->save();
+
+                $this->_sendTokenStatusChangeNotification($item, $status ? $this->__('revoked') : $this->__('enabled'));
             }
             if ($status) {
                 $message = $this->__('Selected entries revoked.');
@@ -136,19 +132,17 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
         }
 
         try {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('admin/session')->getData('user');
-
-            /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+            /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
-                    ->addFilterByAdminId($user->getId())
-                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids);
 
-            /** @var $item Mage_OAuth_Model_Token */
+            /** @var $item Mage_Oauth_Model_Token */
             foreach ($collection as $item) {
                 $item->delete();
+
+                $this->_sendTokenStatusChangeNotification($item, $this->__('deleted'));
             }
             $this->_getSession()->addSuccess($this->__('Selected entries has been deleted.'));
         } catch (Mage_Core_Exception $e) {
@@ -169,6 +163,41 @@ class Mage_OAuth_Adminhtml_OAuth_Admin_TokenController extends Mage_Adminhtml_Co
     {
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('admin/session');
-        return $session->isAllowed('system/acl/admin_token');
+        return $session->isAllowed('system/oauth/authorizedTokens');
+    }
+
+    /**
+     * Send email notification to user about token status change
+     *
+     * @param Mage_Oauth_Model_Token $token Token object
+     * @param string $newStatus Name of new token status
+     */
+    protected function _sendTokenStatusChangeNotification($token, $newStatus)
+    {
+        if (($adminId = $token->getAdminId())) {
+            /** @var $session Mage_Admin_Model_Session */
+            $session = Mage::getSingleton('admin/session');
+
+            /** @var $admin Mage_Admin_Model_User */
+            $admin = $session->getUser();
+
+            if ($admin->getId() == $adminId) { // skip own tokens
+                return;
+            }
+            $email = $admin->getEmail();
+            $name  = $admin->getName(' ');
+        } else {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer');
+
+            $customer->load($token->getCustomerId());
+
+            $email = $customer->getEmail();
+            $name  = $customer->getName();
+        }
+        /** @var $helper Mage_Oauth_Helper_Data */
+        $helper = Mage::helper('oauth');
+
+        $helper->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
     }
 }
