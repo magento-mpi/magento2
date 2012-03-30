@@ -61,7 +61,15 @@ AddBySku.prototype = {
                 return originConfiguredCheck.apply(this, [listType, itemId]);
             }
 
-            return this.skuObject.configuredSkus.indexOf(itemId) != -1;
+            var indexOfItemId = this.skuObject.configuredSkus.indexOf(itemId);
+            if (indexOfItemId != -1) {
+                if (!originConfiguredCheck.apply(this, [listType, itemId])) {
+                    this.skuObject.configuredSkus.splice(indexOfItemId, 1);
+                    return false;
+                }
+                return true;
+            }
+            return false;
         };
         var originRequestConfiguration = productConfigure._requestItemConfiguration;
         productConfigure._requestItemConfiguration = function (listType, itemId)
