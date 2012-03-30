@@ -34,16 +34,21 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
     public function testGetTranslatorScript()
     {
         $this->assertEquals(
-            '<script type="text/javascript">var Translator = new Translate('
-            . $this->_helper->getTranslateJson()
-            . ');</script>',
+            '<script type="text/javascript">//<![CDATA[' . "\n"
+            . '        var Translator = new Translate(' . $this->_helper->getTranslateJson() . ');' . "\n"
+            . '        //]]></script>',
             $this->_helper->getTranslatorScript()
         );
     }
 
     public function testGetScript()
     {
-        $this->assertEquals('<script type="text/javascript">script</script>', $this->_helper->getScript('script'));
+        $this->assertEquals(
+            '<script type="text/javascript">//<![CDATA[' . "\n"
+            . '        script' . "\n"
+            . '        //]]></script>',
+            $this->_helper->getScript('script')
+        );
     }
 
     public function testIncludeScript()

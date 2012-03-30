@@ -113,6 +113,7 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testImageAction()
     {
+        $this->markTestSkipped("All logic has been cut to avoid possible malicious usage of the method");
         ob_start();
         /* Preceding slash in URL is required in this case */
         $this->dispatch('/catalog/product/image' . $this->_getProductImageFile());
