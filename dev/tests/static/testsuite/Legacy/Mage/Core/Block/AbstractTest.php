@@ -24,7 +24,7 @@ class Legacy_Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $result = Utility_Classes::getAllMatches(
             file_get_contents($file),
-            "/(->getChildHtml\([^,()]+, ?[^,)]+, ?[^,)]+\))/i"
+            "/(->getChildHtml\([^,()]+, ?[^,()]+,)/i"
         );
         $this->assertEmpty(
             $result,
@@ -32,7 +32,7 @@ class Legacy_Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         );
         $result = Utility_Classes::getAllMatches(
             file_get_contents($file),
-            "/(->getChildChildHtml\([^,()]+, ?[^,)]+, ?[^,)]+, ?[^,)]+\))/i"
+            "/(->getChildChildHtml\([^,()]+, ?[^,()]+, ?[^,()]+,)/i"
         );
         $this->assertEmpty(
             $result,

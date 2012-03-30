@@ -18,5 +18,5 @@ $reward->save();
 $history = Mage::getModel('Enterprise_Reward_Model_Reward_History');
 $history->setRewardId($reward->getId())
     ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-    ->setAdditionalData('s:15:"additional data";');
+    ->setAdditionalData(serialize('any non-empty string'));
 $history->save();
