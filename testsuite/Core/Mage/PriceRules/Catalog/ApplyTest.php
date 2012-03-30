@@ -42,6 +42,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
+        $this->systemConfigurationHelper()->configure('shipping_settings_default');
     }
 
     /**
@@ -51,6 +52,11 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_catalog_price_rules');
+        $this->priceRulesHelper()->setAllRulesToInactive();
+        $this->clickButton('apply_rules', false);
+        $this->waitForNewPage();
+        $this->assertMessagePresent('success', 'success_applied_rule');
     }
 
     protected function tearDownAfterTest()
@@ -59,6 +65,10 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
             $this->loginAdminUser();
             $this->navigate('manage_catalog_price_rules');
             $this->priceRulesHelper()->deleteRule($this->_ruleToBeDeleted);
+            $this->assertMessagePresent('success', 'success_deleted_rule');
+            $this->clickButton('apply_rules', false);
+            $this->waitForNewPage();
+            $this->assertMessagePresent('success', 'success_applied_rule');
             $this->_ruleToBeDeleted = array();
         }
     }
@@ -75,9 +85,8 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account');
         $categoryData = $this->loadData('sub_category_required');
-        $simple = $this->loadData('simple_product_for_price_rules_validation_front',
-                                  array('categories'       => $categoryData['parent_category'] . '/' . $categoryData['name'],
-                                       'prices_tax_class'  => 'Taxable Goods'));
+        $simple = $this->loadData('simple_product_visible',
+                                  array('categories' => $categoryData['parent_category'] . '/' . $categoryData['name']));
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -125,7 +134,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider applyRuleToSimpleFrontDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3308
+     * @TestlinkId    TL-MAGE-3308
      */
     public function applyRuleToSimpleFront($ruleType, $testData)
     {
@@ -141,8 +150,6 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $priceInCategoryLogged = $this->loadData($ruleType . '_simple_logged_category', $overrideData);
         $priceInCategoryNotLogged = $this->loadData($ruleType . '_simple_not_logged_category', $overrideData);
         //Steps
-        $this->navigate('manage_catalog_price_rules');
-        $this->priceRulesHelper()->setAllRulesToInactive();
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
@@ -154,6 +161,11 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_applied_rule');
         $this->clearInvalidedCache();
         $this->reindexInvalidedData();
+        $this->navigate('manage_catalog_price_rules');
+        $result = $this->successMessage('notification_message');
+        if ($result['success']) {
+            $this->fail("'notification_message' on page");
+        }
         //Verification on frontend
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryLogged);
@@ -161,7 +173,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontVerifyProductPrices($productPriceLogged);
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($testData['simpleName'], $testData['categoryPath']);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged);
+        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged, $testData['simpleName']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategoryNotLogged);
     }
 

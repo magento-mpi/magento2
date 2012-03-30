@@ -246,12 +246,14 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
 
-        if ($category && $productName) {
+        if (!is_null($category) && !is_null($productName)) {
             $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
             if (!$foundIt) {
                 $this->fail('Could not find the product');
             }
             $this->frontVerifyProductPrices($verificationData, $productName);
+        } else {
+            $this->fail('Category or product name is not specified');
         }
     }
 

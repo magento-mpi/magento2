@@ -49,7 +49,7 @@ test_catalog_rule:
         customer_groups: NOT LOGGED IN
         from_date: %currentDate%
         to_date: %currentDate%
-        priority: 10
+        priority: %noValue%
     conditions: %noValue%
     actions:
         apply: To Percentage of the Original Price

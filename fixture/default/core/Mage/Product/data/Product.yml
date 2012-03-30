@@ -450,7 +450,7 @@ simple_product_visible:
     general_weight: 1.14
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 8.99
+    prices_price: 120
     prices_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
