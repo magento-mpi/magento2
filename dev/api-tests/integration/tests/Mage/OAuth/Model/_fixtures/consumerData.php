@@ -4,10 +4,10 @@
  *
  * @return array
  */
-$keyCreate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::KEY_LENGTH);
-$secretCreate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::SECRET_LENGTH);
-$keyUpdate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::KEY_LENGTH);
-$secretUpdate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::SECRET_LENGTH);
+$keyCreate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::KEY_LENGTH);
+$secretCreate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::SECRET_LENGTH);
+$keyUpdate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::KEY_LENGTH);
+$secretUpdate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::SECRET_LENGTH);
 $date = date('Ymd-His');
 return array(
     'create' => array(

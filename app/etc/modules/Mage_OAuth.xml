@@ -20,19 +20,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <modules>
-        <Mage_OAuth>
+        <Mage_Oauth>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
                 <Mage_Core/>
             </depends>
-        </Mage_OAuth>
+        </Mage_Oauth>
     </modules>
 </config>

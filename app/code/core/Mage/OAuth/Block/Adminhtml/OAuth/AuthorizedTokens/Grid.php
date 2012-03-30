@@ -28,10 +28,10 @@
  * OAuth authorized tokens grid block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Construct grid block
@@ -49,14 +49,14 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('oauth/token')->getCollection();
         $collection->joinConsumerAsApplication()
-            ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS);
+            ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS);
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -66,7 +66,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
      */
     protected function _prepareColumns()
     {
@@ -125,7 +125,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Get revoke URL
      *
-     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Oauth_Model_Token $row
      * @return string|null
      */
     public function getRevokeUrl($row)
@@ -136,7 +136,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Get delete URL
      *
-     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Oauth_Model_Token $row
      * @return string|null
      */
     public function getDeleteUrl($row)
@@ -147,7 +147,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
     /**
      * Add mass-actions to grid
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
      */
     protected function _prepareMassaction()
     {
@@ -179,7 +179,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
      * Decorate user type column
      *
      * @param string $value
-     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Oauth_Model_Token $row
      * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return mixed
@@ -198,7 +198,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_AuthorizedTokens_Grid extends Mage_Adminh
      * Decorate user type column
      *
      * @param string $value
-     * @param Mage_OAuth_Model_Token $row
+     * @param Mage_Oauth_Model_Token $row
      * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return mixed

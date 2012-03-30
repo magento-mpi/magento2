@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * oAuth authorize controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_AuthorizeController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Session name
@@ -44,11 +44,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      * Init authorize page
      *
      * @param bool $simple      Is simple page?
-     * @return Mage_OAuth_AuthorizeController
+     * @return Mage_Oauth_AuthorizeController
      */
     protected function _initForm($simple = false)
     {
-        /** @var $server Mage_OAuth_Model_Server */
+        /** @var $server Mage_Oauth_Model_Server */
         $server = Mage::getModel('oauth/server');
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -58,7 +58,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             $server->checkAuthorizeRequest();
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Mage_OAuth_Exception $e) {
+        } catch (Mage_Oauth_Exception $e) {
             $isException = true;
             $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
@@ -73,11 +73,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         $contentBlock = $layout->getBlock('content');
         if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Mage_OAuth_Block_Authorize_Button */
+            /** @var $block Mage_Oauth_Block_Authorize_Button */
             $block = $contentBlock->getChild('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
-            /** @var $block Mage_OAuth_Block_Authorize */
+            /** @var $block Mage_Oauth_Block_Authorize */
             $block = $contentBlock->getChild('oauth.authorize.form');
         }
 
@@ -96,7 +96,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      * Init confirm page
      *
      * @param bool $simple      Is simple page?
-     * @return Mage_OAuth_AuthorizeController
+     * @return Mage_Oauth_AuthorizeController
      */
     protected function _initConfirmPage($simple = false)
     {
@@ -105,17 +105,17 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         try {
-            /** @var $server Mage_OAuth_Model_Server */
+            /** @var $server Mage_Oauth_Model_Server */
             $server = Mage::getModel('oauth/server');
 
-            /** @var $block Mage_OAuth_Block_Authorize */
+            /** @var $block Mage_Oauth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
             $block->setIsSimple($simple);
 
-            /** @var $token Mage_OAuth_Model_Token */
-            $token = $server->authorizeToken($session->getCustomerId(), Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER);
+            /** @var $token Mage_Oauth_Model_Token */
+            $token = $server->authorizeToken($session->getCustomerId(), Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER);
 
-            /** @var $helper Mage_OAuth_Helper_Data */
+            /** @var $helper Mage_Oauth_Helper_Data */
             $helper = Mage::helper('oauth');
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
@@ -127,7 +127,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Mage_OAuth_Exception $e) {
+        } catch (Mage_Oauth_Exception $e) {
             $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
             $session->addException($e, $this->__('An error occurred on confirm authorize.'));
@@ -143,7 +143,7 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
      * Init reject page
      *
      * @param bool $simple      Is simple page?
-     * @return Mage_OAuth_AuthorizeController
+     * @return Mage_Oauth_AuthorizeController
      */
     protected function _initRejectPage($simple = false)
     {
@@ -152,16 +152,16 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         try {
-            /** @var $server Mage_OAuth_Model_Server */
+            /** @var $server Mage_Oauth_Model_Server */
             $server = Mage::getModel('oauth/server');
 
-            /** @var $block Mage_OAuth_Block_Authorize */
+            /** @var $block Mage_Oauth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');
             $block->setIsSimple($simple);
 
-            /** @var $token Mage_OAuth_Model_Token */
+            /** @var $token Mage_Oauth_Model_Token */
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper Mage_OAuth_Helper_Data */
+            /** @var $helper Mage_Oauth_Helper_Data */
             $helper = Mage::helper('oauth');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {

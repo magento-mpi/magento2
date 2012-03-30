@@ -1,8 +1,8 @@
 <?php
 
 $date = date('Ymd-His');
-$keyCreate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::KEY_LENGTH);
-$secretCreate = substr(str_repeat(uniqid(), 6), 0, Mage_OAuth_Model_Consumer::SECRET_LENGTH);
+$keyCreate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::KEY_LENGTH);
+$secretCreate = substr(str_repeat(uniqid(), 6), 0, Mage_Oauth_Model_Consumer::SECRET_LENGTH);
 
 /**
  * Model data
@@ -17,7 +17,7 @@ $consumerData = array(
     'rejected_callback_url' => 'http://example.com/oauth_model/?rejected=1',
 );
 
-$consumer = new Mage_OAuth_Model_Consumer();
+$consumer = new Mage_Oauth_Model_Consumer();
 $consumer->setData($consumerData);
 $consumer->save();
 

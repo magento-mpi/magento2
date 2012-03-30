@@ -1,6 +1,6 @@
 <?php
 
-/** @var $consumer Mage_OAuth_Model_Consumer */
+/** @var $consumer Mage_Oauth_Model_Consumer */
 $consumer = require 'consumer.php';
 
 /**
@@ -8,14 +8,14 @@ $consumer = require 'consumer.php';
  *
  * @return array
  */
-/** @var $helper Mage_OAuth_Helper_Data */
+/** @var $helper Mage_Oauth_Helper_Data */
 $helper = Mage::helper('oauth');
 $date = date('Ymd-His');
 $tokenData = array(
     'consumer_id'       => $consumer->getId(),
     'admin_id'          => null,
     'customer_id'       => null,
-    'type'              => Mage_OAuth_Model_Token::TYPE_REQUEST,
+    'type'              => Mage_Oauth_Model_Token::TYPE_REQUEST,
     'token'             => $helper->generateToken(),
     'secret'            => $helper->generateTokenSecret(),
     'verifier'          => null,  //$helper->generateVerifier(),
@@ -24,7 +24,7 @@ $tokenData = array(
     'revoked'           => '0',
 );
 
-$token = new Mage_OAuth_Model_Token();
+$token = new Mage_Oauth_Model_Token();
 $token->setData($tokenData);
 $token->save();
 

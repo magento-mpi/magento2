@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * oAuth initiate controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_InitiateController extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_InitiateController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Dispatch event before action
@@ -53,7 +53,7 @@ class Mage_OAuth_InitiateController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        /** @var $server Mage_OAuth_Model_Server */
+        /** @var $server Mage_Oauth_Model_Server */
         $server = Mage::getModel('oauth/server');
 
         $server->initiateToken();

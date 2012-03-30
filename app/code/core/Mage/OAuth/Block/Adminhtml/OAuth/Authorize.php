@@ -28,10 +28,10 @@
  * OAuth admin authorization block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_OAuth_Block_AuthorizeBaseAbstract
+class Mage_Oauth_Block_Adminhtml_Oauth_Authorize extends Mage_Oauth_Block_AuthorizeBaseAbstract
 {
     /**
      * Retrieve Session Form Key
@@ -80,6 +80,6 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize extends Mage_OAuth_Block_Author
      */
     public function getRejectUrlPath()
     {
-        return 'adminhtml/oAuth_authorize/reject';
+        return 'adminhtml/oauth_authorize/reject';
     }
 }

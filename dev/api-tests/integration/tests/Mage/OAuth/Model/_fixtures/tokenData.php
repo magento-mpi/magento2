@@ -4,7 +4,7 @@
  *
  * @return array
  */
-/** @var $helper Mage_OAuth_Helper_Data */
+/** @var $helper Mage_Oauth_Helper_Data */
 $helper = Mage::helper('oauth');
 $date = date('Ymd-His');
 return array(
@@ -12,7 +12,7 @@ return array(
         'consumer_id'       => '',
         'admin_id'          => null,
         'customer_id'       => null,
-        'type'              => Mage_OAuth_Model_Token::TYPE_REQUEST,
+        'type'              => Mage_Oauth_Model_Token::TYPE_REQUEST,
         'token'             => $helper->generateToken(),
         'secret'            => $helper->generateTokenSecret(),
         'verifier'          => $helper->generateVerifier(),
@@ -21,7 +21,7 @@ return array(
         'revoked'           => (string) rand(0, 1),
     ),
     'update' => array(
-        'type'              => Mage_OAuth_Model_Token::TYPE_ACCESS,
+        'type'              => Mage_Oauth_Model_Token::TYPE_ACCESS,
         'token'             => $helper->generateToken(),
         'secret'            => $helper->generateTokenSecret(),
         'verifier'          => null,

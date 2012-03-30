@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -28,7 +28,7 @@
 /**
  * Test OAuth Nonce
  */
-class Mage_OAuth_Model_NonceTest extends Magento_TestCase
+class Mage_Oauth_Model_NonceTest extends Magento_TestCase
 {
     /**
      * 15 years, sec
@@ -52,9 +52,9 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
      */
     protected function setUp()
     {
-        /** @var $nonceResource Mage_OAuth_Model_Resource_Nonce */
+        /** @var $nonceResource Mage_Oauth_Model_Resource_Nonce */
         $nonceResource = Mage::getResourceModel('oauth/nonce');
-        /** @var $nonce Mage_OAuth_Model_Nonce */
+        /** @var $nonce Mage_Oauth_Model_Nonce */
         $nonce = Mage::getModel('oauth/nonce');
 
         $time = time();
@@ -81,7 +81,7 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
      */
     public function testDeleteOldEntries()
     {
-        /** @var $nonce Mage_OAuth_Model_Nonce */
+        /** @var $nonce Mage_Oauth_Model_Nonce */
         $nonce = Mage::getModel('oauth/nonce');
 
         // Nonce items count before delete action
@@ -99,7 +99,7 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
      */
     public function testAfterSave()
     {
-        /** @var $nonce Mage_OAuth_Model_Nonce */
+        /** @var $nonce Mage_Oauth_Model_Nonce */
         $nonce = Mage::getModel('oauth/nonce');
 
         // Nonce items count before delete action
@@ -131,7 +131,7 @@ class Mage_OAuth_Model_NonceTest extends Magento_TestCase
      */
     public function testAfterSaveFail()
     {
-        /** @var $nonce Mage_OAuth_Model_Nonce */
+        /** @var $nonce Mage_Oauth_Model_Nonce */
         $nonce = Mage::getModel('oauth/nonce');
 
         // Nonce items count before delete action

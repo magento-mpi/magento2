@@ -28,10 +28,10 @@
  * Test model customer My Applications controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Customer_TokenControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**
      * Get token data
@@ -78,7 +78,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
@@ -87,7 +87,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
         $message                = 'Token is not updated.';
         $messageMustNotUpdated  = 'Token is updated but it must be not.';
 
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $id = $item->getId();
             foreach (array(0, 1) as $revoked) {
@@ -97,7 +97,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
                 $this->dispatch($dispatchPath);
                 $this->assertRedirectMatch($redirectUrl);
 
-                $mustChange = $item->getCustomerId() && $item->getType() == Mage_OAuth_Model_Token::TYPE_ACCESS;
+                $mustChange = $item->getCustomerId() && $item->getType() == Mage_Oauth_Model_Token::TYPE_ACCESS;
                 $revokedTest = $mustChange ? $revoked : $item->getRevoked();
                 $item->load($id);
                 $this->assertEquals($revokedTest, $item->getRevoked(), $mustChange ? $message : $messageMustNotUpdated);
@@ -119,7 +119,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
@@ -129,7 +129,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
         $message                = 'Token is not deleted.';
         $messageMustNotUpdated  = 'Token is deleted but it must be not.';
 
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $id = $item->getId();
             Mage::unregister('application_params');
@@ -137,7 +137,7 @@ class Mage_OAuth_Customer_TokenControllerTest extends Magento_Test_ControllerTes
             $this->dispatch($dispatchPath);
             $this->assertRedirectMatch($redirectUrl);
 
-            $mustChange = $item->getCustomerId() && $item->getType() == Mage_OAuth_Model_Token::TYPE_ACCESS;
+            $mustChange = $item->getCustomerId() && $item->getType() == Mage_Oauth_Model_Token::TYPE_ACCESS;
             $item->setData(array());
             $item->load($id);
             $this->assertEquals(

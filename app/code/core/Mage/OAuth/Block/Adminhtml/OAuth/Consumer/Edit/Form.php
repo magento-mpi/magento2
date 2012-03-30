@@ -29,22 +29,22 @@
  * OAuth consumer edit form block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Consumer model
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_model;
 
     /**
      * Get consumer model
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Oauth_Model_Consumer
      */
     public function getModel()
     {
@@ -57,7 +57,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form extends Mage_Adminhtml
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Edit_Form
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form
      */
     protected function _prepareForm()
     {

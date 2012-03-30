@@ -28,10 +28,10 @@
  * OAuth Consumer grid block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Allow edit status
@@ -60,7 +60,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid
      */
     protected function _prepareCollection()
     {
@@ -73,7 +73,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid
      */
     protected function _prepareColumns()
     {
@@ -105,7 +105,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Consumer_Grid extends Mage_Adminhtml_Bloc
     /**
      * Get row URL
      *
-     * @param Mage_OAuth_Model_Consumer $row
+     * @param Mage_Oauth_Model_Consumer $row
      * @return string|null
      */
     public function getRowUrl($row)

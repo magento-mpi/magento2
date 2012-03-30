@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,32 +28,32 @@
  * OAuth abstract authorization block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method string getToken()
- * @method Mage_OAuth_Block_AuthorizeBaseAbstract setToken() setToken(string $token)
+ * @method Mage_Oauth_Block_AuthorizeBaseAbstract setToken() setToken(string $token)
  * @method boolean getIsSimple()
- * @method Mage_OAuth_Block_Authorize_Button setIsSimple() setIsSimple(boolean $flag)
+ * @method Mage_Oauth_Block_Authorize_Button setIsSimple() setIsSimple(boolean $flag)
  * @method boolean getHasException()
- * @method Mage_OAuth_Block_AuthorizeBaseAbstract setIsException() setHasException(boolean $flag)
+ * @method Mage_Oauth_Block_AuthorizeBaseAbstract setIsException() setHasException(boolean $flag)
  * @method boolean getVerifier()
- * @method Mage_OAuth_Block_AuthorizeBaseAbstract setVerifier() setVerifier(string $verifier)
+ * @method Mage_Oauth_Block_AuthorizeBaseAbstract setVerifier() setVerifier(string $verifier)
  * @method boolean getIsLogged()
- * @method Mage_OAuth_Block_AuthorizeBaseAbstract setIsLogged() setIsLogged(boolean $flag)
+ * @method Mage_Oauth_Block_AuthorizeBaseAbstract setIsLogged() setIsLogged(boolean $flag)
  */
-abstract class Mage_OAuth_Block_Authorize_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Oauth_Block_Authorize_Abstract extends Mage_Core_Block_Template
 {
     /**
      * Helper
      *
-     * @var Mage_OAuth_Helper_Data
+     * @var Mage_Oauth_Helper_Data
      */
     protected $_helper;
 
     /**
      * Consumer model
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_consumer;
 
@@ -69,12 +69,12 @@ abstract class Mage_OAuth_Block_Authorize_Abstract extends Mage_Core_Block_Templ
     /**
      * Get consumer instance by token value
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Oauth_Model_Consumer
      */
     public function getConsumer()
     {
         if (null === $this->_consumer) {
-            /** @var $token Mage_OAuth_Model_Token */
+            /** @var $token Mage_Oauth_Model_Token */
             $token = Mage::getModel('oauth/token');
             $token->load($this->getToken(), 'token');
             $this->_consumer = $token->getConsumer();

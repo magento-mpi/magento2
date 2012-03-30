@@ -3,11 +3,11 @@
  * Test Mage Api Session model
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Api Team <api-team@magento.com>
  * @todo Move to Unit tests
  */
-class Mage_OAuth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
+class Mage_Oauth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
 {
     /**
      * Test key length
@@ -41,7 +41,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
      */
     public function testValidationFailure($url)
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
+        $validator = new Mage_Oauth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
         $this->assertFalse(
             $validator->isValid($url),
             'Expected failing validation.');
@@ -54,7 +54,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
      */
     public function testValidationSuccess()
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
+        $validator = new Mage_Oauth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
         $this->assertTrue(
             $validator->isValid(self::KEY),
             'Expected success validation but got following errors:' . PHP_EOL .
@@ -68,9 +68,9 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLengthTest extends Magento_TestCase
      */
     public function testInvalidValue()
     {
-        $validator = new Mage_OAuth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
+        $validator = new Mage_Oauth_Model_Consumer_Validator_KeyLength(self::KEY_LENGTH);
         $messages = $validator->getMessageTemplates();
-        $message = $messages[Mage_OAuth_Model_Consumer_Validator_KeyLength::INVALID];
+        $message = $messages[Mage_Oauth_Model_Consumer_Validator_KeyLength::INVALID];
         try {
             $validator->isValid(array(self::KEY));
 

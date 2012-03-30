@@ -28,10 +28,10 @@
  * OAuth My Application grid block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Construct grid block
@@ -49,17 +49,17 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
     /**
      * Prepare collection
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
      */
     protected function _prepareCollection()
     {
         /** @var $user Mage_Admin_Model_User */
         $user = Mage::getSingleton('admin/session')->getData('user');
 
-        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('oauth/token')->getCollection();
         $collection->joinConsumerAsApplication()
-                ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                 ->addFilterByAdminId($user->getId());
         $this->setCollection($collection);
 
@@ -70,7 +70,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
     /**
      * Prepare columns
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
      */
     protected function _prepareColumns()
     {
@@ -105,7 +105,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid extends Mage_Adminhtml_B
     /**
      * Add mass-actions to grid
      *
-     * @return Mage_OAuth_Block_Adminhtml_OAuth_Admin_Token_Grid
+     * @return Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
      */
     protected function _prepareMassaction()
     {

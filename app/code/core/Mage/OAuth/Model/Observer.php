@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,12 +28,11 @@
  * OAuth observer
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Observer
+class Mage_Oauth_Model_Observer
 {
-
     /**
      * Is current authorize page is simple
      *
@@ -61,17 +60,17 @@ class Mage_OAuth_Model_Observer
     {
         $simple = $this->_getIsSimple();
 
-        if (Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
+        if (Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
             if ($simple) {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE;
+                $route = Mage_Oauth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE;
             } else {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER;
+                $route = Mage_Oauth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER;
             }
-        } elseif (Mage_OAuth_Model_Token::USER_TYPE_ADMIN == $userType) {
+        } elseif (Mage_Oauth_Model_Token::USER_TYPE_ADMIN == $userType) {
             if ($simple) {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
+                $route = Mage_Oauth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
             } else {
-                $route = Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN;
+                $route = Mage_Oauth_Helper_Data::ENDPOINT_AUTHORIZE_ADMIN;
             }
         } else {
             throw new Exception('Invalid user type.');
@@ -98,7 +97,7 @@ class Mage_OAuth_Model_Observer
     public function afterCustomerLogin(Varien_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            $userType = Mage_OAuth_Model_Token::USER_TYPE_CUSTOMER;
+            $userType = Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER;
             $url = $this->_getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
@@ -116,7 +115,7 @@ class Mage_OAuth_Model_Observer
     public function afterAdminLogin(Varien_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
+            $userType = Mage_Oauth_Model_Token::USER_TYPE_ADMIN;
             $url = $this->_getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
@@ -138,7 +137,7 @@ class Mage_OAuth_Model_Observer
             $session = Mage::getSingleton('admin/session');
             $session->addError($observer->getException()->getMessage());
 
-            $userType = Mage_OAuth_Model_Token::USER_TYPE_ADMIN;
+            $userType = Mage_Oauth_Model_Token::USER_TYPE_ADMIN;
             $url = $this->_getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)

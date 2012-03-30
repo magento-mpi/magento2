@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * OAuth authorization block with auth buttons
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_OAuth_Block_Authorize_ButtonBaseAbstract
+class Mage_Oauth_Block_Adminhtml_Oauth_Authorize_Button extends Mage_Oauth_Block_Authorize_ButtonBaseAbstract
 {
     /**
      * Retrieve confirm authorization url path
@@ -40,7 +40,7 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_OAuth_Block
      */
     public function getConfirmUrlPath()
     {
-        return 'adminhtml/oAuth_authorize/confirm';
+        return 'adminhtml/oauth_authorize/confirm';
     }
 
     /**
@@ -50,6 +50,6 @@ class Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button extends Mage_OAuth_Block
      */
     public function getRejectUrlPath()
     {
-        return 'adminhtml/oAuth_authorize/reject';
+        return 'adminhtml/oauth_authorize/reject';
     }
 }

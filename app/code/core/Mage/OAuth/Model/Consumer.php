@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,28 +28,28 @@
  * Application model
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
- * @method Mage_OAuth_Model_Resource_Consumer _getResource()
- * @method Mage_OAuth_Model_Resource_Consumer getResource()
- * @method Mage_OAuth_Model_Resource_Consumer_Collection getCollection()
- * @method Mage_OAuth_Model_Resource_Consumer_Collection getResourceCollection()
+ * @method Mage_Oauth_Model_Resource_Consumer _getResource()
+ * @method Mage_Oauth_Model_Resource_Consumer getResource()
+ * @method Mage_Oauth_Model_Resource_Consumer_Collection getCollection()
+ * @method Mage_Oauth_Model_Resource_Consumer_Collection getResourceCollection()
  * @method string getName()
- * @method Mage_OAuth_Model_Consumer setName() setName(string $name)
+ * @method Mage_Oauth_Model_Consumer setName() setName(string $name)
  * @method string getKey()
- * @method Mage_OAuth_Model_Consumer setKey() setKey(string $key)
+ * @method Mage_Oauth_Model_Consumer setKey() setKey(string $key)
  * @method string getSecret()
- * @method Mage_OAuth_Model_Consumer setSecret() setSecret(string $secret)
+ * @method Mage_Oauth_Model_Consumer setSecret() setSecret(string $secret)
  * @method string getCallbackUrl()
- * @method Mage_OAuth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
+ * @method Mage_Oauth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
  * @method string getCreatedAt()
- * @method Mage_OAuth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
+ * @method Mage_Oauth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
  * @method string getUpdatedAt()
- * @method Mage_OAuth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
+ * @method Mage_Oauth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
  * @method string getRejectedCallbackUrl()
- * @method Mage_OAuth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
+ * @method Mage_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract
 {
     /**
      * Key hash length
@@ -74,7 +74,7 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
     /**
      * BeforeSave actions
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Oauth_Model_Consumer
      */
     protected function _beforeSave()
     {
@@ -109,10 +109,8 @@ class Mage_OAuth_Model_Consumer extends Mage_Core_Model_Abstract
             }
         }
 
-        /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = Mage::getModel(
-            'oauth/consumer_validator_keyLength',
-            array('length' => self::KEY_LENGTH));
+        /** @var $validatorLength Mage_Oauth_Model_Consumer_Validator_KeyLength */
+        $validatorLength = Mage::getModel('oauth/consumer_validator_keyLength', array('length' => self::KEY_LENGTH));
 
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {

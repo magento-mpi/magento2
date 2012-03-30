@@ -3,10 +3,10 @@
  * Test OAuth consumer
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Model_ConsumerTest extends Magento_TestCase
+class Mage_Oauth_Model_ConsumerTest extends Magento_TestCase
 {
     /**
      * Fixture data
@@ -35,7 +35,7 @@ class Mage_OAuth_Model_ConsumerTest extends Magento_TestCase
      */
     public function testCrud()
     {
-        $model = new Mage_OAuth_Model_Consumer();
+        $model = new Mage_Oauth_Model_Consumer();
         $this->addModelToDelete($model);
         $data = $this->_getFixtureData();
 
@@ -51,7 +51,7 @@ class Mage_OAuth_Model_ConsumerTest extends Magento_TestCase
          * Test read
          */
         $id = $model->getId();
-        $model = new Mage_OAuth_Model_Consumer();
+        $model = new Mage_Oauth_Model_Consumer();
         $dataCreated = $data['expected_create'];
         $dataCreated['entity_id'] = $id;
         $model->load($id);

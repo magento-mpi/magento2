@@ -28,10 +28,10 @@
  * Test model admin Authorized Tokens controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**#@+
      * Revoked status constants
@@ -58,11 +58,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
     {
         //generate test items
         $models      = $this->_getFixtureModels();
-        $redirectUrl = 'admin/oAuth_authorizedTokens/index';
+        $redirectUrl = 'admin/oauth_authorizedTokens/index';
         $models      = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds    = array();
 
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
@@ -80,12 +80,12 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
                  ->expects($this->exactly($notificationsCount[$revoked]))
                  ->method('sendNotificationOnTokenStatusChange');
 
-            $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/revoke'));
+            $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oauth_authorizedTokens/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
-            /** @var $item Mage_OAuth_Model_Token */
+            /** @var $item Mage_Oauth_Model_Token */
             foreach ($models as $item) {
-                $mustChange = $item->getType() == Mage_OAuth_Model_Token::TYPE_ACCESS;
+                $mustChange = $item->getType() == Mage_Oauth_Model_Token::TYPE_ACCESS;
                 $revokedTest = $mustChange ? $revoked : $item->getRevoked();
                 $item->load($item->getId());
                 $this->assertEquals(
@@ -105,11 +105,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
     {
         //generate test items
         $models      = $this->_getFixtureModels();
-        $redirectUrl = 'admin/oAuth_authorizedTokens/index';
+        $redirectUrl = 'admin/oauth_authorizedTokens/index';
         $models      = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds    = array();
 
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
             $tokenIds[] = $item->getId();
         }
@@ -124,12 +124,12 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizedTokensControllerTest extends Magento_
              ->method('sendNotificationOnTokenStatusChange')
              ->will($this->returnValue(1));
 
-        $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oAuth_authorizedTokens/delete'));
+        $this->dispatch(Mage::getModel('adminhtml/url')->getUrl('adminhtml/oauth_authorizedTokens/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
-        /** @var $item Mage_OAuth_Model_Token */
+        /** @var $item Mage_Oauth_Model_Token */
         foreach ($models as $item) {
-            $mustChange = $item->getType() == Mage_OAuth_Model_Token::TYPE_ACCESS;
+            $mustChange = $item->getType() == Mage_Oauth_Model_Token::TYPE_ACCESS;
             $id = $item->getId();
             $item->setData(array());
             $item->load($id);

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * oAuth Server
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Server
+class Mage_Oauth_Model_Server
 {
     /**#@+
      * OAuth result statuses
@@ -95,7 +95,7 @@ class Mage_OAuth_Model_Server
     /**
      * Consumer object
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_consumer;
 
@@ -183,7 +183,7 @@ class Mage_OAuth_Model_Server
     /**
      * Token object
      *
-     * @var Mage_OAuth_Model_Token
+     * @var Mage_Oauth_Model_Token
      */
     protected $_token;
 
@@ -209,7 +209,7 @@ class Mage_OAuth_Model_Server
      * Retrieve protocol and request parameters from request object
      *
      * @link http://tools.ietf.org/html/rfc5849#section-3.5
-     * @return Mage_OAuth_Model_Server
+     * @return Mage_Oauth_Model_Server
      */
     protected function _fetchParams()
     {
@@ -266,7 +266,7 @@ class Mage_OAuth_Model_Server
     /**
      * Retrieve protocol parameters from query string
      *
-     * @return Mage_OAuth_Model_Server
+     * @return Mage_Oauth_Model_Server
      */
     protected function _fetchProtocolParamsFromQuery()
     {
@@ -294,7 +294,7 @@ class Mage_OAuth_Model_Server
     /**
      * Initialize consumer
      *
-     * @throws Mage_OAuth_Exception
+     * @throws Mage_Oauth_Exception
      */
     protected function _initConsumer()
     {
@@ -310,8 +310,8 @@ class Mage_OAuth_Model_Server
     /**
      * Load token object, validate it depending on request type, set access data and save
      *
-     * @return Mage_OAuth_Model_Server
-     * @throws Mage_OAuth_Exception
+     * @return Mage_Oauth_Model_Server
+     * @throws Mage_Oauth_Exception
      */
     protected function _initToken()
     {
@@ -334,7 +334,7 @@ class Mage_OAuth_Model_Server
                 if ($this->_token->getConsumerId() != $this->_consumer->getId()) {
                     $this->_throwException('', self::ERR_TOKEN_REJECTED);
                 }
-                if (Mage_OAuth_Model_Token::TYPE_REQUEST != $this->_token->getType()) {
+                if (Mage_Oauth_Model_Token::TYPE_REQUEST != $this->_token->getType()) {
                     $this->_throwException('', self::ERR_TOKEN_USED);
                 }
             } elseif (self::REQUEST_AUTHORIZE == $this->_requestType) {
@@ -342,7 +342,7 @@ class Mage_OAuth_Model_Server
                     $this->_throwException('', self::ERR_TOKEN_USED);
                 }
             } elseif (self::REQUEST_RESOURCE == $this->_requestType) {
-                if (Mage_OAuth_Model_Token::TYPE_ACCESS != $this->_token->getType()) {
+                if (Mage_Oauth_Model_Token::TYPE_ACCESS != $this->_token->getType()) {
                     $this->_throwException('', self::ERR_TOKEN_REJECTED);
                 }
                 if ($this->_token->getRevoked()) {
@@ -371,7 +371,7 @@ class Mage_OAuth_Model_Server
      * Extract parameters from sources (GET, FormBody, Authorization header), decode them and validate
      *
      * @param string $requestType Request type - one of REQUEST_... class constant
-     * @return Mage_OAuth_Model_Server
+     * @return Mage_Oauth_Model_Server
      * @throws Mage_Core_Exception
      */
     protected function _processRequest($requestType)
@@ -429,11 +429,11 @@ class Mage_OAuth_Model_Server
      *
      * @param string $message Exception message
      * @param int $code Exception code
-     * @throws Mage_OAuth_Exception
+     * @throws Mage_Oauth_Exception
      */
     protected function _throwException($message = '', $code = 0)
     {
-        throw Mage::exception('Mage_OAuth', $message, $code);
+        throw Mage::exception('Mage_Oauth', $message, $code);
     }
 
     /**
@@ -467,7 +467,7 @@ class Mage_OAuth_Model_Server
         if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
             $this->_throwException('', self::ERR_TIMESTAMP_REFUSED);
         }
-        /** @var $nonceObj Mage_OAuth_Model_Nonce */
+        /** @var $nonceObj Mage_Oauth_Model_Nonce */
         $nonceObj = Mage::getModel('oauth/nonce');
 
         $nonceObj->load($nonce, 'nonce');
@@ -483,7 +483,7 @@ class Mage_OAuth_Model_Server
     /**
      * Validate protocol parameters
      *
-     * @throws Mage_OAuth_Exception
+     * @throws Mage_Oauth_Exception
      */
     protected function _validateProtocolParams()
     {
@@ -504,7 +504,7 @@ class Mage_OAuth_Model_Server
             }
         }
         // validate consumer key length
-        if (strlen($this->_protocolParams['oauth_consumer_key']) != Mage_OAuth_Model_Consumer::KEY_LENGTH) {
+        if (strlen($this->_protocolParams['oauth_consumer_key']) != Mage_Oauth_Model_Consumer::KEY_LENGTH) {
             $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
         }
         // validate signature method
@@ -526,7 +526,7 @@ class Mage_OAuth_Model_Server
     /**
      * Validate signature
      *
-     * @throws Mage_OAuth_Exception
+     * @throws Mage_Oauth_Exception
      */
     protected function _validateSignature()
     {
@@ -557,7 +557,7 @@ class Mage_OAuth_Model_Server
         if (!is_string($this->_protocolParams['oauth_token'])) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
-        if (strlen($this->_protocolParams['oauth_token']) != Mage_OAuth_Model_Token::LENGTH_TOKEN) {
+        if (strlen($this->_protocolParams['oauth_token']) != Mage_Oauth_Model_Token::LENGTH_TOKEN) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
     }
@@ -573,7 +573,7 @@ class Mage_OAuth_Model_Server
         if (!is_string($this->_protocolParams['oauth_verifier'])) {
             $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
-        if (strlen($this->_protocolParams['oauth_verifier']) != Mage_OAuth_Model_Token::LENGTH_VERIFIER) {
+        if (strlen($this->_protocolParams['oauth_verifier']) != Mage_Oauth_Model_Token::LENGTH_VERIFIER) {
             $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
     }
@@ -598,7 +598,7 @@ class Mage_OAuth_Model_Server
      *
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function authorizeToken($userId, $userType)
     {
@@ -612,7 +612,7 @@ class Mage_OAuth_Model_Server
     /**
      * Validate request with access token for specified URL
      *
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function checkAccessRequest()
     {
@@ -624,7 +624,7 @@ class Mage_OAuth_Model_Server
     /**
      * Check authorize request for validity and return token
      *
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function checkAuthorizeRequest()
     {
@@ -675,7 +675,7 @@ class Mage_OAuth_Model_Server
     {
         $eMsg = $e->getMessage();
 
-        if ($e instanceof Mage_OAuth_Exception) {
+        if ($e instanceof Mage_Oauth_Exception) {
             $eCode = $e->getCode();
 
             if (isset($this->_errors[$eCode])) {
@@ -708,7 +708,7 @@ class Mage_OAuth_Model_Server
      * Set response object
      *
      * @param Zend_Controller_Response_Http $response
-     * @return Mage_OAuth_Model_Server
+     * @return Mage_Oauth_Model_Server
      */
     public function setResponse(Zend_Controller_Response_Http $response)
     {

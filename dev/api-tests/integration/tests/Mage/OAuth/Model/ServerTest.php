@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -29,7 +29,7 @@
  * Test OAuth Server
  *
  */
-class Mage_OAuth_Model_ServerTest extends Magento_TestCase
+class Mage_Oauth_Model_ServerTest extends Magento_TestCase
 {
     /**
      * Message of message of raised exception fail
@@ -43,10 +43,10 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
      */
     protected function setUp()
     {
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
 
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
         $consumer->setName('Unit Test Consumer ' . uniqid())
@@ -59,9 +59,9 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         $this->setFixture('consumer', $consumer);
 
         $config = array(
-            'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE),
-            'accessTokenUrl'  => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_TOKEN),
-            'authorizeUrl'    => $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER),
+            'requestTokenUrl' => $helper->getProtocolEndpointUrl(Mage_Oauth_Helper_Data::ENDPOINT_INITIATE),
+            'accessTokenUrl'  => $helper->getProtocolEndpointUrl(Mage_Oauth_Helper_Data::ENDPOINT_TOKEN),
+            'authorizeUrl'    => $helper->getProtocolEndpointUrl(Mage_Oauth_Helper_Data::ENDPOINT_AUTHORIZE_CUSTOMER),
             'requestMethod'   => Zend_Oauth::POST,
             'consumerKey'     => $consumer->getKey(),
             'consumerSecret'  => $consumer->getSecret(),
@@ -114,13 +114,13 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $httpUtility Zend_Oauth_Http_Utility */
         $httpUtility = new Zend_Oauth_Http_Utility;
 
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
         /** @var $client Varien_Http_Client */
-        $client = new Varien_Http_Client($helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE));
+        $client = new Varien_Http_Client($helper->getProtocolEndpointUrl(Mage_Oauth_Helper_Data::ENDPOINT_INITIATE));
 
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = $this->getFixture('consumer');
 
         $data = array(
@@ -144,7 +144,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
             $consumer->getSecret(),
             null,
             Varien_Http_Client::POST,
-            $helper->getProtocolEndpointUrl(Mage_OAuth_Helper_Data::ENDPOINT_INITIATE)
+            $helper->getProtocolEndpointUrl(Mage_Oauth_Helper_Data::ENDPOINT_INITIATE)
         );
 
         $client->setMethod($method);
@@ -172,7 +172,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         $requestToken = $client->getRequestToken();
         $this->assertTrue($requestToken->isValid());
 
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
         $token->load($requestToken->getParam('oauth_token'), 'token');
 
@@ -181,11 +181,11 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         $this->assertNull($token->getAdminId());
         $this->assertEmpty($token->getVerifier());
         $this->assertEquals($requestToken->getParam('oauth_token_secret'), $token->getSecret());
-        $this->assertEquals(Mage_OAuth_Model_Token::TYPE_REQUEST, $token->getType());
+        $this->assertEquals(Mage_Oauth_Model_Token::TYPE_REQUEST, $token->getType());
         $this->assertEquals(0, $token->getAuthorized());
         $this->assertEquals(0, $token->getRevoked());
 
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = $this->getFixture('consumer');
         $this->assertEquals($consumer->getCallbackUrl(), $token->getCallbackUrl());
         $this->assertEquals($consumer->getId(), $token->getConsumerId());
@@ -203,7 +203,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
 
         /** @var $requestToken Zend_Oauth_Token_Request */
         $requestToken = $client->getRequestToken();
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_OK, $requestToken->getResponse()->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_OK, $requestToken->getResponse()->getStatus());
     }
 
     /**
@@ -245,7 +245,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         } catch (Zend_Oauth_Exception $e) {
             /** @var $lastResponse Zend_Http_Response */
             $lastResponse = $client->getHttpClient()->getLastResponse();
-            $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
+            $this->assertEquals(Mage_Oauth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
             $this->assertEquals('oauth_problem=signature_method_rejected', $lastResponse->getBody());
             return;
         }
@@ -267,7 +267,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $response Zend_Http_Response */
         $response = $client->request();
 
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
         $params = $this->_getArrayFromBody($response->getBody());
 
         $this->assertEquals('signature_invalid', $params['oauth_problem']);
@@ -288,7 +288,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         } catch (Zend_Oauth_Exception $e) {
             /** @var $lastResponse Zend_Http_Response */
             $lastResponse = $client->getHttpClient()->getLastResponse();
-            $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
+            $this->assertEquals(Mage_Oauth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
             $this->assertEquals('oauth_problem=version_rejected', $lastResponse->getBody());
             return;
         }
@@ -311,7 +311,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         } catch (Zend_Oauth_Exception $e) {
             /** @var $lastResponse Zend_Http_Response */
             $lastResponse = $client->getHttpClient()->getLastResponse();
-            $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
+            $this->assertEquals(Mage_Oauth_Model_Server::HTTP_BAD_REQUEST, $lastResponse->getStatus());
             $this->assertEquals('oauth_problem=parameter_absent&oauth_parameters_absent=oauth_consumer_key',
                 $lastResponse->getBody());
             return;
@@ -328,20 +328,20 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
     public function testOobCallbackUrl()
     {
         /** @var $client Varien_Http_Client */
-        $client = $this->_getHttpClient(array('oauth_callback' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED));
+        $client = $this->_getHttpClient(array('oauth_callback' => Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED));
 
         /** @var $response Zend_Http_Response */
         $response = $client->request();
 
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_OK, $response->getStatus());
         $params = $this->_getArrayFromBody($response->getBody());
 
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
         $token->load($params['oauth_token'], 'token');
 
         $this->assertGreaterThan(0, $token->getId());
-        $this->assertEquals(Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED, $token->getCallbackUrl());
+        $this->assertEquals(Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED, $token->getCallbackUrl());
     }
 
     /**
@@ -357,7 +357,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $response Zend_Http_Response */
         $response = $client->request();
 
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
         $this->assertEquals('oauth_problem=parameter_rejected&message=oauth_callback', $response->getBody());
     }
 
@@ -375,7 +375,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $response Zend_Http_Response */
         $response = $client->request();
 
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_BAD_REQUEST, $response->getStatus());
         $this->assertEquals('oauth_problem=timestamp_refused', $response->getBody());
     }
 
@@ -392,7 +392,7 @@ class Mage_OAuth_Model_ServerTest extends Magento_TestCase
         /** @var $response Zend_Http_Response */
         $response = $client->request();
 
-        $this->assertEquals(Mage_OAuth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
+        $this->assertEquals(Mage_Oauth_Model_Server::HTTP_UNAUTHORIZED, $response->getStatus());
         $this->assertEquals('oauth_problem=consumer_key_rejected', $response->getBody());
     }
 }

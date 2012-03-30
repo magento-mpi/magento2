@@ -3,10 +3,10 @@
  * Test OAuth consumer
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Api Team <api-team@magento.com>
  */
-class Mage_OAuth_Model_TokenTest extends Magento_TestCase
+class Mage_Oauth_Model_TokenTest extends Magento_TestCase
 {
     /**
      * 15 years, sec
@@ -42,7 +42,7 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
      */
     protected function setUp()
     {
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
         $consumer->setData($this->_getFixtureConsumerData('create'))->save();
 
@@ -93,15 +93,15 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     /**
      * Create several tokens for clean up test
      *
-     * @return Mage_OAuth_Model_TokenTest
+     * @return Mage_Oauth_Model_TokenTest
      */
     protected function _createTokensForCleanUp()
     {
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = $this->getFixture('consumer');
-        /** @var $tokenResource Mage_OAuth_Model_Resource_Token */
+        /** @var $tokenResource Mage_Oauth_Model_Resource_Token */
         $tokenResource = Mage::getResourceModel('oauth/token');
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
 
         // Generate new token items
@@ -109,10 +109,10 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
         while ($i++ < self::NEW_TOKEN_COUNT) {
             $token->setData(array(
                 'consumer_id'  => $consumer->getId(),
-                'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
+                'type'         => Mage_Oauth_Model_Token::TYPE_REQUEST,
                 'token'        => md5(mt_rand()),
                 'secret'       => md5(mt_rand()),
-                'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
+                'callback_url' => Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED,
                 'created_at'   => Varien_Date::now()
             ));
             $tokenResource->save($token); // save via resource to avoid object afterSave() calls
@@ -122,10 +122,10 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
         while ($i++ < self::OLD_TOKEN_COUNT) {
             $token->setData(array(
                 'consumer_id'  => $consumer->getId(),
-                'type'         => Mage_OAuth_Model_Token::TYPE_REQUEST,
+                'type'         => Mage_Oauth_Model_Token::TYPE_REQUEST,
                 'token'        => md5(mt_rand()),
                 'secret'       => md5(mt_rand()),
-                'callback_url' => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
+                'callback_url' => Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED,
                 'created_at'   => Varien_Date::formatDate(time() - self::TOKEN_TIME_FOR_DELETE)
             ));
             $tokenResource->save($token); // save via resource to avoid object afterSave() calls
@@ -140,13 +140,13 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
      */
     public function testCrud()
     {
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = $this->getFixture('consumer');
         $consumerId = $consumer->getId();
 
         $customerId = $this->getDefaultCustomer()->getId();
 
-        $model = new Mage_OAuth_Model_Token();
+        $model = new Mage_Oauth_Model_Token();
         $this->addModelToDelete($model);
         $data = $this->_getFixtureTokenData();
         $data['create']['consumer_id'] = $consumerId;
@@ -163,7 +163,7 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
          * Test read
          */
         $id = $model->getId();
-        $model = new Mage_OAuth_Model_Token();
+        $model = new Mage_Oauth_Model_Token();
         $dataCreated = $data['create'];
         $dataCreated['entity_id'] = $id;
         $model->load($id);
@@ -211,10 +211,10 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     {
         $this->_createTokensForCleanUp();
 
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
 
-        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = $token->getCollection();
 
         $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
@@ -241,10 +241,10 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     {
         $this->_createTokensForCleanUp();
 
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
 
-        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = $token->getCollection();
 
         $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
@@ -270,7 +270,7 @@ class Mage_OAuth_Model_TokenTest extends Magento_TestCase
     {
         $this->_createTokensForCleanUp();
 
-        /** @var $token Mage_OAuth_Model_Token */
+        /** @var $token Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
         $count = $token->getCollection()->count();
 

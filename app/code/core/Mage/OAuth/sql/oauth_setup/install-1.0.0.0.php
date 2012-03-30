@@ -19,14 +19,14 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /**
  * Installation of OAuth module tables
  */
-/** @var $install Mage_OAuth_Model_Resource_Setup */
+/** @var $install Mage_Oauth_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -54,10 +54,10 @@ $table = $adapter->newTable($installer->getTable('oauth/consumer'))
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
             'nullable' => false
         ), 'Name of consumer')
-    ->addColumn('key', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_OAuth_Model_Consumer::KEY_LENGTH, array(
+    ->addColumn('key', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_Oauth_Model_Consumer::KEY_LENGTH, array(
             'nullable' => false
         ), 'Key code')
-    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_OAuth_Model_Consumer::SECRET_LENGTH, array(
+    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_Oauth_Model_Consumer::SECRET_LENGTH, array(
             'nullable' => false
         ), 'Secret code')
     ->addColumn('callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(), 'Callback URL')
@@ -107,13 +107,13 @@ $table = $adapter->newTable($installer->getTable('oauth/token'))
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 16, array(
             'nullable' => false
         ), 'Token Type')
-    ->addColumn('token', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_OAuth_Model_Token::LENGTH_TOKEN, array(
+    ->addColumn('token', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_Oauth_Model_Token::LENGTH_TOKEN, array(
             'nullable' => false
         ), 'Token')
-    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_OAuth_Model_Token::LENGTH_SECRET, array(
+    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_Oauth_Model_Token::LENGTH_SECRET, array(
             'nullable' => false
         ), 'Token Secret')
-    ->addColumn('verifier', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_OAuth_Model_Token::LENGTH_VERIFIER, array(
+    ->addColumn('verifier', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_Oauth_Model_Token::LENGTH_VERIFIER, array(
             'nullable' => true
         ), 'Token Verifier')
     ->addColumn('callback_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(

@@ -16,31 +16,31 @@ $data = array(
         'token' => array(
             'authorized'  => 0,
             'revoked'     => 0,
-            'type'        => Mage_OAuth_Model_Token::TYPE_REQUEST,
+            'type'        => Mage_Oauth_Model_Token::TYPE_REQUEST,
         )
     ),
     array(
         'token' => array(
             'authorized'  => 1,
             'revoked'     => 0,
-            'type'        => Mage_OAuth_Model_Token::TYPE_ACCESS,
+            'type'        => Mage_Oauth_Model_Token::TYPE_ACCESS,
         )
     ),
     array(
         'token' => array(
             'authorized'  => 1,
             'revoked'     => 1,
-            'type'        => Mage_OAuth_Model_Token::TYPE_ACCESS,
+            'type'        => Mage_Oauth_Model_Token::TYPE_ACCESS,
         )
     ),
 );
 
 $models = array();
-/** @var $helper Mage_OAuth_Helper_Data */
+/** @var $helper Mage_Oauth_Helper_Data */
 $helper = Mage::helper('oauth');
 
 foreach ($data as $item) {
-    $consumer = new Mage_OAuth_Model_Consumer();
+    $consumer = new Mage_Oauth_Model_Consumer();
     $consumerData = require 'consumerData.php';
     $consumer->setData($consumerData['create']);
     $consumer->save();
@@ -48,7 +48,7 @@ foreach ($data as $item) {
     $models['consumer'][] = $consumer;
 
     //customer
-    $token = new Mage_OAuth_Model_Token();
+    $token = new Mage_Oauth_Model_Token();
     $tokenData = require 'tokenData.php';
     $tokenData = $tokenData['create'];
     $tokenData['consumer_id'] = $consumer->getId();
@@ -61,7 +61,7 @@ foreach ($data as $item) {
 
     //admin
     unset($tokenData['customer_id']);
-    $token = new Mage_OAuth_Model_Token();
+    $token = new Mage_Oauth_Model_Token();
     $tokenData['admin_id'] = $adminId;
     $tokenData['token']    = $helper->generateToken(); //must be unique
     $tokenData = array_merge($tokenData, $item['token']);

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @subpackage  integration_tests
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -28,12 +28,12 @@
 /**
  * Test OAuth data helper
  */
-class Mage_OAuth_Helper_DataTest extends Magento_TestCase
+class Mage_Oauth_Helper_DataTest extends Magento_TestCase
 {
     /**
      * OAuth data helper instance
      *
-     * @var Mage_OAuth_Helper_Data
+     * @var Mage_Oauth_Helper_Data
      */
     protected $_helper;
 
@@ -42,7 +42,7 @@ class Mage_OAuth_Helper_DataTest extends Magento_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = new Mage_OAuth_Helper_Data;
+        $this->_helper = new Mage_Oauth_Helper_Data;
         parent::setUp();
     }
 
@@ -104,7 +104,7 @@ class Mage_OAuth_Helper_DataTest extends Magento_TestCase
         $period = $this->_helper->getCleanupExpirationPeriod();
 
         $this->assertInternalType('int', $period);
-        $this->assertEquals(Mage_OAuth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
+        $this->assertEquals(Mage_Oauth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
     }
 
     /**
@@ -118,6 +118,6 @@ class Mage_OAuth_Helper_DataTest extends Magento_TestCase
         $period = $this->_helper->getCleanupExpirationPeriod();
 
         $this->assertInternalType('int', $period);
-        $this->assertEquals(Mage_OAuth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
+        $this->assertEquals(Mage_Oauth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT, $period);
     }
 }

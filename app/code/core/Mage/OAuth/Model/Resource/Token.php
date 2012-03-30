@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * OAuth token resource model
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Oauth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource model
@@ -46,10 +46,10 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Clean up old authorized tokens for specified consumer-user pairs
      *
-     * @param Mage_OAuth_Model_Token $exceptToken Token just created to exclude from delete
+     * @param Mage_Oauth_Model_Token $exceptToken Token just created to exclude from delete
      * @return int The number of affected rows
      */
-    public function cleanOldAuthorizedTokensExcept(Mage_OAuth_Model_Token $exceptToken)
+    public function cleanOldAuthorizedTokensExcept(Mage_Oauth_Model_Token $exceptToken)
     {
         if (!$exceptToken->getId() || !$exceptToken->getAuthorized()) {
             Mage::throwException('Invalid token to except');
@@ -84,7 +84,7 @@ class Mage_OAuth_Model_Resource_Token extends Mage_Core_Model_Resource_Db_Abstra
             return $adapter->delete(
                 $this->getMainTable(),
                 $adapter->quoteInto(
-                    'type = "' . Mage_OAuth_Model_Token::TYPE_REQUEST . '" AND created_at <= ?',
+                    'type = "' . Mage_Oauth_Model_Token::TYPE_REQUEST . '" AND created_at <= ?',
                     Varien_Date::formatDate(time() - $minutes * 60)
                 )
             );

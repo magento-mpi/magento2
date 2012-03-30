@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -29,16 +29,16 @@
  * oAuth nonce model
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
- * @method Mage_OAuth_Model_Nonce setNonce() setNonce(string $nonce)
+ * @method Mage_Oauth_Model_Nonce setNonce() setNonce(string $nonce)
  * @method string getTimestamp()
- * @method Mage_OAuth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
- * @method Mage_OAuth_Model_Resource_Nonce getResource()
- * @method Mage_OAuth_Model_Resource_Nonce _getResource()
+ * @method Mage_Oauth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
+ * @method Mage_Oauth_Model_Resource_Nonce getResource()
+ * @method Mage_Oauth_Model_Resource_Nonce _getResource()
  */
-class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Nonce extends Mage_Core_Model_Abstract
 {
     /**
      * Initialize resource model
@@ -53,14 +53,14 @@ class Mage_OAuth_Model_Nonce extends Mage_Core_Model_Abstract
     /**
      * "After save" actions
      *
-     * @return Mage_OAuth_Model_Nonce
+     * @return Mage_Oauth_Model_Nonce
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
         if ($helper->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());

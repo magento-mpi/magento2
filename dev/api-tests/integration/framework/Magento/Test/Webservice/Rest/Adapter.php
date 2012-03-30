@@ -60,12 +60,12 @@ class Magento_Test_Webservice_Rest_Adapter
     protected $_client = null;
 
     /**
-     * @var Mage_OAuth_Model_Token
+     * @var Mage_Oauth_Model_Token
      */
     protected $_token = null;
 
     /**
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_consumer = null;
 
@@ -138,7 +138,7 @@ class Magento_Test_Webservice_Rest_Adapter
         } else {
             throw new Exception("Invalid user type '{$userType}'.");
         }
-        /** @var $tokenResource Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $tokenResource Mage_Oauth_Model_Resource_Token_Collection */
         $tokenResource = Mage::getResourceModel('oauth/token_collection');
 
         $tokenResource->addFilterByConsumerId($this->_consumer->getId())->addFilterByType('access');

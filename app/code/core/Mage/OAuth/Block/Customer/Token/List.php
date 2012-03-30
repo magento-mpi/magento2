@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Review
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -29,15 +29,15 @@
  * Customer My Applications list block
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_Dashboard
+class Mage_Oauth_Block_Customer_Token_List extends Mage_Customer_Block_Account_Dashboard
 {
     /**
      * Collection model
      *
-     * @var Mage_OAuth_Model_Resource_Token_Collection
+     * @var Mage_Oauth_Model_Resource_Token_Collection
      */
     protected $_collection;
 
@@ -49,10 +49,10 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton('customer/session');
 
-        /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+        /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('oauth/token')->getCollection();
         $collection->joinConsumerAsApplication()
-                ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                 ->addFilterByCustomerId($session->getCustomerId());
         $this->_collection = $collection;
     }
@@ -80,7 +80,7 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     /**
      * Prepare layout
      *
-     * @return Mage_OAuth_Block_Customer_Token_List
+     * @return Mage_Oauth_Block_Customer_Token_List
      */
     protected function _prepareLayout()
     {
@@ -95,7 +95,7 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     /**
      * Get collection
      *
-     * @return Mage_OAuth_Model_Resource_Token_Collection
+     * @return Mage_Oauth_Model_Resource_Token_Collection
      */
     public function getCollection()
     {
@@ -105,10 +105,10 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     /**
      * Get link for update revoke status
      *
-     * @param Mage_OAuth_Model_Token $model
+     * @param Mage_Oauth_Model_Token $model
      * @return string
      */
-    public function getUpdateRevokeLink(Mage_OAuth_Model_Token $model)
+    public function getUpdateRevokeLink(Mage_Oauth_Model_Token $model)
     {
         return Mage::getUrl('oauth/customer_token/revoke/',
             array('id' => $model->getId(), 'status' => (int) !$model->getRevoked()));
@@ -117,10 +117,10 @@ class Mage_OAuth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
     /**
      * Get delete link
      *
-     * @param Mage_OAuth_Model_Token $model
+     * @param Mage_Oauth_Model_Token $model
      * @return string
      */
-    public function getDeleteLink(Mage_OAuth_Model_Token $model)
+    public function getDeleteLink(Mage_Oauth_Model_Token $model)
     {
         return Mage::getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
     }

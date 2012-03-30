@@ -28,23 +28,23 @@
  * Test model admin My Applications controller
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  *
  */
-class Mage_OAuth_Adminhtml_OAuth_AuthorizeControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Adminhtml_Oauth_AuthorizeControllerTest extends Magento_Test_ControllerTestCaseAbstract
 {
     /**
      * Consumer fixture
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected $_consumer;
 
     /**
      * Token fixture
      *
-     * @var Mage_OAuth_Model_Token
+     * @var Mage_Oauth_Model_Token
      */
     protected $_token;
 
@@ -72,7 +72,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeControllerTest extends Magento_Test_Co
         $_GET['oauth_token'] = $this->_token->getToken();
 
         Mage::unregister('application_params');
-        $dispatchPath = 'admin/oAuth_authorize/confirm';
+        $dispatchPath = 'admin/oauth_authorize/confirm';
         $this->dispatch($dispatchPath);
         $this->assertRedirect();    //$this->_token->getCallbackUrl()
     }
@@ -89,11 +89,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeControllerTest extends Magento_Test_Co
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['oauth_token'] = $this->_token->getToken();
 
-        $this->_token->setCallbackUrl(Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED);
+        $this->_token->setCallbackUrl(Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED);
         $this->_token->save();
 
         Mage::unregister('application_params');
-        $dispatchPath = 'admin/oAuth_authorize/confirm';
+        $dispatchPath = 'admin/oauth_authorize/confirm';
         $this->dispatch($dispatchPath);
         $this->_token->load($this->_token->getId());
 
@@ -113,7 +113,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeControllerTest extends Magento_Test_Co
         $_GET['oauth_token'] = $this->_token->getToken();
 
         Mage::unregister('application_params');
-        $dispatchPath = 'admin/oAuth_authorize/reject';
+        $dispatchPath = 'admin/oauth_authorize/reject';
         $this->dispatch($dispatchPath);
         $this->assertRedirect();
     }

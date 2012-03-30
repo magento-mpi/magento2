@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,18 +28,18 @@
  * OAuth Helper
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Oauth_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**#@+
      * Endpoint types with appropriate routes
      */
     const ENDPOINT_AUTHORIZE_CUSTOMER        = 'oauth/authorize';
-    const ENDPOINT_AUTHORIZE_ADMIN           = 'adminhtml/oAuth_authorize';
+    const ENDPOINT_AUTHORIZE_ADMIN           = 'adminhtml/oauth_authorize';
     const ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE = 'oauth/authorize/simple';
-    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE    = 'adminhtml/oAuth_authorize/simple';
+    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE    = 'adminhtml/oauth_authorize/simple';
     const ENDPOINT_INITIATE                  = 'oauth/initiate';
     const ENDPOINT_TOKEN                     = 'oauth/token';
     /**#@-*/
@@ -103,7 +103,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateToken()
     {
-        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_TOKEN);
+        return $this->_generateRandomString(Mage_Oauth_Model_Token::LENGTH_TOKEN);
     }
 
     /**
@@ -113,7 +113,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateTokenSecret()
     {
-        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_SECRET);
+        return $this->_generateRandomString(Mage_Oauth_Model_Token::LENGTH_SECRET);
     }
 
     /**
@@ -123,7 +123,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateVerifier()
     {
-        return $this->_generateRandomString(Mage_OAuth_Model_Token::LENGTH_VERIFIER);
+        return $this->_generateRandomString(Mage_Oauth_Model_Token::LENGTH_VERIFIER);
     }
 
     /**
@@ -133,7 +133,7 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateConsumerKey()
     {
-        return $this->_generateRandomString(Mage_OAuth_Model_Consumer::KEY_LENGTH);
+        return $this->_generateRandomString(Mage_Oauth_Model_Consumer::KEY_LENGTH);
     }
 
     /**
@@ -143,25 +143,25 @@ class Mage_OAuth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateConsumerSecret()
     {
-        return $this->_generateRandomString(Mage_OAuth_Model_Consumer::SECRET_LENGTH);
+        return $this->_generateRandomString(Mage_Oauth_Model_Consumer::SECRET_LENGTH);
     }
 
     /**
      * Return complete callback URL or boolean FALSE if no callback provided
      *
-     * @param Mage_OAuth_Model_Token $token Token object
+     * @param Mage_Oauth_Model_Token $token Token object
      * @param bool $rejected OPTIONAL Add user reject sign
      * @return bool|string
      */
-    public function getFullCallbackUrl(Mage_OAuth_Model_Token $token, $rejected = false)
+    public function getFullCallbackUrl(Mage_Oauth_Model_Token $token, $rejected = false)
     {
         $callbackUrl = $token->getCallbackUrl();
 
-        if (Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED == $callbackUrl) {
+        if (Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED == $callbackUrl) {
             return false;
         }
         if ($rejected) {
-            /** @var $consumer Mage_OAuth_Model_Consumer */
+            /** @var $consumer Mage_Oauth_Model_Consumer */
             $consumer = Mage::getModel('oauth/consumer')->load($token->getConsumerId());
 
             if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {

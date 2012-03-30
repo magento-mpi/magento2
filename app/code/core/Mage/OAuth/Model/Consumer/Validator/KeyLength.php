@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,10 +28,10 @@
  * Validate OAuth keys
  *
  * @category   Mage
- * @package    Mage_OAuth
+ * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_StringLength
+class Mage_Oauth_Model_Consumer_Validator_KeyLength extends Zend_Validate_StringLength
 {
     /**
      * Key name
@@ -69,7 +69,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
     /**
      * Init validation failure message template definitions
      *
-     * @return Mage_OAuth_Model_Consumer_Validator_KeyLength
+     * @return Mage_Oauth_Model_Consumer_Validator_KeyLength
      */
     protected function _initMessageTemplates()
     {
@@ -96,7 +96,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
      * Set length
      *
      * @param $length
-     * @return Mage_OAuth_Model_Consumer_Validator_KeyLength
+     * @return Mage_Oauth_Model_Consumer_Validator_KeyLength
      */
     public function setLength($length)
     {
@@ -137,7 +137,7 @@ class Mage_OAuth_Model_Consumer_Validator_KeyLength extends Zend_Validate_String
      * Set key name
      *
      * @param string $name
-     * @return Mage_OAuth_Model_Consumer_Validator_KeyLength
+     * @return Mage_Oauth_Model_Consumer_Validator_KeyLength
      */
     public function setName($name)
     {

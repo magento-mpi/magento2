@@ -51,14 +51,14 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     /**
      * Consumer model data fixture
      *
-     * @var Mage_OAuth_Model_Consumer
+     * @var Mage_Oauth_Model_Consumer
      */
     protected static $_consumer;
 
     /**
      * Token model data fixture
      *
-     * @var Mage_OAuth_Model_Token
+     * @var Mage_Oauth_Model_Token
      */
     protected static $_token;
 
@@ -129,9 +129,9 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
      */
     public static function consumerDataFixture()
     {
-        /** @var $consumer Mage_OAuth_Model_Consumer */
+        /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = Mage::getModel('oauth/consumer');
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper   = Mage::helper('oauth/data');
 
         $consumer->setData(array(
@@ -150,20 +150,20 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
      */
     public static function tokenDataFixture()
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
-        /** @var $consumer Mage_OAuth_Model_Token */
+        /** @var $consumer Mage_Oauth_Model_Token */
         $token = Mage::getModel('oauth/token');
         $token->setData(array(
             'consumer_id'       => self::$_consumer->getId(),
             'admin_id'          => null,
             'customer_id'       => self::$_customer->getId(),
-            'type'              => Mage_OAuth_Model_Token::TYPE_ACCESS,
+            'type'              => Mage_Oauth_Model_Token::TYPE_ACCESS,
             'token'             => $helper->generateToken(),
             'secret'            => $helper->generateTokenSecret(),
             'verifier'          => $helper->generateVerifier(),
-            'callback_url'      => Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED,
+            'callback_url'      => Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED,
             'authorized'        => 1,
             'revoked'           => 0,
         ))->save();

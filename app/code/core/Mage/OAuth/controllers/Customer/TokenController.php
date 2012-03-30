@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -30,10 +30,10 @@
  * Tab "My Applications" in the Customer Account
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_Customer_TokenController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Customer session model
@@ -77,7 +77,7 @@ class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Act
     /**
      * Redirect to referrer URL or otherwise to index page without params
      *
-     * @return Mage_OAuth_Customer_TokenController
+     * @return Mage_Oauth_Customer_TokenController
      */
     protected function _redirectBack()
     {
@@ -112,16 +112,16 @@ class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Act
         }
 
         try {
-            /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+            /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
-                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterByRevoked(!$status);
             //here is can be load from model, but used from collection for get consumer name
 
-            /** @var $model Mage_OAuth_Model_Token */
+            /** @var $model Mage_Oauth_Model_Token */
             $model = $collection->getFirstItem();
             if ($model->getId()) {
                 $name = $model->getName();
@@ -160,14 +160,14 @@ class Mage_OAuth_Customer_TokenController extends Mage_Core_Controller_Front_Act
         }
 
         try {
-            /** @var $collection Mage_OAuth_Model_Resource_Token_Collection */
+            /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('oauth/token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
-                    ->addFilterByType(Mage_OAuth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($id);
 
-            /** @var $model Mage_OAuth_Model_Token */
+            /** @var $model Mage_Oauth_Model_Token */
             $model = $collection->getFirstItem();
             if ($model->getId()) {
                 $name = $model->getName();

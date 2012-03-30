@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,37 +28,37 @@
  * oAuth token model
  *
  * @category    Mage
- * @package     Mage_OAuth
+ * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getName() Consumer name (joined from consumer table)
- * @method Mage_OAuth_Model_Resource_Token_Collection getCollection()
- * @method Mage_OAuth_Model_Resource_Token_Collection getResourceCollection()
- * @method Mage_OAuth_Model_Resource_Token getResource()
- * @method Mage_OAuth_Model_Resource_Token _getResource()
+ * @method Mage_Oauth_Model_Resource_Token_Collection getCollection()
+ * @method Mage_Oauth_Model_Resource_Token_Collection getResourceCollection()
+ * @method Mage_Oauth_Model_Resource_Token getResource()
+ * @method Mage_Oauth_Model_Resource_Token _getResource()
  * @method int getConsumerId()
- * @method Mage_OAuth_Model_Token setConsumerId() setConsumerId(int $consumerId)
+ * @method Mage_Oauth_Model_Token setConsumerId() setConsumerId(int $consumerId)
  * @method int getAdminId()
- * @method Mage_OAuth_Model_Token setAdminId() setAdminId(int $adminId)
+ * @method Mage_Oauth_Model_Token setAdminId() setAdminId(int $adminId)
  * @method int getCustomerId()
- * @method Mage_OAuth_Model_Token setCustomerId() setCustomerId(int $customerId)
+ * @method Mage_Oauth_Model_Token setCustomerId() setCustomerId(int $customerId)
  * @method string getType()
- * @method Mage_OAuth_Model_Token setType() setType(string $type)
+ * @method Mage_Oauth_Model_Token setType() setType(string $type)
  * @method string getVerifier()
- * @method Mage_OAuth_Model_Token setVerifier() setVerifier(string $verifier)
+ * @method Mage_Oauth_Model_Token setVerifier() setVerifier(string $verifier)
  * @method string getCallbackUrl()
- * @method Mage_OAuth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
+ * @method Mage_Oauth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
  * @method string getCreatedAt()
- * @method Mage_OAuth_Model_Token setCreatedAt() setCreatedAt(string $createdAt)
+ * @method Mage_Oauth_Model_Token setCreatedAt() setCreatedAt(string $createdAt)
  * @method string getToken()
- * @method Mage_OAuth_Model_Token setToken() setToken(string $token)
+ * @method Mage_Oauth_Model_Token setToken() setToken(string $token)
  * @method string getSecret()
- * @method Mage_OAuth_Model_Token setSecret() setSecret(string $tokenSecret)
+ * @method Mage_Oauth_Model_Token setSecret() setSecret(string $tokenSecret)
  * @method int getRevoked()
- * @method Mage_OAuth_Model_Token setRevoked() setRevoked(int $revoked)
+ * @method Mage_Oauth_Model_Token setRevoked() setRevoked(int $revoked)
  * @method int getAuthorized()
- * @method Mage_OAuth_Model_Token setAuthorized() setAuthorized(int $authorized)
+ * @method Mage_Oauth_Model_Token setAuthorized() setAuthorized(int $authorized)
  */
-class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
 {
     /**#@+
      * Token types
@@ -95,14 +95,14 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * "After save" actions
      *
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
         if ($helper->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
@@ -115,7 +115,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
      *
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function authorize($userId, $userType)
     {
@@ -132,7 +132,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
         } else {
             Mage::throwException('User type is unknown');
         }
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
         $this->setVerifier($helper->generateVerifier());
@@ -147,14 +147,14 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * Convert token to access type
      *
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function convertToAccess()
     {
-        if (Mage_OAuth_Model_Token::TYPE_REQUEST != $this->getType()) {
+        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $this->getType()) {
             Mage::throwException('Can not convert due to token is not request type');
         }
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
         $this->setType(self::TYPE_ACCESS);
@@ -170,11 +170,11 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
      *
      * @param int $consumerId Consumer identifier
      * @param string $callbackUrl Callback URL
-     * @return Mage_OAuth_Model_Token
+     * @return Mage_Oauth_Model_Token
      */
     public function createRequestToken($consumerId, $callbackUrl)
     {
-        /** @var $helper Mage_OAuth_Helper_Data */
+        /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('oauth');
 
         $this->setData(array(
@@ -220,7 +220,7 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * Before save actions
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Oauth_Model_Consumer
      */
     protected function _beforeSave()
     {
@@ -243,14 +243,14 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     {
         /** @var $validatorUrl Mage_Core_Model_Url_Validator */
         $validatorUrl = Mage::getSingleton('core/url_validator');
-        if (Mage_OAuth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        if (Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
             $messages = $validatorUrl->getMessages();
             Mage::throwException(array_shift($messages));
         }
 
-        /** @var $validatorLength Mage_OAuth_Model_Consumer_Validator_KeyLength */
+        /** @var $validatorLength Mage_Oauth_Model_Consumer_Validator_KeyLength */
         $validatorLength = Mage::getModel(
             'oauth/consumer_validator_keyLength');
         $validatorLength->setLength(self::LENGTH_SECRET);
@@ -281,12 +281,12 @@ class Mage_OAuth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * Get Token Consumer
      *
-     * @return Mage_OAuth_Model_Consumer
+     * @return Mage_Oauth_Model_Consumer
      */
     public function getConsumer()
     {
         if (!$this->getData('consumer')) {
-            /** @var $consumer Mage_OAuth_Model_Consumer */
+            /** @var $consumer Mage_Oauth_Model_Consumer */
             $consumer = Mage::getModel('oauth/consumer');
             $consumer->load($this->getConsumerId());
             $this->setData('consumer', $consumer);
