@@ -52,9 +52,9 @@
         <reference name="content">
             <remove name="customer_form_register" />
             <block type="Enterprise_Invitation_Block_Customer_Form_Register" name="customer_form_register_invitation" template="Mage_Customer::form/register.phtml">
-                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
-                <action method="append"><block>customer_form_user_attributes</block></action>
-                <action method="append"><block>customer_form_address_user_attributes</block></action>
+                <action method="append"><element>customer.form.register.fields.before</element><alias>form_fields_before</alias></action>
+                <action method="append"><element>customer_form_user_attributes</element></action>
+                <action method="append"><element>customer_form_address_user_attributes</element></action>
             </block>
         </reference>
     </enterprise_invitation_customer_account_create>

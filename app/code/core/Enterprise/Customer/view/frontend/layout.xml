@@ -20,8 +20,8 @@
             <action method="setEntityModelClass"><code>Mage_Customer_Model_Address</code></action>
         </block>
         <reference name="customer_form_register">
-            <action method="append"><block>customer_form_user_attributes</block></action>
-            <action method="append"><block>customer_form_address_user_attributes</block></action>
+            <action method="append"><element>customer_form_user_attributes</element></action>
+            <action method="append"><element>customer_form_address_user_attributes</element></action>
         </reference>
         <update handle="customer_form_template_handle"/>
     </customer_account_create>

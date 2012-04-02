@@ -109,7 +109,7 @@ New customer registration
         <container name="customer.form.register.fields.before" label="Form Fields Before" htmlTag="div" htmlClass="rewards"/>
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
-                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
+                <action method="append"><element>customer.form.register.fields.before</element><alias>form_fields_before</alias></action>
             </block>
         </reference>
     </customer_account_create>

@@ -163,8 +163,8 @@ Additional block for bundle product type
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
                     <action method="setMAPTemplate"><tmpl>catalog/product/price_msrp_item.phtml</tmpl></action>
                 </block>
-                <action method="append"><block>product.info.addtocart</block></action>
-                <action method="append"><block>product.info.addto</block></action>
+                <action method="append"><element>product.info.addtocart</element></action>
+                <action method="append"><element>product.info.addto</element></action>
             </block>
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"></block>
         </reference>
@@ -176,7 +176,7 @@ Additional block for bundle product type
                 <action method="addRenderer"><type>radio</type><block>Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Radio</block></action>
                 <action method="addRenderer"><type>checkbox</type><block>Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Checkbox</block></action>
             </block>
-            <action method="insert"><block>product.info.bundle.options</block></action>
+            <action method="insert"><element>product.info.bundle.options</element></action>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />

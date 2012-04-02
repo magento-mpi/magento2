@@ -88,7 +88,7 @@ Wishlist pages
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild"><name>product.info.addto</name></action>
-            <action method="append"><block>product.info.addto</block></action>
+            <action method="append"><element>product.info.addto</element></action>
         </reference>
     </wishlist_index_configure>
 

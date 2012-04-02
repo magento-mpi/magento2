@@ -424,40 +424,45 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * @param Mage_Core_Block_Abstract|string $block
+     * Insert child element into specified position
+     *
+     * @param Mage_Core_Block_Abstract|string $element
      * @param string|null $siblingName
      * @param bool|null $after
      * @param string $alias
      * @return Mage_Core_Block_Abstract|bool
      */
-    public function insert($block, $siblingName = null, $after = null, $alias = '')
+    public function insert($element, $siblingName = null, $after = null, $alias = '')
     {
         $layout = $this->getLayout();
         if (!$layout) {
             return false;
         }
-        if (is_string($block)) {
-            /*
-             * if we don't have block - don't throw exception because
-             * block could be simply removed using layout method remove
-             */
-            $block = $layout->getBlock($block);
+        if ($element instanceof Mage_Core_Block_Abstract) {
+            $elementName = $element->getNameInLayout();
+        } else {
+            $elementName = $element;
         }
-        if ($block instanceof Mage_Core_Block_Abstract) {
-            $blockName = $block->getNameInLayout();
-            $this->getLayout()->insertBlock($this->getNameInLayout(), $blockName, $alias, $after, $siblingName);
+        if (!$layout->hasElement($elementName)) {
+            Mage::logException(new Magento_Exception('Attempt to insert non-existent element: ' . $elementName));
+            return false;
+        }
+        if ($layout->isContainer($elementName)) {
+            $this->getLayout()->insertContainer($this->getNameInLayout(), $elementName, $alias, $after, $siblingName);
+        } else {
+            $this->getLayout()->insertBlock($this->getNameInLayout(), $elementName, $alias, $after, $siblingName);
         }
         return $this;
     }
 
     /**
-     * @param Mage_Core_Block_Abstract|string $block
+     * @param Mage_Core_Block_Abstract|string $element
      * @param string $alias
      * @return Mage_Core_Block_Abstract
      */
-    public function append($block, $alias = '')
+    public function append($element, $alias = '')
     {
-        return $this->insert($block, '', true, $alias);
+        return $this->insert($element, '', true, $alias);
     }
 
     /**
