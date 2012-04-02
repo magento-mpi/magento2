@@ -76,8 +76,8 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $oauthServer = $this->getModelMockBuilder('oAuth/server')->setMethods(array('checkAccessRequest'))->getMock();
-        $oauthToken  = $this->getModelMockBuilder('oAuth/token')
+        $oauthServer = $this->getModelMockBuilder('oauth/server')->setMethods(array('checkAccessRequest'))->getMock();
+        $oauthToken  = $this->getModelMockBuilder('oauth/token')
             ->setMethods(array('getUserType', 'getAdminId'))
             ->getMock();
 
@@ -110,8 +110,8 @@ class Mage_Api2_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $oauthServer = $this->getModelMockBuilder('oAuth/server')->setMethods(array('checkAccessRequest'))->getMock();
-        $oauthToken  = $this->getModelMockBuilder('oAuth/token')
+        $oauthServer = $this->getModelMockBuilder('oauth/server')->setMethods(array('checkAccessRequest'))->getMock();
+        $oauthToken  = $this->getModelMockBuilder('oauth/token')
             ->setMethods(array('getUserType', 'getCustomerId'))
             ->getMock();
 

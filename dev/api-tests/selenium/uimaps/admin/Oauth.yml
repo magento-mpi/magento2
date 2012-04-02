@@ -23,13 +23,13 @@
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
---- 
+---
 #oAuth Consumers and related pages
 
 # 'oAuth Consumers page' page
 oauth_consumers:
-    mca: oAuth_consumer/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'oAuth_consumer')]
+    mca: oauth_consumer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_consumer')]
     title: Consumers / OAuth / System / Magento Admin
     uimap:
         form:
@@ -56,10 +56,10 @@ oauth_consumers:
             confirmation_for_delete: Are you sure you want to do this?
 # 'New Consumer' page
 new_consumer:
-    mca: oAuth_consumer/new/
+    mca: oauth_consumer/new/
     title: Consumers / OAuth / System / Magento Admin
     uimap:
-        form:      
+        form:
               fieldsets:
                 -
                   consumer_information:
@@ -71,7 +71,7 @@ new_consumer:
                           callback_url: //input[@id='callback_url']
                           rejected_callback_url: //input[@id='rejected_callback_url']
                           required: [consumer_name, key, secret]
-                          disabled: [key, secret]  
+                          disabled: [key, secret]
         buttons:
              back: //button[span='Back']
              reset: //button[span='Reset']
@@ -80,7 +80,7 @@ new_consumer:
         messages: *mainMessages
 # 'Edit Consumer' page
 edit_consumer:
-    mca: oAuth_consumer/edit/id/%id%/
+    mca: oauth_consumer/edit/id/%id%/
     title: Consumers / OAuth / System / Magento Admin
     uimap:
         form:

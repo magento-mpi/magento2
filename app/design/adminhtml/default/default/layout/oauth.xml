@@ -29,27 +29,27 @@
     <!-- Consumers -->
     <adminhtml_oauth_consumer_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer" name="oauth_consumer"/>
+            <block type="oauth/adminhtml_oauth_consumer" name="oauth_consumer"/>
         </reference>
     </adminhtml_oauth_consumer_index>
 
     <adminhtml_oauth_consumer_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
+        <block type="oauth/adminhtml_oauth_consumer_grid" name="oauth_consumer.grid" output="toHtml"/>
     </adminhtml_oauth_consumer_grid>
 
     <adminhtml_oauth_consumer_new>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
-                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            <block type="oauth/adminhtml_oauth_consumer_edit" name="oauth_consumer.edit">
+                <block type="oauth/adminhtml_oauth_consumer_edit_form" name="form"/>
             </block>
         </reference>
     </adminhtml_oauth_consumer_new>
 
     <adminhtml_oauth_consumer_edit>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_consumer_edit" name="oauth_consumer.edit">
-                <block type="oauth/adminhtml_oAuth_consumer_edit_form" name="form"/>
+            <block type="oauth/adminhtml_oauth_consumer_edit" name="oauth_consumer.edit">
+                <block type="oauth/adminhtml_oauth_consumer_edit_form" name="form"/>
             </block>
         </reference>
     </adminhtml_oauth_consumer_edit>
@@ -58,13 +58,13 @@
     <!-- My Applications -->
     <adminhtml_oauth_admin_token_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_admin_token" name="oauth_admin_token"/>
+            <block type="oauth/adminhtml_oauth_admin_token" name="oauth_admin_token"/>
         </reference>
     </adminhtml_oauth_admin_token_index>
 
     <adminhtml_oauth_admin_token_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_admin_token_grid" name="oauth_admin_token.grid" output="toHtml"/>
+        <block type="oauth/adminhtml_oauth_admin_token_grid" name="oauth_admin_token.grid" output="toHtml"/>
     </adminhtml_oauth_admin_token_grid>
     <!-- EOF My Applications -->
 
@@ -130,8 +130,8 @@
         <update handle="oauth_root_handle"/>
         <label>OAuth authorization for admin</label>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
-            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
+            <block type="oauth/adminhtml_oauth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login.phtml"/>
+            <block type="oauth/adminhtml_oauth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button.phtml" />
         </reference>
     </adminhtml_oauth_authorize_index>
 
@@ -139,8 +139,8 @@
         <update handle="oauth_root_handle_simple"/>
         <label>OAuth authorization simple for admin</label>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login-simple.phtml"/>
-            <block type="oauth/adminhtml_oAuth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button-simple.phtml" />
+            <block type="oauth/adminhtml_oauth_authorize" name="oauth.authorize.form" template="oauth/authorize/form/login-simple.phtml"/>
+            <block type="oauth/adminhtml_oauth_authorize_button" name="oauth.authorize.button" template="oauth/authorize/button-simple.phtml" />
         </reference>
     </adminhtml_oauth_authorize_simple>
     <!-- EOF Authorize -->
@@ -183,12 +183,12 @@
 
     <adminhtml_oauth_authorizedtokens_index>
         <reference name="content">
-            <block type="oauth/adminhtml_oAuth_authorizedTokens" name="oauth_authorizedTokens"/>
+            <block type="oauth/adminhtml_oauth_authorizedTokens" name="oauth_authorizedTokens"/>
         </reference>
     </adminhtml_oauth_authorizedtokens_index>
 
     <adminhtml_oauth_authorizedtokens_grid>
         <remove name="root"/>
-        <block type="oauth/adminhtml_oAuth_authorizedTokens_grid" name="oauth_authorizedTokens.grid" output="toHtml"/>
+        <block type="oauth/adminhtml_oauth_authorizedTokens_grid" name="oauth_authorizedTokens.grid" output="toHtml"/>
     </adminhtml_oauth_authorizedtokens_grid>
 </layout>
