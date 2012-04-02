@@ -372,6 +372,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!isset($config['url'])) {
             throw new OutOfRangeException('Base Url is not set for "' . $this->getArea() . '" area');
         }
+        if (!preg_match('|/$|', $config['url'])) {
+            $config['url'] .= '/';
+        }
         return $config['url'];
     }
 
