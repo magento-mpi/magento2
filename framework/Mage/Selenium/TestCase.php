@@ -1832,6 +1832,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $dataMap;
     }
 
+    /**
+     * Gets map data values to UIPage fieldset
+     *
+     * @param array $data
+     * @param string $fieldsetId
+     *
+     * @return array
+     */
+    protected function formFieldsetDataMap(array $data, $fieldsetId)
+    {
+        $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetId);
+        $fieldsetElements = $fieldsetUimap->getFieldsetElements();
+        $fillData = array();
+        foreach ($data as $fieldName => $fieldValue) {
+            if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
+                $fillData['skipped'][$fieldName] = $fieldValue;
+                continue;
+            }
+            foreach ($fieldsetElements as $elementType => $elementsData) {
+                if (isset($elementsData[$fieldName])) {
+                    $fillData['inFieldset'][] = array('type'  => $elementType,
+                                                      'name'  => $fieldName,
+                                                      'value' => $fieldValue,
+                                                      'xpath' => $elementsData[$fieldName]);
+                    continue 2;
+                }
+            }
+            $fillData['outFieldset'][$fieldName] = $fieldValue;
+        }
+
+        return $fillData;
+    }
+
     ################################################################################
     #                                                                              #
     #                           Framework helper methods                           #
@@ -2645,12 +2678,89 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Fill fieldset
+     *
+     * @param array $data
+     * @param string $fieldsetId
+     * @param bool $failIfFieldsWithoutXpath
+     *
+     * @return bool
+     * @throws OutOfRangeException
+     */
+    protected function _fillFieldset(array $data, $fieldsetId, $failIfFieldsWithoutXpath = true)
+    {
+        $fillData = $this->formFieldsetDataMap($data, $fieldsetId);
+
+        if (!isset($fillData['inFieldset']) && !$failIfFieldsWithoutXpath) {
+            return false;
+        }
+
+        if (isset($fillData['outFieldset']) && $failIfFieldsWithoutXpath) {
+            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": '
+                . 'There are no fields in "' . $fieldsetId . '" fieldset:' . "\n"
+                . implode("\n", array_keys($fillData['outFieldset']));
+            $this->fail($message);
+        }
+
+        foreach ($fillData['inFieldset'] as $fieldData) {
+            $this->_fill($fieldData);
+        }
+    }
+
+    /**
+     * Fill tab
+     *
+     * @param array $data
+     * @param string $tabId
+     * @param bool $failIfFieldsWithoutXpath
+     *
+     * @throws OutOfRangeException
+     */
+    protected function _fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
+    {
+        $tabUimap = $this->_findUimapElement('tab', $tabId);
+        $fieldsets = $tabUimap->getFieldsetNames();
+        if (empty($fieldsets)) {
+            throw new RuntimeException('There is no fieldsets in "' . $tabId . '" tab on "'
+                . $this->getCurrentPage() . '" page');
+        }
+        $fillTabData = array();
+        $errorFiels = array();
+        foreach ($fieldsets as $fieldsetName) {
+            $fillFieldsetData = $this->formFieldsetDataMap($data, $fieldsetName);
+            if (isset($fillFieldsetData['inFieldset'])) {
+                $fillTabData = array_merge($fillTabData, $fillFieldsetData['inFieldset']);
+            }
+            if (isset($fillFieldsetData['outFieldset'])) {
+                $errorFiels = $fillFieldsetData['outFieldset'];
+                $data = $fillFieldsetData['outFieldset'];
+            } else {
+                $errorFiels = array();
+                break;
+            }
+        }
+
+        if (!empty($errorFiels) && $failIfFieldsWithoutXpath) {
+            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "'
+                . $tabId . '" fieldset:' . "\n" . implode("\n", array_keys($errorFiels));
+            $this->fail($message);
+        }
+
+        $this->openTab($tabId);
+        foreach ($fillTabData as $fieldData) {
+            $this->_fill($fieldData);
+        }
+    }
+
+    /**
      * Fills any form with the provided data. Specific Tab can be filled only if $tabId is provided.
      *
      * @param array|string $data Array of data to fill or datasource name
      * @param string $tabId Tab ID from UIMap (by default = '')
      *
      * @throws OutOfRangeException|PHPUnit_Framework_Exception
+     * @deprecated
+     * @see _fillTab() or _fillFieldset()
      */
     public function fillForm($data, $tabId = '')
     {
@@ -2831,19 +2941,75 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Fill any type of field(dropdown|field|checkbox|multiselect|radiobutton)
+     *
+     * @param $fieldData
+     *
+     * @throws OutOfRangeException
+     */
+    protected function _fill($fieldData)
+    {
+        switch ($fieldData['type']) {
+            case self::FIELD_TYPE_INPUT:
+                $this->fillField($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                break;
+            case self::FIELD_TYPE_CHECKBOX:
+                $this->fillCheckbox($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                break;
+            case self::FIELD_TYPE_RADIOBUTTON:
+                $this->fillRadiobutton($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                break;
+            case self::FIELD_TYPE_MULTISELECT:
+                $this->fillMultisect($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                break;
+            case self::FIELD_TYPE_DROPDOWN:
+                $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                break;
+            default:
+                throw new OutOfRangeException('Unsupported field type: "'
+                    . $fieldData['type'] . '" for fillFieldset() function');
+        }
+    }
+
+    /**
      * Fills a text field of ('field' | 'input') control type by typing a value.
      *
      * @param array $fieldData Array of a 'path' to control and 'value' to type
      *
      * @throws PHPUnit_Framework_Exception
+     * @deprecated
+     * @see fillField()
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            $this->type($fieldData['path'], $fieldData['value']);
-            $this->waitForAjax();
+        $this->fillField('', $fieldData['value'], $fieldData['path']);
+    }
+
+    /**
+     * Fills a text field of control type by typing a value.
+     *
+     * @param string $name
+     * @param string $value
+     * @param string|null $xpath
+     *
+     * @throws RuntimeException
+     */
+    protected function fillField($name, $value, $xpath = null)
+    {
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath('field', $name);
+        }
+        $errorMessage = "Problem with field '$name' and xpath '$xpath': ";
+        if ($this->isElementPresent($xpath)) {
+            if ($this->isEditable($xpath)) {
+                $this->type($xpath, $value);
+                $this->waitForAjax();
+            } else {
+                throw new RuntimeException($errorMessage . 'Element is not editable');
+            }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the field: {$fieldData['path']}");
+            throw new RuntimeException($errorMessage . "Element is not present on '"
+                . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -2853,32 +3019,59 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $fieldData Array of a 'path' to control and 'value' to select
      *
      * @throws PHPUnit_Framework_Exception
+     * @deprecated
+     * @see fillMultisect()
      */
     protected function _fillFormMultiselect($fieldData)
     {
-        $valuesArray = array();
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            $this->removeAllSelections($fieldData['path']);
-            if (strtolower($fieldData['value']) == 'all') {
-                $count = $this->getXpathCount($fieldData['path'] . '//option');
-                for ($i = 1; $i <= $count; $i++) {
-                    $valuesArray[] = $this->getText($fieldData['path'] . "//option[$i]");
+        $this->fillMultisect('', $fieldData['value'], $fieldData['path']);
+    }
+
+    /**
+     * Fills 'multiselect' control by selecting the specified values.
+     *
+     * @param string $name
+     * @param string $value
+     * @param string|null $xpath
+     *
+     * @throws RuntimeException
+     */
+    protected function fillMultisect($name, $value, $xpath = null)
+    {
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath('dropdown', $name);
+        }
+        $errorMessage = "Problem with multisect field '$name' and xpath '$xpath': ";
+        if ($this->isElementPresent($xpath)) {
+            if ($this->isEditable($xpath)) {
+
+                $this->removeAllSelections($xpath);
+                //@TODO
+                $options = $this->getSelectOptions($xpath);
+                if (strtolower($value) == 'all') {
+                    $count = $this->getXpathCount($xpath . '//option');
+                    for ($i = 1; $i <= $count; $i++) {
+                        $valuesArray[] = $this->getText($xpath . "//option[$i]");
+                    }
+                } else {
+                    $valuesArray = explode(',', $value);
+                    $valuesArray = array_map('trim', $valuesArray);
                 }
-            } else {
-                $valuesArray = explode(',', $fieldData['value']);
-                $valuesArray = array_map('trim', $valuesArray);
-            }
-            foreach ($valuesArray as $value) {
-                if ($value != null) {
-                    if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $value . "']")) {
-                        $this->addSelection($fieldData['path'], 'label=' . $value);
-                    } else {
-                        $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
+                foreach ($valuesArray as $v) {
+                    if ($value != null) {
+                        if ($this->isElementPresent($xpath . "//option[text()='" . $v . "']")) {
+                            $this->addSelection($xpath, 'label=' . $v);
+                        } else {
+                            $this->addSelection($xpath, 'regexp:' . preg_quote($v));
+                        }
                     }
                 }
+            } else {
+                throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the multiselect field: {$fieldData['path']}");
+            throw new RuntimeException($errorMessage . "Element is not present on '"
+                . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -2888,21 +3081,45 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $fieldData Array of a 'path' to control and 'value' to select
      *
      * @throws PHPUnit_Framework_Exception
+     * @deprecated
+     * @see fillDropdown()
      */
     protected function _fillFormDropdown($fieldData)
     {
-        $fieldXpath = $fieldData['path'];
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldXpath)) {
-            if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
-                if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
-                    $this->select($fieldXpath, 'label=' . $fieldData['value']);
-                } else {
-                    $this->select($fieldXpath, 'regexp:' . preg_quote($fieldData['value']));
+        $this->fillDropdown('', $fieldData['value'], $fieldData['path']);
+    }
+
+    /**
+     * Fills the 'dropdown' control by selecting the specified value.
+     *
+     * @param string $name
+     * @param string $value
+     * @param string|null $xpath
+     *
+     * @throws RuntimeException
+     */
+    protected function fillDropdown($name, $value, $xpath = null)
+    {
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath('dropdown', $name);
+        }
+        $errorMessage = "Problem with dropdown field '$name' and xpath '$xpath': ";
+        if ($this->isElementPresent($xpath)) {
+            if ($this->isEditable($xpath)) {
+                if ($this->getSelectedValue($xpath) != $value) {
+                    if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
+                        $this->select($xpath, 'label=' . $value);
+                    } else {
+                        $this->select($xpath, 'regexp:' . preg_quote($value));
+                    }
+                    $this->waitForAjax();
                 }
-                $this->waitForAjax();
+            } else {
+                throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
+            throw new RuntimeException($errorMessage . "Element is not present on '"
+                . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -2912,23 +3129,47 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $fieldData Array of a 'path' to control and 'value' to select. Value can be 'Yes' or 'No'.
      *
      * @throws PHPUnit_Framework_Exception
+     * @deprecated
+     * @see fillCheckbox()
      */
     protected function _fillFormCheckbox($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            if (strtolower($fieldData['value']) == 'yes') {
-                if (($this->getValue($fieldData['path']) == 'off') || ($this->getValue($fieldData['path']) == '0')) {
-                    $this->click($fieldData['path']);
-                    $this->waitForAjax();
+        $this->fillCheckbox('', $fieldData['value'], $fieldData['path']);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @param string|null $xpath
+     *
+     * @throws RuntimeException
+     */
+    protected function fillCheckbox($name, $value, $xpath = null)
+    {
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath('field', $name);
+        }
+        $errorMessage = "Problem with checkbox '$name' and xpath '$xpath': ";
+        if ($this->isElementPresent($xpath)) {
+            if ($this->isEditable($xpath)) {
+                $currentValue = $this->getValue($xpath);
+                if (strtolower($value) == 'yes') {
+                    if ($currentValue == 'off' || $currentValue == '0') {
+                        $this->click($xpath);
+                        $this->waitForAjax();
+                    }
+                } elseif (strtolower($value) == 'no') {
+                    if ($currentValue == 'on' || $currentValue == '1') {
+                        $this->click($xpath);
+                        $this->waitForAjax();
+                    }
                 }
-            } elseif (strtolower($fieldData['value']) == 'no') {
-                if (($this->getValue($fieldData['path']) == 'on') || ($this->getValue($fieldData['path']) == '1')) {
-                    $this->click($fieldData['path']);
-                    $this->waitForAjax();
-                }
+            } else {
+                throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the checkbox field: {$fieldData['path']}");
+            throw new RuntimeException($errorMessage . "Element is not present on '"
+                . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -2939,19 +3180,42 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Value should be 'Yes' to select the radiobutton.
      *
      * @throws PHPUnit_Framework_Exception
+     * @deprecated
+     * @see fillRadiobutton()
      */
     protected function _fillFormRadiobutton($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            if (strtolower($fieldData['value']) == 'yes') {
-                $this->click($fieldData['path']);
-                $this->waitForAjax();
+        $this->fillRadiobutton('', $fieldData['value'], $fieldData['path']);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @param string|null $xpath
+     *
+     * @throws RuntimeException
+     */
+    protected function fillRadiobutton($name, $value, $xpath = null)
+    {
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath('field', $name);
+        }
+        $errorMessage = "Problem with radiobutton '$name' and xpath '$xpath': ";
+        if ($this->isElementPresent($xpath)) {
+            if ($this->isEditable($xpath)) {
+                if (strtolower($value) == 'yes') {
+                    $this->click($xpath);
+                    $this->waitForAjax();
+                } elseif (strtolower($value) == 'no') {
+                    $this->uncheck($xpath);
+                    $this->waitForAjax();
+                }
             } else {
-                $this->uncheck($fieldData['path']);
-                $this->waitForAjax();
+                throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the radiobutton field: {$fieldData['path']}");
+            throw new RuntimeException($errorMessage . "Element is not present on '"
+                . $this->getCurrentPage() . "' page");
         }
     }
 

@@ -52,8 +52,8 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
     {
         $this->_tabId = $tabId;
         $this->_xPath = isset($tabContainer['xpath'])
-                            ? $tabContainer['xpath']
-                            : '';
+            ? $tabContainer['xpath']
+            : '';
 
         $this->_parseContainerArray($tabContainer);
     }
@@ -78,7 +78,23 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
     public function getFieldset($id)
     {
         return isset($this->_elements['fieldsets'])
-                ? $this->_elements['fieldsets']->getFieldset($id)
-                : null;
+            ? $this->_elements['fieldsets']->getFieldset($id)
+            : null;
+    }
+
+    /**
+     * Get Fieldset names in tab
+     * @return array
+     */
+    public function getFieldsetNames()
+    {
+        if (!isset($this->_elements['fieldsets'])) {
+            return array();
+        }
+        $names = array();
+        foreach ($this->_elements['fieldsets'] as $fieldsetName => $content) {
+            $names[] = $fieldsetName;
+        }
+        return $names;
     }
 }
