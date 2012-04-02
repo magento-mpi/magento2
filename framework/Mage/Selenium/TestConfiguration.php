@@ -102,6 +102,12 @@ class Mage_Selenium_TestConfiguration
     protected $_logFile = null;
 
     /**
+     * Uimap include folder name
+     * @var string
+     */
+    const UIMAP_INCLUDE_FOLDER = '_uimapIncludes';
+
+    /**
      * Constructor defined as private to implement singleton
      */
     private function __construct()
@@ -159,7 +165,9 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initialize log file
+     *
      * @param string $dirPath
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initLogFile($dirPath)
@@ -240,7 +248,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Get all paths to fixture files
+     * Get all paths to fixture files and all paths to include uimap elements
      * @return array
      */
     public function getConfigFixtures()
@@ -261,12 +269,12 @@ class Mage_Selenium_TestConfiguration
         }
         $separator = preg_quote(DIRECTORY_SEPARATOR);
 
+        $facade = new File_Iterator_Facade();
         foreach ($fallbackOrderFixture as $codePoolName) {
             $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
             if (!is_dir($projectPath)) {
                 continue;
             }
-            $facade = new File_Iterator_Facade();
             $files = $facade->getFilesAsArray($projectPath, '.yml');
             foreach ($files as $file) {
                 if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
@@ -277,6 +285,14 @@ class Mage_Selenium_TestConfiguration
                         $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
                         if (preg_match('|' . $pattern . '|', $file)) {
                             $this->_configFixtures[$codePoolName]['uimap'][$areaName][] = $file;
+                        }
+                    }
+                }
+                if (preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
+                    foreach ($uimapFolders as $areaName => $uimapFolder) {
+                        $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
+                        if (preg_match('|' . $pattern . '|', $file)) {
+                            $this->_configFixtures['uimapInclude'][$areaName][] = $file;
                         }
                     }
                 }
@@ -300,12 +316,12 @@ class Mage_Selenium_TestConfiguration
         //Get test helpers sequence
         $fallbackOrderHelper = $this->_configHelper->getHelpersFallbackOrder();
 
+        $facade = new File_Iterator_Facade();
         foreach ($fallbackOrderHelper as $codePoolName) {
             $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
             if (!is_dir($projectPath)) {
                 continue;
             }
-            $facade = new File_Iterator_Facade();
             $files = $facade->getFilesAsArray($projectPath, 'Helper.php');
             foreach ($files as $file) {
                 $className = str_replace($initialPath . DIRECTORY_SEPARATOR, '', $file);

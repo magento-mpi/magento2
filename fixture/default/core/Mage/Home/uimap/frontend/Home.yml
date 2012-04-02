@@ -33,18 +33,6 @@ home:
         form:
             fieldsets:
                 -
-                    frontend_header:
-                        xpath: //div[@class='header']
-                        links:
-                            my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
-                            my_cart: //a[contains(@title,'My Cart')]
-                            checkout: //a[@title='Checkout']
-                            log_in: //a[@title='Log In']
-                            log_out: //a[@title='Log Out']
-                        dropdowns:
-                            your_language: //select[@id='select-language']
-                -
                     community_poll:
                         xpath: //div[@class='block block-poll']
                         pageelements:
@@ -53,7 +41,6 @@ home:
                           vote: //button[span='Vote']
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
-
                 -
                     compare_products:
                         xpath: //div[contains(div/strong/span,'Compare Products')]
@@ -66,7 +53,6 @@ home:
                         pageelements:
                           compare_block_empty: //p[text()='You have no items to compare.']
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
-
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?

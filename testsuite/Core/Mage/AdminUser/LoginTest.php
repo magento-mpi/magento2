@@ -37,10 +37,10 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out', $this->getUimapPage('admin', 'dashboard'));
+        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
         if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
-                && $this->isElementPresent($logOutXpath)) {
+            && $this->isElementPresent($logOutXpath)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -59,10 +59,10 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out', $this->getUimapPage('admin', 'dashboard'));
+        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
         if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
-                && $this->isElementPresent($logOutXpath)) {
+            && $this->isElementPresent($logOutXpath)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -140,10 +140,10 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * @depends loginValidUser
      * @TestlinkId TL-MAGE-3157
      */
-    public function loginNonExistantUser($loginData)
+    public function loginNonExistentUser($loginData)
     {
         //Data
-        $loginData['user_name'] = 'nonExistantUser';
+        $loginData['user_name'] = 'nonExistentUser';
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -192,8 +192,10 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name'));
-        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
+                                    array('this_acount_is' => 'Inactive',
+                                         'role_name'       => 'Administrators'), array('email', 'user_name'));
+        $loginData = array('user_name' => $userData['user_name'],
+                           'password'  => $userData['password']);
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
@@ -211,7 +213,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Login without any permissions</p>
      * <p>Steps</p>
      * <p>Pre-Conditions:</p>
-     * <p>Create a new user without Adminstrators role</p>
+     * <p>Create a new user without Administrators role</p>
      * <p>1.Fill in "Username" and "Password" fields with correct data;</p>
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
@@ -225,7 +227,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
-        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
+        $loginData = array('user_name' => $userData['user_name'],
+                           'password'  => $userData['password']);
         //Pre-Conditions
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
@@ -293,7 +296,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Pre-Conditions:</p>
      * <p>Admin User is created</p>
      * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Click "Retriewe password" button;</p>
+     * <p>2. Click "Retrieve password" button;</p>
      * <p>Expected result:</p>
      * <p>Success message "If there is an account associated.." appears.</p>
      * <p>Please check your email and click Back to Login."</p>
@@ -326,7 +329,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Pre-Conditions:</p>
      * <p>Admin User is created</p>
      * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Click "Retriewe password" button;</p>
+     * <p>2. Click "Retrieve password" button;</p>
      * <p>Expected result:</p>
      * <p>Success message appears -</p>
      * <p>"A new password was sent to your email address.</p>
@@ -343,9 +346,10 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
-                array('email', 'user_name'));
+                                    array('email', 'user_name'));
         $emailData = array('email' => $userData['email']);
-        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
+        $loginData = array('user_name' => $userData['user_name'],
+                           'password'  => $userData['password']);
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');

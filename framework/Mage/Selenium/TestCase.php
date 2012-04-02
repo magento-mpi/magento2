@@ -110,10 +110,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected static $_messages = array();
 
-   /**
-    * Name of run Test Class
-    * @var null
-    */
+    /**
+     * Name of run Test Class
+     * @var null
+     */
     public static $_testClass = null;
 
     /**
@@ -187,12 +187,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                             Else variables                                   #
     ################################################################################
     /**
-     * Array of Basic Xpath Messages
-     * @staticvar string
-     */
-    protected static $_basicXpathMessages = array();
-
-    /**
      * Loading holder XPath
      * @staticvar string
      */
@@ -220,12 +214,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->captureScreenshotOnFailure = $this->frameworkConfig['captureScreenshotOnFailure'];
         $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
         $this->coverageScriptUrl = $this->frameworkConfig['coverageScriptUrl'];
-
-        $this->screenshotPath = $this->screenshotUrl = $this->_configHelper->getScreenshotDir();
-
-        if (empty(self::$_basicXpathMessages)) {
-            self::$_basicXpathMessages = $this->getBasicXpathMessage('all');
-        }
+        $this->screenshotPath = $this->screenshotUrl = $this->getDefaultScreenshotPath();
     }
 
     /**
@@ -521,6 +510,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return $this->_error;
     }
+
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -802,7 +792,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $isOverridden = true;
             } elseif (is_array($currentValue)) {
                 $isOverridden = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
-                                                              $condition) || $isOverridden;
+                                                               $condition) || $isOverridden;
             }
         }
         return $isOverridden;
@@ -1057,13 +1047,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        $page = $this->getUimapPage('admin', 'dashboard');
-        $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement',
-                                                                  'fieldNameWithValidationMessage', $page);
-        self::$_messages['success'] = $this->getElementsByXpath(self::$_basicXpathMessages['success']);
-        self::$_messages['notice'] = $this->getElementsByXpath(self::$_basicXpathMessages['notice']);
-        self::$_messages['error'] = $this->getElementsByXpath(self::$_basicXpathMessages['error']);
-        self::$_messages['validation'] = $this->getElementsByXpath(self::$_basicXpathMessages['validation'],
+        $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement', 'fieldNameWithValidationMessage');
+        self::$_messages['success'] = $this->getElementsByXpath($this->_getMessageXpath('general_success'));
+        self::$_messages['notice'] = $this->getElementsByXpath($this->_getMessageXpath('general_notice'));
+        self::$_messages['error'] = $this->getElementsByXpath($this->_getMessageXpath('general_error'));
+        self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'),
                                                                    'text', $fieldNameWithValidationMessage);
     }
 
@@ -1141,7 +1129,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function verifyMessagesCount($count = 1, $xpath = null)
     {
         if ($xpath === null) {
-            $xpath = self::$_basicXpathMessages['validation'];
+            $xpath = $this->_getMessageXpath('general_validation');
         }
         $this->_parseMessages();
         return $this->getXpathCount($xpath) == $count;
@@ -1189,7 +1177,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::$_basicXpathMessages['error']);
+            : $this->checkMessageByXpath($this->_getMessageXpath('general_error'));
     }
 
     /**
@@ -1203,7 +1191,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::$_basicXpathMessages['success']);
+            : $this->checkMessageByXpath($this->_getMessageXpath('general_success'));
     }
 
     /**
@@ -1217,7 +1205,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return (!empty($message))
             ? $this->checkMessage($message)
-            : $this->checkMessageByXpath(self::$_basicXpathMessages['validation']);
+            : $this->checkMessageByXpath($this->_getMessageXpath('general_validation'));
     }
 
     /**
@@ -1248,6 +1236,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @param string $type
+     *
      * @return array|string
      * @throws RuntimeException
      */
@@ -1291,6 +1280,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         return $message;
     }
+
     ################################################################################
     #                                                                              #
     #                               Navigation helper methods                      #
@@ -1298,6 +1288,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
     /**
      * Set additional params for navigation
+     *
      * @param string $params your params to add to URL (?paramName1=paramValue1&paramName2=paramValue2)
      */
     public function setUrlPostfix($params)
@@ -1461,6 +1452,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return $this->_configHelper->getApplicationConfig();
     }
+
     ################################################################################
     #                                                                              #
     #                       UIMap of Page helper methods                           #
@@ -1589,7 +1581,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                     'Fatal error on page: \'There has been an error processing your request\'');
         $this->assertTextNotPresent('Notice:', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
-        if (!$this->isElementPresent(self::$_basicXpathMessages['notice'])) {
+        if (!$this->isElementPresent($this->_getMessageXpath('general_notice'))) {
             $this->assertTextNotPresent('Warning:', 'Warning on page');
         }
         $this->assertTextNotPresent('If you typed the URL directly', 'The requested page was not found.');
@@ -1706,7 +1698,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
-            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            $messagesOnPage = self::messagesToString($this->getParsedMessages());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
             if (strlen($messagesOnPage) > 0) {
@@ -1764,7 +1756,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName, $uimap = null)
     {
-        if ($controlType === 'message'){
+        if ($controlType === 'message') {
             return $this->_getMessageXpath($controlName);
         }
         $xpath = $this->_findUimapElement($controlType, $controlName, $uimap);
@@ -1779,6 +1771,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Gets XPath of a message with the specified name.
      *
      * @param string $message Name of a message from UIMap
+     *
      * @return string
      * @throws RuntimeException
      */
@@ -1787,7 +1780,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $messages = $this->getCurrentUimapPage()->getAllElements('messages');
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
-            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            $messagesOnPage = self::messagesToString($this->getParsedMessages());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
             if (strlen($messagesOnPage) > 0) {
@@ -1887,7 +1880,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } catch (Exception $e) {
             return '';
         }
-        if(empty($screenshotContent)) {
+        if (empty($screenshotContent)) {
             return '';
         }
         if ($fileName == null) {
@@ -1912,11 +1905,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
 
         $osName = $this->getEval('navigator.userAgent');
-        if(preg_match('/Windows/i', $osName)){
+        if (preg_match('/Windows/i', $osName)) {
             return 'Windows';
-        } elseif (preg_match('/Linux/i', $osName)){
+        } elseif (preg_match('/Linux/i', $osName)) {
             return 'Linux';
-        } elseif (preg_match('/Macintosh/i', $osName)){
+        } elseif (preg_match('/Macintosh/i', $osName)) {
             return 'MacOS';
         }
         return 'Unknown OS';
@@ -1925,8 +1918,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Get TestCase Id
      *
-	 * @return string
-	 */
+     * @return string
+     */
     public function getTestId()
     {
         return $this->testId;
@@ -1936,28 +1929,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Set test case Id
      *
      * @param $testId
+     *
      * @return Mage_Selenium_TestCase
      */
     public function setTestId($testId)
     {
-        $this->testId = $testId;
+        $this->drivers[0]->setTestId($testId);
         return $this;
     }
 
     /**
-     * Get screenshot path (current test)
+     * Returns correct path to screenshot save path.
      *
      * @return string
      */
     public function getScreenshotPath()
     {
-        return $this->screenshotPath;
+        return parent::getScreenshotPath();
     }
 
     /**
      * Set screenshot path (current test)
      *
      * @param $path
+     *
      * @return Mage_Selenium_TestCase
      */
     public function setScreenshotPath($path)
@@ -1970,6 +1965,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Set default screenshot path (config)
      *
      * @param string $path
+     *
      * @return Mage_Selenium_TestCase
      */
     public function setDefaultScreenshotPath($path)
@@ -2414,9 +2410,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         foreach (self::$_messages as $key => $value) {
             self::$_messages[$key] = array_unique($value);
         }
-        $success = self::$_basicXpathMessages['success'];
-        $error = self::$_basicXpathMessages['error'];
-        $validation = self::$_basicXpathMessages['validation'];
+        $success = $this->_getMessageXpath('general_success');
+        $error = $this->_getMessageXpath('general_error');
+        $validation = $this->_getMessageXpath('general_validation');
         $types = array('success', 'error', 'validation');
         foreach ($types as $message) {
             if (array_key_exists($message, self::$_messages)) {
@@ -2603,8 +2599,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
         }
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable',
-                                                      $this->getUimapPage('admin', 'dashboard'));
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
@@ -3006,17 +3001,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
         if ($currentPage != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
-            $dashboardUimap = $this->getUimapPage('admin', 'dashboard');
-            $dashboardLogo =  $this->_getControlXpath('pageelement', 'admin_logo', $dashboardUimap);
+            $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
             $this->fillForm($loginData);
             $this->clickButton('login', false);
-            $this->waitForElement(array($dashboardLogo, self::$_basicXpathMessages['error'],
-                                        self::$_basicXpathMessages['validation']));
+            $this->waitForElement(array($dashboardLogo, $this->_getMessageXpath('general_error'),
+                                       $this->_getMessageXpath('general_validation')));
             if ($this->_findCurrentPageFromUrl($this->getLocation()) != $this->_firstPageAfterAdminLogin) {
                 $this->fail('Admin was not logged in');
             }
-            $notificationsLink = $this->_getControlXpath('link', 'go_to_notifications', $dashboardUimap);
-            $closeButton = $this->_getControlXpath('button', 'close', $dashboardUimap);
+            $notificationsLink = $this->_getControlXpath('link', 'go_to_notifications');
+            $closeButton = $this->_getControlXpath('button', 'close');
             if ($this->isElementPresent($notificationsLink) && $this->waitForElement($closeButton, 5)) {
                 $this->click($closeButton);
             }
@@ -3032,7 +3026,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutAdminUser()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out', $this->getUimapPage('admin', 'dashboard'));
+        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         if ($this->isElementPresent($logOutXpath)) {
             $this->click($logOutXpath);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -3047,8 +3041,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clearInvalidedCache()
     {
-        $page = $this->getUimapPage('admin', 'dashboard');
-        $xpath = $this->_getControlXpath('link', 'invalided_cache', $page);
+        $xpath = $this->_getControlXpath('link', 'invalided_cache');
         if ($this->isElementPresent($xpath)) {
             $this->clickAndWait($xpath);
             $this->validatePage('cache_storage_management');
@@ -3084,8 +3077,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function reindexInvalidedData()
     {
-        $page = $this->getUimapPage('admin', 'dashboard');
-        $xpath = $this->_getControlXpath('link', 'invalided_index', $page);
+        $xpath = $this->_getControlXpath('link', 'invalided_index');
         if ($this->isElementPresent($xpath)) {
             $this->clickAndWait($xpath);
             $this->validatePage('index_management');

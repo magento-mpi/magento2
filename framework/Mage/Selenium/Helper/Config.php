@@ -237,6 +237,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!isset($config[$name])) {
             throw new OutOfRangeException('Area with name "' . $name . '" is missing');
         }
+        if ($this->_area != $name) {
+            $this->setCurrentPageId($config[$name]['base_page_uimap']);
+        }
         $this->_areaConfig = $config[$name];
         $this->_area = $name;
 
@@ -424,7 +427,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderFixture'])) {
             throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
-                    . $this->getApplication() . '" application');
+                . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
@@ -440,7 +443,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderHelper'])) {
             throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
-                    . $this->getApplication() . '" application');
+                . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));
@@ -449,7 +452,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the screenshot directory.
      * Creates a directory if it doesn't exist.
+     *
      * @param string $dirPath
+     *
      * @return Mage_Selenium_Helper_Config
      * @throws RuntimeException if the directory could not be created
      */
@@ -477,7 +482,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the logs directory.
      * Creates a directory if it doesn't exist.
+     *
      * @param string $dirPath
+     *
      * @return Mage_Selenium_Helper_Config
      * @throws RuntimeException if the directory could not be created
      */
