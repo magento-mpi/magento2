@@ -148,8 +148,8 @@ product_attribute_multiselect: &productAttributeMultiselect
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
+    use_in_search_results_layered_naigation: Yes
+    use_for_promo_rule_conditions: Yes
     position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
@@ -214,8 +214,8 @@ product_attribute_dropdown: &productAttributeDropdown
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
+    use_in_search_results_layered_naigation: Yes
+    use_for_promo_rule_conditions: Yes
     position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
@@ -282,8 +282,8 @@ product_attribute_price: &productAttributePrice
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
+    use_in_search_results_layered_naigation: Yes
+    use_for_promo_rule_conditions: Yes
     position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
