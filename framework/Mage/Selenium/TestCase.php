@@ -2687,7 +2687,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @return bool
      * @throws OutOfRangeException
      */
-    protected function _fillFieldset(array $data, $fieldsetId, $failIfFieldsWithoutXpath = true)
+    public function fillFieldset(array $data, $fieldsetId, $failIfFieldsWithoutXpath = true)
     {
         $fillData = $this->formFieldsetDataMap($data, $fieldsetId);
 
@@ -2716,7 +2716,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws OutOfRangeException
      */
-    protected function _fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
+    public function fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
     {
         $tabUimap = $this->_findUimapElement('tab', $tabId);
         $fieldsets = $tabUimap->getFieldsetNames();
@@ -2760,7 +2760,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws OutOfRangeException|PHPUnit_Framework_Exception
      * @deprecated
-     * @see _fillTab() or _fillFieldset()
+     * @see fillTab() or _fillFieldset()
      */
     public function fillForm($data, $tabId = '')
     {

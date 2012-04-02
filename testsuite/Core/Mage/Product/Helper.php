@@ -111,7 +111,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return bool
      */
-    public function fillTab(array $productData, $tabName = 'general')
+    public function fillProductTab(array $productData, $tabName = 'general')
     {
         $tabData = array();
         $needFilling = false;
@@ -464,30 +464,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function fillProductInfo(array $productData, $productType = 'simple')
     {
-        $this->fillTab($productData);
-        $this->fillTab($productData, 'prices');
-        $this->fillTab($productData, 'meta_information');
+        $this->fillProductTab($productData);
+        $this->fillProductTab($productData, 'prices');
+        $this->fillProductTab($productData, 'meta_information');
         //@TODO Fill in Images Tab
         if ($productType == 'simple' || $productType == 'virtual') {
-            $this->fillTab($productData, 'recurring_profile');
+            $this->fillProductTab($productData, 'recurring_profile');
         }
-        $this->fillTab($productData, 'design');
-        $this->fillTab($productData, 'gift_options');
-        $this->fillTab($productData, 'inventory');
-        $this->fillTab($productData, 'websites');
-        $this->fillTab($productData, 'categories');
-        $this->fillTab($productData, 'related');
-        $this->fillTab($productData, 'up_sells');
-        $this->fillTab($productData, 'cross_sells');
-        $this->fillTab($productData, 'custom_options');
+        $this->fillProductTab($productData, 'design');
+        $this->fillProductTab($productData, 'gift_options');
+        $this->fillProductTab($productData, 'inventory');
+        $this->fillProductTab($productData, 'websites');
+        $this->fillProductTab($productData, 'categories');
+        $this->fillProductTab($productData, 'related');
+        $this->fillProductTab($productData, 'up_sells');
+        $this->fillProductTab($productData, 'cross_sells');
+        $this->fillProductTab($productData, 'custom_options');
         if ($productType == 'grouped' || $productType == 'configurable') {
-            $this->fillTab($productData, 'associated');
+            $this->fillProductTab($productData, 'associated');
         }
         if ($productType == 'bundle') {
-            $this->fillTab($productData, 'bundle_items');
+            $this->fillProductTab($productData, 'bundle_items');
         }
         if ($productType == 'downloadable') {
-            $this->fillTab($productData, 'downloadable_information');
+            $this->fillProductTab($productData, 'downloadable_information');
         }
     }
 
