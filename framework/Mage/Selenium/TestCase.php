@@ -81,6 +81,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static $_testHelpers = array();
 
     /**
+     * Framework setting
+     * @var array
+     */
+    public $frameworkConfig;
+
+    /**
      * Saves HTML content of the current page if the test failed
      * @var bool
      */
@@ -103,6 +109,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var array
      */
     protected static $_messages = array();
+
+   /**
+    * Name of run Test Class
+    * @var null
+    */
+    public static $_testClass = null;
 
     /**
      * Name of last testcase in test class
@@ -192,10 +204,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param  string $name Test case name(by default = null)
      * @param  array  $data Test case data array(by default = array())
      * @param  string $dataName Name of Data set(by default = '')
-     * @param  array  $browser Array of browser configuration settings: 'name', 'browser', 'host', 'port', 'timeout',
-     * 'httpTimeout' (by default = array())
      */
-    public function __construct($name = null, array $data = array(), $dataName = '', array $browser = array())
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         $this->_testConfig = Mage_Selenium_TestConfiguration::getInstance();
         $this->_configHelper = $this->_testConfig->getHelper('config');
@@ -203,31 +213,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_dataHelper = $this->_testConfig->getHelper('data');
         $this->_paramsHelper = $this->_testConfig->getHelper('params');
         $this->_dataGeneratorHelper = $this->_testConfig->getHelper('dataGenerator');
+        $this->frameworkConfig = $this->_configHelper->getConfigFramework();
 
-        parent::__construct($name, $data, $dataName, $browser);
-        if (isset($browser['timeout'])) {
-            $this->_browserTimeoutPeriod = $browser['timeout'] * 1000;
-        }
-        $config = $this->_configHelper->getConfigFramework();
-        $this->captureScreenshotOnFailure = $config['captureScreenshotOnFailure'];
+        parent::__construct($name, $data, $dataName);
+
+        $this->captureScreenshotOnFailure = $this->frameworkConfig['captureScreenshotOnFailure'];
+        $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
+        $this->coverageScriptUrl = $this->frameworkConfig['coverageScriptUrl'];
+
         $this->screenshotPath = $this->screenshotUrl = $this->_configHelper->getScreenshotDir();
-        $this->_saveHtmlPageOnFailure = $config['saveHtmlPageOnFailure'];
-        $this->coverageScriptUrl = $config['coverageScriptUrl'];
-        if (!self::$_basicXpathMessages) {
-            self::$_basicXpathMessages = $this->getBasicXpathMessage('all');
-        }
-    }
 
-    public function __destruct()
-    {
-        if (!isset($this->drivers)) {
-            return;
-        }
-        foreach ($this->drivers as $driver) {
-            if (!$driver->getContiguousSession()) {
-                $driver->setContiguousSession(true);
-                $driver->stop();
-            }
+        if (empty(self::$_basicXpathMessages)) {
+            self::$_basicXpathMessages = $this->getBasicXpathMessage('all');
         }
     }
 
@@ -260,11 +257,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function getDriver(array $browser)
     {
-        $driver = $this->_testConfig->addDriverConnection($browser);
+        if (!isset($browser['name'])) {
+            $browser['name'] = '';
+        }
+        if (!isset($browser['browser'])) {
+            $browser['browser'] = '';
+        }
+        if (!isset($browser['host'])) {
+            $browser['host'] = 'localhost';
+        }
+        if (!isset($browser['port'])) {
+            $browser['port'] = 4444;
+        }
+        if (!isset($browser['timeout'])) {
+            $browser['timeout'] = 30;
+        }
+        if (!isset($browser['httpTimeout'])) {
+            $browser['httpTimeout'] = 45;
+        }
+        $driver = new Mage_Selenium_Driver();
+        $driver->setName($browser['name']);
+        $driver->setBrowser($browser['browser']);
+        $driver->setHost($browser['host']);
+        $driver->setPort($browser['port']);
+        $driver->setTimeout($browser['timeout']);
+        $driver->setHttpTimeout($browser['httpTimeout']);
         $driver->setTestCase($this);
         $driver->setTestId($this->testId);
 
-        $this->drivers[] = $driver;
+        $driver->setLogHandle($this->_testConfig->getLogFile());
+        $driver->setBrowserUrl($this->_configHelper->getBaseUrl());
+        $this->_browserTimeoutPeriod = $browser['timeout'] * 1000;
+
+        $this->drivers[0] = $driver;
 
         return $driver;
     }
@@ -272,32 +297,60 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
-     * @staticvar $error Identifies if an error happened during setup. In case of an error, the tests won't be run.
      * @throws Exception
      */
-    final function setUp()
+    private function setUpBeforeTestClass()
     {
-        // Clear messages before running test
-        $this->clearMessages();
-        $isFirst = $this->drivers[0]->driverSetUp(get_class($this));
-        static $error = null;
-        if ($isFirst) {
-            $browser = $this->drivers[0]->getBrowserSettings();
-            if (strstr($browser['browser'],'*ie') !== false) {
+        $currentTestClass = get_class($this);
+        static $setUpBeforeTestsError = null;
+        if (self::$_testClass != $currentTestClass) {
+            self::$_testClass = $currentTestClass;
+            //work with xpath for IE
+            $browser = $this->getBrowserSettings();
+            if (strstr($browser['browser'], '*ie') !== false) {
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
             }
+            $this->setLastTestNameInClass();
             try {
-                $error = null;
-                $this->setLastTestNameInClass();
+                $setUpBeforeTestsError = null;
                 $this->setUpBeforeTests();
             } catch (Exception $e) {
-                $error = $e;
+                $setUpBeforeTestsError = "\nError in setUpBeforeTests method for '"
+                    . $currentTestClass . "' class:\n" . $e->getMessage();
+            }
+            if (isset($e)) {
+                throw $e;
             }
         }
-        if($error) {
-            throw $error;
+        if ($setUpBeforeTestsError !== null) {
+            $this->markTestSkipped($setUpBeforeTestsError);
         }
+    }
+
+    /**
+     * Prepare browser session
+     */
+    protected function prepareBrowserSession()
+    {
+        $browsers = $this->_configHelper->getConfigBrowsers();
+        if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
+            $this->setupSpecificBrowser($browsers['default']);
+            $this->shareSession($this->prepareTestSession());
+        } elseif (empty(self::$browsers)) {
+            $this->setupSpecificBrowser($browsers['default']);
+            $this->prepareTestSession();
+        } else {
+            $this->frameworkConfig['shareSession'] = false;
+            $this->prepareTestSession();
+        }
+    }
+
+    final function setUp()
+    {
+        $this->clearMessages();
+        $this->prepareBrowserSession();
+        $this->setUpBeforeTestClass();
     }
 
     /**
@@ -314,15 +367,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     private function setLastTestNameInClass()
     {
         $testMethods = array();
-        $className = get_class($this);
-        $class = new ReflectionClass($className);
+        $class = new ReflectionClass(self::$_testClass);
         foreach ($class->getMethods() as $method) {
             if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
                 $testMethods[] = $method->getName();
             }
         }
         $testName = end($testMethods);
-        $data = PHPUnit_Util_Test::getProvidedData($className, $testName);
+        $data = PHPUnit_Util_Test::getProvidedData(self::$_testClass, $testName);
         if ($data) {
             $testName .= sprintf(' with data set #%d', count($data) - 1);
         }
@@ -347,9 +399,37 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $this->assertEmptyVerificationErrors();
         }
-        $this->tearDownAfterTest();
-        if ($this->getName() == self::$_lastTestNameInClass) {
-            $this->tearDownAfterTestClass();
+
+        try {
+            $this->tearDownAfterTest();
+        } catch (Exception $e) {
+        }
+
+        try {
+            if ($this->getName() == self::$_lastTestNameInClass) {
+                $this->tearDownAfterTestClass();
+            }
+        } catch (Exception $_e) {
+            if (!isset($e)) {
+                $e = $_e;
+            }
+        }
+
+        if (isset($e) && !$this->hasFailed()) {
+            if ($this->_saveHtmlPageOnFailure) {
+                $this->saveHtmlPage();
+            }
+            if ($this->captureScreenshotOnFailure) {
+                $this->takeScreenshot();
+            }
+        }
+
+        if (!$this->frameworkConfig['shareSession']) {
+            $this->stop();
+        }
+
+        if (isset($e)) {
+            throw $e;
         }
     }
 
