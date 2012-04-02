@@ -479,7 +479,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $preparedValue = implode(' ', $preparedValue);
             }
             // Adding data for advanced search field (without additional prefix)
-            if ($attribute->getIsVisibleInAdvancedSearch()) {
+            if ($attribute->getIsVisibleInAdvancedSearch() && !$attribute->usesSource()) {
                 $fieldName = $this->getSearchEngineFieldName($attribute);
                 if ($fieldName) {
                     $productIndexData[$fieldName] = $preparedValue;
@@ -499,7 +499,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
 
             // Prepare data for navigation field
-            if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()) {
+            if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch() || $attribute->usesSource()) {
                 if (!empty($preparedNavValue)) {
                     $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
                     if ($fieldName) {
