@@ -28,8 +28,8 @@
 /**
  * Customer login form template
  *
- * @var $this Mage_OAuth_Block_Authorize
- * @see Mage_OAuth_Block_Authorize
+ * @var $this Mage_Oauth_Block_Authorize
+ * @see Mage_Oauth_Block_Authorize
  */
 ?>
 <div class="account-login  login-only">
@@ -59,7 +59,7 @@
                             </li>
                         </ul>
                         <div class="buttons-set form-buttons btn-only">
-                            <button type="button" class="button" onclick="rejectToken(); return false;"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
+                            <button type="button" class="button" onclick="rejectToken(); return false;"><span><span><?php echo $this->__('Reject') ?></span></span></button>
                             <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
                         </div>
                         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
