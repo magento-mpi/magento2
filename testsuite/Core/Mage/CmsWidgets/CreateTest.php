@@ -35,8 +35,6 @@
  */
 class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 {
-    protected static $products = array();
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -94,46 +92,43 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * Create required products for testing
-     * @dataProvider createProductsDataProvider
      * @depends createCategory
      * @depends createAttribute
      * @test
      *
-     * @param $dataProductType
      * @param $category
      * @param $attrData
+     * @return array
      */
-    public function createProducts($dataProductType, $category, $attrData)
+    public function createProducts($category, $attrData)
     {
+        $products = array();
+        $productTypes = array('simple',
+                              'grouped',
+                              'configurable',
+                              'virtual',
+                              'bundle',
+                              'downloadable');
         $this->navigate('manage_products');
-        //Data
-        if ($dataProductType == 'configurable') {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                                           array('configurable_attribute_title' => $attrData['admin_title'],
-                                                'categories'                    => $category),
-                                           array('general_sku', 'general_name'));
-        } else {
-            $productData = $this->loadData($dataProductType . '_product_required', array('categories' => $category),
-                                           array('general_name', 'general_sku'));
+        foreach ($productTypes as $productType) {
+            //Data
+            if ($productType == 'configurable') {
+                $productData = $this->loadData($productType . '_product_required',
+                                               array('configurable_attribute_title' => $attrData['admin_title'],
+                                                    'categories'                    => $category),
+                                               array('general_sku', 'general_name'));
+            } else {
+                $productData = $this->loadData($productType . '_product_required', array('categories' => $category),
+                                               array('general_name', 'general_sku'));
+            }
+            //Steps
+            $this->productHelper()->createProduct($productData, $productType);
+            //Verifying
+            $this->assertMessagePresent('success', 'success_saved_product');
+            $products['sku'][$productType] = $productData['general_sku'];
+            $products['name'][$productType] = $productData['general_name'];
         }
-        //Steps
-        $this->productHelper()->createProduct($productData, $dataProductType);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        self::$products['sku'][$dataProductType] = $productData['general_sku'];
-        self::$products['name'][$dataProductType] = $productData['general_name'];
-    }
-
-    public function createProductsDataProvider()
-    {
-        return array(
-            array('simple'),
-            array('grouped'),
-            array('configurable'),
-            array('virtual'),
-            array('bundle'),
-            array('downloadable')
-        );
+        return $products;
     }
 
     /**
@@ -146,6 +141,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      *
      * @param string $dataWidgetType
      * @param string $category
+     * @param array $products
      *
      * @test
      * @dataProvider widgetTypesDataProvider
@@ -153,18 +149,18 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @TestlinkId TL-MAGE-3229
      */
-    public function createAllTypesOfWidgetsAllFields($dataWidgetType, $category)
+    public function createAllTypesOfWidgetsAllFields($dataWidgetType, $category, $products)
     {
         //Data
-        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['filter_sku'] = $products['sku']['simple'];
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget', $temp, 'widget_instance_title');
         $i = 1;
-        foreach (self::$products['sku'] as $value) {
+        foreach ($products['sku'] as $value) {
             $widgetData['layout_updates']['layout_3']['choose_options']['product_' . $i++]['filter_sku'] = $value;
         }
         $i = 1;
-        foreach (self::$products['sku'] as $value) {
+        foreach ($products['sku'] as $value) {
             $y = $i + 3;
             $widgetData['layout_updates']['layout_' . $y]['choose_options']['product_' . $i++]['filter_sku'] = $value;
         }
@@ -199,6 +195,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      *
      * @param string $dataWidgetType
      * @param string $category
+     * @param array $products
      *
      * @test
      * @dataProvider widgetTypesReqDataProvider
@@ -206,10 +203,10 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @TestlinkId	TL-MAGE-3230
      */
-    public function createAllTypesOfWidgetsReqFields($dataWidgetType, $category)
+    public function createAllTypesOfWidgetsReqFields($dataWidgetType, $category, $products)
     {
         //Data
-        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['filter_sku'] = $products['sku']['simple'];
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
         //Steps
@@ -245,6 +242,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @param string $emptyField
      * @param string $fieldType
      * @param string $category
+     * @param array $products
      *
      * @test
      * @dataProvider withEmptyFieldsDataProvider
@@ -252,10 +250,10 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @TestlinkId	TL-MAGE-3231
      */
-    public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category)
+    public function withEmptyFields($dataWidgetType, $emptyField, $fieldType, $category, $products)
     {
         //Data
-        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['filter_sku'] = $products['sku']['simple'];
         $temp['category_path'] = $category;
         if ($fieldType == 'field') {
             $temp[$emptyField] = ' ';

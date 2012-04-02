@@ -35,8 +35,6 @@
  */
 class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
 {
-    protected $_popupId = null;
-
     /**
      * Add product from Catalog page
      *
@@ -68,16 +66,20 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     /**
      * Removes all products from the Compare Products widget
      *
-     * Preconditions: page with Compare Products widget is opened
+     * Preconditions: page with Compare Products widget should be opened
      *
+     * @return bool Returns False if the operation could not be performed
+     * or the compare block is not present on the page
      */
     public function frontClearAll()
     {
-        if ($this->controlIsPresent('pageelement', 'compare_block_title')) {
+        if(!$this->controlIsPresent('pageelement', 'compare_block_title')) {
+            return false;
+        }
+        if($this->controlIsPresent('link', 'compare_clear_all')) {
             return $this->clickControlAndConfirm('link', 'compare_clear_all',
                             'confirmation_clear_all_from_compare');
         }
-        $this->fail('Compare static block is not available on this page');
     }
 
     /**
@@ -263,30 +265,35 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      * Open ComparePopup And set focus
      *
      * Preconditions: Page with Compare block is opened
+     *
+     * @return string Pop-up ID
      */
     public function frontOpenComparePopup()
     {
         $this->clickButton('compare', false);
         $names = $this->getAllWindowNames();
-        $this->_popupId = end($names);
-        $this->waitForPopUp($this->_popupId, $this->_browserTimeoutPeriod);
-        $this->selectWindow("name=" . $this->_popupId);
+        $popupId = end($names);
+        $this->waitForPopUp($popupId, $this->_browserTimeoutPeriod);
+        $this->selectWindow("name=" . $popupId);
         $this->validatePage('compare_products');
+        return $popupId;
     }
 
     /**
      * Close ComparePopup and set focus to main window
      *
      * Preconditions: ComparePopup is opened
+     *
+     * @param string $popupId
      */
-    public function frontCloseComparePopup()
+    public function frontCloseComparePopup($popupId)
     {
-        if ($this->_popupId) {
-            $this->selectWindow("name=" . $this->_popupId);
-            $this->clickButton('close_window', false);
-            //select parent window
-            $this->selectWindow(null);
-            $this->_popupId = null;
+        if (!$popupId) {
+            return;
         }
+        $this->selectWindow("name=" . $popupId);
+        $this->clickButton('close_window', false);
+        //Select parent window
+        $this->selectWindow(null);
     }
 }

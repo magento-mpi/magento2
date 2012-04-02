@@ -35,8 +35,6 @@
  */
 class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
 {
-    protected static $products = array();
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -69,66 +67,29 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Creates Attribute (dropdown) to use during tests</p>
-     * @test
-     * @return array
-     */
-    public function createAttribute()
-    {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                                    array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                                                array('General' => $attrData['attribute_code']));
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return $attrData;
-    }
-
-    /**
      * Create required products for testing
-     * @dataProvider createProductsDataProvider
      * @depends createCategory
-     * @depends createAttribute
      * @test
      *
-     * @param $dataProductType
      * @param $category
-     * @param $attrData
      */
-    public function createProducts($dataProductType, $category, $attrData)
+    public function createProducts($category)
     {
+        $products = array();
+        $productTypes = array('simple');
         $this->navigate('manage_products');
         //Data
-        if ($dataProductType == 'configurable') {
-            $productData = $this->loadData($dataProductType . '_product_required',
-                                           array('configurable_attribute_title' => $attrData['admin_title'],
-                                                'categories'                    => $category),
-                                           array('general_sku', 'general_name'));
-        } else {
-            $productData = $this->loadData($dataProductType . '_product_required', array('categories' => $category),
-                                           array('general_name', 'general_sku'));
+        foreach ($productTypes as $productType) {
+            $productData = $this->loadData($productType . '_product_required', array('categories' => $category),
+                                               array('general_name', 'general_sku'));
+            //Steps
+            $this->productHelper()->createProduct($productData, $productType);
+            //Verifying
+            $this->assertMessagePresent('success', 'success_saved_product');
+            $products['sku'][$productType] = $productData['general_sku'];
+            $products['name'][$productType] = $productData['general_name'];
         }
-        //Steps
-        $this->productHelper()->createProduct($productData, $dataProductType);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        self::$products['sku'][$dataProductType] = $productData['general_sku'];
-        self::$products['name'][$dataProductType] = $productData['general_name'];
-    }
-
-    public function createProductsDataProvider()
-    {
-        return array(
-            array('simple')
-        );
+        return $products;
     }
 
     /**
@@ -143,6 +104,7 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      *
      * @param array $dataWidgetType
      * @param string $category
+     * @param array $products
      *
      * @test
      * @dataProvider widgetTypesReqDataProvider
@@ -150,11 +112,11 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @TestlinkId	TL-MAGE-3232
      */
-    public function deleteAllTypesOfWidgets($dataWidgetType, $category)
+    public function deleteAllTypesOfWidgets($dataWidgetType, $category, $products)
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
-        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['filter_sku'] = $products['sku']['simple'];
         $temp['category_path'] = $category;
         $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
         $this->cmsWidgetsHelper()->createWidget($widgetData);

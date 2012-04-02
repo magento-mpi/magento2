@@ -35,7 +35,8 @@
  */
 class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
 {
-    protected $_useTearDown = false;
+    //Id of the compare pop-up window to close.
+    protected static $_popupId = null;
 
     public function setUpBeforeTests()
     {
@@ -47,15 +48,15 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->addParameter('id', '0');
+        self::$_popupId = null;
+        $this->frontend();
+        $this->compareProductsHelper()->frontClearAll();
     }
 
     protected function tearDownAfterTest()
     {
-        $this->compareProductsHelper()->frontCloseComparePopup();
-        if ($this->_useTearDown) {
-            $this->frontend();
-            $this->compareProductsHelper()->frontClearAll();
-            $this->_useTearDown = false;
+        if(self::$_popupId) {
+            $this->compareProductsHelper()->frontCloseComparePopup(self::$_popupId);
         }
     }
 
@@ -121,10 +122,9 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
                               'Product is not available in Compare widget');
         }
         //Steps
-        $this->compareProductsHelper()->frontOpenComparePopup();
+        self::$_popupId = $this->compareProductsHelper()->frontOpenComparePopup();
         //Verifying
         $this->compareProductsHelper()->frontVerifyProductDataInComparePopup($verify);
-        $this->_useTearDown = true;
     }
 
     /**
@@ -144,19 +144,18 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     public function addProductToCompareListFromCatalogPage($data)
     {
         //Steps and Verifying
-        $this->frontend();
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage(
                 $value, $data['catName']);
             $this->assertMessagePresent('success', 'product_added_to_comparison');
             $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                               'Product is not available in Compare widget');
-            $this->compareProductsHelper()->frontOpenComparePopup();
+            self::$_popupId = $this->compareProductsHelper()->frontOpenComparePopup();
             $this->assertTrue($this->controlIsPresent('link', 'product_title'),
                               'There is no expected product in Compare Products popup');
-            $this->compareProductsHelper()->frontCloseComparePopup();
+            $this->compareProductsHelper()->frontCloseComparePopup(self::$_popupId);
         }
-        $this->_useTearDown = true;
+        self::$_popupId = null;
     }
 
     /**
@@ -178,7 +177,6 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     public function removeProductFromCompareBlockList($data)
     {
         //Steps and Verifying
-        $this->frontend();
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage(
                 $value, $data['catName']);
@@ -208,7 +206,6 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     public function emptyCompareListIsNotAvailable($data)
     {
         //Steps
-        $this->frontend();
         $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($data['names'][0], $data['catName']);
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_comparison');

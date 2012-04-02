@@ -36,12 +36,6 @@
 class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * Transfer data between tests.
-     * Note: "@depends" does not help in this case
-     */
-    protected static $_storedTaxRateData = null;
-
-    /**
      * <p>Login to backend</p>
      */
     public function setUpBeforeTests()
@@ -88,7 +82,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $this->taxHelper()->openTaxItem($searchTaxRateData, 'rate');
         //Verifying
         $this->assertTrue($this->verifyForm($taxRateData), $this->getParsedMessages());
-        self::$_storedTaxRateData = $taxRateData;
     }
 
     public function withRequiredFieldsOnlyDataProvider()
@@ -114,7 +107,13 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     public function withTaxIdentifierThatAlreadyExists()
     {
         //Steps
-        $this->taxHelper()->createTaxItem(self::$_storedTaxRateData, 'rate');
+        $taxRateData = $this->loadData('tax_rate_create_test_zip_no');
+        $searchTaxRateData = $this->loadData('search_tax_rate',
+                array('filter_tax_id' => $taxRateData['tax_identifier']));
+        //Steps
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->assertMessagePresent('success', 'success_saved_tax_rate');
+        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         //Verifying
         $this->assertMessagePresent('error', 'code_already_exists');
     }
