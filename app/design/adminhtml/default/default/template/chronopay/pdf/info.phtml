@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->getMethod()->getTitle() ?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
     {{pdf_row_separator}}
 <?php echo Mage::helper('payment')->__('Name on the Card: %s', $this->escapeHtml($this->getInfo()->getCcOwner())) ?>
     {{pdf_row_separator}}

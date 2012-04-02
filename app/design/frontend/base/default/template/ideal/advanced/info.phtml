@@ -25,7 +25,7 @@
  */
 ?>
 <?php if($_info = $this->getInfo()): ?>
-<?php echo $this->getMethod()->getTitle() ?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
     <br />
     <?php echo $this->__('Issuer'). ': ' . $this->getIssuerTitle() ?>
 <?php else: ?>

@@ -25,7 +25,7 @@
  */
 ?>
 <?php if($_info = $this->getInfo()): ?>
-    <?php echo $this->getMethod()->getTitle() ?>
+    <?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
         {{pdf_row_separator}}
     <?php echo $this->__('Name on the Card: %s', $this->getInfo()->getCcOwner()) ?>
         {{pdf_row_separator}}
