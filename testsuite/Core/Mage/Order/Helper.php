@@ -483,7 +483,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Gets to 'Create new Order page'
+     * Navigates to 'Create new Order page'. Selects the provided customer and the store view.
+     *
+     * NOTE. The first found store view with $storeView name will be selected.
+     * You may need to generate a unique store view name to avoid this.
      *
      * @param array|string $customerData    Array with customer data to search or string with dataset to load
      * @param string $storeView

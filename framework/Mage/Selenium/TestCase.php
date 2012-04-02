@@ -504,7 +504,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (self::$_testHelpers[$className] instanceof Mage_Selenium_TestCase) {
-            self::$_testHelpers[$className]->appendParamsDecorator($this->_paramsHelper);
+            foreach (get_object_vars($this) as $name => $value) {
+                self::$_testHelpers[$className]->$name = $value;
+            }
         }
 
         return self::$_testHelpers[$className];
