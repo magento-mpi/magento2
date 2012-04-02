@@ -35,6 +35,7 @@ frontend_header:
                             my_account: //a[@title='My Account']
                             my_wishlist: //a[contains(@title,'My Wishlist')]
                             my_cart: //a[contains(@title,'My Cart')]
+                            empty_my_cart: //a[text()='My Cart']
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
                             log_out: //a[@title='Log Out']
