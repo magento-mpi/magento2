@@ -2151,10 +2151,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $waitAjax = false;
         $tabXpath = $this->_getControlXpath('tab', $tabName);
-        if ($this->isElementPresent($tabXpath . '[@class]')) {
-            $isTabOpened = $this->getAttribute($tabXpath . '/@class');
+        if (preg_match('/^css=/', $tabXpath)) {
+            if ($this->isElementPresent($tabXpath . '[class]')) {
+                $isTabOpened = $this->getAttribute($tabXpath . '@class');
+            } else {
+                throw new OutOfRangeException("Wrong css for tab: [$tabName : $tabXpath]");
+            }
+        } elseif ($this->isElementPresent($tabXpath . '[@class]')) {
+            $isTabOpened = $this->getAttribute($tabXpath . '@class');
         } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
-            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
+            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*@class');
         } else {
             throw new OutOfRangeException("Wrong xpath for tab: [$tabName : $tabXpath]");
         }
