@@ -62,12 +62,12 @@ class Oauth_Consumer_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Consumer is deleted.</p>
      * <p>Success Message is displayed.</p>
-     * 
+     *
      * @test
      */
-    
+
     //Failed because https://jira.magento.com/browse/APIA-199
-    
+
     public function deleteConsumer()
     {
         //Data
