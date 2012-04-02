@@ -392,7 +392,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 unset($productIndexData[$attributeCode]);
             }
 
-            if (!$attribute || $attributeCode == 'price') {
+            if (!$attribute || $attributeCode == 'price' || empty($value)) {
                 continue;
             }
 
@@ -473,38 +473,32 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
 
-            // text save as one string
-            if (is_array($preparedValue) && in_array($backendType, $this->_textFieldTypes) && !$attribute->usesSource()
-            ) {
-                $preparedValue = implode(' ', $preparedValue);
-            }
             // Adding data for advanced search field (without additional prefix)
-            if ($attribute->getIsVisibleInAdvancedSearch() && !$attribute->usesSource()) {
-                $fieldName = $this->getSearchEngineFieldName($attribute);
-                if ($fieldName) {
-                    $productIndexData[$fieldName] = $preparedValue;
+            if (($attribute->getIsVisibleInAdvancedSearch() ||  $attribute->getIsFilterable()
+                || $attribute->getIsFilterableInSearch())
+            ) {
+                if ($attribute->usesSource()) {
+                    $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
+                    if ($fieldName && !empty($preparedNavValue)) {
+                        $productIndexData[$fieldName] = $preparedNavValue;
+                    }
+                } else {
+                    $fieldName = $this->getSearchEngineFieldName($attribute);
+                    if ($fieldName && !empty($preparedValue)) {
+                        $productIndexData[$fieldName] = in_array($backendType, $this->_textFieldTypes)
+                            ? implode(' ', (array)$preparedValue)
+                            : $preparedValue ;
+                    }
                 }
-            }
-
-            if (is_array($preparedValue)) {
-                $preparedValue = implode(' ', $preparedValue);
             }
 
             // Adding data for fulltext search field
             if ($attribute->getIsSearchable() && !empty($preparedValue)) {
                 $searchWeight = $attribute->getSearchWeight();
                 if ($searchWeight) {
-                    $fulltextData[$searchWeight][] = $preparedValue;
-                }
-            }
-
-            // Prepare data for navigation field
-            if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch() || $attribute->usesSource()) {
-                if (!empty($preparedNavValue)) {
-                    $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
-                    if ($fieldName) {
-                        $productIndexData[$fieldName] = $preparedNavValue;
-                    }
+                    $fulltextData[$searchWeight][] = is_array($preparedValue)
+                        ? implode(' ', $preparedValue)
+                        : $preparedValue;
                 }
             }
 
