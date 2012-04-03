@@ -73,7 +73,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $this->assertTrue(false);
         return $searchData;
     }
 

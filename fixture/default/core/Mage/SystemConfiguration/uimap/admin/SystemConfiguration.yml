@@ -1631,15 +1631,15 @@ system_configuration:
                                     fields:
                                         zip_postal_code: //input[@name='groups[origin][fields][postcode][value]']
                                         city: //input[@name='groups[origin][fields][city][value]']
-                                        region_state: //input[@name='groups[origin][fields][region_id][value]']
+                                        origin_region: //input[@name='groups[origin][fields][region_id][value]']
                                         street_address: //input[@name='groups[origin][fields][street_line1][value]']
                                         street_address_line_2: //input[@name='groups[origin][fields][street_line2][value]']
                                     dropdowns:
                                         country: //select[@name='groups[origin][fields][country_id][value]']
-                                        region_state: //select[@name='groups[origin][fields][region_id][value]']
+                                        origin_state: //select[@name='groups[origin][fields][region_id][value]']
                                     checkboxes:
                                         country_use_default: //input[@name='groups[origin][fields][country_id][inherit]']
-                                        region_state_use_default: //input[@name='groups[origin][fields][region_id][inherit]']
+                                        origin_state_use_default: //input[@name='groups[origin][fields][region_id][inherit]']
                                         zip_postal_code_use_default: //input[@name='groups[origin][fields][postcode][inherit]']
                                         city_use_default: //input[@name='groups[origin][fields][city][inherit]']
                                         street_address_use_default: //input[@name='groups[origin][fields][street_line1][inherit]']

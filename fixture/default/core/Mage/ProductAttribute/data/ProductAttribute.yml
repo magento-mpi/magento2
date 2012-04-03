@@ -144,14 +144,14 @@ product_attribute_multiselect: &productAttributeMultiselect
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: Yes
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: Yes
+    use_in_search_results_layered_navigation: Yes
     use_for_promo_rule_conditions: Yes
     position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
+    visible_on_product_view_page_on_frontend: Yes
     used_in_product_listing: %noValue%
     # manage_lables_options:
     admin_title: Multiple_Select_Admin
@@ -169,7 +169,7 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
+    use_in_search_results_layered_navigation: %noValue%
     use_for_promo_rule_conditions: %noValue%
     position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
@@ -204,21 +204,21 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
 product_attribute_dropdown: &productAttributeDropdown
     catalog_input_type_for_store_owner: Dropdown
     attribute_code: attr_dropdown_code
-    scope: %noValue%
+    scope: Store View
     unique_value: %noValue%
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
     use_to_create_configurable_product: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: Yes
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: Yes
+    use_in_search_results_layered_navigation: Yes
     use_for_promo_rule_conditions: Yes
     position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
+    visible_on_product_view_page_on_frontend: Yes
+    used_in_product_listing: Yes
     used_for_sorting_in_product_listing: %noValue%
     admin_title: Dropdown_Admin
 
@@ -236,7 +236,7 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
+    use_in_search_results_layered_navigation: %noValue%
     use_for_promo_rule_conditions: %noValue%
     position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
@@ -278,15 +278,15 @@ product_attribute_price: &productAttributePrice
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: Yes
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: Yes
+    use_in_search_results_layered_navigation: Yes
     use_for_promo_rule_conditions: Yes
     position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
+    visible_on_product_view_page_on_frontend: Yes
+    used_in_product_listing: Yes
     used_for_sorting_in_product_listing: %noValue%
 # manage_lables_options:
     admin_title: Price_Admin

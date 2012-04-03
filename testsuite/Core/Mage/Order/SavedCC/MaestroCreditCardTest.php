@@ -84,7 +84,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
                                         array('filter_sku'   => $sku,
-                                              'payment_info' => $this->loadDataSet('SalesOrder',
+                                             'payment_info'  => $this->loadDataSet('SalesOrder',
                                                                                    'saved_switch_maestro')));
         //Steps
         $this->navigate('manage_sales_orders');
@@ -118,7 +118,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5389
+     * @TestlinkId TL-MAGE-5389
      */
     public function fullInvoiceWithDifferentTypesOfCapture($orderData)
     {
@@ -140,7 +140,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-5390
+     * @TestlinkId TL-MAGE-5390
      */
     public function partialInvoiceWithDifferentTypesOfCapture($orderData, $sku)
     {
@@ -181,7 +181,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5391
+     * @TestlinkId TL-MAGE-5391
      */
     public function fullCreditMemo($orderData)
     {
@@ -202,7 +202,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-5392
+     * @TestlinkId TL-MAGE-5392
      */
     public function partialCreditMemo($orderData, $sku)
     {
@@ -243,7 +243,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5393
+     * @TestlinkId TL-MAGE-5393
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -252,54 +252,6 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
-    }
-
-    /**
-     * <p>Holding and unholding order after creation.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Hold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is holden;</p>
-     * <p>4. Unhold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is unholden;</p>
-     *
-     * @param array $orderData
-     *
-     * @test
-     * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5396
-     */
-    public function holdAndUnholdPendingOrderViaOrderPage($orderData)
-    {
-        //Steps and Verifying
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButton('hold');
-        $this->assertMessagePresent('success', 'success_hold_order');
-        $this->clickButton('unhold');
-        $this->assertMessagePresent('success', 'success_unhold_order');
-    }
-
-    /**
-     * <p>Cancel Pending Order From Order Page</p>
-     *
-     * @param array $orderData
-     *
-     * @test
-     * @depends orderWithSwitchMaestroCard
-     */
-    public function cancelPendingOrderFromOrderPage($orderData)
-    {
-        //Steps and Verifying
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        $this->assertMessagePresent('success', 'success_created_order');
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
-        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
@@ -329,7 +281,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5397
+     * @TestlinkId    TL-MAGE-5397
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -345,5 +297,53 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
+    }
+
+    /**
+     * <p>Holding and unholding order after creation.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Hold order;</p>
+     * <p>Expected result:</p>
+     * <p>Order is holden;</p>
+     * <p>4. Unhold order;</p>
+     * <p>Expected result:</p>
+     * <p>Order is unholden;</p>
+     *
+     * @param array $orderData
+     *
+     * @test
+     * @depends orderWithSwitchMaestroCard
+     * @TestlinkId TL-MAGE-5396
+     */
+    public function holdAndUnholdPendingOrderViaOrderPage($orderData)
+    {
+        //Steps and Verifying
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->clickButton('hold');
+        $this->assertMessagePresent('success', 'success_hold_order');
+        $this->clickButton('unhold');
+        $this->assertMessagePresent('success', 'success_unhold_order');
+    }
+
+    /**
+     * <p>Cancel Pending Order From Order Page</p>
+     *
+     * @param array $orderData
+     *
+     * @test
+     * @depends orderWithSwitchMaestroCard
+     */
+    public function cancelPendingOrderFromOrderPage($orderData)
+    {
+        //Steps and Verifying
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->assertMessagePresent('success', 'success_canceled_order');
     }
 }
