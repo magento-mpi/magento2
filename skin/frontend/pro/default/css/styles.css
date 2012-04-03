@@ -1558,8 +1558,8 @@ tr.summary-details-excluded { font-style:italic; }
 /* Captcha */
 .captcha-note { clear:left; padding-top:5px;}
 .input-box.captcha { width:244px; }
-.captcha-image { border:1px solid #b6b6b6; margin:0; position:relative; width:258px; }
-.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
+.captcha-image { margin:0; position:relative; width:258px; }
+.captcha-image .captcha-img { border:1px solid #b6b6b6; vertical-align:bottom; width:100%; }
 .registered-users .captcha-image { margin:0; }
 #login-form .captcha-image { width:298px; }
 .account-login #login-form .captcha-image { width:328px; }
