@@ -91,7 +91,7 @@
                 <totals>
                     <customerbalance>
                         <class>enterprise_customerbalance/total_invoice_customerbalance</class>
-                        <after>grand_total,reward,giftcardaccount</after>
+                        <after>weee,discount,tax,grand_total,reward,giftcardaccount</after>
                     </customerbalance>
                 </totals>
             </order_invoice>
