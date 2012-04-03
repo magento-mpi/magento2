@@ -1968,6 +1968,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function setTestId($testId)
     {
         $this->drivers[0]->setTestId($testId);
+        $this->testId = $testId;
         return $this;
     }
 

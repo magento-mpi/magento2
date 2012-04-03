@@ -54,8 +54,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         }
         if (in_array('__destruct', $traceFunctionNames)) {
             parent::stop();
-        }
-        if (!$this->testCase->frameworkConfig['shareSession'] && !in_array('stopSession', $traceFunctionNames)) {
+        } elseif (!$this->testCase->frameworkConfig['shareSession'] && !in_array('stopSession', $traceFunctionNames)) {
             parent::stop();
         }
     }
