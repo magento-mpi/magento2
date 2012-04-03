@@ -84,4 +84,18 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('array', current($sameValue));
         $this->assertNotEmpty(current($sameValue));
     }
+
+    /**
+     * @covers Mage_Selenium_TestConfiguration::getTestHelperClassNames
+     */
+    public function testGetTestHelperClassNames()
+    {
+        $instance = Mage_Selenium_TestConfiguration::getInstance();
+        $helperClassNames = $instance->getTestHelperClassNames();
+        $this->assertInternalType('array', $helperClassNames);
+        $this->assertGreaterThan(0, count($helperClassNames));
+        foreach ($helperClassNames as $name) {
+            $this->assertContains('_Helper', $name);
+        }
+    }
 }

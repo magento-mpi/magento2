@@ -28,6 +28,25 @@
 class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 {
     /**
+     * Return count of $search_value occurrences in $input
+     *
+     * @param array $input
+     * @param $search_value
+     *
+     * @return int
+     */
+    private function _getValuesCount(array $input, $search_value = null)
+    {
+        $count = (is_null($search_value)) ? count(array_keys($input)) : count(array_keys($input, $search_value));
+        foreach ($input as $value) {
+            if (is_array($value)) {
+                $count += $this->_getValuesCount($value, $search_value);
+            }
+        }
+        return $count;
+    }
+
+    /**
      * @covers Mage_Selenium_TestCase::__construct
      */
     public function test__construct()
@@ -213,25 +232,6 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Return count of $search_value occurrences in $input
-     *
-     * @param array $input
-     * @param $search_value
-     *
-     * @return int
-     */
-    function getValuesCount(array $input, $search_value = null)
-    {
-        $count = (is_null($search_value)) ? count(array_keys($input)) : count(array_keys($input, $search_value));
-        foreach ($input as $value) {
-            if (is_array($value)) {
-                $count += $this->getValuesCount($value, $search_value);
-            }
-        }
-        return $count;
-    }
-
-    /**
      * @covers Mage_Selenium_TestCase::clearDataArray
      */
     public function testClearDataArrayString()
@@ -253,7 +253,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         //Steps
         $instance = new Mage_Selenium_TestCase();
         $inputArray = $instance->clearDataArray($inputArray);
-        $this->assertEquals($expectedCount, $this->getValuesCount($instance->clearDataArray($inputArray)));
+        $this->assertEquals($expectedCount, $this->_getValuesCount($instance->clearDataArray($inputArray)));
     }
 
     /**
@@ -348,7 +348,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     {
         $instance = new Mage_Selenium_TestCase();
         $instance->overrideDataByCondition($overrideKey, $overrideValue, $overrideArray, $condition);
-        $this->assertEquals($expCount, $this->getValuesCount($overrideArray, '%someValue0%'));
+        $this->assertEquals($expCount, $this->_getValuesCount($overrideArray, '%someValue0%'));
     }
 
     /**
@@ -427,7 +427,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $formDataOverriddenName = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive',
                                                          array('key'        => 'new Value',
                                                               'novalue_key' => 'new Value'));
-        $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
+        $this->assertEquals(6, $this->_getValuesCount($formDataOverriddenName, 'new Value'));
         $this->assertEquals(array('key'        => 'new Value',
                                  'novalue_key' => 'new Value'),
                             array_diff($formDataOverriddenName, $formData));
@@ -444,7 +444,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $formDataOverriddenName = $instance->loadDataSet('UnitTestsData', 'unit_test_load_data_set_recursive', null,
                                                          array('noValue' => 'new Value',
                                                               'no Value' => 'new Value'));
-        $this->assertEquals(6, $this->getValuesCount($formDataOverriddenName, 'new Value'));
+        $this->assertEquals(6, $this->_getValuesCount($formDataOverriddenName, 'new Value'));
         $this->assertEquals(array('novalue_key' => 'new Value',
                                  'some_key'     => 'new Value'),
                             array_diff($formDataOverriddenName, $formData));
@@ -705,8 +705,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $inst = new Mage_Selenium_TestCase();
         $inst->setScreenshotPath('d:\Temp');
         $path = $inst->getScreenshotPath();
-        $this->assertEquals('d:\Temp', $path, 'Incorrect value');
+        $this->assertEquals('d:\Temp\\', $path);
         $this->assertInternalType('string', $path);
+
+        $inst->setScreenshotPath('d:\Temp\\');
+        $path = $inst->getScreenshotPath();
+        $this->assertEquals('d:\Temp\\', $path);
     }
 
     /**
@@ -720,5 +724,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $path = $inst->getDefaultScreenshotPath();
         $this->assertEquals('d:\Temp', $path);
         $this->assertInternalType('string', $path);
+
+        $inst->setDefaultScreenshotPath('d:\Temp\\');
+        $path = $inst->getDefaultScreenshotPath();
+        $this->assertEquals('d:\Temp\\', $path);
     }
 }

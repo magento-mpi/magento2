@@ -125,7 +125,7 @@ class Mage_Selenium_TestConfiguration
      * Get test configuration instance
      *
      * @static
-     * @return null
+     * @return Mage_Selenium_TestConfiguration
      */
     public static function getInstance()
     {
