@@ -457,7 +457,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param Mage_Sales_Model_Order_Shipment $data
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
-     * @throws Zend_Pdf_Exception
+     * @throws Exception
      */
     public function addShipmentInformation($data)
     {
@@ -526,8 +526,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param array $package
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws InvalidArgumentException
-     * @throws Zend_Pdf_Exception
+     * @throws Exception
      */
     public function addContentInfo($package)
     {

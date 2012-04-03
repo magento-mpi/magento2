@@ -909,9 +909,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
                             try {
                                 /* @var $pdf Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
-                                $pdf = Mage::getModel('usa/shipping_carrier_dhl_label_pdf', array('info' => $xml,
-                                    'request' => $this->_request
-                                ));
+                                $pdf = Mage::getModel(
+                                    'usa/shipping_carrier_dhl_label_pdf',
+                                    array('info' => $xml, 'request' => $this->_request)
+                                );
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (Exception $e) {
                                 Mage::throwException(Mage::helper('usa')->__($e->getMessage()));

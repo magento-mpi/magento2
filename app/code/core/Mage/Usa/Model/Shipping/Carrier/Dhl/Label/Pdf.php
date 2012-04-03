@@ -34,11 +34,15 @@
 class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
 {
     /**
+     * Label Information
+     *
      * @var SimpleXMLElement
      */
     protected $_info;
 
     /**
+     * Shipment Request
+     *
      * @var Mage_Shipping_Model_Shipment_Request
      */
     protected $_request;
@@ -94,13 +98,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
             )
             ->addBorder();
 
-        $packges = array_values($this->_request->getPackages());
+        $packages = array_values($this->_request->getPackages());
         $i = 0;
         foreach ($this->_info->Pieces->Piece as $piece) {
             $page = new Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page($template);
             $pdfBuilder->setPage($page)
                 ->addPieceNumber((int)$piece->PieceNumber, (int)$this->_info->Piece)
-                ->addContentInfo($packges[$i])
+                ->addContentInfo($packages[$i])
                 ->addPieceIdBarcode(
                     (string)$piece->DataIdentifier,
                     (string)$piece->LicensePlate,
