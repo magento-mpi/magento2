@@ -412,13 +412,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                 return;
             }
 
-            // set payment to quote
-            $result = array();
             $data = $this->getRequest()->getPost('payment', array());
-            if ($data && Mage::app()->getStore()->roundPrice($this->getOnepage()->getQuote()->getGrandTotal()) == 0) {
-                $data['method'] = 'free';
-            }
-
             $result = $this->getOnepage()->savePayment($data);
 
             // get section and redirect data
@@ -507,9 +501,11 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 
             $data = $this->getRequest()->getPost('payment', array());
             if ($data) {
-                if (Mage::app()->getStore()->roundPrice($this->getOnepage()->getQuote()->getGrandTotal()) == 0) {
-                    $data['method'] = 'free';
-                }
+                $data['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
+                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
+                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
+                    | Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+                    | Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }
 

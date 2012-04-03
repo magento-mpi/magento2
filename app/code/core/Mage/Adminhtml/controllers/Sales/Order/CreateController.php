@@ -242,9 +242,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->moveQuoteItem($moveItemId, $moveTo);
         }
 
-        /*if ($paymentData = $this->getRequest()->getPost('payment')) {
-            $this->_getOrderCreateModel()->setPaymentData($paymentData);
-        }*/
         if ($paymentData = $this->getRequest()->getPost('payment')) {
             $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
         }
