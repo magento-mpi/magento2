@@ -1181,7 +1181,12 @@ tr.summary-details-excluded { font-style:italic; }
 .cart-table .item-msg { margin:5px 0; font-size:11px; font-weight:bold; color:#df280a; }
 .cart-table tfoot tr { background:none !important; }
 .cart-table tfoot td { padding:15px 25px!important; background:transparent!important; text-align:left !important; }
+.cart-table tfoot .cart-buttons { float:left; }
+.cart-table tfoot button.btn-empty,
+.cart-table tfoot button.btn-update { float:right; margin-left:10px; }
+.cart-table tfoot button.btn-empty span,
 .cart-table tfoot button.btn-update span { border:0; background:none; padding:0 2px; font-size:12px; font-weight:normal; line-height:23px; text-transform:none; color:#214d90; }
+.cart-table tfoot button.btn-empty:hover span
 .cart-table tfoot button.btn-update:hover span { text-decoration:underline; }
 
 
