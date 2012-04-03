@@ -88,9 +88,10 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalDeveloperLogin()
     {
-        $this->goToArea('paypal_developer', 'paypal_developer_home');
         $loginData = array('login_email'     => $this->_configHelper->getDefaultLogin(),
                            'login_password'  => $this->_configHelper->getDefaultPassword());
+        $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+        $this->validatePage();
         if ($this->controlIsPresent('button', 'button_login')) {
             $this->fillForm($loginData);
             $this->clickButton('button_login', false);
