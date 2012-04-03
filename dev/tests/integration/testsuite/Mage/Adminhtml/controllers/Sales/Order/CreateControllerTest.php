@@ -40,10 +40,6 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
 
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1
-     * @magentoConfigFixture admin_store payment_services/centinel/processor_id 134-01
-     * @magentoConfigFixture admin_store payment_services/centinel/merchant_id magentoTEST
-     * @magentoConfigFixture admin_store payment_services/centinel/password mag3nt0T3ST
-     * @magentoConfigFixture admin_store payment_services/centinel/test_mode 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testIndexAction()
