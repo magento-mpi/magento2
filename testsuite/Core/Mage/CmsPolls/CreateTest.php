@@ -54,7 +54,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->admin();
+        $this->loginAdminUser();
         $this->navigate('poll_manager');
         $this->cmsPollsHelper()->closeAllPolls();
         $this->addParameter('id', '0');

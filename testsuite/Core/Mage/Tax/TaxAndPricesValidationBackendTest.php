@@ -47,6 +47,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->addParameter('id', '0');
     }
 

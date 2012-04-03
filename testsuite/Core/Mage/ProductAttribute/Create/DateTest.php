@@ -36,19 +36,12 @@
 class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * Preconditions:
      * Navigate to System -> Manage Attributes.
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_attributes');
         $this->addParameter('id', 0);
     }

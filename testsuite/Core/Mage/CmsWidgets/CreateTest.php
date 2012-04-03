@@ -35,13 +35,9 @@
  */
 class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
     protected function assertPreconditions()
     {
+        $this->loginAdminUser();
         $this->addParameter('id', '0');
     }
 

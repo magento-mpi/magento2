@@ -38,7 +38,7 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests()
+    public function assertPreConditions()
     {
         $this->loginAdminUser();
     }

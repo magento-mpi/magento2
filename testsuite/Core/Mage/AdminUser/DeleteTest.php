@@ -36,19 +36,12 @@
 class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * Log in to Backend.
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Permissions -> Users.</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_admin_users');
         $this->addParameter('id', '0');
     }

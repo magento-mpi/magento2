@@ -36,19 +36,12 @@
 class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog -> Manage Categories</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
     }

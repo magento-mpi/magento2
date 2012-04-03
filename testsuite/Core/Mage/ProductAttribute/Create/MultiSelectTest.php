@@ -36,19 +36,12 @@
 class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 {
     /**
-     * Log in to Backend.
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_attributes');
         $this->addParameter('id', 0);
     }

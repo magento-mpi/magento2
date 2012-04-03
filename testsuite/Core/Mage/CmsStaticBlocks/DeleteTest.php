@@ -36,19 +36,12 @@
 class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Static Blocks</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_cms_static_blocks');
         $this->addParameter('id', '0');
     }

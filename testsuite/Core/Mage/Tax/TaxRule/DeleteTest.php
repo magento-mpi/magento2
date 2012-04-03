@@ -36,19 +36,12 @@
 class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Sales->Tax->Manage Tax Zones&Rates</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_tax_rule');
     }
 
