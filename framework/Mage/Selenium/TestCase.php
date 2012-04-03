@@ -2711,6 +2711,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         foreach ($fillData['inFieldset'] as $fieldData) {
             $this->_fill($fieldData);
         }
+        return true;
     }
 
     /**
@@ -2731,24 +2732,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 . $this->getCurrentPage() . '" page');
         }
         $fillTabData = array();
-        $errorFiels = array();
+        $errorFields = array();
         foreach ($fieldsets as $fieldsetName) {
             $fillFieldsetData = $this->formFieldsetDataMap($data, $fieldsetName);
             if (isset($fillFieldsetData['inFieldset'])) {
                 $fillTabData = array_merge($fillTabData, $fillFieldsetData['inFieldset']);
             }
             if (isset($fillFieldsetData['outFieldset'])) {
-                $errorFiels = $fillFieldsetData['outFieldset'];
+                $errorFields = $fillFieldsetData['outFieldset'];
                 $data = $fillFieldsetData['outFieldset'];
             } else {
-                $errorFiels = array();
+                $errorFields = array();
                 break;
             }
         }
 
-        if (!empty($errorFiels) && $failIfFieldsWithoutXpath) {
+        if (!empty($errorFields) && $failIfFieldsWithoutXpath) {
             $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "'
-                . $tabId . '" fieldset:' . "\n" . implode("\n", array_keys($errorFiels));
+                . $tabId . '" fieldset:' . "\n" . implode("\n", array_keys($errorFields));
             $this->fail($message);
         }
 
@@ -2766,7 +2767,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws OutOfRangeException|PHPUnit_Framework_Exception
      * @deprecated
-     * @see fillTab() or _fillFieldset()
+     * @see fillTab() or fillFieldset()
      */
     public function fillForm($data, $tabId = '')
     {
@@ -2966,7 +2967,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->fillRadiobutton($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
                 break;
             case self::FIELD_TYPE_MULTISELECT:
-                $this->fillMultisect($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillMultiselect($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
                 break;
             case self::FIELD_TYPE_DROPDOWN:
                 $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
@@ -3026,11 +3027,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws PHPUnit_Framework_Exception
      * @deprecated
-     * @see fillMultisect()
+     * @see fillMultiselect()
      */
     protected function _fillFormMultiselect($fieldData)
     {
-        $this->fillMultisect('', $fieldData['value'], $fieldData['path']);
+        $this->fillMultiselect('', $fieldData['value'], $fieldData['path']);
     }
 
     /**
@@ -3042,18 +3043,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws RuntimeException
      */
-    protected function fillMultisect($name, $value, $xpath = null)
+    protected function fillMultiselect($name, $value, $xpath = null)
     {
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
-        $errorMessage = "Problem with multisect field '$name' and xpath '$xpath': ";
+        $errorMessage = "Problem with multiselect field '$name' and xpath '$xpath': ";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
 
                 $this->removeAllSelections($xpath);
                 //@TODO
-                $options = $this->getSelectOptions($xpath);
+                //$options = $this->getSelectOptions($xpath);
+                $valuesArray = array();
                 if (strtolower($value) == 'all') {
                     $count = $this->getXpathCount($xpath . '//option');
                     for ($i = 1; $i <= $count; $i++) {
@@ -3465,9 +3467,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function onNotSuccessfulTest(Exception $e)
     {
         if ($this->frameworkConfig['shareSession']) {
+            //Set 'shareSession' to false for stopping session
             $this->frameworkConfig['shareSession'] = false;
+            //Remove sessionId used for sharing session.
+            $this->shareSession(null);
             try {
-                $this->shareSession(null);
                 $this->stop();
             } catch (RuntimeException $_e) {
             }
