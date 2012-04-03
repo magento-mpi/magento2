@@ -102,7 +102,7 @@ class Api2_Catalog_Products_Images_CustomerTest extends Magento_Test_Webservice_
     public function testGet()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
-        $imageData = $imageData['update'];
+        $imageData = $imageData['data_set_1'];
 
         $pathPrefix = '/p/r/';
         /* @var $product Mage_Catalog_Model_Product */
