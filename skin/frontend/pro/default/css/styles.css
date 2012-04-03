@@ -1190,6 +1190,7 @@ tr.summary-details-excluded { font-style:italic; }
 .cart-table tfoot tr { background:none !important; }
 .cart-table tfoot td { padding:15px 25px!important; background:transparent!important; text-align:left !important; }
 .cart-table tfoot .cart-buttons { float:left; }
+.cart-table tfoot button.btn-continue { float:left; }
 .cart-table tfoot button.btn-empty,
 .cart-table tfoot button.btn-update { float:right; margin-left:10px; }
 .cart-table tfoot button.btn-empty span,
