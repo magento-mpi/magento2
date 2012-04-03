@@ -49,6 +49,11 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Create Simple Product for tests</p>
      *

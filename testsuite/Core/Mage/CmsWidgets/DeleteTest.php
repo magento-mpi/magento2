@@ -38,14 +38,14 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '0');
     }
 
     /**
      * <p>Preconditions</p>
      * <p>Creates Category to use during tests</p>
-     * @test
+     *
      * @return string
+     * @test
      */
     public function createCategory()
     {
@@ -64,20 +64,21 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * Create required products for testing
-     * @depends createCategory
-     * @test
      *
-     * @param $category
+     * @param string $category
+     *
+     * @return array
+     * @test
+     * @depends createCategory
      */
     public function createProducts($category)
     {
         $products = array();
         $productTypes = array('simple');
         $this->navigate('manage_products');
-        //Data
         foreach ($productTypes as $productType) {
-            $productData = $this->loadData($productType . '_product_required', array('categories' => $category),
-                                               array('general_name', 'general_sku'));
+            //Data
+            $productData = $this->loadData($productType . '_product_required', array('categories' => $category));
             //Steps
             $this->productHelper()->createProduct($productData, $productType);
             //Verifying
@@ -106,19 +107,23 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @depends createProducts
-     * @TestlinkId	TL-MAGE-3232
+     * @TestlinkId    TL-MAGE-3232
      */
     public function deleteAllTypesOfWidgets($dataWidgetType, $category, $products)
     {
-        $this->navigate('manage_cms_widgets');
-        $temp = array();
-        $temp['filter_sku'] = $products['sku']['simple'];
-        $temp['category_path'] = $category;
-        $widgetData = $this->loadData($dataWidgetType . '_widget_req', $temp, 'widget_instance_title');
-        $this->cmsWidgetsHelper()->createWidget($widgetData);
+        //Data
+        $widgetData = $this->loadData($dataWidgetType . '_widget_req',
+                                      array('filter_sku'  => $products['sku']['simple'],
+                                           'category_path'=> $category),
+                                      'widget_instance_title');
         $widgetToDelete = array('filter_type'  => $widgetData['settings']['type'],
                                 'filter_title' => $widgetData['frontend_properties']['widget_instance_title']);
+        //Steps
+        $this->navigate('manage_cms_widgets');
+        $this->cmsWidgetsHelper()->createWidget($widgetData);
+        $this->assertMessagePresent('success', 'successfully_saved_widget');
         $this->cmsWidgetsHelper()->deleteWidget($widgetToDelete);
+        $this->assertMessagePresent('success', 'successfully_deleted_widget');
     }
 
     public function widgetTypesReqDataProvider()
