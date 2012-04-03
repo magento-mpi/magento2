@@ -2,18 +2,14 @@
 /**
  * Files excluded from license notices replacement
  *
- * {license_notice}
+ * {license}
  *
- * @category    build
- * @package     license
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category build
+ * @package license
  */
 
 return array(
-    'app/code/core/*/*/etc/wsi.xml',
-    'app/code/core/*/*/etc/wsdl.xml',
-    'app/code/core/*/*/etc/wsdl2.xml',
+    'app/code/core/*/*/etc/{wsi,wsdl,wsdl2}.xml',
     'app/code/core/Zend',
     'app/design/frontend/default/iphone/skin/default/js/dnd.js',
     'app/design/frontend/enterprise/default/skin/default/js/jqzoom',
