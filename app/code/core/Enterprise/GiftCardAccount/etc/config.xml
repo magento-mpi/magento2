@@ -86,7 +86,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>enterprise_giftcardaccount/total_invoice_giftcardaccount</class>
-                        <after>grand_total</after>
+                        <after>discount,tax,grand_total,reward,giftwrapping</after>
                         <before>customerbalance</before>
                     </giftcardaccount>
                 </totals>
