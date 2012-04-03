@@ -1573,8 +1573,8 @@ configurable_product_related: &configurable_product_related
     websites: Main Website
     categories: Default Category
     associated_configurable_data:
-        associated_products_attribute_name_default: test
-        associated_products_attribute_name: test
+        associated_products_attribute_name_default: No
+        associated_products_attribute_name: attribute_name_%randomize%
         associated_configurable_1:
             associated_search_sku: %noValue%
 

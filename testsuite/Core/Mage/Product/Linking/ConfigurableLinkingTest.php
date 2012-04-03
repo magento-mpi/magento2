@@ -42,26 +42,32 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
                                            'configurable',
                                            'grouped');
 
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Preconditions</p>
      * <p>Create attribute</p>
      *
+     * @return array
      * @test
      */
     public function createAttribute()
     {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
+        //Data
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        $this->loginAdminUser();
+                                                array('General' => $attrData['attribute_code']));
+        //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->addParameter('attributeName', 'Default');
+        //$this->addParameter('attributeName', 'Default');
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
@@ -72,16 +78,19 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions</p>
      * <p>Create simple product for adding it to bundle and associated product</p>
      *
-     * @depends createAttribute
-     * @test
+     * @param array $attrData
+     *
      * @return string
+     * @test
+     * @depends createAttribute
      */
     public function createSimpleProductForBundle($attrData)
     {
-        $productData = $this->loadData('simple_product_visible', null, array('general_name','general_sku'));
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_1']['admin_option_name'];
-        $this->loginAdminUser();
+            $attrData['option_1']['admin_option_name'];
+        //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -93,23 +102,26 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions</p>
      * <p>Create products for linking in stock</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     *
+     * @return array
      * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
-     * @return array
      */
     public function createProductsForLinkingInStock($attrData, $simple)
     {
         $productsInStock = array();
+        $this->navigate('manage_products');
         foreach (self::$productTypes as $productType) {
-            $productData = $this->loadData($productType. '_product_related',
-                                               array('bundle_items_search_sku' => $simple,
-                                                     'configurable_attribute_title' => $attrData['admin_title'],
-                                                     'associated_search_sku' => $simple));
-            $this->loginAdminUser();
-            $this->navigate('manage_products');
+            $productData = $this->loadData($productType . '_product_related',
+                                           array('bundle_items_search_sku'     => $simple,
+                                                'configurable_attribute_title' => $attrData['admin_title'],
+                                                'associated_search_sku'        => $simple));
             $this->productHelper()->createProduct($productData, $productType);
             $this->assertMessagePresent('success', 'success_saved_product');
+
             $productsInStock[$productType]['general_name'] = $productData['general_name'];
             $productsInStock[$productType]['general_sku'] = $productData['general_sku'];
         }
@@ -120,22 +132,24 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions</p>
      * <p>Create products for linking out of stock</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     *
+     * @return array
      * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
-     * @return array
      */
     public function createProductsForLinkingOutOfStock($attrData, $simple)
     {
         $productsOutOfStock = array();
+        $this->navigate('manage_products');
         foreach (self::$productTypes as $productType) {
-            $productData = $this->loadData($productType. '_product_related',
-                                               array('bundle_items_search_sku' => $simple,
-                                                     'configurable_attribute_title' => $attrData['admin_title'],
-                                                     'associated_search_sku' => $simple,
-                                                     'inventory_stock_availability' => 'Out of Stock'));
-            $this->loginAdminUser();
-            $this->navigate('manage_products');
+            $productData = $this->loadData($productType . '_product_related',
+                                           array('bundle_items_search_sku'     => $simple,
+                                                'configurable_attribute_title' => $attrData['admin_title'],
+                                                'associated_search_sku'        => $simple,
+                                                'inventory_stock_availability' => 'Out of Stock'));
             $this->productHelper()->createProduct($productData, $productType);
             $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -150,26 +164,32 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock; Attach all types of products to the first one as related products</p>
+     * <p>1. Create 1 configurable product in stock;
+     *       Attach all types of products to the first one as related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Validate names of related products in "related products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product contains block with related products; Names of related products are correct</p>
+     * <p>Products are created, The configurable product contains block with related products;
+     *    Names of related products are correct</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsInStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingInStock
-     * @test
      */
     public function relatedInStock($attrData, $simple, $productsInStock)
     {
         $productData1 = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                        array('configurable_attribute_title' => $attrData['admin_title'],
+                                             'associated_search_sku'         => $simple));
         $productData2 = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                        array('configurable_attribute_title' => $attrData['admin_title'],
+                                             'associated_search_sku'         => $simple));
         $i = 1;
         foreach ($productsInStock as $prod) {
             if ($i % 2) {
@@ -179,18 +199,16 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
             }
 
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData1, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($productData2, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
         $i = 1;
-        $errors = array();
         foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
@@ -199,13 +217,11 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
             }
             $this->addParameter('productName', $prod['general_name']);
             if (!$this->controlIsPresent('link', 'related_product')) {
-                $errors[] = 'Related Product ' . $prod['general_name'] . ' is not on the page';
+                $this->addVerificationMessage('Related Product ' . $prod['general_name'] . ' is not on the page');
             }
             $i++;
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -213,46 +229,47 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock; Attach all types of products to the first one as related products</p>
+     * <p>1. Create 1 configurable product in stock;
+     *       Attach all types of products to the first one as related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page for the first product;</p>
      * <p>4. Check if the first product contains any related products;</p>
      * <p>Expected result:</p>
      * <p>Products are created, The configurable product does not contains any related products;</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsOutOfStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingOutOfStock
-     * @test
      */
     public function relatedOutOfStock($attrData, $simple, $productsOutOfStock)
     {
         $productData = $this->loadData('configurable_product_for_linking_products',
                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                            'associated_search_sku'         => $simple));
         $i = 1;
         foreach ($productsOutOfStock as $prod) {
             $productData['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
-        $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         foreach ($productsOutOfStock as $prod) {
             $this->addParameter('productName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'related_product')) {
-                $errors[] = 'Related Product ' . $prod['general_name'] . ' is on the page';
+                $this->addVerificationMessage('Related Product ' . $prod['general_name'] . ' is on the page');
             }
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -260,72 +277,73 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock;  Attach all types of products to the first one as cross-sell product</p>
+     * <p>1. Create 1 configurable product in stock;
+     *       Attach all types of products to the first one as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
      * <p>5. Validate names of cross-sell products in "cross-sell products block" in shopping cart;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product contains block with cross-sell products; Names of cross-sell products are correct</p>
+     * <p>Products are created, The configurable product contains block with cross-sell products;
+     *    Names of cross-sell products are correct</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsInStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingInStock
-     * @test
      */
     public function crossSellsInStock($attrData, $simple, $productsInStock)
     {
-        $productData1 = $this->loadData('configurable_product_for_linking_products',
+        $product1 = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
-        $productData2 = $this->loadData('configurable_product_for_linking_products',
+                                            'associated_search_sku'         => $simple));
+        $product2 = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                            'associated_search_sku'         => $simple));
+
         $i = 1;
         foreach ($productsInStock as $prod) {
             if ($i % 2) {
-                $productData1['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
+                $product1['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
             } else {
-                $productData2['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
+                $product2['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
             }
-
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData1, 'configurable');
+        $this->productHelper()->createProduct($product1, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($productData2, 'configurable');
+        $this->productHelper()->createProduct($product2, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
         $i = 1;
-        $errors = array();
         foreach ($productsInStock as $prod) {
             $this->addParameter('crosssellProductName', $prod['general_name']);
+            $chooseOption = array('custom_option_select_attribute' => $attrData['option_1']['store_view_titles']['Default Store View']);
             if ($i % 2) {
-                $this->productHelper()->frontOpenProduct($productData1['general_name']);
-                $this->addParameter('title', 'test');
-                $chooseOption = array('custom_option_select_attribute' => 'Dropdown_StoreView_1');
-                $this->fillForm($chooseOption);
-                $this->productHelper()->frontAddProductToCart();
+                $this->productHelper()->frontOpenProduct($product1['general_name']);
+                $param = $product1['associated_configurable_data']['associated_products_attribute_name'];
+                $this->addParameter('title', $param);
             } else {
-                $this->productHelper()->frontOpenProduct($productData2['general_name']);
-                $this->addParameter('title', 'test');
-                $chooseOption = array('custom_option_select_attribute' => 'Dropdown_StoreView_1');
-                $this->fillForm($chooseOption);
-                $this->productHelper()->frontAddProductToCart();
+                $this->productHelper()->frontOpenProduct($product2['general_name']);
+                $param = $product2['associated_configurable_data']['associated_products_attribute_name'];
+                $this->addParameter('title', $param);
             }
+            $this->fillForm($chooseOption);
+            $this->productHelper()->frontAddProductToCart();
             if (!$this->controlIsPresent('link', 'crosssell_product')) {
-                $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is not on the page';
+                $this->addVerificationMessage('Cross-sell Product ' . $prod['general_name'] . ' is not on the page');
             }
             $this->shoppingCartHelper()->frontClearShoppingCart();
             $i++;
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -333,51 +351,54 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable products in stock; Attach all types of products to the first one as cross-sell product</p>
+     * <p>1. Create 1 configurable products in stock;
+     *       Attach all types of products to the first one as cross-sell product</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Add product to shopping cart;</p>
      * <p>5. Validate that shopping cart page with the added product does not contains any cross-sell products;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product in the shopping cart does not contain the cross-sell products</p>
+     * <p>Products are created.
+     *    The configurable product in the shopping cart does not contain the cross-sell products</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsOutOfStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingOutOfStock
-     * @test
      */
     public function crossSellsOutOfStock($attrData, $simple, $productsOutOfStock)
     {
-        $productData = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+        $productData = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
+                                          array('configurable_attribute_title' => $attrData['admin_title'],
+                                               'associated_search_sku'         => $simple));
+        $param = $productData['associated_configurable_data']['associated_products_attribute_name'];
+        $chooseOption = array('custom_option_select_attribute' => $attrData['option_1']['store_view_titles']['Default Store View']);
         $i = 1;
         foreach ($productsOutOfStock as $prod) {
             $productData['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
-        $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->addParameter('title', 'test');
-        $chooseOption = array('custom_option_select_attribute' => 'Dropdown_StoreView_1');
+        $this->addParameter('title', $param);
         $this->fillForm($chooseOption);
         $this->productHelper()->frontAddProductToCart();
         foreach ($productsOutOfStock as $prod) {
             $this->addParameter('crosssellProductName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'crosssell_product')) {
-                $errors[] = 'Cross-sell Product ' . $prod['general_name'] . ' is on the page';
+                $this->addVerificationMessage('Cross-sell Product ' . $prod['general_name'] . ' is on the page');
             }
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -385,26 +406,32 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock; Attach all types of products to the first one as up-sell products</p>
+     * <p>1. Create 1 configurable product in stock;
+     *       Attach all types of products to the first one as up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
      * <p>4. Validate names of up-sell products in "up-sell products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product contains block with up-sell products; Names of up-sell products are correct</p>
+     * <p>Products are created. The configurable product contains block with up-sell products;
+     *    Names of up-sell products are correct</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsInStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingInStock
-     * @test
      */
     public function upSellsInStock($attrData, $simple, $productsInStock)
     {
         $productData1 = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                        array('configurable_attribute_title' => $attrData['admin_title'],
+                                             'associated_search_sku'         => $simple));
         $productData2 = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                        array('configurable_attribute_title' => $attrData['admin_title'],
+                                             'associated_search_sku'         => $simple));
         $i = 1;
         foreach ($productsInStock as $prod) {
             if ($i % 2) {
@@ -414,18 +441,16 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
             }
 
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData1, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($productData2, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
         $i = 1;
-        $errors = array();
         foreach ($productsInStock as $prod) {
             if ($i % 2) {
                 $this->productHelper()->frontOpenProduct($productData1['general_name']);
@@ -434,13 +459,11 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
             }
             $this->addParameter('productName', $prod['general_name']);
             if (!$this->controlIsPresent('link', 'upsell_product')) {
-                $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is not on the page';
+                $this->addVerificationMessage('Up-sell Product ' . $prod['general_name'] . ' is not on the page');
             }
             $i++;
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -448,45 +471,46 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
      * <p>Preconditions:</p>
      * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock; Attach all types of products to the first one as up-sell products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>4. Validate that product details page for the first product does not contain up-sell block with the products;</p>
+     * <p>1.Create 1 configurable product in stock;
+     *      Attach all types of products to the first one as up-sell products</p>
+     * <p>2.Navigate to frontend;</p>
+     * <p>3.Open product details page;</p>
+     * <p>4.Validate that product details page for the 1st product does not contain up-sell block with the products</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product details page does not contain any up-sell product</p>
+     * <p>Products are created. The configurable product details page does not contain any up-sell product</p>
      *
+     * @param array $attrData
+     * @param string $simple
+     * @param array $productsOutOfStock
+     *
+     * @test
      * @depends createAttribute
      * @depends createSimpleProductForBundle
      * @depends createProductsForLinkingOutOfStock
-     * @test
      */
     public function upSellsOutOfStock($attrData, $simple, $productsOutOfStock)
     {
         $productData = $this->loadData('configurable_product_for_linking_products',
                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku' => $simple));
+                                            'associated_search_sku'         => $simple));
         $i = 1;
         foreach ($productsOutOfStock as $prod) {
             $productData['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
         }
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
+
         $this->logoutCustomer();
-        $errors = array();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         foreach ($productsOutOfStock as $prod) {
             $this->addParameter('productName', $prod['general_name']);
             if ($this->controlIsPresent('link', 'upsell_product')) {
-                $errors[] = 'Up-sell Product ' . $prod['general_name'] . ' is on the page';
+                $this->addVerificationMessage('Up-sell Product ' . $prod['general_name'] . ' is on the page');
             }
         }
-        if (!empty($errors)) {
-            $this->fail(implode("\n", $errors));
-        }
+        $this->assertEmptyVerificationErrors();
     }
 }
