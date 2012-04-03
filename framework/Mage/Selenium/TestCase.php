@@ -3464,6 +3464,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function onNotSuccessfulTest(Exception $e)
     {
+        if ($this->frameworkConfig['shareSession']) {
+            $this->frameworkConfig['shareSession'] = false;
+            try {
+                $this->shareSession(null);
+                //$this->stop();
+            } catch (RuntimeException $_e) {
+            }
+            $this->frameworkConfig['shareSession'] = true;
+        }
         throw $e;
     }
 }
