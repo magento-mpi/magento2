@@ -75,6 +75,25 @@
             </enterprise_search_setup>
         </resources>
 
+        <events>
+            <catalogsearch_index_process_start>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>holdCommit</method>
+                    </enterprise_search>
+                </observers>
+            </catalogsearch_index_process_start>
+
+            <catalogsearch_index_process_complete>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>applyIndexChanges</method>
+                    </enterprise_search>
+                </observers>
+            </catalogsearch_index_process_complete>
+        </events>
     </global>
 
     <admin>
@@ -106,24 +125,6 @@
                     </enterprise_search>
                 </observers>
             </adminhtml_catalog_product_attribute_edit_prepare_form>
-
-            <catalogsearch_index_process_start>
-                <observers>
-                    <enterprise_search>
-                        <class>enterprise_search/observer</class>
-                        <method>holdCommit</method>
-                    </enterprise_search>
-                </observers>
-            </catalogsearch_index_process_start>
-
-            <catalogsearch_index_process_complete>
-                <observers>
-                    <enterprise_search>
-                        <class>enterprise_search/observer</class>
-                        <method>applyIndexChanges</method>
-                    </enterprise_search>
-                </observers>
-            </catalogsearch_index_process_complete>
 
             <catelogsearch_searchable_attributes_load_after>
                 <observers>
