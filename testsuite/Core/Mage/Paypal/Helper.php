@@ -61,7 +61,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function validatePage($page = '')
     {
         if ($page) {
-            $this->assertTrue($this->checkCurrentPage($page), $this->getParsedMessages('verification'));
+            $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
@@ -99,6 +99,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $this->waitForElementPresent("//*[@id='nav-menu']");
             $this->validatePage();
         }
+        $result = $this->errorMessage();
+        $this->assertFalse($result['success'], $this->getMessagesOnPage());
     }
 
     /**
@@ -120,6 +122,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->fillForm($parameters);
         $this->clickButton('create_account', false);
         $this->waitForNewPage();
+        $this->assertMessagePresent('success');
         $this->validatePage('developer_created_test_account_us');
 
         return $this->getPaypalSandboxAccountInfo($parameters);

@@ -1047,12 +1047,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement', 'fieldNameWithValidationMessage');
+        $area = $this->getArea();
+        if ($area == 'admin' || $area == 'froontend') {
+            $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement', 'fieldNameWithValidationMessage');
+            self::$_messages['notice'] = $this->getElementsByXpath($this->_getMessageXpath('general_notice'));
+            self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'),
+                                                                       'text', $fieldNameWithValidationMessage);
+        } else {
+            self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'));
+        }
         self::$_messages['success'] = $this->getElementsByXpath($this->_getMessageXpath('general_success'));
-        self::$_messages['notice'] = $this->getElementsByXpath($this->_getMessageXpath('general_notice'));
         self::$_messages['error'] = $this->getElementsByXpath($this->_getMessageXpath('general_error'));
-        self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'),
-                                                                   'text', $fieldNameWithValidationMessage);
     }
 
     /**
