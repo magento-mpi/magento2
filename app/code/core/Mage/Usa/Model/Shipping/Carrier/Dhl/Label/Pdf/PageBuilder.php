@@ -107,7 +107,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * Add Border
      *
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
-     * @throws Zend_Pdf_Exception
      */
     public function addBorder()
     {
@@ -163,7 +162,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @param string $name
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      * @throws InvalidArgumentException
-     * @throws Zend_Pdf_Exception
      */
     public function addProductName($name)
     {
@@ -182,7 +180,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param string $code
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
-     * @throws Zend_Pdf_Exception
      * @throws InvalidArgumentException
      */
     public function addProductContentCode($code)
@@ -221,7 +218,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
      *
      * @param int $id
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
-     * @throws Zend_Pdf_Exception
      */
     public function addUnitId($id)
     {
