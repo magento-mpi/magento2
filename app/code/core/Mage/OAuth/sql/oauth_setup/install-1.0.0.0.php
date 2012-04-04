@@ -33,17 +33,17 @@ $table = $adapter->newTable($installer->getTable('oauth_consumer'))
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
             'nullable' => true
         ), 'Updated At')
-    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
             'nullable' => false
         ), 'Name of consumer')
-    ->addColumn('key', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_OAuth_Model_Consumer::KEY_LENGTH, array(
+    ->addColumn('key', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_OAuth_Model_Consumer::KEY_LENGTH, array(
             'nullable' => false
         ), 'Key code')
-    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_VARCHAR, Mage_OAuth_Model_Consumer::SECRET_LENGTH, array(
+    ->addColumn('secret', Varien_Db_Ddl_Table::TYPE_TEXT, Mage_OAuth_Model_Consumer::SECRET_LENGTH, array(
             'nullable' => false
         ), 'Secret code')
-    ->addColumn('callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(), 'Callback URL')
-    ->addColumn('rejected_callback_url', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+    ->addColumn('callback_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Callback URL')
+    ->addColumn('rejected_callback_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
             'nullable'  => false
         ), 'Rejected callback URL')
     ->addIndex(
@@ -159,7 +159,7 @@ $adapter->createTable($table);
  * Create table 'oauth_nonce
  */
 $table = $adapter->newTable($installer->getTable('oauth_nonce'))
-    ->addColumn('nonce', Varien_Db_Ddl_Table::TYPE_VARCHAR, 32, array(
+    ->addColumn('nonce', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable' => false
         ), 'Nonce String')
     ->addColumn('timestamp', Varien_Db_Ddl_Table::TYPE_INTEGER, 10, array(

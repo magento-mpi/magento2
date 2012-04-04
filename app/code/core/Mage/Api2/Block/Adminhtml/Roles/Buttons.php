@@ -106,7 +106,7 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
             return '';
         }
 
-        $this->getChild('deleteButton')->setData('onclick', sprintf("deleteConfirm('%s', '%s')",
+        $this->getChildBlock('deleteButton')->setData('onclick', sprintf("deleteConfirm('%s', '%s')",
             Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?'),
             $this->getUrl('*/*/delete', array('id' => $this->getRole()->getId()))
         ));

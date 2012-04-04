@@ -109,8 +109,11 @@ class Mage_Api2_Adminhtml_Api2_RoleController extends Mage_Adminhtml_Controller_
         $tabs = $this->getLayout()->getBlock('adminhtml.role.edit.tabs');
         $tabs->setRole($role);
         /** @var $child Mage_Adminhtml_Block_Template */
-        foreach ($tabs->getChild() as $child) {
-            $child->setData('role', $role);
+        foreach ($tabs->getChildNames() as $childName) {
+            $child = $this->getLayout()->getBlock($childName);
+            if ($child) {
+                $child->setData('role', $role);
+            }
         }
 
         /** @var $buttons Mage_Api2_Block_Adminhtml_Roles_Buttons */

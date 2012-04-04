@@ -35,7 +35,7 @@ $table = $adapter->newTable($installer->getTable('api2_acl_role'))
         array(
             'nullable'  => true
         ), 'Updated At')
-    ->addColumn('role_name', Varien_Db_Ddl_Table::TYPE_VARCHAR,
+    ->addColumn('role_name', Varien_Db_Ddl_Table::TYPE_TEXT,
         255, array('nullable'  => false), 'Name of role')
     ->addIndex($installer->getIdxName('api2_acl_role', array('created_at')), array('created_at'))
     ->addIndex($installer->getIdxName('api2_acl_role', array('updated_at')), array('updated_at'))
@@ -136,13 +136,13 @@ $table = $adapter->newTable($installer->getTable('api2_acl_attribute'))
             'nullable' => false,
             'primary'  => true,
         ), 'Entity ID')
-    ->addColumn('user_type', Varien_Db_Ddl_Table::TYPE_VARCHAR, 20, array(
+    ->addColumn('user_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
             'nullable' => false
         ), 'Type of user')
-    ->addColumn('resource_id', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+    ->addColumn('resource_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
             'nullable' => false
         ), 'Resource ID')
-    ->addColumn('operation', Varien_Db_Ddl_Table::TYPE_VARCHAR, 20, array(
+    ->addColumn('operation', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
             'nullable' => false
         ), 'Operation')
     ->addColumn('allowed_attributes', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(

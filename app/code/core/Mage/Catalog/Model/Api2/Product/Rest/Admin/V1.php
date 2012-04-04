@@ -278,7 +278,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
         }
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store
             if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())

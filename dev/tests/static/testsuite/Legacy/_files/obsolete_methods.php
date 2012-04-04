@@ -167,7 +167,7 @@ return array(
     'getBaseTaxAmount' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
     'getCheckoutMehod' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
     'getChild' => array('directory' => 'app', 'suggestion' => 'Mage_Core_Block_Abstract::getChildBlock()'),
-    'getChildGroup',
+    'getChildGroup' => array('suggestion' => 'Mage_Core_Block_Abstract::getGroupChildNames()'),
     'getConfig' => array('class_scope' => 'Mage_Eav_Model_Entity_Attribute_Abstract'),
     'getCustomerData' => array('class_scope' => 'Mage_Adminhtml_Block_Sales_Order_Create_Form_Account'),
     'getDataForSave' => array('class_scope' => 'Mage_Wishlist_Model_Item'),

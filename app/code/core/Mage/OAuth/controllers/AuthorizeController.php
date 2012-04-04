@@ -56,11 +56,11 @@ class Mage_OAuth_AuthorizeController extends Mage_Core_Controller_Front_Action
         if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
             /** @var $block Mage_OAuth_Block_Authorize_Button */
-            $block = $contentBlock->getChild('oauth.authorize.button');
+            $block = $contentBlock->getChildBlock('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
             /** @var $block Mage_OAuth_Block_Authorize */
-            $block = $contentBlock->getChild('oauth.authorize.form');
+            $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
         if ($simple) {

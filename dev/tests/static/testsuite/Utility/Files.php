@@ -99,12 +99,15 @@ class Utility_Files
 
             $files = array();
             if ($appCode) {
-                $files = array_merge($files, glob($this->_path . '/app/*.php', GLOB_NOSORT | GLOB_BRACE),
+                $files = array_merge(
+                    glob($this->_path . '/app/*.php', GLOB_NOSORT),
                     self::_getFiles(array("{$this->_path}/app/code/{$pool}/{$namespace}/{$module}"), '*.php')
                 );
             }
             if ($otherCode) {
-                $files = array_merge($files, glob($this->_path . '/pub/*.php', GLOB_NOSORT | GLOB_BRACE),
+                $files = array_merge($files,
+                    glob($this->_path . '/*.php', GLOB_NOSORT),
+                    glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                     self::_getFiles(array("{$this->_path}/downloader"), '*.php'),
                     self::_getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
                 );

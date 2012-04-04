@@ -72,8 +72,8 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
                 ->addUrlRewrite()
                 ->setActiveFilter();
             Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_productCollection);
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->addVisibleInSiteFilterToCollection(
-                $this->_productCollection
+            $this->_productCollection->setVisibility(
+                Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
             );
         }
 

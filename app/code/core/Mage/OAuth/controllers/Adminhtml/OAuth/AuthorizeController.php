@@ -32,7 +32,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
     /**
      * Disable showing of login form
      *
-     * @see Mage_Admin_Model_Observer::actionPreDispatchAdmin() method for explanation
+     * @see Mage_Adminhtml_Model_Observer::actionPreDispatchAdmin() method for explanation
      * @return void
      */
     public function preDispatch()
@@ -100,11 +100,11 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
             /** @var $block Mage_OAuth_Block_Adminhtml_OAuth_Authorize_Button */
-            $block = $contentBlock->getChild('oauth.authorize.button');
+            $block = $contentBlock->getChildBlock('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
             /** @var $block Mage_OAuth_Block_Adminhtml_OAuth_Authorize */
-            $block = $contentBlock->getChild('oauth.authorize.form');
+            $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
         if ($simple) {
@@ -136,7 +136,7 @@ class Mage_OAuth_Adminhtml_OAuth_AuthorizeController extends Mage_Adminhtml_Cont
         $this->loadLayout();
 
         /** @var $block Mage_OAuth_Block_Adminhtml_OAuth_Authorize */
-        $block = $this->getLayout()->getBlock('content')->getChild('oauth.authorize.confirm');
+        $block = $this->getLayout()->getBlock('content')->getChildBlock('oauth.authorize.confirm');
         $block->setIsSimple($simple);
 
         try {

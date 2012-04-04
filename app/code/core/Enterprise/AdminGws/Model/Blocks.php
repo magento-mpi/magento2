@@ -1258,7 +1258,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function disableRmaAttributeDeleteOptionButton($observer)
     {
-        $deleteButton = $observer->getEvent()->getBlock()->getChild('delete_button');
+        $deleteButton = $observer->getEvent()->getBlock()->getChildBlock('delete_button');
 
         if ($deleteButton) {
             $deleteButton->setDisabled(true);
