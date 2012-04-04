@@ -39,6 +39,42 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
     }
 
     /**
+     * @dataProvider loadBlockActionsDataProvider
+     */
+    public function testLoadBlockActions($block, $expected)
+    {
+        $this->getRequest()->setParam('block', $block);
+        $this->getRequest()->setParam('json', 1);
+        $this->dispatch('admin/sales_order_create/loadBlock');
+        $html = $this->getResponse()->getBody();
+        $this->assertContains($expected, $html);
+    }
+
+    public function loadBlockActionsDataProvider()
+    {
+        return array(
+            'shipping_method' => array('shipping_method', 'id=\"shipping-method-overlay\"'),
+            'billing_method' => array('billing_method', '<div id=\"order-billing_method_form\">'),
+            'newsletter' => array('newsletter', 'name=\"newsletter:subscribe\"'),
+            'search' => array('search', '<div id=\"sales_order_create_search_grid\">'),
+            'search_grid' => array('search', '<div id=\"sales_order_create_search_grid\">'),
+        );
+    }
+
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testLoadBlockActionItems()
+    {
+        Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
+        $this->getRequest()->setParam('block', 'items');
+        $this->getRequest()->setParam('json', 1);
+        $this->dispatch('admin/sales_order_create/loadBlock');
+        $html = $this->getResponse()->getBody();
+        $this->assertContains('id=\"coupons:code\"', $html);
+    }
+
+    /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
