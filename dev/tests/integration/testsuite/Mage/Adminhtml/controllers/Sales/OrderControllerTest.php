@@ -28,4 +28,15 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
         $this->dispatch('admin/sales_order/index');
         $this->assertContains('Total 1 records found', $this->getResponse()->getBody());
     }
+
+    /**
+     * @magentoDataFixture Mage/Sales/_files/order.php
+     */
+    public function testOrderViewAction()
+    {
+        $order = new Mage_Sales_Model_Order;
+        $order->load('100000001', 'increment_id');
+        $this->dispatch('admin/sales_order/view/order_id/' . $order->getId());
+        $this->assertContains('Los Angeles', $this->getResponse()->getBody());
+    }
 }

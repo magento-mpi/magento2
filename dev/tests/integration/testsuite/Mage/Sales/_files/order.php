@@ -9,17 +9,7 @@
  * @license     {license_link}
  */
 
-$billingAddress = new Mage_Sales_Model_Order_Address();
-$billingAddress->setRegion('CA')
-    ->setPostcode('11111')
-    ->setFirstname('firstname')
-    ->setLastname('lastname')
-    ->setStreet('street')
-    ->setCity('Los Angeles')
-    ->setEmail('admin@example.com')
-    ->setTelephone('1111111111')
-    ->setCountryId('US')
-    ->setAddressType('billing');
+$billingAddress = Mage_Sales_Utility_Address::getAddress('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)

@@ -74,12 +74,12 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     /**
      * Get HTML output for specified address
      *
-     * @param Mage_Sales_Model_Quote_Address
+     * @param $address Mage_Sales_Model_Quote_Address
      * @return string
      */
     public function renderAddress($address)
     {
-        return $address->getFormated(true);
+        return $address->format('html');
     }
 
     /**

@@ -178,7 +178,9 @@ return array(
     'getEntityTypeIdsToTypes' => array('class_scope' => 'Mage_Rss_Model_Resource_Order'),
     'getFacets',
     'getFallbackTheme',
-    'getFormated' => array('class_scope' => 'Mage_Customer_Model_Address_Abstract'),
+    'getFormated' => array(
+        'suggestion' => 'getFormated(true) -> format(\'html\'), getFormated() -> format(\'text\')'
+    ),
     'getFormObject' => array('class_scope' => 'Mage_Adminhtml_Block_Widget_Form'),
     'getGiftmessageHtml' => array('class_scope' => 'Mage_Adminhtml_Block_Sales_Order_View_Tab_Info'),
     'getHtmlFormat' => array('class_scope' => 'Mage_Customer_Model_Address_Abstract'),
