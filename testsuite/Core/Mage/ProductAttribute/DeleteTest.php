@@ -110,8 +110,8 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     {
         $searchData = $this->loadData('attribute_search_data',
                 array(
-                    'attribute_code'  => 'price',
-                    'attribute_lable' => 'Price',
+                    'attribute_code'  => 'description',
+                    'attribute_lable' => 'Description',
                     'system'          => 'Yes'
                 ));
         //Steps

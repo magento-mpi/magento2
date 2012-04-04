@@ -509,7 +509,7 @@ new_product:
                         fieldsets:
                             -
                                 downloadable_info:
-                                    xpath: //dl[@id='downloadableInfo']
+                                    xpath: //dl[contains(@id,'downloadableInfo')]
                                     links:
                                         downloadable_sample: //*[@id='dt-samples']/a
                                         downloadable_link: //*[@id='dt-links']/a
