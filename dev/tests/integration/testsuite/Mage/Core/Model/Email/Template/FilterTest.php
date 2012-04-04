@@ -97,7 +97,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
             'layout',
             ' ' . $directiveParams,
         ));
-        $this->assertEquals($expectedOutput, $actualOutput);
+        $this->assertEquals($expectedOutput, trim($actualOutput));
     }
 
     public function layoutDirectiveDataProvider()
@@ -121,8 +121,8 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
             ),
             'custom parameter' => array(
                 'frontend',
-                'handle="email_template_test_handle" text="Some Custom Text"',
-                'Some Custom Text',
+                'handle="email_template_test_handle" template="sample_email_content_custom.phtml"',
+                'Custom E-mail content for frontend/test/default theme',
             ),
         );
         return $result;

@@ -61,8 +61,11 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testGetArea()
     {
-        $this->_block->setArea('value');
-        $this->assertEquals('value', $this->_block->getArea());
+        $this->assertEmpty($this->_block->getArea());
+        $this->_block->setLayout(new Mage_Core_Model_Layout(array('area' => 'some_area')));
+        $this->assertEquals('some_area', $this->_block->getArea());
+        $this->_block->setArea('another_area');
+        $this->assertEquals('another_area', $this->_block->getArea());
     }
 
     /**
