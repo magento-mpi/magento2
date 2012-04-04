@@ -65,6 +65,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mag
         return $this->getChildHtml('setForm');
     }
 
+    /**
+     * Return id of form, used by this block
+     *
+     * @return string
+     */
     protected function getFormId()
     {
         return $this->getChildBlock('setForm')->getForm()->getId();
