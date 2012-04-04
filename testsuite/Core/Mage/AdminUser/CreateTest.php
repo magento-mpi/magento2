@@ -93,7 +93,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->getParsedMessages());
 
         return $userData;
     }
