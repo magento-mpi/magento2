@@ -54,21 +54,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             $this->assertContains('::', $action->getAtrtibute('helper'));
         }
 
-        $insertErrors = array();
-        foreach ($layoutXml->xpath('//action[(@method="insert" or @method="append")]') as $action) {
-            $children = $action->children();
-            $attributes = $action->attributes();
-            if (isset($children->block)) {
-                $insertErrors[] = "'block' node is obsolete for '{$attributes['method']}' action in '$layoutFile'."
-                    . " Use 'element' node instead.";
-            } elseif (!isset($children->element)) {
-                $insertErrors[] = "Element is not specified for '{$attributes['method']}' action in '$layoutFile'.";
-            }
-        }
-        if (!empty($insertErrors)) {
-            $this->fail(join("\n", $insertErrors));
-        }
-
         if (false !== strpos($layoutFile, 'app/code/core/Mage/Adminhtml/view/adminhtml/sales.xml')) {
             $this->markTestIncomplete("The file {$layoutFile} has to use Mage_Core_Block_Text_List, \n"
                 . 'there is no solution to get rid of it right now.'

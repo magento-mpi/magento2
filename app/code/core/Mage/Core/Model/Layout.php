@@ -181,17 +181,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         foreach ($removeInstructions as $infoNode) {
             $attributes = $infoNode->attributes();
             $blockName = (string)$attributes->name;
-            $ignoreNodes = array();
-            $ignoreXpaths = array(
-                "//block[@name='" . $blockName . "']",
-                "//reference[@name='" . $blockName . "']",
-                "//action[(@method='insert' or @method='append') and element='$blockName']"
-            );
-            foreach ($ignoreXpaths as $xpath) {
-                $ignore = $xml->xpath($xpath);
-                if ($ignore) {
-                    $ignoreNodes = array_merge($ignoreNodes, $ignore);
-                }
+            $xpath = "//block[@name='" . $blockName . "']"
+                . " | //reference[@name='" . $blockName . "']"
+                . " | //action[(@method='insert' or @method='append') and *[position()=1 and text()='$blockName']]";
+            $ignoreNodes = $xml->xpath($xpath);
+            if (!$ignoreNodes) {
+                continue;
             }
 
             foreach ($ignoreNodes as $block) {

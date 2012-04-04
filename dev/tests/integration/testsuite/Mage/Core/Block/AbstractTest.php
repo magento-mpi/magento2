@@ -356,8 +356,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($parent->insert($name));
         $this->assertFalse($layout->hasElement($name));
         $layout->insertContainer('', $name);
-        $parent->insert($name);
-        $this->assertTrue($layout->hasElement($name));
+        $this->assertInstanceOf('Mage_Core_Block_Abstract', $parent->insert($name));
     }
 
     public function testAppend()
