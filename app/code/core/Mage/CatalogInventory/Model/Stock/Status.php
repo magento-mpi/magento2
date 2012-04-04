@@ -205,13 +205,9 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     public function assignProduct(Mage_Catalog_Model_Product $product, $stockId = 1, $stockStatus = null)
     {
         if (is_null($stockStatus)) {
-            if (is_null($product->getStockItem())) {
-                $websiteId = $product->getStore()->getWebsiteId();
-                $status = $this->getProductStatus($product->getId(), $websiteId, $stockId);
-                $stockStatus = isset($status[$product->getId()]) ? $status[$product->getId()] : null;
-            } else {
-                $stockStatus = $product->getStockItem()->getStockStatus();
-            }
+            $websiteId = $product->getStore()->getWebsiteId();
+            $status = $this->getProductStatus($product->getId(), $websiteId, $stockId);
+            $stockStatus = isset($status[$product->getId()]) ? $status[$product->getId()] : null;
         }
 
         $product->setIsSalable($stockStatus);
