@@ -452,7 +452,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
 
-        $refCode = $data->getIncrementId();
+        $refCode = $data->getOrder()->getIncrementId();
         if (!$refCode) {
             throw new InvalidArgumentException(Mage::helper('usa')->__('Reference code is missing'));
         }
