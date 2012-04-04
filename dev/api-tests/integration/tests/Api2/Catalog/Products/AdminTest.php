@@ -1268,9 +1268,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Test product resource post with all fields
-     *
-     * @param array $productData
+     * Test product resource post with all fields and check media attributes were saved
      */
     public function testPostMediaAttributesDefaultValue()
     {
