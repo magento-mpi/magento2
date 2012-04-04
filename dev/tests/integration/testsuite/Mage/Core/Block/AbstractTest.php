@@ -349,14 +349,16 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testInsertContainer()
     {
+        $parentName = 'parent';
         $name = 'container';
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout($parentName, $parentName);
         $layout = $parent->getLayout();
 
         $this->assertFalse($parent->insert($name));
-        $this->assertFalse($layout->hasElement($name));
+        $this->assertEmpty($layout->getChildNames($parentName));
         $layout->insertContainer('', $name);
-        $this->assertInstanceOf('Mage_Core_Block_Abstract', $parent->insert($name));
+        $parent->insert($name);
+        $this->assertEquals(array($name), $layout->getChildNames($parentName));
     }
 
     public function testAppend()
