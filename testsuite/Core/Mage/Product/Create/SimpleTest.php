@@ -629,7 +629,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $searchAttr = $this->loadData('attribute_search_data',
                                       array('attribute_code' => $data['attr']['attribute_code']));
-        $simple = array('general_weight' => '3,21',
+        $simple = array('general_weight' => '3.21',
                         'general_sku'    => $this->generate('string', 15, ':alnum:'));
         $simple['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
             $data['attr']['option_3']['admin_option_name'];
