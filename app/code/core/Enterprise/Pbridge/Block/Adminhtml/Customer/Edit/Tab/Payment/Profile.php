@@ -104,7 +104,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     protected function _isProfileEnable()
     {
-        return Mage::getStoreConfigFlag('payment/pbridge/profilestatus');
+        return Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
     }
 
     /**
@@ -123,7 +123,9 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getSourceUrl()
     {
-        return Mage::helper('enterprise_pbridge')->getPaymentProfileUrl(
+        $helper = Mage::helper('enterprise_pbridge');
+        $helper->setStoreId($this->_getCurrentStore()->getId());
+        return $helper->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => null,
@@ -146,5 +148,15 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
         }
 
         return null;
+    }
+
+    /**
+     * Return store for current context
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getCurrentStore()
+    {
+        return $this->_getCurrentCustomer()->getStore();
     }
 }
