@@ -49,6 +49,11 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreconditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Creating Simple product</p>
      *
