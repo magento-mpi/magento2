@@ -35,17 +35,13 @@
  */
 class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->addParameter('id', '0');
     }

@@ -310,7 +310,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function frontClearShoppingCart()
     {
-        if ($this->getArea() == 'frontend' && !$this->isElementPresent("//a[text()='My Cart']")) {
+        if ($this->getArea() == 'frontend' && !$this->controlIsPresent('link', 'empty_my_cart')) {
             $this->frontend('shopping_cart');
             $productLine = $this->_getControlXpath('pageelement', 'product_line');
             $productCount = $this->getXpathCount($productLine);

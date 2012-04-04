@@ -420,44 +420,4 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
         //Verifying
         $this->assertMessagePresent('success', 'success_voided_order');
     }
-
-    /**
-     * <p>Create Orders using solo card</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Press 'Add Products' button.</p>
-     * <p>6.Add simple product.</p>
-     * <p>7.Fill all required fields in billing address form.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check shipping method</p>
-     * <p>10.Check payment method</p>
-     * <p>11.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @param string $sku
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-5387
-     */
-    public function orderWithSoloCard($sku)
-    {
-        //Data
-        $cardData = $this->loadDataSet('SalesOrder', 'else_solo');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirectuk_flatrate',
-                                        array('filter_sku'   => $sku,
-                                              'payment_info' => $cardData));
-        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_without_3Dsecure');
-        //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($settings);
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_order');
-    }
 }

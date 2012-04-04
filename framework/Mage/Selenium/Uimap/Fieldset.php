@@ -66,4 +66,20 @@ class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
             }
         }
     }
+
+    /**
+     * Get Fieldset elements
+     * @return array
+     */
+    public function getFieldsetElements()
+    {
+        $elementsArray = array();
+        foreach ($this->_elements as $elementType => $elementData) {
+            foreach ($elementData as $elementName => $elementValue) {
+                $type = preg_replace('/(e)?s$/', '', $elementType);
+                $elementsArray[$type][$elementName] = $elementValue;
+            }
+        }
+        return $elementsArray;
+    }
 }

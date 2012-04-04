@@ -145,7 +145,7 @@ new_customer:
     last_name: 'Stevenson'
     suffix: 'Jr'
     email: 'test_purpose@example.com'
-    date_of_birth: 01/01/1976
+    date_of_birth: 12/31/76
     tax_vat_number: '123123'
     gender: 'Male'
     send_welcome_email: No
@@ -295,10 +295,12 @@ downloadable_product_for_order:
     inventory_manage_stock: Yes
     inventory_qty: 120
     inventory_stock_availability: In Stock
+    categories: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
     downloadable_information_data:
         downloadable_links_purchased_separately: Yes
+        downloadable_links_title: Links Title
         downloadable_link_1:
             downloadable_link_row_title: Link Row Title
             downloadable_link_row_price: 12
@@ -322,6 +324,7 @@ grouped_product_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
+    categories: %noValue%
     websites: Main Website
     associated_grouped_data:
         associated_grouped_1:
@@ -348,6 +351,7 @@ fixed_bundle_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
+    categories: %noValue%
     websites: Main Website
     bundle_items_data:
         ship_bundle_items: Separately
@@ -403,6 +407,7 @@ configurable_product_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
+    categories: %noValue%
     websites: Main Website
     associated_configurable_data:
         associated_configurable_1:

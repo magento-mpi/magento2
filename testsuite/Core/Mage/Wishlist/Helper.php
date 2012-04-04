@@ -55,12 +55,16 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
      *
      * @param string $productName
      * @param string $categoryPath
+     * @param array $options
      */
-    public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null)
+    public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null, $options = array())
     {
         $this->productHelper()->frontOpenProduct($productName, $categoryPath);
+        if (!empty($options)) {
+            $this->productHelper()->frontFillBuyInfo($options);
+        }
         $this->addParameter('productName', $productName);
-        $this->clickControl('link', 'add_to_wishlist');
+        $this->clickControlAndWaitMessage('link', 'add_to_wishlist');
     }
 
     /**
@@ -137,13 +141,13 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
      * @param string $productName Product name (string)
      * @param array $productOptions Options to be filled
      */
-    public function frontAddToShoppingCart($productName, $productOptions = array())
+    public function frontAddToShoppingCartFromWishlist($productName, $productOptions = array())
     {
         $this->addParameter('productName', $productName);
         $this->navigate('my_wishlist');
         if ($this->buttonIsPresent('add_to_cart')) {
             $this->clickButton('add_to_cart');
-            if ($this->getCurrentPage() == 'wishlist_configure_product') {
+            if ($this->getCurrentPage() == 'wishlist_configure_product' && !empty($productOptions)) {
                 $this->productHelper()->frontFillBuyInfo($productOptions);
                 $this->clickButton('add_to_cart');
             }

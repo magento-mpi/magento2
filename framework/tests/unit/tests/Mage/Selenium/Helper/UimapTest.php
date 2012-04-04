@@ -68,6 +68,42 @@ class Mage_Selenium_Helper_UimapTest extends Mage_PHPUnit_TestCase
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
+     * @expectedException OutOfRangeException
+     * @expectedExceptionMessage catalog_product/new/set/9/type/simple" in "admin" area
+     */
+    public function testGetUimapPageByMcaWithParamNegative()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uimapHelper->getUimapPageByMca('admin', 'catalog_product/new/set/9/type/simple/',
+                                        $this->_config->getHelper('params'));
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
+     */
+    public function testGetUimapPageByMcaWithParam()
+    {
+        $this->_config->getHelper('params')->setParameter('setId', 9);
+        $this->_config->getHelper('params')->setParameter('productType', 'simple');
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPageByMca('admin', 'catalog_product/new/set/9/type/simple/',
+                                                  $this->_config->getHelper('params'));
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
+     */
+    public function testGetUimapPageByMcaForPaypal()
+    {
+        $uimapHelper = $this->_config->getHelper('uimap');
+        $uipage = $uimapHelper->getUimapPageByMca('paypal_developer',
+                                                  'cgi-bin/devscr?__track=_home:login/main:_login-submit');
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+    }
+
+    /**
+     * @covers Mage_Selenium_Helper_Uimap::getUimapPageByMca
      */
     public function testGetUimapPageByMcaWrongPageException()
     {

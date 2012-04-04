@@ -36,19 +36,12 @@
 class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Promotions -> Catalog Price Rules</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_catalog_price_rules');
     }
 

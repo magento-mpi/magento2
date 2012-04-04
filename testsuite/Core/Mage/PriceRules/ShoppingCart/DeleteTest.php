@@ -36,19 +36,12 @@
 class Core_Mage_PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Manage Shopping Cart Price Rules</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_shopping_cart_price_rules');
         $this->addParameter('id', '0');
     }

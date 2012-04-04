@@ -36,19 +36,12 @@
 class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->addParameter('id', '0');
     }
@@ -594,9 +587,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $simpleData = $this->loadData('simple_product_required');
-        $bundleData = $this->loadData($dataBundleType);
-        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-                                                                     array('bundle_items_search_sku' => $simpleData['general_sku']));
+        $option = $this->loadData('bundle_item_2',
+                                  array('bundle_items_search_sku' => $simpleData['general_sku']));
+        $bundleData = $this->loadData($dataBundleType, array('item_1'=> $option));
         $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
@@ -638,9 +631,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $virtualData = $this->loadData('virtual_product_required');
-        $bundleData = $this->loadData($dataBundleType);
-        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                                                                     array('bundle_items_search_sku' => $virtualData['general_sku']));
+        $option = $this->loadData('bundle_item_2',
+                                  array('bundle_items_search_sku' => $virtualData['general_sku']));
+        $bundleData = $this->loadData($dataBundleType, array('item_1'=> $option));
         $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');

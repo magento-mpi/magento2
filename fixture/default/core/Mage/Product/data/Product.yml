@@ -450,7 +450,7 @@ simple_product_visible:
     general_weight: 1.14
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 8.99
+    prices_price: 120
     prices_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
@@ -536,16 +536,16 @@ duplicate_simple:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku
     general_weight: 2.56
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: simple-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 5/25/11
-    prices_special_price_to: 9/29/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -567,8 +567,8 @@ duplicate_simple:
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -620,15 +620,15 @@ virtual_product:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: virtual-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -650,8 +650,8 @@ virtual_product:
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -689,15 +689,15 @@ duplicate_virtual:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: virtual-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -719,8 +719,8 @@ duplicate_virtual:
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -909,8 +909,8 @@ duplicate_fixed_bundle:
     general_sku: bundle_sku
     general_weight_type: Fixed
     general_weight: 0.111
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: fixed-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -918,16 +918,16 @@ duplicate_fixed_bundle:
     prices_price_type: Fixed
     prices_price: 66.32
     prices_special_price: 3.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
     meta_information_meta_description: Meta Description for Bundle(Fixed) Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -975,24 +975,24 @@ duplicate_dynamic_bundle:
     general_sku_type: Dynamic
     general_sku: bundle_sku
     general_weight_type: Dynamic
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: dynamic-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
 #    general_in_feed: Yes
     prices_price_type: Dynamic
     prices_special_price: 3.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
     meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1061,8 +1061,8 @@ grouped_product:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1073,8 +1073,8 @@ grouped_product:
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Grouped Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1100,8 +1100,8 @@ duplicate_grouped:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1112,8 +1112,8 @@ duplicate_grouped:
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Grouped Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1178,8 +1178,8 @@ configurable_product:
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1187,8 +1187,8 @@ configurable_product:
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
@@ -1199,8 +1199,8 @@ configurable_product:
     meta_information_meta_keywords: Meta Keywords for Configurable Product
     meta_information_meta_description: Meta Description for Configurable Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1227,8 +1227,8 @@ duplicate_configurable:
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1236,8 +1236,8 @@ duplicate_configurable:
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
@@ -1248,8 +1248,8 @@ duplicate_configurable:
     meta_information_meta_keywords: Meta Keywords for Configurable Product
     meta_information_meta_description: Meta Description for Configurable Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1301,15 +1301,15 @@ downloadable_product:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -1317,8 +1317,8 @@ downloadable_product:
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
     meta_information_meta_description: Meta Description for Downloadable Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1356,15 +1356,15 @@ duplicate_downloadable:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
-    general_news_from: 12/12/12
-    general_news_to: 12/12/13
+    general_news_from: 3/1/12
+    general_news_to: 12/31/13
     general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -1372,8 +1372,8 @@ duplicate_downloadable:
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
     meta_information_meta_description: Meta Description for Downloadable Product
     design_custom_design: default
-    design_active_from: 11/11/11
-    design_active_to: 2/12/12
+    design_active_from: 3/1/12
+    design_active_to: 12/31/13
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
@@ -1406,8 +1406,8 @@ frontend_simple_product_details_validation:
     general_visibility: Catalog, Search
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 5/25/11
-    prices_special_price_to: 11/29/11
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tax_class: None
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
@@ -1434,8 +1434,8 @@ frontend_virtual_product_details_validation:
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 5/5/11
-    prices_special_price_to: 9/9/12
+    prices_special_price_from: 3/1/12
+    prices_special_price_to: 12/31/13
     prices_tax_class: None
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
@@ -1573,8 +1573,8 @@ configurable_product_related: &configurable_product_related
     websites: Main Website
     categories: Default Category
     associated_configurable_data:
-        associated_products_attribute_name_default: test
-        associated_products_attribute_name: test
+        associated_products_attribute_name_default: No
+        associated_products_attribute_name: attribute_name_%randomize%
         associated_configurable_1:
             associated_search_sku: %noValue%
 
@@ -1746,54 +1746,48 @@ bundle_options_to_add_to_shopping_cart:
         parameters:
             title: Multiple Select
         options_to_choose:
-            custom_option_multiselect: %noValue%
+            custom_option_multiselect: %subProduct_1%
     option_2:
         parameters:
             title: Checkbox
-            optionTitle: %noValue%
+            optionTitle: %subProduct_2%
         options_to_choose:
             custom_option_checkbox: Yes
     option_3:
         parameters:
-            title: Checkbox
-            optionTitle: %noValue%
-        options_to_choose:
-            custom_option_checkbox: Yes
-    option_4:
-        parameters:
             title: Radio Buttons
-            optionTitle: %noValue%
+            optionTitle: %subProduct_3%
         options_to_choose:
             custom_option_radiobutton: Yes
             bundle_item_qty: 3
-    option_5:
+    option_4:
         parameters:
             title: Drop-down
         options_to_choose:
-            custom_option_dropdown: %noValue%
+            custom_option_dropdown: %subProduct_4%
             bundle_item_qty: 3
 
 configurable_options_to_add_to_shopping_cart:
     option_1:
         parameters:
-            title: test
+            title: %noValue%
         options_to_choose:
             custom_option_dropdown: %noValue%
 
 grouped_options_to_add_to_shopping_cart:
     option_1:
         parameters:
-            subproductName: %noValue%
+            subproductName: %subProduct_1%
         options_to_choose:
             grouped_subproduct_qty: 1
     option_2:
         parameters:
-            subproductName: hucfu_Simple Product Visible
+            subproductName: %subProduct_2%
         options_to_choose:
             grouped_subproduct_qty: 1
     option_3:
         parameters:
-            subproductName: hucfu_Simple Product Visible
+            subproductName: %subProduct_3%
         options_to_choose:
             grouped_subproduct_qty: 1
 

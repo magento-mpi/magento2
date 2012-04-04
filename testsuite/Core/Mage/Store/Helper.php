@@ -39,6 +39,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      * Create Website|Store|Store View
      *
      * Preconditions: 'Manage Stores' page is opened.
+     *
      * @param array|string $data
      * @param string $name
      */
@@ -58,6 +59,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      * Delete Website|Store|Store View
      *
      * @param array $storeData
+     *
      * @return boolean
      */
     public function deleteStore(array $storeData)
@@ -81,8 +83,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->clickButton('search');
         //Determination of found items amount
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable',
-                                                      $this->getUimapPage('admin', 'dashboard'));
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
         $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
         if ($foundItems == 0) {
             $this->fail('No records found.');
@@ -129,7 +130,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         }
 
         if ($error) {
-            $this->fail('It is impossible to detele ' . $element);
+            $this->fail('It is impossible to delete ' . $element);
         }
 
         return false;

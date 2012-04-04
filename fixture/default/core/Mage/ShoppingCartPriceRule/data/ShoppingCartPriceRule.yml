@@ -147,8 +147,8 @@ test_shopping_cart_rule:
         coupon_code: test_code
         uses_per_coupon: 15
         uses_per_customer: 15
-        from_date: 11/9/11
-        to_date: 11/9/12
+        from_date: 3/1/12
+        to_date: 12/31/13
         priority: 10
         public_in_rss_feed: No
 #    conditions: *allConditions
@@ -226,8 +226,8 @@ scpr_all_fields:
         coupon_code: test_code
         uses_per_coupon: 15
         uses_per_customer: 15
-        from_date: 11/9/11
-        to_date: 11/9/12
+        from_date: 3/1/12
+        to_date: 12/31/13
         priority: 10
         public_in_rss_feed: No
     conditions: %noValue%
@@ -257,8 +257,8 @@ scpr_percent_of_product_price_discount:
         coupon_code: test_code
         uses_per_coupon: 15
         uses_per_customer: 15
-        from_date: 11/9/11
-        to_date: 11/9/12
+        from_date: 3/1/12
+        to_date: 12/31/13
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory
@@ -313,8 +313,8 @@ scpr_fixed_amount_discount:
         coupon_code: test_code
         uses_per_coupon: 15
         uses_per_customer: 15
-        from_date: 11/9/11
-        to_date: 11/9/12
+        from_date: 3/1/12
+        to_date: 12/31/13
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory
@@ -368,8 +368,8 @@ scpr_fixed_amount_discount_for_whole_cart:
         coupon_code: test_code
         uses_per_coupon: 15
         uses_per_customer: 15
-        from_date: 11/9/11
-        to_date: 11/9/12
+        from_date: 3/1/12
+        to_date: 12/31/13
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory

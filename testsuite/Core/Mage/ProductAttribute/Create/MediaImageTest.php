@@ -36,19 +36,12 @@
 class Core_Mage_ProductAttribute_Create_MediaImageTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_attributes');
         $this->addParameter('id', 0);
     }
@@ -139,7 +132,7 @@ class Core_Mage_ProductAttribute_Create_MediaImageTest extends Mage_Selenium_Tes
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     * @depends withRequiredFieldsOnly.
+     * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3561
      */
     public function withRequiredFieldsEmpty($emptyField)

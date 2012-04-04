@@ -36,19 +36,12 @@
 class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_stores');
     }
 

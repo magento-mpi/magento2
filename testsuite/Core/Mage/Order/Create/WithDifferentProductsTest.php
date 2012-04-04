@@ -41,7 +41,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Log in to Backend.</p>
      * <p>Navigate to 'Manage Products' page</p>
      */
-    public function setUpBeforeTests()
+    protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }

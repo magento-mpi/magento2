@@ -193,11 +193,13 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             } else {
                 unset($config[self::DEFAULT_BROWSER]);
                 $this->_configBrowsers = $config;
+                Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
             }
         } else {
             $this->_configBrowsers = $config;
+            Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
         }
-        Mage_Selenium_TestCase::$browsers = $this->_configBrowsers;
+
         return $this;
     }
 
@@ -235,6 +237,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!isset($config[$name])) {
             throw new OutOfRangeException('Area with name "' . $name . '" is missing');
         }
+        if ($this->_area != $name) {
+            $this->setCurrentPageId($config[$name]['base_page_uimap']);
+        }
         $this->_areaConfig = $config[$name];
         $this->_area = $name;
 
@@ -249,6 +254,18 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     public function setCurrentPageId($pageId)
     {
         $this->_currentPageId = $pageId;
+    }
+
+    /**
+     * Get all browsers configs
+     * @return array
+     */
+    public function getConfigBrowsers()
+    {
+        if (empty($this->_configBrowsers)) {
+            $this->_loadConfigBrowsers();
+        }
+        return $this->_configBrowsers;
     }
 
     /**
@@ -355,6 +372,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         if (!isset($config['url'])) {
             throw new OutOfRangeException('Base Url is not set for "' . $this->getArea() . '" area');
         }
+        if (!preg_match('|/$|', $config['url'])) {
+            $config['url'] .= '/';
+        }
         return $config['url'];
     }
 
@@ -410,7 +430,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderFixture'])) {
             throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
-                    . $this->getApplication() . '" application');
+                . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
@@ -426,7 +446,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderHelper'])) {
             throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
-                    . $this->getApplication() . '" application');
+                . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));
@@ -435,7 +455,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the screenshot directory.
      * Creates a directory if it doesn't exist.
+     *
      * @param string $dirPath
+     *
      * @return Mage_Selenium_Helper_Config
      * @throws RuntimeException if the directory could not be created
      */
@@ -463,7 +485,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     /**
      * Set path to the logs directory.
      * Creates a directory if it doesn't exist.
+     *
      * @param string $dirPath
+     *
      * @return Mage_Selenium_Helper_Config
      * @throws RuntimeException if the directory could not be created
      */

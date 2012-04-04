@@ -38,19 +38,12 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     protected static $_customerTitleParameter = '';
 
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->addParameter('id', '0');
         $this->addParameter('customer_first_last_name', self::$_customerTitleParameter);

@@ -36,19 +36,12 @@
 class Core_Mage_Tags_BackendDeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog -> Tags -> All tags</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->addParameter('storeId', '1');

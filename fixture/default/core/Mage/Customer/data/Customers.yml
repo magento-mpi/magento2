@@ -75,7 +75,7 @@ all_fields_customer_account:
     last_name: Last Name
     suffix: Suffix
     email: test_admin_%randomize%@domain.com
-    date_of_birth: 12/12/1983
+    date_of_birth: 12/12/83
     tax_vat_number: 123123
     gender: Male
     send_welcome_email: Yes

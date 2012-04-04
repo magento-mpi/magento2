@@ -36,13 +36,6 @@
 class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
 {
     protected $_tagToBeDeleted = array();
-    /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
 
     /**
      * <p>Preconditions:</p>
@@ -50,6 +43,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->addParameter('storeId', '1');

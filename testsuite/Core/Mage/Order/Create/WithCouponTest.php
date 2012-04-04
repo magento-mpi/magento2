@@ -40,7 +40,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      *
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests()
+    public function assertPreConditions()
     {
         $this->loginAdminUser();
     }
@@ -119,7 +119,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function amountGreaterThanGrandTotal($simpleSku)
     {
         //Data
-        $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 100));
+        $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 130));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
                                         array('filter_sku' => $simpleSku,
                                               'coupon_1'   => $coupon['info']['coupon_code']));

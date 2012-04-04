@@ -49,6 +49,11 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Create Simple Product for tests</p>
      *
@@ -267,7 +272,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @depends preconditionsForTests.
+     * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3576
      */
     public function partialCreditMemoWithCreditCard($orderData, $sku)

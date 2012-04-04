@@ -144,15 +144,15 @@ product_attribute_multiselect: &productAttributeMultiselect
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: No
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
+    use_in_search_results_layered_navigation: Yes
+    use_for_promo_rule_conditions: Yes
+    visible_on_product_view_page_on_frontend: Yes
     used_in_product_listing: %noValue%
+    position: %noValue%
     # manage_lables_options:
     admin_title: Multiple_Select_Admin
 
@@ -169,11 +169,11 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
+    use_in_search_results_layered_navigation: %noValue%
     use_for_promo_rule_conditions: %noValue%
-    position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
+    position: %noValue%
     # manage_lables_options:
     admin_title: Multiple_Select_Admin
     store_view_titles:
@@ -204,22 +204,22 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
 product_attribute_dropdown: &productAttributeDropdown
     catalog_input_type_for_store_owner: Dropdown
     attribute_code: attr_dropdown_code
-    scope: %noValue%
+    scope: Store View
     unique_value: %noValue%
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
     use_to_create_configurable_product: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: No
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
+    use_in_search_results_layered_navigation: Yes
+    use_for_promo_rule_conditions: Yes
+    visible_on_product_view_page_on_frontend: Yes
+    used_in_product_listing: Yes
     used_for_sorting_in_product_listing: %noValue%
+    position: %noValue%
     admin_title: Dropdown_Admin
 
 product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
@@ -236,36 +236,36 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
     use_in_advanced_search: %noValue%
     comparable_on_frontend: %noValue%
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
+    use_in_search_results_layered_navigation: %noValue%
     use_for_promo_rule_conditions: %noValue%
-    position: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
     used_for_sorting_in_product_listing: %noValue%
+    position: %noValue%
     # Manage Label / Options Tab:
     admin_title: Dropdown_Admin_%randomize%
     store_view_titles:
         Default Store View: Dropdown_StoreView
     option_1:
         is_default: No
-        admin_option_name: Dropdown_Option_Admin_1
+        admin_option_name: Option_Admin_%randomize%
         option_position: 1
         store_view_titles:
-            Default Store View: Dropdown_StoreView_1
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
     option_2:
         is_default: %noValue%
-        admin_option_name: Dropdown_Option_Admin_2
+        admin_option_name: Option_Admin_%randomize%
         option_position: 2
         store_view_titles:
-            Default Store View: Dropdown_Option_StoreView_2
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
     option_3:
         is_default: %noValue%
-        admin_option_name: Dropdown_Option_Admin_3
+        admin_option_name: Option_Admin_%randomize%
         option_position: 3
         store_view_titles:
-            Default Store View: Dropdown_Option_StoreView_3
+            Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
 
 # Test Datasets for Add New Price type Product Attribute
@@ -278,16 +278,16 @@ product_attribute_price: &productAttributePrice
     values_required: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
+    use_in_quick_search: Yes
+    use_in_advanced_search: Yes
+    comparable_on_frontend: No
     use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_naigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    position: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
+    use_in_search_results_layered_navigation: Yes
+    use_for_promo_rule_conditions: Yes
+    visible_on_product_view_page_on_frontend: Yes
+    used_in_product_listing: Yes
     used_for_sorting_in_product_listing: %noValue%
+    position: %noValue%
 # manage_lables_options:
     admin_title: Price_Admin
     store_view_titles:

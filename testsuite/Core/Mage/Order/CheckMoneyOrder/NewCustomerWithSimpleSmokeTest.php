@@ -49,6 +49,11 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreconditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Create Simple Product for tests</p>
      *

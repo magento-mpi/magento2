@@ -37,6 +37,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
 {
     /**
      * Create Admin User.
+     *
      * @param Array $userData
      */
     public function createAdminUser($userData)
@@ -57,22 +58,24 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
 
     /**
      * Login Admin User
-     * @param type $loginData
+     *
+     * @param array $loginData
      */
     public function loginAdmin($loginData)
     {
-        $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo',
-                                                 $this->getUimapPage('admin', 'dashboard'));
+        $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
         $this->fillForm($loginData);
         $this->clickButton('login', false);
-        $this->waitForElement(array($dashboardLogo, self::$_basicXpathMessages['error'],
-                                    self::$_basicXpathMessages['validation']));
+        $this->waitForElement(array($dashboardLogo,
+                                   $this->_getMessageXpath('general_error'),
+                                   $this->_getMessageXpath('general_validation')));
         $this->validatePage();
     }
 
     /**
      * Forgot Password Admin User
-     * @param type $emailData
+     *
+     * @param array $emailData
      */
     public function forgotPassword($emailData)
     {
@@ -80,7 +83,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
         $this->fillForm($emailData);
         $this->clickButton('retrieve_password', false);
-        $this->waitForElement(self::$_basicXpathMessages);
+        $this->waitForElement(array($this->_getMessageXpath('general_success'),
+                                   $this->_getMessageXpath('general_error'),
+                                   $this->_getMessageXpath('general_validation')));
         $this->validatePage();
     }
 }

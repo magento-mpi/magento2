@@ -54,6 +54,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_cms_static_blocks');
         $this->addParameter('id', '0');
     }
@@ -105,7 +106,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * @param array $setData
      *
      * @test
-     * @depends createNewWithReqField.
+     * @depends createNewWithReqField
      * @TestlinkId	TL-MAGE-3131
      */
     public function withExistingIdentifier($setData)

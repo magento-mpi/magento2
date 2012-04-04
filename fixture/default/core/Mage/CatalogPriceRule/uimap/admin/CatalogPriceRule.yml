@@ -148,7 +148,7 @@ add_new_rule:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_and_apply: //button[span='Save and Apply']
-            save_rule: //button[span='Save Rule']
+            save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *catalogPriceRuleMessages
 
@@ -161,7 +161,7 @@ edit_rule_page:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_and_apply: //button[span='Save and Apply']
-            save_rule: //button[span='Save Rule']
+            save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete_rule: //button[span='Delete Rule']
         messages: *catalogPriceRuleMessages

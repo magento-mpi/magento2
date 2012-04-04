@@ -68,8 +68,32 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         if ($this->_uimapData) {
             return $this;
         }
-        foreach ($this->_configFixtures as $codePoolData) {
-            if (!array_key_exists('uimap', $codePoolData)) {
+        //Form include elements array
+        $uimapInclude = (isset($this->_configFixtures['uimapInclude']))
+            ? $this->_configFixtures['uimapInclude']
+            : array();
+        $includeElements = array();
+        foreach ($uimapInclude as $area => $includeFiles) {
+            $includeElements[$area] = array();
+            foreach ($includeFiles as $includeFile) {
+                $includePages = $this->getConfig()->getHelper('file')->loadYamlFile($includeFile);
+                if (!$includePages) {
+                    continue;
+                }
+                foreach ($includePages as $includeContent) {
+                    if ($includeContent) {
+                        if (empty($includeElements[$area])) {
+                            $includeElements[$area] = $includeContent;
+                        } else {
+                            $this->_mergeUimapIncludes($includeElements[$area], $includeContent);
+                        }
+                    }
+                }
+            }
+        }
+        //Form uimap pages
+        foreach ($this->_configFixtures as $key => $codePoolData) {
+            if ($key == 'uimapInclude' || !array_key_exists('uimap', $codePoolData)) {
                 continue;
             }
             foreach ($codePoolData['uimap'] as $areaKey => $files) {
@@ -80,6 +104,9 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                     }
                     foreach ($pages as $pageKey => $content) {
                         if ($content) {
+                            if (isset($includeElements[$areaKey])) {
+                                $this->_mergeUimapIncludes($content, $includeElements[$areaKey]);
+                            }
                             $this->_uimapData[$areaKey][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
                         }
                     }
@@ -87,6 +114,39 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             }
         }
         return $this;
+    }
+
+    /**
+     * Merge uimap elements
+     *
+     * @param array $replaceArrayTo
+     * @param array $replaceArrayFrom
+     *
+     * @return array
+     */
+    protected function _mergeUimapIncludes(array &$replaceArrayTo, array $replaceArrayFrom)
+    {
+        foreach ($replaceArrayFrom as $key => $value) {
+            if (is_array($value)) {
+                if (array_key_exists($key, $replaceArrayTo) && $replaceArrayTo[$key] != null) {
+                    if (is_string($key)) {
+                        $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
+                    } else {
+                        list($keyFrom) = array_keys($value);
+                        list($keyTo) = array_keys($replaceArrayTo[$key]);
+                        if ($keyFrom != $keyTo) {
+                            $replaceArrayTo[] = $value;
+                        } else {
+                            $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
+                        }
+                    }
+                } else {
+                    $replaceArrayTo[$key] = $value;
+                }
+            } else {
+                $replaceArrayTo[$key] = $value;
+            }
+        }
     }
 
     /**
@@ -149,18 +209,12 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             if ($pageMca === false || $pageMca === null) {
                 continue;
             }
-            if ($area == 'admin' || $area == 'frontend') {
-                if ($paramsDecorator) {
-                    $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
-                }
-                if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                    $appropriatePages[] = $page;
-                }
-            } elseif ($this->_compareMcaAndPageMca($mca, $pageMca)) {
-                if ($paramsDecorator) {
-                    $page->assignParams($paramsDecorator);
-                }
-                return $page;
+            $pageMca = preg_quote($pageMca);
+            if ($paramsDecorator) {
+                $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
+            }
+            if (preg_match(';^' . $pageMca . '$;', $mca)) {
+                $appropriatePages[] = $page;
             }
         }
         if (!empty($appropriatePages)) {
@@ -184,6 +238,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      *
      * @param string $mca
      * @param string $page_mca
+     *
+     * @deprecated
      *
      * @return bool
      */

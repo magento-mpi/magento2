@@ -37,36 +37,27 @@
 class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
     /**
-     * If the flag is set to True, browser connection is not restarted after each test
-     * @var bool
-     */
-    protected $_contiguousSession = false;
-
-    /**
      * Handle to log file
      * @var null|resource
      */
-    protected static $_logHandle = null;
+    protected $_logHandle = null;
 
     /**
-     * @var array
+     * Stop browser session
+     * @return mixed
      */
-    private static $_currentBrowser = array();
-
-    /**
-     * @var string
-     */
-    private static $_currentSessionId;
-
-    /**
-     * @var bool
-     */
-    private static $_currentContiguousSession;
-
-    /**
-     * @var bool
-     */
-    private static $_currentTestClassName;
+    public function stop()
+    {
+        $traceFunctionNames = array();
+        foreach (debug_backtrace() as $line) {
+            $traceFunctionNames[] = $line['function'];
+        }
+        if (in_array('__destruct', $traceFunctionNames)) {
+            parent::stop();
+        } elseif (!$this->testCase->frameworkConfig['shareSession'] && !in_array('stopSession', $traceFunctionNames)) {
+            parent::stop();
+        }
+    }
 
     /**
      * Sends a command to the Selenium RC server.
@@ -76,67 +67,39 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      * @param array $arguments Array of arguments to command
      *
      * @return string
-     * @throws RuntimeException
+     * @throws Exception
      */
     protected function doCommand($command, array $arguments = array())
     {
         try {
             $response = parent::doCommand($command, $arguments);
-            //Fixed bug for PHPUnit_Selenium 1.2.0(1)
-            if (!preg_match('/^OK/', $response)) {
-                throw new RuntimeException($response);
-            }
             // Add command logging
-            if (!empty(self::$_logHandle)) {
-                fputs(self::$_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs(self::$_logHandle, "\tRequest: " . $command . "\n");
-                fputs(self::$_logHandle, "\tResponse: " . $response . "\n\n");
-                fflush(self::$_logHandle);
+            if (!empty($this->_logHandle)) {
+                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
+                fflush($this->_logHandle);
             }
             return $response;
-        } catch (RuntimeException $e) {
-            if (!empty(self::$_logHandle)) {
-                fputs(self::$_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs(self::$_logHandle, "\tRequest: " . $command . "\n");
-                fputs(self::$_logHandle, "\tException: " . $e->getMessage() . "\n\n");
-                fflush(self::$_logHandle);
+        } catch (Exception $e) {
+            if (!empty($this->_logHandle)) {
+                fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n\n");
+                fflush($this->_logHandle);
             }
             throw $e;
         }
     }
 
     /**
-     * Sets the flag to restart browser connection or not after each test
-     *
-     * @param bool $flag Flag to restart browser after each test or not (TRUE - do restart, FALSE - do not restart)
-     *
-     * @return Mage_Selenium_Driver
-     */
-    public function setContiguousSession($flag)
-    {
-        $this->_contiguousSession = $flag;
-        return $this;
-    }
-
-    /**
-     * Gets the flag to restart browser connection or not after each test
-     * @return bool
-     */
-    public function getContiguousSession()
-    {
-        return $this->_contiguousSession;
-    }
-
-    /**
      * Set log file
-     * @param $dirPath Path to directory for the log file
+     *
+     * @param $file
      */
-    public function setLogHandle($dirPath)
+    public function setLogHandle($file)
     {
-        if (is_null(self::$_logHandle)) {
-            self::$_logHandle = fopen($dirPath . DIRECTORY_SEPARATOR
-                                      . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
-        }
+        $this->_logHandle = $file;
     }
 
     /**
@@ -151,74 +114,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
             'host'           => $this->host,
             'port'           => $this->port,
             'timeout'        => $this->seleniumTimeout,
-            'restartBrowser' => $this->_contiguousSession,
         );
-    }
-
-    /**
-     * @param string $testClassName
-     *
-     * @return bool
-     */
-    public function driverSetUp($testClassName)
-    {
-        $isFirst = false;
-
-        if (self::$_currentTestClassName == null) {
-            self::$_currentTestClassName = $testClassName;
-        }
-        if (self::$_currentBrowser == null) {
-            self::$_currentBrowser = $this->getBrowserSettings();
-        }
-        if (self::$_currentContiguousSession === null) {
-            $config = $this->getBrowserSettings();
-            self::$_currentContiguousSession = $config['restartBrowser'];
-        }
-        if (array_diff($this->getBrowserSettings(), self::$_currentBrowser)) {
-            self::$_currentBrowser = $this->getBrowserSettings();
-            $this->setSessionId(self::$_currentSessionId);
-            if (self::$_currentContiguousSession === false) {
-                $this->setContiguousSession(true);
-                $this->stop();
-                $this->setContiguousSession(false);
-                self::$_currentContiguousSession = null;
-            }
-        }
-        if (self::$_currentContiguousSession === true && self::$_currentSessionId !== null) {
-            $this->setSessionId(self::$_currentSessionId);
-            $this->stop();
-        }
-        if (self::$_currentSessionId === null) {
-            $this->start();
-        } else {
-            $this->setSessionId(self::$_currentSessionId);
-        }
-        $currentSession = $this->getSessionId();
-        if (($currentSession != self::$_currentSessionId)) {
-            self::$_currentSessionId = $currentSession;
-            $isFirst = true;
-        }
-        if (self::$_currentTestClassName != $testClassName) {
-            self::$_currentTestClassName = $testClassName;
-            $isFirst = true;
-        }
-        return $isFirst;
-    }
-
-    /**
-     * Stops browser connection if the session is not marked as contiguous
-     * @return mixed
-     */
-    public function stop()
-    {
-        if (!$this->_contiguousSession) {
-            return;
-        }
-        self::$_currentSessionId = null;
-        self::$_currentBrowser = null;
-        self::$_currentContiguousSession = null;
-        self::$_currentTestClassName = null;
-        parent::stop();
     }
 
     /**
@@ -242,13 +138,4 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
-
-    /**
-     * @return string
-     */
-    public static function getCurrentBrowser()
-    {
-        return self::$_currentBrowser['browser'];
-    }
-
 }

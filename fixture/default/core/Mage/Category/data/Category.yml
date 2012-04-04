@@ -74,8 +74,8 @@ root_category_all: &categoryAll
     use_parent_category_settings: No
     apply_to_products: Yes
     custom_design: default
-    active_from: 12/12/10
-    active_to: 12/12/12
+    active_from: 3/1/12
+    active_to: 12/31/13
     page_layout: 3 columns
     custom_layout_update: Custom Layout Update
     #Category Products

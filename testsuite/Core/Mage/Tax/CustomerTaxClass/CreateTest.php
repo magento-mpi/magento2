@@ -36,19 +36,12 @@
 class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Login to backend</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Sales-Tax-Customer Tax Classes</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_customer_tax_class');
     }
 

@@ -36,19 +36,12 @@
 class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Log in to Backend.</p>
-     */
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
         $this->navigate('manage_attribute_sets');
         $this->addParameter('id', '0');
     }
