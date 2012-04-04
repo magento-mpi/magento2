@@ -1,17 +1,17 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Sales
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Sales
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @group module:Mage_Sales
-     */
+/**
+ * @group module:Mage_Sales
+ */
 class Mage_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareAddressInfo()
