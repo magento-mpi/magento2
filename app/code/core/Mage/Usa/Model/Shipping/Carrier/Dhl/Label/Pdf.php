@@ -62,8 +62,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
      * Create Label
      *
      * @return string
-     * @throws Zend_Pdf_Exception
-     * @throws InvalidArgumentException
      */
     public function render()
     {
