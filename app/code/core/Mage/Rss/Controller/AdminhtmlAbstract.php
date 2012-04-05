@@ -34,7 +34,7 @@ abstract class Mage_Rss_Controller_AdminhtmlAbstract extends Mage_Core_Controlle
         $action = $this->getRequest()->getActionName();
         $map = $this->_getAdminAclMap();
         if (isset($map[$action])) {
-            $this->_currentArea = 'adminhtml';
+            $this->setCurrentArea('adminhtml');
             $path = $map[$action];
             Mage::helper('Mage_Rss_Helper_Data')->authAdmin($path);
         }

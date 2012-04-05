@@ -14,6 +14,13 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     protected $_routes = array();
     protected $_dispatchData = array();
 
+    /**
+     * Currently used area
+     *
+     * @var string
+     */
+    protected $_currentArea = 'frontend';
+
     public function collectRoutes($configArea, $useRouterName)
     {
         $routers = array();
@@ -231,6 +238,10 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         // dispatch action
         $request->setDispatched(true);
+        /**
+         * Set current area code to controller instance
+         */
+        $controllerInstance->setCurrentArea($this->_currentArea);
         $controllerInstance->dispatch($action);
 
         return true;

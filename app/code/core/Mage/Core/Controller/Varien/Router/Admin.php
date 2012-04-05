@@ -12,6 +12,12 @@
 class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Varien_Router_Standard
 {
     /**
+     * Currently used area
+     *
+     * @var string
+     */
+    protected $_currentArea = 'adminhtml';
+    /**
      * Fetch default path
      */
     public function fetchDefault()
