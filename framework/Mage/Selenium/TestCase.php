@@ -1056,7 +1056,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _parseMessages()
     {
         $area = $this->getArea();
-        if ($area == 'admin' || $area == 'froontend') {
+        if ($area == 'admin' || $area == 'frontend') {
             $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement', 'fieldNameWithValidationMessage');
             self::$_messages['notice'] = $this->getElementsByXpath($this->_getMessageXpath('general_notice'));
             self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'),
@@ -2196,20 +2196,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function openTab($tabName)
     {
         $waitAjax = false;
-        $tabXpath = $this->_getControlXpath('tab', $tabName);
-        if (preg_match('/^css=/', $tabXpath)) {
-            if ($this->isElementPresent($tabXpath . '[class]')) {
-                $isTabOpened = $this->getAttribute($tabXpath . '@class');
-            } else {
-                throw new OutOfRangeException("Wrong css for tab: [$tabName : $tabXpath]");
-            }
-        } elseif ($this->isElementPresent($tabXpath . '[@class]')) {
-            $isTabOpened = $this->getAttribute($tabXpath . '@class');
-        } elseif ($this->isElementPresent($tabXpath . '/parent::*[@class]')) {
-            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*@class');
-        } else {
-            throw new OutOfRangeException("Wrong xpath for tab: [$tabName : $tabXpath]");
-        }
+        $isTabOpened = $this->getTabAttribute($tabName, 'class');
         if (!preg_match('/active/', $isTabOpened)) {
             if (preg_match('/ajax/', $isTabOpened)) {
                 $waitAjax = true;
@@ -2219,6 +2206,33 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->pleaseWait();
             }
         }
+    }
+
+    /**
+     * Get attribute value(like @id, @class) in tab xpath
+     *
+     * @param string $tabName
+     * @param string $attribute
+     *
+     * @return string
+     * @throws OutOfRangeException
+     */
+    public function getTabAttribute($tabName, $attribute)
+    {
+        $tabXpath = $this->_getControlXpath('tab', $tabName);
+        if (preg_match('/^css=/', $tabXpath)) {
+            if ($this->isElementPresent($tabXpath . '[' . $attribute . ']')) {
+                return $this->getAttribute($tabXpath . '@' . $attribute);
+            }
+            throw new OutOfRangeException("Wrong css for tab: [$tabName : $tabXpath]");
+        }
+        if ($this->isElementPresent($tabXpath . '[@' . $attribute . ']')) {
+            return $this->getAttribute($tabXpath . '@' . $attribute);
+        }
+        if ($this->isElementPresent($tabXpath . '/parent::*[@' . $attribute . ']')) {
+            return $this->getAttribute($tabXpath . '/parent::*@' . $attribute);
+        }
+        throw new OutOfRangeException("Wrong xpath for tab: [$tabName : $tabXpath]");
     }
 
     /**
@@ -2432,6 +2446,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
             . 'if(selenium.browserbot.getCurrentWindow().jQuery.active){return false;};};return true;};c();';
         $this->waitForCondition($jsCondition, $timeout);
+    }
+
+    /**
+     * Click 'Save and continue edit' control on page with tabs
+     *
+     * @param string $controlType
+     * @param string $controlName
+     */
+    public function saveAndContinueEdit($controlType, $controlName)
+    {
+        $tabUimap = $this->_getActiveTabUimap();
+        $name = $tabUimap->getTabId();
+        $this->addParameter('tab', $this->getTabAttribute($name, 'id'));
+        $this->clickControlAndWaitMessage($controlType, $controlName);
     }
 
     /**
