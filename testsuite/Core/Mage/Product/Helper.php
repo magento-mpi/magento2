@@ -856,6 +856,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         return true;
     }
 
+    /**
+     * Unselect any associated product(as up_sells, cross_sells, related) to opened product
+     *
+     * @param $type
+     */
+    public function unselectAssociatedProduct($type)
+    {
+        $this->openTab($type);
+        $message = $this->_getControlXpath('fieldset', $type) . $this->_getMessageXpath('no_records_found');
+        if (!$this->isElementPresent($message)) {
+            $this->fillFieldset(array($type . '_select_all'=> 'No'), $type);
+            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+            $this->assertElementPresent($message, 'There are products assigned to "' . $type . '" tab');
+        }
+    }
+
     #*******************************************
     #*         Frontend Helper Methods         *
     #*******************************************
@@ -918,12 +934,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function frontFillBuyInfo($dataForBuy)
     {
-//        For EE edition
-//        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-//        if ($customize) {
-//            $this->clickButton('customize_and_add_to_cart', false);
-//            $this->pleaseWait();
-//        }
         foreach ($dataForBuy as $value) {
             $fill = (isset($value['options_to_choose'])) ? $value['options_to_choose'] : array();
             $params = (isset($value['parameters'])) ? $value['parameters'] : array();
@@ -1152,5 +1162,306 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             }
         }
         return $xpathArray;
+    }
+
+    /**
+     * Create Configurable product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createConfigurableProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $productCat = array('categories' => $returnCategory['path']);
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $configurableOptions = array($attrData['option_1']['store_view_titles']['Default Store View'],
+                                     $attrData['option_2']['store_view_titles']['Default Store View'],
+                                     $attrData['option_3']['store_view_titles']['Default Store View']);
+        $attrCode = $attrData['attribute_code'];
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+                                                   array('General' => $attrCode));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
+        $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
+        $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
+                                       array('downloadable_links_purchased_separately' => 'No',
+                                            'categories'                               => $returnCategory['path']));
+        $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
+        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
+                                           array('configurable_attribute_title' => $attrData['admin_title'],
+                                                'categories'                    => $returnCategory['path']),
+                                           array('associated_1' => $simple['general_sku'],
+                                                'associated_2'  => $virtual['general_sku'],
+                                                'associated_3'  => $download['general_sku']));
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return array('simple'             => array('product_name' => $simple['general_name'],
+                                                   'product_sku'  => $simple['general_sku'],
+                                                   'option'       => $attrData['option_1']['admin_option_name'],
+                                                   'option_front' => $configurableOptions[0]),
+                     'downloadable'       => array('product_name' => $download['general_name'],
+                                                   'product_sku'  => $download['general_sku'],
+                                                   'option'       => $attrData['option_3']['admin_option_name'],
+                                                   'option_front' => $configurableOptions[2]),
+                     'virtual'            => array('product_name' => $virtual['general_name'],
+                                                   'product_sku'  => $virtual['general_sku'],
+                                                   'option'       => $attrData['option_2']['admin_option_name'],
+                                                   'option_front' => $configurableOptions[1]),
+                     'configurable'       => array('product_name' => $configurable['general_name'],
+                                                   'product_sku'  => $configurable['general_sku']),
+                     'attribute'          => array('title'       => $attrData['admin_title'],
+                                                   'title_front' => $attrData['store_view_titles']['Default Store View'],
+                                                   'code'        => $attrCode),
+                     'category'           => $returnCategory,
+                     'configurableOption' => array('title'                 => $attrData['admin_title'],
+                                                   'custom_option_dropdown'=> $configurableOptions[0]));
+    }
+
+    /**
+     * Create Grouped product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createGroupedProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $productCat = array('categories' => $returnCategory['path']);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
+        $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
+                                       array('downloadable_links_purchased_separately' => 'No',
+                                            'categories'                               => $returnCategory['path']));
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
+                                      array('associated_1' => $simple['general_sku'],
+                                           'associated_2'  => $virtual['general_sku'],
+                                           'associated_3'  => $download['general_sku']));
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($grouped, 'grouped');
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return array('simple'        => array('product_name' => $simple['general_name'],
+                                              'product_sku'  => $simple['general_sku']),
+                     'downloadable'  => array('product_name' => $download['general_name'],
+                                              'product_sku'  => $download['general_sku']),
+                     'virtual'       => array('name'         => $virtual['general_name'],
+                                              'product_sku'  => $virtual['general_sku']),
+                     'grouped'       => array('product_name' => $grouped['general_name'],
+                                              'product_sku'  => $grouped['general_sku']),
+                     'category'      => $returnCategory,
+                     'groupedOption' => array('subProduct_1' => $simple['general_name'],
+                                              'subProduct_2' => $virtual['general_name'],
+                                              'subProduct_3' => $download['general_name']));
+    }
+
+    /**
+     * Create Bundle product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createBundleProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $productCat = array('categories' => $returnCategory['path']);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
+        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
+                                     array('add_product_1'  => $simple['general_sku'],
+                                          'price_product_1' => 0.99,
+                                          'price_product_2' => 1.24,
+                                          'add_product_2'   => $virtual['general_sku']));
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundle, 'bundle');
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return array('simple'      => array('product_name' => $simple['general_name'],
+                                            'product_sku'  => $simple['general_sku']),
+                     'virtual'     => array('product_name' => $virtual['general_name'],
+                                            'product_sku'  => $virtual['general_sku']),
+                     'bundle'      => array('product_name' => $bundle['general_name'],
+                                            'product_sku'  => $bundle['general_sku']),
+                     'category'    => $returnCategory,
+                     'bundleOption'=> array('subProduct_1' => $simple['general_name'],
+                                            'subProduct_2' => $virtual['general_name'],
+                                            'subProduct_3' => $simple['general_name'],
+                                            'subProduct_4' => $virtual['general_name']));
+    }
+
+    /**
+     * Create Downloadable product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createDownloadableProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $assignCategory = array('categories' => $returnCategory['path']);
+        $downloadable = $this->loadDataSet('Product', 'downloadable_product_visible', $assignCategory);
+        $link = $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_title'];
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($downloadable, 'downloadable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return array('downloadable' => array('product_name' => $downloadable['general_name'],
+                                             'product_sku'  => $downloadable['general_sku'],
+                                             'link'         => $link),
+                     'category'     => $returnCategory);
+    }
+
+    /**
+     * Create Simple product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createSimpleProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $assignCategory = array('categories' => $returnCategory['path']);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', $assignCategory);
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return array('simple'  => array('product_name' => $simple['general_name'],
+                                        'product_sku'  => $simple['general_sku']),
+                     'category'=> $returnCategory);
+    }
+
+    /**
+     * Create Virtual product
+     *
+     * @param bool $inSubCategory
+     *
+     * @return array
+     */
+    public function createVirtualProduct($inSubCategory = false)
+    {
+        //Create category
+        if ($inSubCategory) {
+            $category = $this->loadDataSet('Category', 'sub_category_required');
+            $catPath = $category['parent_category'] . '/' . $category['name'];
+            $this->navigate('manage_categories', false);
+            $this->categoryHelper()->checkCategoriesPage();
+            $this->categoryHelper()->createCategory($category);
+            $this->assertMessagePresent('success', 'success_saved_category');
+            $returnCategory = array('name' => $category['name'],
+                                    'path' => $catPath);
+        } else {
+            $returnCategory = array('name' => 'Default Category',
+                                    'path' => 'Default Category');
+        }
+        //Create product
+        $assignCategory = array('categories' => $returnCategory['path']);
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $assignCategory);
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return array('virtual'  => array('product_name' => $virtual['general_name'],
+                                         'product_sku'  => $virtual['general_sku']),
+                     'category' => $returnCategory);
     }
 }
