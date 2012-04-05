@@ -77,6 +77,7 @@ manage_products:
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
+            no_records_found: //td[text()='No records found.']
 
 # Settings for New Product creation
 new_product_settings:
@@ -328,6 +329,7 @@ new_product:
                                         related_search_position_to: //input[@name='position[to]']
                                         related_product_position: %productXpath%//input[@name='position']
                                     checkboxes:
+                                        related_select_all: //input[@title='Select All']
                                         selected_related_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     up_sells: &upSellsProductsTab
@@ -354,6 +356,9 @@ new_product:
                                         up_sells_search_position_from: //input[@name='position[from]']
                                         up_sells_search_position_to: //input[@name='position[to]']
                                         up_sells_product_position: %productXpath%//input[@name='position']
+                                    checkboxes:
+                                        up_sells_select_all: //input[@title='Select All']
+                                        selected_up_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     cross_sells: &crossSellsProductsTab
                         xpath: //a[@title='Cross-sells']/span
@@ -379,6 +384,9 @@ new_product:
                                         cross_sells_search_position_from: //input[@name='position[from]']
                                         cross_sells_search_position_to: //input[@name='position[to]']
                                         cross_sells_product_position: %productXpath%//input[@name='position']
+                                    checkboxes:
+                                        cross_sells_select_all: //input[@title='Select All']
+                                        selected_cross_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     custom_options: &customOptionsTab
                         xpath: //a[@title='Custom Options']/span
@@ -570,7 +578,7 @@ duplicated_configurable_product:
 edit_product:
     mca: catalog_product/edit/id/%id%/
     title: %productName% / Manage Products / Catalog / Magento Admin
-    uimap:
+    uimap: &editProduct
         form:
             tabs:
                 -
@@ -663,6 +671,11 @@ edit_product:
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *productMesssages
+
+edit_saved_product:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
 
 create_empty_simple_from_configurable:
     mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/

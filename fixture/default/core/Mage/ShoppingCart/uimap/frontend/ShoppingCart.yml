@@ -59,7 +59,7 @@ shopping_cart:
                             product_qty_by_name: //tr[*//a[text()='%productName%']]//input[@title='Qty']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
-                            product_line:  //table[@id='shopping-cart-table']/tbody/tr
+                            product_line: //table[@id='shopping-cart-table']/tbody/tr
                 -
                     product_price_totals:
                         xpath: //div[@class='totals']
@@ -93,32 +93,36 @@ shopping_cart:
                     crosssells:
                         xpath: //div[@class='crosssell']
                         links:
-                            crosssell_product: //ul[@id='crosssell-products-list']//a[text()='%crosssellProductName%']
-                            crosssell_add_to_cart: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//button[@title='Add to Cart']
-                            crosssell_add_to_wishlist: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-wishlist']
-                            crosssell_add_to_compare: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='link-compare']
+                            cross_sells_product: //a[text()='%productName%']
+                -
+                    crosssell_ploduct:
+                        xpath: //div[@class='crosssell']//li[*//a[text()='%productName%']]
+                        links:
+                            crosssell_add_to_cart: //button[span='Add to Cart'] #[span='Add to Cart'] [@title='Add to Cart']
+                            crosssell_add_to_wishlist: //a[@class='link-wishlist']
+                            crosssell_add_to_compare: //a[text()='Add to Compare'] #//a[@class='link-compare']
                         pageelements:
-                            crosssell_price_regular: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
-                            crosssell_price_old: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='old-price']//span[@class='price' and normalize-space(text())='%price%']
-                            crosssell_price_special: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']//span[@class='price' and normalize-space(text())='%price%']
-                            crosssell_price_excluding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%'] and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
-                            crosssell_price_including_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%'] and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']
-                            crosssell_price_special_excluding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
-                            crosssell_price_special_inlcuding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
-                            crosssell_price_as_low_as: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='minimal-price-link']/span[normalize-space(text())='%price%']
-                            ex_crosssell_price_regular: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//span[@class='regular-price']/span[@class='price']
-                            ex_crosssell_price_old: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='old-price']//span[@class='price']
-                            ex_crosssell_price_special: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']//span[@class='price']
-                            ex_crosssell_price_excluding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%'] and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']
-                            ex_crosssell_price_including_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%'] and not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']
-                            ex_crosssell_price_special_excluding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
-                            ex_crosssell_price_special_inlcuding_tax: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
-                            ex_crosssell_price_as_low_as: //ul[@id='crosssell-products-list']/li[*//a[text()='%crosssellProductName%']]//a[@class='minimal-price-link']/span[@class='price']
+                            crosssell_price_regular: //span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
+                            crosssell_price_old: //p[@class='old-price']//span[@class='price' and normalize-space(text())='%price%']
+                            crosssell_price_special: //p[@class='special-price']//span[@class='price' and normalize-space(text())='%price%']
+                            crosssell_price_excluding_tax: "[not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']"
+                            crosssell_price_including_tax: "[not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[normalize-space(text())='%price%']"
+                            crosssell_price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']/span[normalize-space(text())='%price%']
+                            crosssell_price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']/span[normalize-space(text())='%price%']
+                            crosssell_price_as_low_as: //a[@class='minimal-price-link']/span[normalize-space(text())='%price%']
+                            ex_crosssell_price_regular: //span[@class='regular-price']/span[@class='price']
+                            ex_crosssell_price_old: //p[@class='old-price']//span[@class='price']
+                            ex_crosssell_price_special: //p[@class='special-price']//span[@class='price']
+                            ex_crosssell_price_excluding_tax: "[not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']/span[@class='price']"
+                            ex_crosssell_price_including_tax: "[not(*//p[@class='special-price'])]//span[@class='price-including-tax']/span[@class='price']"
+                            ex_crosssell_price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_crosssell_price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
+                            ex_crosssell_price_as_low_as: //a[@class='minimal-price-link']/span[@class='price']
         buttons:
             proceed_to_checkout: //button[span='Proceed to Checkout']
         links:
             checkout_with_multiple_addresses: //a[text()='Checkout with Multiple Addresses']
         messages:
-            product_added_to_cart:  //li[normalize-space(@class)='success-msg' and contains(.,'%productName% was added to your shopping cart.')]
+            product_added_to_cart: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% was added to your shopping cart.')]
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
             success_applied_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'Coupon code "%couponCode%" was applied.')]
