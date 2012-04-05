@@ -359,7 +359,7 @@ class Mage_Core_Model_Translate_Inline
      */
     protected function _tagAttributes()
     {
-        $this->_tagAttributesFor($this->_content);
+        $this->_prepareTagAttributesForContent($this->_content);
     }
 
     /**
@@ -367,7 +367,7 @@ class Mage_Core_Model_Translate_Inline
      *
      * @param string $content
      */
-    private function _tagAttributesFor(&$content)
+    protected function _prepareTagAttributesForContent(&$content)
     {
         if ($this->getIsJson()) {
             $quoteHtml   = '\"';
@@ -502,7 +502,7 @@ class Mage_Core_Model_Translate_Inline
             }
 
             if ($isNeedTranslateAttributes) {
-                $this->_tagAttributesFor($tagEnd);
+                $this->_prepareTagAttributesForContent($tagEnd);
             }
             $tagHtml .= $tagEnd;
 
