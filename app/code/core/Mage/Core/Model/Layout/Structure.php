@@ -270,12 +270,12 @@ class Mage_Core_Model_Layout_Structure
      * @param string $name
      * @param string $type
      * @param string $alias
-     * @param bool|null $after
      * @param string|null $sibling
+     * @param bool $after
      * @param array $options
      * @return string|bool
      */
-    public function insertElement($parentName, $name, $type, $alias = '', $after = null, $sibling = null,
+    public function insertElement($parentName, $name, $type, $alias = '', $sibling = null, $after = true,
         $options = array()
     ) {
         if (!in_array($type, array(self::ELEMENT_TYPE_BLOCK, self::ELEMENT_TYPE_CONTAINER))) {
@@ -292,14 +292,11 @@ class Mage_Core_Model_Layout_Structure
         $child = $this->_getTempOrNewNode($name);
         $child->setAttribute('type', $type);
         $child->setAttribute('alias', $alias);
-        if ($after !== null) {
+        if ($sibling) {
             if ($after) {
                 $attributeName = 'after';
             } else {
                 $attributeName = 'before';
-            }
-            if (!$sibling) {
-                $sibling = '-';
             }
             $child->setAttribute($attributeName, $sibling);
         }
@@ -310,7 +307,7 @@ class Mage_Core_Model_Layout_Structure
         $parentNode = $this->_findOrCreateParentNode($parentName);
         $this->_clearExistingChild($parentNode, $alias);
 
-        $siblingNode = $this->_getSiblingElement($parentNode, $after, $sibling);
+        $siblingNode = $this->_getSiblingElement($parentNode, $sibling, $after);
         $parentNode->insertBefore($child, $siblingNode);
 
         return $name;
@@ -358,36 +355,28 @@ class Mage_Core_Model_Layout_Structure
     }
 
     /**
-     * Get sibling element based on after and siblingName parameter
+     * Get sibling element based on $sibling and $after parameters
      *
      * @param DOMElement $parentNode
-     * @param bool|null $after
      * @param string|null $sibling
+     * @param bool $after
      * @return DOMElement|null
      */
-    protected function _getSiblingElement(DOMElement $parentNode, $after, $sibling)
+    protected function _getSiblingElement(DOMElement $parentNode, $sibling, $after)
     {
-        if ($after === null || !$parentNode->hasChildNodes()) {
+        if (!$sibling || !$parentNode->hasChildNodes()) {
             return null;
         }
-        if (($sibling == '-') || !$sibling) {
-            if ($after) {
-                return null;
-            } else {
-                return $parentNode->firstChild;
-            }
-        }
 
-        $siblingNode = $this->_getChildElement($parentNode->getAttribute('name'), $sibling);
+        $siblingNode = null;
+        if ($sibling != '-') {
+            $siblingNode = $this->_getChildElement($parentNode->getAttribute('name'), $sibling);
+        }
         if (!$siblingNode) {
             return $after ? null : $parentNode->firstChild;
         }
 
-        if ($after) {
-            return $siblingNode->nextSibling;
-        } else {
-            return $siblingNode;
-        }
+        return $after ? $siblingNode->nextSibling : $siblingNode;
     }
 
     /**
@@ -413,14 +402,14 @@ class Mage_Core_Model_Layout_Structure
      * @param string $parentName
      * @param string $name
      * @param string $alias
-     * @param bool|null $after
      * @param string|null $sibling
+     * @param bool $after
      * @param array $options
      * @return string|bool
      */
-    public function insertBlock($parentName, $name, $alias = '', $after = null, $sibling = null, $options = array())
+    public function insertBlock($parentName, $name, $alias = '', $sibling = null, $after = true, $options = array())
     {
-        return $this->insertElement($parentName, $name, self::ELEMENT_TYPE_BLOCK, $alias, $after, $sibling, $options);
+        return $this->insertElement($parentName, $name, self::ELEMENT_TYPE_BLOCK, $alias, $sibling, $after, $options);
     }
 
     /**
@@ -429,15 +418,15 @@ class Mage_Core_Model_Layout_Structure
      * @param string $parentName
      * @param string $name
      * @param string $alias
-     * @param bool|null $after
      * @param string|null $sibling
+     * @param bool $after
      * @param array $options
      * @return string|bool
      */
-    public function insertContainer($parentName, $name, $alias = '', $after = null, $sibling = null, $options = array())
+    public function insertContainer($parentName, $name, $alias = '', $sibling = null, $after = true, $options = array())
     {
         return $this->insertElement(
-            $parentName, $name, self::ELEMENT_TYPE_CONTAINER, $alias, $after, $sibling, $options
+            $parentName, $name, self::ELEMENT_TYPE_CONTAINER, $alias, $sibling, $after, $options
         );
     }
 

@@ -428,11 +428,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @param Mage_Core_Block_Abstract|string $element
      * @param string|null $siblingName
-     * @param bool|null $after
+     * @param bool $after
      * @param string $alias
      * @return Mage_Core_Block_Abstract|bool
      */
-    public function insert($element, $siblingName = null, $after = null, $alias = '')
+    public function insert($element, $siblingName = null, $after = true, $alias = '')
     {
         $layout = $this->getLayout();
         if (!$layout) {
@@ -448,9 +448,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             return false;
         }
         if ($layout->isContainer($elementName)) {
-            $this->getLayout()->insertContainer($this->getNameInLayout(), $elementName, $alias, $after, $siblingName);
+            $this->getLayout()->insertContainer($this->getNameInLayout(), $elementName, $alias, $siblingName, $after);
         } else {
-            $this->getLayout()->insertBlock($this->getNameInLayout(), $elementName, $alias, $after, $siblingName);
+            $this->getLayout()->insertBlock($this->getNameInLayout(), $elementName, $alias, $siblingName, $after);
         }
         return $this;
     }

@@ -220,7 +220,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($name1, $this->_layout->getChildName($parentName, 'alias1'));
 
         $name2 = 'block2';
-        $block2 = $this->_layout->addBlock(new Mage_Core_Block_Text, $name2, $parentName, 'alias2', true, $name1);
+        $block2 = $this->_layout->addBlock(new Mage_Core_Block_Text, $name2, $parentName, 'alias2', $name1, true);
         $this->assertInstanceOf('Mage_Core_Block_Text', $block2);
         $this->assertEquals(array($name1, $name2), $this->_layout->getChildNames($parentName));
         $this->assertTrue($this->_layout->hasElement($name2));

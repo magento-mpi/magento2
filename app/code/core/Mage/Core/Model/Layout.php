@@ -271,17 +271,19 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         if (isset($node['after'])) {
+            $sibling = $node['after'];
             $after = true;
         } else if (isset($node['before'])) {
+            $sibling = $node['before'];
             $after = false;
         } else {
-            $after = null;
+            $sibling = null;
+            $after = true;
         }
-        $sibling = $node->getSibling();
 
         $options = $this->_extractContainerOptions($node);
         $elementName = $this->_structure
-            ->insertElement($parentName, $name, $elementType, $alias, $after, $sibling, $options);
+            ->insertElement($parentName, $name, $elementType, $alias, $sibling, $after, $options);
 
         if ($this->_structure->isBlock($elementName)) {
             $node['name'] = $elementName;
@@ -404,13 +406,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $parentName
      * @param string $name
      * @param string $alias
+     * @param string|null $sibling
      * @param bool $after
-     * @param string $sibling
      * @return bool|string
      */
-    public function insertBlock($parentName, $name, $alias = '', $after = true, $sibling = '')
+    public function insertBlock($parentName, $name, $alias = '', $sibling = null, $after = true)
     {
-        return $this->_structure->insertBlock($parentName, $name, $alias, $after, $sibling);
+        return $this->_structure->insertBlock($parentName, $name, $alias, $sibling, $after);
     }
 
     /**
@@ -419,13 +421,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $parentName
      * @param string $name
      * @param string $alias
-     * @param bool|null $after
      * @param string|null $sibling
+     * @param bool $after
      * @return bool|string
      */
-    public function insertContainer($parentName, $name, $alias = '', $after = null, $sibling = null)
+    public function insertContainer($parentName, $name, $alias = '', $sibling = null, $after = true)
     {
-        return $this->_structure->insertContainer($parentName, $name, $alias, $after, $sibling);
+        return $this->_structure->insertContainer($parentName, $name, $alias, $sibling, $after);
     }
 
     /**
@@ -822,12 +824,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $sibling
      * @return Mage_Core_Block_Abstract
      */
-    public function addBlock($block, $name = '', $parent = '', $alias = '', $after = true, $sibling = '')
+    public function addBlock($block, $name = '', $parent = '', $alias = '', $sibling = null, $after = true)
     {
         if (empty($name) && $block instanceof Mage_Core_Block_Abstract) {
             $name = $block->getNameInLayout();
         }
-        $name = $this->_structure->insertBlock($parent, $name, $alias, $after, $sibling);
+        $name = $this->_structure->insertBlock($parent, $name, $alias, $sibling, $after);
         return $this->_createBlock($block, $name);
     }
 

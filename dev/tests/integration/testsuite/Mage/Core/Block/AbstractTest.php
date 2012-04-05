@@ -230,8 +230,8 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $blockTwo = $this->_createBlockWithLayout('block2', 'block2', 'Mage_Core_Block_Text');
         $blockOne->setText('one');
         $blockTwo->setText('two');
-        $parent->insert($blockTwo, '', false, 'block2'); // make block2 1st
-        $parent->insert($blockOne, '', false, 'block1'); // make block1 1st
+        $parent->insert($blockTwo, '-', false, 'block2'); // make block2 1st
+        $parent->insert($blockOne, '-', false, 'block1'); // make block1 1st
 
         $this->assertEquals('one', $parent->getChildHtml('block1'));
         $this->assertEquals('two', $parent->getChildHtml('block2'));
@@ -266,9 +266,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $block4->setText('four');
 
         $parent1->insert($parent2);
-        $parent2->insert($block1, '', false, 'block1');
-        $parent2->insert($block2, '', false, 'block2');
-        $parent2->insert($block3, '', true, 'block3');
+        $parent2->insert($block1, '-', false, 'block1');
+        $parent2->insert($block2, '-', false, 'block2');
+        $parent2->insert($block3, '-', true, 'block3');
         $parent1->insert($block4);
         $this->assertEquals('twoonethree', $parent1->getChildChildHtml('parent2'));
     }
