@@ -1483,33 +1483,32 @@ class Mage_Core_Model_App
     public function getAreasConfig()
     {
         if (is_null($this->_areasConfig)) {
-            $nodeAreas = $this->getConfig()->getNode("global/areas")->asArray();
-
             $this->_areasConfig = array();
-            foreach ($nodeAreas as $areaCode => $nodeArea) {
-                if (empty($areaCode)
-                    || (!isset($nodeArea['base_controller']) || empty($nodeArea['base_controller']))
-                    || (!isset($nodeArea['routers']) || !is_array($nodeArea['routers']))
-                ) {
-                    continue;
-                }
 
-                $routers = array();
-                foreach ($nodeArea['routers'] as $routerKey => $routerInfo) {
-                    if (empty($routerKey) || !isset($routerInfo['class'])) {
+            $nodeAreas = $this->getConfig()->getNode("global/areas");
+            if (is_object($nodeAreas)) {
+                foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
+                    if (empty($areaCode)
+                        || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
+                        || (!isset($areaInfo['routers']) || !is_array($areaInfo['routers']))
+                    ) {
                         continue;
                     }
 
-                    $routers[$routerKey] = $routerInfo;
-                }
-                if (empty($routers)) {
-                    continue;
-                }
+                    foreach ($areaInfo['routers'] as $routerKey => $routerInfo) {
+                        if (empty($routerKey) || !isset($routerInfo['class'])) {
+                            unset($areaInfo[$routerKey]);
+                        }
+                    }
+                    if (empty($areaInfo['routers'])) {
+                        continue;
+                    }
 
-                $this->_areasConfig[$areaCode] = array(
-                    'base_controller' => $nodeArea['base_controller'],
-                    'routers' => $routers
-                );
+                    $this->_areasConfig[$areaCode] = array(
+                        'base_controller' => $areaInfo['base_controller'],
+                        'routers' => $areaInfo['routers']
+                    );
+                }
             }
         }
 
