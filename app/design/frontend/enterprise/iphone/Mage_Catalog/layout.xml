@@ -400,22 +400,4 @@ SEO Site Map
             <action method="addLink" translate="label title" module="Mage_Catalog"><label>Categories Sitemap</label><url helper="Mage_Catalog_Helper_Map::getCategoryUrl"/><title>Categories Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_product>
-
-
-<!--
-Catalog search terms block
--->
-
-    <catalog_seo_searchterm_popular translate="label">
-        <label>Catalog Seo Popular Search Terms</label>
-        <remove name="right"/>
-        <remove name="left"/>
-        <reference name="root">
-            <action method="setTemplate"><template>1column.phtml</template></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Catalog_Block_Seo_Searchterm" name="seo.searchterm" template="seo/searchterm.phtml"/>
-        </reference>
-    </catalog_seo_searchterm_popular>
-
 </layout>

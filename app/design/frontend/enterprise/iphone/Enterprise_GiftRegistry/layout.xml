@@ -19,7 +19,7 @@
 
     <wishlist_index_index>
         <block type="Enterprise_GiftRegistry_Block_Wishlist_View" name="giftregistry.customer.wishlist" template="wishlist/view.phtml">
-            <block type="Enterprise_GiftRegistry_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
+            <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" as="item_options"/>
         </block>
     </wishlist_index_index>
 
