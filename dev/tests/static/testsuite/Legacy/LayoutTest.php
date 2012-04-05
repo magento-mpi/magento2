@@ -19,7 +19,7 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
         'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
         'customer_logged_in', 'customer_logged_out', 'customer_logged_in_psc_handle', 'customer_logged_out_psc_handle',
-        'cms_page',
+        'cms_page', 'sku_failed_products_handle',
     );
 
     /**

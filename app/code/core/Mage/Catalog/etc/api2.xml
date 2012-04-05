@@ -194,7 +194,7 @@
             </product>
             <product_category>
                 <group>catalog_product</group>
-                <model>Mage_Catalog_Model_Api2_Pproduct_Category</model>
+                <model>Mage_Catalog_Model_Api2_Product_Category</model>
                 <working_model>Mage_Catalog_Model_Category</working_model>
                 <title>Product Category</title>
                 <sort_order>40</sort_order>

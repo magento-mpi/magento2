@@ -272,27 +272,6 @@ Additional block dependant on product type
         </reference>
     </catalog_product_view_type_virtual>
 
-
-
-<!--
-Product send to friend
--->
-
-    <catalog_product_send translate="label">
-        <label>Catalog Product Email to a Friend</label>
-        <!-- Mage_Catalog -->
-        <reference name="root">
-            <action method="setTemplate"><template>1column.phtml</template></action>
-        </reference>
-        <reference name="head">
-            <action method="addJs"><script>varien/product.js</script></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Catalog_Block_Product_Send" name="product.send" template="product/send.phtml">
-            </block>
-        </reference>
-    </catalog_product_send>
-
 <!--
 Product additional images gallery popup
 -->

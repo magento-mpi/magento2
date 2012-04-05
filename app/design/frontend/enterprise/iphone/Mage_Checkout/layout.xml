@@ -67,7 +67,7 @@ Default layout, loads most of the pages
         </reference>
     </default>
 
-    <checkout_cart_index translate="label">
+    <checkout_cart_index translate="label" type="page" parent="default">
         <label>Shopping Cart</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -104,6 +104,20 @@ Default layout, loads most of the pages
                 <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
 
                 <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
+            </block>
+        </reference>
+        <reference name="checkout.cart">
+            <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="sku/failed.phtml" as="shopping.cart.table.after">
+                <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="sku/failed/info.phtml" />
+                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
+                <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_cart_item_renderer_configurable</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>virtual</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>undefined</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
             </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>
@@ -384,8 +398,13 @@ One page checkout progress block
 
     <checkout_onepage_progress translate="label" type="page" parent="ajax_index">
         <label>One Page Checkout Progress</label>
-        <remove name="right"/>
-        <remove name="left"/>
+        <reference name="root">
+            <block type="Mage_Checkout_Block_Onepage_Progress" name="progress" template="onepage/progress.phtml">
+                <block type="Mage_Checkout_Block_Onepage_Payment_Info" name="payment_info">
+                    <action method="setInfoTemplate"><method></method><template></template></action>
+                </block>
+            </block>
+        </reference>
     </checkout_onepage_progress>
 
 <!--
@@ -393,14 +412,13 @@ One page checkout payment methods block
 -->
     <checkout_onepage_paymentmethod translate="label" type="page" parent="ajax_index">
         <label>One Page Checkout Choose Payment Method</label>
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="Mage_Checkout_Block_Onepage_Payment_Methods" name="payment_method" output="1" template="onepage/payment/methods.phtml">
-            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>Mage_Payment::form/purchaseorder.phtml</template></action>
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.additional" as="additional" />
-        </block>
+        <reference name="root">
+            <block type="Mage_Checkout_Block_Onepage_Payment_Methods" name="payment_method" template="onepage/payment/methods.phtml">
+                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>Mage_Payment::form/purchaseorder.phtml</template></action>
+                <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
+                <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.additional" as="additional" />
+            </block>
+        </reference>
     </checkout_onepage_paymentmethod>
 
 
@@ -410,20 +428,18 @@ One page checkout shipping methods block
 
     <checkout_onepage_shippingmethod translate="label" type="page" parent="ajax_index">
         <label>One Page Checkout Choose Shipping Method</label>
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="Mage_Checkout_Block_Onepage_Shipping_Method_Available" name="shipping_method" output="1" template="onepage/shipping_method/available.phtml"/>
+        <reference name="root">
+            <block type="Mage_Checkout_Block_Onepage_Shipping_Method_Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
+        </reference>
     </checkout_onepage_shippingmethod>
 
     <checkout_onepage_additional translate="label" type="page" parent="ajax_index">
         <label>One Page Checkout Additional Address Form</label>
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="Mage_Checkout_Block_Onepage_Shipping_Method_Additional" name="shipping_method_additional" output="1" template="onepage/shipping_method/additional.phtml">
-            <action method="setDontDisplayContainer"><param>1</param></action>
-        </block>
+        <reference name="root">
+            <block type="Mage_Checkout_Block_Onepage_Shipping_Method_Additional" name="shipping_method_additional" template="onepage/shipping_method/additional.phtml">
+                <action method="setDontDisplayContainer"><param>1</param></action>
+            </block>
+        </reference>
     </checkout_onepage_additional>
 
 <!--
@@ -432,21 +448,19 @@ One page checkout order review block
 
     <checkout_onepage_review translate="label" type="page" parent="ajax_index">
         <label>One Page Checkout Overview</label>
-        <!-- Mage_Checkout -->
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="Mage_Checkout_Block_Onepage_Review_Info" name="order_review" output="1" template="onepage/review/info.phtml">
-                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>onepage/review/item.phtml</template></action>
-                <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
-            <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>
-            <container name="checkout.onepage.review.info.items.after" as="items_after" label="Items After"/>
-                <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
-                <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
-        </block>
-        <container name="additional.product.info" label="Additional Product Info"/>
+        <reference name="root">
+            <block type="Mage_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>onepage/review/item.phtml</template></action>
+                    <block type="Mage_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
+                <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>
+                <container name="checkout.onepage.review.info.items.after" as="items_after" label="Items After"/>
+                    <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
+                    <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
+            </block>
+            <container name="additional.product.info" label="Additional Product Info"/>
+        </reference>
     </checkout_onepage_review>
 
     <checkout_onepage_success translate="label" type="page" parent="checkout_onepage_index">
@@ -468,24 +482,7 @@ One page checkout order review block
         </reference>
     </checkout_onepage_failure>
     
-    <sku_failed_products_handle>
-        <reference name="checkout.cart">
-            <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="sku/failed.phtml" as="shopping.cart.table.after">
-                <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="sku/failed/info.phtml" />
-                <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
-                <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_cart_item_renderer_configurable</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>virtual</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>undefined</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
-            </block>
-        </reference>
-    </sku_failed_products_handle>
-    
-    <checkout_cart_configurefailed translate="label">
+    <checkout_cart_configurefailed translate="label" type="page" parent="checkout_cart_configure">
         <label>Configure Cart Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">

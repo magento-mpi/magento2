@@ -31,13 +31,6 @@
         </reference>
     </enterprise_giftregistry_index_index>
 
-    <enterprise_giftregistry_index_view>
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block type="Enterprise_GiftRegistry_Block_Customer_View" name="giftregistry.customer.view" template="customer/view.phtml"/>
-        </reference>
-    </enterprise_giftregistry_index_view>
-
     <enterprise_giftregistry_index_share translate="label" type="page" parent="enterprise_giftregistry_index_index">
         <label>Customer GiftRegistry Share</label>
         <update handle="customer_account"/>
