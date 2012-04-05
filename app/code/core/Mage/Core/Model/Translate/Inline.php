@@ -510,14 +510,15 @@ class Mage_Core_Model_Translate_Inline
     {
         $openTag = '<' . $tagName;
         $closeTag = '</' . $tagName;
-        $end = $from + strlen($openTag);
-        $length = $end - $from;
+        $tagLength = strlen($tagName);
+        $length = $tagLength + 1;
+        $end = $from + 1;
         while (substr_count($body, $openTag, $from, $length) != substr_count($body, $closeTag, $from, $length)) {
-            $end = strpos($body, $closeTag, $end + strlen($closeTag) - 1);
+            $end = strpos($body, $closeTag, $end + $tagLength + 1);
             if ($end === false) {
                 return false;
             }
-            $length = $end - $from  + strlen($closeTag);
+            $length = $end - $from  + $tagLength + 2;
         }
         if (preg_match('#<\/' . $tagName .'\s*?>#i', $body, $tagMatch, null, $end)) {
             return $end + strlen($tagMatch[0]);

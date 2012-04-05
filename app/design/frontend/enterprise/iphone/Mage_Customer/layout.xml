@@ -53,16 +53,7 @@ Layout for customer login page
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml">
-                <block type="Mage_Core_Block_Captcha" name="captcha">
-                    <reference name="head">
-                        <action method="addJs"><file>mage/captcha.js</file></action>
-                    </reference>
-                    <action method="setFormId"><formId>user_login</formId></action>
-                    <action method="setImgWidth"><width>230</width></action>
-                    <action method="setImgHeight"><width>50</width></action>
-                </block>
-            </block>
+            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
         </reference>
     </customer_account_login>
 
@@ -100,14 +91,6 @@ New customer registration
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
                 <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
-                <block type="Mage_Core_Block_Captcha" name="captcha">
-                    <reference name="head">
-                        <action method="addJs"><file>mage/captcha.js</file></action>
-                    </reference>
-                    <action method="setFormId"><formId>user_create</formId></action>
-                    <action method="setImgWidth"><width>230</width></action>
-                    <action method="setImgHeight"><width>50</width></action>
-                </block>
             </block>
         </reference>
     </customer_account_create>
@@ -123,16 +106,7 @@ New customer registration
         </reference>
         <reference name="content">
             <!--<block type="Mage_Core_Block_Template" name="forgotPassword" template="Mage_Customer::form/forgotpassword.phtml"/>-->
-            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml">
-                <block type="Mage_Core_Block_Captcha" name="captcha">
-                    <reference name="head">
-                        <action method="addJs"><file>mage/captcha.js</file></action>
-                    </reference>
-                    <action method="setFormId"><formId>user_forgotpassword</formId></action>
-                    <action method="setImgWidth"><width>230</width></action>
-                    <action method="setImgHeight"><width>50</width></action>
-                </block>
-            </block>
+            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml"/>
         </reference>
     </customer_account_forgotpassword>
 

@@ -144,9 +144,7 @@
                         <label for="confirmation"><?php echo $this->__('Confirm password') ?>:</label>
                         <input type="password" name="confirmation" id="confirmation" class="required-entry validate-cpassword" placeholder="<?php echo $this->__('Confirm Password') ?>" />
                     </li>
-                    <?php if (Mage::helper('Mage_Core_Helper_Captcha')->isRequired('user_create')): ?>
-                        <?php echo $this->getChildHtml('captcha') ?>
-                    <?php endif ?>
+                    <?php echo $this->getChildHtml('form.additional.info'); ?>
                 </ul>
                 <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><?php echo $this->__('Back') ?></a>
                 <input type="submit" value="<?php echo $this->__('Create') ?>" />

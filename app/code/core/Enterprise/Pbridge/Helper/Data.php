@@ -111,9 +111,9 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Generate identifier based on email
+     * Generate identifier based on email or ID
      *
-     * @param string $email
+     * @param string $email Customer e-mail or customer ID
      * @param int $storeId
      * @return null|string
      */
@@ -124,7 +124,11 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $merchantCode = Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId);
-        return md5($email . '@' . $merchantCode);
+        $uniqueId = Mage::getStoreConfig('payment/pbridge/uniquekey');
+        if ($uniqueId) {
+            $uniqueId .= '@';
+        }
+        return md5($uniqueId . $email . '@' . $merchantCode);
     }
 
     /**

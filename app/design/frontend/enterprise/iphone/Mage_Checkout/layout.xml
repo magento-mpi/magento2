@@ -353,14 +353,6 @@ One page checkout main layout
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
                     <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
-                    <block type="Mage_Core_Block_Captcha" name="captcha">
-                        <reference name="head">
-                            <action method="addJs"><file>mage/captcha.js</file></action>
-                        </reference>
-                        <action method="setFormId"><formId>user_login</formId></action>
-                        <action method="setImgWidth"><width>230</width></action>
-                        <action method="setImgHeight"><width>50</width></action>
-                    </block>
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">

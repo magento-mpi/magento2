@@ -423,10 +423,13 @@ Varien.DateElement.prototype = {
     },
     validate: function() {
         var error = false,
-            day = parseInt(this.day.value.replace(/^0*/, '')) || 0,
-            month = parseInt(this.month.value.replace(/^0*/, '')) || 0,
-            year = parseInt(this.year.value) || 0;
-        if (!day && !month && !year) {
+            day   = parseInt(this.day.value, 10)   || 0,
+            month = parseInt(this.month.value, 10) || 0,
+            year  = parseInt(this.year.value, 10)  || 0;
+        if (this.day.value.strip().empty()
+            && this.month.value.strip().empty()
+            && this.year.value.strip().empty()
+        ) {
             if (this.required) {
                 error = 'This date is a required value.';
             } else {

@@ -15,14 +15,6 @@
             <action method="setTemplate"><template>Mage_Persistent::customer/form/login.phtml</template></action>
             <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" />
             <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
-            <block type="Mage_Core_Block_Captcha" name="captcha">
-                <reference name="head">
-                    <action method="addJs"><file>mage/captcha.js</file></action>
-                </reference>
-                <action method="setFormId"><formId>user_login</formId></action>
-                <action method="setImgWidth"><width>230</width></action>
-                <action method="setImgHeight"><width>50</width></action>
-            </block>
         </reference>
     </customer_account_login>
 
@@ -31,14 +23,6 @@
             <action method="setTemplate"><template>Mage_Persistent::customer/form/register.phtml</template></action>
             <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" />
             <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
-            <block type="Mage_Core_Block_Captcha" name="captcha">
-                <reference name="head">
-                    <action method="addJs"><file>mage/captcha.js</file></action>
-                </reference>
-                <action method="setFormId"><formId>user_create</formId></action>
-                <action method="setImgWidth"><width>230</width></action>
-                <action method="setImgHeight"><width>50</width></action>
-            </block>
         </reference>
     </customer_account_create>
 
@@ -50,14 +34,6 @@
         <reference name="checkout.onepage.billing">
             <action method="setTemplate"><template>Mage_Persistent::checkout/onepage/billing.phtml</template></action>
             <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" />
-            <block type="Mage_Core_Block_Captcha" name="captcha">
-                <reference name="head">
-                    <action method="addJs"><file>mage/captcha.js</file></action>
-                </reference>
-                <action method="setFormId"><formId>user_login</formId></action>
-                <action method="setImgWidth"><width>230</width></action>
-                <action method="setImgHeight"><width>50</width></action>
-            </block>
             <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
         </reference>
     </checkout_onepage_index>

@@ -63,6 +63,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </transferkey>
+                        <uniquekey translate="label comment" module="Enterprise_Pbridge">
+                            <label>Magento Unique Identifier</label>
+                            <comment>Optional. Used in case of multiple Magento instances use the same Payment Bridge merchant account (Merchant Code).</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </uniquekey>
                         <debug translate="label" module="Enterprise_Pbridge">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>

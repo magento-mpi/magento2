@@ -260,7 +260,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         if ($order->getCustomer() && $order->getCustomer()->getId()) {
             $email = $order->getCustomerEmail();
-            $request->setData('customer_id', Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($email));
+            $id = $order->getCustomer()->getId();
+            $request->setData('customer_id', Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($id));
         }
 
         if (!$order->getIsVirtual()) {
