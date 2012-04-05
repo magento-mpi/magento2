@@ -224,6 +224,8 @@ class Mage_Core_Model_App
      */
     protected $_isCacheLocked = null;
 
+    protected $_areasConfig = null;
+
     /**
      * Constructor
      */
@@ -1477,4 +1479,53 @@ class Mage_Core_Model_App
             unset($this->_websites[$website->getCode()]);
         }
     }
+
+    public function getAreasConfig()
+    {
+        if (is_null($this->_areasConfig)) {
+            $nodeAreas = $this->getConfig()->getNode("global/areas")->asArray();
+
+            $this->_areasConfig = array();
+            foreach ($nodeAreas as $areaCode => $nodeArea) {
+                if (empty($areaCode)
+                    || (!isset($nodeArea['base_controller']) || empty($nodeArea['base_controller']))
+                    || (!isset($nodeArea['routers']) || !is_array($nodeArea['routers']))
+                ) {
+                    continue;
+                }
+
+                $routers = array();
+                foreach ($nodeArea['routers'] as $routerKey => $routerInfo) {
+                    if (empty($routerKey) || !isset($routerInfo['class'])) {
+                        continue;
+                    }
+
+                    $routers[$routerKey] = $routerInfo;
+                }
+                if (empty($routers)) {
+                    continue;
+                }
+
+                $this->_areasConfig[$areaCode] = array(
+                    'base_controller' => $nodeArea['base_controller'],
+                    'routers' => $routers
+                );
+            }
+        }
+
+        return $this->_areasConfig;
+    }
+
+    public function getAreaRouters()
+    {
+        $routers = array();
+        foreach ($this->getAreasConfig() as $areaCode => $areaInfo) {
+            foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
+                $routerInfo['area'] = $areaCode;
+                $routers[$routerKey] = $routerInfo;
+            }
+        }
+        return $routers;
+    }
+
 }
