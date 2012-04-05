@@ -201,11 +201,9 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
                 $this->_critical(self::RESOURCE_NOT_FOUND);
             }
             // check if product belongs to website current
-            if ($this->getRequest()->getParam('store')) {
-                $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
-                if (!$isValidWebsite) {
-                    $this->_critical(self::RESOURCE_NOT_FOUND);
-                }
+            $isValidWebsite = in_array($this->_getStore()->getWebsiteId(), $product->getWebsiteIds());
+            if (!$isValidWebsite) {
+                $this->_critical(self::RESOURCE_NOT_FOUND);
             }
             // Check display settings for customers & guests
             if ($this->getApiUser()->getType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
