@@ -122,7 +122,12 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 continue;
             }
             if (isset($routerInfo['class'])) {
-                $router = new $routerInfo['class'];
+                $options = array();
+                if (isset($routerInfo['area']) && isset($routerInfo['base_controller'])) {
+                    $options['area'] = $routerInfo['area'];
+                    $options['base_controller'] = $routerInfo['base_controller'];
+                }
+                $router = new $routerInfo['class']($options);
                 if (isset($routerInfo['area'])) {
                     $router->collectRoutes($routerInfo['area'], $routerCode);
                 }

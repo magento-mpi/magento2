@@ -1521,6 +1521,7 @@ class Mage_Core_Model_App
         foreach ($this->getAreasConfig() as $areaCode => $areaInfo) {
             foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
                 $routerInfo['area'] = $areaCode;
+                $routerInfo['base_controller'] = $areaInfo['base_controller'];
                 $routers[$routerKey] = $routerInfo;
             }
         }
