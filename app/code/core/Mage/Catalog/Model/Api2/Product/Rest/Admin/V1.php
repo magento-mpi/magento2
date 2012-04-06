@@ -206,6 +206,9 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         if (isset($data['sku'])) {
             $product->setSku($data['sku']);
         }
+        // attribute set and product type cannot be updated
+        unset($data['attribute_set_id']);
+        unset($data['type_id']);
         $this->_prepareDataForSave($product, $data);
         try {
             $product->validate();
