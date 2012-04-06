@@ -128,6 +128,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                             }
                             if (isset($pages[$pageName])) {
                                 $this->_mergeUimapIncludes($pages[$pageName], $content);
+                            } else {
+                                $pages[$pageName] = $content;
                             }
                         }
                     } else {
@@ -167,11 +169,16 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                         $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
                     } else {
                         list($keyFrom) = array_keys($value);
-                        list($keyTo) = array_keys($replaceArrayTo[$key]);
-                        if ($keyFrom != $keyTo) {
-                            $replaceArrayTo[] = $value;
+                        foreach ($replaceArrayTo as $number => $content) {
+                            foreach ($replaceArrayTo[$number] as $name => $content) {
+                                $keysTo[$number] = $name;
+                            }
+                        }
+                        if (in_array($keyFrom, $keysTo)) {
+                            $ddd = array_search($keyFrom, $keysTo);
+                            $this->_mergeUimapIncludes($replaceArrayTo[$ddd], $value);
                         } else {
-                            $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
+                            $replaceArrayTo[] = $value;
                         }
                     }
                 } else {
