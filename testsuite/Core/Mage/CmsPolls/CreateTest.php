@@ -37,20 +37,17 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Log in to Backend.</p>
-     * <p>Close all opened Polls</p>
      */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore('generic_store_view', 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->clearInvalidedCache();
     }
 
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Polls</p>
-     *
+     * <p>Close all opened Polls</p>
      */
     protected function assertPreConditions()
     {
@@ -68,7 +65,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Click button "Save Poll"</p>
      * <p>Expected result:</p>
      * <p>Received the message that the Poll has been saved.</p>
-     * <p>Poll is displayed on Homepage</p>
+     * <p>Poll is displayed on About Us page</p>
      *
      * @test
      * @TestlinkId	TL-MAGE-3217
@@ -85,9 +82,10 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_poll');
         $this->cmsPollsHelper()->openPoll($searchPollData);
         $this->cmsPollsHelper()->checkPollData($pollData);
-        $this->frontend();
+        $this->clearInvalidedCache();
+        $this->frontend('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name),
-                'There is no ' . $name . ' poll on home page');
+                'There is no ' . $name . ' poll on the page');
     }
 
     /**
@@ -179,7 +177,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>1. Click button "Add New Poll".</p>
      * <p>2. Fill in the fields, set state to "Close".</p>
      * <p>3. Click button "Save Poll".</p>
-     * <p>4. Check poll on Homepage.</p>
+     * <p>4. Check poll on About Us page.</p>
      * <p>Expected result:</p>
      * <p>Poll should not be displayed.</p>
      *
@@ -197,18 +195,20 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_poll');
-        $this->frontend();
+        $this->clearInvalidedCache();
+        $this->frontend('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name),
-                'There is no ' . $name . ' poll on home page');
+                'There is no ' . $name . ' poll on the page');
         //Steps
         $this->admin();
         $this->navigate('poll_manager');
         $this->cmsPollsHelper()->setPollState($searchPollData, 'Closed');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_poll');
-        $this->frontend();
+        $this->clearInvalidedCache();
+        $this->frontend('about_us');
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($name),
-                'There is ' . $name . ' poll on home page');
+                'There is ' . $name . ' poll on the page');
     }
 
     /**
@@ -217,8 +217,8 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>1. Click button "Add New Poll"</p>
      * <p>2. Fill in the fields.</p>
      * <p>3. Click button "Save Poll".</p>
-     * <p>4. Vote a poll on Homepage.</p>
-     * <p>5. Re-open Homepage.</p>
+     * <p>4. Vote a poll on About Us page.</p>
+     * <p>5. Re-open About Us page.</p>
      * <p>Expected result:</p>
      * <p>Poll should not be available for vote</p>
      *
@@ -235,14 +235,14 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Steps and Verifying
         $this->cmsPollsHelper()->createPoll($pollData);
         $this->assertMessagePresent('success', 'success_saved_poll');
-        $this->frontend();
+        $this->clearInvalidedCache();
+        $this->frontend('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name),
-                'There is no ' . $name . ' poll on home page');
+                'There is no ' . $name . ' poll on the page');
         $this->cmsPollsHelper()->vote($name, $pollData['assigned_answers_set']['answer_1']['answer_title']);
         //Verifying
-        //Re-open Home page
-        $this->frontend();
+        $this->frontend('about_us');
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($name),
-                'There is ' . $name . ' poll on home page');
+                'There is ' . $name . ' poll on the page');
     }
 }

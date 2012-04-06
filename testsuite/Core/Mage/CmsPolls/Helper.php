@@ -94,10 +94,10 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Check Poll exists on frontend
+     * Check if Poll exists on frontend
      *
      * @param string $pollTitle "Poll Question"
-     * @return boolean Return TRUE if poll is visible on home page
+     * @return boolean Return TRUE if poll is visible on the page
      */
     public function frontCheckPoll($pollTitle)
     {
