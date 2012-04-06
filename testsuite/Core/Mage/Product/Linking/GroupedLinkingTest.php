@@ -136,9 +136,8 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = (isset($linking[$assignProductType . 'Option']))
-            ? $linking[$assignProductType . 'Option']
-            : array();
+        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart', null,
+                                         $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
         $assign = $this->loadDataSet('Product', $assignType . '_1',
@@ -302,9 +301,8 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = (isset($linking[$assignProductType . 'Option']))
-            ? $linking[$assignProductType . 'Option']
-            : array();
+        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart', null,
+                                         $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
         $assign = $this->loadDataSet('Product', $assignType . '_1',

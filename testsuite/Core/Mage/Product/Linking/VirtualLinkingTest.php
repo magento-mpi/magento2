@@ -136,9 +136,6 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'virtual';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = (isset($linking[$assignProductType . 'Option']))
-            ? $linking[$assignProductType . 'Option']
-            : array();
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
         $assign = $this->loadDataSet('Product', $assignType . '_1',
@@ -159,7 +156,7 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
-        $this->productHelper()->frontAddProductToCart($dataForBuy);
+        $this->productHelper()->frontAddProductToCart();
         $this->addParameter('productName', $forLinking['product_name']);
         if (!$this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
@@ -302,9 +299,6 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'virtual';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = (isset($linking[$assignProductType . 'Option']))
-            ? $linking[$assignProductType . 'Option']
-            : array();
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
         $assign = $this->loadDataSet('Product', $assignType . '_1',
@@ -334,7 +328,7 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
-        $this->productHelper()->frontAddProductToCart($dataForBuy);
+        $this->productHelper()->frontAddProductToCart();
         $this->addParameter('productName', $forLinking['product_name']);
         if ($this->controlIsPresent('link', $assignType . '_product')) {
             $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
