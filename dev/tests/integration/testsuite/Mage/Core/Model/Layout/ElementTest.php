@@ -21,7 +21,7 @@ class Mage_Core_Model_Layout_ElementTest extends PHPUnit_Framework_TestCase
 
     public function testPrepare()
     {
-        $this->_model = new Mage_Core_Model_Layout_Element(dirname(__FILE__) . '/../_files/_layout_update.xml', 0, true);
+        $this->_model = new Mage_Core_Model_Layout_Element(__DIR__ . '/../_files/_layout_update.xml', 0, true);
 
         list($blockNode) = $this->_model->xpath('//block[@name="head"]');
         list($actionNode) = $this->_model->xpath('//action[@method="setTitle"]');

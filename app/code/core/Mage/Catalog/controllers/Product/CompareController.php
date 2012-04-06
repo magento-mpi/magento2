@@ -60,7 +60,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId
-            && (Mage::getSingleton('log/visitor')->getId() || Mage::getSingleton('customer/session')->isLoggedIn())
+            && (Mage::getSingleton('Mage_Log_Model_Visitor')->getId() || Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn())
         ) {
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())

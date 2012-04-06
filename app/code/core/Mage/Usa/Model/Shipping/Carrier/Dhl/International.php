@@ -1461,7 +1461,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }

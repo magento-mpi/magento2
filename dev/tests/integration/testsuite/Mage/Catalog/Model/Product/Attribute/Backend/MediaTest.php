@@ -27,17 +27,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
      */
     protected static $_mediaTmpDir;
 
-    /**
-     * @var string
-     */
-    protected static $_mediaDir;
-
-    /**
-     * @var string
-     */
-    protected static $_fixtureDir;
-
-
     public static function setUpBeforeClass()
     {
         self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getTmpMediaPath();
@@ -45,11 +34,11 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
         $mediaDir           = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getMediaPath();
 
         mkdir(self::$_mediaTmpDir, 0777, true);
-        mkdir(self::$_mediaDir, 0777, true);
+        mkdir($mediaDir, 0777, true);
 
-        copy(self::$_fixtureDir . "/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
-        copy(self::$_fixtureDir . "/magento_image.jpg", self::$_mediaDir . "/magento_image.jpg");
-        copy(self::$_fixtureDir . "/magento_small_image.jpg", self::$_mediaTmpDir . "/magento_small_image.jpg");
+        copy($fixturesDir . "/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
+        copy($fixturesDir . "/magento_image.jpg", $mediaDir . "/magento_image.jpg");
+        copy($fixturesDir . "/magento_small_image.jpg", self::$_mediaTmpDir . "/magento_small_image.jpg");
     }
 
     public static function tearDownAfterClass()

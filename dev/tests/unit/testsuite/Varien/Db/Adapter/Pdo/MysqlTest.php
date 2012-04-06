@@ -28,7 +28,7 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /*
      * Mock DB adapter for DDL query tests
      */
-    private $mockAdapter;
+    private $_mockAdapter;
 
     /**
      * Setup
@@ -43,13 +43,13 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->mockAdapter = $this->getMock(
+        $this->_mockAdapter = $this->getMock(
             'Varien_Db_Adapter_Pdo_Mysql',
             array('beginTransaction', 'getTransactionLevel'),
             array(), '', false
         );
 
-        $this->mockAdapter->expects($this->any())
+        $this->_mockAdapter->expects($this->any())
              ->method('getTransactionLevel')
              ->will($this->returnValue(1));
     }
@@ -110,15 +110,15 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $this->mockAdapter->query($query);
+            $this->_mockAdapter->query($query);
         } catch (Exception $e) {
             $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) === false);
         }
 
-        $select = new Zend_Db_Select($this->mockAdapter);
+        $select = new Zend_Db_Select($this->_mockAdapter);
         $select->from('user');
         try {
-            $this->mockAdapter->query($select);
+            $this->_mockAdapter->query($select);
         } catch (Exception $e) {
             $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) === false);
         }
@@ -140,7 +140,7 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Mage::getIsDeveloperMode());
 
         try {
-            $this->mockAdapter->query($ddlQuery);
+            $this->_mockAdapter->query($ddlQuery);
         } catch (Exception $e) {
             $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) !== false);
         }
@@ -164,7 +164,7 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Mage::getIsDeveloperMode());
 
         try {
-            $this->mockAdapter->query($ddlQuery);
+            $this->_mockAdapter->query($ddlQuery);
         } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
         }
@@ -175,7 +175,8 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Data Provider for testCheckDdlTransaction
      */
-    public static function ddlSqlQueryProvider() {
+    public static function ddlSqlQueryProvider()
+    {
         return array(
             array('CREATE table user'),
             array('ALTER table user'),
@@ -188,7 +189,8 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Data Provider for testCheckNotDdlTransaction
      */
-    public static function sqlQueryProvider() {
+    public static function sqlQueryProvider()
+    {
         return array(
             array(false, 'SELECT * FROM user'),
             array(false, 'UPDATE user'),
@@ -204,7 +206,8 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Custom Error handler function
      */
-    public function errorHandler($errno, $errstr, $errfile, $errline) {
+    public function errorHandler($errno, $errstr, $errfile, $errline)
+    {
         call_user_func(Mage_Core_Model_App::DEFAULT_ERROR_HANDLER,
             $errno, $errstr, $errfile, $errline
         );
