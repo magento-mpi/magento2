@@ -26,9 +26,11 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
     {
         $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
-        $this->_headerText = (!$this->escapeHtml($this->getCustomerSegment()->getName()))
-            ? Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segments Report')
-            : Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment Report \'%s\'',$this->escapeHtml($this->getCustomerSegment()->getName()));
+        if ($this->getCustomerSegment() && $name = $this->getCustomerSegment()->getName()) {
+            $this->_headerText = $this->__('Customer Segment Report \'%s\'', $this->escapeHtml($name));
+        } else {
+            $this->_headerText = $this->__('Customer Segments Report');
+        }
 
         parent::__construct();
         $this->_removeButton('add');
