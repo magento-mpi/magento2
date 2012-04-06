@@ -23,7 +23,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         /* Point application to predefined layout fixtures */
         Mage::getConfig()->setOptions(array(
-            'design_dir' => __DIR__ . '/_files/design',
+            'design_dir' => dirname(__FILE__) . '/_files/design',
         ));
         Mage::getDesign()->setDesignTheme('test/default/default');
 
@@ -90,7 +90,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->_layout->generateXml();
         /* Generate fixture
-        file_put_contents(__DIR__ . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
+        file_put_contents(dirname(__FILE__) . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
         */
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/_layout_update.xml', $this->_layout->getXmlString());
 

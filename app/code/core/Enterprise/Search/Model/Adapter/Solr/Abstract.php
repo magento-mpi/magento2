@@ -382,7 +382,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if ($target == 'sort') {
             $fieldPrefix .= $target . '_';
         } elseif ($target == 'nav') {
-            if (in_array($frontendInput, array('multiselect', 'select'))) {
+            if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch() || $attribute->usesSource()) {
                 $fieldPrefix .= $target . '_';
             }
         }

@@ -314,17 +314,16 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Bug MAGE-6271');
         $model = $this->_createModel(true);
 
-        $currentStoreId = Mage::app()->getStore()->getId();
-        $oldValue = (string)$model->getNode('web/secure/use_in_frontend', 'store', $currentStoreId);
-
+        $store = Mage::app()->getStore();
+        $oldValue = (string)$store->getConfig('web/secure/use_in_frontend');
         foreach (array(0, 1) as $newValue) {
-            $model->saveConfig('web/secure/use_in_frontend', 0, 'store', $currentStoreId);
+            $store->setConfig('web/secure/use_in_frontend', $newValue);
             $model->reinit();
             $this->assertFalse($model->shouldUrlBeSecure('/'));
             $this->assertEquals($model->shouldUrlBeSecure('/checkout/onepage'), (bool)$newValue);
         }
 
-        $model->saveConfig('web/secure/use_in_frontend', $oldValue, 'store', $currentStoreId);
+        $store->setConfig('web/secure/use_in_frontend', $oldValue);
     }
 
     public function testGetTablePrefix()

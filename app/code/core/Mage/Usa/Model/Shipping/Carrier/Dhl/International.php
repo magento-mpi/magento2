@@ -86,13 +86,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_rates = array();
 
     /**
-     * Store Id
-     *
-     * @var int|null
-     */
-    protected $_storeId = null;
-
-    /**
      * Carrier's code
      *
      * @var string
@@ -168,7 +161,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         if (!$origValue) {
             $origValue = Mage::getStoreConfig(
                 $pathToValue,
-                $this->_storeId
+                $this->getStore()
             );
         }
 
@@ -188,7 +181,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $requestDhl     = clone $request;
-        $this->_storeId  = $requestDhl->getStoreId();
+        $this->setStore($requestDhl->getStoreId());
 
         $origCompanyName = $this->_getDefaultValue(
             $requestDhl->getOrigCompanyName(),
@@ -274,7 +267,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     public function setRequest(Varien_Object $request)
     {
         $this->_request = $request;
-        $this->_storeId = $request->getStoreId();
+        $this->setStore($request->getStoreId());
 
         $requestObject = new Varien_Object();
 
@@ -1089,7 +1082,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $countryParams = $this->getCountryParams(
-            Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('Please, specify origin country');
@@ -1396,7 +1389,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $i = 0;
         foreach ($rawRequest->getPackages() as $package) {
             $nodePiece = $nodePieces->addChild('Piece', '', '');
-            $packageType = 'DC';
+            $packageType = 'EE';
             if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
                 $packageType = 'CP';
             }
@@ -1431,7 +1424,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
 
             $nodeShipmentDetails->addChild('Date', Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
-            $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
+            $nodeShipmentDetails->addChild('Contents', 'DHL Parcel');
             /*
              * The DoorTo Element defines the type of delivery service that applies to the shipment.
              * The valid values are DD (Door to Door), DA (Door to Airport) , AA and DC (Door to
@@ -1468,7 +1461,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('core/date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }

@@ -615,6 +615,7 @@ class Enterprise_PageCache_Model_Observer
      * Observer on changed Customer SegmentIds
      *
      * @param Varien_Event_Observer $observer
+     * @return void
      */
     public function changedCustomerSegmentIds(Varien_Event_Observer $observer)
     {
