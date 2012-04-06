@@ -112,8 +112,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         $routersInfo = array_merge(
-            Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH),
-            Mage::app()->getAreaRouters()
+            Mage::app()->getConfig()->getRouters(),
+            Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH)
         );
 
         Magento_Profiler::start('collect_routers');

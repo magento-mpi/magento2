@@ -371,4 +371,26 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         }
         return $model;
     }
+
+    public function testGetAreas()
+    {
+        $model = $this->_createModel(true);
+        $this->assertNotNull($model->getAreas(), "Areas are not initialized");
+
+        /** TODO uncomment assert
+         * commented because there are no implemented areas
+         */
+        // $this->assertGreaterThan(0, count($model->getAreas()), "At least one area should be defined");
+    }
+
+    public function testGetRouters()
+    {
+        $model = $this->_createModel(true);
+        $this->assertNotNull($model->getRouters(), "Routers are not initialized");
+
+        /** TODO uncomment assert
+         * commented because there are no implemented areas with routers inside
+         */
+        // $this->assertGreaterThan(0, count($model->getAreas()), "At least one router should be defined");
+    }
 }
