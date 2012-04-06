@@ -1268,6 +1268,32 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
+     * Test product resource post with all fields and check media attributes were saved
+     */
+    public function testPostMediaAttributesDefaultValue()
+    {
+        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        $location = $restResponse->getHeader('Location');
+        list($productId) = array_reverse(explode('/', $location));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->_deleteProductAfterTest($product);
+
+        $found = false;
+        foreach ($product->getMediaAttributes() as $mediaAttribute) {
+            $mediaAttrCode = $mediaAttribute->getAttributeCode();
+            $this->assertEquals($product->getData($mediaAttrCode), 'no_selection',
+                'Attribute "' . $mediaAttrCode . '" has no default value');
+            $found = true;
+        }
+        $this->assertTrue($found, 'Media attrributes not found');
+    }
+
+    /**
      * Mark product for removal in tear down
      *
      * @param $product

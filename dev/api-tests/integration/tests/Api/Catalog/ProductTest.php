@@ -462,4 +462,34 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $this->assertEquals($data['update_custom_store']['productData']['name'], $productTestStore->getName(),
             'Product name attribute should not have been changed for test store');
     }
+
+    /**
+     * Test create product to test default values for media attributes
+     *
+     * @return void
+     */
+    public function testProductCreateForTestMediaAttributesDefaultValue()
+    {
+        $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $productData = $productData['create'];
+
+        // create product for test
+        $productId = $this->call('catalog_product.create', $productData);
+        $this->setFixture('productId', $productId);
+
+        // test new product id returned
+        $this->assertGreaterThan(0, $productId);
+
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+
+        $found = false;
+        foreach ($product->getMediaAttributes() as $mediaAttribute) {
+            $mediaAttrCode = $mediaAttribute->getAttributeCode();
+            $this->assertEquals($product->getData($mediaAttrCode), 'no_selection',
+                'Attribute "' . $mediaAttrCode . '" has no default value');
+            $found = true;
+        }
+        $this->assertTrue($found, 'Media attrributes not found');
+    }
 }
