@@ -59,7 +59,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, susses message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3382
+     * @TestlinkId TL-MAGE-3382
      * @test
      */
     public function productWithAllTypesCustomOption()
@@ -96,7 +96,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider emptyFieldInCustomOptionDataProvider
      *
-     * @TestlinkId    TL-MAGE-3376
+     * @TestlinkId TL-MAGE-3376
      * @test
      */
     public function emptyFieldInCustomOption($emptyCustomField)
@@ -144,7 +144,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider emptyOptionRowTitleInCustomOptionDataProvider
      *
-     * @TestlinkId    TL-MAGE-3377
+     * @TestlinkId TL-MAGE-3377
      * @test
      */
     public function emptyOptionRowTitleInCustomOption($optionDataName)
@@ -190,7 +190,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericValueDataProvider
      *
-     * @TestlinkId    TL-MAGE-3379
+     * @TestlinkId TL-MAGE-3379
      * @test
      */
     public function invalidSortOrderInCustomOption($invalidData)
@@ -231,7 +231,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider invalidNumericValueDataProvider
      *
-     * @TestlinkId    TL-MAGE-3378
+     * @TestlinkId TL-MAGE-3378
      * @test
      */
     public function invalidMaxCharInCustomOption($invalidData)
@@ -274,28 +274,30 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $optionDataName
-     * @param $message
      *
      * @dataProvider invalidCustomOptionDataProvider
      *
-     * @TestlinkId    TL-MAGE-3383
+     * @TestlinkId TL-MAGE-3383
      * @test
      *
      * @group skip_due_to_bug
      */
-    public function specialSymbolsInCustomOptionsPrice($optionDataName, $message)
+    public function specialSymbolsInCustomOptionsPrice($optionDataName)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $string = $this->generate('string', 9, ':punct:');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                                                                array('custom_options_price' => $this->generate('string',
-                                                                                                                9,
-                                                                                                                ':punct:')));
+                                                                array('custom_options_price' => $string));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertMessagePresent('validation', $message);
+        if ($optionDataName == 'custom_options_file') {
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        } else {
+            $this->assertMessagePresent('validation', 'enter_valid_number');
+        }
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -315,44 +317,46 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @param $optionDataName
-     * @param $message
      *
      * @dataProvider invalidCustomOptionDataProvider
      *
-     * @TestlinkId    TL-MAGE-3384
+     * @TestlinkId TL-MAGE-3384
      * @test
      *
      * @group skip_due_to_bug
      */
-    public function textValueInCustomOptionsPrice($optionDataName, $message)
+    public function textValueInCustomOptionsPrice($optionDataName)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $string = $this->generate('string', 9, ':alpha:');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                                                                array('custom_options_price' => $this->generate('string',
-                                                                                                                9,
-                                                                                                                ':alpha:')));
+                                                                array('custom_options_price' => $string));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertMessagePresent('validation', $message);
+        if ($optionDataName == 'custom_options_file') {
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        } else {
+            $this->assertMessagePresent('validation', 'enter_valid_number');
+        }
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function invalidCustomOptionDataProvider()
     {
         return array(
-            array('custom_options_field', 'enter_valid_number'),
-            array('custom_options_area', 'enter_valid_number'),
-            array('custom_options_file', 'enter_zero_or_greater'), //Fails due to MAGE-4609
-            array('custom_options_date', 'enter_zero_or_greater'),
-            array('custom_options_date_time', 'enter_zero_or_greater'),
-            array('custom_options_time', 'enter_zero_or_greater'),
-            array('custom_options_dropdown', 'enter_valid_number'),
-            array('custom_options_radiobutton', 'enter_valid_number'),
-            array('custom_options_checkbox', 'enter_valid_number'),
-            array('custom_options_multipleselect', 'enter_valid_number')
+            array('custom_options_field'),
+            array('custom_options_area'),
+            array('custom_options_file'),
+            array('custom_options_date'),
+            array('custom_options_date_time'),
+            array('custom_options_time'),
+            array('custom_options_dropdown'),
+            array('custom_options_radiobutton'),
+            array('custom_options_checkbox'),
+            array('custom_options_multipleselect')
         );
     }
 
@@ -375,7 +379,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider negativeNumberInCustomOptionsPriceNegDataProvider
      *
-     * @TestlinkId    TL-MAGE-3380
+     * @TestlinkId TL-MAGE-3380
      * @test
      *
      * @group skip_due_to_bug
@@ -422,7 +426,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @dataProvider negativeNumberInCustomOptionsPricePosDataProvider
      *
-     * @TestlinkId    TL-MAGE-3381
+     * @TestlinkId TL-MAGE-3381
      * @test
      */
     public function negativeNumberInCustomOptionsPricePos($optionName)

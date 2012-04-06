@@ -1386,11 +1386,9 @@ duplicate_downloadable:
     cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
     downloadable_information_data:
-        downloadable_samples_title: Samples Title
-        downloadable_links_title: Links Title
+        downloadable_samples_title: Samples Title %randomize%
+        downloadable_links_title: Links Title %randomize%
         downloadable_links_purchased_separately: No
-        downloadable_sample_1: *samplesDownloadable
-        downloadable_link_1: *linksDownloadable
 
 ########################################################################################################################
 #                                  Frontend product details validation                                                 #

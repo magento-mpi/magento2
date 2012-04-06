@@ -30,13 +30,11 @@ product_page:
     mca: %productUrl%.html
     title: %productTitle%
     uimap:
-        form:   &productPage
-            fieldsets:
+        form:
+            fieldsets: &productFieldsets
                 -
-                    product_info: &productInfo
+                    product_info:
                         xpath: //div[@class='product-essential']
-                        buttons:
-                            add_to_cart: //button[span='Add to Cart']
                         fields:
                             product_qty: //input[@id='qty']
                             grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
@@ -93,12 +91,12 @@ product_page:
                             ex_price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
                             ex_as_low_as: //div[@class='product-shop']//a[@class='minimal-price-link']/span[@class='price']
                 -
-                    product_custom_option_head: &productCustomOptionsHead
+                    product_custom_option_head:
                         xpath: //dt[contains(label,'%title%')]
                         pageelements:
                             custom_option_non_select: //span[normalize-space(text())='%price%']
                 -
-                    product_custom_option_body: &productCustomOptionsBody
+                    product_custom_option_body:
                         xpath: //dt[contains(label,'%title%')]/following-sibling::dd[1]
                         buttons:
                             custom_option_file: //input[@type='file']
@@ -139,28 +137,28 @@ product_page:
                             #custom_option_select_wo_price: //option[contains(text(),'%optionTitle%')]
                             #custom_option_check_wo_price: //label[contains(text(),'%optionTitle%')]
                 -
-                    details: &details
+                    details:
                         xpath: //div[h2[text()='Details']]
                         pageelements:
                             descriprion: //div[@class='std' and normalize-space(text())='%longDescription%']
                 -
-                    additional_info: &additionalInfo
+                    additional_info:
                         xpath: //div[h2[text()='Additional Information']]
                 -
-                    add_tag: &addTag
+                    add_tag:
                         xpath: "//div[label[text()='Add Your Tags:']]"
                         buttons:
                             add_tags: //button[@title='Add Tags']
                         fields:
                             input_new_tags: //input[@id='productTagName']
                 -
-                    related: &related
+                    related:
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']
                         links:
                             related_select_all: //*[text()='select all']
                             related_product: //a[text()='%productName%']
                 -
-                    related_product: &relatedProduct
+                    related_product:
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']//li[*//a[text()='%productName%']]
                         links:
                             related_add_to_wishlist: //a[@class='link-wishlist']
@@ -188,12 +186,12 @@ product_page:
                             ex_related_as_low_as_excl_tax: //a[@class='minimal-price-link']/span[@class='price-excluding-tax']
                             ex_related_as_low_as_incl_tax: //a[@class='minimal-price-link']/span[@class='price-including-tax']
                 -
-                    upsells: &upsells
+                    upsells:
                         xpath: //div[@class='box-collateral box-up-sell']
                         links:
                             up_sells_product: //div[@class='box-collateral box-up-sell']//a[text()='%productName%']
                 -
-                    upsells_product: &upsellsProduct
+                    upsells_product:
                         xpath: //td[*//a[text()='%productName%']]
                         pageelements:
                             upsell_price_regular: //span[@class='regular-price']/span[normalize-space(text())='%price%']
@@ -217,7 +215,7 @@ product_page:
                             ex_upsell_as_low_as_excl_tax: //a[@class='minimal-price-link']/span[@class='price-excluding-tax']
                             ex_upsell_as_low_as_incl_tax: //a[@class='minimal-price-link']/span[@class='price-including-tax']
                 -
-                    compare_products: &compareProducts
+                    compare_products:
                         xpath: //div[contains(div/strong/span,'Compare Products')]
                         links:
                           compare_clear_all: //a[text()='Clear All']
@@ -228,7 +226,8 @@ product_page:
                         pageelements:
                           compare_block_empty: //p[text()='You have no items to compare.']
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
-
+        buttons:
+            add_to_cart: //button[span='Add to Cart']
         messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
@@ -245,50 +244,30 @@ product_review:
     title: %productTitle%
     uimap: &productReview
         form:
-            fieldsets:
-                -
-                    product_info: *productInfo
-                -
-                    product_custom_option_head: *productCustomOptionsHead
-                -
-                    product_custom_option_body: *productCustomOptionsBody
-                -
-                    details: *details
-                -
-                    additional_info: *additionalInfo
-                -
-                    add_tag: *addTag
-                -
-                    related: *related
-                -
-                    related_product: *relatedProduct    
-                -
-                    upsells: *upsells
-                -
-                    upsells_product: *upsellsProduct
-                -
-                    compare_products: *compareProducts
-                -
-                    customer_reviews:
-                        xpath: //div[@id = 'customer-reviews']
-                        dropdowns:
-                            show_per_page: //div[@class='limiter']/select
-                        fields:
-                            nickname: //input[@id='nickname_field']
-                            summary_of_review: //input[@id='summary_field']
-                            review: //textarea[@id='review_field']
-                        links:
-                            review_summary: //dt[span='%reviewerName%']/a
-                        pageelements:
-                            review_details: //dt[span='%reviewerName%']/following-sibling::dd[1]
-                            review_rate_name: //dt[span='%reviewerName%']/following-sibling::dd[1]//th[text()='%rateName%']
-                            review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
-                            review_table_rate_name: //table[@id='product-review-table']//th[text()='%rateName%']
-                            review_reviwer_name: //span[text()='%reviewerName%']
-                        buttons:
-                            submit_review: //button[span='Submit Review']
-                        radiobuttons:
-                            select_rate:  //input[@id='%rateName%_%rateId%']
+            <<: *productFieldsets
+            -
+                customer_reviews:
+                    xpath: //div[@id = 'customer-reviews']
+                    dropdowns:
+                        show_per_page: //div[@class='limiter']/select
+                    fields:
+                        nickname: //input[@id='nickname_field']
+                        summary_of_review: //input[@id='summary_field']
+                        review: //textarea[@id='review_field']
+                    links:
+                        review_summary: //dt[span='%reviewerName%']/a
+                    pageelements:
+                        review_details: //dt[span='%reviewerName%']/following-sibling::dd[1]
+                        review_rate_name: //dt[span='%reviewerName%']/following-sibling::dd[1]//th[text()='%rateName%']
+                        review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
+                        review_table_rate_name: //table[@id='product-review-table']//th[text()='%rateName%']
+                        review_reviwer_name: //span[text()='%reviewerName%']
+                    buttons:
+                        submit_review: //button[span='Submit Review']
+                    radiobuttons:
+                        select_rate: //input[@id='%rateName%_%rateId%']
+        buttons:
+            add_to_cart: //button[span='Add to Cart']
         messages: *productMessages
 
 product_review_index:
