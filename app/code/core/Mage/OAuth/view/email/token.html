@@ -8,10 +8,10 @@ Available vars in this template:
 Use vars: {{var var_name}}
 *}<!--@subject Welcome, {{var name}} @-->
 <!--@vars
-{"htmlescape var=$userName":"User name",
+{"escapehtml var=$userName":"User name",
 "var $applicationName":"Application name",
 "var $status":"Token new status"}
 @-->
 
-Hello, {{htmlescape var=$userName}}<br /><br />
-Your authorization to <b>{{htmlescape var=$applicationName}}</b> has been changed to <b>{{htmlescape var=$status}}</b> by Admin team.<br /><br />
+Hello, {{escapehtml var=$userName}}<br /><br />
+Your authorization to <b>{{escapehtml var=$applicationName}}</b> has been changed to <b>{{escapehtml var=$status}}</b> by Admin team.<br /><br />
