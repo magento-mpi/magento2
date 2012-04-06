@@ -14,6 +14,13 @@
 class Mage_Api_Controller_Action extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Currently used area
+     *
+     * @var string
+     */
+    protected $_currentArea = 'adminhtml';
+
+    /**
      * Use 'admin' store and prevent the session from starting
      *
      * @return Mage_Api_Controller_Action

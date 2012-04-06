@@ -36,6 +36,13 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     protected $_usedModuleName = 'adminhtml';
 
     /**
+     * Currently used area
+     *
+     * @var string
+     */
+    protected $_currentArea = 'adminhtml';
+
+    /**
      * Namespace for session.
      *
      * @var string
