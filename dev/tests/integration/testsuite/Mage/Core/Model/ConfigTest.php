@@ -311,6 +311,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testShouldUrlBeSecure()
     {
+        $this->markTestIncomplete('Bug MAGE-6271');
         $model = $this->_createModel(true);
 
         $currentStoreId = Mage::app()->getStore()->getId();

@@ -18,7 +18,7 @@
         <reference name="left">
             <block type="Mage_Api2_Block_Adminhtml_Roles_Tabs" name="adminhtml.role.edit.tabs">
                 <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Info" name="adminhtml.role.edit.tab.info"/>
-                <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Resources" name="adminhtml.role.edit.tab.resources" template="permissions/rolesedit.phtml"/>
+                <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Resources" name="adminhtml.role.edit.tab.resources" template="Mage_Adminhtml::permissions/rolesedit.phtml"/>
                 <action method="addTab">
                     <id>api2_role_section_info</id>
                     <block>adminhtml.role.edit.tab.info</block>
@@ -43,7 +43,7 @@
         <reference name="left">
             <block type="Mage_Api2_Block_Adminhtml_Roles_Tabs" name="adminhtml.role.edit.tabs">
                 <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Info" name="adminhtml.role.edit.tab.info"/>
-                <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Resources" name="adminhtml.role.edit.tab.resources" template="permissions/rolesedit.phtml"/>
+                <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Resources" name="adminhtml.role.edit.tab.resources" template="Mage_Adminhtml::permissions/rolesedit.phtml"/>
                 <block type="Mage_Api2_Block_Adminhtml_Roles_Tab_Users" name="adminhtml.role.edit.tab.users"/>
                 <action method="addTab">
                     <id>api2_role_section_info</id>

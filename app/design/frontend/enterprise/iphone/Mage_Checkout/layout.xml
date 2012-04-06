@@ -107,8 +107,8 @@ Default layout, loads most of the pages
             </block>
         </reference>
         <reference name="checkout.cart">
-            <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="sku/failed.phtml" as="shopping.cart.table.after">
-                <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="sku/failed/info.phtml" />
+            <block type="Enterprise_Checkout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
+                <block type="Enterprise_Checkout_Block_Sku_Products_Info" name='additional.product.info' template="cart/sku/failed/info.phtml" />
                 <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>
                 <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_cart_item_renderer</block><template>cart/item/failed.phtml</template></action>

@@ -14,9 +14,9 @@
         <remove name="js_cookie" />
         <reference name="head">
             <action method="setTemplate">
-                <template>oauth/authorize/head-simple.phtml</template>
+                <template>Mage_OAuth::athorize/head-simple.phtml</template>
             </action>
-            <block type="Mage_OAuth_Block_Authorize_Style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
+            <block type="Mage_OAuth_Block_Authorize_Style" name="oauth.authorize.style" template="Mage_OAuth::authorize/simple-css.phtml" />
         </reference>
     </oauth_authorize_head_simple>
 
@@ -24,7 +24,7 @@
         <label>OAuth authorization for customer</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/1column.phtml</template>
+                <template>1column.phtml</template>
             </action>
         </reference>
         <reference name="content">
@@ -46,19 +46,19 @@
         <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/empty.phtml</template>
+                <template>Mage_Page::empty.phtml</template>
             </action>
         </reference>
         <remove name="header"/>
         <label>OAuth authorization Pop Up for customer</label>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
-                <template>oauth/authorize/form/login-simple.phtml</template>
+                <template>Mage_OAuth::authorize/form/login-simple.phtml</template>
             </action>
         </reference>
         <reference name="oauth.authorize.button">
             <action method="setTemplate">
-                <template>oauth/authorize/button-simple.phtml</template>
+                <template>Mage_OAuth::authorize/button-simple.phtml</template>
             </action>
         </reference>
     </oauth_authorize_simple>
@@ -69,11 +69,11 @@
         <label>Confirm OAuth token authorization</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/1column.phtml</template>
+                <template>1column.phtml</template>
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
+            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.confirm" template="Mage_OAuth::authorize/confirm.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -90,13 +90,13 @@
         <update handle="oauth_authorize_head_simple"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/empty.phtml</template>
+                <template>Mage_Page::empty.phtml</template>
             </action>
         </reference>
         <remove name="header"/>
         <reference name="oauth.authorize.confirm">
             <action method="setTemplate">
-                <template>oauth/authorize/confirm-simple.phtml</template>
+                <template>Mage_OAuth::authorize/confirm-simple.phtml</template>
             </action>
         </reference>
     </oauth_authorize_confirmsimple>
@@ -107,11 +107,11 @@
         <label>Reject OAuth token authorization</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/1column.phtml</template>
+                <template>1column.phtml</template>
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
+            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.reject" template="Mage_OAuth::authorize/reject.phtml"/>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
@@ -134,7 +134,7 @@
         <remove name="header"/>
         <reference name="oauth.authorize.reject">
             <action method="setTemplate">
-                <template>oauth/authorize/reject-simple.phtml</template>
+                <template>Mage_OAuth::authorize/reject-simple.phtml</template>
             </action>
         </reference>
     </oauth_authorize_rejectsimple>

@@ -56,7 +56,7 @@
         <remove name="js_cookie" />
         <reference name="head">
             <action method="setTemplate">
-                <template>oauth/authorize/head-simple.phtml</template>
+                <template>Mage_OAuth::authorize/head-simple.phtml</template>
             </action>
             <block type="Mage_OAuth_Block_Authorize_Style" name="oauth.authorize.style" template="authorize/simple-css.phtml" />
         </reference>
@@ -79,12 +79,12 @@
         <update handle="oauth_authorize_head_simple"/>
         <reference name="oauth.authorize.form">
             <action method="setTemplate">
-                <template>oauth/authorize/form/login-simple.phtml</template>
+                <template>Mage_OAuth::authorize/form/login-simple.phtml</template>
             </action>
         </reference>
         <reference name="oauth.authorize.button">
             <action method="setTemplate">
-                <template>oauth/authorize/button-simple.phtml</template>
+                <template>Mage_OAuth::authorize/button-simple.phtml</template>
             </action>
         </reference>
     </adminhtml_oauth_authorize_simple>
@@ -97,7 +97,7 @@
             <action method="setTemplate"><template>Mage_Page::empty.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Template" name="oauth.authorize.confirm" template="Mage_OAuth:authorize/confirm.phtml" />
+            <block type="Mage_Core_Block_Template" name="oauth.authorize.confirm" template="Mage_OAuth::authorize/confirm.phtml" />
         </reference>
     </adminhtml_oauth_authorize_confirm>
 
@@ -107,7 +107,7 @@
         <label>Confirm token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.confirm">
             <action method="setTemplate">
-                <template>oauth/authorize/confirm-simple.phtml</template>
+                <template>Mage_OAuth::authorize/confirm-simple.phtml</template>
             </action>
         </reference>
     </adminhtml_oauth_authorize_confirmsimple>
@@ -122,7 +122,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Template" name="oauth.authorize.reject" template="Mage_OAuth:authorize/reject.phtml" />
+            <block type="Mage_Core_Block_Template" name="oauth.authorize.reject" template="Mage_OAuth::authorize/reject.phtml" />
         </reference>
     </adminhtml_oauth_authorize_reject>
 
@@ -132,7 +132,7 @@
         <label>Reject token authorization Pop Up for admin</label>
         <reference name="oauth.authorize.reject">
             <action method="setTemplate">
-                <template>oauth/authorize/reject-simple.phtml</template>
+                <template>Mage_OAuth::authorize/reject-simple.phtml</template>
             </action>
         </reference>
     </adminhtml_oauth_authorize_rejectsimple>
