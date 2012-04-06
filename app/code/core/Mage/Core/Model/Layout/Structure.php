@@ -103,9 +103,13 @@ class Mage_Core_Model_Layout_Structure
      * @param string $elementName
      * @param string $alias
      * @return Mage_Core_Model_Layout_Structure
+     * @throws Magento_Exception
      */
     public function setChild($parentName, $elementName, $alias)
     {
+        if (!$elementName) {
+            throw new Magento_Exception('Can not set child: element name is empty');
+        }
         if (empty($alias)) {
             $alias = $elementName;
         }

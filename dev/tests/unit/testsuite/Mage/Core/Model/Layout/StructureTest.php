@@ -64,6 +64,14 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($child, $this->_model->getChildName($parent, $alias));
     }
 
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testSetChildEmpty()
+    {
+        $this->_model->setChild('parent', '', 'alias');
+    }
+
     public function testGetChildBeforeParent()
     {
         $parent = 'parent';

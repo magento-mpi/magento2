@@ -91,8 +91,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->_initLayoutMessages('Mage_Catalog_Model_Session');
-
-        $this->getLayout()->addBlock('Mage_Customer_Block_Account_Dashboard', '', 'content');
         $this->getLayout()->getBlock('head')->setTitle($this->__('My Account'));
         $this->renderLayout();
     }
