@@ -2312,6 +2312,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $cDefault = new Zend_Db_Expr('0 ON UPDATE CURRENT_TIMESTAMP');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
                 $cDefault = new Zend_Db_Expr('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+            } else if ($cNullable && !$cDefault) {
+                $cDefault = new Zend_Db_Expr('NULL');
             } else {
                 $cDefault = new Zend_Db_Expr('0');
             }
