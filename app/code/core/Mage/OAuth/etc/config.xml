@@ -52,7 +52,7 @@
             <email>
                 <oauth_email_template translate="label" module="Mage_OAuth">
                     <label>Token Status Change</label>
-                    <file>token.html</file>
+                    <file>email/token.html</file>
                     <type>html</type>
                 </oauth_email_template>
             </email>
