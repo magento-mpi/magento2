@@ -214,7 +214,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceAttributes($node)
     {
         $attributes = $this->getNode('resources/' . $node . '/attributes');
-        return $attributes ? (array) $attributes : array();
+        return $attributes ? $attributes->asCanonicalArray() : array();
     }
 
     /**
@@ -367,7 +367,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceUserPrivileges($resource, $userType)
     {
         $attributes = $this->getNode('resources/' . $resource . '/privileges/' . $userType);
-        return $attributes ? (array)$attributes : array();
+        return $attributes ? $attributes->asCanonicalArray() : array();
     }
 
     /**
@@ -379,7 +379,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getResourceSubresources($node)
     {
         $subresources = $this->getNode('resources/' . $node . '/subresources');
-        return $subresources ? (array)$subresources : array();
+        return $subresources ? $subresources->asCanonicalArray() : array();
     }
 
     /**
@@ -392,7 +392,7 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getValidationConfig($resourceType, $validatorType)
     {
         $config = $this->getNode('resources/' . $resourceType . '/validators/' . $validatorType);
-        return $config ? $config->asArray() : array();
+        return $config ? $config->asCanonicalArray() : array();
     }
 
     /**

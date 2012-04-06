@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license}
+ *
+ * @category    design
+ * @package     base_default
+ */
+?>
+<?php
+/**
+ * "Grant Access" button
+ *
+ * @see Mage_OAuth_Block_Authorize
+ */
+?>
+<?php /** @var $this Mage_Core_Block_Template */ ?>
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-form">
+            <h1><?php echo $this->__('Rejection Of Authorization') ?></h1>
+            <?php echo $this->getMessagesBlock()->toHtml() ?>
+        </div>
+        <p class="legal"><?php echo $this->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?></p>
+        <div class="bottom"></div>
+    </div>
+</div>
