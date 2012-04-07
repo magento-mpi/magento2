@@ -15,12 +15,12 @@
  * @package    Mage_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Payment_Block_Info_Container extends Mage_Core_Block_Template
+abstract class Mage_Payment_Block_Info_ContainerAbstract extends Mage_Core_Block_Template
 {
     /**
      * Add payment info block to layout
      *
-     * @return Mage_Payment_Block_Info_Container
+     * @return Mage_Payment_Block_Info_ContainerAbstract
      */
     protected function _prepareLayout()
     {
@@ -49,19 +49,16 @@ class Mage_Payment_Block_Info_Container extends Mage_Core_Block_Template
     /**
      * Retrieve payment info model
      *
-     * @return Mage_Payment_Model_Info
+     * @return Mage_Payment_Model_Info|false
      */
-    public function getPaymentInfo()
-    {
-        return false;
-    }
+    abstract public function getPaymentInfo();
 
     /**
      * Declare info block template
      *
      * @param   string $method
      * @param   string $template
-     * @return  Mage_Payment_Block_Info_Container
+     * @return  Mage_Payment_Block_Info_ContainerAbstract
      */
     public function setInfoTemplate($method='', $template='')
     {
