@@ -544,6 +544,16 @@ Validation.addAllThese([
                 }
                 return (pass.value == conf.value);
             }],
+    ['validate-both-passwords', 'Please make sure your passwords match.', function(v, input) {
+                var dependentInput = $(input.form[input.name == 'password' ? 'confirmation' : 'password']),
+                    isEqualValues  = input.value == dependentInput.value;
+
+                if (isEqualValues && dependentInput.hasClassName('validation-failed')) {
+                    Validation.test(this.className, dependentInput);
+                }
+
+                return dependentInput.value == '' || isEqualValues;
+            }],
     ['validate-url', 'Please enter a valid URL. Protocol is required (http://, https:// or ftp://)', function (v) {
                 v = (v || '').replace(/^\s+/, '').replace(/\s+$/, '');
                 return Validation.get('IsEmpty').test(v) || /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(.*)?$/i.test(v)

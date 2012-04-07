@@ -310,7 +310,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             )
             ->join(
                 array('r' => $ruleTable),
-                'c.rule_id = r.rule_id',
+                'c.rule_id = r.rule_id AND r.is_active = 1',
                 array('schedule' => 'schedule')
             )
             ->joinLeft(

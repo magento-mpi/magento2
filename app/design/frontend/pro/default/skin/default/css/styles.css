@@ -176,6 +176,14 @@ input.input-text:focus,select:focus,textarea:focus { background-color:#fafafa; }
 .form-list li.additional-row { border-top:1px solid #ccc; margin-top:10px; padding-top:7px; }
 .form-list li.additional-row .btn-remove { float:right; margin:5px 0 0; }
 .form-list .input-range input.input-text { width:74px; }
+
+.form-list-narrow li  { margin-bottom:0; } 
+.form-list-narrow li .input-box { margin-bottom:6px; }
+.form-list-narrow li.wide .input-box { width:260px; } 
+.form-list-narrow li.wide input.input-text, 
+.form-list-narrow li.wide textarea { width:254px } 
+.form-list-narrow li.wide select { width:260px; }
+
 /* Customer */
 .form-list .customer-name-prefix .input-box,
 .form-list .customer-name-suffix .input-box,
@@ -1167,7 +1175,13 @@ tr.summary-details-excluded { font-style:italic; }
 .cart-table .item-msg { margin:5px 0; font-size:11px; font-weight:bold; color:#df280a; }
 .cart-table tfoot tr { background:none !important; }
 .cart-table tfoot td { padding:15px 25px!important; background:transparent!important; text-align:left !important; }
+.cart-table tfoot .cart-buttons { float:left; }
+.cart-table tfoot button.btn-continue { float:left; }
+.cart-table tfoot button.btn-empty,
+.cart-table tfoot button.btn-update { float:right; margin-left:10px; }
+.cart-table tfoot button.btn-empty span,
 .cart-table tfoot button.btn-update span { border:0; background:none; padding:0 2px; font-size:12px; font-weight:normal; line-height:23px; text-transform:none; color:#214d90; }
+.cart-table tfoot button.btn-empty:hover span
 .cart-table tfoot button.btn-update:hover span { text-decoration:underline; }
 
 
@@ -1539,8 +1553,8 @@ tr.summary-details-excluded { font-style:italic; }
 /* Captcha */
 .captcha-note { clear:left; padding-top:5px;}
 .input-box.captcha { width:244px; }
-.captcha-image { border:1px solid #b6b6b6; margin:0; position:relative; width:258px; }
-.captcha-image .captcha-img { vertical-align:bottom; width:100%; }
+.captcha-image { margin:0; position:relative; width:258px; }
+.captcha-image .captcha-img { border:1px solid #b6b6b6; vertical-align:bottom; width:100%; }
 .registered-users .captcha-image { margin:0; }
 #login-form .captcha-image { width:298px; }
 .account-login #login-form .captcha-image { width:328px; }

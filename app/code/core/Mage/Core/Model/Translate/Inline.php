@@ -341,6 +341,16 @@ class Mage_Core_Model_Translate_Inline
      */
     protected function _tagAttributes()
     {
+        $this->_prepareTagAttributesForContent($this->_content);
+    }
+
+    /**
+     * Prepare tags inline translates for the content
+     *
+     * @param string $content
+     */
+    protected function _prepareTagAttributesForContent(&$content)
+    {
         if ($this->getIsJson()) {
             $quoteHtml   = '\"';
         } else {
@@ -350,7 +360,7 @@ class Mage_Core_Model_Translate_Inline
         $tagMatch   = array();
         $nextTag    = 0;
         $tagRegExp  = '#<([a-z]+)\s*?[^>]+?((' . $this->_tokenRegex . ')[^>]*?)+/?>#i';
-        while (preg_match($tagRegExp, $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
+        while (preg_match($tagRegExp, $content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
             $next       = 0;
             $tagHtml    = $tagMatch[0][0];
             $m          = array();
@@ -366,7 +376,7 @@ class Mage_Core_Model_Translate_Inline
                     $trAttr  = ' translate=' . $quoteHtml
                         . htmlspecialchars('[' . join(',', $trArr) . ']') . $quoteHtml;
                 }
-                $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
+                $content = substr_replace($content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
             }
             $nextTag = $tagMatch[0][1] + strlen($tagHtml);
         }
@@ -474,7 +484,7 @@ class Mage_Core_Model_Translate_Inline
             }
 
             if ($isNeedTranslateAttributes) {
-                $this->_tagAttributes($tagEnd);
+                $this->_prepareTagAttributesForContent($tagEnd);
             }
             $tagHtml .= $tagEnd;
 

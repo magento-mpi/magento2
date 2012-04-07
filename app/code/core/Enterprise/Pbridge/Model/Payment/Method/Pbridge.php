@@ -257,11 +257,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         ;
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
-
         if ($order->getCustomer() && $order->getCustomer()->getId()) {
             $email = $order->getCustomerEmail();
             $id = $order->getCustomer()->getId();
-            $request->setData('customer_id', Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($id));
+            $request->setData('customer_id',
+                Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
+            );
         }
 
         if (!$order->getIsVirtual()) {

@@ -204,7 +204,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function logoutAction()
     {
         $this->_getSession()->logout()
-            ->setBeforeAuthUrl(Mage::getUrl());
+            ->renewSession()
+            ->setBeforeAuthUrl($this->_getRefererUrl());
 
         $this->_redirect('*/*/logoutSuccess');
     }

@@ -131,10 +131,18 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         return $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddUrl($product);
     }
 
+    /**
+     * Gets minimal sales quantity
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return int|null
+     */
     public function getMinimalQty($product)
     {
-        if ($stockItem = $product->getStockItem()) {
-            return ($stockItem->getMinSaleQty() && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null);
+        $stockItem = $product->getStockItem();
+        if ($stockItem) {
+            return ($stockItem->getMinSaleQty()
+                && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null);
         }
         return null;
     }
@@ -540,6 +548,18 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     public function getCanShowProductPrice($product)
     {
         return $product->getCanShowPrice() !== false;
+    }
+
+    /**
+     * Get if it is necessary to show product stock status
+     *
+     * @return bool
+     */
+    public function displayProductStockStatus()
+    {
+        $statusInfo = new Varien_Object(array('display_status' => true));
+        Mage::dispatchEvent('catalog_block_product_status_display', array('status' => $statusInfo));
+        return (boolean)$statusInfo->getDisplayStatus();
     }
 
     /**

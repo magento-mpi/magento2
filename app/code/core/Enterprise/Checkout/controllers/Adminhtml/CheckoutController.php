@@ -108,8 +108,12 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 Mage::app()->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
             }
         } else {
-            // Assign store to quote when it will be saved
-            $quote->setStore(Mage::app()->getStore($storeId));
+            // customer and addresses should be set to resolve situation when no quote was saved for customer previously
+            // otherwise quote would be saved with customer_id = null and zero totals
+            $quote->setStore(Mage::app()->getStore($storeId))->setCustomer($customer);
+            $quote->getBillingAddress();
+            $quote->getShippingAddress();
+            $quote->save();
         }
 
         Mage::register('checkout_current_quote', $quote);

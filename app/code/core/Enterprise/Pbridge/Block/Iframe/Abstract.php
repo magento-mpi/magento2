@@ -254,8 +254,10 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     public function getCustomerIdentifier()
     {
         $customer = $this->_getCurrentCustomer();
+        $store = $this->_getCurrentStore();
         if ($customer && $customer->getEmail()) {
-            return Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($customer->getId());
+            return Mage::helper('Enterprise_Pbridge_Helper_Data')
+                ->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
         }
         return null;
     }
@@ -304,5 +306,15 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         }
 
         return null;
+    }
+
+    /**
+     * Return store for current context
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getCurrentStore()
+    {
+        return Mage::app()->getStore();
     }
 }
