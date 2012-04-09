@@ -2,10 +2,12 @@
 /**
  * Automated replacement of license notice into placeholders
  *
- * {license}
+ * {license_notice}
  *
  * @category Magento
  * @package tools
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 $sourceDir = realpath(__DIR__ . '/../../..');

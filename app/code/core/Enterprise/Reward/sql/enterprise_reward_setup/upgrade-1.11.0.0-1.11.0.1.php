@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /** @var $installer Enterprise_Reward_Model_Resource_Setup */

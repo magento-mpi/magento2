@@ -2,10 +2,12 @@
 /**
  * Files excluded from license notices replacement
  *
- * {license}
+ * {license_notice}
  *
  * @category build
  * @package license
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 return array(

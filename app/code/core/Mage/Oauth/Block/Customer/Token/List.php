@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Oauth
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 
