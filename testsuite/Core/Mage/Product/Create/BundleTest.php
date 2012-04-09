@@ -354,7 +354,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->addFieldIdToMessage('field', 'general_weight');
-        $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
     }
 
     /**
