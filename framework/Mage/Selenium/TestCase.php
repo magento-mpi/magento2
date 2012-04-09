@@ -1056,16 +1056,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _parseMessages()
     {
         $area = $this->getArea();
+        $page = $this->getCurrentUimapPage();
         if ($area == 'admin' || $area == 'frontend') {
-            $fieldNameWithValidationMessage = $this->_getControlXpath('pageelement', 'fieldNameWithValidationMessage');
-            self::$_messages['notice'] = $this->getElementsByXpath($this->_getMessageXpath('general_notice'));
-            self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'),
-                                                                       'text', $fieldNameWithValidationMessage);
+            $fieldNameWithMessage = $page->findPageelement('fieldNameWithValidationMessage');
+            self::$_messages['notice'] = $this->getElementsByXpath($page->findMessage('general_notice'));
+            self::$_messages['validation'] = $this->getElementsByXpath($page->findMessage('general_validation'),
+                                                                       'text', $fieldNameWithMessage);
         } else {
-            self::$_messages['validation'] = $this->getElementsByXpath($this->_getMessageXpath('general_validation'));
+            self::$_messages['validation'] = $this->getElementsByXpath($page->findMessage('general_validation'));
         }
-        self::$_messages['success'] = $this->getElementsByXpath($this->_getMessageXpath('general_success'));
-        self::$_messages['error'] = $this->getElementsByXpath($this->_getMessageXpath('general_error'));
+        self::$_messages['success'] = $this->getElementsByXpath($page->findMessage('general_success'));
+        self::$_messages['error'] = $this->getElementsByXpath($page->findMessage('general_error'));
     }
 
     /**
@@ -1710,7 +1711,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
-            $messagesOnPage = self::messagesToString($this->getParsedMessages());
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
             if (strlen($messagesOnPage) > 0) {
@@ -1792,7 +1793,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $messages = $this->getCurrentUimapPage()->getAllElements('messages');
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
-            $messagesOnPage = self::messagesToString($this->getParsedMessages());
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
                 . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
             if (strlen($messagesOnPage) > 0) {
@@ -2875,7 +2876,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @return bool
      * @throws InvalidArgumentException|OutOfRangeException
      */
-    public function verifyForm($data, $tabId = '', $skipElements = array('password'))
+    public function verifyForm($data, $tabId = '', $skipElements = array('password', 'password_confirmation'))
     {
         if (is_string($data)) {
             $data = $this->loadData($data);
