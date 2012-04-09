@@ -13,19 +13,24 @@ class Mage_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework_Te
 {
     public function testSetInfoTemplate()
     {
-        include '_files/container_descendant.php';
+        $block = $this->getMock('Mage_Payment_Block_Info_ContainerAbstract', array('getChildBlock', 'getPaymentInfo'));
+
+        $paymentInfo = new Mage_Payment_Model_Info;
+        $methodInstance = new Mage_Payment_Model_Method_Checkmo;
+        $paymentInfo->setMethodInstance($methodInstance);
+        $block->expects($this->atLeastOnce())
+            ->method('getPaymentInfo')
+            ->will($this->returnValue($paymentInfo));
 
         $childBlock = new Mage_Core_Block_Template;
-
-        $block = $this->getMock('Mage_Payment_Block_Info_Container_Descendant', array('getChildBlock'));
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
-            ->with('payment.info.method_descendant')
+            ->with('payment.info.checkmo')
             ->will($this->returnValue($childBlock));
 
         $template = 'any_template.phtml';
         $this->assertNotEquals($template, $childBlock->getTemplate());
-        $block->setInfoTemplate('method_descendant', $template);
+        $block->setInfoTemplate('checkmo', $template);
         $this->assertEquals($template, $childBlock->getTemplate());
     }
 }
