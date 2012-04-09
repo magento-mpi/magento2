@@ -290,7 +290,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            if (Mage::getSingleton('admin/session')->isAllowed('customer/newsletter')) {
+            if (Mage::getSingleton('admin/session')->isAllowed('customer/newsletter')
+                && !$customer->getConfirmation()
+            ) {
                 $customer->setIsSubscribed(isset($data['subscription']));
             }
 
