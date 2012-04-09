@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
             $this->assertNotContains($newTitle, $html);
         }
 
-        $block = $this->_buildBlock($newTitles); // Layout caches rendered html, thus recreate block for further testing
+        $block = $this->_buildBlock($originalTitles); // Layout caches html, thus recreate block for further testing
         foreach ($newTitles as $id => $newTitle) {
             $block->updateButton($id, 'title', $newTitle);
         }
