@@ -101,7 +101,7 @@ category_page_before_reindex:
                             vote: //li[span/label='%answer%']/input
                 -
                     newsletter:
-                        xpath: //div[@class='block block-subscribe']
+                        xpath: //div[contains(@class,'subscribe')]
                         buttons:
                             subscribe: //button[span='Subscribe']
                         fields:

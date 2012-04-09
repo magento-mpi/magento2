@@ -80,6 +80,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             return $this->clickControlAndConfirm('link', 'compare_clear_all',
                             'confirmation_clear_all_from_compare');
         }
+        return true;
     }
 
     /**
