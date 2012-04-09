@@ -108,6 +108,12 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $pollData = $this->loadData('poll_empty_required', array($emptyField => ''));
+        if ($emptyField == 'visible_in') {
+            $this->navigate('manage_stores');
+            $this->storeHelper()->createStore('generic_store_view', 'store_view');
+            $this->assertMessagePresent('success', 'success_saved_store_view');
+            $this->navigate('poll_manager');
+        }
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
