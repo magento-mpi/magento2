@@ -224,8 +224,6 @@ class Mage_Core_Model_App
      */
     protected $_isCacheLocked = null;
 
-    protected $_areasConfig = null;
-
     /**
      * Constructor
      */
