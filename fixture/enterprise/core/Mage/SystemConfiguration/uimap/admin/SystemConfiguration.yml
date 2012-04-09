@@ -1,0 +1,64 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    uimap:
+        form:
+            tabs:
+                -
+                    dhl:
+                        xpath: //fieldset[@id='carriers_dhlint']
+                        links:
+                            dhl_link: //parent::div//a[@id='carriers_dhlint-head']
+                        fields:
+                            dhl_int_title: //input[@id='carriers_dhlint_title']
+                            dhl_int_gateway_url: //input[@id='carriers_dhlint_gateway_url']
+                            dhl_int_access_id: //input[@id='carriers_dhlint_id']
+                            dhl_int_password: //input[@id='carriers_dhlint_password']
+                            dhl_int_account_number: //input[@id='carriers_dhlint_account']
+                            dhl_int_handling_fee: //input[@id='carriers_dhlint_handling_fee']
+                            dhl_int_maximum_package_weight: //input[@id='carriers_dhlint_max_package_weight']
+                            dhl_int_ready_time: //input[@id='carriers_dhlint_ready_time']
+                            dhl_int_displayed_error_message: //textarea[@id='carriers_dhlint_specificerrmsg']
+                            dhl_int_min_order_amount_for_free_shipping: //input[@id='carriers_dhlint_free_shipping_subtotal']
+                            dhl_int_sort_order: //input[@id='carriers_dhlint_sort_order']
+                        dropdowns:
+                            dhl_int_enabled: //select[@id='carriers_dhlint_active']
+                            dhl_int_content_type: //select[@id='carriers_dhlint_content_type']
+                            dhl_int_calculate_handling_fee:: //select[@id='carriers_dhlint_handling_type']
+                            dhl_int_handling_applied: //select[@id='carriers_dhlint_handling_action']
+                            dhl_int_free_method: //select[@id='carriers_dhlint_free_method_doc']
+                            dhl_int_free_shipping_with_min_order_amount: //select[@id='carriers_dhlint_free_shipping_enable']
+                            dhl_int_ship_to_applicable_countries: //select[@id='carriers_dhlint_sallowspecific']
+                            dhl_int_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
+                            dhl_int_debug: //select[@id='carriers_dhlint_debug']
+                        multiselects:
+                            dhl_int_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods' and not(@disabled)]
+                            dhl_int_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods' and not(@disabled)]
+                            dhl_int_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']

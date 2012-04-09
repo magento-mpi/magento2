@@ -35,12 +35,12 @@ checkout_multishipping_login:
             fieldsets:
                 -
                     new_account:
-                        xpath: //div[normalize-space(@class)='col-1 new-users']
+                        xpath: //div[contains(@class,'new-users')]
                         buttons:
                             create_account: //button[span='Create an Account' or span='Register']
                 -
                     log_in_customer:
-                        xpath: //div[normalize-space(@class)='col-2 registered-users']
+                        xpath: //div[contains(@class,'registered-users')]
                         buttons:
                             login: //button[span='Login']
                         links:
@@ -192,21 +192,27 @@ checkout_multishipping_shipping_methods:
                 -
                     checkout_progress: *checkoutProgress
                 -
-                    shipping_methods_form:
-                        xpath: //div[div[h1='Select Shipping Method']]
+                    general_shipping_methods_form:
+                        xpath: //form[@id='shipping_method_form']
                         pageelements:
-                            address_box_ship: //h2[following-sibling::*//div[./address%addressParams%]]
+                            shipping_methods_forms: /fieldset/div[not(@class='buttons-set')]
+                            shipping_method_address_header: /fieldset/div[not(@class='buttons-set')][%number%]/preceding-sibling::h2
+                            shipping_method_address: /fieldset/div[not(@class='buttons-set')][%number%]//address
                         buttons:
                             continue_to_billing_information: //button[span='Continue to Billing Information']
                         links:
                             back_to_select_addresses: //a[text()='Back to Select Addresses']
                 -
-                    shipping_method_for_address:
-                        xpath: //*[@id='shipping_method_form']/div[h2[contains(.,'%addressHeader%')]]
+                    shipping_method_form:
+                        xpath: //h2[text()='%addressHeader%']//following-sibling::div[1]
                         links:
                             change_shipping_address: //a[contains(@href,'editShipping/id/')]
                             edit_items: //a[contains(@href, 'backToAddresses/')]
-                            product: //a[contains(.,'%productName%')]
+                            product: //a[text()='%productName%']
+                            product_qty: //tr[.//a[text()='%productName%']]/td/text()
+
+
+
                         checkboxes:
                             add_gift_options: //p[label='Add gift options']/input
                             gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
@@ -222,6 +228,8 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
                             gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]] //input[@title='To']
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='Message']
+
+
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
