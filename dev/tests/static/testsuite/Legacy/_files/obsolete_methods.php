@@ -55,6 +55,7 @@ return array(
     '_getLabelForStore' => array('class_scope' => 'Mage_Catalog_Model_Resource_Eav_Attribute'),
     '_getMultiSelectHtml' => array('class_scope' => 'Mage_ImportExport_Block_Adminhtml_Export_Filter'),
     '_getNumberFromToHtml' => array('class_scope' => 'Mage_ImportExport_Block_Adminhtml_Export_Filter'),
+    '_getPriceFilter' => array('class_scope' => 'Mage_Catalog_Block_Layer_View'),
     '_getProductQtyForCheck' => array('class_scope' => 'Mage_CatalogInventory_Model_Observer'),
     '_getRangeByType' => array('class_scope' => 'Mage_Log_Model_Resource_Visitor_Collection'),
     '_getRecentProductsCollection',
