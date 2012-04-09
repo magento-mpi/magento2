@@ -54,7 +54,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
      */
     public function isValidDataForCreateAssociationWithCountry(array $data)
     {
-        return $this->_checkRegion($data, Mage::getModel('directory/country')->loadByCode($data['country_id']));
+        return $this->_checkRegion($data, Mage::getModel('Mage_Directory_Model_Country')->loadByCode($data['country_id']));
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Customer_Model_Api2_Customer_Address_Validator extends Mage_Api2_Mode
         }
         // If country is in data - it has been already validated. If no - load current country.
         if (isset($data['country_id'])) {
-            $country = Mage::getModel('directory/country')->loadByCode($data['country_id']);
+            $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($data['country_id']);
         } else {
             $country = $address->getCountryModel();
         }

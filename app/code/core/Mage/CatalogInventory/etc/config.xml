@@ -28,7 +28,7 @@
             <catalog_block_product_status_display>
                 <observers>
                     <inventory>
-                        <class>cataloginventory/observer</class>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
                         <method>displayProductStatusInfo</method>
                     </inventory>
                 </observers>

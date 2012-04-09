@@ -42,22 +42,11 @@ Product view
             <block type="Mage_GoogleOptimizer_Block_Code_Page" before="-" name="googleoptimizer.control.script">
                 <action method="setScriptType"><scriptType>control_script</scriptType></action>
             </block>
-            <block type="Mage_GoogleOptimizer_Block_Code_Category" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
-                <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
-            </block>
-        </reference>
-    </cms_page_view>
-
-    <cms_page>
-        <reference name="head">
-            <block type="Mage_GoogleOptimizer_Block_Code_Page" before="-" name="googleoptimizer.control.script">
-                <action method="setScriptType"><scriptType>control_script</scriptType></action>
-            </block>
             <block type="Mage_GoogleOptimizer_Block_Code_Page" after="googleoptimizer.control.script" name="googleoptimizer.tracking.script">
                 <action method="setScriptType"><scriptType>tracking_script</scriptType></action>
             </block>
         </reference>
-    </cms_page>
+    </cms_page_view>
 
     <checkout_cart_index>
         <reference name="head">

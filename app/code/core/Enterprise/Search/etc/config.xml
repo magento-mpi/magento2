@@ -39,7 +39,7 @@
             <catalogsearch_index_process_start>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>holdCommit</method>
                     </enterprise_search>
                 </observers>
@@ -48,7 +48,7 @@
             <catalogsearch_index_process_complete>
                 <observers>
                     <enterprise_search>
-                        <class>enterprise_search/observer</class>
+                        <class>Enterprise_Search_Model_Observer</class>
                         <method>applyIndexChanges</method>
                     </enterprise_search>
                 </observers>

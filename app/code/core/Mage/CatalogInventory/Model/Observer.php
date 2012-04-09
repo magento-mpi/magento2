@@ -865,7 +865,7 @@ class Mage_CatalogInventory_Model_Observer
     public function displayProductStatusInfo($observer)
     {
         $info = $observer->getEvent()->getStatus();
-        $info->setDisplayStatus(Mage::helper('cataloginventory')->isDisplayProductStockStatus());
+        $info->setDisplayStatus(Mage::helper('Mage_Cataloginventory_Helper_Data')->isDisplayProductStockStatus());
         return $this;
     }
 }

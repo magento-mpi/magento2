@@ -819,7 +819,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function quoteEscape($data, $addSlashes = false)
     {
-        return $this->helper('core')->quoteEscape($data, $addSlashes);
+        return $this->helper('Mage_Core_Helper_Data')->quoteEscape($data, $addSlashes);
     }
 
     /**

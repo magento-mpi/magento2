@@ -85,8 +85,8 @@ class Mage_Catalog_Block_Product_Widget_New extends Mage_Catalog_Block_Product_N
     protected function _getRecentlyAddedProductsCollection()
     {
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('catalog/product_collection');
-        $collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        $collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()
@@ -173,7 +173,7 @@ class Mage_Catalog_Block_Product_Widget_New extends Mage_Catalog_Block_Product_N
         if ($this->showPager()) {
             if (!$this->_pager) {
                 $this->_pager = $this->getLayout()
-                    ->createBlock('catalog/product_widget_html_pager', 'widget.new.product.list.pager');
+                    ->createBlock('Mage_Catalog_Block_Product_Widget_Html_Pager', 'widget.new.product.list.pager');
 
                 $this->_pager->setUseContainer(true)
                     ->setShowAmounts(true)

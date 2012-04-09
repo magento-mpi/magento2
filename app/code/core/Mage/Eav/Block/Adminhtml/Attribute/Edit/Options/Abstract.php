@@ -121,7 +121,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
                 ->setPositionOrder('desc', true)
                 ->load();
 
-            $helper = Mage::helper('core');
+            $helper = Mage::helper('Mage_Core_Helper_Data');
             foreach ($optionCollection as $option) {
                 $value = array();
                 if (in_array($option->getId(), $defaultValues)) {

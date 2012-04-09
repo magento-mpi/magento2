@@ -21,7 +21,7 @@
         </blocks>
         <helpers>
             <oauth>
-                <class>Mage_Oauth_Helper</class>
+                <class>Mage_Oauth_Helper_Data</class>
             </oauth>
         </helpers>
         <resources>

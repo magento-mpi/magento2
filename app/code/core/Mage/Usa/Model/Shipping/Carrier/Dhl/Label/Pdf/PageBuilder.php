@@ -440,9 +440,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $refCode = $data->getOrder()->getIncrementId();
         if (!$refCode) {
-            throw new InvalidArgumentException(Mage::helper('usa')->__('Reference code is missing'));
+            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Reference code is missing'));
         }
-        $this->_page->drawText('Ref Code: ' . Mage::helper('usa')->__('Order #%s', $refCode), $this->_x(8),
+        $this->_page->drawText('Ref Code: ' . Mage::helper('Mage_Usa_Helper_Data')->__('Order #%s', $refCode), $this->_x(8),
             $this->_y(224)
         );
         $this->_page->restoreGS();
@@ -505,7 +505,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
         if (empty($package)) {
-            throw new InvalidArgumentException(Mage::helper('usa')->__('Package content is missing'));
+            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Package content is missing'));
         }
 
         $x = 225;
