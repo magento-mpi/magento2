@@ -1,0 +1,138 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+
+# 'Roles' page
+manage_rest_roles:
+    mca: api2_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
+    title: REST Roles / Web Services / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    rest_role_list:
+                        xpath: //div[@id='rolesGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            id: //input[@name='entity_id']
+                            rest_role_name: //input[@name='role_name']
+                            created_at: //input[@name='created_at']
+                        links:
+                            select_by_rest_role_name: //table[@id="rolesGrid_table"]//td[normalize-space(text())="%restRoleName%"]
+        buttons:
+            add_new_rest_role: //button[span='Add Role']
+        messages:
+            success_delete_rest_role: //div[@id='messages']//li[span='Role has been deleted.']
+
+# 'New REST Role' page
+new_rest_role:
+    mca: api2_role/new/
+    title: New Role / Rest Roles / Web Services / System / Magento Admin
+    uimap:
+        form: &newRestRoleForm
+            tabs:
+                -
+                    rest_role_info:
+                        xpath: //a[@id='role_info_tabs_api2_role_section_info']
+                        fieldsets:
+                            -
+                                rest_role_information:
+                                    xpath: //div[@id='base_fieldset']
+                                    fields:
+                                        rest_role_name: //input[@id='role_name']
+                -
+                    rest_role_resources:
+                        xpath: //a[@id='role_info_tabs_api2_role_section_resources']
+                        fieldsets:
+                            -
+                                 role_resources:
+                                    xpath: //fieldset[@id='role_resources']
+                                    dropdowns:
+                                        resource_access: //select[@id='all']
+                                    trees:
+                                        resource_tree: //div[@id='resource-tree']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_role: //button[span='Save Role']
+        messages:            
+            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
+
+# 'Edit REST Role' page
+edit_rest_role:
+    mca: api2_role/edit/id/%rest_role_id%/
+    title: Edit Role / Rest Roles / Web Services / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    rest_role_info:
+                        xpath: //a[@id='role_info_tabs_api2_role_section_info']
+                        fieldsets:
+                            -
+                                rest_role_information:
+                                    xpath: //div[@id='base_fieldset']
+                                    fields:
+                                        rest_role_name: //input[@id='role_name']
+                -
+                    rest_role_resources:
+                        xpath: //a[@id='role_info_tabs_api2_role_section_resources']
+                        fieldsets:
+                            -
+                                 role_resources:
+                                    xpath: //fieldset[@id='role_resources']
+                                    dropdowns:
+                                        resource_access: //select[@id='all']
+                                    trees:
+                                        resource_tree: //div[@id='resource-tree']
+                -
+                    rest_role_users:
+                        xpath: //a[@id='role_info_tabs_roleUsersGrid']
+                        fieldsets:
+                            -
+                                role_users:
+                                    xpath: //div[@id='roleUsersGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        user_id: //input[@name='user_id']
+                                        user_name: //input[@name='username']
+                                        first_name: //input[@name='firstname']
+                                        last_name: //input[@name='lastname']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete_role: //button[span='Delete Role']
+            save_role: //button[span='Save Role']
+        messages:
+            success_save_rest_role: //div[@id='messages']//li[span='The role has been saved.']
+            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
+            confirmation_for_delete: Are you sure you want to do this?
+            confirmation_for_assign_user: Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?
