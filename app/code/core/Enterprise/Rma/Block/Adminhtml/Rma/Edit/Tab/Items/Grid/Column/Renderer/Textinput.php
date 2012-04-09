@@ -39,7 +39,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Tex
      * @param   Varien_Object $row
      * @return  string
      */
-    protected function _getEditableView(Varien_object $row)
+    protected function _getEditableView(Varien_Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if (!$row->getIsQtyDecimal() && !is_null($value)) {

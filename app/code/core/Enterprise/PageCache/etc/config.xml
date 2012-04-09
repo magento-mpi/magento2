@@ -157,6 +157,14 @@
                     </enterprise_pagecache>
                 </observers>
             </core_config_backend_design_exception_save_after>
+            <adminhtml_system_config_backend_cookie_save_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </adminhtml_system_config_backend_cookie_save_after>
             <adminhtml_cache_refresh_type>
                 <observers>
                     <enterprise_pagecache>

@@ -15,8 +15,6 @@ Supported layout update handles (action):
 
 Supported layout update handles (special):
 - default
-- catalog_category_default
-- catalog_category_layered
 - catalog_product_view
 
 -->
@@ -28,6 +26,9 @@ Default layout, loads most of the pages
 
     <default>
         <!-- Mage_Catalog -->
+        <reference name="top.menu">
+            <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="navigation/top.phtml"/>
+        </reference>
         <reference name="header">
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalogCompareLink" template="product/compare/sidebar.phtml"/>
         </reference>
@@ -187,6 +188,7 @@ Product view
                 </block>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart.bottom" as="addtocartbottom" template="product/view/addtocartbottom.phtml"/>
 
                 <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
 
@@ -205,7 +207,7 @@ Product view
                     <label>Bottom Block Options Wrapper</label>
                     <action method="insert"><element>product.tierprices</element></action>
                     <block type="Mage_Catalog_Block_Product_View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
-                    <action method="append"><element>product.info.addtocart</element></action>
+                    <action method="append"><element>product.info.addtocart.bottom</element></action>
                     <action method="append"><element>product.info.addto</element></action>
                 </block>
 

@@ -16,7 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options
+class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options
 {
     /**
      * Render a link to staging log entry
@@ -26,7 +27,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event extends Mag
     public function render(Varien_Object $row)
     {
         $result = parent::render($row);
-        return '<a href="' . $this->getUrl('*/staging_log/view',array('id'=>$row->getLogId())) . '">' . $this->escapeHtml($result) . '</a>';
+        return '<a href="' . $this->getUrl('*/staging_log/view',array('id'=>$row->getLogId())) . '">'
+            . $this->escapeHtml($result) . '</a>';
     }
 
 }

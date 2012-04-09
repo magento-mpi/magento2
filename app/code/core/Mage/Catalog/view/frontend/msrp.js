@@ -183,8 +183,10 @@ Catalog.Map = {
                 var productField = $('map-popup-product-id');
                 productField.value = this.product_id;
                 $(cartButton).show();
+                $$('.additional-addtocart-box').invoke('show');
             } else {
                 $(cartButton).hide();
+                $$('.additional-addtocart-box').invoke('hide');
             }
 
             //Horizontal line
@@ -244,11 +246,12 @@ Catalog.Map = {
             productAddToCartFormOld = productAddToCartForm;
             productAddToCartForm = new VarienForm('product_addtocart_form_from_popup');
             productAddToCartForm.submitLight = productAddToCartFormOld.submitLight;
-        }else if(!$('product_addtocart_form_from_popup')) {
+        } else if(!$('product_addtocart_form_from_popup')) {
             return false;
         } else if ('undefined' == typeof productAddToCartForm) {
             productAddToCartForm = new VarienForm('product_addtocart_form_from_popup');
         }
+
         productAddToCartForm.submit = function(button, url) {
             if (('undefined' != typeof productAddToCartFormOld) && productAddToCartFormOld) {
                 if (Catalog.Map.active) {
@@ -296,7 +299,7 @@ Catalog.Map = {
                     button.disabled = true;
                 }
             }
-        }.bind(productAddToCartForm);
+        };
     }
 };
 

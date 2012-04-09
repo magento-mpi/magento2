@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('Gift Registry Items') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<?php if (count($this->getItems()) > 0): ?>
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
+    <fieldset>
+        <?php echo $this->getBlockHtml('formkey')?>
+        <div class="data-table-gift-registry-wrap">
+            <table id="shopping-cart-table" class="data-table data-table-gift-registry">
+                <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons-set2">
+            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
+        </div>
+    </fieldset>
+</form>
+<?php else: ?>
+    <p><?php echo $this->__('Gift Registry has no items.') ?></p>
+<?php endif ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>

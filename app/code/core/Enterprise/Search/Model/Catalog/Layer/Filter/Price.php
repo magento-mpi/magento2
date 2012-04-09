@@ -220,8 +220,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $statistics = $statistics[$this->_getFilterField()];
 
             $appliedInterval = $this->getInterval();
-            if ($statistics['count'] <= $this->getIntervalDivisionLimit() ||
-               ($appliedInterval && $appliedInterval[0] == $appliedInterval[1])
+            if (
+                $appliedInterval
+                && ($statistics['count'] <= $this->getIntervalDivisionLimit()
+                || $appliedInterval[0] == $appliedInterval[1]
+                || $appliedInterval[1] === '0')
             ) {
                 $algorithmModel->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
@@ -347,7 +350,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $this->_facets = array();
         $range    = $this->getPriceRange();
         $maxPrice = $this->getMaxPriceInt();
-        if ($maxPrice > 0) {
+        if ($maxPrice >= 0) {
             $priceFacets = array();
             $facetCount  = ceil($maxPrice / $range);
 

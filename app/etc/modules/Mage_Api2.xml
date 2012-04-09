@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license}
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ */
+-->
+<config>
+    <modules>
+        <Mage_Api2>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Core />
+                <Mage_Oauth />
+            </depends>
+        </Mage_Api2>
+    </modules>
+</config>

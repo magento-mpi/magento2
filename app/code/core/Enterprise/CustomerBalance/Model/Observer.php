@@ -243,7 +243,7 @@ class Enterprise_CustomerBalance_Model_Observer
      * Analyze payment data for quote and set free shipping if grand total is covered by balance
      *
      * @param Mage_Sales_Model_Quote $quote
-     * @param Varien_object|Mage_Sales_Model_Quote_Payment $payment
+     * @param Varien_Object|Mage_Sales_Model_Quote_Payment $payment
      * @param bool $shouldUseBalance
      */
     protected function _importPaymentData($quote, $payment, $shouldUseBalance)
@@ -278,16 +278,19 @@ class Enterprise_CustomerBalance_Model_Observer
      * The Customerbalance instance must already be in the quote
      *
      * @param Varien_Event_Observer $observer
+     * @return void
      */
     public function togglePaymentMethods($observer)
     {
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
+
         $quote = $observer->getEvent()->getQuote();
         if (!$quote) {
             return;
         }
+
         $balance = $quote->getCustomerBalanceInstance();
         if (!$balance) {
             return;
@@ -295,12 +298,9 @@ class Enterprise_CustomerBalance_Model_Observer
 
         // disable all payment methods and enable only Zero Subtotal Checkout
         if ($balance->isFullAmountCovered($quote)) {
+            $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
             $result = $observer->getEvent()->getResult();
-            if ('free' === $observer->getEvent()->getMethodInstance()->getCode()) {
-                $result->isAvailable = true;
-            } else {
-                $result->isAvailable = false;
-            }
+            $result->isAvailable = $paymentMethod === 'free' && empty($result->isDeniedInConfig);
         }
     }
 

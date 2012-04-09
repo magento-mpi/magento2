@@ -81,7 +81,7 @@ class Mage_ProductAlert_Model_Observer
      * Process price emails
      *
      * @param Mage_ProductAlert_Model_Email $email
-     * @return Mage_productAlert_Model_Observer
+     * @return Mage_ProductAlert_Model_Observer
      */
     protected function _processPrice(Mage_ProductAlert_Model_Email $email)
     {
@@ -92,7 +92,10 @@ class Mage_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(self::XML_PATH_PRICE_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
+            if (!Mage::getStoreConfig(
+                self::XML_PATH_PRICE_ALLOW,
+                $website->getDefaultGroup()->getDefaultStore()->getId()
+            )) {
                 continue;
             }
             try {
@@ -166,7 +169,7 @@ class Mage_ProductAlert_Model_Observer
      * Process stock emails
      *
      * @param Mage_ProductAlert_Model_Email $email
-     * @return Mage_productAlert_Model_Observer
+     * @return Mage_ProductAlert_Model_Observer
      */
     protected function _processStock(Mage_ProductAlert_Model_Email $email)
     {
@@ -178,7 +181,10 @@ class Mage_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(self::XML_PATH_STOCK_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
+            if (!Mage::getStoreConfig(
+                self::XML_PATH_STOCK_ALLOW,
+                $website->getDefaultGroup()->getDefaultStore()->getId()
+            )) {
                 continue;
             }
             try {
@@ -216,7 +222,7 @@ class Mage_ProductAlert_Model_Observer
                     $product = Mage::getModel('Mage_Catalog_Model_Product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
-                    /* @var $product Mage_catalog_Model_Product */
+                    /* @var $product Mage_Catalog_Model_Product */
                     if (!$product) {
                         continue;
                     }
@@ -253,7 +259,7 @@ class Mage_ProductAlert_Model_Observer
     /**
      * Send email to administrator if error
      *
-     * @return Mage_productAlert_Model_Observer
+     * @return Mage_ProductAlert_Model_Observer
      */
     protected function _sendErrorEmail()
     {
@@ -286,7 +292,7 @@ class Mage_ProductAlert_Model_Observer
     /**
      * Run process send product alerts
      *
-     * @return Mage_productAlert_Model_Observer
+     * @return Mage_ProductAlert_Model_Observer
      */
     public function process()
     {

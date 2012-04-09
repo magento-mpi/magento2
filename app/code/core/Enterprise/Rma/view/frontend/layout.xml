@@ -231,7 +231,7 @@
         </reference>
     </sales_order_creditmemo>
 
-    <sales_guest_view translate="label" parent="default">
+    <sales_guest_view>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -239,7 +239,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_view>
-    <sales_guest_invoice translate="label">
+    <sales_guest_invoice>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -247,7 +247,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_invoice>
-    <sales_guest_shipment translate="label">
+    <sales_guest_shipment>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -255,7 +255,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_shipment>
-    <sales_guest_creditmemo translate="label">
+    <sales_guest_creditmemo>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>

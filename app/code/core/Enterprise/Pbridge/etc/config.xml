@@ -36,6 +36,9 @@
         </events>
     </global>
     <frontend>
+        <secure_url>
+            <enterprise_pbridge_pbridge>/enterprise_pbridge/pbridge/</enterprise_pbridge_pbridge>
+        </secure_url>
         <routers>
             <enterprise_pbridge>
                 <use>standard</use>
@@ -70,6 +73,16 @@
                 </enterprise_pbridge>
             </updates>
         </layout>
+        <events>
+            <admin_system_config_changed_section_payment>
+                <observers>
+                    <enterprise_pbridge>
+                        <class>Enterprise_Pbridge_Model_Observer</class>
+                        <method>updatePaymentProfileStatus</method>
+                    </enterprise_pbridge>
+                </observers>
+            </admin_system_config_changed_section_payment>
+        </events>
     </adminhtml>
     <admin>
         <routers>
@@ -101,6 +114,10 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Authorizenet</model>
                 <enabled>1</enabled>
             </pbridge_authorizenet>
+            <pbridge_eway_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
+                <active>1</active>
+            </pbridge_eway_direct>
             <pbridge_verisign>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
                 <enabled>1</enabled>
@@ -114,6 +131,24 @@
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
+            <braintree_basic>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic</model>
+                <title>Braintree</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+            </braintree_basic>
+            <firstdata>
+                <title>First Data Global Gateway</title>
+                <currency>USD</currency>
+                <using_pbridge>1</using_pbridge>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Firstdata</model>
+            </firstdata>
+            <payone_gate>
+                <title>Credit Card (Payone.de)</title>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Gate</model>
+                <currency>EUR</currency>
+                <using_pbridge>1</using_pbridge>
+            </payone_gate>
         </payment>
     </default>
 </config>

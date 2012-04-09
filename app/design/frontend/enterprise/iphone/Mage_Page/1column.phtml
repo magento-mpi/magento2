@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <?php echo $this->getChildHtml('head') ?>
+</head>
+<body <?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+    <?php echo $this->getChildHtml('after_body_start') ?>
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <?php echo $this->getChildHtml('header') ?>
+
+    <section role="main">
+        <?php echo $this->getChildHtml('breadcrumbs') ?>
+        <?php echo $this->getChildHtml('content') ?>
+    </section>
+
+    <?php echo $this->getChildHtml('footer') ?>
+
+    <?php echo $this->getChildHtml('before_body_end') ?>
+    <?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

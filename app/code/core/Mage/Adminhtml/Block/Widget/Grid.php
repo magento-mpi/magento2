@@ -785,7 +785,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Retrieve grid export types
      *
-     * @return array
+     * @return array|false
      */
     public function getExportTypes()
     {

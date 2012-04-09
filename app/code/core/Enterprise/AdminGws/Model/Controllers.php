@@ -1061,6 +1061,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $request     = $controller->getRequest();
         $denyActions = array('edit', 'new', 'delete', 'save', 'run', 'match');
         $denyChangeDataActions = array('delete', 'save', 'run', 'match');
+        $denyCreateDataActions = array('save');
         $actionName  = $request->getActionName();
 
         // Deny access if role has no allowed website ids and there are considering actions to deny
@@ -1076,7 +1077,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // Stop further validating if there is no an appropriate entity id in request params
         $ruleId = $request->getParam('rule_id', $request->getParam('segment_id', $request->getParam('id', null)));
-        if (!$ruleId) {
+        if (!$ruleId && !in_array($actionName, $denyCreateDataActions)) {
             return true;
         }
 
@@ -1110,13 +1111,19 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return true;
         }
 
-        // Deny action if specified rule entity doesn't exist
-        $entityObject->load($ruleId);
-        if (!$entityObject->getId()) {
-            return $this->_forward();
+        $ruleWebsiteIds = $request->getParam('website_ids', array());
+        if ($ruleId) {
+            // Deny action if specified rule entity doesn't exist
+            $entityObject->load($ruleId);
+            if (!$entityObject->getId()) {
+                return $this->_forward();
+            }
+            $ruleWebsiteIds = array_unique(array_merge(
+                $ruleWebsiteIds,
+                (array)$entityObject->getOrigData('website_ids')
+            ));
         }
 
-        $ruleWebsiteIds = (array)$entityObject->getOrigData('website_ids');
 
         // Deny actions what lead to changing data if role has no exclusive access to assigned to rule entity websites
         if (!$this->_role->hasExclusiveAccess($ruleWebsiteIds) && in_array($actionName, $denyChangeDataActions)) {

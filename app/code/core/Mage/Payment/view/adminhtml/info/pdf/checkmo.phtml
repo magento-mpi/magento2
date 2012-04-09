@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getMethod()->getTitle() ?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
     {{pdf_row_separator}}
 <?php if($this->getInfo()->getAdditionalData()): ?>
     {{pdf_row_separator}}

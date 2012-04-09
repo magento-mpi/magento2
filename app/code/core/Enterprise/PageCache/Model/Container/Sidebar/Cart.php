@@ -11,29 +11,23 @@
 /**
  * Cart sidebar container
  */
-class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageCache_Model_Container_Advanced_Abstract
+class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageCache_Model_Container_Advanced_Quote
 {
+    /**
+     * @deprecated since 1.12.0.0
+     */
     const CACHE_TAG_PREFIX = 'cartsidebar';
 
     /**
      * Get identifier from cookies
      *
+     * @deprecated since 1.12.0.0
      * @return string
      */
     protected function _getIdentifier()
     {
         return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
             . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
-    }
-
-    /**
-     * Get cache identifier
-     *
-     * @return string
-     */
-    protected function _getCacheId()
-    {
-        return md5(self::CACHE_TAG_PREFIX . $this->_getIdentifier());
     }
 
     /**
@@ -47,15 +41,5 @@ class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageC
         $renders = $this->_placeholder->getAttribute('item_renders');
         $block->deserializeRenders($renders);
         return $block->toHtml();
-    }
-
-    /**
-     * Get container individual additional cache id
-     *
-     * @return string | false
-     */
-    protected function _getAdditionalCacheId()
-    {
-        return md5('CONTAINER_SIDEBAR_' . $this->_placeholder->getAttribute('cache_id'));
     }
 }

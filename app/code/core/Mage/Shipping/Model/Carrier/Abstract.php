@@ -21,9 +21,9 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Rates result
      *
-     * @var array
+     * @var array|null
      */
-    protected $_rates = null;
+    protected $_rates;
 
     /**
      * Number of boxes in package
@@ -382,22 +382,19 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
      *
      * @param string $cost
      * @param string $method
-     * @return string
+     * @return float|string
      */
-    public function getMethodPrice($cost, $method='')
+    public function getMethodPrice($cost, $method = '')
     {
-        if ($method == $this->getConfigData($this->_freeMethod) && $this->getConfigData('free_shipping_enable')
-            && $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getBaseSubtotalInclTax()
-        ) {
-            $price = '0.00';
-        } else {
-            $price = $this->getFinalPriceWithHandlingFee($cost);
-        }
-        return $price;
+        return $method == $this->getConfigData($this->_freeMethod)
+            && (!$this->getConfigFlag('free_shipping_enable')
+                || $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getBaseSubtotalInclTax())
+            ? '0.00'
+            : $this->getFinalPriceWithHandlingFee($cost);
     }
 
     /**
-     * get the handling fee for the shipping + cost
+     * Get the handling fee for the shipping + cost
      *
      * @param float $cost
      * @return float final price for shipping method
@@ -414,7 +411,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             $handlingAction = self::HANDLING_ACTION_PERORDER;
         }
 
-        return ($handlingAction == self::HANDLING_ACTION_PERPACKAGE)
+        return $handlingAction == self::HANDLING_ACTION_PERPACKAGE
             ? $this->_getPerpackagePrice($cost, $handlingType, $handlingFee)
             : $this->_getPerorderPrice($cost, $handlingType, $handlingFee);
     }
@@ -507,10 +504,10 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Determine whether zip-code is required for the country of destination
      *
-     * @param Mage_Shipping_Model_Rate_Request|null $request
+     * @param string|null $countryId
      * @return bool
      */
-    public function isZipCodeRequired(Mage_Shipping_Model_Rate_Request $request = null)
+    public function isZipCodeRequired($countryId = null)
     {
         return false;
     }
@@ -540,7 +537,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     }
 
     /**
-     * Used to call debug method from not Paymant Method context
+     * Used to call debug method from not Payment Method context
      *
      * @param mixed $debugData
      */

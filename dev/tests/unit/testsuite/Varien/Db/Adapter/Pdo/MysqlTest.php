@@ -15,15 +15,20 @@
 class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Error message for DDL query in transactions
+     * Custom error handler message
      */
-    const ERROR_DDL_MESSAGE = 'DDL statements are not allowed in transactions';
+    const CUSTOM_ERROR_HANDLER_MESSAGE = 'Custom error handler message';
 
     /**
      * Adapter for test
      * @var Varien_Db_Adapter_Pdo_Mysql
      */
     private $_adapter;
+
+    /*
+     * Mock DB adapter for DDL query tests
+     */
+    private $_mockAdapter;
 
     /**
      * Setup
@@ -37,6 +42,16 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
                 'password' => 'not_valid',
             )
         );
+
+        $this->_mockAdapter = $this->getMock(
+            'Varien_Db_Adapter_Pdo_Mysql',
+            array('beginTransaction', 'getTransactionLevel'),
+            array(), '', false
+        );
+
+        $this->_mockAdapter->expects($this->any())
+             ->method('getTransactionLevel')
+             ->will($this->returnValue(1));
     }
 
     /**
@@ -81,63 +96,121 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test DDL query in transaction
+     * Test not DDL query inside transaction
+     *
+     * @dataProvider sqlQueryProvider
      */
-    public function testCheckDdlTransaction()
+    public function testCheckNotDdlTransaction($developerMode, $query)
     {
-        $mockAdapter = $this->getMock(
-            'Varien_Db_Adapter_Pdo_Mysql',
-            array('beginTransaction', 'getTransactionLevel'),
-            array(), '', false
-        );
-
-        $mockAdapter->expects($this->any())
-             ->method('getTransactionLevel')
-             ->will($this->returnValue(1));
-
-        $mockAdapter->beginTransaction();
-        try {
-            $mockAdapter->query("CREATE table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
+        Mage::setIsDeveloperMode($developerMode);
+        if ($developerMode) {
+            $this->assertTrue(Mage::getIsDeveloperMode());
+        } else {
+            $this->assertFalse(Mage::getIsDeveloperMode());
         }
 
         try {
-            $mockAdapter->query("ALTER table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
-        }
-
-        try {
-            $mockAdapter->query("TRUNCATE table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
-        }
-
-        try {
-            $mockAdapter->query("RENAME table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
-        }
-
-        try {
-            $mockAdapter->query("DROP table user");
-        } catch (Zend_Db_Adapter_Exception $e) {
-            $this->assertEquals($e->getMessage(), self::ERROR_DDL_MESSAGE);
-        }
-
-        try {
-            $mockAdapter->query("SELECT * FROM user");
+            $this->_mockAdapter->query($query);
         } catch (Exception $e) {
-            $this->assertFalse($e instanceof Zend_Db_Adapter_Exception);
+            $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) === false);
         }
 
-        $select = new Zend_Db_Select($mockAdapter);
+        $select = new Zend_Db_Select($this->_mockAdapter);
         $select->from('user');
         try {
-            $mockAdapter->query($select);
+            $this->_mockAdapter->query($select);
         } catch (Exception $e) {
-            $this->assertFalse($e instanceof Zend_Db_Adapter_Exception);
+            $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) === false);
         }
+    }
+
+    /**
+     * Test DDL query inside transaction in Developer mode
+     *
+     * @dataProvider ddlSqlQueryProvider
+     */
+    public function testCheckDdlTransactionDeveloperMode($ddlQuery)
+    {
+        set_error_handler(array(
+            'Varien_Db_Adapter_Pdo_MysqlTest',
+            'errorHandler'
+        ));
+
+        Mage::setIsDeveloperMode(true);
+        $this->assertTrue(Mage::getIsDeveloperMode());
+
+        try {
+            $this->_mockAdapter->query($ddlQuery);
+        } catch (Exception $e) {
+            $this->assertTrue(strpos($e->getMessage(), Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE) !== false);
+        }
+
+        restore_error_handler();
+    }
+
+    /**
+     * Test DDL query inside transaction Not in Developer mode
+     *
+     * @dataProvider ddlSqlQueryProvider
+     */
+    public function testCheckDdlTransactionNotDeveloperMode($ddlQuery)
+    {
+        set_error_handler(array(
+            'Varien_Db_Adapter_Pdo_MysqlTest',
+            'errorHandler'
+        ));
+
+        Mage::setIsDeveloperMode(false);
+        $this->assertFalse(Mage::getIsDeveloperMode());
+
+        try {
+            $this->_mockAdapter->query($ddlQuery);
+        } catch (Exception $e) {
+            $this->assertEquals($e->getMessage(), self::CUSTOM_ERROR_HANDLER_MESSAGE);
+        }
+
+        restore_error_handler();
+    }
+
+    /**
+     * Data Provider for testCheckDdlTransaction
+     */
+    public static function ddlSqlQueryProvider()
+    {
+        return array(
+            array('CREATE table user'),
+            array('ALTER table user'),
+            array('TRUNCATE table user'),
+            array('RENAME table user'),
+            array('DROP table user'),
+        );
+    }
+
+    /**
+     * Data Provider for testCheckNotDdlTransaction
+     */
+    public static function sqlQueryProvider()
+    {
+        return array(
+            array(false, 'SELECT * FROM user'),
+            array(false, 'UPDATE user'),
+            array(false, 'DELETE from user'),
+            array(false, 'INSERT into user'),
+            array(true, 'SELECT * FROM user'),
+            array(true, 'UPDATE user'),
+            array(true, 'DELETE from user'),
+            array(true, 'INSERT into user'),
+        );
+    }
+
+    /**
+     * Custom Error handler function
+     */
+    public function errorHandler($errno, $errstr, $errfile, $errline)
+    {
+        call_user_func(Mage_Core_Model_App::DEFAULT_ERROR_HANDLER,
+            $errno, $errstr, $errfile, $errline
+        );
+        throw new Exception(self::CUSTOM_ERROR_HANDLER_MESSAGE);
     }
 }

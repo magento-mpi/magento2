@@ -1658,6 +1658,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart-table .btn-continue { float:left; background:none; border:none; }
 .cart-table .btn-continue span { background:none; border:none; text-transform:none; color:#444; text-decoration:underline; font-weight:normal; padding:0; }
 .cart-table .btn-update { float:right; margin-left:5px; }
+.cart-table .btn-empty { float:right; }
+.cart-table {background-color: #ffffff;}
 
 /* Shopping Cart Collateral boxes */
 .cart .cart-collaterals { width:630px; padding:20px 0 10px; }

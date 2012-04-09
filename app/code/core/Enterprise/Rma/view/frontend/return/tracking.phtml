@@ -14,7 +14,7 @@
 <tr>
     <td colspan="3">
         <ul class="messages">
-             <li class="error-msg"><?php echo $this->getErrorMessage() ?></li>
+             <li class="error-msg"><?php echo $this->escapeHtml($this->getErrorMessage()) ?></li>
         </ul>
     </td>
 </tr>

@@ -74,14 +74,15 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             $model->setData('is_redeemable', Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE);
         }
 
-        $fieldset->addField('website_id', 'select', array(
+        $field = $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'required'  => true,
             'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(true),
-            'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
         ));
+        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+        $field->setRenderer($renderer);
 
         $fieldset->addType('price', 'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
 

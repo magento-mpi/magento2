@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mag
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute Set'),
-                    'onclick'   => 'addSet.submit();',
+                    'onclick'   => 'if (addSet.submit()) disableElements(\'save\');',
                     'class' => 'save'
         )));
         $this->setChild('back_button',

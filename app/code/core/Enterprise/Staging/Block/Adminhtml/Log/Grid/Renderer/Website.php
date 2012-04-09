@@ -16,7 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_Staging_Block_Adminhtml_Log_Grid_Renderer_Website
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render website name for log entry

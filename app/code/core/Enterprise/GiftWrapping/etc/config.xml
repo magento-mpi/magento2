@@ -201,6 +201,13 @@
         </translate>
     </adminhtml>
     <default>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <giftwrapping_folder>wrapping</giftwrapping_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
         <sales>
             <gift_options>
                 <wrapping_allow_order>1</wrapping_allow_order>

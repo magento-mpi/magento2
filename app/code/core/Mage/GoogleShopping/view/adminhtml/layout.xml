@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license}
+ *
+ * @category    design
+ * @package     default_default
+ */
+-->
+
+<layout>
+    <adminhtml_googleshopping_items_index>
+        <reference name="head">
+            <action method="addJs"><file>Mage_GoogleShopping::googleshopping.js</file></action>
+        </reference>
+    </adminhtml_googleshopping_items_index>
+</layout>

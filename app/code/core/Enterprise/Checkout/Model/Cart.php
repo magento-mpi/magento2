@@ -1142,6 +1142,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
      */
     protected function _shouldBeConfigured($product)
     {
+        if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+            && !$product->getLinksPurchasedSeparately()
+        ) {
+            return false;
+        }
+
         if ($product->isComposite() || $product->getRequiredOptions()) {
             return true;
         }
@@ -1222,7 +1228,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         // copy data to temporary quote
         /** @var $temporaryQuote Mage_Sales_Model_Quote */
         $temporaryQuote = Mage::getModel('Mage_Sales_Model_Quote');
-        $temporaryQuote->setIsSuperMode($quote->getIsSuperMode());
+        $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
             $temporaryItem->setQuote($temporaryQuote);

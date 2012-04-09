@@ -137,7 +137,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $priority   = (string)Mage::getStoreConfig('sitemap/category/priority', $storeId);
         $collection = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Category')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf(
+                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
@@ -154,7 +155,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
         $collection = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf(
+                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
@@ -171,7 +173,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $priority   = (string)Mage::getStoreConfig('sitemap/page/priority', $storeId);
         $collection = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Cms_Page')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf(
+                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,

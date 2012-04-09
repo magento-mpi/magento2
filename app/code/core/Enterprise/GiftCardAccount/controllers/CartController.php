@@ -29,6 +29,9 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
+                if (strlen($code) > Enterprise_GiftCardAccount_Helper_Data::GIFT_CARD_CODE_MAX_LENGTH) {
+                    Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Wrong gift card code.'));
+                }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();

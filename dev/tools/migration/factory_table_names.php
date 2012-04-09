@@ -9,7 +9,7 @@
  */
 
 define('USAGE', <<<USAGE
-$>./factory_table_names.php [-ehds]
+$>./factory_table_names.php -- [-ehds]
     additional parameters:
     -d          replacement in dry-run mode
     -s          search for table names not in list for replacement

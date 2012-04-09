@@ -541,12 +541,14 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             'grant_catalog_product_price' => $readAdapter->getCheckSql(
                 $readAdapter->quoteInto('grant_catalog_category_view = ?', $deny),
                 $deny,
-                'grant_catalog_product_price'),
-            'grant_checkout_items'        => $readAdapter->getCheckSql(
+                'grant_catalog_product_price'
+            ),
+            'grant_checkout_items' => $readAdapter->getCheckSql(
                 $readAdapter->quoteInto('grant_catalog_category_view = ?', $deny)
-                . ' OR ' . $readAdapter->quoteInto('grant_catalog_product_price = ?', $deny),
+                    . ' OR ' . $readAdapter->quoteInto('grant_catalog_product_price = ?', $deny),
                 $deny,
-                'grant_catalog_product_price')
+                'grant_checkout_items'
+            )
         );
         $writeAdapter->update($this->getTable('enterprise_catalogpermissions_index_product'), $data, $condition);
 

@@ -54,6 +54,35 @@ class Enterprise_Pbridge_Model_Observer
     }
 
     /**
+     * Update Payment Profiles functionality switcher
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Pbridge_Model_Observer
+     */
+    public function updatePaymentProfileStatus(Varien_Event_Observer $observer)
+    {
+        $website = Mage::app()->getWebsite($observer->getEvent()->getData('website'));
+        $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
+            && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
+        $authorizenetEnabled = $website->getConfig('payment/authorizenet/active')
+            && $website->getConfig('payment/authorizenet/payment_profiles_enabled');
+
+        $profileStatus = null;
+
+        if ($braintreeEnabled || $authorizenetEnabled) {
+            $profileStatus = 1;
+        } else {
+            $profileStatus = 0;
+        }
+
+        if ($profileStatus !== null) {
+            $scope = $observer->getEvent()->getData('website') ? 'websites' : 'default';
+            Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
+            Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
+        }
+        return $this;
+    }
+
+    /**
      * Return system config value by key for specified payment method
      *
      * @param string $key

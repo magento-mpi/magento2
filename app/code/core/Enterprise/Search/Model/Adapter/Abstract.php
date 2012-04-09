@@ -225,7 +225,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @return  string
      */
-    public function getAdvancedTextFieldName($field, $suffix = '')
+    public function getAdvancedTextFieldName($field, $suffix = '', $storeId = null)
     {
         return $field;
     }
@@ -322,13 +322,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param int $productId
      * @return bool
      */
-    private function isAvailableInIndex($productIndexData, $productId)
+    protected function isAvailableInIndex($productIndexData, $productId)
     {
         if (!is_array($productIndexData) || empty($productIndexData)) {
-            return false;
-        }
-
-        if (empty($productIndexData['in_stock'])) {
             return false;
         }
 
@@ -378,11 +374,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 unset($productIndexData[$attributeCode]);
             }
 
-            if (!$attribute || $attributeCode == 'price') {
+            if (!$attribute || $attributeCode == 'price' || empty($value)) {
                 continue;
             }
 
-
+            $attribute->setStoreId($storeId);
 
             // Preparing data for solr fields
             if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()
@@ -392,7 +388,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $frontendInput = $attribute->getFrontendInput();
 
                 if ($attribute->usesSource()) {
-                    $attribute->setStoreId($storeId);
                     if ($frontendInput == 'multiselect') {
                         $preparedValue = array();
                         foreach ($value as $val) {
@@ -419,7 +414,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     }
 
                     foreach ($preparedValue as $id => $val) {
-                        $preparedValue[$id] = $attribute->getSource()->getOptionText($val);
+                        $preparedValue[$id] = $attribute->getSource()->getIndexOptionText($val);
                     }
                 } else {
                     $preparedValue = $value;
@@ -460,38 +455,32 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
 
-            // text save as one string
-            if (is_array($preparedValue) && in_array($backendType, $this->_textFieldTypes) && !$attribute->usesSource()
-            ) {
-                $preparedValue = implode(' ', $preparedValue);
-            }
             // Adding data for advanced search field (without additional prefix)
-            if ($attribute->getIsVisibleInAdvancedSearch()) {
-                $fieldName = $this->getSearchEngineFieldName($attribute);
-                if ($fieldName) {
-                    $productIndexData[$fieldName] = $preparedValue;
+            if (($attribute->getIsVisibleInAdvancedSearch() ||  $attribute->getIsFilterable()
+                || $attribute->getIsFilterableInSearch())
+            ) {
+                if ($attribute->usesSource()) {
+                    $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
+                    if ($fieldName && !empty($preparedNavValue)) {
+                        $productIndexData[$fieldName] = $preparedNavValue;
+                    }
+                } else {
+                    $fieldName = $this->getSearchEngineFieldName($attribute);
+                    if ($fieldName && !empty($preparedValue)) {
+                        $productIndexData[$fieldName] = in_array($backendType, $this->_textFieldTypes)
+                            ? implode(' ', (array)$preparedValue)
+                            : $preparedValue ;
+                    }
                 }
-            }
-
-            if (is_array($preparedValue)) {
-                $preparedValue = implode(' ', $preparedValue);
             }
 
             // Adding data for fulltext search field
             if ($attribute->getIsSearchable() && !empty($preparedValue)) {
                 $searchWeight = $attribute->getSearchWeight();
                 if ($searchWeight) {
-                    $fulltextData[$searchWeight][] = $preparedValue;
-                }
-            }
-
-            // Prepare data for navigation field
-            if ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()) {
-                if (!empty($preparedNavValue)) {
-                    $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
-                    if ($fieldName) {
-                        $productIndexData[$fieldName] = $preparedNavValue;
-                    }
+                    $fulltextData[$searchWeight][] = is_array($preparedValue)
+                        ? implode(' ', $preparedValue)
+                        : $preparedValue;
                 }
             }
 
@@ -501,7 +490,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         // Preparing fulltext search fields
         $fulltextSpell = array();
         foreach ($fulltextData as $searchWeight => $data) {
-            $fieldName = $this->getAdvancedTextFieldName('fulltext', $searchWeight);
+            $fieldName = $this->getAdvancedTextFieldName('fulltext', $searchWeight, $storeId);
             $productIndexData[$fieldName] = $this->_implodeIndexData($data);
             $fulltextSpell += $data;
         }
@@ -509,7 +498,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         // Preparing field with spell info
         $fulltextSpell = array_unique($fulltextSpell);
-        $fieldName = $this->getAdvancedTextFieldName('spell');
+        $fieldName = $this->getAdvancedTextFieldName('spell', '', $storeId);
         $productIndexData[$fieldName] = $this->_implodeIndexData($fulltextSpell);
         unset($fulltextSpell);
 
@@ -545,7 +534,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('Mage_Catalogsearch_Model_Resource_Fulltext')->getSeparator();
+        $this->_separator = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {

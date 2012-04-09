@@ -74,19 +74,37 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/unhold')) {
-            $this->getMassactionBlock()->addItem('unhold_order', array(
-                 'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Unhold'),
-                 'url'  => $this->getUrl('*/sales_archive/massUnhold'),
-            ));
-        }
-
         if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/archive/order/remove')) {
             $this->getMassactionBlock()->addItem('remove_order_from_archive', array(
                  'label'=> Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Orders Management'),
                  'url'  => $this->getUrl('*/sales_archive/massRemove'),
             ));
         }
+
+        $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Invoices'),
+             'url'  => $this->getUrl('*/sales_archive/massPrintInvoices'),
+        ));
+
+        $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Credit Memos'),
+             'url'  => $this->getUrl('*/sales_archive/massPrintCreditMemos'),
+        ));
+
+        $this->getMassactionBlock()->addItem('pdfdocs_order', array(
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print All'),
+             'url'  => $this->getUrl('*/sales_archive/massPrintAllDocuments'),
+        ));
+
+        $this->getMassactionBlock()->addItem('pdfshipments_order', array(
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Packingslips'),
+             'url'  => $this->getUrl('*/sales_archive/massPrintPackingSlips'),
+        ));
+
+        $this->getMassactionBlock()->addItem('print_shipping_label', array(
+             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Labels'),
+             'url'  => $this->getUrl('*/sales_archive/massPrintShippingLabel'),
+        ));
 
         return $this;
     }

@@ -70,6 +70,20 @@ class Enterprise_Wishlist_Block_Behaviour extends Mage_Core_Block_Template
     }
 
     /**
+     * Get customer wishlist list
+     *
+     * @return array
+     */
+    public function getWishlistShortList()
+    {
+        $wishlistData = array();
+        foreach($this->getWishlists() as $wishlist){
+            $wishlistData[] = array('id' => $wishlist->getId(), 'name' => $wishlist->getName());
+        }
+        return $wishlistData;
+    }
+
+    /**
      * Render block html
      *
      * @return string

@@ -1,0 +1,42 @@
+<?php
+/**
+ * Integrity test for template setters in Mage_Checkout_Block_CartTest
+ *
+ * {license}
+ *
+ * @category Mage
+ * @package Mage_Checkout
+ * @subpackage integration_tests
+ */
+
+class Integrity_Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @param string $layoutFile
+     * @dataProvider layoutFilesDataProvider
+     */
+    public function testCustomTemplateSetters($layoutFile)
+    {
+        $params = array();
+        if (preg_match('/app\/design\/frontend\/(.+?)\/(.+?)\//', $layoutFile, $matches)) {
+            $params = array('_package' => $matches[1], '_theme' => $matches[2]);
+        }
+
+        $xml = simplexml_load_file($layoutFile);
+        $nodes = $xml->xpath('//block/action[@method="setCartTemplate" or @method="setEmptyTemplate"]') ?: array();
+        /** @var $node SimpleXMLElement */
+        foreach ($nodes as $node) {
+            $template = (array)$node->children();
+            $template = array_shift($template);
+            $this->assertFileExists(Mage::getDesign()->getTemplateFilename("Mage_Checkout::{$template}", $params));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function layoutFilesDataProvider()
+    {
+        return Utility_Files::init()->getLayoutFiles(array('area' => 'frontend'));
+    }
+}

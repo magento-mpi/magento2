@@ -45,7 +45,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $fieldset->addField('description', 'textarea', array(
             'name'  => 'description',
             'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Description'),
-            'style' => 'width: 98%; height: 100px;',
+            'style' => 'height: 100px;',
         ));
 
         $field = $fieldset->addField('salesrule_id', 'note', array(

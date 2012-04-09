@@ -538,25 +538,20 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     protected function _convertPointsToCurrency($points)
     {
-        $ammount = 0;
-        if ($points && $this->getRateToCurrency()) {
-            $ammount = $this->getRateToCurrency()->calculateToCurrency($points);
-        }
-        return (float)$ammount;
+        return $points && $this->getRateToCurrency()
+            ? (float)$this->getRateToCurrency()->calculateToCurrency($points)
+            : 0;
     }
 
     /**
      * Check is enough points (currency amount) to cover given amount
      *
      * @param float $amount
-     * @return boolean
+     * @return bool
      */
     public function isEnoughPointsToCoverAmount($amount)
     {
-        if ($this->getId() && $this->getCurrencyAmount() >= $amount) {
-            return true;
-        }
-        return false;
+        return $this->getId() && $this->getCurrencyAmount() >= $amount;
     }
 
     /**

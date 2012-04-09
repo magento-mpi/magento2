@@ -23,7 +23,7 @@
                 <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
                 <span class="cms-scope">
                     <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-                    <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent node\'s hierarchy') ?></label>
+                    <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent Node\'s Hierarchy') ?></label>
                 </span>
                 <?php endif; ?>
                 <div id="tree-container" class="cms-tree tree x-tree"></div>
@@ -81,11 +81,12 @@
             });
             this.tree.setRootNode(this.treeRoot);
             this.createNodes();
-            this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
+            this.tree.addListener('click', this.onNodeClick.bind(this));
             this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
             this.tree.addListener('beforenodedrop', this.onNodeMove.bind(this));
             this.tree.render();
             this.treeRoot.select();
+            this.onNodeClick(this.treeRoot);
             this.dataModification = false;
             this.lastChangedNode = null;
             this.menuListTypes = <?php echo $this->getListModesJson() ?>;
@@ -222,13 +223,12 @@
             };
         },
 
-        onNodeSelect: function(model, node){
+        onNodeClick: function(node) {
             if ($('node_id').value) {
                 this.saveNodePage();
             }
 
             if (this.lastChangedNode) {
-                //this.lastChangedNode.ui.removeClass('modified');
                 this.lastChangedNode = null;
             }
 
@@ -242,7 +242,7 @@
             }
             $('node_prop_container').show();
 
-            var isTreeNode = (node.parentNode.id == '_root');
+            var isTreeNode = node.parentNode.id == '_root';
 
             <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
@@ -470,19 +470,18 @@
         },
 
         newNodePage: function(){
-            if ($('new_node_button').hasClassName('disabled')) {
+            if ($('new_node_button').hasClassName('disabled') || this.saveNodePage() === false) {
                 return false;
             }
-            this.saveNodePage();
+
             this.nodePropReset();
             $('node_id').value = '';
             $('node_page_id').value = '';
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
-            //this.tree.getSelectionModel().clearSelections();
 
+            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
-            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -502,7 +501,7 @@
             this.resetFieldSet('pager_fieldset');
             this.resetFieldSet('menu_fieldset');
 
-            // custom reseting for metadata
+            // custom reset for metadata
             this.resetMetadataFieldSet();
 
             this.renderMetadata();
@@ -532,15 +531,8 @@
             var hasNodeId = $('node_id').value != '',
                 hasPageId = $('node_page_id').value != '';
 
-            if (!hasPageId) {
-                var isValid = this.nodePropValidate();
-                if (!isValid) {
-                    if (hasNodeId) {
-                        return;
-                    } else {
-                        return false;
-                    }
-                }
+            if (!hasPageId && !this.nodePropValidate()) {
+                return false;
             }
 
             if (hasNodeId) {
@@ -780,16 +772,20 @@
 
         assignNodeMetadataToValues: function(node) {
             this.getMetadataFields().each(function(f) {
-                if ($(f) != undefined) {
+                var element = $(f);
+                if (typeof element != 'undefined') {
                     var value = node.attributes[f] != undefined ? node.attributes[f] : '';
-                    if ($(f).tagName.toLowerCase() == 'select') {
+                    if (element.tagName.toLowerCase() == 'select') {
+                        if (typeof element.defaultValue == 'undefined') {
+                            element.defaultValue = element.value;
+                        }
                         if (value == '') {
-                            $(f).selectedIndex = 1;
+                            element.value = element.defaultValue;
                         } else {
-                            $(f).value = value;
+                            element.value = value;
                         }
                     } else {
-                        $(f).value = (value == '0' ? '' : value);
+                        element.value = (value == '0' ? '' : value);
                     }
                 }
             }.bind(this));

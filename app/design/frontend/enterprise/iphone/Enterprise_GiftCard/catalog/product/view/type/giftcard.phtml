@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard */?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_id = $_product->getId(); ?>
+
+<?php if ($_product->isAvailable()): ?>
+    <p class="availability in-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('In stock') ?></span></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Out of stock') ?></span></p>
+<?php endif; ?>
+
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+
+<?php if (!$this->isOpenAmountAvailable($_product) && (count($this->getAmounts($_product)) == 1)): ?>
+    <?php $_amount = $this->getAmounts($_product); $_amount = array_shift($_amount); ?>
+    <div class="price-box">
+        <span class="regular-price">
+            <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_amount, true, false); ?>
+            </span>
+        </span>
+    </div>
+<?php endif; ?>

@@ -100,6 +100,46 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Limit Reward Exchange Rate entity saving
+     *
+     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @return void
+     */
+    public function rewardRateSaveBefore($model)
+    {
+        // Deny creating new Reward Exchange Rate entity if role has no allowed website ids
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+
+        // Deny saving Reward Rate entity if role has no exclusive access to assigned to Rate entity website
+        // Check if original websites list is empty implemented to deny saving target Rate for all GWS limited users
+        if (!$this->_role->hasExclusiveAccess((array)$model->getData('website_id'))
+            || ($model->getId() && !$this->_role->hasExclusiveAccess((array)$model->getOrigData('website_id')))
+        ) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Limit Reward Exchange Rate entity delete
+     *
+     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @return void
+     */
+    public function rewardRateDeleteBefore($model)
+    {
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $this->_throwDelete();
+        }
+
+        $websiteIds = (array)$model->getData('website_id');
+        if (!$this->_role->hasExclusiveAccess($websiteIds)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
      * Validate rule before delete
      *
      * @param Mage_Rule_Model_Rule $model
@@ -127,7 +167,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         $websiteIds = (array)$model->getData('website_ids');
 
-        // Set rule entity model as non-deleteable if role has no exclusive access to assigned to rule entity websites
+        // Set rule entity model as non-deletable if role has no exclusive access to assigned to rule entity websites
         if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $model->setIsDeleteable(false);
         }
@@ -1291,7 +1331,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment save
      *
-     * @deprecated after 1.11.2.0 use $this->ruleSaveBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1304,7 +1344,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate customer segment before delete
      *
-     * @deprecated after 1.11.2.0 use $this->ruleDeleteBefore() instead
+     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void
@@ -1317,7 +1357,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit customer segment model on after load
      *
-     * @deprecated after 1.11.2.0 use $this->ruleLoadAfter() instead
+     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
      *
      * @param Enterprise_CustomerSegment_Model_Segment $model
      * @return void

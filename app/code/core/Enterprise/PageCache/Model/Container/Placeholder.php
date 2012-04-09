@@ -89,7 +89,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
     }
 
     /**
-     * Get regular expression pattent to replace placeholder content
+     * Get regular expression pattern to replace placeholder content
      * @return string
      */
     public function getPattern()
@@ -98,7 +98,8 @@ class Enterprise_PageCache_Model_Container_Placeholder
     }
 
     /**
-     * Get placeholde content replacer
+     * Get placeholder content replacer
+     *
      * @return string
      */
     public function getReplacer()
@@ -113,6 +114,8 @@ class Enterprise_PageCache_Model_Container_Placeholder
 
     /**
      * Get class name of container related with placeholder
+     *
+     * @return string
      */
     public function getContainerClass()
     {
@@ -137,6 +140,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
 
     /**
      * Get placeholder start tag for block html generation
+     *
      * @return string
      */
     public function getStartTag()
@@ -146,6 +150,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
 
     /**
      * Get placeholder end tag for block html generation
+     *
      * @return string
      */
     public function getEndTag()
