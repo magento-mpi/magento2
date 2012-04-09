@@ -207,7 +207,7 @@ product_page:
                             ex_upsell_price_regular: //span[@class='regular-price']
                             ex_upsell_price_old: //p[@class='old-price']
                             ex_upsell_price_special: //p[@class='special-price']
-                            ex_upsell_price_excluding_tax: "[and not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']"
+                            ex_upsell_price_excluding_tax: "[not(*//p[@class='special-price'])]//span[@class='price-excluding-tax']"
                             ex_upsell_price_including_tax: "[not(*//p[@class='special-price'])]//span[@class='price-including-tax']"
                             ex_upsell_price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']
                             ex_upsell_price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']
