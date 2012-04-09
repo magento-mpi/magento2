@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_Backend>
+            <version>2.0.0.0</version>
+        </Mage_Backend>
+    </modules>
+    <global>
+        <areas>
+            <adminhtml>
+                <base_controller>Mage_Backend_Controller_Abstract</base_controller>
+                <routers>
+                    <admin>
+                        <class>Mage_Backend_Controller_Router_Default</class>
+                        <!--<frontName>admin</frontName>-->
+                    </admin>
+                </routers>
+            </adminhtml>
+        </areas>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Backend</module>
+                    <frontName>admin</frontName>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
