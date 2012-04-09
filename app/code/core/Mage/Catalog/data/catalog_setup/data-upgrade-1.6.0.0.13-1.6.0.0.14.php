@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Catalog
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = $this;

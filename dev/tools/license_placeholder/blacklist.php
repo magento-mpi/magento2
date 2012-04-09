@@ -2,10 +2,12 @@
 /**
  * Files excluded from license notices replacement
  *
- * {license}
+ * {license_notice}
  *
  * @category build
  * @package license
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 return array(
@@ -15,6 +17,7 @@ return array(
     'app/design/frontend/enterprise/default/skin/default/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/customization/performance/dev/build/database_dump.sql',
+    'dev/build/publication/license',
     'dev/tests/functional',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
@@ -22,6 +25,10 @@ return array(
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input',
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd',
     'downloader/js/prototype.js',
+    'lib/Apache',
+    'lib/PEAR',
+    'lib/phpseclib',
+    'lib/Zend',
     'pub/js/calendar',
     'pub/js/extjs',
     'pub/js/firebug',

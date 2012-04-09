@@ -2,11 +2,13 @@
 /**
  * Integrity test for template setters in Mage_Checkout_Block_CartTest
  *
- * {license}
+ * {license_notice}
  *
  * @category Mage
  * @package Mage_Checkout
  * @subpackage integration_tests
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 class Integrity_Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase

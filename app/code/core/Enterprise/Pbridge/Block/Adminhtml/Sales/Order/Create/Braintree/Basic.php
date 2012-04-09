@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 /**
  * Braintree payment block

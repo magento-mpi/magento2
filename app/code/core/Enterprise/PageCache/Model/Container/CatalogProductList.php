@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_PageCache
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /**

@@ -1,9 +1,11 @@
 <?php
 /**
- * {license}
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Api2
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 /**
  * Installation of Api2 module tables
