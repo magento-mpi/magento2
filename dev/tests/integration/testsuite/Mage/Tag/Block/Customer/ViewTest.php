@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @group module:Mage_Tag
+ */
 class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -19,6 +22,16 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_block = new Mage_Tag_Block_Customer_View();
+    }
+
+    public function testGetMode()
+    {
+        $layout = new Mage_Core_Model_Layout;
+        $layout->addBlock($this->_block, 'test');
+        $expected = uniqid();
+        $toolbar = new Mage_Core_Block_Text(array('current_mode' => $expected));
+        $layout->addBlock($toolbar, 'toolbar', 'test');
+        $this->assertEquals($expected, $this->_block->getMode());
     }
 
     /**
