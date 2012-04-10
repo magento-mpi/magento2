@@ -86,7 +86,6 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_B
     /**
      * Retrieve product configured options
      *
-     * @throws Mage_Core_Exception
      * @return array
      */
     public function getConfiguredOptions()
@@ -96,7 +95,7 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_B
         if (empty($data['helper'])
             || !$this->helper($data['helper']) instanceof Mage_Catalog_Helper_Product_Configuration_Interface
         ) {
-            throw Mage_Core_Exception($this->__("Helper for wishlist options rendering doesn't implement required interface."));
+            Mage::throwException($this->__("Helper for wishlist options rendering doesn't implement required interface."));
         }
 
         return $this->helper($data['helper'])->getOptions($item);
