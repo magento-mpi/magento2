@@ -112,10 +112,10 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
                 <action method="addItemRender"><type>simple</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_configurable</block><template>cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
-                <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_checkout_cart_item_renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>downloadable</type><block>Mage_Downloadable_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>virtual</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/default.phtml</template></action>
                 <action method="addItemRender"><type>undefined</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>cart/item/failed.phtml</template></action>
             </block>

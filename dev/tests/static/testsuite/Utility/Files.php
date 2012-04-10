@@ -307,11 +307,18 @@ class Utility_Files
      */
     public function codePoolClassFileExists($class, &$path = '')
     {
-        $path = implode('/', explode('_', $class)) . '.php';
-        return file_exists($this->_path . "/app/code/core/{$path}")
-            || file_exists($this->_path . "/app/code/community/{$path}")
-            || file_exists($this->_path . "/app/code/local/{$path}")
-            || file_exists($this->_path . "/lib/{$path}")
-        ;
+        $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
+        $directories = array('/app/code/core/', '/app/code/community/', '/app/code/local/', '/lib/');
+        foreach ($directories as $dir) {
+            $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
+            /**
+             * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case insensitivity
+             * of file names
+             */
+            if (realpath($fullPath) == $fullPath) {
+                return true;
+            }
+        }
+        return false;
     }
 }
