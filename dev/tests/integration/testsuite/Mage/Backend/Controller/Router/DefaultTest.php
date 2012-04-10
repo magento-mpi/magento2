@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @group module:Mage_Backend
+ */
 class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -63,6 +66,19 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
         $this->assertStringEndsWith($fileName, $file);
     }
 
+    /**
+     * @param string $module
+     * @param string $controller
+     * @param string $className
+     *
+     * @covers Mage_Backend_Controller_Router_Default::getControllerClassName
+     * @dataProvider getControllerClassNameDataProvider
+     */
+    public function testGetControllerClassName($module, $controller, $className)
+    {
+        $this->assertEquals($className, $this->_model->getControllerClassName($module, $controller));
+    }
+
     public function getControllerFileNameDataProvider()
     {
         return array(
@@ -78,19 +94,6 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
                 'Index' . DS . 'controllers' . DS . 'Adminhtml' . DS . 'ProcessController.php'
             ),
         );
-    }
-
-    /**
-     * @param string $module
-     * @param string $controller
-     * @param string $className
-     *
-     * @covers Mage_Backend_Controller_Router_Default::getControllerClassName
-     * @dataProvider getControllerClassNameDataProvider
-     */
-    public function testGetControllerClassName($module, $controller, $className)
-    {
-        $this->assertEquals($className, $this->_model->getControllerClassName($module, $controller));
     }
 
     public function getControllerClassNameDataProvider()
