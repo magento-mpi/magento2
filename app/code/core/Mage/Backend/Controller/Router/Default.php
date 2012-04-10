@@ -3,13 +3,11 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Varien_Router_Standard
+class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
      * Fetch default path
@@ -111,6 +109,91 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
                 Mage::getConfig()->setNode($xmlPath, $customUrl, true);
             }
         }
-        parent::collectRoutes($configArea, $useRouterName);
+
+        $this->_collectRoutes('admin', $useRouterName);
+    }
+
+    /**
+     * Collect modules routers configuration from configuration
+     *
+     * @param string $configArea
+     * @param string $useRouterName
+     * @return void
+     */
+    protected function _collectRoutes($configArea, $useRouterName)
+    {
+        $routers = array();
+        $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
+        if($routersConfigNode) {
+            $routers = $routersConfigNode->children();
+        }
+        foreach ($routers as $routerName=>$routerConfig) {
+            $use = (string)$routerConfig->use;
+            if ($use == $useRouterName) {
+                $modules = array((string)$routerConfig->args->module);
+
+                if ($routerConfig->args->modules) {
+                    foreach ($routerConfig->args->modules->children() as $customModule) {
+                        if ($customModule) {
+                            if ($before = $customModule->getAttribute('before')) {
+                                $position = array_search($before, $modules);
+                                if ($position === false) {
+                                    $position = 0;
+                                }
+                                array_splice($modules, $position, 0, (string)$customModule);
+                            } elseif ($after = $customModule->getAttribute('after')) {
+                                $position = array_search($after, $modules);
+                                if ($position === false) {
+                                    $position = count($modules);
+                                }
+                                array_splice($modules, $position+1, 0, (string)$customModule);
+                            } else {
+                                $modules[] = (string)$customModule;
+                            }
+                        }
+                    }
+                }
+
+                $frontName = (string)$routerConfig->args->frontName;
+                $this->addModule($frontName, $modules, $routerName);
+            }
+        }
+    }
+
+    public function getControllerFileName($realModule, $controller)
+    {
+        /**
+         * Start temporary block
+         * TODO: Sprint#27. Delete after adminhtml refactoring
+         */
+        if ($realModule == 'Mage_Adminhtml') {
+            return parent::getControllerFileName($realModule, $controller);
+        }
+        /**
+         * End temporary block
+         */
+
+        $parts = explode('_', $realModule);
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        $file = Mage::getModuleDir('controllers', $realModule);
+        return $file . DS . ucfirst($this->_area) . DS . uc_words($controller, DS) . 'Controller.php';
+    }
+
+    public function getControllerClassName($realModule, $controller)
+    {
+        /**
+         * Start temporary block
+         * TODO: Sprint#27. Delete after adminhtml refactoring
+         */
+        if ($realModule == 'Mage_Adminhtml') {
+            return parent::getControllerClassName($realModule, $controller);
+        }
+        /**
+         * End temporary block
+         */
+
+        $parts = explode('_', $realModule);
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        return $realModule . '_' . ucfirst($this->_area) . '_' . uc_words($controller) . 'Controller';
     }
 }
