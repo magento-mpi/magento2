@@ -151,7 +151,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function hasAction($action)
     {
-        return is_callable(array($this, $this->getActionMethodName($action)));
+        return method_exists($this, $this->getActionMethodName($action));
     }
 
     /**
@@ -399,8 +399,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         try {
             $actionMethodName = $this->getActionMethodName($action);
-
-            if (!is_callable(array($this, $actionMethodName))) {
+            if (!method_exists($this, $actionMethodName)) {
                 $actionMethodName = 'norouteAction';
             }
 
