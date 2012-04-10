@@ -25,29 +25,8 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#
-product_page:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    customize_product_info:
-                        xpath: //div[@id='options-container']
-                        links:
-                            customized_add_to_wishlist: //a[text()='Add to Wishlist']
-                -
-                    product_info:
-                        buttons:
-                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+my_wishlist_index:
+    mca: wishlist/index/index/wishlist_id/%id%/
 
-product_review:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    customize_product_info:
-                        xpath: //div[@id='options-container']
-                -
-                    product_info:
-                        buttons:
-                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+share_wishlist_index:
+    mca: wishlist/index/share/wishlist_id/%id%
