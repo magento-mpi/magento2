@@ -49,3 +49,15 @@ product_review:
                     product_info:
                         buttons:
                             customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                -
+                    customer_reviews:
+                        pageelements:
+                            review_reviwer_name: //dt[contains(.,'%reviewerName%')]
+                            review_details: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]
+                            review_post_date: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/p[2]
+                        links:
+                            review_summary: //dt[contains(.,'%reviewerName%')]/a
+
+product_review_details:
+    mca: review/product/view/id/%id%/
+    title: Magento Enterprise Edition

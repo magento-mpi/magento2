@@ -246,8 +246,9 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             $actualSummary = $this->getText($this->_getControlXpath('link', 'review_summary'));
             //Define actual review text and rating names
             $xpathReview = $this->_getControlXpath('pageelement', 'review_details');
+            $xpathReviewDate = $this->_getControlXpath('pageelement', 'review_post_date');
             $xpathReviewRatings = $xpathReview . '/table';
-            $text = preg_quote($this->getText($xpathReview . '/small'));
+            $text = preg_quote($this->getText($xpathReviewDate));
             $actualReview = trim(preg_replace('#' . $text . '#', '', $this->getText($xpathReview)));
             if ($this->isElementPresent($xpathReviewRatings)) {
                 $text = preg_quote($this->getText($xpathReviewRatings));
