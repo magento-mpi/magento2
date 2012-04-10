@@ -455,6 +455,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                   'Product ' . $name . ' is not in the wishlist.');
             }
         } else {
+            $this->assertTrue($this->checkCurrentPage('shopping_cart'));
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
                               'Product ' . $productName . ' is not in the shopping cart.');
             $this->shoppingCartHelper()->frontMoveToWishlist($productName);

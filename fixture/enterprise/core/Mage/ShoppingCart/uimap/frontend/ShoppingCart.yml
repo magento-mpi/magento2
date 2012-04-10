@@ -26,28 +26,13 @@
 #
 ---
 #
-product_page:
+shopping_cart:
     uimap:
         form:
             fieldsets:
                 -
-                    customize_product_info:
-                        xpath: //div[@id='options-container']
+                    products_in_cart:
+                        checkboxes:
+                            move_to_wishlist:
                         links:
-                            customized_add_to_wishlist: //a[text()='Add to Wishlist']
-                -
-                    product_info:
-                        buttons:
-                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
-
-product_review:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    customize_product_info:
-                        xpath: //div[@id='options-container']
-                -
-                    product_info:
-                        buttons:
-                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                            move_to_wishlist: //tr[td//a[text()='%productName%']]/td/a[text()='Move']
