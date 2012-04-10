@@ -102,7 +102,7 @@ return array(
     'addCustomerToSegments',
     'addGroupByTag' => array('class_scope' => 'Mage_Reports_Model_Resource_Tag_Collection'),
     'addKey' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
-    'addSaleableFilterToCollection' => array('class_scope' => 'Mage_Catalog_Model_Product_Status'),
+    'addSaleableFilterToCollection',
     'addSearchQfFilter',
     'addStoresFilter' => array('class_scope' => 'Mage_Poll_Model_Resource_Poll_Collection'),
     'addSummary' => array('class_scope' => 'Mage_Tag_Model_Resource_Tag'),

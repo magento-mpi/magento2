@@ -49,7 +49,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Mage_Adminhtml_Bloc
         $this->_mode = 'edit';
 
         $this->_addButton('save_and_continue', array(
-            'label'     => Mage::helper('Mage_OAuth_Helper_Data')->__('Save and Continue Edit'),
+            'label'     => Mage::helper('Mage_Oauth_Helper_Data')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class' => 'save'
         ), 100);

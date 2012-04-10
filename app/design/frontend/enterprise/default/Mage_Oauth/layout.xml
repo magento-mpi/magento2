@@ -73,7 +73,7 @@
         <update handle="oauth_root_handle"/>
         <label>Confirm OAuth token authorization</label>
         <reference name="content">
-            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.confirm" template="Mage_Oauth::authorize/confirm.phtml"/>
+            <block type="Mage_Oauth_Block_Authorize_Button" name="oauth.authorize.confirm" template="Mage_Oauth::authorize/confirm.phtml"/>
         </reference>
     </oauth_authorize_confirm>
 
@@ -92,7 +92,7 @@
         <update handle="oauth_root_handle"/>
         <label>Confirm Oauth token authorization</label>
         <reference name="content">
-            <block type="Mage_OAuth_Block_Authorize_Button" name="oauth.authorize.reject" template="Mage_OAuth::authorize/reject.phtml"/>
+            <block type="Mage_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="Mage_Oauth::authorize/reject.phtml"/>
         </reference>
     </oauth_authorize_reject>
 
@@ -121,7 +121,7 @@
         <label>Customer My Account My OAuth Applications</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_OAuth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
+            <block type="Mage_Oauth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
         </reference>
     </oauth_customer_token_index>
     <!-- EOF My Applications-->

@@ -71,7 +71,6 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
                 ->addMinimalPrice()
                 ->addUrlRewrite()
                 ->setActiveFilter();
-            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->addSaleableFilterToCollection($this->_productCollection);
             $this->_productCollection->setVisibility(
                 Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
             );

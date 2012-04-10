@@ -106,7 +106,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
         }
 
         /** @var $model Mage_Oauth_Model_Consumer */
-        $model = Mage::getModel('Mage_OAuth_Model_Consumer');
+        $model = Mage::getModel('Mage_Oauth_Model_Consumer');
         $model->load($id);
 
         if (!$model->getId()) {

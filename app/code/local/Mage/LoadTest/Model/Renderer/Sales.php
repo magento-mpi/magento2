@@ -425,7 +425,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             }
 
         /*if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
-                Mage::throwException(Mage::helper('Mage_Loadtest_Helper_Data')->__('All active customers already have active quotes.'));
+                Mage::throwException(Mage::helper('Mage_LoadTest_Helper_Data')->__('All active customers already have active quotes.'));
             }
             if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
                 $this->setCountQuotes($noQuote);

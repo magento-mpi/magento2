@@ -52,26 +52,26 @@ class Mage_Api2_Block_Adminhtml_Roles_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('ID'),
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('ID'),
             'index'  => 'entity_id',
             'align'  => 'right',
             'width'  => '50px',
         ));
 
         $this->addColumn('role_name', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Role Name'),
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Role Name'),
             'index'  => 'role_name',
             'escape' => true,
         ));
 
         $this->addColumn('tole_user_type', array(
-            'header'         => Mage::helper('Mage_OAuth_Helper_Data')->__('User Type'),
+            'header'         => Mage::helper('Mage_Oauth_Helper_Data')->__('User Type'),
             'sortable'       => false,
             'frame_callback' => array($this, 'decorateUserType')
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Created At'),
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Created At'),
             'index'  => 'created_at'
         ));
 

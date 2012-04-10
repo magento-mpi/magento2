@@ -24,7 +24,7 @@ class Mage_Oauth_Model_Resource_Token_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('Mage_Oauth_Model_Token', 'Mage_OAuth_Model_Resource_Token');
+        $this->_init('Mage_Oauth_Model_Token', 'Mage_Oauth_Model_Resource_Token');
     }
 
     /**

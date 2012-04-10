@@ -52,7 +52,7 @@
         </events>
         <template>
             <email>
-                <oauth_email_template translate="label" module="Mage_OAuth">
+                <oauth_email_template translate="label" module="Mage_Oauth">
                     <label>Token Status Change</label>
                     <file>email/token.html</file>
                     <type>html</type>

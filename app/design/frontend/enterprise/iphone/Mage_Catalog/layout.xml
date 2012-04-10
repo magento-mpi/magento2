@@ -30,7 +30,7 @@ Default layout, loads most of the pages
             <block type="Mage_Catalog_Block_Navigation" name="catalog.topnav" template="navigation/top.phtml"/>
         </reference>
         <reference name="header">
-            <block type="Mage_Catalog_Block_Product_compare_sidebar" name="catalogCompareLink" template="product/compare/sidebar.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalogCompareLink" template="product/compare/sidebar.phtml"/>
         </reference>
         <reference name="left">
             <block type="Mage_Core_Block_Template" name="left.permanent.callout" template="Mage_Page::callouts/left_col.phtml">

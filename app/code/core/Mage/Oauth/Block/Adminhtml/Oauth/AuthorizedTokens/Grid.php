@@ -38,7 +38,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('Mage_OAuth_Model_Token')->getCollection();
+        $collection = Mage::getModel('Mage_Oauth_Model_Token')->getCollection();
         $collection->joinConsumerAsApplication()
             ->addFilterByType(Mage_Oauth_Model_Token::TYPE_ACCESS);
         $this->setCollection($collection);
@@ -55,7 +55,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_OAuth_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Mage_Oauth_Helper_Data')->__('ID'),
             'index'     => 'entity_id',
             'align'     => 'right',
             'width'     => '50px',

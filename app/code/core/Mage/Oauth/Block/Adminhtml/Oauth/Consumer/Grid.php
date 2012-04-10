@@ -48,7 +48,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_OAuth_Model_Consumer')->getCollection();
+        $collection = Mage::getModel('Mage_Oauth_Model_Consumer')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -62,15 +62,15 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Mage_Adminhtml_Bloc
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('ID'), 'index' => 'entity_id', 'align' => 'right', 'width' => '50px'
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('ID'), 'index' => 'entity_id', 'align' => 'right', 'width' => '50px'
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Consumer Name'), 'index' => 'name', 'escape' => true
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Consumer Name'), 'index' => 'name', 'escape' => true
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_OAuth_Helper_Data')->__('Created At'), 'index' => 'created_at'
+            'header' => Mage::helper('Mage_Oauth_Helper_Data')->__('Created At'), 'index' => 'created_at'
         ));
 
         return parent::_prepareColumns();

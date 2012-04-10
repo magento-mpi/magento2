@@ -11,7 +11,7 @@
 -->
 <config>
    <sections>
-        <oauth translate="label" module="Mage_OAuth">
+        <oauth translate="label" module="Mage_Oauth">
             <label>OAuth</label>
             <tab>service</tab>
             <frontend_type>text</frontend_type>
