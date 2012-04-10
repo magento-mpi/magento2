@@ -372,25 +372,56 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         return $model;
     }
 
+    /**
+     * Check if areas loaded correctly from configuration
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/load_configuration.php
+     */
     public function testGetAreas()
     {
-        $model = $this->_createModel(true);
-        $this->assertNotNull($model->getAreas(), "Areas are not initialized");
+        $allowedAreas = Mage::app()->getConfig()->getAreas();
+        $this->assertNotEmpty($allowedAreas, 'Areas are not initialized');
 
-        /** TODO uncomment assert
-         * commented because there are no implemented areas
-         */
-        // $this->assertGreaterThan(0, count($model->getAreas()), "At least one area should be defined");
+        $this->assertArrayHasKey('test_area1', $allowedAreas, 'Test area #1 is not loaded');
+
+        $testAreaExpected = array(
+            'base_controller' => 'Mage_Core_Controller_Varien_Action',
+            'routers'         => array(
+                'test_router1' => array(
+                    'class'   => 'Mage_Core_Controller_Varien_Router_Default'
+                ),
+                'test_router2' => array(
+                    'class'   => 'Mage_Core_Controller_Varien_Router_Default'
+                )
+            )
+        );
+        $this->assertEquals($testAreaExpected, $allowedAreas['test_area1'], 'Test area is not loaded correctly');
+
+        $this->assertArrayNotHasKey('test_area2', $allowedAreas, 'Test area #2 is loaded by mistake');
+        $this->assertArrayNotHasKey('test_area3', $allowedAreas, 'Test area #3 is loaded by mistake');
+        $this->assertArrayNotHasKey('test_area4', $allowedAreas, 'Test area #4 is loaded by mistake');
+        $this->assertArrayNotHasKey('test_area5', $allowedAreas, 'Test area #5 is loaded by mistake');
     }
 
+    /**
+     * Check if routers loaded correctly from configuration
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/load_configuration.php
+     */
     public function testGetRouters()
     {
-        $model = $this->_createModel(true);
-        $this->assertNotNull($model->getRouters(), "Routers are not initialized");
+        $loadedRouters = Mage::app()->getConfig()->getRouters();
+        $this->assertArrayHasKey('test_router1', $loadedRouters, 'Test router #1 is not initialized in test area.');
+        $this->assertArrayHasKey('test_router2', $loadedRouters, 'Test router #2 is not initialized in test area.');
 
-        /** TODO uncomment assert
-         * commented because there are no implemented areas with routers inside
-         */
-        // $this->assertGreaterThan(0, count($model->getAreas()), "At least one router should be defined");
+        $testRouterExpected = array(
+            'class'           => 'Mage_Core_Controller_Varien_Router_Default',
+            'area'            => 'test_area1',
+            'base_controller' => 'Mage_Core_Controller_Varien_Action'
+        );
+        $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');
+        $this->assertEquals($testRouterExpected, $loadedRouters['test_router2'], 'Test router is not loaded correctly');
     }
 }

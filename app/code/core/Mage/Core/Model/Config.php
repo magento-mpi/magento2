@@ -1539,7 +1539,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected function _loadAreas()
     {
         $this->_allowedAreas = array();
-        $nodeAreas = $this->getNode("global/areas");
+        $nodeAreas = $this->getNode('global/areas');
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
                 if (empty($areaCode)
