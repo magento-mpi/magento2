@@ -43,7 +43,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
 
     protected function _requireCipherInfo()
     {
-        $filename = __DIR__ . '/Crypt/_files/_cipher_info.php';
+        $filename = dirname(__FILE__) . '/Crypt/_files/_cipher_info.php';
         /* Generate allowed sizes for encryption key and init vector
         $data = array();
         foreach ($this->_supportedCiphers as $cipher) {
@@ -141,7 +141,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
 
     public function getCryptData()
     {
-        $fixturesFilename = __DIR__ . '/Crypt/_files/_crypt_fixtures.php';
+        $fixturesFilename = dirname(__FILE__) . '/Crypt/_files/_crypt_fixtures.php';
         /* Generate fixtures
         $fixtures = array();
         foreach (array('', 'Hello world!!!') as $inputString) {
