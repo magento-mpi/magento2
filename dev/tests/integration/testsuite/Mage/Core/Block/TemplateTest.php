@@ -42,8 +42,6 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTemplateFile()
     {
-        $this->assertStringStartsWith('frontend', $this->_block->getTemplateFile());
-
         Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
 
         // with template

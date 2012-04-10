@@ -73,6 +73,16 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     }
 
     /**
+     * Retrieve Adminhtml Menu array
+     *
+     * @return array
+     */
+    public function getMenuArray()
+    {
+        return $this->_buildMenuArray();
+    }
+
+    /**
      * Retrieve Title value for menu node
      *
      * @param Varien_Simplexml_Element $child
@@ -344,7 +354,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _isEnabledModuleOutput(Varien_Simplexml_Element $child)
     {
-        $helperName      = 'adminhtml';
+        $helperName      = 'Mage_Adminhtml_Helper_Data';
         $childAttributes = $child->attributes();
         if (isset($childAttributes['module'])) {
             $helperName  = (string)$childAttributes['module'];

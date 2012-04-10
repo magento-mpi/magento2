@@ -16,16 +16,6 @@
         </Mage_Oauth>
     </modules>
     <global>
-        <blocks>
-            <oauth>
-                <class>Mage_Oauth_Block</class>
-            </oauth>
-        </blocks>
-        <helpers>
-            <oauth>
-                <class>Mage_Oauth_Helper_Data</class>
-            </oauth>
-        </helpers>
         <resources>
             <oauth_setup>
                 <setup>

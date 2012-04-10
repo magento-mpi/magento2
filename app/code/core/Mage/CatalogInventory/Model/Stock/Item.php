@@ -335,7 +335,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getEnableQtyIncrements()
     {
-        if ($this->getUseConfigEnableQtyIncrements()) {
+        if ($this->getUseConfigEnableQtyInc()) {
             return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
         }
         return (bool) $this->getData('enable_qty_increments');

@@ -28,13 +28,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_product;
 
-    public static function setUpBeforeClass()
-    {
-        $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        mkdir($mediaDir . '/m/a', 0777, true);
-        copy(realpath(__DIR__ . '/../../_files') . '/magento_image.jpg', $mediaDir . '/m/a/magento_image.jpg');
-    }
-
     protected function setUp()
     {
         $this->_block = $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract');
