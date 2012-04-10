@@ -19,20 +19,61 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for order items (customer)
+ * Abstract API2 class for order items rest
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order_Items_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Order_Items_Rest
+abstract class Mage_Sales_Model_Api2_Order_Item_Rest extends Mage_Sales_Model_Api2_Order_Item
 {
+    /**#@+
+     * Parameters in request used in model (usually specified in route)
+     */
+    const PARAM_ORDER_ID = 'id';
+    /**#@-*/
+
+    /**
+     * Get order items list
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $data = array();
+        /* @var $item Mage_Sales_Model_Order_Item */
+        foreach ($this->_getCollectionForRetrieve() as $item) {
+            $itemData = $item->getData();
+            $itemData['status'] = $item->getStatus();
+            $data[] = $itemData;
+        }
+        return $data;
+    }
+    /**
+     * Retrieve order items collection
+     *
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     */
+    protected function _getCollectionForRetrieve()
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $this->_loadOrderById(
+            $this->getRequest()->getParam(self::PARAM_ORDER_ID)
+        );
+
+        /* @var $collection Mage_Sales_Model_Resource_Order_Item_Collection */
+        $collection = Mage::getResourceModel('sales/order_item_collection');
+        $collection->setOrderFilter($order->getId());
+        $this->_applyCollectionModifiers($collection);
+        return $collection;
+    }
+
     /**
      * Load order by id
      *
@@ -45,10 +86,6 @@ class Mage_Sales_Model_Api2_Order_Items_Rest_Customer_V1 extends Mage_Sales_Mode
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::getModel('sales/order')->load($id);
         if (!$order->getId()) {
-            $this->_critical(self::RESOURCE_NOT_FOUND);
-        }
-        // check order owner
-        if ($this->getApiUser()->getUserId() != $order->getCustomerId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $order;

@@ -31,7 +31,7 @@
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Api2_Order_Comments_Rest extends Mage_Sales_Model_Api2_Order_Comments
+abstract class Mage_Sales_Model_Api2_Order_Comment_Rest extends Mage_Sales_Model_Api2_Order_Comment
 {
     /**#@+
      * Parameters in request used in model (usually specified in route mask)

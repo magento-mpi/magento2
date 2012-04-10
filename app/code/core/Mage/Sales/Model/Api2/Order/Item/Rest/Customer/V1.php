@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Api2
  * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * API2 class for sales order comments (customer)
+ * API2 class for order items (customer)
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api2_Order_Comments_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Order_Comments_Rest
+class Mage_Sales_Model_Api2_Order_Item_Rest_Customer_V1 extends Mage_Sales_Model_Api2_Order_Item_Rest
 {
     /**
      * Load order by id
@@ -42,25 +42,15 @@ class Mage_Sales_Model_Api2_Order_Comments_Rest_Customer_V1 extends Mage_Sales_M
      */
     protected function _loadOrderById($id)
     {
-        $order = parent::_loadOrderById($id);
-
-        // Check sales order's owner
-        if ($this->getApiUser()->getUserId() !== $order->getCustomerId()) {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('sales/order')->load($id);
+        if (!$order->getId()) {
+            $this->_critical(self::RESOURCE_NOT_FOUND);
+        }
+        // check order owner
+        if ($this->getApiUser()->getUserId() != $order->getCustomerId()) {
             $this->_critical(self::RESOURCE_NOT_FOUND);
         }
         return $order;
-    }
-
-    /**
-     * Retrieve collection instances
-     *
-     * @return Mage_Sales_Model_Resource_Order_Status_History_Collection
-     */
-    protected function _getCollectionForRetrieve()
-    {
-        $collection = parent::_getCollectionForRetrieve();
-        $collection->addFieldToFilter('is_visible_on_front', 1);
-
-        return $collection;
     }
 }

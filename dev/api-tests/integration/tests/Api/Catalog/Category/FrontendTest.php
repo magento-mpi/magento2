@@ -128,7 +128,10 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         //Unregister previously registered controller
         Mage::unregister('controller');
         Mage::unregister('application_params');
-        $runOptions['request']->setRequestUri($uri);
+
+        $urlData = @parse_url(TESTS_HTTP_HOST);
+        $path = isset($urlData['path']) ? $urlData['path'] : '';
+        $runOptions['request']->setRequestUri(rtrim($path, '/') . '/' . ltrim($uri, '/'));
 
         $runCode     = '';
         $runScope    = 'store';
