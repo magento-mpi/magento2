@@ -35,63 +35,44 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Creating Simple product</p>
-     *
-     * @test
-     * @return array $productData
-     */
-    public function preconditionsCreateProduct()
+    public function setUpBeforeTests()
     {
-        //Data
-        $productData = $this->loadData('simple_product_visible');
-        //Steps
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_product');
-        return $productData;
-    }
-
-    /**
-     * <p>Create Customer</p>
-     *
-     * @test
-     * @return array $userData
-     */
-    public function preconditionsCreateCustomer()
-    {
-        //Data
-        $userData = $this->loadData('all_fields_customer_account', NULL, 'email');
-        $addressData = $this->loadData('all_fields_address');
-        //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData, $addressData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        return array('email' => $userData['email'], 'password' => $userData['password']);
-    }
-
-    /**
-     * <p>Shipping Methods Configuration in backend</p>
-     *
-     * @test
-     */
-    public function preconditionsConfigureShippingMethods()
-    {
-        $this->admin();
+        $shippingSettings = $this->loadDataSet('ShippingMethod', 'free_enable');
+        $paymentSettings = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('free_enable');
-        $this->systemConfigurationHelper()->configure('ups_enable');
+        $this->systemConfigurationHelper()->configure($shippingSettings);
+        $this->systemConfigurationHelper()->configure($paymentSettings);
     }
 
-################################################################################
-#                                                                              #
-#                     Select Addresses Page                                    #
-#                                                                              #
-################################################################################
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
+    /**
+     * @return array
+     * @test
+     */
+    public function preconditionsForTests()
+    {
+        //Data
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        //Steps and Verification
+        $this->loginAdminUser();
+        $simple1 = $this->productHelper()->createSimpleProduct();
+        $simple2 = $this->productHelper()->createSimpleProduct();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+
+        return array('products' => array('product_1' => $simple1['simple']['product_name'],
+                                         'product_2' => $simple2['simple']['product_name']),
+                     'user'     => array('email'    => $userData['email'],
+                                         'password' => $userData['password']));
+    }
 
     /**
      * <p>Empty required fields(Select Addresses page)</p>
@@ -110,59 +91,95 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Error Message is displayed.</p>
      *
      * @param string $emptyField
-     * @param string $fieldType
-     * @param array $customerData
-     * @param array $productData
+     * @param string $fieldName
+     * @param array $testData
      *
      * @test
-     * @dataProvider createShippingAddressEmptyRequiredFieldsDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId TL-MAGE-5269
+     * @dataProvider emptyRequiredFieldsDataProvider
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5269
      */
-    public function createShippingAddressEmptyRequiredFields($emptyField, $fieldType, $customerData, $productData)
+    public function emptyRequiredFieldsInShippingAddress($emptyField, $fieldName, $testData)
     {
         //Data
-        $generalShippingAddress = $this->loadData('multiple_shipping_new_signedin_req', array ($emptyField => ''));
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $path = 'multiple_with_signed_in/shipping_data/address_data_1/address';
+        $checkoutData['shipping_data']['address_data_1']['address'] = $this->loadDataSet('MultipleAddressesCheckout',
+                                                                                         $path,
+                                                                                         array($emptyField => ''));
         //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->productHelper()->frontAddProductToCart();
-        $this->clickControl('link', 'checkout_with_multiple_addresses');
-        $this->clickButton('add_new_address');
-        $currentPage = $this->getCurrentPage();
-        if ($currentPage == 'checkout_multishipping_add_new_address' ||
-            $currentPage == 'checkout_multishipping_register') {
-            $this->fillForm($generalShippingAddress);
-            $this->clickButton('save_address', false);
-        }
-        //Verification
-        $this->addFieldIdToMessage($fieldType, $emptyField);
-        if ($fieldType == 'dropdown') {
-            $this->assertMessagePresent('validation', 'please_select_option');
+        if ($emptyField == 'state' || $emptyField == 'country') {
+            $message = '"' . $fieldName . '": Please select an option.';
         } else {
-        $this->assertMessagePresent('validation', 'empty_required_field');
+            $message = '"' . $fieldName . '": This is a required field.';
         }
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     /**
-     * Data provider for createShippingAddressEmptyRequiredFields test
+     * <p>Empty required fields(Select Addresses page)</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
+     * <p>3.Customer signed in at the frontend.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Move To " Billing Information Page".</p>
+     * <p>5. Click "Add Address"</p>
+     * <p>6. Fill in fields except one required.</p>
+     * <p>7. Click 'Submit' button</p>
+     * <p>Expected result:</p>
+     * <p>New address is not added.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * @return array
+     * @param string $emptyField
+     * @param string $fieldName
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider emptyRequiredFieldsDataProvider
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5275
      */
-    public function createShippingAddressEmptyRequiredFieldsDataProvider()
+    public function emptyRequiredFieldsInBillingAddress($emptyField, $fieldName, $testData)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $path = 'multiple_with_signed_in/payment_data/billing_address';
+        $checkoutData['payment_data']['billing_address'] = $this->loadDataSet('MultipleAddressesCheckout',
+                                                                              $path,
+                                                                              array($emptyField => ''));
+        //Steps
+        if ($emptyField == 'state' || $emptyField == 'country') {
+            $message = '"' . $fieldName . '": Please select an option.';
+        } else {
+            $message = '"' . $fieldName . '": This is a required field.';
+        }
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+    }
+
+    public function emptyRequiredFieldsDataProvider()
     {
         return array(
-            array('shipping_first_name', 'field'),//First Name
-            array('shipping_last_name', 'field'),//Last Name
-            array('shipping_telephone', 'field'),//Telephone
-            array('shipping_street_address_1', 'field'),//Street Address
-            array('shipping_city', 'field'),//City
-            array('shipping_state', 'dropdown'),//State/Province
-            array('shipping_zip_code', 'field'),//Zip/Postal Code
-            array('shipping_country', 'dropdown')//Country
+            array('first_name', 'First Name'),
+            array('last_name', 'Last Name'),
+            array('telephone', 'Telephone'),
+            array('street_address_1', 'Street Address'),
+            array('city', 'City'),
+            array('state', 'State/Province'),
+            array('zip_code', 'Zip/Postal Code'),
+            array('country', 'Country')
         );
     }
 
@@ -182,47 +199,25 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @param array $customerData
-     * @param array $productData
+     * @param array $testData
      *
      * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId TL-MAGE-5271
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5271
      */
-    public function createShippingAddressSpecialChars($customerData, $productData) //Enter New Address page
+    public function withSpecialCharsInShippingAddress($testData)
     {
         //Data
-        $generalShippingAddress = $this->loadData('multiple_shipping_new_signedin_req', array(
-            'shipping_first_name' => $this->generate('string', 32, ':punct:'),
-            'shipping_last_name' => $this->generate('string', 32, ':punct:'),
-            'shipping_company' => $this->generate('string', 32, ':punct:'),
-            'shipping_telephone' => $this->generate('string', 32, ':punct:'),
-            'shipping_street_address_1' => $this->generate('string', 32, ':punct:'),
-            'shipping_street_address_2' => $this->generate('string', 32, ':punct:'),
-            'shipping_city' => $this->generate('string', 32, ':punct:'),
-            'shipping_zip_code' => $this->generate('string', 32, ':punct:'),
-            'shipping_fax' => $this->generate('string', 32, ':punct:'),
-            ));
-        $checkoutData = $this->loadData('multiple_invalid_data_ship_address');
-        $checkoutData['shipping_address_data']['address_to_add_1']['shipping_address'] = $generalShippingAddress;
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->productHelper()->frontAddProductToCart();
-        $this->clickControl('link', 'checkout_with_multiple_addresses');
-        $this->clickButton('add_new_address');
-        $currentPage = $this->getCurrentPage();
-        if ($currentPage == 'checkout_multishipping_add_new_address' ||
-            $currentPage == 'checkout_multishipping_register') {
-            $this->fillForm($generalShippingAddress);
-            $this->clickButton('save_address');
-        }
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_address');
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
     /**
@@ -238,219 +233,25 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @param array $customerData
-     * @param array $productData
+     * @param array $testData
      *
      * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId	TL-MAGE-5272
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5272
      */
-    public function createShippingAddressLongValues($customerData, $productData) //Enter New Address
+    public function withLongValuesInShippingAddress($testData)
     {
         //Data
-        $generalShippingAddress = $this->loadData('multiple_shipping_new_signedin_req', array(
-            'shipping_first_name' => $this->generate('string', 255, ':alnum:'),
-            'shipping_last_name' => $this->generate('string', 255, ':alnum:'),
-            'shipping_company' => $this->generate('string', 255, ':alnum:'),
-            'shipping_telephone' => $this->generate('string', 255, ':alnum:'),
-            'shipping_street_address_1' => $this->generate('string', 255, ':alnum:'),
-            'shipping_street_address_2' => $this->generate('string', 255, ':alnum:'),
-            'shipping_city' => $this->generate('string', 255, ':alnum:'),
-            'shipping_zip_code' => $this->generate('string', 255, ':alnum:'),
-            'shipping_fax' => $this->generate('string', 255, ':alnum:'),
-            ));
-        $checkoutData = $this->loadData('multiple_invalid_data_ship_address');
-        $checkoutData['shipping_address_data']['address_to_add_1']['shipping_address'] = $generalShippingAddress;
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->productHelper()->frontAddProductToCart();
-        $this->clickControl('link', 'checkout_with_multiple_addresses');
-        $this->clickButton('add_new_address');
-        $currentPage = $this->getCurrentPage();
-        if ($currentPage == 'checkout_multishipping_add_new_address' ||
-            $currentPage == 'checkout_multishipping_register') {
-            $this->fillForm($generalShippingAddress);
-            $this->clickButton('save_address');
-        }
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_address');
-    }
-
-
-    /**
-     * <p>Fill in only required fields. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Fill in Qty with invalid value(negative, non-integer)</p>
-     * <p>6. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product removed from Shoping cart</p>
-     * <p>TODO MAGE-5312</p>
-     *
-     * @param string $invalidQty
-     * @param array $customerData
-     * @param array $productData
-     *
-     * @test
-     * @dataProvider selectAddressesPageInvalidQtyDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId	TL-MAGE-5273
-     */
-    public function selectAddressesPageInvalidQty($invalidQty, $customerData, $productData) //Enter New Address
-    {
-        //Data
-        $checkoutData = $this->loadData('multiple_exist_flatrate_checkmoney', array('checkout_as_customer' => NULL,
-            'qty' => $invalidQty));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['qty'] = $invalidQty;
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->productHelper()->frontAddProductToCart();
-        $this->clickControl('link', 'checkout_with_multiple_addresses');
-        $this->fillForm(array('qty' => $invalidQty));
-        $this->clickButton('continue_to_shipping_information');
-        //Verification
-        $this->assertMessagePresent('success', 'shopping_cart_is_empty');
-    }
-
-    /**
-     * Data provider for selectAddressesPageInvalidQty test
-     *
-     * @return array
-     */
-    public function selectAddressesPageInvalidQtyDataProvider()
-    {
-        return array(
-            array('-10'),//negative
-            array($this->generate('string', 3, ':alpha:'))//non-integer
-        );
-    }
-
-################################################################################
-#                                                                              #
-#                     Shipping Information Page                                #
-#                                                                              #
-################################################################################
-
-    /**
-     * <p>Shipping Method is not selected</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move to the Shipping Information Page</p>
-     * <p>5. Leave Shipping Method unselected</p>
-     * <p>6. Click 'Continue to Billing Information' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message is displayed.
-     * <p>(Please select shipping methods for all addresses)</p>
-     *
-     * @param array $customerData
-     * @param array $productData
-     *
-     * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @depends preconditionsConfigureShippingMethods
-     * @TestlinkId	TL-MAGE-5274
-     */
-    public function shippingMethodNotSelected($customerData, $productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('multiple_empty_data_ship_address', array('checkout_as_customer' => null));
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        //Verification
-        $this->assertMessagePresent('validation', 'empty_shipping_methods_for_all_addresses');
-    }
-
-################################################################################
-#                                                                              #
-#                     Billing Information Page                                 #
-#                                                                              #
-################################################################################
-
-    /**
-     * <p>Empty required fields(Select Addresses page)</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move To " Billing Information Page".</p>
-     * <p>5. Click "Add Address"</p>
-     * <p>6. Fill in fields except one required.</p>
-     * <p>7. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>New address is not added.</p>
-     * <p>Error Message is displayed.</p>
-     *
-     * @param string $emptyBillingField
-     * @param string $fieldType
-     * @param array $customerData
-     * @param array $productData
-     *
-     * @test
-     * @dataProvider createBillingAddressEmptyRequiredFieldsDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId TL-MAGE-5275
-     */
-    public function createBillingAddressEmptyRequiredFields($emptyBillingField, $fieldType, $customerData, $productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('multiple_invalid_data_billing_address', array ($emptyBillingField => ''));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        //Steps
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, $emptyBillingField);
-        if ($fieldType == 'dropdown') {
-            $this->assertMessagePresent('validation', 'please_select_option');
-        } else {
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        }
-    }
-
-    /**
-     * Data provider for createBillingAddressEmptyRequiredFields test
-     *
-     * @return array
-     */
-    public function createBillingAddressEmptyRequiredFieldsDataProvider()
-    {
-        return array(
-            array('billing_first_name', 'field'),//First Name
-            array('billing_last_name', 'field'),//Last Name
-            array('billing_telephone', 'field'),//Telephone
-            array('billing_street_address_1', 'field'),//Street Address
-            array('billing_city', 'field'),//City
-            array('billing_state', 'dropdown'),//State/Province
-            array('billing_zip_code', 'field'),//Zip/Postal Code
-            array('billing_country', 'dropdown')//Country
-        );
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
     /**
@@ -470,38 +271,25 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @param array $customerData
-     * @param array $productData
+     * @param array $testData
      *
      * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId	TL-MAGE-5276
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5276
      */
-    public function createBillingAddressSpecialChars($customerData, $productData) //Enter New Address page
+    public function withSpecialCharsInBillingAddress($testData)
     {
         //Data
-        $checkoutData = $this->loadData('multiple_invalid_data_bill_address', array(
-                    'checkout_as_customer' => null,
-                    'billing_first_name' => $this->generate('string', 255, ':punct:'),
-                    'billing_last_name' => $this->generate('string', 255, ':punct:'),
-                    'billing_company' => $this->generate('string', 255, ':punct:'),
-                    'billing_telephone' => $this->generate('string', 255, ':punct:'),
-                    'billing_street_address_1' => $this->generate('string', 255, ':punct:'),
-                    'billing_street_address_2' => $this->generate('string', 255, ':punct:'),
-                    'billing_city' => $this->generate('string', 255, ':punct:'),
-                    'billing_zip_code' => $this->generate('string', 255, ':punct:'),
-                    'billing_fax' => $this->generate('string', 255, ':punct:'),
-                    ));;
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_address');
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
     /**
@@ -518,38 +306,103 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>New address is added.</p>
      * <p>Success Message is displayed.(The address has been saved.)</p>
      *
-     * @param array $customerData
-     * @param array $productData
+     * @param array $testData
      *
      * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId	TL-MAGE-5277
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5277
      */
-    public function createBillingAddressLongValues($customerData, $productData) //Enter New Address
+    public function withLongValuesInBillingAddress($testData)
     {
         //Data
-        $checkoutData = $this->loadData('multiple_invalid_data_bill_address', array(
-                    'checkout_as_customer' => null,
-                    'billing_first_name' => $this->generate('string', 255, ':alnum:'),
-                    'billing_last_name' => $this->generate('string', 255, ':alnum:'),
-                    'billing_company' => $this->generate('string', 255, ':alnum:'),
-                    'billing_telephone' => $this->generate('string', 255, ':alnum:'),
-                    'billing_street_address_1' => $this->generate('string', 255, ':alnum:'),
-                    'billing_street_address_2' => $this->generate('string', 255, ':alnum:'),
-                    'billing_city' => $this->generate('string', 255, ':alnum:'),
-                    'billing_zip_code' => $this->generate('string', 255, ':alnum:'),
-                    'billing_fax' => $this->generate('string', 255, ':alnum:'),
-                    ));;
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_address');
+        $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
+    }
+
+    /**
+     * <p>Fill in only required fields. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Fill in Qty with invalid value(negative, non-integer)</p>
+     * <p>6. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Product removed from Shopping cart</p>
+     *
+     * @param string $invalidQty
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider selectAddressesPageInvalidQtyDataProvider
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5273
+     */
+    public function selectInvalidProductQty($invalidQty, $testData)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('product_2'     => '%noValue%',
+                                                'address_data_2' => '%noValue%',
+                                                'product_qty'    => $invalidQty,),
+                                           array('product_1' => $testData['products']['product_1']));
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
+                                    "'shopping_cart_is_empty' message is on the page.");
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+    }
+
+    public function selectAddressesPageInvalidQtyDataProvider()
+    {
+        return array(
+            array('-10'),
+            array($this->generate('string', 3, ':alpha:'))
+        );
+    }
+
+    /**
+     * <p>Shipping Method is not selected</p>
+     * <p>Steps:</p>
+     * <p>1. Open product page.</p>
+     * <p>2. Add product to Shopping Cart.</p>
+     * <p>3. Click "Checkout with Multiple Addresses".</p>
+     * <p>4. Move to the Shipping Information Page</p>
+     * <p>5. Leave Shipping Method unselected</p>
+     * <p>6. Click 'Continue to Billing Information' button.</p>
+     * <p>Expected result:</p>
+     * <p>Error Message is displayed.
+     * <p>(Please select shipping methods for all addresses)</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5274
+     */
+    public function shippingMethodNotSelected($testData)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('shipping'=> '%noValue%'),
+                                           $testData['products']);
+        //Steps
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
+                                    "Please select shipping methods for all addresses");
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     /**
@@ -565,27 +418,25 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Error Message is displayed.
      * <p>(Payment method is not defined)</p>
      *
-     * @param array $customerData
-     * @param array $productData
+     * @param array $testData
      *
      * @test
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId	TL-MAGE-5278
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5278
      */
-    public function paymentMethodNotSelected($customerData, $productData) //Not selected Payment Method
+    public function paymentMethodNotSelected($testData)
     {
-        $checkoutData = $this->loadData('multiple_undefined_payment_method', array('checkout_as_customer' => null));;
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        //Data
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('payment'=> '%noValue%'),
+                                           $testData['products']);
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        $this->clickButton('continue_to_review_order');
-        //Verification
-        $this->assertMessagePresent('validation', 'payment_method_not_defined');
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
+                                    "Payment method is not defined");
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     /**
@@ -602,51 +453,54 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Error Message is displayed.
      *
      * @param string $emptyField
-     * @param string $fieldType
-     * @param array $customerData
-     * @param array $productData
+     * @param string $fieldName
+     * @param array $testData
      *
      * @test
      * @dataProvider emptyCardInfoDataProvider
-     * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
-     * @TestlinkId TL-MAGE-5279
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-5279
      */
-    public function emptyCardInfo($emptyField, $fieldType, $customerData, $productData) //For Credit Card (saved) only
+    public function emptyCardInfo($emptyField, $fieldName, $testData)
     {
-        //Data
-        $checkoutData = $this->loadData('multiple_empty_payment', array ($emptyField => ''));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+        //@TODO
+        $messages = array('This is a required field.',
+                          'Credit card number does not match credit card type.',
+                          'Please enter a valid credit card verification number.',
+                          'Card type does not match credit card number.');
+        if ($fieldName) {
+            $message = '"' . $fieldName . '": ' . $messages[0];
+        } else {
+            $message = $messages[0];
+        }
+        if ($emptyField == 'card_type') {
+            $message .= "\n" . '"Credit Card Number": ' . $messages[1] . "\n" . '"ccsave_cc_cid": ' . $messages[2];
+        }
+        if ($emptyField == 'card_number') {
+            $message = '"Credit Card Type": ' . $messages[3] . "\n\"" . $fieldName . '": ' . $messages[1];
+        }
+
+        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array($emptyField => ''));
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('payment'=> $paymentData),
+                                           $testData['products']);
         //Steps
         $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($customerData);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
-        //Verification
-        $this->addFieldIdToMessage($fieldType, $emptyField);
-        if ($emptyField == 'card_number') {
-            $this->assertMessagePresent('validation', 'invalid_credit_card_number');
-        } else {
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        }
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
-    /**
-     * Data provider for emptyCardInfo test
-     *
-     * @return array
-     */
     public function emptyCardInfoDataProvider()
     {
         return array(
-            array('name_on_card', 'field'),//Name on Card
-            array('card_type', 'dropdown'),//Credit Card Type
-            array('card_number', 'field'),//Credit Card Number
-            array('expiration_month', 'dropdown'),//Expiration Date (Month)
-            array('expiration_year', 'dropdown'),//Expiration Date (Year)
-            array('card_verification_number', 'field')//Card Verification Number
+            array('name_on_card', 'Name on Card'),
+            array('card_type', 'Credit Card Type'),
+            array('card_number', 'Credit Card Number'),
+            array('expiration_month', 'ccsave_expiration'),
+            array('expiration_year', ''),
+            array('card_verification_number', 'ccsave_cc_cid')
         );
     }
-
 }
