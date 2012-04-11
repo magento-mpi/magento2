@@ -144,6 +144,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $helper   = Mage::helper($entityName);
         $resource = Mage::getResourceModel($entityName);
 
+        /** @var $helper Mage_Catalog_Helper_Flat_Abstract */
         if ($helper->isAvailable() && $helper->isBuilt()) {
             $staging    = $this->getStaging();
             $websites   = $staging->getMapperInstance()->getWebsiteObjects();

@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Category_Flat extends Mage_Catalog_Helper_Flat_Abstract
 {
     /**
      * Catalog Category Flat Is Enabled Config
@@ -40,10 +40,15 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
 
     /**
      * Catalog Flat Category index process code
+     */
+    const CATALOG_CATEGORY_FLAT_PROCESS_CODE = 'catalog_category_flat';
+
+    /**
+     * Catalog Category Flat index process code
      *
      * @var string
      */
-    const CATALOG_CATEGORY_FLAT_PROCESS_CODE = 'catalog_category_flat';
+    protected $_indexerCode = self::CATALOG_CATEGORY_FLAT_PROCESS_CODE;
 
     /**
      * Store catalog Category Flat index process instance
@@ -65,16 +70,6 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check if Catalog Category Flat Data is available for use
-     *
-     * @return bool
-     */
-    public function isAvailable()
-    {
-        return $this->isEnabled() && $this->getProcess()->getStatus() != Mage_Index_Model_Process::STATUS_RUNNING;
-    }
-
-    /**
      * Check if Catalog Category Flat Data has been initialized
      *
      * @return bool
@@ -85,27 +80,9 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrive Catalog Category Flat index process
-     *
-     * @return Mage_Index_Model_Process
-     */
-    public function getProcess()
-    {
-        if (is_null($this->_process)) {
-            $this->_process = Mage::getModel('index/process')
-                ->load(self::CATALOG_CATEGORY_FLAT_PROCESS_CODE, 'indexer_code');
-        }
-        return $this->_process;
-    }
-
-
-
-
-
-    /**
      * Check if Catalog Category Flat Data has been initialized
      *
-     * @deprecated use Mage_Catalog_Helper_Category_Flat::isBuilt() instead
+     * @deprecated after 1.7.0.0 use Mage_Catalog_Helper_Category_Flat::isBuilt() instead
      *
      * @return bool
      */

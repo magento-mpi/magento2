@@ -86,14 +86,10 @@ class Mage_Catalog_Model_Product_Flat_Flag extends Mage_Core_Model_Flag
         return $this;
     }
 
-
-
-
-
     /**
      * Set Catalog Product Flat Data is built flag
      *
-     * @deprecated use Mage_Catalog_Model_Product_Flat_Flag::setIsBuilt() instead
+     * @deprecated after 1.7.0.0 use Mage_Catalog_Model_Product_Flat_Flag::setIsBuilt() instead
      *
      * @param bool $flag
      *

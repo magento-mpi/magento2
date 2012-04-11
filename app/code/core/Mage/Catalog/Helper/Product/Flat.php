@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Catalog Product Flat Helper
  *
@@ -32,7 +31,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Product_Flat extends Mage_Catalog_Helper_Flat_Abstract
 {
     /**
      * Catalog Product Flat Config
@@ -43,10 +42,15 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
 
     /**
      * Catalog Flat Product index process code
+     */
+    const CATALOG_FLAT_PROCESS_CODE = 'catalog_product_flat';
+
+    /**
+     * Catalog Product Flat index process code
      *
      * @var string
      */
-    const CATALOG_FLAT_PROCESS_CODE = 'catalog_product_flat';
+    protected $_indexerCode = self::CATALOG_FLAT_PROCESS_CODE;
 
     /**
      * Catalog Product Flat index process instance
@@ -58,7 +62,7 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     /**
      * Store flags which defines if Catalog Product Flat functionality is enabled
      *
-     * @deprecated
+     * @deprecated after 1.7.0.0
      *
      * @var array
      */
@@ -98,16 +102,6 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check if Catalog Category Flat Data is available for use
-     *
-     * @return bool
-     */
-    public function isAvailable()
-    {
-        return $this->isEnabled() && $this->getProcess()->getStatus() != Mage_Index_Model_Process::STATUS_RUNNING;
-    }
-
-    /**
      * Check if Catalog Product Flat Data has been initialized
      *
      * @return bool
@@ -135,19 +129,5 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     public function isAddChildData()
     {
         return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_CHILD_DATA));
-    }
-
-    /**
-     * Retrive Catalog Product Flat index process
-     *
-     * @return Mage_Index_Model_Process
-     */
-    public function getProcess()
-    {
-        if (is_null($this->_process)) {
-            $this->_process = Mage::getModel('index/process')
-                ->load(self::CATALOG_FLAT_PROCESS_CODE, 'indexer_code');
-        }
-        return $this->_process;
     }
 }

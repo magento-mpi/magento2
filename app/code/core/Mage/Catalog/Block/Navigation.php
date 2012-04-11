@@ -383,9 +383,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $html .= ' class="active"';
         }
 
-        $html.= '>'."\n";
-        $html.= '<a href="'.$this->getCategoryUrl($category).'">'
-            . '<span>'.$this->escapeHtml($category->getName()).'</span></a>'."\n";
+        $html .= '>' . "\n";
+        $html .= '<a href="'.$this->getCategoryUrl($category).'">'
+            . '<span>' . $this->escapeHtml($category->getName()) . '</span></a>' . "\n";
 
         if (in_array($category->getId(), $this->getCurrentCategoryPath())) {
             $children = $category->getChildren();
@@ -398,9 +398,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                 }
 
                 if (!empty($htmlChildren)) {
-                    $html .= '<ul>'."\n"
-                             .$htmlChildren
-                             .'</ul>';
+                    $html .= '<ul>' . "\n" . $htmlChildren . '</ul>';
                 }
             }
         }
