@@ -57,6 +57,34 @@
         </item>
         <item>
             <word>enterprise</word>
+            <path>app/locale/de_DE/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/en_US/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/es_ES/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/fr_FR/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/nl_NL/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/pt_BR/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>app/locale/zh_CN/Mage_XmlConnect.csv</path>
+        </item>
+        <item>
+            <word>enterprise</word>
             <path>lib/Varien/Db/Helper.php</path>
         </item>
         <item>
@@ -64,6 +92,9 @@
         </item>
         <item>
             <path>dev/build</path>
+        </item>
+        <item>
+            <path>dev/tools/license_placeholder</path>
         </item>
     </whitelist>
 </config>
