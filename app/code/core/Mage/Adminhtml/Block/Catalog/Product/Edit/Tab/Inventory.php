@@ -134,6 +134,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
      */
     public function isVirtual()
     {
-        return $this->getProduct()->getTypeInstance()->isVirtual();
+        return $this->getProduct()->getIsVirtual();
     }
 }
