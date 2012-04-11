@@ -185,7 +185,7 @@ create_order_for_new_customer:
                         buttons:
                             add_products: //button[span='Add Products']
                             configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
-                            update_items_and_quantity: //button[span[contains(text(),'Update Items and Qty')]]
+                            update_items_and_quantity: //button[contains(span, 'Update Items and Qty')]
                         checkboxes:
                             custom_price_use: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/input
                             apply: //tr[td/@class='first'][contains(.,'%sku%')]//input[contains(@id,'item_use_discount_')]
@@ -354,7 +354,7 @@ create_order_for_new_customer:
                         radiobuttons:
                             option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
                         buttons:
-                            ok: //button[span[contains(text(),'OK')]]
+                            ok: //button[contains(span, 'OK')]
                             cancel: //button[span[contains(text(),'Cancel')]]
                 -
                     gift_options: &giftMessage
