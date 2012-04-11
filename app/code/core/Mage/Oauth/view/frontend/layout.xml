@@ -105,7 +105,7 @@
     <customer_account>
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label" module="Mage_Oauth">
-                <name>OAuth Customer Tokens</name>
+                <name>Oauth Customer Tokens</name>
                 <path>oauth/customer_token</path>
                 <label>My Applications</label>
             </action>
@@ -113,7 +113,7 @@
     </customer_account>
 
     <oauth_customer_token_index translate="label">
-        <label>Customer My Account My OAuth Applications</label>
+        <label>Customer My Account My Oauth Applications</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Mage_Oauth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>

@@ -9,7 +9,7 @@
  */
 
 /**
- * OAuth authorization base abstract block with auth buttons
+ * Oauth authorization base abstract block with auth buttons
  *
  * @category   Mage
  * @package    Mage_Oauth

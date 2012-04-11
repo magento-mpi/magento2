@@ -174,7 +174,7 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get OAuth user type
+     * Get Oauth user type
      *
      * @return string
      * @throws Exception

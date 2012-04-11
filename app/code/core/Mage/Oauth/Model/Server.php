@@ -18,7 +18,7 @@
 class Mage_Oauth_Model_Server
 {
     /**#@+
-     * OAuth result statuses
+     * Oauth result statuses
      */
     const ERR_OK                        = 0;
     const ERR_VERSION_REJECTED          = 1;
@@ -200,7 +200,7 @@ class Mage_Oauth_Model_Server
         $authHeaderValue = $this->_request->getHeader('Authorization');
 
         if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
-            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
+            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'Oauth ' at the beginning
 
             foreach (explode(',', $authHeaderValue) as $paramStr) {
                 $nameAndValue = explode('=', trim($paramStr), 2);
@@ -409,7 +409,7 @@ class Mage_Oauth_Model_Server
     }
 
     /**
-     * Throw OAuth exception
+     * Throw Oauth exception
      *
      * @param string $message Exception message
      * @param int $code Exception code

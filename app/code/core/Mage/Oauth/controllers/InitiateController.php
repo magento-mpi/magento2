@@ -33,7 +33,7 @@ class Mage_Oauth_InitiateController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Index action. Receive initiate request and response OAuth token
+     * Index action. Receive initiate request and response Oauth token
      */
     public function indexAction()
     {

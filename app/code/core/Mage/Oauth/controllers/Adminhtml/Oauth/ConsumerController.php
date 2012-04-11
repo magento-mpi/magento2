@@ -42,7 +42,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
     public function preDispatch()
     {
         $this->_title($this->__('System'))
-            ->_title($this->__('OAuth'))
+            ->_title($this->__('Oauth'))
             ->_title($this->__('Consumers'));
         parent::preDispatch();
         return $this;

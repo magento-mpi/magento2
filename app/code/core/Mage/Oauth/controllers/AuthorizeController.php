@@ -179,7 +179,7 @@ class Mage_Oauth_AuthorizeController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * OAuth authorize or allow decline access simple page
+     * Oauth authorize or allow decline access simple page
      *
      * @return void
      */

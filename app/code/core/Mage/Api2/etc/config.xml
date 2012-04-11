@@ -47,7 +47,7 @@
             <auth_adapters>
                 <oauth module="Mage_Api2" translate="label">
                     <model>Mage_Api2_Model_Auth_Adapter_Oauth</model>
-                    <label>OAuth</label>
+                    <label>Oauth</label>
                     <enabled>1</enabled>
                     <order>10</order>
                 </oauth>

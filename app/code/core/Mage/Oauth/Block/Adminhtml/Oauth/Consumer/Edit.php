@@ -10,7 +10,7 @@
 
 
 /**
- * OAuth Consumer Edit Block
+ * Oauth Consumer Edit Block
  *
  * @category   Mage
  * @package    Mage_Oauth

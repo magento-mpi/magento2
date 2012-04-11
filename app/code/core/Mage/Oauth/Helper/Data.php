@@ -9,7 +9,7 @@
  */
 
 /**
- * OAuth Helper
+ * Oauth Helper
  *
  * @category    Mage
  * @package     Mage_Oauth

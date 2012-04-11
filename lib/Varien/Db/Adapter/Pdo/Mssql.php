@@ -1059,7 +1059,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $options['primary'] = true;
         }
         if (($columnData['DEFAULT'] !== null) && $type != Varien_Db_Ddl_Table::TYPE_TEXT) {
-            $options['default'] = $this->quote($columnData['DEFAULT']);
+            $options['default'] = $this->quote($columnData['DEFAULT'], $type);
         }
         if (strlen($columnData['SCALE']) > 0) {
             $options['scale'] = $columnData['SCALE'];
@@ -2445,15 +2445,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
-            if ($columnsCount == 1) {
-                if ($row instanceof Zend_Db_Expr) {
-                    $line = $row->__toString();
-                } else {
-                    $line = '?';
-                    $bind[] = $row;
-                }
-                $vals[] = sprintf('SELECT %s', $line);
-            } else {
                 foreach ($row as $value) {
                     if ($value instanceof Zend_Db_Expr) {
                         $line[] = $value->__toString();
@@ -2464,7 +2455,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     }
                 }
                 $vals[] = sprintf('SELECT %s', implode(',', $line));
-            }
         }
 
         // build the statement

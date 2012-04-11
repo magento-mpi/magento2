@@ -25,7 +25,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensController extends Mage_Adminht
     public function preDispatch()
     {
         $this->_title($this->__('System'))
-                ->_title($this->__('OAuth'))
+                ->_title($this->__('Oauth'))
                 ->_title($this->__('Authorized Tokens'));
         parent::preDispatch();
         return $this;
