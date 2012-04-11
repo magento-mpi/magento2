@@ -164,6 +164,14 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains($nameOne, $parent->getChildNames());
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetChildNull()
+    {
+        $this->_block->setLayout(new Mage_Core_Model_Layout)->setChild('alias', null);
+    }
+
     public function testUnsetCallChild()
     {
         $blockParent = $this->_createBlockWithLayout('parent', 'parent');

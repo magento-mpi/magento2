@@ -65,7 +65,7 @@ class Mage_Core_Model_Layout_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testSetChildEmpty()
     {

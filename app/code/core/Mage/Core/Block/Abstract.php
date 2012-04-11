@@ -252,7 +252,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if (!$layout) {
             return $this;
         }
-        if (!is_string($block)) {
+        if ($block instanceof self) {
             $block = $block->getNameInLayout();
         }
         $layout->setChild($this->getNameInLayout(), $block, $alias);

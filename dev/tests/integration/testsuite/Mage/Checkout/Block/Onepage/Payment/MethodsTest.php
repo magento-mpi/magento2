@@ -35,11 +35,9 @@ class Mage_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framework_
         $block = $this->_block->getLayout()->createBlock('Mage_Core_Block_Text')
             ->setMethodTitle($expectedTitle)
             ->setMethodLabelAfterHtml($expectedLabel);
-        $this->_block->setChild(
-            'payment.method.free',
-            $block
-        );
 
+        $this->assertEquals('No Payment Information Required', $this->_block->getMethodTitle($method));
+        $this->_block->setChild('payment.method.free', $block);
         $actualTitle = $this->_block->getMethodTitle($method);
         $actualLabel = $this->_block->getMethodLabelAfterHtml($method);
 

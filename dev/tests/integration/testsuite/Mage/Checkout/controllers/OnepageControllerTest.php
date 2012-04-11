@@ -22,6 +22,9 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
         Mage::getSingleton('Mage_Checkout_Model_Session')->setQuoteId($quote->getId());
     }
 
+    /**
+     * Covers onepage payment.phtml templates
+     */
     public function testIndexAction()
     {
         $this->dispatch('checkout/onepage/index');
@@ -31,6 +34,9 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
         $this->assertContains('<form id="co-billing-form" action="">', $html);
     }
 
+    /**
+     * Covers app/code/core/Mage/Checkout/Block/Onepage/Payment/Info.php
+     */
     public function testProgressAction()
     {
         $steps = array(

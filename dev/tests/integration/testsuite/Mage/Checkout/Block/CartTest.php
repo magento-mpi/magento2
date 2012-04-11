@@ -14,39 +14,33 @@
  */
 class Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @param Mage_Core_Block_Text|null $child
-     * @param array $expected
-     * @dataProvider getMethodsDataProvider
-     */
-    public function testGetMethods($child, $expected)
+    public function testGetMethods()
     {
-        if ($child) {
-            $block = $child->getLayout()
-                ->createBlock('Mage_Checkout_Block_Cart')
-                ->setChild('child', $child);
-        } else {
-            $layout = new Mage_Core_Model_Layout;
-            $block = $layout->createBlock('Mage_Checkout_Block_Cart');
-        }
+        $layout = new Mage_Core_Model_Layout;
+        $child = $layout->createBlock('Mage_Core_Block_Text')
+            ->setChild('child1', $layout->createBlock('Mage_Core_Block_Text', 'method1'))
+            ->setChild('child2', $layout->createBlock('Mage_Core_Block_Text', 'method2'));
+        $block = $layout->createBlock('Mage_Checkout_Block_Cart')
+            ->setChild('child', $child);
         $methods = $block->getMethods('child');
-        $this->assertEquals($expected, $methods);
+        $this->assertEquals(array('method1', 'method2'), $methods);
     }
 
-    public function getMethodsDataProvider()
+    public function testGetMethodsEmptyChild()
     {
-        $layout1 = new Mage_Core_Model_Layout;
-        $child = $layout1->createBlock('Mage_Core_Block_Text')
-            ->setChild('child1', $layout1->createBlock('Mage_Core_Block_Text', 'method1'))
-            ->setChild('child2', $layout1->createBlock('Mage_Core_Block_Text', 'method2'));
+        $layout = new Mage_Core_Model_Layout;
+        $childEmpty = $layout->createBlock('Mage_Core_Block_Text');
+        $block = $layout->createBlock('Mage_Checkout_Block_Cart')
+            ->setChild('child', $childEmpty);
+        $methods = $block->getMethods('child');
+        $this->assertEquals(array(), $methods);
+    }
 
-        $layout2 = new Mage_Core_Model_Layout;
-        $childEmpty = $layout2->createBlock('Mage_Core_Block_Text');
-
-        return array(
-            'with child blocks' => array($child, array('method1', 'method2')),
-            'empty child' => array($childEmpty, array()),
-            'no child' => array(null, array()),
-        );
+    public function testGetMethodsNoChild()
+    {
+        $layout = new Mage_Core_Model_Layout;
+        $block = $layout->createBlock('Mage_Checkout_Block_Cart');
+        $methods = $block->getMethods('child');
+        $this->assertEquals(array(), $methods);
     }
 }
