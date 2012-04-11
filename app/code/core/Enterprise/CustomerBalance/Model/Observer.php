@@ -612,4 +612,31 @@ class Enterprise_CustomerBalance_Model_Observer
             }
         }
     }
+
+    /**
+     * Extend sales amount expression with customer balance refunded value
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function extendSalesAmountExpression(Varien_Event_Observer $observer)
+    {
+        /** @var $expressionTransferObject Varien_Object */
+        $expressionTransferObject = $observer->getEvent()->getExpressionObject();
+        /** @var $adapter Varien_Db_Adapter_Interface */
+        $adapter = $observer->getEvent()->getCollection()->getConnection();
+        $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' + (%s)');
+        $arguments = $expressionTransferObject->getArguments();
+        $arguments[] = $adapter->getCheckSql(
+            $adapter->prepareSqlCondition('main_table.bs_customer_bal_total_refunded', array('null' => null)),
+            0,
+            sprintf(
+                'main_table.bs_customer_bal_total_refunded - %s - %s',
+                $adapter->getIfNullSql('main_table.base_tax_refunded', 0),
+                $adapter->getIfNullSql('main_table.base_shipping_refunded', 0)
+            )
+        );
+
+        $expressionTransferObject->setArguments($arguments);
+    }
 }
