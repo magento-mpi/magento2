@@ -163,5 +163,5 @@ edit_rule_page:
             save_and_apply: //button[span='Save and Apply']
             save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-            delete_rule: //button[span='Delete Rule']
+            delete_rule: //button[span='Delete Rule' or span='Delete']
         messages: *catalogPriceRuleMessages
