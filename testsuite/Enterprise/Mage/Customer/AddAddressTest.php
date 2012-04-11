@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
     protected static $_customerTitleParameter = '';
 
@@ -120,6 +120,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
