@@ -28,7 +28,7 @@
 <config>
     <api2>
         <resources>
-            <orders>
+            <order>
                 <attributes>
                     <reward_points_balance>Reward Points Balance</reward_points_balance>
                     <reward_currency_amount>Reward Currency Amount</reward_currency_amount>
@@ -42,7 +42,7 @@
                         </read>
                     </customer>
                 </include_attributes>
-            </orders>
+            </order>
             <customer>
                 <exclude_attributes>
                     <admin>

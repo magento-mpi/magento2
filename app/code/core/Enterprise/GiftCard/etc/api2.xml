@@ -28,7 +28,7 @@
 <config>
     <api2>
         <resources>
-            <orders>
+            <order>
                 <attributes>
                     <gift_cards_amount>Gift Cards Amount</gift_cards_amount>
                     <base_gift_cards_amount>Base Gift Cards Amount</base_gift_cards_amount>
@@ -40,7 +40,7 @@
                         </read>
                     </customer>
                 </include_attributes>
-            </orders>
+            </order>
         </resources>
     </api2>
 </config>
