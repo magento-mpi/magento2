@@ -52,7 +52,7 @@ my_wishlist:
                             remove_item_generic: //a[@title='Remove Item']
                         pageelements:
                             product_table_head: //table[@id='wishlist-table']/thead
-                            no_items: /p[normalize-space(text())='You have no items in your wishlist.']
+                            no_items: //p[normalize-space(text())='You have no items in your wishlist.']
                             price_regular: //tr[contains(.,'%productName%')]//span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_old: //tr[contains(.,'%productName%')]//p[@class='old-price']/span[@class='price']
                             price_special: //tr[contains(.,'%productName%')]//p[@class='special-price']/span[@class='price']
@@ -104,7 +104,7 @@ wishlist_configure_product:
                             grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                         links:
                             downloadable_sample: //dl[@class='item-options']/dd/a[normalize-space(text())='%samplesTitle%']
-                            add_to_wishlist: //div[@class='product-essential']//a[text()='Add to Wishlist']
+                            add_to_wishlist: //a[text()='Add to Wishlist']
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
                             first_review: //a[text()='Be the first to review this product']
@@ -170,7 +170,7 @@ wishlist_configure_product:
 share_wishlist:
     mca: wishlist/index/share/
     title: Wishlist Sharing
-    uimap:
+    uimap: &shareWishlist
         form:
             fieldsets:
                 -
@@ -184,3 +184,9 @@ share_wishlist:
                         links:
                             back: //p[@class='back-link']/a[contains(.,'Back')]
         messages: *wishlistMessages
+
+
+share_wishlist_index:
+    mca: wishlist/index/share/index/
+    title: Wishlist Sharing
+    uimap: *shareWishlist

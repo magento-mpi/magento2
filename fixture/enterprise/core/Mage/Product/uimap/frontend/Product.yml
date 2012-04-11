@@ -33,6 +33,8 @@ product_page:
                 -
                     customize_product_info:
                         xpath: //div[@id='options-container']
+                        links:
+                            customized_add_to_wishlist: //a[text()='Add to Wishlist']
                 -
                     product_info:
                         buttons:

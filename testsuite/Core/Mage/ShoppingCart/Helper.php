@@ -91,9 +91,10 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     /**
      * Get all Products info in Shopping Cart
      *
+     * @param array $skipFields list of fields to skip from scraping (default value is set for EE)
      * @return array
      */
-    public function getProductInfoInTable()
+    public function getProductInfoInTable($skipFields = array('move_to_wishlist', 'remove'))
     {
         $productValues = array();
 
@@ -103,6 +104,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         $productCount = $this->getXpathCount($productLine);
         for ($i = 1; $i <= $productCount; $i++) {
             foreach ($tableRowNames as $key => $value) {
+                if (in_array($key, $skipFields)) {
+                    continue;
+                }
                 $xpathValue = $productLine . "[$i]//td[$value]";
                 if ($key == 'qty' && $this->isElementPresent($xpathValue . '/input/@value')) {
                     $productValues['product_' . $i][$key] = $this->getAttribute($xpathValue . '/input/@value');
