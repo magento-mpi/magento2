@@ -934,7 +934,7 @@ AdminOrder.prototype = {
         else {
             new Ajax.Request(url, {parameters:params,loaderArea: indicator});
         }
-        if (typeof productConfigure != 'undefined' && area instanceof Array && area.indexOf('items' != -1)) {
+        if (typeof productConfigure != 'undefined' && area instanceof Array && area.indexOf('items') != -1) {
             productConfigure.clean('quote_items');
         }
     },
@@ -952,14 +952,17 @@ AdminOrder.prototype = {
         if(typeof this.loadingAreas == 'string'){
             this.loadingAreas = [this.loadingAreas];
         }
-        if(this.loadingAreas.indexOf('message'==-1)) this.loadingAreas.push('message');
+        if(this.loadingAreas.indexOf('message') == -1) {
+            this.loadingAreas.push('message');
+        }
+
         for(var i=0; i<this.loadingAreas.length; i++){
             var id = this.loadingAreas[i];
             if($(this.getAreaId(id))){
                 if ('message' != id || response[id]) {
                     var wrapper = new Element('div');
                     wrapper.update(response[id] ? response[id] : '');
-                    $(this.getAreaId(id)).update(wrapper);
+                    $(this.getAreaId(id)).update(Prototype.Browser.IE ? wrapper.outerHTML : wrapper);
                 }
                 if ($(this.getAreaId(id)).callback) {
                     this[$(this.getAreaId(id)).callback]();
