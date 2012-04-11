@@ -3452,14 +3452,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function selectFrontStoreView($storeViewName = 'Default Store View')
     {
-        $xpath = "//select[@id='select-language']";
-        $toSelect = $xpath . '//option[normalize-space(text())="' . $storeViewName . '"]';
-        $isSelected = $toSelect . '[@selected]';
-        if (!$this->isElementPresent($isSelected)) {
-            $this->select($xpath, $storeViewName);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $dropdown = ($this->controlIsPresent('dropdown', 'your_language'))
+                    ? $this->_getControlXpath('dropdown', 'your_language') : false;
+        if ($dropdown != false) {
+            $toSelect = $dropdown . '//option[normalize-space(text())="' . $storeViewName . '"]';
+            $isSelected = $toSelect . '[@selected]';
+            if (!$this->isElementPresent($isSelected)) {
+                $this->select($dropdown, $storeViewName);
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            }
+            $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
+        } else {
+            $this->addParameter('storeView', $storeViewName);
+            $isSelected = $this->_getControlXpath('pageelement', 'selected_store_view');
+            $storeViewXpath = $this->_getControlXpath('link', 'your_language');
+            if (!$this->controlIsPresent('pageelement', 'selected_store_view'))
+            {
+                $this->clickControl('pageelement', 'change_store_view', false);
+                if ($this->waitForElementVisible($storeViewXpath, $this->_browserTimeoutPeriod)){
+                    $this->clickControl('link', 'your_language', false);
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                } else {
+                    $this->fail('Store view cannot be changed to ' . $storeViewName);
+                }
+            }
+            $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
         }
-        $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
     }
 
     ################################################################################

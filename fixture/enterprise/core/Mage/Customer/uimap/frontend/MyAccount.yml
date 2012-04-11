@@ -1,3 +1,4 @@
+#
 # Magento
 #
 # NOTICE OF LICENSE
@@ -24,22 +25,11 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-enterprice_frontend_header:
+#
+customer_account:
     uimap:
         form:
             fieldsets:
                 -
-                    global_header:
-                        xpath: //div[@class='header-container']
-                        links:
-                            my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
-                            my_cart: //strong[@id='cartHeader']
-                            empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
-                            checkout: //a[@title='Checkout']
-                            log_in: //a[@title='Log In']
-                            log_out: //a[@title='Log Out']
-                            your_language: //ul[@id='popId-languageSelect']//a[text()='%storeView%']
-                        pageelements:
-                            change_store_view: //div[@id='languageSelect']//span[text()='Change']
-                            selected_store_view: //div[@id='languageSelect']/strong[normalize-space(text())='%storeView%']
+                    my_recent_reviews:
+                        xpath: //div[@class='reviews']

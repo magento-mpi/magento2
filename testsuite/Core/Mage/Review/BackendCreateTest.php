@@ -161,10 +161,12 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->selectFrontStoreView();
         $this->productHelper()->frontOpenProduct($data['name']);
         //Verification
-        $this->clickControl('link', 'reviews');
-        $this->addParameter('reviewerName', $reviewData['nickname']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'review_reviwer_name'),
-                'Review for product displayed for \'Default Store View\' store view');
+        if ($this->controlIsPresent('link', 'reviews')) {
+            $this->clickControl('link', 'reviews');
+            $this->addParameter('reviewerName', $reviewData['nickname']);
+            $this->assertFalse($this->controlIsPresent('pageelement', 'review_reviwer_name'),
+                    'Review for product displayed for \'Default Store View\' store view');
+        }
     }
 
     /**
