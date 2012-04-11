@@ -622,7 +622,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                     break;
             }
             if ($removeItem) {
-                $this->getQuote()->removeItem($item->getId());
+                $this->getQuote()->deleteItem($item);
             }
             $this->setRecollect(true);
         }
@@ -855,8 +855,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
                             $item->getProduct()->setIsSuperMode(true);
                             $item->getProduct()->unsSkipCheckRequiredOption();
                             $item->checkData();
-                        } else {
-                            $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
+                        }
+                        if (!empty($info['action'])) {
+                            $this->moveQuoteItem($item, $info['action'], $itemQty);
                         }
                     }
                 }

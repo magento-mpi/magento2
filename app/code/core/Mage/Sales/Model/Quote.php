@@ -796,6 +796,36 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Delete quote item. If it does not have identifier then it will be only removed from collection
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function deleteItem(Mage_Sales_Model_Quote_Item $item)
+    {
+        if ($item->getId()) {
+            $this->removeItem($item->getId());
+        } else {
+            $quoteItems = $this->getItemsCollection();
+            $items = array($item);
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                    $items[] = $child;
+                }
+            }
+            foreach ($quoteItems as $key => $quoteItem) {
+                foreach ($items as $item) {
+                    if ($quoteItem->compare($item)) {
+                        $quoteItems->removeItemByKey($key);
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove quote item by item identifier
      *
      * @param   int $itemId
