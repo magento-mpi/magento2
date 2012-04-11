@@ -14,6 +14,7 @@ return array(
     'app/code/core/*/*/etc/{wsi,wsdl,wsdl2}.xml',
     'app/code/core/Zend',
     'app/design/frontend/default/iphone/skin/default/js/dnd.js',
+    'app/design/frontend/default/iphone/skin/default/js/modernizr.js',
     'app/design/frontend/enterprise/default/skin/default/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/customization/performance/dev/build/database_dump.sql',
