@@ -129,7 +129,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         Mage::unregister('controller');
         Mage::unregister('application_params');
 
-        $urlData = @parse_url(TESTS_HTTP_HOST);
+        $urlData = @parse_url(TESTS_WEBSERVICE_URL);
         $path = isset($urlData['path']) ? $urlData['path'] : '';
         $runOptions['request']->setRequestUri(rtrim($path, '/') . '/' . ltrim($uri, '/'));
 
