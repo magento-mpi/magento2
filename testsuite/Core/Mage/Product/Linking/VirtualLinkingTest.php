@@ -35,8 +35,8 @@
  */
 class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $productTypes = array('simple',/* 'virtual', 'downloadable',
-                                         'bundle', 'configurable', 'grouped'*/);
+    private static $productTypes = array('simple', 'virtual', 'downloadable',
+                                         'bundle', 'configurable', 'grouped');
 
     protected function assertPreconditions()
     {
@@ -400,11 +400,11 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
     {
         return array(
             array('simple'),
-            /*array('virtual'),
+            array('virtual'),
             array('downloadable'),
             array('bundle'),
             array('configurable'),
-            array('grouped')*/
+            array('grouped')
         );
     }
 }

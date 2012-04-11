@@ -146,9 +146,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                        $this->_getMessageXpath('general_validation')));
             sleep(1);
             if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
-                $messages = $this->getMessagesOnPage();
-                if ($messages !== null) {
-                    $messages = implode("\n", call_user_func_array('array_merge', $messages));
+                $messages = self::messagesToString($this->getMessagesOnPage());
+                if ($messages != null) {
                     $this->clearMessages('verification');
                     $this->addVerificationMessage($messages);
                 }

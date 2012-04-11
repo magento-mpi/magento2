@@ -1233,7 +1233,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $method = strtolower($type) . 'Message';
         $result = $this->$method($message);
         if (!$result['success']) {
-            $this->fail("Failed looking for '" . $result['xpath'] . "', found '" . $result['found'] . "' instead");
+            if (is_null($message)) {
+                $error = "Failed looking for '" . $type . "' message.\n";
+            } else {
+                $error = "Failed looking for '" . $message . "' message.\n[xpath: " . $result['xpath'] . "]\n";
+            }
+            if ($result['found']) {
+                $error .= "Found  messages instead:\n" . $result['found'];
+            }
+            $this->fail($error);
+        }
+    }
+
+    /**
+     * Asserts that the specified message of the specified type is not present on the current page
+     *
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
+     */
+    public function assertMessageNotPresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $result = $this->$method($message);
+        if ($result['success']) {
+            if (is_null($message)) {
+                $error = "'" . $type . "' message is on the page.";
+            } else {
+                $error = "'" . $message . "' message is on the page.";
+            }
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
+            }
+            $this->fail($error);
         }
     }
 
@@ -1287,7 +1319,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return string
      */
-    private static function messagesToString($message)
+    protected static function messagesToString($message)
     {
         if (is_array($message) && $message) {
             $message = implode("\n", call_user_func_array('array_merge', $message));
@@ -1603,7 +1635,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        $this->assertSame($expectedTitle, $this->getTitle(), 'Page title is unexpected');
+        $this->assertSame($expectedTitle, $this->getTitle(), $this->getCurrentPage() . ' page title is unexpected');
         $this->setCurrentPage($page);
     }
 
@@ -2389,11 +2421,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
                     if ($this->isElementPresent($loc)) {
+                        sleep(1);
                         return true;
                     }
                 }
             } else {
                 if ($this->isElementPresent($locator)) {
+                    sleep(1);
                     return true;
                 }
             }

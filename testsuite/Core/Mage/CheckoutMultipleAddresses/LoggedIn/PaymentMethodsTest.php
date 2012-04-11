@@ -62,12 +62,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
     public function preconditionsForTests()
     {
         //Data
-        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps and Verification
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
-        $this->assertMessagePresent('success', 'success_saved_product');
+        $simple1 = $this->productHelper()->createSimpleProduct();
+        $simple2 = $this->productHelper()->createSimpleProduct();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -77,11 +75,12 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
 
-        return array('simple' => $simple['general_name'],
-                     'user'   => array('email'    => $userData['email'],
-                                       'password' => $userData['password']),
-                     'api'    => $api,
-                     'visa'   => $accounts['visa']['credit_card']);
+        return array('products' => array('product_1' => $simple1['simple']['product_name'],
+                                         'product_2' => $simple2['simple']['product_name']),
+                     'user'     => array('email'    => $userData['email'],
+                                         'password' => $userData['password']),
+                     'api'      => $api,
+                     'visa'     => $accounts['visa']['credit_card']);
     }
 
     /**
@@ -116,10 +115,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
     public function paymentsWithout3d($payment, $testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('OnePageCheckout', 'front_payment_' . $payment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_payment_methods_loggedin',
-                                           array('payment_data' => $paymentData,
-                                                 'general_name' => $testData['simple']));
+        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('payment' => $paymentData),
+                                           $testData['products']);
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
@@ -132,7 +131,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
 
@@ -183,10 +182,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
     public function paymentsWith3d($payment, $testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('OnePageCheckout', 'front_payment_' . $payment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_payment_methods_loggedin',
-                                           array('payment_data' => $paymentData,
-                                                 'general_name' => $testData['simple']));
+        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('payment' => $paymentData),
+                                           $testData['products']);
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
@@ -196,7 +195,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }

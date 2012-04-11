@@ -32,7 +32,7 @@ checkout_multishipping_addresses:
 checkout_multishipping_addresses_post:
     title: Ship to Multiple Addresses - Magento Enterprise Edition
 
-checkout_multishipping_add_new_address:
+checkout_multishipping_new_shipping:
     title: Create Shipping Address - Magento Enterprise Edition
 
 checkout_multishipping_shipping_methods:
