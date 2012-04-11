@@ -2,3 +2,4 @@
 // ---------------------------------------------------
 dev/build
 dev/tests/static/testsuite/Php/_files/whitelist/magento2.txt
+dev/tools/license_placeholder
