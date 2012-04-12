@@ -142,8 +142,10 @@ multiple_with_register:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     checkout_as_customer: *register
     general_customer_data:
         first_name: %randomize%_first_name
@@ -176,8 +178,6 @@ multiple_with_register:
                 region: %noValue%
                 zip_code: 90064
                 country: United States
-                set_default_billing_address: Yes
-                set_default_shipping_address: Yes
             products:
                 product_1:
                     product_name: %product_1%
@@ -199,8 +199,6 @@ multiple_with_register:
                 region: %noValue%
                 zip_code: 90232
                 country: United States
-                set_default_billing_address: No
-                set_default_shipping_address: No
             products:
                 product_1:
                     product_name: %product_2%
@@ -222,8 +220,6 @@ multiple_with_register:
                 region: %noValue%
                 zip_code: 90064
                 country: United States
-                set_default_billing_address: Yes
-                set_default_shipping_address: Yes
         payment:
             payment_method: Check / Money order
 
@@ -231,8 +227,10 @@ multiple_with_register_france:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     checkout_as_customer: *register
     general_customer_data:
         first_name: %randomize%_first_name
@@ -283,8 +281,6 @@ multiple_with_register_france:
                 region: %noValue%
                 zip_code: 90064
                 country: United States
-                set_default_billing_address: Yes
-                set_default_shipping_address: Yes
         payment:
             payment_method: Check / Money order
 ################################################################################
@@ -296,8 +292,10 @@ multiple_with_signed_in:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     general_customer_data:
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
@@ -318,8 +316,10 @@ multiple_with_signed_in_france:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     general_customer_data:
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
@@ -344,8 +344,10 @@ multiple_with_login:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     checkout_as_customer: *login
     general_customer_data:
         first_name: %randomize%_first_name
@@ -367,8 +369,10 @@ multiple_with_login_france:
     products_to_add:
         product_1:
             product_name: %product_1%
+            options: %option_product_1%
         product_2:
             product_name: %product_2%
+            options: %option_product_2%
     checkout_as_customer: *login
     general_customer_data:
         first_name: %randomize%_first_name

@@ -1219,13 +1219,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
+        $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->createProduct($download, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($configurable, 'configurable');
+        $this->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array('simple'             => array('product_name' => $simple['general_name'],
@@ -1285,13 +1285,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                                            'associated_2'  => $virtual['general_sku'],
                                            'associated_3'  => $download['general_sku']));
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
+        $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($download, 'downloadable');
+        $this->createProduct($download, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($grouped, 'grouped');
+        $this->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array('simple'        => array('product_name' => $simple['general_name'],
@@ -1341,11 +1341,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                                           'price_product_2' => 1.24,
                                           'add_product_2'   => $virtual['general_sku']));
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
+        $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($bundle, 'bundle');
+        $this->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array('simple'      => array('product_name' => $simple['general_name'],
@@ -1390,7 +1390,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $link = $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_title'];
         $linksTitle = $downloadable['downloadable_information_data']['downloadable_links_title'];
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($downloadable, 'downloadable');
+        $this->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('downloadable'       => array('product_name' => $downloadable['general_name'],
                                                    'product_sku'  => $downloadable['general_sku']),
@@ -1426,7 +1426,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $assignCategory = array('categories' => $returnCategory['path']);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $assignCategory);
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
+        $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('simple'  => array('product_name' => $simple['general_name'],
                                         'product_sku'  => $simple['general_sku']),
@@ -1460,7 +1460,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $assignCategory = array('categories' => $returnCategory['path']);
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $assignCategory);
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($virtual, 'virtual');
+        $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('virtual'  => array('product_name' => $virtual['general_name'],
                                          'product_sku'  => $virtual['general_sku']),

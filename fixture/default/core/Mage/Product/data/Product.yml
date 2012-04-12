@@ -1674,24 +1674,24 @@ grouped_product_for_linking_products:
 #<-------------------------------------------------Add to cart Helper Verification------------------------------------->
 
 custom_options_to_add_to_shopping_cart:
-    option_1:
+    option_5:
         parameters:
             title: Custom Option Field
         options_to_choose:
             custom_option_field: Custom Option Field text
-    option_2:
+    option_6:
         parameters:
             title: Custom Option Area
         options_to_choose:
             custom_option_area: Custom Option Area text
-    option_3:
+    option_7:
         parameters:
             title: Custom Option Date
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
             custom_option_year: 2012
-    option_4:
+    option_8:
         parameters:
             title: Custom Options Date & Time
         options_to_choose:
@@ -1701,31 +1701,31 @@ custom_options_to_add_to_shopping_cart:
             custom_option_hour: 10
             custom_option_minute: 10
             custom_option_day_part: PM
-    option_5:
+    option_9:
         parameters:
             title: Custom Option Time
         options_to_choose:
             custom_option_hour: 10
             custom_option_minute: 10
             custom_option_day_part: PM
-    option_6:
+    option_10:
         parameters:
             title: Custom Option Drop-down
         options_to_choose:
             custom_option_dropdown: Title 1
-    option_7:
+    option_11:
         parameters:
             title: Custom Option Radio Buttons
             optionTitle: Title 1
         options_to_choose:
             custom_option_radiobutton: Yes
-    option_8:
+    option_12:
         parameters:
             title: Custom Option Checkbox
             optionTitle: Title 1
         options_to_choose:
             custom_option_checkbox: Yes
-    option_9:
+    option_13:
         parameters:
             title: Custom Option Multiple Select
         options_to_choose:
