@@ -20,7 +20,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_iphone
+ * @package     enterprise_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -28,15 +28,18 @@
 -->
 <layout version="0.1.0">
     <checkout_cart_index>
+        <reference name="checkout.cart">
+            <block type="enterprise_giftregistry/cart_link" name="giftregistry.cart.link" template="giftregistry/cart/link.phtml"/>
+        </reference>
         <reference name="additional.product.info">
             <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
         </reference>
     </checkout_cart_index>
 
     <wishlist_index_index>
-        <block type="enterprise_giftregistry/wishlist_view" name="giftregistry.customer.wishlist" template="giftregistry/wishlist/view.phtml">
-            <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
-        </block>
+        <reference name="customer.wishlist.item.info">
+            <block type="enterprise_giftregistry/wishlist_item_column_registry" name="customer.wishlist.item.giftregistry" template="giftregistry/wishlist/item/column/registry.phtml"></block>
+        </reference>
     </wishlist_index_index>
 
     <enterprise_giftregistry_index_index>
