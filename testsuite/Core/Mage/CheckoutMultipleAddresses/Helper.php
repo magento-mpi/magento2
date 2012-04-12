@@ -208,14 +208,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             if (empty($address)) {
                 continue;
             }
-            $this->addParameter('index', 1);
-            $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
             foreach ($products as $product) {
                 $name = $product['product_name'];
                 $this->addParameter('productName', $name);
                 if (!$this->controlIsPresent('dropdown', 'is_any_address_choice')) {
                     continue;
                 }
+                $this->addParameter('index', 1);
+                $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
                 if (is_null($isAddressAdded)) {
                     $setXpath = $this->_getControlXpath('fieldset', 'checkout_multishipping_form');
                     $this->clickButton('add_new_address');
