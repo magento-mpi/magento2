@@ -253,7 +253,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         }
         else {
             $half = ceil($this->_displayPages / 2);
-            if ($collection->getCurPage() >= $half && $collection->getCurPage() <= $collection->getLastPageNumber() - $half) {
+            if ($collection->getCurPage() >= $half
+                && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+            ) {
                 $start  = ($collection->getCurPage() - $half) + 1;
                 $finish = ($start + $this->_displayPages) - 1;
             }
@@ -516,7 +518,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
             }
             else {
                 $half = ceil($this->getFrameLength() / 2);
-                if ($collection->getCurPage() >= $half && $collection->getCurPage() <= $collection->getLastPageNumber() - $half) {
+                if ($collection->getCurPage() >= $half
+                    && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+                ) {
                     $start  = ($collection->getCurPage() - $half) + 1;
                     $end = ($start + $this->getFrameLength()) - 1;
                 }
