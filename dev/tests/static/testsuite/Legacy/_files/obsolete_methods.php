@@ -290,6 +290,7 @@ return array(
     'processBeacon',
     'processBeforeVoid' => array('class_scope' => 'Mage_Payment_Model_Method_Abstract'),
     'processSubst' => array('class_scope' => 'Mage_Core_Model_Store'),
+    'productEventAggregate',
     'rebuildCategoryLevels' => array('class_scope' => 'Mage_Catalog_Model_Resource_Setup'),
     'regenerateSessionId' => array('class_scope' => 'Mage_Core_Model_Session_Abstract'),
     'refundOrderItem' => array('class_scope' => 'Mage_CatalogInventory_Model_Observer'),
