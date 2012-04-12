@@ -2367,51 +2367,30 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
-            if ($columnsCount == 1) {
-                if ($row instanceof Zend_Db_Expr) {
-                    $line = $row->__toString();
-                } elseif ($row === null) {
-                    $line = 'NULL';
+            foreach ($row as $col=>$value) {
+                if ($value instanceof Zend_Db_Expr) {
+                    $line[] = $value->__toString();
+                } else if (is_null($value)) {
+                    $line[] = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
-                    switch ($ddl[$columns[0]]['DATA_TYPE']) {
-                        case $ddlColumnTypeBlob:
-                        case $ddlColumnTypeVarbinary:
-                            $line = $this->_quoteColumnByDdl($ddl[$columns[0]]['DATA_TYPE'], $key);
-                            break;
-                        default:
-                            $line = $key;
-                            break;
-                    }
-                    $bind[$key] = $row;
-                }
-                $vals[] = $line;
-            } else {
-                foreach ($row as $col=>$value) {
-                    if ($value instanceof Zend_Db_Expr) {
-                        $line[] = $value->__toString();
-                    } else if (is_null($value)) {
-                        $line[] = 'NULL';
+                    if (is_int($col) && isset($columns[$col])) {
+                        $ddlKey = $columns[$col];
                     } else {
-                        $key  = ':vv' . ($inc ++);
-                        if (is_int($col) && isset($columns[$col])) {
-                            $ddlKey = $columns[$col];
-                        } else {
-                            $ddlKey = $col;
-                        }
-                        if (isset($ddl[$ddlKey])
-                            && ($ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeVarbinary
-                            || $ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeBlob)
-                        ) {
-                            $line[] = $this->_quoteColumnByDdl($ddl[$ddlKey]['DATA_TYPE'], $key);
-                        } else {
-                            $line[] = $key;
-                        }
-                        $bind[$key] = $value;
+                        $ddlKey = $col;
                     }
+                    if (isset($ddl[$ddlKey])
+                        && ($ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeVarbinary
+                        || $ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeBlob)
+                    ) {
+                        $line[] = $this->_quoteColumnByDdl($ddl[$ddlKey]['DATA_TYPE'], $key);
+                    } else {
+                        $line[] = $key;
+                    }
+                    $bind[$key] = $value;
                 }
-                $vals[] = implode(', ', $line);
             }
+            $vals[] = implode(', ', $line);
         }
         // build the statement
         $columns = array_map(array($this, 'quoteIdentifier'), $columns);

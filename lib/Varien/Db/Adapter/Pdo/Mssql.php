@@ -2445,26 +2445,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
-            if ($columnsCount == 1) {
-                if ($row instanceof Zend_Db_Expr) {
-                    $line = $row->__toString();
-                } else {
-                    $line = '?';
-                    $bind[] = $row;
+            foreach ($row as $value) {
+                if ($value instanceof Zend_Db_Expr) {
+                    $line[] = $value->__toString();
                 }
-                $vals[] = sprintf('SELECT %s', $line);
-            } else {
-                foreach ($row as $value) {
-                    if ($value instanceof Zend_Db_Expr) {
-                        $line[] = $value->__toString();
-                    }
-                    else {
-                        $line[] = '?';
-                        $bind[] = $value;
-                    }
+                else {
+                    $line[] = '?';
+                    $bind[] = $value;
                 }
-                $vals[] = sprintf('SELECT %s', implode(',', $line));
             }
+            $vals[] = sprintf('SELECT %s', implode(',', $line));
         }
 
         // build the statement
