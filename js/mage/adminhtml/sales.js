@@ -1105,7 +1105,6 @@ AdminOrder.prototype = {
         }
 
         var parentEl = el.up(1);
-        var parentPos = Element.cumulativeOffset(parentEl);
         if (show) {
             parentEl.removeClassName('ignore-validate');
         }
@@ -1125,6 +1124,7 @@ AdminOrder.prototype = {
             });
         }
 
+        parentEl.setStyle({position: 'relative'});
         el.setStyle({
             display: show ? 'none' : '',
             position: 'absolute',
@@ -1132,8 +1132,8 @@ AdminOrder.prototype = {
             opacity: 0.8,
             width: parentEl.getWidth() + 'px',
             height: parentEl.getHeight() + 'px',
-            top: parentPos[1] + 'px',
-            left: parentPos[0] + 'px'
+            top: 0,
+            left: 0
         });
     },
 
