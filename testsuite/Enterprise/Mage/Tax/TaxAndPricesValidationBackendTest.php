@@ -108,6 +108,7 @@ class Enterprise_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Seleniu
      * @test
      *
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function createOrderBackend($sysConfigData, $customer, $products)
     {

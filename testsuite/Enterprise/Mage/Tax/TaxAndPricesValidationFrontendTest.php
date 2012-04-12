@@ -136,6 +136,7 @@ class Enterprise_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Seleni
      * @param $category
      *
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function validateTaxFrontend($sysConfigData, $customer, $products, $category)
     {
