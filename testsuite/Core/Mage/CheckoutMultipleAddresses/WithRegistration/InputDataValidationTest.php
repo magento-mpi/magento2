@@ -47,13 +47,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      */
     public function preconditionsForTests()
     {
-        /*$this->loginAdminUser();
+        $this->loginAdminUser();
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
         return array('product_1' => $simple1['simple']['product_name'],
-                     'product_2' => $simple2['simple']['product_name']);*/
-        return array('product_1' => 'Simple Product Visible(nycok)',
-                     'product_2' => 'Simple Product Visible(qagid)');
+                     'product_2' => $simple2['simple']['product_name']);
     }
 
     /**
