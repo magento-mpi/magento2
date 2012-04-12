@@ -25,8 +25,10 @@ class Mage_Paypal_ExpressControllerTest extends Magento_Test_TestCase_Controller
         Mage::getSingleton('Mage_Checkout_Model_Session')->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
-        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+
         $html = $this->getResponse()->getBody();
         $this->assertContains('Simple Product', $html);
+        $this->assertContains('Review', $html);
+        $this->assertContains('/paypal/express/placeOrder/', $html);
     }
 }
