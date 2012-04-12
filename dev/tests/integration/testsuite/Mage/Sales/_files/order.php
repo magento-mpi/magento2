@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$billingAddress = Mage_Sales_Utility_Address::getAddress('billing');
+$billingAddress = Mage_Sales_Utility_Address::getOrderAddress('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)

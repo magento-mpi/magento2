@@ -247,7 +247,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = $this->_profile->getData($key);
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address', $this->_profile->getData($key));
         $this->_addInfo(array(
             'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
         ));
