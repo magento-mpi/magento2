@@ -62,8 +62,7 @@ checkout_multishipping_login:
             success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
             payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
             no_shipping: //h2[text()='%addressHeader%']//following-sibling::div[1]//p[text()='Sorry, no quotes are available for this order at this time.']
-            #ship_method_unavailable: //h2[text()='%addressHeader%']//following-sibling::div[1]//dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
-            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[strong='%shipService%: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']"
+            ship_method_unavailable: "//h2[text()='%addressHeader%']//following-sibling::div[1]//dt[text()='%shipService%']/following::dd[1]//li[normalize-space(text())='%shipService%: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']"
             paypal_alert: There was an error processing your order. Please contact us or try again later.
             shipping_alert: Please specify shipping method.
             payment_alert: Please specify payment method.
@@ -134,7 +133,7 @@ checkout_multishipping_addresses:
                             update_qty_and_addresses: //button[span='Update Qty & Addresses']
                             continue_to_shipping_information: //button[span='Continue to Shipping Information']
                         links:
-                            product: //tr[.//a='%productName%']//a[text()]
+                            product: //a[text()='%productName%']
                             back_to_shopping_cart: //a[contains(text(),'Back to Shopping Cart')]
                             remove_product: //tr[.//a='%productName%']//a[contains(@href, 'removeItem')]
                         dropdowns:
@@ -191,11 +190,11 @@ checkout_multishipping_shipping_methods:
                     checkout_progress: *checkoutProgress
                 -
                     general_shipping_methods_form:
-                        xpath: //form[@id='shipping_method_form']/fieldset
+                        xpath: //form[@id='shipping_method_form']
                         pageelements:
-                            shipping_methods_forms: /div[not(@class='buttons-set')]
-                            shipping_method_address_header: /div[not(@class='buttons-set')][%number%]/preceding-sibling::h2[1]
-                            shipping_method_address: /div[not(@class='buttons-set')][%number%]//address
+                            shipping_methods_forms: /div[h2]
+                            shipping_method_address_header: /div[h2][%number%]/h2
+                            shipping_method_address: /div[h2][%number%]//address
                         buttons:
                             continue_to_billing_information: //button[span='Continue to Billing Information']
                         links:
@@ -213,7 +212,7 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
                             gift_option_for_individual_items: //p[label='Add gift options for Individual Items']/input
                         radiobuttons:
-                            ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input[not(@checked)]
                             one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
                         fields:
                             ship_service_name: //dt[text()='%shipService%']
@@ -268,7 +267,7 @@ checkout_multishipping_payment_methods:
                     checkout_progress: *checkoutProgress
                 -
                     payment_method:
-                        xpath: //div[div/h1[contains(text(),'Billing Information')]]/div[@class='multiple-checkout']
+                        xpath: //div[div/h1[contains(text(),'Billing Information')]]
                         buttons:
                             continue_to_review_order: //button[span='Continue to Review Your Order']
                         radiobuttons:
