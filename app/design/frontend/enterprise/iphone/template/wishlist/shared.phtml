@@ -46,14 +46,14 @@
                             <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
                             <?php echo $this->getPriceHtml($product) ?>
                             <?php echo $this->getDetailsHtml($item) ?>
-                            
+
                             <?php if ($product->isSaleable()): ?>
                                 <?php if ($isVisibleProduct): ?>
                                     <a href="<?php echo $this->getSharedItemAddToCartUrl($item) ?>"><?php echo $this->__('Add to Cart') ?></a>
                                 <?php endif ?>
                             <?php endif; ?>
                             <p><a href="<?php echo $this->getAddToWishlistUrl($item) ?>" onclick="setLocation(this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
-                                
+
                             <div class="comment"><?php echo $this->getEscapedDescription($item) ?></div>
                         </td>
                     </tr>

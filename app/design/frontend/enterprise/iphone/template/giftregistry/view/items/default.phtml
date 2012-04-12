@@ -34,7 +34,7 @@
         <?php echo $this->escapeHtml($this->getProductName()) ?>
     <?php endif; ?>
     </h3>
-    
+
     <div class="product-info">
         <div class="price">
             <span class="cart-price">
@@ -45,7 +45,7 @@
                 <?php endif; ?>
             </span>
         </div>
-        
+
         <?php if ($_item->getRemainingQty() < 1):?>
             <p><strong><?php echo $this->__('Fulfilled')?></strong></p>
         <?php else:?>
@@ -65,7 +65,7 @@
             <?php echo ($_item->getRemainingQty())*1 ?>
         </p>
     </div>
-    
+
     <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
