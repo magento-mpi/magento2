@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth Application resource model
+ * OAuth Application resource model
  *
  * @category    Mage
  * @package     Mage_Oauth

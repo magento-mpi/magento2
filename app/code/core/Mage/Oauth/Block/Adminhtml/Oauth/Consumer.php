@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth consumers grid container block
+ * OAuth consumers grid container block
  *
  * @category   Mage
  * @package    Mage_Oauth
@@ -26,7 +26,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Block_Wid
 
         $this->_blockGroup = 'oauth';
         $this->_controller = 'adminhtml_oauth_consumer';
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Oauth Consumers');
+        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('OAuth Consumers');
 
         //check allow edit
         /** @var $session Mage_Admin_Model_Session */

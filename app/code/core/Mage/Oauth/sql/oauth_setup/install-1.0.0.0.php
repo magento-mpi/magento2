@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 /**
- * Installation of Oauth module tables
+ * Installation of OAuth module tables
  */
 /** @var $install Mage_Oauth_Model_Resource_Setup */
 $installer = $this;
@@ -66,7 +66,7 @@ $table = $adapter->newTable($installer->getTable('oauth_consumer'))
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('oauth_consumer', array('created_at')), array('created_at'))
     ->addIndex($installer->getIdxName('oauth_consumer', array('updated_at')), array('updated_at'))
-    ->setComment('Oauth Consumers');
+    ->setComment('OAuth Consumers');
 $adapter->createTable($table);
 
 /**
@@ -154,7 +154,7 @@ $table = $adapter->newTable($installer->getTable('oauth_token'))
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Oauth Tokens');
+    ->setComment('OAuth Tokens');
 $adapter->createTable($table);
 
 /**

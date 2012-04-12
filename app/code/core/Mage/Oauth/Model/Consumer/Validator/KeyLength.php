@@ -9,7 +9,7 @@
  */
 
 /**
- * Validate Oauth keys
+ * Validate OAuth keys
  *
  * @category   Mage
  * @package    Mage_Oauth

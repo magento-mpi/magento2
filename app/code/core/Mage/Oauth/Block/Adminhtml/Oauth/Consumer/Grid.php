@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth Consumer grid block
+ * OAuth Consumer grid block
  *
  * @category   Mage
  * @package    Mage_Oauth

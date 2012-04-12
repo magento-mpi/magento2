@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth nonce resource collection model
+ * OAuth nonce resource collection model
  *
  * @category    Mage
  * @package     Mage_Oauth

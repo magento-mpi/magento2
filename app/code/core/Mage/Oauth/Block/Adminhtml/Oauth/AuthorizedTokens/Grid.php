@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth authorized tokens grid block
+ * OAuth authorized tokens grid block
  *
  * @category   Mage
  * @package    Mage_Oauth

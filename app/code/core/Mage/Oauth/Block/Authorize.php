@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth authorization block
+ * OAuth authorization block
  *
  * @category   Mage
  * @package    Mage_Oauth

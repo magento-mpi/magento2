@@ -19,7 +19,7 @@
                             <api>
                                 <children>
                                     <consumer translate="title" module="Mage_Oauth">
-                                        <title>Oauth Consumers</title>
+                                        <title>OAuth Consumers</title>
                                         <sort_order>20</sort_order>
                                         <children>
                                             <edit translate="title">
@@ -33,11 +33,11 @@
                                         </children>
                                     </consumer>
                                     <authorizedTokens translate="title" module="Mage_Oauth">
-                                        <title>Oauth Authorized Tokens</title>
+                                        <title>OAuth Authorized Tokens</title>
                                         <sort_order>30</sort_order>
                                     </authorizedTokens>
                                     <oauth_admin_token translate="title" module="Mage_Oauth">
-                                        <title>Oauth Admin My Apps</title>
+                                        <title>OAuth Admin My Apps</title>
                                         <sort_order>40</sort_order>
                                     </oauth_admin_token>
                                 </children>
@@ -45,7 +45,7 @@
                             <config>
                                 <children>
                                     <oauth translate="title">
-                                        <title>Oauth</title>
+                                        <title>OAuth</title>
                                         <sort_order>20</sort_order>
                                     </oauth>
                                 </children>
@@ -62,12 +62,12 @@
                 <api>
                     <children>
                         <oauth_consumer translate="title" module="Mage_Oauth">
-                            <title>REST - Oauth Consumers</title>
+                            <title>REST - OAuth Consumers</title>
                             <sort_order>50</sort_order>
                             <action>adminhtml/oauth_consumer</action>
                         </oauth_consumer>
                         <oauth_authorized_tokens translate="title" module="Mage_Oauth">
-                            <title>REST - Oauth Authorized Tokens</title>
+                            <title>REST - OAuth Authorized Tokens</title>
                             <sort_order>60</sort_order>
                             <action>adminhtml/oauth_authorizedTokens</action>
                         </oauth_authorized_tokens>

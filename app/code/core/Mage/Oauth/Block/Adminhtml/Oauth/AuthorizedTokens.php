@@ -9,7 +9,7 @@
  */
 
 /**
- * Oauth authorized tokens grid container block
+ * OAuth authorized tokens grid container block
  *
  * @category   Mage
  * @package    Mage_Oauth
@@ -26,7 +26,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminhtml_B
 
         $this->_blockGroup = 'oauth';
         $this->_controller = 'adminhtml_oauth_authorizedTokens';
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Authorized Oauth Tokens');
+        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Authorized OAuth Tokens');
 
         $this->_removeButton('add');
     }

@@ -12,7 +12,7 @@
 <config>
    <sections>
         <oauth translate="label" module="Mage_Oauth">
-            <label>Oauth</label>
+            <label>OAuth</label>
             <tab>service</tab>
             <frontend_type>text</frontend_type>
             <sort_order>300</sort_order>
@@ -31,7 +31,7 @@
                         <cleanup_probability translate="label">
                             <label>Cleanup Probability</label>
                             <frontend_type>text</frontend_type>
-                            <comment>Integer. Launch cleanup in X Oauth requests. 0 (not recommended) - to disable cleanup</comment>
+                            <comment>Integer. Launch cleanup in X OAuth requests. 0 (not recommended) - to disable cleanup</comment>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
