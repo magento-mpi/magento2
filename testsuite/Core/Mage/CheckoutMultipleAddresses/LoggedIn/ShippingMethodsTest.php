@@ -178,7 +178,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
             array('ups'),
             array('upsxml'),
             array('usps'),
-            array('fedex'),
+            array('fedex')
         );
     }
 

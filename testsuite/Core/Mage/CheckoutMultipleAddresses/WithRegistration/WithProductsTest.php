@@ -92,7 +92,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
                                            array('product_1'=> $simple,
                                                 'product_2' => $virtual));
         //Steps and Verify
-        $this->customerHelper()->frontLoginCustomer($testData['user']);
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }

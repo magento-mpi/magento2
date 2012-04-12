@@ -158,13 +158,12 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
     public function shipmentDataProvider()
     {
         return array(
-            array('flatrate', null, 'usa'),
-            array('free', null, 'usa'),
-            array('ups', 'usa', 'usa'),
-            array('upsxml', 'usa', 'usa'),
-            array('usps', 'usa', 'usa'),
-            array('fedex', 'usa', 'usa'),
-            array('dhl', 'usa', 'france')
+            array('flatrate'),
+            array('free'),
+            array('ups'),
+            array('upsxml'),
+            array('usps'),
+            array('fedex')
         );
     }
 

@@ -177,7 +177,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
             array('ups'),
             array('upsxml'),
             array('usps'),
-            array('fedex'),
+            array('fedex')
         );
     }
 
@@ -194,8 +194,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_dhl');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_france',
-                                           array('shipping'  => $shippingMethod,
-                                                'email'      => $testData['email']),
+                                           array('shipping' => $shippingMethod,
+                                                'email'     => $testData['email']),
                                            $testData[$productTypes]);
         $shippingSettings = $this->loadDataSet('ShippingMethod', 'dhl_enable');
         $shippingOrigin = $this->loadDataSet('ShippingSettings', 'shipping_settings_usa');
