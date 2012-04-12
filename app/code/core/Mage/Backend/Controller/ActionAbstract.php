@@ -9,7 +9,7 @@
  */
 
 
-abstract class Mage_Backend_Controller_Abstract extends Mage_Core_Controller_Varien_Action
+abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
 
 }
