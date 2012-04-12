@@ -219,7 +219,7 @@ OrderReviewController.prototype = {
             this._clearValidation('billing');
         } else {
             $$('[id^="billing:"]').invoke('enable');
-            $$('[id^="billing:"]').invoke('removeAttribute', 'readonly');
+            $$('[id^="billing:"]').invoke('setAttribute', 'readonly', false);
             $$('[id^="billing:"]').invoke('removeClassName', 'local-validation');
             $$('[id^="billing:"]').invoke('setStyle', {opacity:1});
         }
