@@ -332,6 +332,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId	TL-MAGE-3292
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {

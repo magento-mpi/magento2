@@ -1,0 +1,67 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Data for a release after CE1.6.2 (EE 1.12)
+dhl_common_configuration: &dhl_common_config
+    dhl_enabled: Yes
+    dhl_title: DHL
+    dhl_account_number: 799909537
+    dhl_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
+    dhl_ship_to_applicable_countries: All Allowed Countries
+    dhl_content_type: Non documents
+    dhl_allowed_methods_nondoc: all
+
+dhl_ap_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_ap
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_common_config
+            dhl_access_id: EvgeniyUK
+            dhl_password: aDfc45Dfo9
+
+dhl_am_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_am
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_common_config
+            dhl_access_id: EvgeniyUSA
+            dhl_password: okG43dHy7
+
+dhl_ea_enable:
+    configuration_scope: Default Config
+    tab_1: &dhl_ea
+        tab_name: sales_shipping_methods
+        configuration:
+            <<: *dhl_common_config
+            dhl_access_id: EvgeniyDE
+            dhl_password: aplNb6Rop
+
+dhl_enable:
+    configuration_scope: Default Config
+    tab_1: *dhl_ea
