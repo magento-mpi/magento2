@@ -29,10 +29,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest extends
         $this->assertNotContains($expectedId, $block->toHtml());
         $form->setId($expectedId);
         $this->assertContains($expectedId, $block->toHtml());
-
-        $expectedId = '665665665';
-        $this->assertNotContains($expectedId, $block->toHtml());
-        $form->setId($expectedId);
-        $this->assertContains($expectedId, $block->toHtml());
     }
 }

@@ -14,23 +14,6 @@
  */
 class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Composes a container with several buttons in it
-     *
-     * @param array $titles
-     * @return Mage_Adminhtml_Block_Widget_Container
-     */
-    protected function _buildBlock($titles)
-    {
-        $layout = new Mage_Core_Model_Layout;
-        $block = new Mage_Adminhtml_Block_Widget_Container;
-        foreach ($titles as $id => $title) {
-            $block->addButton($id, array('title' => $title));
-        }
-        $layout->addBlock($block, 'block');
-        return $block;
-    }
-
     public function testGetButtonsHtml()
     {
         $titles = array(1 => 'Title 1', 'Title 2', 'Title 3');
@@ -62,5 +45,22 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
         foreach ($newTitles as $newTitle) {
             $this->assertContains($newTitle, $html);
         }
+    }
+
+    /**
+     * Composes a container with several buttons in it
+     *
+     * @param array $titles
+     * @return Mage_Adminhtml_Block_Widget_Container
+     */
+    protected function _buildBlock($titles)
+    {
+        $layout = new Mage_Core_Model_Layout;
+        $block = new Mage_Adminhtml_Block_Widget_Container;
+        foreach ($titles as $id => $title) {
+            $block->addButton($id, array('title' => $title));
+        }
+        $layout->addBlock($block, 'block');
+        return $block;
     }
 }
