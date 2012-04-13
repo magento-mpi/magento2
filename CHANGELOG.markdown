@@ -1,4 +1,4 @@
-Update as of 4/12/2012
+Update as of 4/13/2012
 ======================
 
 * Implemented a tool for migrating factory table names from 1.x to 2.x. The tool replaces table names by list of names associations
