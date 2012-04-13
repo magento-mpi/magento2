@@ -25,7 +25,7 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__) . '/../../../../'));
+define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
 define('SELENIUM_TESTS_LOGS',
