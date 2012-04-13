@@ -34,7 +34,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         // product as object
         $product = new Mage_Catalog_Model_Product;
         $product->load(1);
-        $this->assertStringEndsWith($expectedUrl, $this->_helper->getProductUrl($product));
+        $this->assertEquals($expectedUrl, $this->_helper->getProductUrl($product));
 
         // product as ID
         $this->assertEquals($expectedUrl, $this->_helper->getProductUrl(1));
