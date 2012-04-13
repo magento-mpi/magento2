@@ -362,11 +362,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
     public function withCustomOptionsDataProvider()
     {
         return array(
-            array('simple'),
             array('virtual'),
             array('downloadable'),
             array('bundle'),
-            array('configurable')
+            array('configurable'),
+            array('simple')
         );
     }
 }
