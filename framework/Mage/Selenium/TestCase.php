@@ -3127,7 +3127,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function fillMultiselect($name, $value, $xpath = null)
     {
         if (is_null($xpath)) {
-            $xpath = $this->_getControlXpath('dropdown', $name);
+            $xpath = $this->_getControlXpath('multiselect', $name);
         }
         $errorMessage = "Problem with multiselect field '$name' and xpath '$xpath': ";
         if ($this->isElementPresent($xpath)) {
@@ -3236,7 +3236,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function fillCheckbox($name, $value, $xpath = null)
     {
         if (is_null($xpath)) {
-            $xpath = $this->_getControlXpath('field', $name);
+            $xpath = $this->_getControlXpath('checkbox', $name);
         }
         $errorMessage = "Problem with checkbox '$name' and xpath '$xpath': ";
         if ($this->isElementPresent($xpath)) {
@@ -3287,7 +3287,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function fillRadiobutton($name, $value, $xpath = null)
     {
         if (is_null($xpath)) {
-            $xpath = $this->_getControlXpath('field', $name);
+            $xpath = $this->_getControlXpath('radiobutton', $name);
         }
         $errorMessage = "Problem with radiobutton '$name' and xpath '$xpath': ";
         if ($this->isElementPresent($xpath)) {
