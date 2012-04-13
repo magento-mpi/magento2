@@ -82,7 +82,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      * @test
      * @dataProvider addressEmptyFieldsDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3195
+     * @TestlinkId TL-MAGE-3195
      */
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
@@ -92,7 +92,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'      => $data['sku'],
-                                                 'billing_' . $field => ''));
+                                                'billing_' . $field  => ''));
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -126,7 +126,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      * @test
      * @dataProvider addressEmptyFieldsDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3196
+     * @TestlinkId TL-MAGE-3196
      */
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
@@ -136,7 +136,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'       => $data['sku'],
-                                                 'shipping_' . $field => ''));
+                                                'shipping_' . $field  => ''));
         try {
             //Steps
             $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -217,7 +217,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3198
+     * @TestlinkId TL-MAGE-3198
      */
     public function frontShippingAddressUseBillingAddress($data)
     {
@@ -257,7 +257,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3199
+     * @TestlinkId TL-MAGE-3199
      */
     public function shippingMethodNotDefined($data)
     {
@@ -269,7 +269,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'   => $data['sku'],
-                                                 'shipping_data'  => '%noValue%'));
+                                                'shipping_data'   => '%noValue%'));
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
@@ -311,7 +311,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3197
+     * @TestlinkId TL-MAGE-3197
      */
     public function frontPaymentMethodNotDefined($data)
     {
@@ -322,8 +322,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         $this->systemConfigurationHelper()->configure($config);
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'   => $data['sku'],
-                                                 'payment_data'   => '%noValue%'));
+                                           array('general_name' => $data['sku'],
+                                                'payment_data'  => '%noValue%'));
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
