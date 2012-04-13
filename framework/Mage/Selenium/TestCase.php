@@ -320,7 +320,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Prepare browser session
      */
-    protected function prepareBrowserSession()
+    public function prepareBrowserSession()
     {
         $browsers = $this->_configHelper->getConfigBrowsers();
         if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
