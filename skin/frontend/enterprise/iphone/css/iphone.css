@@ -819,18 +819,7 @@ input[type="checkbox"]:checked {
 .filters-block .currently { color:#424242; }
 .filters-block .actions { margin:0 0 18px; }
 .filters-block .currently .block-subtitle { font-weight:bold; font-size:18px; line-height:20px; margin:5px 0 8px; }
-.filters-block .currently .btn-remove {
-    background-image:url(../images/btn_trash.png);
-    background-size:10px 10px;
-    background-repeat:no-repeat;
-    background-position:center;
-    float:none;
-    display:inline-block;
-    vertical-align:middle;
-    top:-2px;
-    text-indent:-999em;
-    margin-left:5px;
-}
+.filters-block .currently .btn-remove { height:20px; width:20px; vertical-align:top; }
 .filters-block .currently li { line-height:20px; }
 .filters-block dd {}
 .filters-block ol { list-style:none; line-height:17px; width:99%; }

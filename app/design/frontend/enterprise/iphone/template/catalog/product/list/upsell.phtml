@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_default
+ * @package     enterprise_iphone
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -30,7 +30,6 @@
         <h2><?php echo $this->__('You May Also Like') ?></h2>
     </div>
     <ul class="products-grid" id="upsell-product-list"><!-
-    <?php // $this->setColumnCount(5); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
     <?php $this->resetItemsIterator() ?>
     <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
         <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
