@@ -8,11 +8,43 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Abstract
+class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varien_Router_Abstract
 {
     protected $_modules = array();
     protected $_routes = array();
     protected $_dispatchData = array();
+
+    /**
+     * Current router belongs to the area
+     *
+     * @var string
+     */
+    protected $_area;
+
+    /**
+     * Base controller that belongs to area
+     *
+     * @var string
+     */
+    protected $_baseController = null;
+
+    public function __construct(array $options = array())
+    {
+        $this->_area           = null;
+        $this->_baseController = null;
+
+        if (isset($options['area'])) {
+            $this->_area = $options['area'];
+        }
+
+        if (isset($options['base_controller'])) {
+            $this->_baseController = $options['base_controller'];
+        }
+
+        if (is_null($this->_area) || is_null($this->_baseController)) {
+            throw new Exception("Not enough options to initialize router.");
+        }
+    }
 
     public function collectRoutes($configArea, $useRouterName)
     {
@@ -184,6 +216,11 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
             // instantiate controller class
             $controllerInstance = Mage::getControllerInstance($controllerClassName, $request, $front->getResponse());
+
+            // instantiated controller must be a child of $this->_baseController
+            if (!($controllerInstance instanceof $this->_baseController)) {
+                continue;
+            }
 
             if (!$controllerInstance->hasAction($action)) {
                 continue;
