@@ -268,6 +268,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
         // dispatch action
         $request->setDispatched(true);
+        /**
+         * Set current area code to controller instance
+         */
+        $controllerInstance->setCurrentArea($this->_area);
         $controllerInstance->dispatch($action);
 
         return true;
