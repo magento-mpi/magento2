@@ -130,7 +130,10 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
             if ($use == $useRouterName) {
-                $modules = array((string)$routerConfig->args->module);
+                $modules = array();
+                if (isset($routerConfig->args->module)) {
+                    $modules = array((string)$routerConfig->args->module);
+                }
 
                 if ($routerConfig->args->modules) {
                     foreach ($routerConfig->args->modules->children() as $customModule) {
