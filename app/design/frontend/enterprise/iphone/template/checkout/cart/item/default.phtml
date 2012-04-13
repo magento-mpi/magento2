@@ -29,6 +29,7 @@ $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 $messages = $this->getMessages();
+$_options = $this->getOptionList();
 ?>
 
 <?php if ($messages): ?>
@@ -281,7 +282,7 @@ $messages = $this->getMessages();
 
     </td>
 </tr>
-<?php if ($_options = $this->getOptionList()):?>
+<?php if ($_options):?>
 <tr class="product-options">
     <td colspan="2">
         <span class="toggle" onclick="$(this).next('.product-options').toggle(); return false;">Show Options</span>

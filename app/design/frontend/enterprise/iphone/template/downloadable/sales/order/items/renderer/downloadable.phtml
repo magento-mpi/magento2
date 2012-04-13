@@ -24,11 +24,15 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php $_item = $this->getItem() ?>
+<?php
+    $_item = $this->getItem();
+    $_options = $this->getItemOptions();
+    $links = $this->getLinks();
+?>
 <tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
     <th><?php echo $this->__('Product Name') ?></th>
     <td><h3 class="product-name"><?php echo $this->escapeHtml($_item->getName()) ?></h3>
-        <?php if($_options = $this->getItemOptions()): ?>
+        <?php if($_options): ?>
         <dl class="item-options">
         <?php foreach ($_options as $_option) : ?>
             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -53,7 +57,7 @@
         <?php endif; ?>
 
         <!-- downloadable -->
-        <?php if ($links = $this->getLinks()): ?>
+        <?php if ($links): ?>
             <dl class="item-options">
                 <dt><?php echo $this->getLinksTitle() ?></dt>
                 <?php foreach ($links->getPurchasedItems() as $link): ?>

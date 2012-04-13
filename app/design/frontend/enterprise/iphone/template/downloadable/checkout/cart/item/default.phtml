@@ -28,7 +28,8 @@
     $_item = $this->getItem();
     $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
     $messages = $this->getMessages();
-    $_options = $this->getOptionList()
+    $_options = $this->getOptionList();
+    $links = $this->getLinks();
 ?>
 <?php if ($messages): ?>
 <tr class="messages">
@@ -265,7 +266,7 @@
         </div>
 
         <!-- downloadable -->
-        <?php if ($links = $this->getLinks()): ?>
+        <?php if ($links): ?>
         <div class="downloadable">
             <dl class="item-options">
                 <dt><?php echo $this->getLinksTitle() ?></dt>
