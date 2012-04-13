@@ -92,7 +92,7 @@ create_invoice:
                         fields:
                             qty_to_invoice: //tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[@class='input-text qty-input']
                         buttons:
-                            update_qty: //button[span[contains(text(),'Update Qty')]]
+                            update_qty: //button[contains(span,'Update Qty')]
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_line:  //table[@class='data order-tables']/tbody
