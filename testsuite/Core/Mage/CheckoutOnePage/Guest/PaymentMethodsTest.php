@@ -100,22 +100,24 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @test
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3191
+     * @TestlinkId TL-MAGE-3191
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
-                                           array('general_name'  => $testData['sku'],
-                                                 'payment_data'  => $this->loadDataSet('OnePageCheckout',
-                                                                                       'front_payment_' . $payment)));
+                                           array('general_name' => $testData['sku'],
+                                                'payment_data'  => $this->loadDataSet('Payment',
+                                                                                      'payment_' . $payment)));
         if ($payment != 'checkmoney') {
+            if ($payment != 'payflowpro') {
+                $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
+            }
             $payment .= '_without_3Dsecure';
         }
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
-        if ($payment == 'paypaldirect_without_3Dsecure') {
-            $this->overrideDataByCondition('payment_info', $testData['visa'], $checkoutData, 'byFieldKey');
-            $paymentConfig = $this->loadDataSet('PaymentMethod', $payment, $testData['api']);
+        if (preg_match('/^paypaldirect_/', $payment)) {
+            $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
         $this->navigate('system_configuration');
@@ -167,15 +169,15 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @test
      * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3190
+     * @TestlinkId TL-MAGE-3190
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
-                                           array('general_name'  => $testData['sku'],
-                                                 'payment_data'  => $this->loadDataSet('OnePageCheckout',
-                                                                                       'front_payment_' . $payment)));
+                                           array('general_name' => $testData['sku'],
+                                                'payment_data'  => $this->loadDataSet('Payment',
+                                                                                      'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {

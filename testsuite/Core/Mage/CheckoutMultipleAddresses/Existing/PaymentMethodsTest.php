@@ -119,11 +119,13 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
                                                 'email'    => $testData['email']),
                                            $testData['products']);
         if ($payment != 'checkmoney') {
+            if ($payment != 'payflowpro') {
+                $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
+            }
             $payment .= '_without_3Dsecure';
         }
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
-        if ($payment == 'paypaldirect_without_3Dsecure') {
-            $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
+        if (preg_match('/^paypaldirect_/', $payment)) {
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps

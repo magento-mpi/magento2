@@ -113,17 +113,17 @@ class Core_Mage_CheckoutOnePage_WithRegistration_ShippingMethodsTest extends Mag
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3207
+     * @TestlinkId TL-MAGE-3207
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
-        $shippingData = $this->loadDataSet('OnePageCheckout', 'front_shipping_' . $shipping);
+        $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
         $checkoutData = $this->loadDataSet('OnePageCheckout',
                                            'with_register_flatrate_checkmoney_' . $shippingDestination,
-                                           array('general_name'   => $simpleSku,
-                                                 'shipping_data'  => $shippingData));
+                                           array('general_name' => $simpleSku,
+                                                'shipping_data' => $shippingData));
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {
