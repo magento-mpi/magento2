@@ -28,6 +28,7 @@
 #
 about_us:
     mca: about-magento-demo-store
+    click_xpath: //div[@class='footer']//a[text()='About Us']
     title: About Us
     uimap:
         form:

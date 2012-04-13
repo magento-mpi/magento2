@@ -242,12 +242,13 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->cmsPollsHelper()->createPoll($pollData);
         $this->assertMessagePresent('success', 'success_saved_poll');
         $this->clearInvalidedCache();
-        $this->frontend('about_us');
+        $this->frontend();
+        $this->navigate('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name),
                 'There is no ' . $name . ' poll on the page');
         $this->cmsPollsHelper()->vote($name, $pollData['assigned_answers_set']['answer_1']['answer_title']);
         //Verifying
-        $this->frontend('about_us');
+        $this->navigate('about_us');
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($name),
                 'There is ' . $name . ' poll on the page');
     }
