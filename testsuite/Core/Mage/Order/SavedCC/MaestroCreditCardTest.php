@@ -82,10 +82,11 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     public function orderWithSwitchMaestroCard($sku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
-                                        array('filter_sku'   => $sku,
-                                             'payment_info'  => $this->loadDataSet('SalesOrder',
-                                                                                   'saved_switch_maestro')));
+        $paymentInfo = $this->loadDataSet('Payment', 'saved_switch_maestro');
+        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $sku,
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

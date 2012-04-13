@@ -40,7 +40,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      *
      * @param array $dataForBuy
      */
-    public function frontFillBuyInfo($dataForBuy)
+    public function frontAddProductToCart($dataForBuy = null)
     {
         $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
         $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
@@ -50,6 +50,6 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->waitForElementVisible($customizeFieldset);
             $this->waitForElementPresent($productInfoFieldset . "/parent::*[@style='display: none;']");
         }
-        parent::frontFillBuyInfo($dataForBuy);
+        parent::frontAddProductToCart($dataForBuy);
     }
 }

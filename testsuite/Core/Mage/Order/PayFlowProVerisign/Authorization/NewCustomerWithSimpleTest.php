@@ -80,8 +80,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_payflowpro_flatrate',
-                                        array('filter_sku' => $simpleSku));
+        $paymentData = $this->loadDataSet('Payment', 'payment_payflowpro');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $simpleSku,
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -104,7 +106,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     public function orderWithDifferentCreditCard($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -148,7 +150,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3289
+     * @TestlinkId    TL-MAGE-3289
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -195,7 +197,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3288
+     * @TestlinkId    TL-MAGE-3288
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -244,7 +246,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3290
+     * @TestlinkId    TL-MAGE-3290
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -271,7 +273,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3291
+     * @TestlinkId    TL-MAGE-3291
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -330,7 +332,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3292
+     * @TestlinkId    TL-MAGE-3292
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      */
@@ -375,7 +377,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3293
+     * @TestlinkId    TL-MAGE-3293
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -415,12 +417,12 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3287
+     * @TestlinkId    TL-MAGE-3287
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');

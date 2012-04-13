@@ -82,10 +82,11 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
     public function orderWithSwitchMaestroCard($sku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirectuk_flatrate',
-                                        array('filter_sku'   => $sku,
-                                              'payment_info' => $this->loadDataSet('SalesOrder',
-                                                                                   'else_switch_maestro')));
+        $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
+        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk', array('payment_info' => $paymentInfo));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $sku,
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

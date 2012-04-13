@@ -88,9 +88,11 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithout3DSecureSmoke($testData)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirect_flatrate',
-                                        array('filter_sku'   => $testData['sku'],
-                                              'payment_info' => $testData['cards']['mastercard']));
+        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect',
+                                          array('payment_info' => $testData['cards']['mastercard']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $testData['sku'],
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -490,7 +492,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function createOrderWith3DSecure($card, $needSetUp, $orderData, $testData)
     {
         //Data
-        $cardData = $this->loadDataSet('SalesOrder', $card);
+        $cardData = $this->loadDataSet('Payment', $card);
         $this->overrideDataByCondition('payment_info', $cardData, $orderData, 'byFieldKey');
         //Steps
         if ($needSetUp) {

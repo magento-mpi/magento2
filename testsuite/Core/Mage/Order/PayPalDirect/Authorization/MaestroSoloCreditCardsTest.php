@@ -89,10 +89,11 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     public function orderWithSwitchMaestroCard($testData)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_paypaldirect_flatrate',
-                                        array('filter_sku'   => $testData['sku'],
-                                              'payment_info' => $this->loadDataSet('SalesOrder',
-                                                                                   'else_switch_maestro')));
+        $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
+        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect', array('payment_info' => $paymentInfo));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $testData['sku'],
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
