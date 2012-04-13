@@ -12,17 +12,45 @@
 /**
  * @group module:Mage_Core
  */
-class Mage_Core_Controller_Varien_Router_StandardTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Controller_Varien_Router_Standard
+     * @var Mage_Core_Controller_Varien_Router_Base
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Controller_Varien_Router_Standard;
+        $options = array(
+            'area' => 'frontend',
+            'base_controller' => 'Mage_Core_Controller_Front_Action'
+        );
+        $this->_model = new Mage_Core_Controller_Varien_Router_Base($options);
         $this->_model->setFront(Mage::app()->getFrontController());
+    }
+
+    /**
+     * @dataProvider initOptionsDataProvider
+     * @expectedException Exception
+     */
+    public function testConstructor(array $options)
+    {
+        new Mage_Core_Controller_Varien_Router_Base($options);
+    }
+
+    public function initOptionsDataProvider()
+    {
+        return array(
+            array(
+                array()
+            ),
+            array(
+                array('area' => 'frontend')
+            ),
+            array(
+                array('base_controller' => 'Mage_Core_Controller_Front_Action')
+            )
+        );
     }
 
     public function testCollectRoutes()
@@ -45,7 +73,7 @@ class Mage_Core_Controller_Varien_Router_StandardTest extends PHPUnit_Framework_
     public function testMatch()
     {
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
-            $this->markTestSkipped('Can\'t test get match without sending headers');
+//            $this->markTestSkipped('Can\'t test get match without sending headers');
         }
 
         $request = new Magento_Test_Request();
