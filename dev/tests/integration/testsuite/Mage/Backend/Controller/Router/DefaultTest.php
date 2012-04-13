@@ -20,7 +20,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     {
         $options = array(
             'area' => 'adminhtml',
-            'base_controller' => 'Mage_Backend_Controller_Abstract'
+            'base_controller' => 'Mage_Backend_Controller_ActionAbstract'
         );
         $this->_model = new Mage_Backend_Controller_Router_Default($options);
         $this->_model->setFront(Mage::app()->getFrontController());

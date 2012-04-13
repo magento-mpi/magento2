@@ -18,7 +18,7 @@
     <global>
         <areas>
             <adminhtml>
-                <base_controller>Mage_Backend_Controller_Abstract</base_controller>
+                <base_controller>Mage_Backend_Controller_ActionAbstract</base_controller>
                 <routers>
                     <admin>
                         <class>Mage_Backend_Controller_Router_Default</class>
