@@ -201,7 +201,8 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $filledProducts[$productName] = 1;
         }
         $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
-        //Select shipping address for each product
+        //Add address if not exsist
+        $fillData = array();
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();
             $products = (isset($oneAddressData['products'])) ? $oneAddressData['products'] : array();
@@ -209,8 +210,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 continue;
             }
             foreach ($products as $product) {
-                $name = $product['product_name'];
-                $this->addParameter('productName', $name);
+                $this->addParameter('productName', $product['product_name']);
                 if (!$this->controlIsPresent('dropdown', 'is_any_address_choice')) {
                     continue;
                 }
@@ -231,12 +231,18 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
                 }
                 $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
-                $filledQty = $filledProducts[$name];
-                for ($i = $filledQty; $i < $qty + $filledQty; $i++) {
-                    $this->addParameter('index', $i);
-                    $this->fillDropdown('address_choice', $isAddressAdded);
-                    $filledProducts[$name] = $filledProducts[$name] + 1;
-                }
+                $fillData[$product['product_name']]['qty'] = $qty;
+                $fillData[$product['product_name']]['address'] = $isAddressAdded;
+            }
+        }
+        //Select shipping address for each product
+        foreach ($fillData as $name => $data) {
+            $this->addParameter('productName', $name);
+            $filledQty = $filledProducts[$name];
+            for ($i = $filledQty; $i < $data['qty'] + $filledQty; $i++) {
+                $this->addParameter('index', $i);
+                $this->fillDropdown('address_choice', $data['address']);
+                $filledProducts[$name] = $filledProducts[$name] + 1;
             }
         }
         $this->clickButton('continue_to_shipping_information');
