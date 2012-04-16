@@ -25,8 +25,8 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
         $tagModel = Mage::registry('tag_model');
         if ($tagModel) {
             $this->setCacheKey('rss_catalog_tag_' . $this->getStoreId() . '_' . $tagModel->getName());
+            $this->setCacheLifetime(600);
         }
-        $this->setCacheLifetime(600);
     }
 
     protected function _toHtml()

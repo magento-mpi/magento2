@@ -23,7 +23,7 @@
 
     <adminhtml_customer_edit>
         <reference name="customer_edit_tabs">
-            <action method="addTab"><name>customer_edit_tab_payment_profile</name><block>enterprise_pbridge/adminhtml_customer_edit_tab_payment_profile</block></action>
+            <action method="addTab"><name>customer_edit_tab_payment_profile</name><block>Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile</block></action>
         </reference>
     </adminhtml_customer_edit>
 </layout>
