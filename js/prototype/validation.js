@@ -504,41 +504,25 @@ Validation.addAllThese([
                 var test = new Date(v);
                 return Validation.get('IsEmpty').test(v) || !isNaN(test);
             }],
-    ['validate-from-date', 'The From Date value should be less than the To Date value.', function(v, el) {
-                var elms = Form.getInputs(el.form, el.type), count = elms.length, k = -1,
-                    foundFrom = false, toDate = null, today = new Date;
-                while (++k < count) {
-                    if (elms[k] == el) {
-                        foundFrom = true;
-                    } else if (foundFrom && $(elms[k]).hasClassName('validate-to-date')) {
-                        break;
-                    }
-                }
-                toDate = k != -1 ? elms[k] : null;
-                if (!toDate || !foundFrom) {
-                    return false;
-                }
-                if (Validation.get('IsEmpty').test(toDate.value)) {
-                    return true;
-                }
+    ['validate-date-range', 'The From Date value should be less than or equal to the To Date value.', function(v, el) {
+            var m = /\bdate-range-(\w+)-(\w+)\b/.exec(elm.className);
+            if (!m || m[2] == 'to' || Validation.get('IsEmpty').test(v)) {
+                return true;
+            }
 
-                // normalize date
+            var currentYear = new Date().getFullYear() + '';
+            var normalizedTime = function(v) {
                 v = v.split(/[.\/]/);
-                toDate = toDate.value.split(/[.\/]/);
-
                 if (v[2] && v[2].length < 4) {
-                    v[2] = (today.getFullYear() + '').substr(0, v[2].length) + v[2];
+                    v[2] = currentYear.substr(0, v[2].length) + v[2];
                 }
+                return new Date(v.join('/')).getTime();
+            };
 
-                if (toDate[2] && toDate[2].length < 4) {
-                    toDate[2] = (today.getFullYear() + '').substr(0, toDate[2].length) + toDate[2];
-                }
-
-                v = new Date(v.join('/'));
-                toDate = new Date(toDate.join('/'));
-
-                return v.getTime() <= toDate.getTime();
-            }],
+            var dependentElement = Element.select(el.form, '.validate-date-range .date-range-' + m[1] + '-to');
+            return !dependentElement || Validation.get('IsEmpty').test(dependentElement.value)
+                || normalizedTime(v) <= normalizedTime(dependentElement.value);
+        }],
     ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com.', function (v) {
                 //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
                 //return Validation.get('IsEmpty').test(v) || /^[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9][\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9\.]{1,30}[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9]@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i.test(v)

@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
             'format'    => $dateFormatIso,
             'disabled'  => $isElementDisabled,
-            'class'     => 'validate-date validate-from-date'
+            'class'     => 'validate-date validate-date-range date-range-custom_theme-from'
         ));
 
         $designFieldset->addField('custom_theme_to', 'date', array(
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
             'format'    => $dateFormatIso,
             'disabled'  => $isElementDisabled,
-            'class'     => 'validate-date validate-to-date'
+            'class'     => 'validate-date validate-date-range date-range-custom_theme-to'
         ));
 
         $designFieldset->addField('custom_theme', 'select', array(
