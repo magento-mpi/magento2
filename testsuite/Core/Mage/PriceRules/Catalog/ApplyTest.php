@@ -43,6 +43,8 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
         $this->systemConfigurationHelper()->configure('shipping_settings_default');
+        $currency = $this->loadDataSet('Currency', 'enable_usd');
+        $this->systemConfigurationHelper()->configure($currency);
     }
 
     /**

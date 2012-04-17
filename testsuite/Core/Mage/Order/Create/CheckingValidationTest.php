@@ -365,7 +365,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     {
         //Data
         $paymentInfo = $this->loadDataSet('Payment', 'saved_empty_all');
-        $paymentData = $this->loadDataSet('Payment', 'saved_visa', array('payment_info' => $paymentInfo));
+        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
                                         array('filter_sku'  => $simpleSku,
                                              'payment_data' => $paymentData));

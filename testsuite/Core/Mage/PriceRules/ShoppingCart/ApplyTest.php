@@ -44,7 +44,9 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('default_tax_config');
-        $this->systemConfigurationHelper()->configure('flatrate_enable');
+        $this->systemConfigurationHelper()->configure('shipping_settings_default');
+        $currency = $this->loadDataSet('Currency', 'enable_usd');
+        $this->systemConfigurationHelper()->configure($currency);
     }
 
     /**

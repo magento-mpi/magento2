@@ -49,6 +49,11 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Create Simple Product for tests</p>
      *
