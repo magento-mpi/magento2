@@ -41,7 +41,6 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->frontend('home');
         $this->frontend('customer_login');
     }
 
