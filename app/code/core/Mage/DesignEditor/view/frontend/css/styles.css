@@ -7,27 +7,74 @@
  * @license     {license_link}
  */
 
-/* Visual Design Editor ================================================================== */
 #vde_toolbar {
     z-index: 999;
-    font:11px/1.35 Arial, Helvetica, sans-serif;
-    color:#444;
+    font:1.1em Arial, Helvetica, sans-serif;
+    color:#555;
+    text-align:left;
+    -moz-box-shadow:0 0 2pt 1pt #6c6c6c;
+    -webkit-box-shadow:0 0 2pt 1pt #6c6c6c;
+    box-shadow:0 0 2pt 1pt #6c6c6c;
 }
-#vde_toolbar a.vde_button {
-    display: block;
-    background: url(Mage_DesignEditor::images/button.png) no-repeat;
-    width: 88px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    vertical-align: middle;
+#vde_breadcrumbs, #vde_toolbar_row {
+    padding:0 3em;
+    line-height:2.5em;
+    vertical-align:middle;
+}
+#vde_breadcrumbs {
+    text-transform:uppercase;
+    background:white;
+}
+#vde_toolbar_row {
+    height:2.5em;
+    background:#f0efe9;
+    border-top:1pt solid #deddd9;
+    border-bottom:1pt solid #deddd9;
+    position:relative;
+    z-index:100;
+}
+
+#vde_toolbar_row .vde_toolbar_cell {
+    float: left;
+    margin-left:-11pt;
+    margin-right:10pt;
+    border-right:1pt solid transparent;
+    border-left:1pt solid transparent;
+    padding:0 10pt;
+    position:relative;
+}
+#vde_toolbar_row .vde_toolbar_cell:hover, .vde_toolbar_cell.active {
+    background-color:white;
+    border-right:1pt solid #deddd9;
+    border-left:1pt solid #deddd9;
+}
+
+#vde_toolbar_buttons {
     float: right;
-    color: #555555;
-    text-decoration: none;
-    margin-top: 2px;
+    z-index: 1000;
+    position: relative;
+    line-height:2em;
+    padding:.25em 0;
+}
+#vde_toolbar_buttons a.vde_button {
+    display:block;
+    -moz-box-shadow:0 0 2pt 1pt #6c6c6c;
+    -webkit-box-shadow:0 0 1pt #6c6c6c;
+    box-shadow:0 0 1pt #6c6c6c;
+    border-radius:3pt;
+    padding:0 1.5em;
+    color:#555;
+    text-decoration:none;
+    font-size:110%;
+    background:url(../images/button.png);
+    background-size:auto;
 }
 #vde_toolbar a.vde_button:hover {
-    background: url(Mage_DesignEditor::images/button-hover.png) no-repeat;
+    -moz-box-shadow:0 0  2pt 1pt #6c6c6c;
+    -webkit-box-shadow:0 0  2pt 1pt #6c6c6c;
+    box-shadow:0 0  2pt 1pt #6c6c6c;
+    background:url(../images/button_hover.png);
+    background-size:auto;
 }
 #vde_toolbar .item-msg {
     border-style: solid;
@@ -94,40 +141,14 @@
     background-color: #F5F5DC;
 }
 
-#vde_toolbar_row {
-    font-size: 10pt;
-    background: url(Mage_DesignEditor::images/toolbar-background.png) repeat-x;
-    position: relative;
-    z-index: 100;
-    height: 36px;
-    margin-bottom: -6px;
-}
-#vde_toolbar_row .vde_toolbar_cell {
-    margin: 0 10px;
-    padding: 1px 16px;
-}
-.vde_toolbar_cell {
-    float: left;
-    padding-left: 10px;
-    padding-right: 20px;
-    position: relative;
-    margin: 0 6px;
-}
 .vde_toolbar_cell_title {
-    font-weight: bolder;
-    height: 30px;
-    line-height: 30px;
+    font-weight: bold;
     cursor: pointer;
-    padding-right: 16px;
-    background: url(Mage_DesignEditor::images/down-arrow.png) right center no-repeat;
+    padding-right:12pt;
+    background: url(../images/arrow_down.png) right center no-repeat;
 }
 .vde_toolbar_cell_title.active {
-    background-image: url(Mage_DesignEditor::images/up-arrow.png);
-}
-#vde_toolbar_row .vde_toolbar_cell:hover, .vde_toolbar_cell.active {
-    background-color: #ffffff;
-    border: 1px solid #e8e8e8;
-    padding: 0 15px;
+    background-image: url(../images/arrow_up.png);
 }
 .vde_toolbar_cell_value {
     font-weight: normal;
@@ -135,28 +156,27 @@
 .vde_toolbar_cell_content {
     display: none;
     position: absolute;
-    left: 0;
-    top: 32px;
+    top:2.5em;
+    left:0;
     background: #494949;
     color: #f0efe9;
-    border-radius: 0 0 5px 5px;
-    padding: 5px 0;
+
+    padding:.5em 0;
     z-index: 190;
+    min-width:20em;
+    margin-top:1pt;
+    border-radius:0 0 5pt 5pt;
+    -moz-box-shadow:0 1pt 2pt 1pt #6c6c6c;
+    -webkit-box-shadow:0 1pt 2pt 1pt #6c6c6c;
+    box-shadow:0 1pt 2pt 1pt #6c6c6c;
 }
 .vde_toolbar_cell_content > div {
     white-space: nowrap;
-    line-height: 30px;
     vertical-align: middle;
     padding: 0 10px;
 }
 .vde_toolbar_cell_content > div:hover {
     background: #5a5a5a;
-}
-#vde_toolbar_buttons {
-    float: right;
-    margin-right: 30px;
-    z-index: 1000;
-    position: relative;
 }
 
 #vde_highlighting {
@@ -164,33 +184,19 @@
     cursor: pointer;
 }
 #vde_highlighting.checked {
-    background: url(Mage_DesignEditor::images/checked.png) no-repeat 0 center;
+    background: url(../images/checked.png) no-repeat 0 center;
 }
 
-.vde_breadcrumbs {
-    text-align: left;
-    padding: 4pt 0 4pt 10pt;
-    text-transform: uppercase;
-    font-size: 10pt;
-    background: #ffffff;
-}
-
-.vde_breadcrumbs span {
-    color: #555555;
-}
-
-.vde_breadcrumbs a {
+#vde_breadcrumbs a {
     font-weight: bold;
     text-decoration: none;
     color: #2483c7;
 }
 
-.vde_breadcrumbs a:hover {
+#vde_breadcrumbs a:hover {
     text-decoration: underline;
 }
 
-.vde_breadcrumbs .vde_breadcrumbs_separator {
-    margin: 0 4pt 0 4pt;
-    font-size: 11pt;
+#vde_breadcrumbs .vde_breadcrumbs_separator {
+    margin:0 0.3em;
 }
-/* ======================================================================================= */
