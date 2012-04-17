@@ -206,6 +206,7 @@ a.btn-remove,
  .btn-remove2 { background:url(../images/btn_remove.png) no-repeat center; display:inline-block; overflow:hidden; text-indent:-100%; height:25px; width:25px; }
 a.link-edit { background:url(../images/btn_edit.png) no-repeat left; display:inline-block; font-size:11px; font-weight:normal; line-height:18px; padding:0 0 0 23px; }
 
+.reward-message,
 .messages .note-msg,
 .messages .error-msg,
 .messages .notice-msg,
