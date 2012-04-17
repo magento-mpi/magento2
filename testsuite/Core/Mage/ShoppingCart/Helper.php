@@ -43,11 +43,11 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      * Get table column names and column numbers
      *
      * @param string $tableHeadName
-     * @param bool $transforKeys
+     * @param bool $transformKeys
      *
      * @return array
      */
-    public function getColumnNamesAndNumbers($tableHeadName = 'product_table_head', $transforKeys = true)
+    public function getColumnNamesAndNumbers($tableHeadName = 'product_table_head', $transformKeys = true)
     {
         $headXpath = $this->_getControlXpath('pageelement', $tableHeadName);
         $isExlAndInclInHead = false;
@@ -76,7 +76,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
             }
         }
         $returnData = array_diff($returnData, array(''));
-        if ($transforKeys) {
+        if ($transformKeys) {
             foreach ($returnData as $key => &$value) {
                 $value = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
                 if ($value == 'action') {
@@ -92,6 +92,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      * Get all Products info in Shopping Cart
      *
      * @param array $skipFields list of fields to skip from scraping (default value is set for EE)
+     *
      * @return array
      */
     public function getProductInfoInTable($skipFields = array('move_to_wishlist', 'remove'))
@@ -140,11 +141,11 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
             }
         }
 
-        foreach ($productValues as $key => &$productData) {
+        foreach ($productValues as &$productData) {
             $productData = array_diff($productData, array(''));
-            foreach ($productData as $fieldName => &$fieldValue) {
+            foreach ($productData as &$fieldValue) {
                 if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $fieldValue)) {
-                    preg_match_all('/^-?.?([\d]+\.[\d]+(\%)?)|([\d]+(\%)?)/', $fieldValue, $price);
+                    preg_match_all('/^([\D]+)?(([\d]+\.[\d]+)|([\d]+))(\%)?/', $fieldValue, $price);
                     $fieldValue = $price[0][0];
                 }
                 if (preg_match('/SKU:/', $fieldValue)) {
