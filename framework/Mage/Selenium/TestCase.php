@@ -3467,12 +3467,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutCustomer()
     {
-        $this->frontend('home');
-        $xpath = "//a[@title='Log Out']";
-        if ($this->isElementPresent($xpath)) {
-            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+        $this->frontend();
+        if ($this->controlIsPresent('link', 'log_out')) {
+            $this->clickControl('link', 'log_out', false);
+            $this->waitForTextPresent('You are now logged out');
+            $this->waitForTextNotPresent('You are now logged out');
             $this->deleteAllVisibleCookies();
-            $this->frontend('home');
+            $this->validatePage('home_page');
         }
 
         return $this;
