@@ -77,6 +77,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
         // Free shipping by qty
         $freeQty = 0;
         if ($request->getAllItems()) {
+            $freePackageValue = 0;
             foreach ($request->getAllItems() as $item) {
                 if ($item->getProduct()->isVirtual() || $item->getParentItem()) {
                     continue;
@@ -90,8 +91,11 @@ class Mage_Shipping_Model_Carrier_Tablerate
                     }
                 } elseif ($item->getFreeShipping()) {
                     $freeQty += ($item->getQty() - (is_numeric($item->getFreeShipping()) ? $item->getFreeShipping() : 0));
+                    $freePackageValue += $item->getBaseRowTotal();
                 }
             }
+            $oldValue = $request->getPackageValue();
+            $request->setPackageValue($oldValue - $freePackageValue);
         }
 
         if (!$request->getConditionName()) {
