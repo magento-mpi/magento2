@@ -318,4 +318,50 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
 
         $adapter->update($this->getTable('cataloginventory/stock_item'), $value, $where);
     }
+
+    /**
+     * Add low stock filter to product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param array $fields
+     * @return Mage_CatalogInventory_Model_Resource_Stock
+     */
+    public function addLowStockFilter(Mage_Catalog_Model_Resource_Product_Collection $collection, $fields)
+    {
+        $this->_initConfig();
+        $adapter = $collection->getSelect()->getAdapter();
+        $qtyIf = $adapter->getCheckSql(
+            'invtr.use_config_notify_stock_qty',
+            $this->_configNotifyStockQty,
+            'invtr.notify_stock_qty'
+        );
+        $conditions = array(
+            array(
+                $adapter->prepareSqlCondition('invtr.use_config_manage_stock', 1),
+                $adapter->prepareSqlCondition($this->_isConfigManageStock, 1),
+                $adapter->prepareSqlCondition('invtr.qty', array('lt' => $qtyIf))
+            ),
+            array(
+                $adapter->prepareSqlCondition('invtr.use_config_manage_stock', 0),
+                $adapter->prepareSqlCondition('invtr.manage_stock', 1)
+            )
+        );
+
+        $where = array();
+        foreach ($conditions as $k => $part) {
+            $where[$k] = join(' ' . Zend_Db_Select::SQL_AND . ' ', $part);
+        }
+
+        $where = $adapter->prepareSqlCondition('invtr.low_stock_date', array('notnull' => true))
+            . ' ' . Zend_Db_Select::SQL_AND . ' (('
+            .  join(') ' . Zend_Db_Select::SQL_OR .' (', $where)
+            . '))';
+
+        $collection->joinTable(array('invtr' => 'cataloginventory/stock_item'),
+            'product_id = entity_id',
+            $fields,
+            $where
+        );
+        return $this;
+    }
 }
