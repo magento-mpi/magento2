@@ -39,6 +39,10 @@ product_page:
                     product_info:
                         buttons:
                             customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                -
+                    add_tag:
+                        buttons:
+                            add_tags: //button[//span='Add Tags']
 
 product_review:
     uimap:

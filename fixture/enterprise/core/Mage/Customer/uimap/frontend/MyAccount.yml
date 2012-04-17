@@ -31,5 +31,8 @@ customer_account:
         form:
             fieldsets:
                 -
+                    my_recent_tags:
+                        xpath: //div[@class='tags']
+                -
                     my_recent_reviews:
                         xpath: //div[@class='reviews']
