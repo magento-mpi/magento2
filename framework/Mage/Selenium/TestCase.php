@@ -3351,25 +3351,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             'user_name' => $this->_configHelper->getDefaultLogin(),
             'password'  => $this->_configHelper->getDefaultPassword()
         );
-        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        if ($currentPage != $this->_firstPageAfterAdminLogin) {
+        if ($this->_findCurrentPageFromUrl() != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
-            $this->fillForm($loginData);
+            $closeButton = $this->_getControlXpath('button', 'close');
+            $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
             $this->waitForElement(array($dashboardLogo, $this->_getMessageXpath('general_error'),
                                        $this->_getMessageXpath('general_validation')));
-            if ($this->_findCurrentPageFromUrl($this->getLocation()) != $this->_firstPageAfterAdminLogin) {
-                $this->fail('Admin was not logged in');
-            }
-            $notificationsLink = $this->_getControlXpath('link', 'go_to_notifications');
-            $closeButton = $this->_getControlXpath('button', 'close');
-            if ($this->isElementPresent($notificationsLink) && $this->waitForElement($closeButton, 5)) {
+            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
                 $this->click($closeButton);
             }
-            $this->validatePage($this->_firstPageAfterAdminLogin);
         }
-
+        $this->validatePage($this->_firstPageAfterAdminLogin);
         return $this;
     }
 
