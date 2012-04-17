@@ -13,8 +13,6 @@
     font:11px/1.35 Arial, Helvetica, sans-serif;
     color:#444;
     background: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 #vde_toolbar a.vde_button { border: 1px solid #777777; background: #ffffff; text-decoration: none; padding: 0 7px 1px 7px; text-align: center; }
 #vde_toolbar a.vde_button:hover { background: #eeeeee; }
@@ -97,5 +95,31 @@
 #vde_toolbar:after,
 .vde_toolbar_row:after {
     display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden;
+}
+
+.vde_breadcrumbs {
+    text-align: left;
+    padding: 4pt 0 4pt 10pt;
+    text-transform: uppercase;
+    font-size: 10pt;
+}
+
+.vde_breadcrumbs span {
+    color: #555555;
+}
+
+.vde_breadcrumbs a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #2483c7;
+}
+
+.vde_breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.vde_breadcrumbs .vde_breadcrumbs_separator {
+    margin: 0 4pt 0 4pt;
+    font-size: 11pt;
 }
 /* ======================================================================================= */
