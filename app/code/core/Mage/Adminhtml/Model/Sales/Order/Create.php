@@ -309,6 +309,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
             }
         }
 
+        $addressDiff = array_diff_assoc(
+            $order->getShippingAddress()->getData(),
+            $order->getBillingAddress()->getData()
+        );
+        unset($addressDiff['address_type'], $addressDiff['entity_id']);
+        $order->getShippingAddress()->setSameAsBilling(empty($addressDiff));
+
         $this->_initBillingAddressFromOrder($order);
         $this->_initShippingAddressFromOrder($order);
 
@@ -384,7 +391,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
 
     protected function _initShippingAddressFromOrder(Mage_Sales_Model_Order $order)
     {
-        $this->getQuote()->getShippingAddress()->setCustomerAddressId('');
+        $this->getQuote()->getShippingAddress()
+            ->setCustomerAddressId('')
+            ->setSameAsBilling($order->getShippingAddress()->getSameAsBilling());
         Mage::helper('core')->copyFieldset(
             'sales_copy_order_shipping_address',
             'to_order',
