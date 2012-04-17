@@ -59,7 +59,7 @@
                 if (checkedRadio.length) {
                     var iframeContainer = $('payment_form_' + checkedRadio[0].value + '_container');
                     // check whether it is Bridge payment method
-                    if (iframeContainer.previous('span.pbridge-reload')) {
+                    if (iframeContainer && iframeContainer.previous('span.pbridge-reload')) {
                         return continueButton.setStyle({display:'none'});
                     }
                 }
