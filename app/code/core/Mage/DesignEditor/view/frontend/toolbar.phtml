@@ -20,5 +20,15 @@
 <script type="text/javascript">
 jQuery(document).ready(function () {
     designEditor = new DesignEditor();
+
+    jQuery('.vde_toolbar_cell_title').click(function(){
+        var active = jQuery(this).hasClass('active');
+        jQuery('.vde_toolbar_cell_title').removeClass('active');
+        jQuery('.vde_toolbar_cell_content').hide();
+        if (!active) {
+            jQuery(this).addClass('active');
+            jQuery(this).next('.vde_toolbar_cell_content').show();
+        }
+    });
 });
 </script>

@@ -9,20 +9,25 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Toolbar_Skin */ ?>
-<div class="skin-selector">
-    <?php echo Mage::helper('Mage_DesignEditor_Helper_Data')->__('Skin:'); ?>
-    <select id="<?php echo $this->getSelectHtmlId(); ?>">
-        <?php foreach ($this->getOptions() as $optGroup): ?>
-            <optgroup label="<?php echo $this->escapeHtml($optGroup['label']) ?>">
-                <?php foreach ($optGroup['value'] as $option): ?>
-                    <?php $selected = $this->isSkinSelected($option['value']) ? 'selected="selected"' : ''; ?>
-                    <option value="<?php echo $this->escapeHtml($option['value']); ?>" <?php echo $selected; ?>>
-                        <?php echo $this->escapeHtml($option['label']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </optgroup>
-        <?php endforeach; ?>
-    </select>
+<div class="skin-selector vde_toolbar_cell">
+    <div class="vde_toolbar_cell_title">
+        <?php echo Mage::helper('Mage_DesignEditor_Helper_Data')->__('Skin'); ?>
+        <span class="vde_toolbar_cell_value"><?php echo Mage::getDesign()->getDesignTheme(); ?></span>
+    </div>
+    <div class="vde_toolbar_cell_content">
+        <select id="<?php echo $this->getSelectHtmlId(); ?>">
+            <?php foreach ($this->getOptions() as $optGroup): ?>
+                <optgroup label="<?php echo $this->escapeHtml($optGroup['label']) ?>">
+                    <?php foreach ($optGroup['value'] as $option): ?>
+                        <?php $selected = $this->isSkinSelected($option['value']) ? 'selected="selected"' : ''; ?>
+                        <option value="<?php echo $this->escapeHtml($option['value']); ?>" <?php echo $selected; ?>>
+                            <?php echo $this->escapeHtml($option['label']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </optgroup>
+            <?php endforeach; ?>
+        </select>
+    </div>
 </div>
 
 <script type="text/javascript">

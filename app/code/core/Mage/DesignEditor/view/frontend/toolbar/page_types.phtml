@@ -12,9 +12,14 @@
 <div id="vde_page_types_hierarchy">
     <?php echo $this->renderPageTypes(); ?>
 </div>
-<div>
-    <?php echo $this->__('Page Type:'); ?>
-    <button id="vde_page_types_control"><?php echo $this->__('Select a Page Type'); ?></button>
+<div class="vde_toolbar_cell">
+    <div class="vde_toolbar_cell_title">
+        <?php echo $this->__('Page Type'); ?>
+        <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedPageType(); ?></span>
+    </div>
+    <div class="vde_toolbar_cell_content">
+        <button id="vde_page_types_control"><?php echo $this->__('Select a Page Type'); ?></button>
+    </div>
 </div>
 <script type="text/javascript">
 (function ($) {
