@@ -5989,10 +5989,10 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
 ################################################################################
 simple_product_for_prices_validation_front_1:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -6009,10 +6009,10 @@ simple_product_for_prices_validation_front_1:
 
 simple_product_for_prices_validation_front_2:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -6029,10 +6029,10 @@ simple_product_for_prices_validation_front_2:
 
 simple_product_for_prices_validation_front_3:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search

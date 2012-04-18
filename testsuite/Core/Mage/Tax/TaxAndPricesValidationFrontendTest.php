@@ -37,13 +37,13 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
 {
     public function setUpBeforeTests()
     {
-        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('default_tax_config');
-        $this->systemConfigurationHelper()->configure('shipping_settings_default');
-        $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings', 'default_tax_config'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings',
+                                                                         'shipping_settings_default'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('Tax', 'flat_rate_for_price_verification'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('Currency', 'enable_usd'));
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
@@ -53,128 +53,98 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
-        $flatrate = $this->loadDataSet('ShippingMethod', 'flatrate_enable');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($flatrate);
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingMethod', 'flatrate_enable'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings', 'default_tax_config'));
     }
 
     /**
-     * Create Customer for tests
-     *
-     * @test
      * @return array
-     * @group preConditions
+     * @test
      */
-    public function createCustomer()
+    public function preconditionsForTests()
     {
-        //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
-        $addressData = $this->loadData('customer_account_address_for_prices_validation');
+        $user = $this->loadDataSet('PriceReview', 'customer_account_for_prices_validation');
+        $address = $this->loadDataSet('PriceReview', 'customer_account_address_for_prices_validation');
+        $category = $this->loadDataSet('Category', 'sub_category_required');
+        $categoryPath = $category['parent_category'] . '/' . $category['name'];
+        $products = array();
         //Steps
         $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData, $addressData);
+        $this->customerHelper()->createCustomer($user, $address);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $customer = array('email'    => $userData['email'],
-                          'password' => $userData['password']);
-        return $customer;
-    }
-
-    /**
-     * Create category
-     *
-     * @test
-     * @return string
-     * @group preConditions
-     */
-    public function createCategory()
-    {
-        //Data
-        $categoryData = $this->loadData('sub_category_required');
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
-        $this->categoryHelper()->createCategory($categoryData);
+        $this->categoryHelper()->createCategory($category);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-
-        return $categoryData['parent_category'] . '/' . $categoryData['name'];
-    }
-
-    /**
-     * Create Simple Products for tests
-     * @depends createCategory
-     * @test
-     *
-     * @param $category
-     *
-     * @return array
-     * @group preConditions
-     */
-    public function createProducts($category)
-    {
-        $products = array();
+        //Steps
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
-            $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_' . $i,
-                                                 array('categories' => $category),
-                                                 array('general_name', 'general_sku'));
-            $products['sku'][$i] = $simpleProductData['general_sku'];
-            $products['name'][$i] = $simpleProductData['general_name'];
-            $this->productHelper()->createProduct($simpleProductData);
+            $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_front_' . $i,
+                                         array('categories' => $categoryPath));
+            $this->productHelper()->createProduct($simple);
             $this->assertMessagePresent('success', 'success_saved_product');
+            $products['sku'][$i] = $simple['general_sku'];
+            $products['name'][$i] = $simple['general_name'];
         }
-        return $products;
+        return array(array('email'    => $user['email'],
+                           'password' => $user['password']), $products, $category['name']);
     }
 
     /**
      * Create Order on the backend and validate prices with taxes
      *
-     * @dataProvider validateTaxFrontendDataProvider
-     * @depends createCustomer
-     * @depends createProducts
-     * @depends createCategory
+     * @param string $configName
+     * @param array $testData
+     *
      * @test
-     *
-     * @param $sysConfigData
-     * @param $customer
-     * @param $products
-     * @param $category
-     *
+     * @dataProvider validateTaxFrontendDataProvider
+     * @depends preconditionsForTests
      * @group skip_due_to_bug
      */
-    public function validateTaxFrontend($sysConfigData, $customer, $products, $category)
+    public function validateTaxFrontend($configName, $testData)
     {
         //Data
-        $category = substr($category, strpos($category, '/') + 1);
+        list($customer, $products, $category) = $testData;
+        $cartProductsData = $this->loadDataSet('PriceReview', $configName . '_front_prices_in_cart_simple');
+        $checkoutData = $this->loadDataSet('PriceReview', $configName . '_front_prices_checkout_data');
+        $orderDetailsData = $this->loadDataSet('PriceReview', $configName . '_front_prices_on_order_details');
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($sysConfigData);
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('Tax', $configName));
         $this->customerHelper()->frontLoginCustomer($customer);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
         //Verify and add products to shopping cart
-        $cartProductsData = $this->loadData($sysConfigData . '_front_prices_in_cart_simple');
-        $checkoutData = $this->loadData($sysConfigData . '_front_prices_checkout_data');
-        $orderDetailsData = $this->loadData($sysConfigData . '_front_prices_on_order_details');
         foreach ($products['name'] as $key => $productName) {
-            $priceInCategory = $this->loadData($sysConfigData . '_front_prices_in_category_simple_' . $key,
-                                               array('product_name' => $productName,
-                                                    'category'      => $category));
-            $priceInProdDetails = $this->loadData($sysConfigData . '_front_prices_in_product_simple_' . $key);
+            //Data
+            $priceInCategory = $this->loadDataSet('PriceReview',
+                                                  $configName . '_front_prices_in_category_simple_' . $key,
+                                                  array('product_name' => $productName,
+                                                       'category'      => $category));
+            $priceInProdDetails = $this->loadDataSet('PriceReview',
+                                                     $configName . '_front_prices_in_product_simple_' . $key);
+            $cartProductsData['product_' . $key]['product_name'] = $productName;
+            $checkoutData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
+            $orderDetailsData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
+            $orderDetailsData['validate_prod_data']['product_' . $key]['sku'] = $products['sku'][$key];
+            //Steps
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
             $this->productHelper()->frontOpenProduct($productName, $category);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
-            $cartProductsData['product_' . $key]['product_name'] = $productName;
-            $checkoutData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
-            $orderDetailsData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
-        }
-        foreach ($products['sku'] as $key => $productSku) {
-            $orderDetailsData['validate_prod_data']['product_' . $key]['sku'] = $productSku;
         }
         $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
