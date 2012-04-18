@@ -85,7 +85,7 @@ customer_account_for_prices_validation:
     group: General
     first_name: First Name
     last_name: Last Name
-    email: test_user_%randomize%@example.com
+    email: test_user_%randomize%@unknown-domain.com
     password: 123123q
 
 customer_account_address_for_prices_validation:

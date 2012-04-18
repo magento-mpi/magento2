@@ -271,7 +271,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@domain.com')
+            array('te@st@unknown-domain.com')
         );
     }
 

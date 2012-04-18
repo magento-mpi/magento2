@@ -566,8 +566,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function withInvalidEmailDataProvider()
     {
         return array(
-            array('email@@domain.com', 'invalid_emails_js'),
-            array('.email@domain.com', 'invalid_emails')
+            array('email@@unknown-domain.com', 'invalid_emails_js'),
+            array('.email@unknown-domain.com', 'invalid_emails')
         );
     }
 

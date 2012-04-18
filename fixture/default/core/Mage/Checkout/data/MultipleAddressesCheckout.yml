@@ -34,7 +34,7 @@
 register_data_special:
     first_name: %specialValue15%
     last_name: %specialValue15%
-    email: multiple_checkout_%randomize%@domain.com
+    email: multiple_checkout_%randomize%@unknown-domain.com
     sign_up_newsletter: No
     company: %specialValue15%
     telephone: %specialValue15%
@@ -51,7 +51,7 @@ register_data_special:
 register_data_long:
     first_name: %longValue255%
     last_name: %longValue255%
-    email: multiple_checkout_%randomize%@domain.com
+    email: multiple_checkout_%randomize%@unknown-domain.com
     sign_up_newsletter: No
     company: %longValue255%
     telephone: %longValue255%
@@ -150,7 +150,7 @@ multiple_with_register:
     general_customer_data:
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
-        email: multiple_checkout_%randomize%@domain.com
+        email: multiple_checkout_%randomize%@unknown-domain.com
         sign_up_newsletter: No
         company: %noValue%
         telephone: 732-757-2923
@@ -235,7 +235,7 @@ multiple_with_register_france:
     general_customer_data:
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
-        email: multiple_checkout_%randomize%@domain.com
+        email: multiple_checkout_%randomize%@unknown-domain.com
         sign_up_newsletter: No
         company: %noValue%
         telephone: 732-757-2923
