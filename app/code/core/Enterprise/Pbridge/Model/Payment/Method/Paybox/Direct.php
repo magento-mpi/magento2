@@ -227,7 +227,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct extends Mage_Payment
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        Mage::throwException($this->_getHelper()->__('Refund action is not available.'));
+        Mage::throwException(Mage::helper('payment')->__('Refund action is not available.'));
     }
 
     /**

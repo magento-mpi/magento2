@@ -30,8 +30,7 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getResultCount()): ?>
     <p>
-        <?php echo $this->helper('catalogsearch')
-            ->__('<strong>%d item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
+        <?php echo $this->helper('catalogsearch')->__('<strong>%d item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
     </p>
 <?php else: ?>
 <ul class="messages">
