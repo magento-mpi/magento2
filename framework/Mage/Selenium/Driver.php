@@ -77,6 +77,9 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
                 fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                if ($command == 'captureEntirePageScreenshotToString' || $command == 'getHtmlSource') {
+                    $response = 'OK';
+                }
                 fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
                 fflush($this->_logHandle);
             }
