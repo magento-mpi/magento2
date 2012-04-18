@@ -9,12 +9,12 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Toolbar_PageType */ ?>
-<div class="vde_toolbar_cell">
+<div id="vde_page_types_hierarchy" class="vde_toolbar_cell">
     <div class="vde_toolbar_cell_title">
         <?php echo $this->__('Page:'); ?>
         <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedPageTypeLabel(); ?></span>
     </div>
-    <div id="vde_page_types_hierarchy" class="vde_toolbar_cell_content">
+    <div class="vde_toolbar_cell_content">
         <div id="vde_page_types_tree"><?php echo $this->renderPageTypes(); ?></div>
     </div>
 </div>
@@ -46,12 +46,14 @@
             treeInstance.select_node($(this).find('li[rel="<?php echo $this->getSelectedPageType(); ?>"]'));
         });
         <?php endif; ?>
-        treeElement.slimScroll({
-            color: '#cccccc',
-            alwaysVisible: true,
-            opacity: 1,
-            height: 'auto',
-            size: 9
+        $('#vde_page_types_hierarchy').one('activate_toolbar_cell.vde', function () {
+            treeElement.slimScroll({
+                color: '#cccccc',
+                alwaysVisible: true,
+                opacity: 1,
+                height: 'auto',
+                size: 9
+            });
         });
     });
 })(jQuery);

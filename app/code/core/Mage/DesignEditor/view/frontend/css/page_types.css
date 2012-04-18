@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-#vde_page_types_hierarchy {
+#vde_page_types_hierarchy .vde_toolbar_cell_content {
     padding: 12pt 4pt 12pt 0;
 }
 #vde_page_types_tree {

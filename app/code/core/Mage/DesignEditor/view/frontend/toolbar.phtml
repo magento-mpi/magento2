@@ -28,6 +28,12 @@
             $('.vde_toolbar_cell').removeClass('active');
             if (!active) {
                 cellElement.addClass('active');
+                cellElement.trigger('activate_toolbar_cell.vde');
+            }
+        });
+        $(document).bind('mousedown', function (e) {
+            if (!$(e.target).parents('.vde_toolbar_cell').length) {
+                $('.vde_toolbar_cell').removeClass('active');
             }
         });
     });
