@@ -217,23 +217,27 @@ a.link-edit { background:url(../images/btn_edit.png) no-repeat left; display:inl
 
 .window-overlay { display:none; }
 
+.map-popup,
 .popup-block,
 .remember-me-popup {
     background:#fcfcfc;
     position:absolute;
-    left:15px;
-    right:15px;
+    left:15px !important;
+    right:15px !important;
     margin:-18px 0 0;
     padding:15px;
     -webkit-box-shadow:0 2px 6px rgba(0, 0, 0, .25);
        -moz-box-shadow:0 2px 6px rgba(0, 0, 0, .25);
             box-shadow:0 2px 6px rgba(0, 0, 0, .25);
 }
-.popup-block { background:url(../images/bg_noise.png) repeat #fff; display:none; position:fixed; top:50%; left:50%; margin:-60px 0 0 -140px; width:250px; }
+.popup-block { background:#fff; display:none; position:fixed; top:50%; left:50%; margin:-60px 0 0 -140px; width:250px; }
 .popup-block .form-list { margin:0 0 15px; }
 .popup-block .block-title { display:none; }
 .popup-block .buttons-set button { display:inline-block !important; margin-right:1px !important; width:49% !important; }
 .popup-block.active { display:block; }
+
+.map-popup-close { float:right; }
+.map-popup-heading { margin:0 0 10px; }
 
 .remember-me-popup-body { line-height:20px; }
 .remember-me-popup-close {
@@ -1615,6 +1619,8 @@ input[type="checkbox"]:checked {
 .cart .totals,
 .cart .checkout-types { padding:15px; }
 .cart .checkout-types a { font-size:12px; display:block; margin:5px 0 0; padding:5px; text-decoration:underline; }
+.cart .checkout-types li { margin:0 0 10px; }
+.cart .checkout-types li .paypal-or { padding:5px 0; }
 
 .cart .totals table { border-spacing:0; border-collapse:collapse; font-size:13px; width:100%; }
 .cart .totals table th,
@@ -1639,6 +1645,7 @@ input[type="checkbox"]:checked {
 .paypal-review-order .data-table { border:1px solid #eee; border-spacing:0; border-collapse:collapse; font-size:13px; margin:15px 0; width:100%; }
 .paypal-review-order .data-table tfoot { background:#eee; }
 .paypal-review-order .data-table th { text-align:left; }
+.paypal-review-order .data-table th:last-child { text-align:right; }
 .paypal-review-order .data-table th { border-bottom:1px solid #eee; padding:5px; }
 .paypal-review-order .data-table td { border-bottom:1px solid #eee; padding:5px; vertical-align:top; }
 

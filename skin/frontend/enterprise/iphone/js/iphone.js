@@ -65,7 +65,7 @@ document.observe("dom:loaded", function() {
             var that = this;
             
             this.list = list;
-            this.list.insert({ after : '<div class="more"><span id="more_button" class="more-button">Load More</span></div>'});
+            this.list.insert({ after : '<div class="more"><span id="more_button" class="more-button">More</span></div>'});
             this.href = href.readAttribute('href');
             this.button = $('more_button');
             this.holder = new Element('div', { 'class': 'response-holder' });

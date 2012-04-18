@@ -32,6 +32,7 @@
  */
 ?>
 <div class="cart">
+    <?php echo $this->getChildHtml('form_before') ?>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php if(!$this->hasError() && count($this->getItems()) > 1): ?>
         <ul class="checkout-types">
@@ -43,7 +44,6 @@
         <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-    <?php echo $this->getChildHtml('form_before') ?>
     <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
         <fieldset>
             <table id="shopping-cart-table" class="data-table cart-table">
