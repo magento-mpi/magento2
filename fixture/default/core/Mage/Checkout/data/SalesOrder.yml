@@ -144,7 +144,7 @@ new_customer:
     middle_name: %noValue%
     last_name: 'Stevenson'
     suffix: 'Jr'
-    email: 'test_purpose@example.com'
+    email: 'test_purpose_%randomize%@unknown-domain.com'
     date_of_birth: 12/31/76
     tax_vat_number: '123123'
     gender: 'Male'
@@ -620,7 +620,7 @@ order_physical:
     store_view: Default Store View
     account_data:
         customer_group: General
-        customer_email: customer_for_order_%randomize%@domain.com
+        customer_email: customer_for_order_%randomize%@unknown-domain.com
     products_to_add:
         product_1: &product
             filter_id: %noValue%
@@ -661,7 +661,7 @@ order_virtual:
     store_view: Default Store View
     account_data:
         customer_group: General
-        customer_email: customer_for_order_%randomize%@domain.com
+        customer_email: customer_for_order_%randomize%@unknown-domain.com
     products_to_add:
         product_1: &product
             filter_id: %noValue%

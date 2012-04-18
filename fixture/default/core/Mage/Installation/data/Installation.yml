@@ -53,7 +53,7 @@ configuration_data:
 admin_account_data:
     first_name: First Name
     last_name: Last Name
-    email: admin@example.com
+    email: admin@unknown-domain.com
     user_name: admin
     password: 123123q
     confirm_password: 123123q

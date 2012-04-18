@@ -39,7 +39,7 @@ generic_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: johndoe@magento.com
+    email: johndoe@unknown-domain.com
     password: 123123q
     password_confirmation: 123123q
     this_acount_is: %noValue%
@@ -51,7 +51,7 @@ search_admin_user:
     user_name: testuser
     first_name: John
     last_name: Doe
-    email: johndoe@magento.com
+    email: johndoe@unknown-domain.com
     status: %noValue%
 
 disable_admin_captcha:

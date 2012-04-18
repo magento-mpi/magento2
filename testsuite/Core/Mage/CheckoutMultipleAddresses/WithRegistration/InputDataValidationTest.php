@@ -258,8 +258,8 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@magento.com'),
-            array('.test@magento.com'),
+            array('te@st@unknown-domain.com'),
+            array('.test@unknown-domain.com'),
         );
     }
 

@@ -294,7 +294,7 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
         return array(
             array(array('email' => 'invalid')),
             array(array('email' => 'test@invalidDomain')),
-            array(array('email' => 'te@st@magento.com'))
+            array(array('email' => 'te@st@unknown-domain.com'))
         );
     }
 

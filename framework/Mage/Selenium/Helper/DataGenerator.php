@@ -53,7 +53,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Email domain used for auto generated values
      * @var string
      */
-    protected $_emailDomain = 'example.com';
+    protected $_emailDomain = 'unknown-domain.com';
 
     /**
      * Email domain zone used for auto generated values
