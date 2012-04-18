@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
+class Mage_Backend_Model_Url extends Mage_Core_Model_Url
 {
     /**
      * Secret key query param name
@@ -30,6 +30,8 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     /**
      * Force strip secret key param if _nosecret param specified
      *
+     * @param array $data
+     * @param bool $unsetOldParams
      * @return Mage_Core_Model_Url
      */
     public function setRouteParams(array $data, $unsetOldParams=true)
@@ -122,7 +124,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     /**
      * Enable secret key using
      *
-     * @return Mage_Adminhtml_Model_Url
+     * @return Mage_Backend_Model_Url
      */
     public function turnOnSecretKey()
     {
@@ -133,7 +135,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     /**
      * Disable secret key using
      *
-     * @return Mage_Adminhtml_Model_Url
+     * @return Mage_Backend_Model_Url
      */
     public function turnOffSecretKey()
     {
@@ -144,10 +146,13 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     /**
      * Refresh admin menu cache etc.
      *
-     * @return Mage_Adminhtml_Model_Url
+     * @return Mage_Backend_Model_Url
      */
     public function renewSecretUrls()
     {
+        /**
+         * TODO remove/change constant usage after implementation menu functionality
+         */
         Mage::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ -->
+<layout>
+    <adminhtml_index_login>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Backend_Block_Template" name="content" template="admin/login.phtml">
+                <container name="form.additional.info"  label="Form Additional Info"/>
+            </block>
+        </container>
+    </adminhtml_index_login>
+
+    <adminhtml_index_forgotpassword>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Backend_Block_Template" name="content" template="admin/forgotpassword.phtml">
+                <container name="form.additional.info" label="Form Additional Info"/>
+            </block>
+        </container>
+    </adminhtml_index_forgotpassword>
+</layout>

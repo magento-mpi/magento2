@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml abstract block
+ * Backend abstract block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Template extends Mage_Core_Block_Template
+class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {
     /**
      * Enter description here...
@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Template extends Mage_Core_Block_Template
      */
     protected function _getUrlModelClass()
     {
-        return 'Mage_Adminhtml_Model_Url';
+        return 'Mage_Backend_Model_Url';
     }
 
     /**
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Template extends Mage_Core_Block_Template
     /**
      * Check whether or not the module output is enabled
      *
-     * Because many module blocks belong to Adminhtml module,
+     * Because many module blocks belong to Backend module,
      * the feature "Disable module output" doesn't cover Admin area
      *
      * @param string $moduleName Full module name

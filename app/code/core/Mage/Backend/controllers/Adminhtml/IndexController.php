@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Index admin controller
+ * Index backend controller
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
+class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Render specified template
@@ -25,8 +25,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')->setTemplate("$tplName.phtml");
+        $this->_initLayoutMessages('Mage_Backend_Model_Session');
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("$tplName.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }
@@ -71,79 +71,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         /** @var $adminSession Mage_Admin_Model_Session */
         $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
         $adminSession->logout();
-        $adminSession->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('You have logged out.'));
+        $adminSession->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('You have logged out.'));
         $this->_redirect('*');
-    }
-
-    /**
-     * Global Search Action
-     */
-    public function globalSearchAction()
-    {
-        $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
-        $items = array();
-
-        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/global_search')) {
-            $items[] = array(
-                'id' => 'error',
-                'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
-                'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Access Denied'),
-                'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('You have not enough permissions to use this functionality.')
-            );
-            $totalCount = 1;
-        } else {
-            if (empty($searchModules)) {
-                $items[] = array(
-                    'id' => 'error',
-                    'type' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Error'),
-                    'name' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No search modules were registered'),
-                    'description' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please make sure that all global admin search modules are installed and activated.')
-                );
-                $totalCount = 1;
-            } else {
-                $start = $this->getRequest()->getParam('start', 1);
-                $limit = $this->getRequest()->getParam('limit', 10);
-                $query = $this->getRequest()->getParam('query', '');
-                foreach ($searchModules->children() as $searchConfig) {
-
-                    if ($searchConfig->acl && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($searchConfig->acl)){
-                        continue;
-                    }
-
-                    $className = $searchConfig->getClassName();
-
-                    if (empty($className)) {
-                        continue;
-                    }
-                    $searchInstance = new $className();
-                    $results = $searchInstance->setStart($start)
-                        ->setLimit($limit)
-                        ->setQuery($query)
-                        ->load()
-                        ->getResults();
-                    $items = array_merge_recursive($items, $results);
-                }
-                $totalCount = sizeof($items);
-            }
-        }
-
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Template')
-            ->setTemplate('system/autocomplete.phtml')
-            ->assign('items', $items);
-
-        $this->getResponse()->setBody($block->toHtml());
-    }
-
-    /**
-     * Change locale action
-     */
-    public function changeLocaleAction()
-    {
-        $locale = $this->getRequest()->getParam('locale');
-        if ($locale) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setLocale($locale);
-        }
-        $this->_redirectReferer();
     }
 
     /**
@@ -202,7 +131,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     foreach ($collection as $item) {
                         $user = Mage::getModel('Mage_Admin_Model_User')->load($item->getId());
                         if ($user->getId()) {
-                            $newResetPasswordLinkToken = Mage::helper('Mage_Admin_Helper_Data')->generateResetPasswordLinkToken();
+                            $newResetPasswordLinkToken = Mage::helper('Mage_Backend_Helper_Data')->generateResetPasswordLinkToken();
                             $user->changeResetPasswordLinkToken($newResetPasswordLinkToken);
                             $user->save();
                             $user->sendPasswordResetConfirmationEmail();
@@ -211,14 +140,14 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                 }
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($email)));
+                    ->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_Backend_Helper_Data')->escapeHtml($email)));
                 $this->_redirect('*/*/login');
                 return;
             } else {
                 $this->_getSession()->addError($this->__('Invalid email address.'));
             }
         } elseif (!empty($params)) {
-            $this->_getSession()->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The email address is empty.'));
+            $this->_getSession()->addError(Mage::helper('Mage_Backend_Helper_Data')->__('The email address is empty.'));
         }
         $this->loadLayout();
         $this->renderLayout();
@@ -241,7 +170,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             );
             $this->_outTemplate('resetforgottenpassword', $data);
         } catch (Exception $exception) {
-            $this->_getSession()->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Your password reset link has expired.'));
+            $this->_getSession()->addError(Mage::helper('Mage_Backend_Helper_Data')->__('Your password reset link has expired.'));
             $this->_redirect('*/*/forgotpassword', array('_nosecret' => true));
         }
     }
@@ -261,14 +190,14 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         try {
             $this->_validateResetPasswordLinkToken($userId, $resetPasswordLinkToken);
         } catch (Exception $exception) {
-            $this->_getSession()->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Your password reset link has expired.'));
+            $this->_getSession()->addError(Mage::helper('Mage_Backend_Helper_Data')->__('Your password reset link has expired.'));
             $this->_redirect('*/*/');
             return;
         }
 
         $errorMessages = array();
         if (iconv_strlen($password) <= 0) {
-            array_push($errorMessages, Mage::helper('Mage_Adminhtml_Helper_Data')->__('New password field cannot be empty.'));
+            array_push($errorMessages, Mage::helper('Mage_Backend_Helper_Data')->__('New password field cannot be empty.'));
         }
         /** @var $user Mage_Admin_Model_User */
         $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
@@ -298,7 +227,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $user->setRpTokenCreatedAt(null);
             $user->setPasswordConfirmation(null);
             $user->save();
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Your password has been updated.'));
+            $this->_getSession()->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('Your password has been updated.'));
             $this->_redirect('*/*/login');
         } catch (Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
@@ -326,18 +255,18 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             || empty($userId)
             || $userId < 0
         ) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid password reset token.'));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Backend_Helper_Data')->__('Invalid password reset token.'));
         }
 
         /** @var $user Mage_Admin_Model_User */
         $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
         if (!$user || !$user->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong account specified.'));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Backend_Helper_Data')->__('Wrong account specified.'));
         }
 
         $userToken = $user->getRpToken();
         if (strcmp($userToken, $resetPasswordLinkToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Your password reset link has expired.'));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Backend_Helper_Data')->__('Your password reset link has expired.'));
         }
     }
 
