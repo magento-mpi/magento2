@@ -32,6 +32,36 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @method object adminUserHelper()
+ * @method object attributeSetHelper()
+ * @method object categoryHelper()
+ * @method object checkoutMultipleAddressesHelper()
+ * @method object checkoutOnePageHelper()
+ * @method object cmsPagesHelper()
+ * @method object cmsPollsHelper()
+ * @method object cmsStaticBlocksHelper()
+ * @method object cmsWidgetsHelper()
+ * @method object compareProductsHelper()
+ * @method object customerGroupsHelper()
+ * @method object customerHelper()
+ * @method object installationHelper()
+ * @method object newsletterHelper()
+ * @method object orderCreditMemoHelper()
+ * @method object orderInvoiceHelper()
+ * @method object orderShipmentHelper()
+ * @method object orderHelper()
+ * @method object paypalHelper()
+ * @method object priceRulesHelper()
+ * @method object productAttributeHelper()
+ * @method object productHelper()
+ * @method object ratingHelper()
+ * @method object reviewHelper()
+ * @method object shoppingCartHelper()
+ * @method object storeHelper()
+ * @method object systemConfigurationHelper()
+ * @method object tagsHelper()
+ * @method object taxHelper()
+ * @method object wishlistHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -3487,7 +3517,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function selectFrontStoreView($storeViewName = 'Default Store View')
     {
         $dropdown = ($this->controlIsPresent('dropdown', 'your_language'))
-                    ? $this->_getControlXpath('dropdown', 'your_language') : false;
+            ? $this->_getControlXpath('dropdown', 'your_language')
+            : false;
         if ($dropdown != false) {
             $toSelect = $dropdown . '//option[normalize-space(text())="' . $storeViewName . '"]';
             $isSelected = $toSelect . '[@selected]';
@@ -3500,10 +3531,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->addParameter('storeView', $storeViewName);
             $isSelected = $this->_getControlXpath('pageelement', 'selected_store_view');
             $storeViewXpath = $this->_getControlXpath('link', 'your_language');
-            if (!$this->controlIsPresent('pageelement', 'selected_store_view'))
-            {
+            if (!$this->controlIsPresent('pageelement', 'selected_store_view')) {
                 $this->clickControl('pageelement', 'change_store_view', false);
-                if ($this->waitForElementVisible($storeViewXpath, $this->_browserTimeoutPeriod)){
+                if ($this->waitForElementVisible($storeViewXpath, $this->_browserTimeoutPeriod)) {
                     $this->clickControl('link', 'your_language', false);
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 } else {
