@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $session = new Mage_Admin_Model_Session();
         $session->login('admingws_user', 'admingws_password');
     }
@@ -26,7 +26,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     {
         $session = new Mage_Admin_Model_Session();
         $session->logout();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
