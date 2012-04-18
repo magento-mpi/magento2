@@ -36,7 +36,6 @@ class Mage_DesignEditor_Model_Layout
         'Mage_Sales_Block_Reorder_Sidebar',
         'Mage_Paypal_Block_Express_Shortcut',
         'Mage_PaypalUk_Block_Express_Shortcut',
-
     );
 
     /**
