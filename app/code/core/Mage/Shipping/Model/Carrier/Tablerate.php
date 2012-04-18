@@ -86,11 +86,13 @@ class Mage_Shipping_Model_Carrier_Tablerate
                 if ($item->getHasChildren() && $item->isShipSeparately()) {
                     foreach ($item->getChildren() as $child) {
                         if ($child->getFreeShipping() && !$child->getProduct()->isVirtual()) {
-                            $freeQty += $item->getQty() * ($child->getQty() - (is_numeric($child->getFreeShipping()) ? $child->getFreeShipping() : 0));
+                            $freeShipping = is_numeric($child->getFreeShipping()) ? $child->getFreeShipping() : 0;
+                            $freeQty += $item->getQty() * ($child->getQty() - $freeShipping);
                         }
                     }
                 } elseif ($item->getFreeShipping()) {
-                    $freeQty += ($item->getQty() - (is_numeric($item->getFreeShipping()) ? $item->getFreeShipping() : 0));
+                    $freeShipping = is_numeric($item->getFreeShipping()) ? $item->getFreeShipping() : 0;
+                    $freeQty += $item->getQty() - $freeShipping;
                     $freePackageValue += $item->getBaseRowTotal();
                 }
             }
@@ -99,7 +101,8 @@ class Mage_Shipping_Model_Carrier_Tablerate
         }
 
         if (!$request->getConditionName()) {
-            $request->setConditionName($this->getConfigData('condition_name') ? $this->getConfigData('condition_name') : $this->_default_condition_name);
+            $conditionName = $this->getConfigData('condition_name');
+            $request->setConditionName($conditionName ? $conditionName : $this->_default_condition_name);
         }
 
          // Package weight and qty free shipping
