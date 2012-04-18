@@ -1961,7 +1961,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveHtmlPage($fileName = null)
     {
-        if (!empty($this->screenshotPath)) {
+        if (empty($this->screenshotPath)) {
             return '';
         }
         if ($fileName == null) {
