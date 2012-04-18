@@ -8,20 +8,19 @@
  */
 
 #vde_page_types_hierarchy .vde_toolbar_cell_content {
-    padding: 12pt 4pt 12pt 0;
+    padding: 2em 0.5em 2em 0;
 }
 #vde_page_types_tree {
-    max-height: 310px; /* max allowed height */
+    max-height: 30em; /* max allowed height */
     overflow: hidden; /* don't display native scrollbars */
-    padding-right: 60px; /* make sure custom vertical scrollbar doesn't overlap list items */
+    padding-right: 4em; /* make sure custom vertical scrollbar doesn't overlap list items */
     text-align: left;
     background-color: transparent;
-    font-size: 11pt;
 }
 
 #vde_page_types_tree a {
-    margin-left: 6pt;
-    padding: 4pt 2pt 4pt 2pt;
+    margin-left: 0.5em;
+    padding: 0.5em;
     color: #cccccc;
     width: 100%;
 }

@@ -65,7 +65,7 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
             if ($pageHandles) {
                 $this->_selectedPageType = end($pageHandles);
             } else {
-                foreach (array_reverse($this->getLayout()->getUpdate()->getHandles()) as $handle){
+                foreach (array_reverse($this->getLayout()->getUpdate()->getHandles()) as $handle) {
                     if ($this->getLayout()->getUpdate()->pageTypeExists($handle)) {
                         $this->_selectedPageType = $handle;
                         break;
