@@ -67,6 +67,16 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
     }
 
     /**
+     * Retrieve label for the currently selected page type
+     *
+     * @return string|false
+     */
+    public function getSelectedPageTypeLabel()
+    {
+        return $this->escapeHtml($this->getLayout()->getUpdate()->getPageTypeLabel($this->getSelectedPageType()));
+    }
+
+    /**
      * Set the name of the currently selected page type
      *
      * @param string $name Page type name

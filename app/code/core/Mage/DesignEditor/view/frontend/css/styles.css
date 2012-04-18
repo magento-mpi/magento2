@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     pro_default
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,8 +45,8 @@
 }
 #vde_toolbar_row .vde_toolbar_cell:hover, .vde_toolbar_cell.active {
     background-color:white;
-    border-right:1pt solid #deddd9;
-    border-left:1pt solid #deddd9;
+    border-right:1pt solid #deddd9 !important;
+    border-left:1pt solid #deddd9 !important;
 }
 
 #vde_toolbar_buttons {
@@ -85,19 +85,6 @@
 #vde_toolbar .error {
     border-color: red;
     color: red;
-}
-
-#vde_page_types_hierarchy {
-    position: absolute;
-    max-height: 300px; /* maximal allowed height */
-    overflow-y: auto; /* display vertical scrollbar when content exceeds the maximal allowed height */
-    overflow-x: hidden; /* don't display horizontal scrollbar */
-    padding-right: 20px; /* make sure vertical scrollbar doesn't overlap list items */
-    z-index: 1000;
-    text-align: left;
-    display: none;
-    border: 1px solid #aaa;
-    background-color: #fff;
 }
 
 .vde_element_wrapper {
@@ -147,7 +134,7 @@
     padding-right:12pt;
     background: url(../images/arrow_down.png) right center no-repeat;
 }
-.vde_toolbar_cell_title.active {
+.vde_toolbar_cell.active .vde_toolbar_cell_title {
     background-image: url(../images/arrow_up.png);
 }
 .vde_toolbar_cell_value {
@@ -169,6 +156,9 @@
     -moz-box-shadow:0 1pt 2pt 1pt #6c6c6c;
     -webkit-box-shadow:0 1pt 2pt 1pt #6c6c6c;
     box-shadow:0 1pt 2pt 1pt #6c6c6c;
+}
+.vde_toolbar_cell.active .vde_toolbar_cell_content {
+    display: block;
 }
 .vde_toolbar_cell_content > div {
     white-space: nowrap;

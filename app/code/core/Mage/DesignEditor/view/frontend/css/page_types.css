@@ -1,0 +1,40 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+#vde_page_types_hierarchy {
+    padding: 12pt 4pt 12pt 0;
+}
+#vde_page_types_tree {
+    max-height: 310px; /* max allowed height */
+    overflow: hidden; /* don't display native scrollbars */
+    padding-right: 60px; /* make sure custom vertical scrollbar doesn't overlap list items */
+    text-align: left;
+    background-color: transparent;
+    font-size: 11pt;
+}
+
+#vde_page_types_tree a {
+    margin-left: 6pt;
+    padding: 4pt 2pt 4pt 2pt;
+    color: #cccccc;
+    width: 100%;
+}
+
+#vde_page_types_tree .jstree-clicked, #vde_page_types_tree .jstree-hovered {
+    background-color: #585858;
+    border: none;
+}
+
+#vde_page_types_tree .jstree-closed > .jstree-icon {
+    background: url(../images/jstree_plus_minus.png) top left no-repeat;
+}
+
+#vde_page_types_tree .jstree-open > .jstree-icon {
+    background: url(../images/jstree_plus_minus.png) top right no-repeat;
+}

@@ -18,7 +18,9 @@
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
+            <action method="addCss"><file>Mage_DesignEditor::css/page_types.css</file></action>
         </reference>
         <!-- Toolbar block has been intentionally declared outside of containers to be rendered manually -->
         <block type="Mage_DesignEditor_Block_Toolbar" name="design_editor_toolbar" template="toolbar.phtml">
