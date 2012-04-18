@@ -43,7 +43,7 @@ manage_attributes:
                             search: //button[span='Search']
                         fields:
                             attribute_code: //input[@name='attribute_code']
-                            attribute_lable: //input[@name='frontend_label']
+                            attribute_label: //input[@name='frontend_label']
                         dropdowns:
                             system: //select[@name='is_user_defined']
                             required: //select[@name='is_required']

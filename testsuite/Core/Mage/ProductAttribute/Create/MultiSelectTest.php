@@ -211,7 +211,7 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Checking validation for notvalid data in the 'Position' field</p>
+     * <p>Checking validation for not valid data in the 'Position' field</p>
      * <p>Steps:</p>
      * <p>1.Click on "Add New Attribute" button.</p>
      * <p>2.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' Multiple Select.</p>
@@ -317,7 +317,7 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title']
+                    'attribute_label' => $attrData['admin_title']
                 )
         );
         //Steps

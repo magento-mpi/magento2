@@ -381,7 +381,7 @@ bundle_items_data: &bundleData
     item_4: *itemCheckbox
 
 #*********************************************
-#*         Dowloadable Information Data      *
+#*         Downloadable Information Data      *
 #*********************************************
 
 downloadable_samples: &samplesDownloadable

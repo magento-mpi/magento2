@@ -215,7 +215,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
                     foreach ($categories as $value) {
                         $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
                     }
-                    $this->click($uimapData->findLink('confirm_choise'));
+                    $this->click($uimapData->findLink('confirm_choice'));
                     continue;
                 }
                 $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);

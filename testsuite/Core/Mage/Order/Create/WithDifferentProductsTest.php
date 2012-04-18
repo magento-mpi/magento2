@@ -238,7 +238,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
                                     array('fieldParameter' => $testData[$productType . '_name']));
         $configurable = $this->loadDataSet('SalesOrder', 'config_option_bundle',
                                            array('field_checkbox'    => $checkBox,
-                                                 'field_dropdow'     => $dropDown,
+                                                 'field_dropdown'     => $dropDown,
                                                  'field_multiselect' => $multiSelect,
                                                  'field_radio'       => $radio));
         $orderData = $this->loadDataSet('SalesOrder', $order,

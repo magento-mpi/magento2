@@ -140,7 +140,7 @@ product_page:
                     details:
                         xpath: //div[h2[text()='Details']]
                         pageelements:
-                            descriprion: //div[@class='std' and normalize-space(text())='%longDescription%']
+                            description: //div[@class='std' and normalize-space(text())='%longDescription%']
                 -
                     additional_info:
                         xpath: //div[h2[text()='Additional Information']]
@@ -262,7 +262,7 @@ product_review:
                             review_rate_name: //dt[span='%reviewerName%']/following-sibling::dd[1]//th[text()='%rateName%']
                             review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
                             review_table_rate_name: //table[@id='product-review-table']//th[text()='%rateName%']
-                            review_reviwer_name: //span[text()='%reviewerName%']
+                            review_reviewer_name: //span[text()='%reviewerName%']
                             review_post_date: //dt[span='%reviewerName%']/following-sibling::dd[1]/small
                         buttons:
                             submit_review: //button[span='Submit Review']

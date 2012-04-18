@@ -27,7 +27,7 @@
  */
 
 /**
- * Applying rules for SCPR tests
+ * Applying Shopping Cart Price Rules tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -130,9 +130,9 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * <p>Create Shopping cart price rule</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for SCPR (Type of discount is provided via data provider);
+     * <p>2. Fill form for Shopping Cart Price Rules (Type of discount is provided via data provider);
      * Select specific category in conditions; Add coupon that should be applied;</p>
-     * <p>3. Save newly created SCPR;</p>
+     * <p>3. Save newly created Shopping Cart Price Rules;</p>
      * <p>4. Navigate to frontend;</p>
      * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
      * <p>6. Apply coupon for the shopping cart;</p>
@@ -178,7 +178,7 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Data Provider for SCPR
+     * Data Provider for Shopping Cart Price Rules
      * @return array
      */
     public function createSCPRDataProvider()

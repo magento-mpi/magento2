@@ -477,8 +477,8 @@ config_option_bundle:
         field_multiselect: %noValue%
     option_2:
         title: Drop-down
-        field_dropdow: %noValue%
-        field_dropdow_qty:
+        field_dropdown: %noValue%
+        field_dropdown_qty:
             fieldType: field
             fieldParameter: 'Qty:'
             fieldsValue: 2

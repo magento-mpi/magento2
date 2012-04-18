@@ -25,7 +25,8 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#It was created for version CE 1.5.0.0. Operability fot other versions is not guaranteed.  Theme change can also influence accuracy of UImap forms
+#It was created for version CE 1.5.0.0. Observability fot other versions is not guaranteed.
+#Theme change can also influence accuracy of UIMap forms
 
 # 'Create an Account' page
 register_account:

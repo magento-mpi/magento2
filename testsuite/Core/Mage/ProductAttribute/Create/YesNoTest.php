@@ -270,7 +270,7 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code' => $attrData['attribute_code'],
-                    'attribute_lable' => '%noValue%'
+                    'attribute_label' => '%noValue%'
                 )
         );
         //Steps

@@ -127,7 +127,7 @@ search_cms_page:
     filter_title: %noValue%
     filter_url_key: %noValue%
     filter_layout: %noValue%
-    filter_store_viev: %noValue%
+    filter_store_view: %noValue%
     filter_status: %noValue%
     filter_created_from: %noValue%
     filter_created_to: %noValue%

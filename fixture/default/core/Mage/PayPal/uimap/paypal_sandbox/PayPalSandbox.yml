@@ -39,7 +39,7 @@ paypal_sandbox:
                             login_password: //input[@id='login_password']
                         buttons:
                             button_login: //input[@value='Log In']
-                            button_iagree: //input[@value='I Agree']
+                            button_agree: //input[@value='I Agree']
                             button_continue: //input[@id='continue']
                             button_logout: //a[text()='Log Out']
                 -

@@ -414,7 +414,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             foreach ($productData[$userFieldData] as $fieldType => $dataArray) {
                 if (is_array($dataArray)) {
                     foreach ($dataArray as $fieldKey => $fieldValue) {
-                        $this->addParameter('attibuteCode' . ucfirst(strtolower($fieldType)), $fieldKey);
+                        $this->addParameter('attributeCode' . ucfirst(strtolower($fieldType)), $fieldKey);
                         $xpath = $this->_getControlXpath($fieldType, $tabName . '_user_attr_' . $fieldType);
                         switch ($fieldType) {
                             case 'dropdown':
@@ -1014,7 +1014,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
         if ($longDescription) {
             $this->addParameter('longDescription', $longDescription);
-            $xpathArray['Description'] = $this->_getControlXpath('pageelement', 'descriprion');
+            $xpathArray['Description'] = $this->_getControlXpath('pageelement', 'description');
         }
         $avail = ($avail == 'In Stock') ? 'In stock' : 'Out of stock';
         if ($avail == 'Out of stock') {

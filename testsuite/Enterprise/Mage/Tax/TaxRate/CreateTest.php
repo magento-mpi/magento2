@@ -298,7 +298,7 @@ class Enterprise_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating a new Tax Rate with custom store view titles.</p>
      * <p>Preconditions:</p>
-     * <p>1. Ceate a new store view</p>
+     * <p>1. Create a new store view</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tax Rate"</p>
      * <p>2. Fill in the fields, select title for the default and created store views</p>

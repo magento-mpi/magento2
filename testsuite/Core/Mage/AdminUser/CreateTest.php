@@ -150,11 +150,11 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Admin User with one empty reqired field.</p>
+     * <p>Create Admin User with one empty required field.</p>
      * <p>Steps:</p>
      * <p>1.Go to System-Permissions-Users.</p>
      * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill fields exept one required.</p>
+     * <p>3.Fill fields except one required.</p>
      * <p>4.Press "Save User" button.</p>
      * <p>Expected result:</p>
      * <p>New user is not saved.</p>
@@ -194,11 +194,11 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Admin User (all required fields are filled by special chracters).</p>
+     * <p>Create Admin User (all required fields are filled by special characters).</p>
      * <p>Steps:</p>
      * <p>1.Press "Add New User" button.</p>
-     * <p>2.Fill in all required fields by special chracters
-     * (exept 'email', 'password' and 'password_confirmation' fields).</p>
+     * <p>2.Fill in all required fields by special characters
+     * (except 'email', 'password' and 'password_confirmation' fields).</p>
      * <p>3.Fill in 'email', 'password' and 'password_confirmation' fields by valid data.</p>
      * <p>4.Press "Save User" button.</p>
      * <p>Expected result:</p>
@@ -209,7 +209,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3146
      */
-    public function withSpecialCharactersExeptEmail()
+    public function withSpecialCharactersExceptEmail()
     {
         //Data
         $specialCharacters = array(
@@ -307,8 +307,8 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
                     'password_confirmation' => '1234567890',
                 ), 'invalid_password'),
             array(array(
-                    'password' => 'qwertyqw',
-                    'password_confirmation' => 'qwertyqw',
+                    'password' => 'testText',
+                    'password_confirmation' => 'testText',
                 ), 'invalid_password'),
             array(array(
                     'password' => '123qwe',
@@ -383,7 +383,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name'));
+                array('this_account_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

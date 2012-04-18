@@ -174,7 +174,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
-        $this->assertMessagePresent('validation', 'dublicate_poll_answer');
+        $this->assertMessagePresent('validation', 'duplicate_poll_answer');
     }
 
     /**
@@ -191,7 +191,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * @depends createNew
      * @TestlinkId	TL-MAGE-3216
      */
-    public function closedIsNotDispalyed()
+    public function closedIsNotDisplayed()
     {
         //Data
         $pollData = $this->loadData('poll_open');

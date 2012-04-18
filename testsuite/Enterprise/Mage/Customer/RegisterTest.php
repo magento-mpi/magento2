@@ -45,11 +45,11 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration.  Filling in only required fields</p>
+     * <p>Customer registration.  Filling in only required fields</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
-     * <p>3. Fill in reqired fields.</p>
+     * <p>3. Fill in required fields.</p>
      * <p>4. Click 'Submit' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is registered.</p>
@@ -73,7 +73,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration.  Use email that already exist.</p>
+     * <p>Customer registration.  Use email that already exist.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
@@ -99,11 +99,11 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration. Fill in only reqired fields. Use max long values for fields.</p>
+     * <p>Customer registration. Fill in only required fields. Use max long values for fields.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
-     * <p>3. Fill in reqired fields by long value alpha-numeric data.</p>
+     * <p>3. Fill in required fields by long value alpha-numeric data.</p>
      * <p>4. Click 'Submit' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is registered. Success Message is displayed.</p>
@@ -135,11 +135,11 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration with empty reqired field.</p>
+     * <p>Customer registration with empty required field.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
-     * <p>3. Fill in fields exept one required.</p>
+     * <p>3. Fill in fields except one required.</p>
      * <p>4. Click 'Submit' button</p>
      * <p>Expected result:</p>
      * <p>Customer is not registered.</p>
@@ -178,11 +178,11 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration. Fill in all reqired fields by using special characters(except the field "email").</p>
+     * <p>Customer registration. Fill in all required fields by using special characters(except the field "email").</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
-     * <p>3. Fill in reqired fields.</p>
+     * <p>3. Fill in required fields.</p>
      * <p>4. Click 'Submit' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is registered.</p>
@@ -209,7 +209,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration. Fill in only reqired fields. Use value that is greater than the allowable.</p>
+     * <p> Customer registration. Fill in only required fields. Use value that is greater than the allowable.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
@@ -250,7 +250,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration. Fill in only reqired fields. Use value that is greater than the allowable.</p>
+     * <p> Customer registration. Fill in only required fields. Use value that is greater than the allowable.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
@@ -277,7 +277,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration with invalid value for 'Email' field</p>
+     * <p> Customer registration with invalid value for 'Email' field</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
@@ -315,7 +315,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Сustomer registration with invalid value for 'Password' fields</p>
+     * <p> Customer registration with invalid value for 'Password' fields</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>

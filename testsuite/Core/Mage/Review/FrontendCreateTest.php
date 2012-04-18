@@ -35,7 +35,7 @@
  */
 class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
-    protected $_usertearDown = false;
+    protected $_useTearDown = false;
 
     protected function assertPreConditions()
     {
@@ -44,7 +44,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        if ($this->_usertearDown) {
+        if ($this->_useTearDown) {
             $this->frontend();
             $this->selectFrontStoreView();
         }
@@ -161,7 +161,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function addReviewByGuestWithRating($data)
     {
         //Data
-        $this->_usertearDown = true;
+        $this->_useTearDown = true;
         $reviewData = $this->loadData('review_with_rating', $data['withRating']);
         $searchData = $this->loadData('search_review_guest',
                 array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));

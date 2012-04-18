@@ -280,7 +280,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checks if the customer submmitted the tag.
+     * Checks if the customer submitted the tag.
      * Returns true if submitted, or False otherwise.
      *
      * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag

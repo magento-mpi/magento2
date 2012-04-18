@@ -253,7 +253,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
+            array('g3648GJTest'),
             array('-128')
         );
     }

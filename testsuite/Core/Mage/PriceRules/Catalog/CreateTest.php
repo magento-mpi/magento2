@@ -148,7 +148,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
+            array('g3648GJTest'),
             array('-128')
         );
     }

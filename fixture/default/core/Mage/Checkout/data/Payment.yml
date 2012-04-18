@@ -143,7 +143,6 @@ saved_other:
 else_american_express:
     card_type: 'American Express'
     card_number: '371449635398431'
-    #card_number: '341111111111111' #not work with payfloPro without3D
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '1234'
@@ -158,7 +157,6 @@ else_american_express_direct:
 else_visa: &visaElse
     card_type: 'Visa'
     card_number: '4000000000000002'
-    #card_number: '4832011527418035' #not work with payfloPro without3D
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '111'
@@ -180,7 +178,6 @@ else_mastercard: &mastercardElse
 else_discover:
     card_type: 'Discover'
     card_number: '6011000990139424'
-    #card_number: '6011000000000004' #not work with payfloPro without3D
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '111'
@@ -202,14 +199,12 @@ else_other:
 else_jcb: &jcbElse
     card_type: 'JCB'
     card_number: '3566002020360505'
-    #card_number: '3000000000000004'
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '1234'
 
 else_jcb_3d:
     card_type: 'JCB'
-    #card_number: '3000000000000004' is not working even according to 3D secure checklist
     card_number: '3566002020360505'
     expiration_month: '01 - January'
     expiration_year: '2013'
@@ -228,7 +223,6 @@ else_solo:
 else_switch_maestro:
     card_type: 'Switch/Maestro'
     card_number: '6759343422308233'
-    #card_number: '4024007127653'
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '111'

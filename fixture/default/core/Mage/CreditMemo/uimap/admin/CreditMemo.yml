@@ -25,7 +25,7 @@
 #
 ---
 # Sales Credit Memos page
-manage_sales_creditmemos:
+manage_sales_credit_memos:
     mca: sales_creditmemo/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_creditmemo/')]
     title: Credit Memos / Sales / Magento Admin

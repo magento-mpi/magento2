@@ -229,17 +229,17 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         $nickname = (isset($verifyData['nickname'])) ? $verifyData['nickname'] : '';
         $summary = (isset($verifyData['summary_of_review'])) ? $verifyData['summary_of_review'] : '';
         $rating = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
-        $ratinNames = array();
+        $ratingNames = array();
         $actualRatings = array();
         foreach ($rating as $key => $value) {
-            $ratinNames[] = $value['rating_name'];
+            $ratingNames[] = $value['rating_name'];
         }
         if ($this->controlIsPresent('link', 'reviews')) {
             //Open reviews
             $this->defineCorrectParam('reviews');
             $this->clickControl('link', 'reviews');
             $this->addParameter('reviewerName', $nickname);
-            if (!$this->controlIsPresent('pageelement', 'review_reviwer_name')) {
+            if (!$this->controlIsPresent('pageelement', 'review_reviewer_name')) {
                 $this->fail('Customer with nickname \'' . $nickname . '\' does not added approved review');
             }
             //Define actual review summary
@@ -263,7 +263,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
                     'Review Summary is not equal to specified: (' . $summary . ' != ' . $actualSummary . ')');
             $this->assertEquals($review, $actualReview,
                     'Review Text is not equal to specified: (' . $review . ' != ' . $actualReview . ')');
-            $this->assertEquals($ratinNames, $actualRatings, 'Review Rating names is not equal to specified');
+            $this->assertEquals($ratingNames, $actualRatings, 'Review Rating names is not equal to specified');
             //Verification on Review Details page
             $this->clickControl('link', 'review_summary');
             $this->verifyTextPresent($productName,

@@ -63,7 +63,7 @@ product_review:
                 -
                     customer_reviews:
                         pageelements:
-                            review_reviwer_name: //dt[contains(.,'%reviewerName%')]
+                            review_reviewer_name: //dt[contains(.,'%reviewerName%')]
                             review_details: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]
                             review_post_date: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/p[2]
                         links:

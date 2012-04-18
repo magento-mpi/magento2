@@ -42,7 +42,7 @@ generic_admin_user:
     email: johndoe@unknown-domain.com
     password: 123123q
     password_confirmation: 123123q
-    this_acount_is: %noValue%
+    this_account_is: %noValue%
     #user_role:
     role_name: %noValue%
 

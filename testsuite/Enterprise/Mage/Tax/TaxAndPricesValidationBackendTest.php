@@ -191,7 +191,7 @@ class Enterprise_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Seleniu
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCrOnInv, $totAftInvCrOnInv);
         //Verify prices after creating Refund on Refund page
-        $this->navigate('manage_sales_creditmemos');
+        $this->navigate('manage_sales_credit_memos');
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCrOnRef, $totAftRefCrOnRef);
     }

@@ -436,7 +436,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
      * <p>3. Click "Continue" button;</p>
      * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;</p>
+     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with incorrect data;</p>
      * <p>6. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
@@ -473,7 +473,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
+            array('g3648GJTest'),
             array('-128')
         );
     }

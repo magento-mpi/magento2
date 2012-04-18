@@ -192,7 +192,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                                    array('this_acount_is' => 'Inactive',
+                                    array('this_account_is' => 'Inactive',
                                          'role_name'       => 'Administrators'), array('email', 'user_name'));
         $loginData = array('user_name' => $userData['user_name'],
                            'password'  => $userData['password']);

@@ -101,7 +101,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                 break;
             }
         }
-        //Steps. Сlick 'Create New Attribute' button, select opened window.
+        //Steps. Click 'Create New Attribute' button, select opened window.
         $this->clickButton('create_new_attribute', false);
         $names = $this->getAllWindowNames();
         $this->waitForPopUp(end($names), '30000');

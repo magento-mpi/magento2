@@ -432,7 +432,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            //$this->waitForFrameToLoad('https://testcustomer34.cardinalcommerce.com');
             if (!$this->isVisible($frame)) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }

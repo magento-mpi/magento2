@@ -79,7 +79,7 @@ new_admin_user:
                                 account_information:
                                     xpath: //div[@id='user_base_fieldset']
                                     dropdowns:
-                                        this_acount_is: //select[@id='user_is_active']
+                                        this_account_is: //select[@id='user_is_active']
                                     fields:
                                         user_name: //input[@id='user_username']
                                         first_name: //input[@id='user_firstname']

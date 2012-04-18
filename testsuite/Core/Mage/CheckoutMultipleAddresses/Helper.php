@@ -201,7 +201,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $filledProducts[$productName] = 1;
         }
         $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
-        //Add address if not exsist
+        //Add address if not exist
         $fillData = array();
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();

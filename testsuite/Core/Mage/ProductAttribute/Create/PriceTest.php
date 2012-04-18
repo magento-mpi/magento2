@@ -210,7 +210,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for notvalid data in the 'Position' field</p>
+     * <p>Checking validation for not valid data in the 'Position' field</p>
      * <p>Steps:</p>
      * <p>1.Click on "Add New Attribute" button.</p>
      * <p>2.Choose "Price" in 'Catalog Input Type for Store Owner' dropdown.</p>
@@ -314,7 +314,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title']
+                    'attribute_label' => $attrData['admin_title']
                 )
         );
         //Steps

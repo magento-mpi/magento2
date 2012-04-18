@@ -75,9 +75,9 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     public function openStaticBlock(array $searchData)
     {
         $searchData = $this->arrayEmptyClear($searchData);
-        if (array_key_exists('filter_store_viev', $searchData)
-                && !$this->controlIsPresent('dropdown', 'filter_store_viev')) {
-            unset($searchData['filter_store_viev']);
+        if (array_key_exists('filter_store_view', $searchData)
+                && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
+            unset($searchData['filter_store_view']);
         }
         $xpathTR = $this->search($searchData, 'static_blocks_grid');
         $this->assertNotEquals(null, $xpathTR, 'Static Block is not found');

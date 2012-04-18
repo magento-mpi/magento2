@@ -111,7 +111,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code'  => 'description',
-                    'attribute_lable' => 'Description',
+                    'attribute_label' => 'Description',
                     'system'          => 'Yes'
                 ));
         //Steps
@@ -139,7 +139,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title']
+                    'attribute_label' => $attrData['admin_title']
                 ));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
