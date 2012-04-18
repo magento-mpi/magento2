@@ -61,11 +61,11 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         if (is_string($ruleData)) {
             $ruleData = $this->loadData($ruleData);
         }
-        $ruleData       = $this->arrayEmptyClear($ruleData);
-        $ruleInfo       = (isset($ruleData['info'])) ? $ruleData['info'] : array();
+        $ruleData = $this->arrayEmptyClear($ruleData);
+        $ruleInfo = (isset($ruleData['info'])) ? $ruleData['info'] : array();
         $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleActions    = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleLabels     = (isset($ruleData['labels'])) ? $ruleData['labels'] : null;
+        $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
+        $ruleLabels = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
@@ -112,13 +112,13 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     public function fillLabelsTab(array $labelsData)
     {
         $this->openTab('rule_labels');
-        $storViewlabels = array();
+        $storeViewLabels = array();
         if (array_key_exists('store_view_labels', $labelsData)) {
-            $storViewlabels = $labelsData['store_view_labels'];
+            $storeViewLabels = $labelsData['store_view_labels'];
             unset($labelsData['store_view_labels']);
         }
         $this->fillForm($labelsData, 'rule_labels');
-        foreach ($storViewlabels as $key => $value) {
+        foreach ($storeViewLabels as $key => $value) {
             $this->addParameter('storeViewName', $key);
             $this->fillForm(array('store_view_rule_label' => $value), 'rule_labels');
         }
@@ -150,7 +150,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             $this->fillConditionFields($fillArray, $tabId, $isNested);
         }
 
-        foreach ($conditionsData as $key => $value) {
+        foreach ($conditionsData as $value) {
             if (is_array($value)) {
                 $this->addConditions($value, $tabId);
             }
@@ -193,7 +193,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     public function fillConditionFields(array $data, $tabId = '', $isNested = false)
     {
         if ($isNested) {
-            self::$qtyOptionsNesting +=1;
+            self::$qtyOptionsNesting += 1;
         }
         $type = preg_replace('/(^rule_)|(s$)/', '', $tabId);
         $this->setConditionsParams($type);
@@ -241,8 +241,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $errorMessage = isset($formFieldName)
-                    ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
-                    : $e->getMessage();
+                ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+                : $e->getMessage();
             $this->fail($errorMessage);
         }
     }
@@ -256,8 +256,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     {
         $ruleSearch = $this->arrayEmptyClear($ruleSearch);
         $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotNull($xpathTR, 'Rule with next search criteria:' . "\n" .
-                implode(' and ', $ruleSearch) . "\n" . 'is not found');
+        $this->assertNotNull($xpathTR, 'Rule with next search criteria:' . "\n"
+            . implode(' and ', $ruleSearch) . "\n" . 'is not found');
         $cellId = $this->getColumnIdByName('Rule Name');
         $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
@@ -278,6 +278,22 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Delete all rules
+     */
+    public function deleteAllRules()
+    {
+        $message = $this->_getMessageXpath('no_price_rules');
+        $cellId = $this->getColumnIdByName('Rule Name');
+        $xpath = $this->_getControlXpath('pageelement', 'price_rule');
+        while (!$this->isElementPresent($message)) {
+            $this->addParameter('elementTitle', $this->getText($xpath . '//td[' . $cellId . ']'));
+            $this->addParameter('id', $this->defineIdFromTitle($xpath));
+            $this->clickControl('pageelement', 'price_rule');
+            $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
+        }
+    }
+
+    /**
      * Verify Rule Data
      *
      * @param array|string $ruleData
@@ -290,7 +306,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         $ruleData = $this->arrayEmptyClear($ruleData);
         $simpleVerify = array();
         $specialVerify = array();
-        foreach ($ruleData as $tabName => $tabData) {
+        foreach ($ruleData as $tabData) {
             if (is_array($tabData)) {
                 foreach ($tabData as $fieldKey => $fieldValue) {
                     if (is_array($fieldValue)) {
@@ -329,6 +345,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             $this->fillForm(array('status' => 'Inactive'), 'rule_information');
             $this->saveForm('save_rule');
         }
+        return true;
     }
 
     /**

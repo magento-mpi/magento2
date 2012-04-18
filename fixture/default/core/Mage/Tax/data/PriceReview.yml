@@ -7731,30 +7731,6 @@ total_cat_in_ship_in_front_prices_on_order_details:
         tax: $46.47
         grand_total_incl_tax: $609.77
 
-###################################################################
-#       Simple Product Data for Catalog Price Rule verification   #
-###################################################################
-
-simple_product_for_price_rules_validation_front:
-    product_attribute_set: Default
-    general_name: Simple Product For Price Rule Validation(%randomize%)
-    general_description: Description for Simple Product For Price Rule Validation
-    general_short_description: Short Description for Simple Product For Price Rule Validation
-    general_sku: simple_sku_price_rule_validation_%randomize%
-    general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 120
-    prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 1
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-
 #############################################################
 #         By Percentage of the Original Price               #
 #############################################################
@@ -7763,23 +7739,23 @@ by_percentage_of_the_original_price_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $120.00
-        price_special: $108.00
+        price_old: $12.99
+        price_special: $11.69
 
 by_percentage_of_the_original_price_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $120.00
+        price_regular: $12.99
 
 by_percentage_of_the_original_price_simple_product_not_logged:
     qty: 1
-    price_old: $120.00
-    price_special: $108.00
+    price_old: $12.99
+    price_special: $11.69
 
 by_percentage_of_the_original_price_simple_product_logged:
     qty: 1
-    price_regular: $120.00
+    price_regular: $12.99
 
 #########################################
 #         By Fixed Amount               #
@@ -7789,23 +7765,23 @@ by_fixed_amount_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $120.00
-        price_special: $110.00
+        price_old: $12.99
+        price_special: $2.99
 
 by_fixed_amount_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $120.00
+        price_regular: $12.99
 
 by_fixed_amount_simple_product_not_logged:
     qty: 1
-    price_old: $120.00
-    price_special: $110.00
+    price_old: $12.99
+    price_special: $2.99
 
 by_fixed_amount_simple_product_logged:
     qty: 1
-    price_regular: $120.00
+    price_regular: $12.99
 
 #############################################################
 #         To Percentage of the Original Price               #
@@ -7815,23 +7791,23 @@ to_percentage_of_the_original_price_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $120.00
-        price_special: $12.00
+        price_old: $12.99
+        price_special: $1.30
 
 to_percentage_of_the_original_price_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $120.00
+        price_regular: $12.99
 
 to_percentage_of_the_original_price_simple_product_not_logged:
     qty: 1
-    price_old: $120.00
-    price_special: $12.00
+    price_old: $12.99
+    price_special: $1.30
 
 to_percentage_of_the_original_price_simple_product_logged:
     qty: 1
-    price_regular: $120.00
+    price_regular: $12.99
 
 #########################################
 #         To Fixed Amount               #
@@ -7841,20 +7817,20 @@ to_fixed_amount_simple_not_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_old: $120.00
+        price_old: $12.99
         price_special: $10.00
 
 to_fixed_amount_simple_logged_category:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $120.00
+        price_regular: $12.99
 
 to_fixed_amount_simple_product_not_logged:
     qty: 1
-    price_old: $120.00
+    price_old: $12.99
     price_special: $10.00
 
 to_fixed_amount_simple_product_logged:
     qty: 1
-    price_regular: $120.00
+    price_regular: $12.99

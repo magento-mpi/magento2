@@ -40,6 +40,14 @@ search_catalog_rule:
     filter_date_expire_to: %noValue%
     filter_status: %noValue%
 
+condition:
+    select_conditions_aggregator: ANY
+    select_conditions_value: 'TRUE'
+    sub_condition:
+        select_condition_new_child: Category
+        select_condition_operator: is
+        category: Default Category
+
 test_catalog_rule:
     info:
         rule_name: test_catalog_rule_%randomize%
