@@ -39,10 +39,15 @@ product_page:
                     product_info:
                         buttons:
                             customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                        pageelements:
+                            qty: /..//input[@class='input-text qty'][@value='%price%']
                 -
                     add_tag:
                         buttons:
                             add_tags: //button[//span='Add Tags']
+                -
+                    details:
+                        xpath: //div[dl/dt/span='Details']
 
 product_review:
     uimap:
