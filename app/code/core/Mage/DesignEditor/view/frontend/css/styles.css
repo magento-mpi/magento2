@@ -211,9 +211,6 @@
     display:block;
     text-decoration:none;
 }
-#visual_design_editor_skin a:hover {
-    text-decoration:underline;
-}
 .ui-sortable-helper {
     opacity: 0.9;
 }
