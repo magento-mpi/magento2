@@ -24,16 +24,6 @@ class Mage_Admin_Helper_Data extends Mage_Core_Helper_Abstract
         = 'default/admin/emails/password_reset_link_expiration_period';
 
     /**
-     * Generate unique token for reset password confirmation link
-     *
-     * @return string
-     */
-    public function generateResetPasswordLinkToken()
-    {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
-    }
-
-    /**
      * Retrieve customer reset password link expiration period in days
      *
      * @return int

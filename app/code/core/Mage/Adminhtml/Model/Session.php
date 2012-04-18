@@ -8,15 +8,16 @@
  * @license     {license_link}
  */
 
+
 /**
- * Adminhtml base helper
+ * Auth session model
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Backend
  */
-class Mage_Adminhtml_Helper_Data extends Mage_Backend_Helper_Data
+class Mage_Adminhtml_Model_Session extends Mage_Backend_Model_Session
 {
 
 }
