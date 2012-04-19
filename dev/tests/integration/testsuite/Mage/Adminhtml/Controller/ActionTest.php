@@ -37,6 +37,6 @@ class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('adminhtml', $this->_model->getUsedModuleName());
         $this->_model->setUsedModuleName('dummy');
-        $this->assertEquals('dummy',$this->_model->getUsedModuleName());
+        $this->assertEquals('dummy', $this->_model->getUsedModuleName());
     }
 }

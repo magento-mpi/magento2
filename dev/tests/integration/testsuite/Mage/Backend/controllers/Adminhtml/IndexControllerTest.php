@@ -119,11 +119,27 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
 
     /**
      * @covers Mage_Backend_Adminhtml_IndexController::resetPasswordAction
+     * @covers Mage_Backend_Adminhtml_IndexController::_validateResetPasswordLinkToken
      */
     public function testResetPasswordAction()
     {
-//        $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
-//        $this->dispatch('admin/index/resetPassword');
-//        $this->assertRedirect();
+        $this->_login();
+        $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
+        $this->dispatch('admin/index/resetPassword');
+        $this->assertRedirect();
+        $this->_logout();
+    }
+
+    /**
+     * @covers Mage_Backend_Adminhtml_IndexController::resetPasswordPostAction
+     * @covers Mage_Backend_Adminhtml_IndexController::_validateResetPasswordLinkToken
+     */
+    public function testResetPasswordPostAction()
+    {
+        $this->_login();
+        $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
+        $this->dispatch('admin/index/resetPasswordPost');
+        $this->assertRedirect();
+        $this->_logout();
     }
 }
