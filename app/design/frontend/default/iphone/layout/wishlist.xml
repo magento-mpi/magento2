@@ -78,11 +78,11 @@ Wishlist pages
                         </action>
                     </block>
                 </block>
-                <block type="core/text_list" name="customer.wishlist.buttons" as="control_buttons">
+                <container name="customer.wishlist.buttons" as="control_buttons" label="Customer Wishlist Buttons">
                     <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.share" template="wishlist/button/share.phtml" />
                     <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.toCart" template="wishlist/button/tocart.phtml" />
                     <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.update" template="wishlist/button/update.phtml" />
-                </block>
+                </container>
             </block>
         </reference>
         <reference name="right">

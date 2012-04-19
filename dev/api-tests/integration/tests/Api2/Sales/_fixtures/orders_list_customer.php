@@ -13,7 +13,7 @@ define('COUNT_CUSTOMER_ORDERS_LIST', 2);
 define('COUNT_NOT_CUSTOMER_ORDERS_LIST', 2);
 
 /* @var $customerModel Mage_Customer_Model_Customer */
-$customerModel = Mage::getModel('customer/customer');
+$customerModel = Mage::getModel('Mage_Customer_Model_Customer');
 $customerModel->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 $customerId = $customerModel->getId();
 

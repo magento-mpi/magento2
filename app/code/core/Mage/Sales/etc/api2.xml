@@ -148,7 +148,7 @@
             <order_item translate="title" module="Mage_Api2">
                 <group>sales_order</group>
                 <sort_order>30</sort_order>
-                <model>Mage_Sales_Model_Api2_Order_Items</model>
+                <model>Mage_Sales_Model_Api2_Order_Item</model>
                 <working_model>Mage_Sales_Model_Order_Item</working_model>
                 <title>Order Items</title>
                 <privileges>
@@ -257,7 +257,7 @@
             <order_comment translate="title" module="Mage_Api2">
                 <group>sales_order</group>
                 <sort_order>60</sort_order>
-                <model>Mage_Sales_Model_Api2_Order_Comments</model>
+                <model>Mage_Sales_Model_Api2_Order_Comment</model>
                 <working_model>Mage_Sales_Model_Order_Status_History</working_model>
                 <title>Order Comments</title>
                 <privileges>

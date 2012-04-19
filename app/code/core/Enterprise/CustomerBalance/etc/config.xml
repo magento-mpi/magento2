@@ -287,7 +287,7 @@
             <sales_prepare_amount_expression>
                 <observers>
                     <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                        <class>Enterprise_CustomerBalance_Model_Observer</class>
                         <method>extendSalesAmountExpression</method>
                     </enterprise_customerbalance>
                 </observers>

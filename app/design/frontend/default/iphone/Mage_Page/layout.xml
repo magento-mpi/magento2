@@ -86,13 +86,11 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/js.js</script></action>
 
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
-                <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
+                <action method="addCss"><file>css/styles-ie.css</file><params/><if>lt IE 8</if></action>
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
 
-            <block type="Mage_Core_Block_Text_List" name="content" as="content" translate="label">
-                <label>Main Content Area (Print Version)</label>
-            </block>
+            <container name="content" as="content" label="Main Content Area (Print Version)"/>
 
         </block>
     </print>

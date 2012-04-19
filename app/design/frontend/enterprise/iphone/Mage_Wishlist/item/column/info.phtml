@@ -12,9 +12,9 @@
 $item = $this->getItem();
 $product = $item->getProduct();
 ?>
-<?php if($this->getSortedChildren()): ?>
+<?php if($this->getChildNames()): ?>
     <div class="item-manage">
-    <?php foreach($this->getSortedChildren() as $childName):?>
+    <?php foreach($this->getChildNames() as $childName):?>
         <?php echo $this->getChildHtml($childName, false);?>
     <?php endforeach;?>
     </div>

@@ -24,12 +24,12 @@
     <not_a_page_type translate="label">
         <label>Handle that Is Not a Page Type</label>
     </not_a_page_type>
-    <catalog_category_layered type="page" parent="catalog_category_default">
+    <catalog_category_view_type_layered type="page" parent="catalog_category_default">
         <label>Catalog Category (Anchor)</label>
-    </catalog_category_layered>
-    <catalog_category_default type="page" parent="default">
+    </catalog_category_view_type_layered>
+    <catalog_category_view type="page" parent="default">
         <label>Catalog Category (Non-Anchor)</label>
-    </catalog_category_default>
+    </catalog_category_view>
     <default type="page">
         <label>All Pages</label>
         <container name="content" as="content" label="Main Content Area"/>

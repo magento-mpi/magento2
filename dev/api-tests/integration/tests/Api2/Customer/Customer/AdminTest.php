@@ -173,7 +173,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
 
         /** @var $model Mage_Customer_Model_Customer */
-        $model = Mage::getModel('customer/customer');
+        $model = Mage::getModel('Mage_Customer_Model_Customer');
 
         // Reload customer
         $model->load($this->_customer->getId());
@@ -321,7 +321,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
 
         /** @var $model Mage_Customer_Model_Customer */
-        $model = Mage::getModel('customer/customer')->load($this->_customer->getId());
+        $model = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_customer->getId());
         $this->assertEmpty($model->getId());
     }
 

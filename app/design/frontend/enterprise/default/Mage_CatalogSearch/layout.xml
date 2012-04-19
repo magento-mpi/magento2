@@ -57,7 +57,7 @@
 
     <catalogsearch_advanced_index translate="label" module="Mage_CatalogSearch" type="page" parent="default">
         <label>Advanced Search Form</label>
-        <!-- Mage_Catalogsearch -->
+        <!-- Mage_CatalogSearch -->
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>

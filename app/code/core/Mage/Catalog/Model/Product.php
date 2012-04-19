@@ -1276,7 +1276,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getIsSalable()
     {
-        $productType = $this->getTypeInstance(true);
+        $productType = $this->getTypeInstance();
         if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }

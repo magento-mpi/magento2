@@ -53,7 +53,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     {
         parent::setUpBeforeClass();
 
-        self::$_currentCustomer = Mage::getModel('customer/customer')
+        self::$_currentCustomer = Mage::getModel('Mage_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
         // backup default addresses

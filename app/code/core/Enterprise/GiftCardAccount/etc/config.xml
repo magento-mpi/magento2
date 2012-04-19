@@ -325,7 +325,7 @@
             <sales_prepare_amount_expression>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <class>enterprise_giftcardaccount/observer</class>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
                         <method>extendSalesAmountExpression</method>
                     </enterprise_giftcardaccount>
                 </observers>

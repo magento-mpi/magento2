@@ -394,7 +394,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     {
         if (null === self::$_defaultCustomer) {
             /** @var $user Mage_Customer_Model_Customer */
-            $user = Mage::getModel('customer/customer');
+            $user = Mage::getModel('Mage_Customer_Model_Customer');
             $user->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->authenticate(TESTS_CUSTOMER_EMAIL, TESTS_CUSTOMER_PASSWORD);
             if (!$user->getId()) {

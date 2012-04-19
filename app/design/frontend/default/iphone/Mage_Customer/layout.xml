@@ -40,33 +40,6 @@ Default layout, loads most of the pages
         </reference>
     </default>
 
-<!--
-Load this update on every page when customer is logged in
--->
-
-    <customer_logged_in>
-        <reference name="account.links">
-            <action method="addLink" translate="label title" module="Mage_Customer"><label>Log Out</label><url helper="Mage_Customer_Helper_Data::getLogoutUrl"/><title>Log Out</title><prepare/><urlParams/><position>2</position></action>
-            <action method="removeLinkByUrl"><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /></action>
-        </reference>
-    </customer_logged_in>
-
-<!--
-Load this update on every page when customer is logged out
--->
-
-    <customer_logged_out>
-        <reference name="account.links">
-            <action method="addLink" translate="label title" module="Mage_Customer"><label>Log In</label><url helper="Mage_Customer_Helper_Data::getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>1</position></action>
-            <action method="removeLinkByUrl" ifconfig="enterprise_invitation/general/registration_required_invitation"><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /></action>
-        </reference>
-        <remove name="reorder"></remove>
-    </customer_logged_out>
-
-<!--
-Layout for customer login page
--->
-
     <customer_account_login translate="label" type="page" parent="customer_account">
         <label>Customer Account Login Form</label>
         <!-- Mage_Customer -->

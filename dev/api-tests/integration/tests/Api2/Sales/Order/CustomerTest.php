@@ -104,7 +104,7 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     public function testGetOrders()
     {
         /* @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));

@@ -12,7 +12,7 @@
 /* @var Mage_Wishlist_Model_Item $item */
 $item = $this->getItem();
 $product = $item->getProduct();
-$options = $this->getChild('customer.wishlist.item.options')
+$options = $this->getChildBlock('customer.wishlist.item.options')
     ->setItem($item)
     ->getConfiguredOptions();
 ?>

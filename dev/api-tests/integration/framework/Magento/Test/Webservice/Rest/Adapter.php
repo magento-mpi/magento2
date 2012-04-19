@@ -105,7 +105,7 @@ class Magento_Test_Webservice_Rest_Adapter
         if ($userType == 'customer') {
             $website = Mage::app()->getWebsite();
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')
                 ->setWebsiteId($website->getId())
                 ->loadByEmail(TESTS_CUSTOMER_EMAIL);
             $userId = $customer->getId();

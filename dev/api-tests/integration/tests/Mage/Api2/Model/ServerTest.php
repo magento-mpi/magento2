@@ -93,7 +93,7 @@ class Mage_Api2_Model_ServerTest extends Magento_TestCase
     public static function customerDataFixture()
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setData(array(
             'firstname'    => 'TestFirst',
             'lastname'     => 'TestLast',

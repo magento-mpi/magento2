@@ -37,7 +37,7 @@ class Api2_Catalog_Products_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      */
     public function setUp()
     {
-        $customer = Mage::getModel('customer/customer');
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
         $this->_customerDefaultBillingAddress = $customer->getDefaultBillingAddress();

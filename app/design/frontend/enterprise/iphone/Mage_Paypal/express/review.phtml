@@ -9,7 +9,7 @@
  */
 /** @var $this Mage_Paypal_Block_Express_Review */
 
-$billingBlock = $this->getChild('billing')->setFieldNamePrefix('billing')->setHideEmailAddress(true);
+$billingBlock = $this->getChildBlock('billing')->setFieldNamePrefix('billing')->setHideEmailAddress(true);
 $shippingAddress = $this->getShippingAddress();
 ?>
 <div class="page-title">
@@ -53,7 +53,7 @@ $shippingAddress = $this->getShippingAddress();
     <?php if ($shippingAddress): ?>
         <div class="col-2" id="shipping-address">
             <h2 class="legend"><?php echo $this->__('Shipping Address') ?></h2>
-            <?php echo $this->getChild('shipping')->setFieldNamePrefix('shipping')->setHideEmailAddress(true)->toHtml(); ?>
+            <?php echo $this->getChildBlock('shipping')->setFieldNamePrefix('shipping')->setHideEmailAddress(true)->toHtml(); ?>
         </div>
     </div>
 
@@ -64,7 +64,7 @@ $shippingAddress = $this->getShippingAddress();
                     <h3><?php echo $this->__('Shipping Method') ?></h3>
                 </div>
                 <div class="box-content">
-                    <?php echo $this->getChild('shipping_method')->toHtml(); ?>
+                    <?php echo $this->getChildBlock('shipping_method')->toHtml(); ?>
                 </div>
             </div>
         </div>

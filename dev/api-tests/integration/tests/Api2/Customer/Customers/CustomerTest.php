@@ -31,7 +31,7 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
         $counter = 0;
         while ($counter++ < self::CUSTOMER_COLLECTION_COUNT) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer');
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
             $customer->setData($this->_customer)
                 ->setEmail(mt_rand() . 'customer.example.com')
                 ->save();

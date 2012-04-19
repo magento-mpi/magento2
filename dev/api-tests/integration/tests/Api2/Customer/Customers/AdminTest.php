@@ -103,7 +103,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $counter = 0;
         while ($counter++ < self::CUSTOMER_COLLECTION_COUNT) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer');
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
             $customer->setData($this->_customer)
                 ->setEmail(mt_rand() . 'customer.example.com')
                 ->save();
@@ -122,7 +122,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         list($customerId) = array_reverse(explode('/', $response->getHeader('Location')));
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         $this->assertGreaterThan(0, $customer->getId());
 
         $this->addModelToDelete($customer, true);
@@ -146,7 +146,7 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
         list($customerId) = array_reverse(explode('/', $response->getHeader('Location')));
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         $this->assertGreaterThan(0, $customer->getId());
 
         $this->assertEquals($originalFirstname . 'Test', $customer->getFirstname());

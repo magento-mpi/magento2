@@ -98,7 +98,7 @@ class Api2_Catalog_Products_Images_CustomerTest extends Magento_Test_Webservice_
         $ioAdapter->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixture);
         $product->addImageToMediaGallery($fileFixture, null, false, false);
 
-        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+        $attributes = $product->getTypeInstance()->getSetAttributes($product);
         $this->assertTrue(isset($attributes['media_gallery']));
         $gallery = $attributes['media_gallery'];
         /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */

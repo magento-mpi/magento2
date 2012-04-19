@@ -66,7 +66,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = $product->getCollection();
-        Mage::getResourceModel('Cataloginventory_Model_Stock')->addLowStockFilter($collection, array(
+        Mage::getResourceModel('Mage_CatalogInventory_Model_Stock')->addLowStockFilter($collection, array(
             'qty',
             'notify_stock_qty',
             'low_stock_date',
