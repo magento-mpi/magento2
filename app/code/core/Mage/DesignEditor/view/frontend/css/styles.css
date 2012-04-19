@@ -112,7 +112,7 @@
     cursor: default;
 }
 .vde_element_wrapper.vde_container {
-    border: 2px dashed #7bc361;
+    border: 2px solid #7bc361;
 }
 .vde_container > .vde_element_title {
     border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
@@ -127,14 +127,13 @@
     -webkit-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
     -moz-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
 }
-.vde_element_wrapper.vde_container.vde_draggable {
-    border-style: solid;
-}
 .vde_container.vde_container_hover {
     border-color: #006400;
 }
 .vde_container.vde_container_hover > .vde_element_title {
-    background-color: #006400;
+    border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
 }
 .vde_placeholder {
     background-color: #F5F5DC;
