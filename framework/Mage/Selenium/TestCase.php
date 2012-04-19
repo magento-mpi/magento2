@@ -419,9 +419,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->assertEmptyVerificationErrors();
         }
 
-        try {
-            $this->tearDownAfterTest();
-        } catch (Exception $e) {
+        $annotations = $this->getAnnotations();
+        if (!isset($annotations['method']['skipTearDown'])) {
+            try {
+                $this->tearDownAfterTest();
+            } catch (Exception $e) {
+            }
         }
 
         try {
