@@ -1959,7 +1959,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws RuntimeException when an internal CURL error happens
      */
-    public function getHttpResponce($url)
+    public function getHttpResponse($url)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -1983,16 +1983,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return bool True if the responce is 200 or redirects to a such page. False otherwise.
      */
-    public function httpResponceIsOK($url)
+    public function httpResponseIsOK($url)
     {
         $maxRedirections = 100;
-        $responce = null;
+        $response = null;
         do {
-            $responce = $this->getHttpResponce($url);
-            $url = ($responce['http_code'] == 301) ? $responce['redirect_url'] : null;
+            $response = $this->getHttpResponse($url);
+            print_r($response);
+            $url = ($response['http_code'] == 301) ? $response['redirect_url'] : null;
             $maxRedirections--;
         } while ($url && $maxRedirections > 0);
-        return $responce['http_code'] == 200;
+        return $response['http_code'] == 200;
     }
 
     /**
