@@ -20,7 +20,7 @@ Default layout, loads most of the pages
 
         <!-- Mage_Newsletter -->
         <reference name="footer">
-            <block type="newsletter/subscribe" name="footer.newsletter" as="footer.newsletter" template="newsletter/subscribe.phtml"/>
+            <block type="Mage_Newsletter_Block_Subscribe" name="footer.newsletter" as="footer.newsletter" template="newsletter/subscribe.phtml"/>
         </reference>
 
     </default>
@@ -32,7 +32,7 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account>
         <!-- Mage_Newsletter -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="newsletter"><name>newsletter</name><path>newsletter/manage/</path><label>Newsletter Subscriptions</label></action>
+            <action method="addLink" translate="label" module="Mage_Newsletter"><name>newsletter</name><path>newsletter/manage/</path><label>Newsletter Subscriptions</label></action>
         </reference>
     </customer_account>
 
@@ -40,11 +40,8 @@ Customer account pages, rendered for all tabs in dashboard
         <label>Customer My Account Newsletter Subscriptions</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/newsletter" name="customer_newsletter">
-                <block type="page/html_wrapper" name="customer.newsletter.form.before" as="form_before" translate="label">
-                    <label>Newsletter Subscription Form Before</label>
-                    <action method="setMayBeInvisible"><value>1</value></action>
-                </block>
+            <block type="Mage_Customer_Block_Newsletter" name="customer_newsletter">
+                <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before"/>
             </block>
         </reference>
     </newsletter_manage_index>
