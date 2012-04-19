@@ -32,6 +32,41 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @method getAllFieldsets()
+ * @method getAllTabs()
+ * @method getAllMessages()
+ * @method getAllButtons()
+ * @method getAllLinks()
+ * @method getAllDropdowns()
+ * @method getAllFields()
+ * @method getAllMultiselects()
+ * @method getAllCheckboxes()
+ * @method getAllRadiobuttons()
+ * @method getAllPageelements()
+ * @method getFieldsets()
+ * @method getTabs()
+ * @method getMessages()
+ * @method getButtons()
+ * @method getLinks()
+ * @method getDropdowns()
+ * @method getFields()
+ * @method getMultiselects()
+ * @method getCheckboxes()
+ * @method getRadiobuttons()
+ * @method getPageelements()
+ * @method getRequired()
+ * @method Mage_Selenium_Uimap_Fieldset findFieldset()
+ * @method Mage_Selenium_Uimap_Tab findTab()
+ * @method string findMessage()
+ * @method string findButton()
+ * @method string findLink()
+ * @method string findDropdown()
+ * @method string findField()
+ * @method string findMultiselect()
+ * @method string findCheckbox()
+ * @method string findRadiobutton()
+ * @method string findPageelement()
+ *
  */
 class Mage_Selenium_Uimap_Abstract
 {
@@ -125,10 +160,9 @@ class Mage_Selenium_Uimap_Abstract
 
         foreach ($this->_elements as $elem) {
             if ($elem instanceof Mage_Selenium_Uimap_Abstract
-                    || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
-            ) {
+                    || $elem instanceof Mage_Selenium_Uimap_ElementsCollection) {
                 $elem->assignParams($params);
-            } else if ($elem instanceof ArrayObject) {
+            } elseif ($elem instanceof ArrayObject) {
                 foreach ($elem as $arrElem) {
                     if ($arrElem instanceof Mage_Selenium_Uimap_Abstract) {
                         $arrElem->assignParams($params);
@@ -195,7 +229,8 @@ class Mage_Selenium_Uimap_Abstract
                         && $elementsCollectionName == $elKey
                         && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
                     || $elKey == $elementsCollectionName
-                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
+                ) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
                     $this->_getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
@@ -224,10 +259,9 @@ class Mage_Selenium_Uimap_Abstract
         if (empty($this->_elementsCache[$elementsCollectionName])) {
             $cache = array();
             $this->_elementsCache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection(
-                            $elementsCollectionName,
-                            $this->_getElementsRecursive($elementsCollectionName, $this->_elements, $cache,
-                                    $paramsDecorator),
-                            $paramsDecorator);
+                $elementsCollectionName,
+                $this->_getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator),
+                $paramsDecorator);
         }
 
         return $this->_elementsCache[$elementsCollectionName];
@@ -259,7 +293,7 @@ class Mage_Selenium_Uimap_Abstract
             $elementName = strtolower(substr($name, 6));
             if (!empty($elementName)) {
                 $returnValue = $this->getAllElements($elementName,
-                        $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
+                                                     $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         } elseif (preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
@@ -276,11 +310,10 @@ class Mage_Selenium_Uimap_Abstract
             if (!empty($elementName) && !empty($arguments)) {
                 $elementsColl = $this->getAllElements($elementName);
                 $returnValue = $elementsColl->get($arguments[0],
-                        $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
+                                                  $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }
-
-        if(!isset($elementName)) {
+        if (!isset($elementName)) {
             throw new Exception('Element name is undefined.');
         }
 

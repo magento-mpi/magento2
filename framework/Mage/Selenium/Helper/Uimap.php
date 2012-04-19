@@ -218,7 +218,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $pageKey UIMap page key
      * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return mixed
+     * @return Mage_Selenium_Uimap_Page
      * @throws OutOfRangeException
      */
     public function getUimapPage($area, $pageKey, $paramsDecorator = null)

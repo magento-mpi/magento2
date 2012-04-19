@@ -227,7 +227,7 @@ class Mage_Selenium_TestConfiguration
      *
      * @param string $helperName cache|config|data|dataGenerator|file|params|uimap
      *
-     * @return object
+     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config|Mage_Selenium_Helper_Cache
      * @throws OutOfRangeException
      */
     public function getHelper($helperName)
