@@ -383,6 +383,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      * @test
      *
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
     {

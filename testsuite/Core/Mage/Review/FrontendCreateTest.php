@@ -161,7 +161,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->_useTearDown = true;
-        $reviewData = $this->loadDataSet('ReviewAndRating', $data['withRating']);
+        $reviewData = $this->loadDataSet('ReviewAndRating', 'review_with_rating', $data['withRating']);
         $searchData = $this->loadDataSet('ReviewAndRating',
                                          array('filter_nickname'   => $reviewData['nickname'],
                                               'filter_product_sku' => $data['name']));
