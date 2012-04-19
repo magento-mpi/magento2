@@ -29,18 +29,13 @@
 /**
  * Reviews Validation on the frontend
  *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @package selenium
+ * @subpackage tests
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
     protected $_useTearDown = false;
-
-    protected function assertPreConditions()
-    {
-        $this->addParameter('productUrl', '');
-    }
 
     protected function tearDownAfterTest()
     {
@@ -52,16 +47,18 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
+     *
      * @test
      * @return array
      */
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account');
-        $simple = $this->loadData('simple_product_visible');
-        $storeView = $this->loadData('generic_store_view');
-        $rating = $this->loadData('default_rating', array('visible_in' => $storeView['store_view_name']));
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $storeView = $this->loadDataSet('StoreView', 'generic_store_view');
+        $rating = $this->loadDataSet('ReviewAndRating', 'default_rating',
+                                     array('visible_in' => $storeView['store_view_name']));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
@@ -85,12 +82,13 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_rating');
         $this->reindexInvalidedData();
         return array(
-                'login'      => array('email' => $userData['email'], 'password' => $userData['password']),
-                'sku'        => $simple['general_sku'],
-                'name'       => $simple['general_name'],
-                'store'      => $storeView['store_view_name'],
-                'withRating' => array('filter_sku'  => $simple['general_sku'],
-                                      'rating_name' => $rating['default_value']));
+            'login'      => array('email'    => $userData['email'],
+                                  'password' => $userData['password']),
+            'sku'        => $simple['general_sku'],
+            'name'       => $simple['general_name'],
+            'store'      => $storeView['store_view_name'],
+            'withRating' => array('filter_sku'  => $simple['general_sku'],
+                                  'rating_name' => $rating['default_value']));
     }
 
     /**
@@ -109,18 +107,19 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is present into the list and has type - "Guest";</p>
      *
-     * @param $data
+     * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-440
+     * @TestlinkId TL-MAGE-440
      */
     public function addReviewByGuest($data)
     {
         //Data
-        $reviewData = $this->loadData('frontend_review');
-        $searchData = $this->loadData('search_review_guest',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
+        $reviewData = $this->loadDataSet('ReviewAndRating', 'frontend_review');
+        $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
+                                         array('filter_nickname'   => $reviewData['nickname'],
+                                              'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($data['name']);
@@ -152,19 +151,20 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is present into the list and has type - "Guest";</p>
      *
-     * @param $data
+     * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-457
+     * @TestlinkId TL-MAGE-457
      */
     public function addReviewByGuestWithRating($data)
     {
         //Data
         $this->_useTearDown = true;
-        $reviewData = $this->loadData('review_with_rating', $data['withRating']);
-        $searchData = $this->loadData('search_review_guest',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
+        $reviewData = $this->loadDataSet('ReviewAndRating', $data['withRating']);
+        $searchData = $this->loadDataSet('ReviewAndRating',
+                                         array('filter_nickname'   => $reviewData['nickname'],
+                                              'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->selectFrontStoreView($data['store']);
@@ -195,19 +195,20 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is assigned to correct product</p>
      *
-     * @param $data
+     * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-456
+     * @TestlinkId TL-MAGE-456
      */
     public function addReviewByLoggedCustomer($data)
     {
         //Data
         $simple = $data['name'];
-        $reviewData = $this->loadData('frontend_review');
-        $searchData = $this->loadData('search_review_customer',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $simple));
+        $reviewData = $this->loadDataSet('ReviewAndRating', 'frontend_review');
+        $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_customer',
+                                         array('filter_nickname'   => $reviewData['nickname'],
+                                              'filter_product_sku' => $simple));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['login']);
         $this->productHelper()->frontOpenProduct($simple);
@@ -220,6 +221,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->reviewHelper()->editReview(array('status' => 'Approved'), $searchData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
+        $this->clearInvalidedCache();
         //Steps
         $this->productHelper()->frontOpenProduct($simple);
         //Verification
@@ -236,18 +238,18 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is not created. Empty Required Field message appears.</p>
      *
-     * @param $emptyFieldName
-     * @param $data
+     * @param string $emptyFieldName
+     * @param array $data
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3568
+     * @TestlinkId TL-MAGE-3568
      */
     public function withEmptyRequiredFields($emptyFieldName, $data)
     {
         //Data
-        $reviewData = $this->loadData('frontend_review', array($emptyFieldName => ''));
+        $reviewData = $this->loadDataSet('ReviewAndRating', 'frontend_review', array($emptyFieldName => ''));
         //Steps
         $this->customerHelper()->logoutCustomer();
         $this->productHelper()->frontOpenProduct($data['name']);
@@ -276,20 +278,21 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Review is created. Review can be opened on the backend.</p>
      *
-     * @param $reviewData
-     * @param $data
+     * @param string $reviewData
+     * @param array $data
      *
      * @test
      * @dataProvider frontendReviewSpecialCharactersDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3569
+     * @TestlinkId TL-MAGE-3569
      */
     public function frontendReviewSpecialCharacters($reviewData, $data)
     {
         //Data
-        $reviewData = $this->loadData($reviewData);
-        $searchData = $this->loadData('search_review_guest',
-                array('filter_nickname' => $reviewData['nickname'], 'filter_product_sku' => $data['name']));
+        $reviewData = $this->loadDataSet('ReviewAndRating', $reviewData);
+        $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
+                                         array('filter_nickname'   => $reviewData['nickname'],
+                                              'filter_product_sku' => $data['name']));
         //Steps
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($data['name']);
