@@ -18,7 +18,11 @@ class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMock( 'Mage_Adminhtml_Controller_Action');
+        $this->_model = $this->getMock(
+            'Mage_Adminhtml_Controller_Action',
+            null,
+            array(new Magento_Test_Request(), new Magento_Test_Response())
+        );
     }
 
     public function testConstruct()
