@@ -1952,6 +1952,50 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
 
     /**
+     * Returns HTTP responce for the specified URL.
+     *
+     * @param string $url
+     * @return array
+     *
+     * @throws RuntimeException when an internal CURL error happens
+     */
+    public function getHttpResponce($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        $info = curl_getinfo($curl);
+        if (!$info) {
+            throw new RuntimeException("CURL error when accessing '$url': " . curl_error($curl));
+        }
+        curl_close($curl);
+        return $info;
+    }
+
+    /**
+     * Verifies if an external service is available.
+     *
+     * @param string $url
+     *
+     * @return bool True if the responce is 200 or redirects to a such page. False otherwise.
+     */
+    public function httpResponceIsOK($url)
+    {
+        $maxRedirections = 100;
+        $responce = null;
+        do {
+            $responce = $this->getHttpResponce($url);
+            $url = ($responce['http_code'] == 301) ? $responce['redirect_url'] : null;
+            $maxRedirections--;
+        } while ($url && $maxRedirections > 0);
+        return $responce['http_code'] == 200;
+    }
+
+    /**
      * SavesHTML content of the current page and return information about it.
      * Return an empty string if the screenshotPath property is empty.
      *
