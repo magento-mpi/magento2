@@ -44,10 +44,10 @@
     padding:0 10pt;
     position:relative;
 }
-#vde_toolbar_row .vde_toolbar_cell:hover, .vde_toolbar_cell.active {
+#vde_toolbar_row .vde_toolbar_cell:hover, #vde_toolbar_row .vde_toolbar_cell.active {
     background-color:white;
-    border-right:1pt solid #deddd9 !important;
-    border-left:1pt solid #deddd9 !important;
+    border-right:1pt solid #deddd9;
+    border-left:1pt solid #deddd9;
 }
 #vde_toolbar_buttons {
     float: right;
@@ -220,25 +220,24 @@
 #vde_page_types_tree {
     max-height: 30em; /* max allowed height */
     overflow: hidden; /* don't display native scrollbars */
-    padding-right: 4em; /* make sure custom vertical scrollbar doesn't overlap list items */
+    padding-right: .5em;
     text-align: left;
     background-color: transparent;
 }
-
+#vde_page_types_tree li {
+    overflow: hidden;
+}
 #vde_page_types_tree a {
     margin-left: .5em;
     padding: .5em;
     width: 100%;
 }
-
 #vde_page_types_tree .jstree-clicked, #vde_page_types_tree .jstree-hovered {
     border: none;
 }
-
 #vde_page_types_tree .jstree-closed > .jstree-icon {
     background: url(../images/jstree_plus_minus.png) top left no-repeat;
 }
-
 #vde_page_types_tree .jstree-open > .jstree-icon {
     background: url(../images/jstree_plus_minus.png) top right no-repeat;
 }
