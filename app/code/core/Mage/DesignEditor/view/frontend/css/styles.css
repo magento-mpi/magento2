@@ -97,10 +97,10 @@
     margin: -2px 0px 0px -4px;
     padding: 0px;
     border-width: 2px 5px 6px 7px;
-    border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
     border-image-outset: fill;
-    -webkit-border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
     color: white;
     font-size: 8pt;
     font-weight: bold;
@@ -115,25 +115,25 @@
     border: 2px solid #7bc361;
 }
 .vde_container > .vde_element_title {
-    border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
 }
 .vde_element_wrapper.vde_stub {
     border: 2px solid #92978d;
 }
 .vde_stub > .vde_element_title {
-    border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
 }
 .vde_container.vde_container_hover {
     border-color: #006400;
 }
 .vde_container.vde_container_hover > .vde_element_title {
-    border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/container_hover.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
 }
 .vde_placeholder {
     background-color: #F5F5DC;
