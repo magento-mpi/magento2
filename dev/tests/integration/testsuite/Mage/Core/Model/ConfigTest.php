@@ -307,23 +307,27 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes/No
+     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes
+     *
+     * @magentoConfigFixture current_store web/secure/use_in_frontend 1
      */
-    public function testShouldUrlBeSecure()
+    public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
     {
-        $this->markTestIncomplete('Bug MAGE-6271');
         $model = $this->_createModel(true);
+        $this->assertFalse($model->shouldUrlBeSecure('/'));
+        $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
+    }
 
-        $store = Mage::app()->getStore();
-        $oldValue = (string)$store->getConfig('web/secure/use_in_frontend');
-        foreach (array(0, 1) as $newValue) {
-            $store->setConfig('web/secure/use_in_frontend', $newValue);
-            $model->reinit();
-            $this->assertFalse($model->shouldUrlBeSecure('/'));
-            $this->assertEquals($model->shouldUrlBeSecure('/checkout/onepage'), (bool)$newValue);
-        }
-
-        $store->setConfig('web/secure/use_in_frontend', $oldValue);
+    /**
+     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = No
+     *
+     * @magentoConfigFixture current_store web/secure/use_in_frontend 0
+     */
+    public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
+    {
+        $model = $this->_createModel(true);
+        $this->assertFalse($model->shouldUrlBeSecure('/'));
+        $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
     }
 
     public function testGetTablePrefix()

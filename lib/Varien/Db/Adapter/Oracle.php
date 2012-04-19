@@ -1272,7 +1272,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
             throw new Zend_Db_Exception(sprintf(
-                'Column "%s" does not exists on table "%s"',
+                'Column "%s" does not exist in table "%s".',
                 $oldColumnName,
                 $tableName
             ));
@@ -1307,7 +1307,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            $msg = sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName);
+            $msg = sprintf('Column "%s" does not exist in table "%s".', $columnName, $tableName);
             throw new Zend_Db_Adapter_Oracle_Exception($msg);
         }
 
@@ -1489,7 +1489,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if (!$skipColumnExistsCheck) {
                 if (!$this->tableColumnExists($tableName, $field, $schemaName)) {
                     throw new Zend_Db_Adapter_Oracle_Exception(
-                        sprintf('Column "%s" does not exists on table "%s"', $field, $tableName));
+                        sprintf('Column "%s" does not exist in table "%s".', $field, $tableName));
                 }
             }
             $fieldSql[] = $this->quoteIdentifier($field);

@@ -15,10 +15,16 @@
             <sales translate="title" module="Mage_Api2">
                 <title>Sales</title>
                 <sort_order>130</sort_order>
+                <children>
+                    <sales_order translate="title" module="api2">
+                        <title>Order</title>
+                        <sort_order>150</sort_order>
+                    </sales_order>
+                </children>
             </sales>
         </resource_groups>
         <resources>
-            <orders translate="title" module="Mage_Api2">
+            <order translate="title" module="Mage_Api2">
                 <group>sales</group>
                 <sort_order>10</sort_order>
                 <model>Mage_Sales_Model_Api2_Order</model>
@@ -138,9 +144,9 @@
                     </admin>
                 </force_attributes>
                 <versions>1</versions>
-            </orders>
-            <order_items translate="title" module="Mage_Api2">
-                <group>orders</group>
+            </order>
+            <order_item translate="title" module="Mage_Api2">
+                <group>sales_order</group>
                 <sort_order>30</sort_order>
                 <model>Mage_Sales_Model_Api2_Order_Items</model>
                 <working_model>Mage_Sales_Model_Order_Item</working_model>
@@ -205,9 +211,9 @@
                     </route_collection>
                 </routes>
                 <versions>1</versions>
-            </order_items>
-            <order_addresses translate="title" module="Mage_Api2">
-                <group>orders</group>
+            </order_item>
+            <order_address translate="title" module="Mage_Api2">
+                <group>sales_order</group>
                 <sort_order>40</sort_order>
                 <model>Mage_Sales_Model_Api2_Order_Address</model>
                 <working_model>Mage_Sales_Model_Order_Address</working_model>
@@ -247,9 +253,9 @@
                     <address_type>Address Type</address_type>
                     <email>Email</email>
                 </attributes>
-            </order_addresses>
-            <order_comments translate="title" module="Mage_Api2">
-                <group>orders</group>
+            </order_address>
+            <order_comment translate="title" module="Mage_Api2">
+                <group>sales_order</group>
                 <sort_order>60</sort_order>
                 <model>Mage_Sales_Model_Api2_Order_Comments</model>
                 <working_model>Mage_Sales_Model_Order_Status_History</working_model>
@@ -282,7 +288,7 @@
                     </route_collection>
                 </routes>
                 <versions>1</versions>
-            </order_comments>
+            </order_comment>
         </resources>
     </api2>
 </config>

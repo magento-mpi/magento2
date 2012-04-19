@@ -26,7 +26,7 @@
 
 /* Widget Banner */
 .widget-banner { clear:both; display:block; width:100%; overflow:hidden; text-align:center; }
-.widget-banner li { margin:7px 0; }
+.widget-banner li { margin:0; }
 
 .top-container .widget-banner li { margin:0; }
 

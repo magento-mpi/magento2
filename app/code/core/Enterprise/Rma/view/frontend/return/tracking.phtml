@@ -39,7 +39,7 @@
     </td>
 </tr>
 <?php endforeach; ?>
-<?php if ($this->getDeleteLabelUrl()): ?>
+<?php if ($this->isPrintShippingLabelAllowed()): ?>
 <script type="text/javascript">
 //<![CDATA[
     function deleteTrackNumber(number) {
@@ -50,7 +50,7 @@
                     $('rma-please-wait').hide();
                     decorateTable('track-info-table');
                 },
-                parameters : {number: number}
+                parameters: {number: number}
             });
         }
         return false;

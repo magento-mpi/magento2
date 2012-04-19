@@ -31,7 +31,6 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
             ->joinAttribute('original_name', 'catalog_product/name', 'entity_id')
             ->addCustomerFilter($this->getRequest()->getParam('id'))
             ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->setDescOrder('DESC')
             ->addStoresVisibility()
             ->setActiveFilter()
             ->addGroupByTag()
@@ -46,28 +45,25 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
     {
         $this->addColumn('name', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
-            'sortable'  => false,
             'index'     =>'original_name'
         ));
 
         $this->addColumn('tag_name', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Tag Name'),
-            'sortable'  => false,
             'index'     =>'tag_name'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible', array(
                 'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Visible In'),
-                'sortable'  => false,
                 'index'     => 'stores',
                 'type'      => 'store',
+                'sortable'  => false,
                 'store_view'=> true
             ));
 
             $this->addColumn('added_in', array(
                 'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Submitted In'),
-                'sortable'  => false,
                 'index'     =>'store_id',
                 'type'      =>'store',
                 'store_view'=>true
@@ -76,7 +72,6 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
         $this->addColumn('created_at', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Submitted On'),
-            'sortable'  => false,
             'width'     => '140px',
             'type'      => 'datetime',
             'index'     => 'created_at'

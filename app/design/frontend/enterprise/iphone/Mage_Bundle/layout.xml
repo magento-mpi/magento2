@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     enterprise_iphone
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -75,12 +75,6 @@ Adding custom product price block
             <action method="addPriceBlockType"><type>bundle</type><block>Mage_Bundle_Block_Catalog_Product_Price</block><template>catalog/product/price.phtml</template></action>
         </reference>
     </default>
-
-    <wishlist_index_index>
-        <reference name="customer.wishlist">
-            <action method="addOptionsRenderCfg"><type>bundle</type><helper>Mage_Bundle_Helper_Catalog_Product_Configuration</helper></action>
-        </reference>
-    </wishlist_index_index>
 
     <catalog_product_view>
         <reference name="catalog.product.related">
@@ -202,8 +196,8 @@ Additional block for bundle product type
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />
-            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="catalog/product/view/tierprices.phtml"/>
-            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.extrahint" as="extrahint" template="qtyincrements.phtml"/>
+            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="bundle/catalog/product/view/tierprices.phtml"/>
+            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="cataloginventory/qtyincrements.phtml"/>
         </reference>
         <reference name="product.clone_prices">
             <action method="addPriceBlockType"><type>bundle</type><block>Mage_Bundle_Block_Catalog_Product_Price</block><template>catalog/product/view/price.phtml</template></action>

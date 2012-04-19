@@ -16,18 +16,6 @@
         <reference name="header">
             <block type="Mage_Core_Block_Template" name="top.search" as="topSearch" template="Mage_CatalogSearch::form.mini.phtml"/>
         </reference>
-        <reference name="footer_links">
-            <action method="addLink" translate="label title" module="Mage_CatalogSearch" ifconfig="catalog/seo/search_terms">
-                <label>Search Terms</label>
-                <url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl" />
-                <title>Search Terms</title>
-            </action>
-            <action method="addLink" translate="label title" module="Mage_CatalogSearch">
-                <label>Advanced Search</label>
-                <url helper="Mage_CatalogSearch_Helper_Data::getAdvancedSearchUrl" />
-                <title>Advanced Search</title>
-            </action>
-        </reference>
     </default>
 
     <catalogsearch_result_index translate="label">
@@ -54,6 +42,7 @@
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                    <action method="setPageLayout"><layout>three_columns</layout></action>
                 </block>
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
@@ -69,9 +58,10 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addJs"><file>calendar/calendar.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="setTitle" translate="title" module="catalogsearch"><title>Advanced Search</title></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
             <block type="Mage_CatalogSearch_Block_Advanced_Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
@@ -85,10 +75,9 @@ Advanced search results
 
     <catalogsearch_advanced_result translate="label" module="Mage_CatalogSearch" type="page" parent="catalogsearch_advanced_index">
         <label>Advanced Search Result</label>
-        <update handle="page_two_columns_right" />
         <!-- Mage_Catalogsearch -->
         <reference name="root">
-            <action method="setTemplate"><template>2columns-right.phtml</template></action>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="Mage_CatalogSearch_Block_Advanced_Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
@@ -101,6 +90,7 @@ Advanced search results
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+                    <action method="setPageLayout"><layout>three_columns</layout></action>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
                 </block>
                 <action method="setListOrders"/>
@@ -115,28 +105,14 @@ Advanced search results
         <remove name="right"/>
         <remove name="left"/>
 
+        <reference name="head">
+            <action method="setTitle" translate="title" module="catalogsearch"><title>Search Terms</title></action>
+        </reference>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
-            <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
-                    <crumbName>home</crumbName>
-                    <crumbInfo>
-                        <label>Home</label>
-                        <title>Home</title>
-                        <link>/</link>
-                    </crumbInfo>
-                </action>
-                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
-                    <crumbName>categories</crumbName>
-                    <crumbInfo>
-                        <label>Categories</label>
-                        <title>Categories</title>
-                    </crumbInfo>
-                </action>
-            </block>
+            <block type="catalogsearch/term" name="seo.searchterm" template="catalogsearch/term.phtml"/>
         </reference>
     </catalogsearch_term_popular>
 
