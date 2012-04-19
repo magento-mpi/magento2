@@ -51,10 +51,11 @@ manage_cms_widgets:
                             widget_grid_head: //div[@id='widgetInstanceGrid']//thead/tr[@class='headings']
             buttons:
                 add_new_widget_instance: //button[span='Add New Widget Instance']
-            messages:
+            messages: &cmsWidgetMessages
                 successfully_saved_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been saved.')]
                 successfully_deleted_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been deleted.')]
-
+                empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+                confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_widget:
     mca: widget_instance/new/
@@ -235,9 +236,7 @@ add_widget_options:
             reset: //button[span='Reset']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-
+        messages: *cmsWidgetMessages
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
@@ -250,5 +249,4 @@ edit_cms_widget:
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete: //button[span='Delete']
-        messages:
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *cmsWidgetMessages

@@ -48,8 +48,9 @@ manage_sales_checkout_terms_conditions:
                             filter_condition_name: //input[@name='name']
         buttons:
             create_new_checkout_agreement: //button[span='Add New']
-        messages:
+        messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # Create new condition agreement
 create_condition:
@@ -77,5 +78,4 @@ create_condition:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
             save_condition: //p[@class='form-buttons']//button[span='Save Condition']
-        messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+        messages: *conditionMessages

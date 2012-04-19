@@ -50,6 +50,6 @@ cache_storage_management:
                             cache_invalided: //tr[normalize-space(td/span)='Invalidated']
                             cache_disabled: //tr[normalize-space(td/span)='Disabled']
         messages:
-            success_refreshed_cache: //li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) refreshed.)]
-            success_disabled_cache: //li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) disabled.)]
-            success_enabled_cache: //li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) enabled.)]
+            success_refreshed_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) refreshed.)]"
+            success_disabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) disabled.)]"
+            success_enabled_cache: "//li[normalize-space(@class)='success-msg' and contains(.,'%qtySelected% cache type(s) enabled.)]"

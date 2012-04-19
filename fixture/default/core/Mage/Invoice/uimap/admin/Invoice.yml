@@ -61,6 +61,9 @@ manage_sales_invoices:
                             filter_amount_to: //input[@name='grand_total[to]']
                         pageelements:
                             invoice_grid_head: //*[@id='sales_invoice_grid_table']//thead/tr[@class='headings']
+        messages: &invoiceMessage
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+            failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
 
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
@@ -122,9 +125,7 @@ create_invoice:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-        messages:
-            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
-            failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
+        messages: *invoiceMessage
 
 view_invoice:
     mca: sales_invoice/view/invoice_id/%id%/
@@ -171,3 +172,4 @@ view_invoice:
             send_email: //p[@class='form-buttons']//button[span='Send Email']
             credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
             print: //p[@class='form-buttons']//button[span='Print']
+        messages: *invoiceMessage

@@ -53,6 +53,8 @@ manage_customer_groups:
         messages: &customerGroupsMessages
             success_deleted_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been deleted.')]
             success_saved_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been saved.')]
+            empty_group_name: //div[@id='advice-required-entry-customer_group_code' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]
+            confirmation_for_delete: Are you sure you want to do this?
 
 # 'New Customer Group' Page
 create_customer_group:
@@ -73,9 +75,7 @@ create_customer_group:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_customer_group: //button[span='Save Customer Group']
-        messages:
-            empty_group_name: //div[@id='advice-required-entry-customer_group_code' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]
-
+        messages: *customerGroupsMessages
 
 # 'Edit Customer Group' Page
 edit_customer_group:
@@ -88,6 +88,4 @@ edit_customer_group:
             reset: //button[span='Reset']
             delete_customer_group: //button[span='Delete Customer Group']
             save_customer_group: //button[span='Save Customer Group']
-        messages:
-            empty_group_name: //div[@id='advice-required-entry-customer_group_code' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *customerGroupsMessages
