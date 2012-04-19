@@ -121,7 +121,7 @@ New customer registration
         <remove name="left"/>
 
         <reference name="head">
-            <action method="setTitle" translate="title" module="customer">
+            <action method="setTitle" translate="title" module="Mage_Customer">
                 <title>Reset a Password</title>
             </action>
         </reference>
@@ -129,12 +129,12 @@ New customer registration
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
             </action>
-            <action method="setHeaderTitle" translate="title" module="customer">
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer">
                 <title>Reset a Password</title>
             </action>
         </reference>
         <reference name="content">
-            <block type="customer/account_resetpassword" name="resetPassword" template="customer/form/resetforgottenpassword.phtml"/>
+            <block type="Mage_Customer_Block_Account_Resetpassword" name="resetPassword" template="customer/form/resetforgottenpassword.phtml"/>
         </reference>
     </customer_account_resetpassword>
 

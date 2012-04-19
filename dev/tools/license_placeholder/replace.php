@@ -10,11 +10,20 @@
  * @license    {license_link}
  */
 
-$sourceDir = realpath(__DIR__ . '/../../..');
+$options = getopt('', array('source::'));
+$baseDir = realpath(__DIR__ . '/../../..');
+if (isset($options['source'])) {
+    $sourceDir = realpath($options['source']);
+    if (strpos($sourceDir, $baseDir) !== 0) {
+        die('Incorrect source dir specified');
+    }
+} else {
+    $sourceDir = $baseDir;
+}
 
 // scan for files (split up into several calls to overcome maximum limitation of 260 chars in glob pattern)
-$files = globDir($sourceDir, '*.{xml,xml.template,xml.additional,xml.dist,xml.sample,xsd,mxml}', GLOB_BRACE);
-$files = array_merge($files, globDir($sourceDir, '*.{php,php.sample,phtml,html,htm,css,js,as,sql}', GLOB_BRACE));
+$files = globDir($sourceDir, '*.{xml*,xsd,mxml}', GLOB_BRACE);
+$files = array_merge($files, globDir($sourceDir, '*.{php,php.sample,*htm*,css,js,as,sql}', GLOB_BRACE));
 
 // exclude files from blacklist
 $blacklist = require __DIR__ . '/blacklist.php';
@@ -39,10 +48,9 @@ foreach ($blacklist as $item) {
 }
 
 // replace
-$licensePlaceholder = ' * {license}' . "\n";
+$licensePlaceholder = ' * {license_notice}' . "\n";
 $replacements = array(
     array('/\s\*\sMagento.+?NOTICE OF LICENSE.+?DISCLAIMER.+?@/s', $licensePlaceholder . " *\n * @"),
-    array('/\ \*\ \{license_notice\}\s/s', $licensePlaceholder),
 );
 foreach ($files as $file) {
     $content = file_get_contents($file);
@@ -54,10 +62,11 @@ foreach ($files as $file) {
             break;
         }
     }
-    $newContent = preg_replace('/^\s\*\s@copyright.+?$/m', '', $newContent);
-    $newContent = preg_replace('/^\s\*\s@license.+$/m', '', $newContent);
+    $newContent = preg_replace('/^(\s\*\s@copyright\s*).+?$/m', '\\1{copyright}', $newContent);
+    $newContent = preg_replace('/^(\s\*\s@license\s*).+$/m', '\\1{license_link}', $newContent);
     $newContent = preg_replace('/(\{license\}.+?)\n\n\ \*/s', '\\1' . " *", $newContent);
     if ($newContent != $content) {
+        echo $file . "\n";
         file_put_contents($file, $newContent);
     }
 }

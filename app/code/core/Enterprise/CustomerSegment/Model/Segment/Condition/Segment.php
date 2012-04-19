@@ -131,7 +131,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
      */
     public function validate(Varien_Object $object)
     {
-        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+        if (!Mage::helper('Enterprise_Customersegment_Helper_Data')->isEnabled()) {
             return false;
         }
         $customer = null;

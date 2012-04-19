@@ -16,7 +16,7 @@
                 <title>Sales</title>
                 <sort_order>130</sort_order>
                 <children>
-                    <sales_order translate="title" module="api2">
+                    <sales_order translate="title" module="Mage_Api2">
                         <title>Order</title>
                         <sort_order>150</sort_order>
                     </sales_order>

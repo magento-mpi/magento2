@@ -35,7 +35,7 @@ class Mage_Bundle_Block_Catalog_Product_View extends Mage_Catalog_Block_Product_
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
             $store = Mage::app()->getStore();
-            $helper = Mage::helper('tax');
+            $helper = Mage::helper('Mage_Tax_Helper_Data');
             $specialPrice = $product->getSpecialPrice() ? 100 - $product->getSpecialPrice() : 0;
             foreach ($prices as $price) {
                 if ($specialPrice < $price['price']) {

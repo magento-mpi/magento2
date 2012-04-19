@@ -85,7 +85,7 @@ class Mage_Oauth_AuthorizeController extends Mage_Core_Controller_Front_Action
     protected function _initConfirmPage($simple = false)
     {
         /** @var $helper Mage_Oauth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_Oauth_Helper_Data');
 
         /** @var $session Mage_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);

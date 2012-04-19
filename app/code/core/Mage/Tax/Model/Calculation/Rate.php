@@ -57,11 +57,11 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
         if ($this->getCode() === '' || $this->getTaxCountryId() === '' || $this->getRate() === ''
             || $this->getZipIsRange() && ($this->getZipFrom() === '' || $this->getZipTo() === '')
         ) {
-            Mage::throwException(Mage::helper('tax')->__('Please fill all required fields with valid information.'));
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Please fill all required fields with valid information.'));
         }
 
         if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
-            Mage::throwException(Mage::helper('tax')->__('Rate Percent should be a positive number.'));
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent should be a positive number.'));
         }
 
         if ($this->getZipIsRange()) {
@@ -69,15 +69,15 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
             $zipTo = $this->getZipTo();
 
             if (strlen($zipFrom) > 9 || strlen($zipTo) > 9) {
-                Mage::throwException(Mage::helper('tax')->__('Maximum zip code length is 9.'));
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Maximum zip code length is 9.'));
             }
 
             if (!is_numeric($zipFrom) || !is_numeric($zipTo) || $zipFrom < 0 || $zipTo < 0) {
-                Mage::throwException(Mage::helper('tax')->__('Zip code should not contain characters other than digits.'));
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Zip code should not contain characters other than digits.'));
             }
 
             if ($zipFrom > $zipTo) {
-                Mage::throwException(Mage::helper('tax')->__('Range To should be equal or greater than Range From.'));
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Range To should be equal or greater than Range From.'));
             }
 
             $this->setTaxPostcode($zipFrom . '-' . $zipTo);

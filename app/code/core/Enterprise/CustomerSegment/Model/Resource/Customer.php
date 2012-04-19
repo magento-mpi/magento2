@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Model_Resource_Customer extends Mage_Core_Model
         $select = $this->_getReadAdapter()->select()
             ->from(array('c' => $this->getMainTable()), 'segment_id')
             ->join(
-                array('s' => $this->getTable('enterprise_customersegment/segment')),
+                array('s' => $this->getTable('enterprise_customersegment_segment')),
                 'c.segment_id = s.segment_id'
             )
             ->where('is_active = 1')

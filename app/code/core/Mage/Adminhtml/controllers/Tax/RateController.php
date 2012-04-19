@@ -120,7 +120,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
              ->_title($this->__('Manage Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
-        $rateModel = Mage::getSingleton('tax/calculation_rate')->load($rateId);
+        $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->load($rateId);
         if (!$rateModel->getId()) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;

@@ -26,9 +26,9 @@
 ?>
 
 <?php $_wishlistItem = $this->getWishlistItem(); ?>
-<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getUpdateUrl($_wishlistItem); ?>
+<?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
 <ul class="add-to-links">
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
     <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-compare"><?php echo $this->__('Update Wishlist') ?></a></li>
 <?php endif; ?>
 </ul>

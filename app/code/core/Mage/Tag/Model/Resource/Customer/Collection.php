@@ -259,7 +259,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      */
     public function addProductToSelect()
     {
-        $resource = Mage::getModel('catalog/product')->getResource();
+        $resource = Mage::getModel('Mage_Catalog_Model_Product')->getResource();
 
         // add product attributes to select
         foreach (array('name' => 'value') as $field => $fieldName) {
@@ -273,7 +273,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
 
         // add product fields
         $this->_select->joinLeft(
-            array('p' => $this->getTable('catalog/product')),
+            array('p' => $this->getTable('catalog_product_entity')),
             'tr.product_id = p.entity_id',
             array('product_sku' => 'sku')
         );

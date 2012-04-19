@@ -24,7 +24,7 @@ class Mage_Oauth_Model_Observer
      */
     protected function _getOauthToken()
     {
-        return Mage::helper('oauth')->getOauthToken();
+        return Mage::helper('Mage_Oauth_Helper_Data')->getOauthToken();
     }
 
     /**
@@ -36,7 +36,7 @@ class Mage_Oauth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER;
-            $url = Mage::helper('oauth')->getAuthorizeUrl($userType);
+            $url = Mage::helper('Mage_Oauth_Helper_Data')->getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
@@ -54,7 +54,7 @@ class Mage_Oauth_Model_Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_Oauth_Model_Token::USER_TYPE_ADMIN;
-            $url = Mage::helper('oauth')->getAuthorizeUrl($userType);
+            $url = Mage::helper('Mage_Oauth_Helper_Data')->getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
@@ -76,7 +76,7 @@ class Mage_Oauth_Model_Observer
             $session->addError($observer->getException()->getMessage());
 
             $userType = Mage_Oauth_Model_Token::USER_TYPE_ADMIN;
-            $url = Mage::helper('oauth')->getAuthorizeUrl($userType);
+            $url = Mage::helper('Mage_Oauth_Helper_Data')->getAuthorizeUrl($userType);
             Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()

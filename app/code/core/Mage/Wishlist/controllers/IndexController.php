@@ -334,7 +334,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                 // Extract new values
                 $description = (string) $description;
 
-                if ($description == Mage::helper('wishlist')->defaultCommentString()) {
+                if ($description == Mage::helper('Mage_Wishlist_Helper_Data')->defaultCommentString()) {
                     $description = '';
                 } elseif (!strlen($description)) {
                     $description = $item->getDescription();

@@ -33,10 +33,10 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_Customer -->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="Mage_Customer_Helper_Data::getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>
+            <action method="addLink" translate="label title" module="Mage_Customer"><label>My Account</label><url helper="Mage_Customer_Helper_Data::getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>
         </reference>
         <reference name="account.links">
-            <action method="addLink" translate="label title before_text" module="customer"><label>Register</label><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /><title>Register</title><prepare/><urlParams/><position>100</position></action>
+            <action method="addLink" translate="label title before_text" module="Mage_Customer"><label>Register</label><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /><title>Register</title><prepare/><urlParams/><position>100</position></action>
         </reference>
     </default>
 
@@ -46,7 +46,7 @@ Load this update on every page when customer is logged in
 
     <customer_logged_in>
         <reference name="account.links">
-            <action method="addLink" translate="label title" module="customer"><label>Log Out</label><url helper="Mage_Customer_Helper_Data::getLogoutUrl"/><title>Log Out</title><prepare/><urlParams/><position>2</position></action>
+            <action method="addLink" translate="label title" module="Mage_Customer"><label>Log Out</label><url helper="Mage_Customer_Helper_Data::getLogoutUrl"/><title>Log Out</title><prepare/><urlParams/><position>2</position></action>
             <action method="removeLinkByUrl"><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /></action>
         </reference>
     </customer_logged_in>
@@ -57,7 +57,7 @@ Load this update on every page when customer is logged out
 
     <customer_logged_out>
         <reference name="account.links">
-            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="Mage_Customer_Helper_Data::getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>1</position></action>
+            <action method="addLink" translate="label title" module="Mage_Customer"><label>Log In</label><url helper="Mage_Customer_Helper_Data::getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>1</position></action>
             <action method="removeLinkByUrl" ifconfig="enterprise_invitation/general/registration_required_invitation"><url helper="Mage_Customer_Helper_Data::getRegisterUrl" /></action>
         </reference>
         <remove name="reorder"></remove>
@@ -114,11 +114,11 @@ New customer registration
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
                 <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
-                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
+                <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode"><code>customer_account_create</code></action>
                     <action method="setEntityModelClass"><code>customer/customer</code></action>
                 </block>
-                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_address_user_attributes">
+                <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_address_user_attributes">
                     <action method="setFormCode"><code>customer_register_address</code></action>
                     <action method="setEntityModelClass"><code>customer/address</code></action>
                 </block>
@@ -133,7 +133,7 @@ New customer registration
         <remove name="left"/>
 
         <reference name="head">
-            <action method="setTitle" translate="title" module="customer"><title>Forgot Your Password</title></action>
+            <action method="setTitle" translate="title" module="Mage_Customer"><title>Forgot Your Password</title></action>
         </reference>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
@@ -150,7 +150,7 @@ New customer registration
         <remove name="left"/>
 
         <reference name="head">
-            <action method="setTitle" translate="title" module="customer">
+            <action method="setTitle" translate="title" module="Mage_Customer">
                 <title>Reset a Password</title>
             </action>
         </reference>
@@ -158,7 +158,7 @@ New customer registration
             <action method="setTemplate">
                 <template>1column.phtml</template>
             </action>
-            <action method="setHeaderTitle" translate="title" module="customer">
+            <action method="setHeaderTitle" translate="title" module="Mage_Customer">
                 <title>Reset a Password</title>
             </action>
         </reference>
@@ -230,7 +230,7 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
 
         <reference name="left">
-            <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
 
         </reference>
@@ -292,7 +292,7 @@ Customer account address edit page
 
     <customer_form_template_handle>
         <reference name="content">
-            <block name="customer_form_template" type="enterprise_customer/form_template">
+            <block name="customer_form_template" type="Enterprise_Customer_Block_Form_Template">
                 <action method="addRenderer">
                     <type>text</type>
                     <renderer_block>enterprise_customer/form_renderer_text</renderer_block>

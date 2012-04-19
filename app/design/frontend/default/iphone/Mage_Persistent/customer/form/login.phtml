@@ -56,12 +56,12 @@
                 <div class="content">
                     <h2><?php echo $this->__('New Customers') ?></h2>
                     <div class="buttons-set">
-                        <button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';"><?php echo $this->__('Create an Account') ?></button>
+                        <button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('Mage_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';"><?php echo $this->__('Create an Account') ?></button>
                     </div>
                 </div>
             </div>
         </div>
-        <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+        <?php if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
