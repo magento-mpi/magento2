@@ -39,11 +39,11 @@ shipping_ups:
 
 shipping_upsxml:
     shipping_service: United Parcel Service XML
-    shipping_method: Ground
+    shipping_method: UPS Ground
 
 shipping_usps:
     shipping_service: United States Postal Service
-    shipping_method: Express Mail
+    shipping_method: Express Mail Hold For Pickup
 
 shipping_fedex:
     shipping_service: Federal Express

@@ -25,14 +25,6 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-shipping_upsxml:
-    shipping_service: United Parcel Service XML
-    shipping_method: UPS Ground
-
-shipping_usps:
-    shipping_service: United States Postal Service
-    shipping_method: Express Mail Hold For Pickup
-
 shipping_dhl:
     shipping_service: DHL
     shipping_method: Express worldwide
