@@ -69,7 +69,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
-        $this->fillForm($ruleInfo, 'rule_information');
+        $this->fillTab($ruleInfo, 'rule_information');
         $this->fillConditionsTab($ruleConditions);
         $this->fillActionsTab($ruleActions);
         if ($ruleLabels) {
@@ -100,7 +100,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             $conditionsData = $actionsData['action_conditions'];
             unset($actionsData['action_conditions']);
         }
-        $this->fillForm($actionsData, 'rule_actions');
+        $this->fillTab($actionsData, 'rule_actions');
         $this->addConditions($conditionsData, 'rule_actions');
     }
 
@@ -117,10 +117,10 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             $storeViewLabels = $labelsData['store_view_labels'];
             unset($labelsData['store_view_labels']);
         }
-        $this->fillForm($labelsData, 'rule_labels');
+        $this->fillTab($labelsData, 'rule_labels');
         foreach ($storeViewLabels as $key => $value) {
             $this->addParameter('storeViewName', $key);
-            $this->fillForm(array('store_view_rule_label' => $value), 'rule_labels');
+            $this->fillTab(array('store_view_rule_label' => $value), 'rule_labels');
         }
     }
 
@@ -204,46 +204,40 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         $fieldsets = $uimapData->getAllFieldsets($this->_paramsHelper);
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
-        try {
-            foreach ($formDataMap as $formFieldName => $formField) {
-                if ($formFieldName === 'category') {
-                    $this->click($uimapData->findLink(preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value'));
-                    $this->click($uimapData->findLink('open_chosser'));
-                    $this->pleaseWait();
-                    $categories = explode(',', $formField['value']);
-                    $categories = array_map('trim', $categories);
-                    foreach ($categories as $value) {
-                        $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
-                    }
-                    $this->click($uimapData->findLink('confirm_choice'));
-                    continue;
+        foreach ($formDataMap as $formFieldName => $formField) {
+            if ($formFieldName === 'category') {
+                $buttonName = preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value';
+                $this->click($this->_getControlXpath('link', $buttonName, $uimapData));
+                $this->click($this->_getControlXpath('link', 'open_chosser', $uimapData));
+                $this->pleaseWait();
+                $categories = explode(',', $formField['value']);
+                $categories = array_map('trim', $categories);
+                foreach ($categories as $value) {
+                    $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
                 }
-                $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
-                switch ($formField['type']) {
-                    case self::FIELD_TYPE_INPUT:
-                        $this->_fillFormField($formField);
-                        break;
-                    case self::FIELD_TYPE_CHECKBOX:
-                        $this->_fillFormCheckbox($formField);
-                        break;
-                    case self::FIELD_TYPE_DROPDOWN:
-                        $this->_fillFormDropdown($formField);
-                        break;
-                    case self::FIELD_TYPE_RADIOBUTTON:
-                        $this->_fillFormRadiobutton($formField);
-                        break;
-                    case self::FIELD_TYPE_MULTISELECT:
-                        $this->_fillFormMultiselect($formField);
-                        break;
-                    default:
-                        throw new PHPUnit_Framework_Exception('Unsupported field type');
-                }
+                $this->click($this->_getControlXpath('link', 'confirm_choice', $uimapData));
+                continue;
             }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $errorMessage = isset($formFieldName)
-                ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
-                : $e->getMessage();
-            $this->fail($errorMessage);
+            $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
+            switch ($formField['type']) {
+                case self::FIELD_TYPE_INPUT:
+                    $this->fillField($formFieldName, $formField['value'], $formField['path']);
+                    break;
+                case self::FIELD_TYPE_CHECKBOX:
+                    $this->fillCheckbox($formFieldName, $formField['value'], $formField['path']);
+                    break;
+                case self::FIELD_TYPE_DROPDOWN:
+                    $this->fillDropdown($formFieldName, $formField['value'], $formField['path']);
+                    break;
+                case self::FIELD_TYPE_RADIOBUTTON:
+                    $this->fillRadiobutton($formFieldName, $formField['value'], $formField['path']);
+                    break;
+                case self::FIELD_TYPE_MULTISELECT:
+                    $this->fillMultiselect($formFieldName, $formField['value'], $formField['path']);
+                    break;
+                default:
+                    throw new RuntimeException('Unsupported field type');
+            }
         }
     }
 
@@ -342,7 +336,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
-            $this->fillForm(array('status' => 'Inactive'), 'rule_information');
+            $this->fillTab(array('status' => 'Inactive'), 'rule_information');
             $this->saveForm('save_rule');
         }
         return true;
