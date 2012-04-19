@@ -141,7 +141,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }
@@ -213,7 +213,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }

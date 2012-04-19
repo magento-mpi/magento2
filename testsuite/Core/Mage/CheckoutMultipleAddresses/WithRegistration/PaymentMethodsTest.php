@@ -132,7 +132,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }
@@ -203,7 +203,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }

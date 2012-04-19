@@ -133,7 +133,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }
@@ -206,7 +206,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }

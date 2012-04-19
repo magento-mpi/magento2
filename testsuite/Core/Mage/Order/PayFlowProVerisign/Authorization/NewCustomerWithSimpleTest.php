@@ -100,7 +100,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
 
@@ -132,7 +132,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }
@@ -187,7 +187,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
@@ -243,7 +243,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         $orderId = $this->orderHelper()->defineOrderId();
@@ -301,7 +301,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
@@ -337,7 +337,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         $this->clickButton('hold');
@@ -366,7 +366,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
@@ -417,7 +417,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         //Steps
@@ -469,7 +469,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
         //Steps
@@ -525,7 +525,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         if (!$this->isElementPresent($messageXpath))
         {
             $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . implode("\n", $messages));
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
         //Workaround finish
     }

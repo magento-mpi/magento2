@@ -1992,7 +1992,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $response = null;
         do {
             $response = $this->getHttpResponse($url);
-            print_r($response);
             $url = ($response['http_code'] == 301) ? $response['redirect_url'] : null;
             $maxRedirections--;
         } while ($url && $maxRedirections > 0);
