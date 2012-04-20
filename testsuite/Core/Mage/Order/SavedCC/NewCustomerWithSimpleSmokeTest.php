@@ -156,7 +156,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3573
+     * @TestlinkId TL-MAGE-3573
      */
     public function fullInvoiceWithSavedCC($orderData)
     {
@@ -195,7 +195,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3577
+     * @TestlinkId TL-MAGE-3577
      */
     public function partialInvoiceWithCreditCard($orderData, $sku)
     {
@@ -236,7 +236,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3576
+     * @TestlinkId TL-MAGE-3576
      */
     public function fullCreditMemoWithCreditCard($orderData)
     {
@@ -275,7 +275,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3576
+     * @TestlinkId TL-MAGE-3576
      */
     public function partialCreditMemoWithCreditCard($orderData, $sku)
     {
@@ -315,7 +315,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3574
+     * @TestlinkId TL-MAGE-3574
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -355,7 +355,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3578
+     * @TestlinkId TL-MAGE-3578
      */
     public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
@@ -387,7 +387,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3575
+     * @TestlinkId TL-MAGE-3575
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -446,8 +446,9 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3579
+     * @TestlinkId TL-MAGE-3579
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {

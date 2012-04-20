@@ -102,8 +102,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -137,7 +136,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @test
      * @dataProvider typesOfCaptureDataProvider
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5373
+     * @TestlinkId TL-MAGE-5373
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -149,8 +148,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -194,8 +192,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -231,7 +228,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5374
+     * @TestlinkId TL-MAGE-5374
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -242,8 +239,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -281,8 +277,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -328,7 +323,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5375
+     * @TestlinkId TL-MAGE-5375
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -339,8 +334,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -364,7 +358,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5377
+     * @TestlinkId TL-MAGE-5377
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -375,8 +369,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -404,8 +397,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -441,8 +433,9 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5378
+     * @TestlinkId TL-MAGE-5378
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {
@@ -456,8 +449,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -473,8 +465,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -505,7 +496,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @TestlinkId	TL-MAGE-5379
+     * @TestlinkId TL-MAGE-5379
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -517,8 +508,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }

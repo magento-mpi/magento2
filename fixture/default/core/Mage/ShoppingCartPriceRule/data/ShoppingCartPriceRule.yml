@@ -248,13 +248,13 @@ scpr_all_fields:
 #<-----------------------------------------Percent of Product Price Discount------------------------------------------->
 scpr_percent_of_product_price_discount:
     info:
-        rule_name: test_shopping_cart_rule
+        rule_name: test_shopping_cart_rule_%randomize%
         description: description for test shopping cart rule
         status: Active
         websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
-        coupon_code: test_code
+        coupon_code: test_code_%randomize%
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
@@ -304,13 +304,13 @@ totals_for_percent_of_product_price_discount:
 
 scpr_fixed_amount_discount:
     info:
-        rule_name: test_shopping_cart_rule
+        rule_name: test_shopping_cart_rule_%randomize%
         description: description for test shopping cart rule
         status: Active
         websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
-        coupon_code: test_code
+        coupon_code: test_code_%randomize%
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
@@ -359,13 +359,13 @@ totals_for_fixed_amount_discount:
 
 scpr_fixed_amount_discount_for_whole_cart:
     info:
-        rule_name: test_shopping_cart_rule
+        rule_name: test_shopping_cart_rule_%randomize%
         description: description for test shopping cart rule
         status: Active
         websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
-        coupon_code: test_code
+        coupon_code: test_code_%randomize%
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%

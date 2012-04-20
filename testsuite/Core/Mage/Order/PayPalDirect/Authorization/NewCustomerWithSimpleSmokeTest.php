@@ -101,8 +101,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -135,8 +134,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -177,7 +175,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3303
+     * @TestlinkId TL-MAGE-3303
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -189,8 +187,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -234,8 +231,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -271,7 +267,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3302
+     * @TestlinkId TL-MAGE-3302
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -282,8 +278,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -321,8 +316,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -368,7 +362,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3304
+     * @TestlinkId TL-MAGE-3304
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -379,8 +373,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -404,7 +397,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3305
+     * @TestlinkId TL-MAGE-3305
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -415,8 +408,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -444,8 +436,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -481,8 +472,9 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3306
+     * @TestlinkId TL-MAGE-3306
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {
@@ -496,8 +488,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -512,8 +503,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -544,7 +534,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3307
+     * @TestlinkId TL-MAGE-3307
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -556,8 +546,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
@@ -595,7 +584,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3301
+     * @TestlinkId TL-MAGE-3301
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData, $testData)
     {
@@ -615,8 +604,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
         $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
+        if (!$this->isElementPresent($messageXpath)) {
             $messages = $this->getParsedMessages();
             $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
         }
