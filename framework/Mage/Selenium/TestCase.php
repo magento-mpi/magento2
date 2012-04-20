@@ -3166,12 +3166,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $errorMessage = "Problem with field '$name' and xpath '$xpath': ";
         if ($this->isElementPresent($xpath)) {
-            if ($this->isEditable($xpath)) {
-                $this->type($xpath, $value);
-                $this->waitForAjax();
-            } else {
-                throw new RuntimeException($errorMessage . 'Element is not editable');
-            }
+            $this->waitForEditable($xpath);
+            $this->type($xpath, $value);
+            $this->waitForAjax();
         } else {
             throw new RuntimeException($errorMessage . "Element is not present on '"
                 . $this->getCurrentPage() . "' page");
