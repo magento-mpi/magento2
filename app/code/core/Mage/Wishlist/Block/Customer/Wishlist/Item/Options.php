@@ -98,6 +98,9 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_B
         }
 
         $item = $this->getItem();
+        if (!$item) {
+            return '';
+        }
         $data = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
         if (empty($data['template'])) {
             $data = $this->getOptionsRenderCfg('default');

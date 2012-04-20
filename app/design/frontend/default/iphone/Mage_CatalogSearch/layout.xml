@@ -37,7 +37,7 @@
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
             </block>
-            <block type="Mage_CatalogSearch_Block_Layer" name="catalogsearch" after="-" template="catalog/layer/view.phtml"/>
+            <block type="Mage_CatalogSearch_Block_Layer" name="catalogsearch" after="-" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
     </catalogsearch_result_index>
 
@@ -68,7 +68,7 @@ Advanced search results
         <update handle="page_two_columns_right" />
         <!-- Mage_Catalogsearch -->
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="Mage_CatalogSearch_Block_Advanced_Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
@@ -97,7 +97,7 @@ Advanced search results
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="catalogsearch/term.phtml"/>
+            <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
         </reference>
     </catalogsearch_term_popular>
 

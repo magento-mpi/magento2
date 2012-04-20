@@ -437,7 +437,6 @@ body > header dd.menu-box .badge {
 }
 
 body > header dd.menu-box .welcome-msg {
-    background:url(../images/bg_drop.jpg) repeat-x 0 0;
     border-bottom:2px solid #585858;
     font-weight:bold;
     padding:10px;
@@ -500,7 +499,6 @@ body > nav ul {
 
 body > nav li {
     border-width:0 7px 0 7px;
-    -webkit-border-image:url(../images/bg_nav_brd_inactive.png) 0 7 0 repeat stretch;
     display:table-cell;
     text-align:center;
     text-shadow:0 1px 1px rgba(0, 0, 0, 0.8);
@@ -536,7 +534,6 @@ body > nav span {
 
 body > nav .active {
     border-width:0 12px 0 12px;
-    -webkit-border-image:url(../images/bg_nav_brd.png) 0 13 0 13 stretch stretch;
     font-weight:bold;
 }
 

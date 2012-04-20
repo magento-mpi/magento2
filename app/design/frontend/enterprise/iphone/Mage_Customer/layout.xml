@@ -91,11 +91,11 @@ New customer registration
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
                 <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div"/>
-                <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_user_attributes">
+                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode"><code>customer_account_create</code></action>
                     <action method="setEntityModelClass"><code>Mage_Customer_Model_Customer</code></action>
                 </block>
-                <block type="Enterprise_Customer_Block_Form" template="customer/form/userattributes.phtml" name="customer_form_address_user_attributes">
+                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
                     <action method="setFormCode"><code>customer_register_address</code></action>
                     <action method="setEntityModelClass"><code>Mage_Customer_Model_Address</code></action>
                 </block>
@@ -207,7 +207,7 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
 
         <reference name="left">
-            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
 
         </reference>

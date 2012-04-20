@@ -25,7 +25,7 @@ Default layout, loads most of the pages
 
         <!-- Mage_Wishlist -->
         <reference name="right">
-            <block type="Mage_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="wishlist/sidebar.phtml"/>
+            <block type="Mage_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
         </reference>
     </default>
 
@@ -60,29 +60,29 @@ Wishlist pages
         <!-- Mage_Wishlist -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="wishlist/view.phtml">
+            <block type="Mage_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="view.phtml">
                 <action method="setTitle" translate="title">
                     <title>My Wishlist</title>
                 </action>
-                <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="wishlist/item/column/remove.phtml"></block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml"></block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart" name="customer.wishlist.item.cart" template="wishlist/item/column/cart.phtml">
+                <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="customer.wishlist.items" as="items" template="item/list.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="item/column/image.phtml"></block>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Cart" name="customer.wishlist.item.cart" template="item/column/cart.phtml">
                         <action method="setTitle" translate="title">
                             <title>Add to Cart</title>
                         </action>
                         <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Comment" name="customer.wishlist.item.info" template="wishlist/item/column/info.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Comment" name="customer.wishlist.item.info" template="item/column/info.phtml">
                         <action method="setTitle" translate="title">
                             <title>Product Details and Comment</title>
                         </action>
                     </block>
                 </block>
                 <container name="customer.wishlist.buttons" as="control_buttons" label="Customer Wishlist Buttons">
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.share" template="wishlist/button/share.phtml"/>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.toCart" template="wishlist/button/tocart.phtml"/>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.update" template="wishlist/button/update.phtml"/>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.share" template="button/share.phtml"/>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.toCart" template="button/tocart.phtml"/>
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.update" template="button/update.phtml"/>
                 </container>
             </block>
         </reference>
@@ -96,7 +96,7 @@ Wishlist pages
         <!-- Mage_Wishlist -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
+            <block type="Mage_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="sharing.phtml"/>
         </reference>
         <reference name="right">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
@@ -107,7 +107,7 @@ Wishlist pages
         <label>Configure Wishlist Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">
-            <block type="Mage_Wishlist_Block_Item_Configure" name="product.info.addto" as="addto" template="wishlist/item/configure/addto.phtml"/>
+            <block type="Mage_Wishlist_Block_Item_Configure" name="product.info.addto" as="addto" template="item/configure/addto.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild"><name>product.info.addto</name></action>
@@ -119,7 +119,7 @@ Wishlist pages
         <label>Customer Shared Wishlist View</label>
         <!-- Mage_Wishlist -->
         <reference name="content">
-            <block type="Mage_Wishlist_Block_Share_Wishlist" name="customer.wishlist" template="wishlist/shared.phtml"/>
+            <block type="Mage_Wishlist_Block_Share_Wishlist" name="customer.wishlist" template="shared.phtml"/>
         </reference>
     </wishlist_shared_index>
 </layout>

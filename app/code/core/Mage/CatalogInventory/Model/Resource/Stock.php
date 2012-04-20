@@ -348,7 +348,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
             .  join(') ' . Zend_Db_Select::SQL_OR .' (', $where)
             . '))';
 
-        $collection->joinTable(array('invtr' => 'cataloginventory/stock_item'),
+        $collection->joinTable(array('invtr' => 'cataloginventory_stock_item'),
             'product_id = entity_id',
             $fields,
             $where
