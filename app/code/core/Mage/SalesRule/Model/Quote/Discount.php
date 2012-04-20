@@ -143,7 +143,7 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
      */
     protected function _recalculateChildDiscount($child)
     {
-        $item   = $child->getParentItem();
+        $item = $child->getParentItem();
         $prices = array('base' => $item->getBaseOriginalPrice(), 'current' => $item->getPrice());
         $keys = array('discount_amount', 'original_discount_amount');
         foreach ($keys as $key) {

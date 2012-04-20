@@ -212,6 +212,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         return true;
     }
 
+    /**
+     * Set skip actions validation flag
+     *
+     * @param   boolean $flag
+     * @return  Mage_SalesRule_Model_Validator
+     */
     public function setSkipActionsValidation($flag)
     {
         $this->_skipActionsValidation = $flag;
@@ -228,11 +234,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     {
         $address = $this->_getAddress($item);
         foreach ($this->_getRules() as $rule) {
-            if (!$this->_canProcessRule($rule, $address)) {
-                return false;
-            }
-
-            if (!$rule->getActions()->validate($item)) {
+            if (!$this->_canProcessRule($rule, $address) || !$rule->getActions()->validate($item)) {
                 return false;
             }
         }
