@@ -47,6 +47,7 @@ require_once 'functions.php';
 
 Mage_Selenium_TestConfiguration::getInstance();
 
-//Mage_Listener_EventListener::autoAttach(SELENIUM_TESTS_BASEDIR
-//                                            . implode(DIRECTORY_SEPARATOR, array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')));
+Mage_Listener_EventListener::autoAttach(SELENIUM_TESTS_BASEDIR
+                                            . implode(DIRECTORY_SEPARATOR, array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')));
 //Mage_Testlink_Listener::registerObserver('Mage_Testlink_Annotation');
+Mage_Listener_EventListener::attach('Mage_Listener_Observers_TeamcityObserver');
