@@ -519,9 +519,9 @@ Validation.addAllThese([
                 return new Date(v.join('/')).getTime();
             };
 
-            var dependentElement = Element.select(elm.form, '.validate-date-range .date-range-' + m[1] + '-to');
-            return !dependentElement || Validation.get('IsEmpty').test(dependentElement.value)
-                || normalizedTime(v) <= normalizedTime(dependentElement.value);
+            var dependentElements = Element.select(elm.form, '.validate-date-range.date-range-' + m[1] + '-to');
+            return !dependentElements.length || Validation.get('IsEmpty').test(dependentElements[0].value)
+                || normalizedTime(v) <= normalizedTime(dependentElements[0].value);
         }],
     ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com.', function (v) {
                 //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
