@@ -78,6 +78,13 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     protected $_cartFixedRuleUsedForAddress = array();
 
     /**
+     * Skip action rules validation flag
+     *
+     * @var bool
+     */
+    protected $_skipActionsValidation = false;
+
+    /**
      * Init validator
      * Init process load collection of rules for specific website,
      * customer group and coupon code
@@ -205,6 +212,34 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         return true;
     }
 
+    public function setSkipActionsValidation($flag)
+    {
+        $this->_skipActionsValidation = $flag;
+        return $this;
+    }
+
+    /**
+     * Can apply rules check
+     *
+     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @return  bool
+     */
+    public function canApplyRules(Mage_Sales_Model_Quote_Item_Abstract $item)
+    {
+        $address = $this->_getAddress($item);
+        foreach ($this->_getRules() as $rule) {
+            if (!$this->_canProcessRule($rule, $address)) {
+                return false;
+            }
+
+            if (!$rule->getActions()->validate($item)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Quote item free shipping ability check
      * This process not affect information about applied rules, coupon code etc.
@@ -291,7 +326,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 continue;
             }
 
-            if (!$rule->getActions()->validate($item)) {
+            if (!$this->_skipActionsValidation && !$rule->getActions()->validate($item)) {
                 continue;
             }
 
