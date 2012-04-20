@@ -53,16 +53,19 @@ manage_admin_users:
         buttons:
             add_new_admin_user: //button[span='Add New User' or span='Add New']
         messages: &adminUserMessages
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
-            success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
-            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
+            confirmation_for_delete: Are you sure you want to do this?
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
+            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
+            invalid_email: //div[@id='advice-validate-email-user_email']
             invalid_password: //div[@id='advice-validate-admin-password-user_password']
             password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
-            invalid_email: //div[@id='advice-validate-email-user_email']
-            confirmation_for_delete: Are you sure you want to do this?
+            success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
+            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
+            success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']
+            success_saved_role: //div[@id='messages']//li[span='The role has been successfully saved.']
 
 # 'New User' page
 new_admin_user:
@@ -79,7 +82,7 @@ new_admin_user:
                                 account_information:
                                     xpath: //div[@id='user_base_fieldset']
                                     dropdowns:
-                                        this_acount_is: //select[@id='user_is_active']
+                                        this_account_is: //select[@id='user_is_active']
                                     fields:
                                         user_name: //input[@id='user_username']
                                         first_name: //input[@id='user_firstname']
@@ -157,8 +160,7 @@ manage_roles:
                             select_by_role_name: //table[@id="roleGrid_table"]//td[normalize-space(text())="%roleName%"]
         buttons:
             add_new_role: //button[span='Add New Role']
-        messages:
-            success_delete_role: //div[@id='messages']//li[span='The role has been deleted.']
+        messages: *adminUserMessages
 
 # 'New Role' page
 new_role:
@@ -198,10 +200,7 @@ new_role:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_role: //button[span='Save Role']
-        messages:
-            success_save_role: //div[@id='messages']//li[span='The role has been successfully saved.']
-            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
-
+        messages: *adminUserMessages
 
 # 'Edit Role' page
 edit_role:
@@ -263,9 +262,7 @@ edit_role:
             reset: //button[span='Reset']
             delete_role: //button[span='Delete Role']
             save_role: //button[span='Save Role']
-        messages:
-            success_save_role: //div[@id='messages']//li[span='The role has been successfully saved.']
-            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
+        messages:  *adminUserMessages
 
 # 'My Account' page
 my_account:

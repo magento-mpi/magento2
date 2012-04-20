@@ -74,7 +74,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      * <p>Create customer by filling in only required fields</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill in reqired fields.</p>
+     * <p>2. Fill in required fields.</p>
      * <p>3. Click 'Save Customer' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is created.</p>
@@ -123,10 +123,10 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Ceate customer with one empty reqired field</p>
+     * <p>Create customer with one empty required field</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill in fields exept one required.</p>
+     * <p>2. Fill in fields except one required.</p>
      * <p>3. Click 'Save Customer' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is not created.</p>
@@ -177,7 +177,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @TestlinkId	TL-MAGE-3588
      */
-    public function withSpecialCharactersExeptEmail()
+    public function withSpecialCharactersExceptEmail()
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
@@ -280,7 +280,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@magento.com')
+            array('te@st@unknown-domain.com')
         );
     }
 
@@ -314,7 +314,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      * <p>Create customer with auto-generated password</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill in reqired fields.</p>
+     * <p>2. Fill in required fields.</p>
      * <p>3. Click 'Save Customer' button.</p>
      * <p>Expected result:</p>
      * <p>Customer is created.</p>

@@ -58,7 +58,8 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createCategory($category);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
-
+        $this->reindexInvalidedData();
+        $this->clearInvalidedCache();
         return $category['name'];
     }
 
@@ -186,7 +187,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe('');
         //Verifying
-        $this->assertMessagePresent('validation', 'newsletter_reqired_field');
+        $this->assertMessagePresent('validation', 'newsletter_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 

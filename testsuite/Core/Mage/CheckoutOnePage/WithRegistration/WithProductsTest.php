@@ -83,7 +83,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3208
+     * @TestlinkId TL-MAGE-3208
      */
     public function withSimpleProduct($data)
     {
@@ -119,7 +119,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3209
+     * @TestlinkId TL-MAGE-3209
      */
     public function withVirtualProduct($data)
     {

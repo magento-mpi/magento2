@@ -650,6 +650,40 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_TestCase::getHttpResponse
+     */
+    public function testgetHttpResponse()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $response = $instance->getHttpResponse('http://www.w3.org/');
+        $this->assertInternalType('array', $response);
+        $this->assertArrayHasKey('http_code', $response);
+        $this->assertInternalType('int', $response['http_code']);
+        $this->assertEquals(200, $response['http_code']);
+
+        $response = $instance->getHttpResponce('http://foo.nowhere/');
+        $this->assertInternalType('array', $response);
+        $this->assertArrayHasKey('http_code', $response);
+        $this->assertEquals(0, $response['http_code']);
+
+        $response = $instance->getHttpResponce('wikipedia.org');
+        $this->assertArrayHasKey('http_code', $response);
+        $this->assertEquals(301, $response['http_code']);
+    }
+
+    /**
+     * @covers Mage_Selenium_TestCase::httpResponceIsOK
+     */
+    public function testHttpResponseIsOK()
+    {
+        $instance = new Mage_Selenium_TestCase();
+        $this->assertTrue($instance->httpResponseIsOK('http://www.w3.org/'));
+        $this->assertTrue($instance->httpResponseIsOK('www.w3.org'));
+        $this->assertTrue($instance->httpResponseIsOK('wikipedia.org')); //Redirection
+        $this->assertFalse($instance->httpResponseIsOK('http://foo.nowhere/'));
+    }
+
+    /**
      * @covers Mage_Selenium_TestCase::detectOS
      */
     public function testCheckOsType()

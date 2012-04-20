@@ -61,7 +61,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * <p>Shopping Cart is Empty page appears</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-5309
+     * @TestlinkId TL-MAGE-5309
      */
     public function emptyShoppingCart()
     {
@@ -89,14 +89,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-5310
+     * @TestlinkId TL-MAGE-5310
      */
     public function checkoutMethodNotDefined($simpleSku)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'         => $simpleSku,
-                                                 'checkout_as_customer' => '%noValue%',));
+                                           array('general_name'        => $simpleSku,
+                                                'checkout_as_customer' => '%noValue%'));
         //Steps
         $this->logoutCustomer();
         try {
@@ -133,14 +133,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @test
      * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3596
+     * @TestlinkId TL-MAGE-3596
      */
     public function emptyRequiredFieldsInBillingAddress($field, $fieldName, $simpleSku)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
                                            array('general_name' => $simpleSku,
-                                                 $field         => ''));
+                                                $field          => ''));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -198,16 +198,16 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3599
+     * @TestlinkId TL-MAGE-3599
      */
     public function incorrectPasswordLength($simpleSku)
     {
         //Data
         $billingPassword = $this->generate('string', 5, ':punct:');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'             => $simpleSku,
-                                                 'billing_password'         => $billingPassword,
-                                                 'billing_confirm_password' => $billingPassword));
+                                           array('general_name'            => $simpleSku,
+                                                'billing_password'         => $billingPassword,
+                                                'billing_confirm_password' => $billingPassword));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -243,14 +243,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @test
      * @dataProvider incorrectEmailDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3598
+     * @TestlinkId TL-MAGE-3598
      */
     public function incorrectEmail($wrongValue, $simpleSku)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'  => $simpleSku,
-                                                 'billing_email' => $wrongValue));
+                                           array('general_name' => $simpleSku,
+                                                'billing_email' => $wrongValue));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -271,7 +271,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         return array(
             array('invalid'),
             array('test@invalidDomain'),
-            array('te@st@domain.com')
+            array('te@st@unknown-domain.com')
         );
     }
 
@@ -293,15 +293,15 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3594
+     * @TestlinkId TL-MAGE-3594
      */
     public function existEmail($simpleSku)
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'  => $simpleSku,
-                                                 'billing_email' => $userData['email']));
+                                           array('general_name' => $simpleSku,
+                                                'billing_email' => $userData['email']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -371,14 +371,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @test
      * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3597
+     * @TestlinkId TL-MAGE-3597
      */
     public function emptyRequiredFieldsInShippingAddress($field, $fieldName, $simpleSku)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'  => $simpleSku,
-                                                 $field          => ''));
+                                           array('general_name' => $simpleSku,
+                                                $field          => ''));
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -436,14 +436,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @test
      * @dataProvider addressLongValuesDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3595
+     * @TestlinkId TL-MAGE-3595
      */
     public function billingAddressLongValues($field, $fieldName, $simpleSku)
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'      => $simpleSku,
-                                                 'billing_' . $field => $this->generate('string', 256, ':alpha:')));
+                                           array('general_name'     => $simpleSku,
+                                                'billing_' . $field => $this->generate('string', 256, ':alpha:')));
         //Steps and Verification
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -455,7 +455,6 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             //Verification
             $this->addParameter('fieldName', $fieldName);
             $message = $this->_getMessageXpath('long_value_alert');
-            //$message = '"' . $fieldName . '" length must be equal or less than 255 characters.';
             $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }
@@ -487,8 +486,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name'       => $simpleSku,
-                                                 'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
+                                           array('general_name'      => $simpleSku,
+                                                'shipping_' . $field => $this->generate('string', 256, ':alpha:')));
         //Steps and Verification
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -500,7 +499,6 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             //Verification
             $this->addParameter('fieldName', $fieldName);
             $message = $this->_getMessageXpath('long_value_alert');
-            //$message = '"' . $fieldName . '" length must be equal or less than 255 characters.';
             $this->assertSame($message, $e->toString());
             $this->clearMessages('verification');
         }

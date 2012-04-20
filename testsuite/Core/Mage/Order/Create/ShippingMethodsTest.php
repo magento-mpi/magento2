@@ -110,7 +110,7 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function differentShipmentMethods($shipment, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
-        $shippingData = $this->loadDataSet('SalesOrder', 'shipping_' . $shipment);
+        $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
                                         array('filter_sku'    => $simpleSku,
                                               'shipping_data' => $shippingData));

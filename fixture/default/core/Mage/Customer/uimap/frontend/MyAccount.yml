@@ -25,7 +25,32 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#
+customer_account:
+    mca: customer/account/
+    title: My Account
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_recent_tags:
+                        xpath: //div[@class='box-account box-tags']
+                        links:
+                            tag: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
+                            view_all_tags: //a[text()='View All Tags']
+                -
+                    my_recent_reviews:
+                        xpath: //div[@class='box-account box-reviews']
+                        links:
+                            product_name: //ol[@id='my_recent_reviews']//a[text()='%productName%']
+                            view_all_reviews: //a[text()='View All Reviews']
+                        pageelements:
+                            product_review_rating: //div[h3='%productName%']//div[@class='rating']
+        messages: &myAccountMessages
+            success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
+            success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
+            confirmation_for_delete: Are you sure you want to delete this tag?
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+
 my_orders_history:
     mca: sales/order/history/
     title: My Orders
@@ -44,6 +69,7 @@ my_orders_history:
                             show_per_page: //div[@class='limiter']/select
                         pageelements:
                             order_total: //tr[td='%orderId%']/td[span='%orderTotal%']
+        messages: *myAccountMessages
 
 my_orders_history_index:
     mca: sales/order/history/%orderHistoryParam%/
@@ -68,31 +94,7 @@ view_order:
                             product_table_head: //table[@id='my-orders-table']/thead
                             price_totals: //table[@id='my-orders-table']/tfoot
                             product_line:  //table[@id='my-orders-table']/tbody
-
-customer_account:
-    mca: customer/account/
-    title: My Account
-    uimap:
-        form:
-            fieldsets:
-                -
-                    my_recent_tags:
-                        xpath: //div[@class='box-account box-tags']
-                        links:
-                            tag: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
-                            view_all_tags: //a[text()='View All Tags']
-                -
-                    my_recent_reviews:
-                        xpath: //div[@class='box-account box-reviews']
-                        links:
-                            product_name: //ol[@id='my_recent_reviews']//a[text()='%productName%']
-                            view_all_reviews: //a[text()='View All Reviews']
-                        pageelements:
-                            product_review_rating: //div[h3='%productName%']//div[@class='rating']
-
-        messages:
-            success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
-            success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
+        messages: *myAccountMessages
 
 my_account_view_tag:
     mca: tag/customer/view/tagId/%id%/
@@ -115,8 +117,7 @@ my_account_view_tag:
                             back_to_tags_list: //p[@class='back-link']/a[@href]
                         pageelements:
                             tag_name_box: //p[@class='my-tag-edit' and contains(., '%tagName%')]
-        messages:
-            confirmation_for_delete: Are you sure you want to delete this tag?
+        messages: *myAccountMessages
 
 my_account_my_tags:
     mca: tag/customer/
@@ -130,16 +131,14 @@ my_account_my_tags:
                         links:
                             tag_name: //a[text()='%tagName%']
                             back_to_tags_list: //p[@class='back-link']/a[@href]
-        messages:
-            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+        messages: *myAccountMessages
 
 my_account_my_tags_after_delete:
     mca: tag/customer/index/uenc/%uenc%/
     title: My Tags
     uimap:
         form: *my_tags
-        messages:
-            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
+        messages: *myAccountMessages
 
 my_product_reviews:
     mca: review/customer/
@@ -161,6 +160,7 @@ my_product_reviews:
                             review_date: //td[h2 = %productName%']/preceding-sibling::td
                         dropdowns:
                             show_per_page: //div[@class='limiter']/select
+        messages: *myAccountMessages
 
 my_product_reviews_details:
     mca: review/customer/view/id/%id%/
@@ -178,6 +178,7 @@ my_product_reviews_details:
                             review_details: //div[@class='product-details']/dl/dd
                             review_rate_value: //tr[th='%rateName%']//div[@class='rating']
                             average_customer_rating: //div[@class='ratings']//div[@class='rating']
+        messages: *myAccountMessages
 
 product_review_details:
     mca: review/product/view/id/%id%/
@@ -195,3 +196,4 @@ product_review_details:
                             review_details: //div[@class='product-details']/dl/dd
                             review_rate_value: //tr[th='%rateName%']//div[@class='rating']
                             average_customer_rating: //div[@class='ratings']//div[@class='rating']
+        messages: *myAccountMessages

@@ -49,6 +49,11 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->systemConfigurationHelper()->configure($config);
     }
 
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Creating Simple product</p>
      *
@@ -80,8 +85,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_authorizenet_flatrate',
-                                        array('filter_sku' => $simpleSku));
+        $paymentData = $this->loadDataSet('Payment', 'payment_authorizenet');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $simpleSku,
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -104,7 +111,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     public function differentCardInAuthorizeNet($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -148,7 +155,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3289
+     * @TestlinkId    TL-MAGE-3289
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -200,7 +207,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider refundDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5365
+     * @TestlinkId    TL-MAGE-5365
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
@@ -298,7 +305,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5366
+     * @TestlinkId    TL-MAGE-5366
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -325,7 +332,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5367
+     * @TestlinkId    TL-MAGE-5367
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -384,7 +391,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5368
+     * @TestlinkId    TL-MAGE-5368
      * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
@@ -428,7 +435,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5369
+     * @TestlinkId    TL-MAGE-5369
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -468,12 +475,12 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-5370
+     * @TestlinkId    TL-MAGE-5370
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');

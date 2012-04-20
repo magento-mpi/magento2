@@ -41,7 +41,7 @@ manage_cms_pages:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_layout: //select[@name='root_template']
-                            filter_store_viev: //select[@name='store_id']
+                            filter_store_view: //select[@name='store_id']
                             filter_status: //select[@name='is_active']
                         fields:
                             page: //input[@name='page']

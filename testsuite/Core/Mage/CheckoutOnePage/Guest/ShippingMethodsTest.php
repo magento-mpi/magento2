@@ -113,16 +113,16 @@ class Core_Mage_CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3192
+     * @TestlinkId TL-MAGE-3192
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
-        $shippingData = $this->loadDataSet('OnePageCheckout', 'front_shipping_' . $shipping);
+        $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_' . $shippingDestination,
-                                           array('general_name'   => $simpleSku,
-                                                 'shipping_data'  => $shippingData));
+                                           array('general_name' => $simpleSku,
+                                                'shipping_data' => $shippingData));
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

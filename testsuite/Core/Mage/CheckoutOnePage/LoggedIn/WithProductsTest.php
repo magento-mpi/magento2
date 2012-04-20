@@ -84,13 +84,13 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3203
+     * @TestlinkId TL-MAGE-3203
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
-                                           array('general_name'  => $data['simple']));
+                                           array('general_name' => $data['simple']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');
@@ -126,14 +126,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3204
+     * @TestlinkId TL-MAGE-3204
      */
     public function withVirtualProductAndCustomerWithoutAddress($data)
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_virtual',
-                                           array('general_name'  => $data['virtual']));
+                                           array('general_name' => $data['virtual']));
         //Steps
         $this->logoutCustomer();
         $this->navigate('customer_login');

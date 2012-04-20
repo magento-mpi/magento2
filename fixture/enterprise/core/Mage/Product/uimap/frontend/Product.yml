@@ -1,0 +1,74 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#
+product_page:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customize_product_info:
+                        xpath: //div[@id='options-container']
+                        links:
+                            customized_add_to_wishlist: //a[text()='Add to Wishlist']
+                -
+                    product_info:
+                        buttons:
+                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                        pageelements:
+                            qty: /..//input[@class='input-text qty'][@value='%price%']
+                -
+                    add_tag:
+                        buttons:
+                            add_tags: //button[//span='Add Tags']
+                -
+                    details:
+                        xpath: //div[dl/dt/span='Details']
+
+product_review:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customize_product_info:
+                        xpath: //div[@id='options-container']
+                -
+                    product_info:
+                        buttons:
+                            customize_and_add_to_cart: //button[span='Customize and Add to Cart']
+                -
+                    customer_reviews:
+                        pageelements:
+                            review_reviewer_name: //dt[contains(.,'%reviewerName%')]
+                            review_details: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]
+                            review_post_date: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/p[2]
+                        links:
+                            review_summary: //dt[contains(.,'%reviewerName%')]/a
+
+product_review_details:
+    mca: review/product/view/id/%id%/
+    title: Magento Enterprise Edition

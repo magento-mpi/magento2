@@ -194,16 +194,16 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Opens CMSpage
+     * Opens CMSPage
      *
      * @param array $searchPage
      */
     public function openCmsPage(array $searchPage)
     {
         $searchPage = $this->arrayEmptyClear($searchPage);
-        if (array_key_exists('filter_store_viev', $searchPage)
-                && !$this->controlIsPresent('dropdown', 'filter_store_viev')) {
-            unset($searchPage['filter_store_viev']);
+        if (array_key_exists('filter_store_view', $searchPage)
+                && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
+            unset($searchPage['filter_store_view']);
         }
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
         $this->assertNotEquals(null, $xpathTR, 'CMS Page is not found');

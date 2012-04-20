@@ -44,9 +44,9 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
         $data = $this->loadData('configuration_data');
         $host = $data['host'];
         $user = $data['user_name'];
-        $pswd = $data['user_password'];
+        $password = $data['user_password'];
         $baseName = $data['database_name'];
-        mysql_connect($host, $user, $pswd) or die("Couldn't connect to MySQL server!");
+        mysql_connect($host, $user, $password) or die("Couldn't connect to MySQL server!");
         mysql_query("DROP DATABASE IF EXISTS `$baseName`");
         mysql_query("CREATE DATABASE `$baseName`") or die("Couldn't create DATABASE!");
         //$this->installationHelper()->removeInstallData();
@@ -70,7 +70,7 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('localization'), $this->getParsedMessages());
         $this->fillForm($localeData);
 
-        // Add 'config' parameter to UImap
+        // Add 'config' parameter to UIMap
         $page = $this->getCurrentLocationUimapPage();
         $config = '?';
         $i = 1;

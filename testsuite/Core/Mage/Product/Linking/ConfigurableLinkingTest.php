@@ -35,482 +35,380 @@
  */
 class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_TestCase
 {
-    protected static $productTypes = array('simple',
-                                           'virtual',
-                                           'downloadable',
-                                           'bundle',
-                                           'configurable',
-                                           'grouped');
+    private static $productTypes = array('simple', 'virtual', 'downloadable',
+                                         'bundle', 'configurable', 'grouped');
 
-    protected function assertPreConditions()
+    protected function assertPreconditions()
     {
         $this->loginAdminUser();
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create attribute</p>
+     * <p>Create all types of products</p>
      *
      * @return array
      * @test
      */
-    public function createAttribute()
+    public function preconditionsForTests()
+    {
+        $linking = $this->productHelper()->createConfigurableProduct();
+        foreach (self::$productTypes as $product) {
+            $method = 'create' . ucfirst($product) . 'Product';
+            $forLinking[$product] = $this->productHelper()->$method();
+        }
+
+        return array($linking, $forLinking);
+    }
+
+    /**
+     * <p>Review Related products(inStock) on frontend assigned to Configurable product.</p>
+     * <p>Preconditions:</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Related products</p>
+     * <p>2. Navigate to frontend;</p>
+     * <p>3. Open product details page;</p>
+     * <p>4. Validate names of Related products in "Related products block";</p>
+     * <p>Expected result:</p>
+     * <p>The product contains block with Related products; Names of Related products are correct</p>
+     *
+     * @param array $testData
+     * @param string $linkingType
+     *
+     * @test
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
+     */
+    public function relatedInStock($linkingType, $testData)
     {
         //Data
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $associatedAttributes = $this->loadData('associated_attributes',
-                                                array('General' => $attrData['attribute_code']));
+        $assignType = 'related';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
         //Steps
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        //$this->addParameter('attributeName', 'Default');
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return $attrData;
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
+        $this->clearInvalidedCache();
+        $this->reindexInvalidedData();
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if (!$this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is not on "' . $this->getCurrentPage() . '" page');
+        }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create simple product for adding it to bundle and associated product</p>
+     * Review Cross-sell products(inStock) on frontend assigned to configurable product.</p>
+     * <p>Preconditions:</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
+     * <p>Steps:</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Cross-sell products</p>
+     * <p>2. Navigate to frontend;</p>
+     * <p>3. Open product details page;</p>
+     * <p>4. Validate names of Cross-sell products in "Cross-sell products block";</p>
+     * <p>Expected result:</p>
+     * <p>The product contains block with Cross-sell products; Names of Cross-sell products are correct</p>
      *
-     * @param array $attrData
+     * @param array $testData
+     * @param string $linkingType
      *
-     * @return string
      * @test
-     * @depends createAttribute
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
      */
-    public function createSimpleProductForBundle($attrData)
+    public function crossSellsInStock($linkingType, $testData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-            $attrData['option_1']['admin_option_name'];
+        $assignType = 'cross_sells';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $dataForBuy = $this->loadDataSet('Products', 'configurable_options_to_add_to_shopping_cart',
+                                         $linking[$assignProductType . 'Option']);
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $productData['general_sku'];
-    }
-
-    /**
-     * <p>Preconditions</p>
-     * <p>Create products for linking in stock</p>
-     *
-     * @param array $attrData
-     * @param string $simple
-     *
-     * @return array
-     * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     */
-    public function createProductsForLinkingInStock($attrData, $simple)
-    {
-        $productsInStock = array();
-        $this->navigate('manage_products');
-        foreach (self::$productTypes as $productType) {
-            $productData = $this->loadData($productType . '_product_related',
-                                           array('bundle_items_search_sku'     => $simple,
-                                                'configurable_attribute_title' => $attrData['admin_title'],
-                                                'associated_search_sku'        => $simple));
-            $this->productHelper()->createProduct($productData, $productType);
-            $this->assertMessagePresent('success', 'success_saved_product');
-
-            $productsInStock[$productType]['general_name'] = $productData['general_name'];
-            $productsInStock[$productType]['general_sku'] = $productData['general_sku'];
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
+        $this->clearInvalidedCache();
+        $this->reindexInvalidedData();
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->productHelper()->frontAddProductToCart($dataForBuy);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if (!$this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is not on "' . $this->getCurrentPage() . '" page');
         }
-        return $productsInStock;
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create products for linking out of stock</p>
-     *
-     * @param array $attrData
-     * @param string $simple
-     *
-     * @return array
-     * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     */
-    public function createProductsForLinkingOutOfStock($attrData, $simple)
-    {
-        $productsOutOfStock = array();
-        $this->navigate('manage_products');
-        foreach (self::$productTypes as $productType) {
-            $productData = $this->loadData($productType . '_product_related',
-                                           array('bundle_items_search_sku'     => $simple,
-                                                'configurable_attribute_title' => $attrData['admin_title'],
-                                                'associated_search_sku'        => $simple,
-                                                'inventory_stock_availability' => 'Out of Stock'));
-            $this->productHelper()->createProduct($productData, $productType);
-            $this->assertMessagePresent('success', 'success_saved_product');
-
-            $productsOutOfStock[$productType]['general_name'] = $productData['general_name'];
-            $productsOutOfStock[$productType]['general_sku'] = $productData['general_sku'];
-        }
-        return $productsOutOfStock;
-    }
-
-    /**
-     * <p>Review related products on frontend.</p>
+     * Review Up-sell products(inStock) on frontend assigned to configurable product.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock;
-     *       Attach all types of products to the first one as related products</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate names of related products in "related products block";</p>
+     * <p>4. Validate names of Up-sell products in "Up-sell products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product contains block with related products;
-     *    Names of related products are correct</p>
+     * <p>The product contains block with Up-sell products; Names of Up-sell products are correct</p>
      *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsInStock
+     * @param array $testData
+     * @param string $linkingType
      *
      * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingInStock
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
      */
-    public function relatedInStock($attrData, $simple, $productsInStock)
+    public function upSellsInStock($linkingType, $testData)
     {
-        $productData1 = $this->loadData('configurable_product_for_linking_products',
-                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku'         => $simple));
-        $productData2 = $this->loadData('configurable_product_for_linking_products',
-                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku'         => $simple));
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            if ($i % 2) {
-                $productData1['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
-            } else {
-                $productData2['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
-            }
-
-        }
+        //Data
+        $assignType = 'up_sells';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData1, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($productData2, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            if ($i % 2) {
-                $this->productHelper()->frontOpenProduct($productData1['general_name']);
-            } else {
-                $this->productHelper()->frontOpenProduct($productData2['general_name']);
-            }
-            $this->addParameter('productName', $prod['general_name']);
-            if (!$this->controlIsPresent('link', 'related_product')) {
-                $this->addVerificationMessage('Related Product ' . $prod['general_name'] . ' is not on the page');
-            }
-            $i++;
+        $this->reindexInvalidedData();
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if (!$this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is not on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Review related products on frontend.</p>
+     * <p>Review Related products(OutStock) on frontend assigned to configurable product.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock;
-     *       Attach all types of products to the first one as related products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page for the first product;</p>
-     * <p>4. Check if the first product contains any related products;</p>
-     * <p>Expected result:</p>
-     * <p>Products are created, The configurable product does not contains any related products;</p>
-     *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsOutOfStock
-     *
-     * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingOutOfStock
-     */
-    public function relatedOutOfStock($attrData, $simple, $productsOutOfStock)
-    {
-        $productData = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                            'associated_search_sku'         => $simple));
-        $i = 1;
-        foreach ($productsOutOfStock as $prod) {
-            $productData['related_data']['related_' . $i++]['related_search_sku'] = $prod['general_sku'];
-        }
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
-        $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        foreach ($productsOutOfStock as $prod) {
-            $this->addParameter('productName', $prod['general_name']);
-            if ($this->controlIsPresent('link', 'related_product')) {
-                $this->addVerificationMessage('Related Product ' . $prod['general_name'] . ' is on the page');
-            }
-        }
-        $this->assertEmptyVerificationErrors();
-    }
-
-    /**
-     * <p>Review Cross-sell products on frontend.</p>
-     * <p>Preconditions:</p>
-     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock;
-     *       Attach all types of products to the first one as cross-sell product</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Related products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Add product to shopping cart;</p>
-     * <p>5. Validate names of cross-sell products in "cross-sell products block" in shopping cart;</p>
      * <p>Expected result:</p>
-     * <p>Products are created, The configurable product contains block with cross-sell products;
-     *    Names of cross-sell products are correct</p>
+     * <p>The product does not contain block with Related products</p>
      *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsInStock
+     * @param array $testData
+     * @param string $linkingType
      *
      * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingInStock
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
      */
-    public function crossSellsInStock($attrData, $simple, $productsInStock)
+    public function relatedOutStock($linkingType, $testData)
     {
-        $product1 = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                            'associated_search_sku'         => $simple));
-        $product2 = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                            'associated_search_sku'         => $simple));
-
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            if ($i % 2) {
-                $product1['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
-            } else {
-                $product2['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
-            }
-        }
+        //Data
+        $assignType = 'related';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
+        //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($product1, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($product2, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
+        //Set product to 'Out of Stock';
+        $this->productHelper()->openProduct($searchAssigned);
+        $this->openTab('inventory');
+        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        //Assign product
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            $this->addParameter('crosssellProductName', $prod['general_name']);
-            $chooseOption = array('custom_option_select_attribute' => $attrData['option_1']['store_view_titles']['Default Store View']);
-            if ($i % 2) {
-                $this->productHelper()->frontOpenProduct($product1['general_name']);
-                $param = $product1['associated_configurable_data']['associated_products_attribute_name'];
-                $this->addParameter('title', $param);
-            } else {
-                $this->productHelper()->frontOpenProduct($product2['general_name']);
-                $param = $product2['associated_configurable_data']['associated_products_attribute_name'];
-                $this->addParameter('title', $param);
-            }
-            $this->fillForm($chooseOption);
-            $this->productHelper()->frontAddProductToCart();
-            if (!$this->controlIsPresent('link', 'crosssell_product')) {
-                $this->addVerificationMessage('Cross-sell Product ' . $prod['general_name'] . ' is not on the page');
-            }
-            $this->shoppingCartHelper()->frontClearShoppingCart();
-            $i++;
+        $this->reindexInvalidedData();
+        //Verify
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if ($this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Review Cross-sell products on frontend.</p>
+     * Review Cross-sell products(OutStock) on frontend assigned to configurable product.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable products in stock;
-     *       Attach all types of products to the first one as cross-sell product</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Cross-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Add product to shopping cart;</p>
-     * <p>5. Validate that shopping cart page with the added product does not contains any cross-sell products;</p>
      * <p>Expected result:</p>
-     * <p>Products are created.
-     *    The configurable product in the shopping cart does not contain the cross-sell products</p>
+     * <p>The product does not contain block with Cross-sell products</p>
      *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsOutOfStock
+     * @param array $testData
+     * @param string $linkingType
      *
      * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingOutOfStock
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
      */
-    public function crossSellsOutOfStock($attrData, $simple, $productsOutOfStock)
+    public function crossSellsOutStock($linkingType, $testData)
     {
-        $productData = $this->loadDataSet('Product', 'configurable_product_for_linking_products',
-                                          array('configurable_attribute_title' => $attrData['admin_title'],
-                                               'associated_search_sku'         => $simple));
-        $param = $productData['associated_configurable_data']['associated_products_attribute_name'];
-        $chooseOption = array('custom_option_select_attribute' => $attrData['option_1']['store_view_titles']['Default Store View']);
-        $i = 1;
-        foreach ($productsOutOfStock as $prod) {
-            $productData['cross_sells_data']['cross_sells_' . $i++]['cross_sells_search_sku'] = $prod['general_sku'];
-        }
+        //Data
+        $assignType = 'cross_sells';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart',
+                                         $linking[$assignProductType . 'Option']);
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        //Steps
+        $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
+        //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
+        //Set product to 'Out of Stock';
+        $this->productHelper()->openProduct($searchAssigned);
+        $this->openTab('inventory');
+        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        //Assign product
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->addParameter('title', $param);
-        $this->fillForm($chooseOption);
-        $this->productHelper()->frontAddProductToCart();
-        foreach ($productsOutOfStock as $prod) {
-            $this->addParameter('crosssellProductName', $prod['general_name']);
-            if ($this->controlIsPresent('link', 'crosssell_product')) {
-                $this->addVerificationMessage('Cross-sell Product ' . $prod['general_name'] . ' is on the page');
-            }
+        $this->reindexInvalidedData();
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->productHelper()->frontAddProductToCart($dataForBuy);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if ($this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
 
     /**
-     * <p>Review Up-sell products on frontend.</p>
+     * Review Up-sell products(OutStock) on frontend assigned to configurable product.</p>
      * <p>Preconditions:</p>
-     * <p>Create All Types of products (in stock) and realize next test for all of them;</p>
+     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
      * <p>Steps:</p>
-     * <p>1. Create 1 configurable product in stock;
-     *       Attach all types of products to the first one as up-sell products</p>
+     * <p>1. Open product in stock; Attach all types of products to the product as Up-sell products</p>
      * <p>2. Navigate to frontend;</p>
      * <p>3. Open product details page;</p>
-     * <p>4. Validate names of up-sell products in "up-sell products block";</p>
      * <p>Expected result:</p>
-     * <p>Products are created. The configurable product contains block with up-sell products;
-     *    Names of up-sell products are correct</p>
+     * <p>The product does not contain block with Up-sell products</p>
      *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsInStock
+     * @param array $testData
+     * @param string $linkingType
      *
      * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingInStock
+     * @dataProvider linkingTypeDataProvider
+     * @depends preconditionsForTests
      */
-    public function upSellsInStock($attrData, $simple, $productsInStock)
+    public function upSellsOutStock($linkingType, $testData)
     {
-        $productData1 = $this->loadData('configurable_product_for_linking_products',
-                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku'         => $simple));
-        $productData2 = $this->loadData('configurable_product_for_linking_products',
-                                        array('configurable_attribute_title' => $attrData['admin_title'],
-                                             'associated_search_sku'         => $simple));
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            if ($i % 2) {
-                $productData1['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
-            } else {
-                $productData2['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
-            }
-
-        }
+        //Data
+        $assignType = 'up_sells';
+        $assignProductType = 'configurable';
+        list($linking, $forLinking) = $testData;
+        $forLinking = $forLinking[$linkingType][$linkingType];
+        $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
+        $assign = $this->loadDataSet('Product', $assignType . '_1',
+                                     array($assignType . '_search_name' => $forLinking['product_name'],
+                                          $assignType . '_search_sku'   => $forLinking['product_sku']));
+        //Steps
+        $searchAssigned = $this->loadDataSet('Product', 'product_search', $forLinking);
+        //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData1, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($productData2, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
+        //Set product to 'Out of Stock';
+        $this->productHelper()->openProduct($searchAssigned);
+        $this->openTab('inventory');
+        $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        //Assign product
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->unselectAssociatedProduct($assignType);
+        $this->clickButton('reset');
+        $this->openTab($assignType);
+        $this->productHelper()->assignProduct($assign, $assignType);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->isAssignedProduct($assign, $assignType);
+        $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $i = 1;
-        foreach ($productsInStock as $prod) {
-            if ($i % 2) {
-                $this->productHelper()->frontOpenProduct($productData1['general_name']);
-            } else {
-                $this->productHelper()->frontOpenProduct($productData2['general_name']);
-            }
-            $this->addParameter('productName', $prod['general_name']);
-            if (!$this->controlIsPresent('link', 'upsell_product')) {
-                $this->addVerificationMessage('Up-sell Product ' . $prod['general_name'] . ' is not on the page');
-            }
-            $i++;
+        $this->reindexInvalidedData();
+        $this->productHelper()->frontOpenProduct($linking[$assignProductType]['product_name']);
+        $this->addParameter('productName', $forLinking['product_name']);
+        if ($this->controlIsPresent('link', $assignType . '_product')) {
+            $this->addVerificationMessage($assignType . ' product ' . $forLinking['product_name']
+                                              . ' is on "' . $this->getCurrentPage() . '" page');
         }
         $this->assertEmptyVerificationErrors();
     }
 
-    /**
-     * <p>Review Up-sell products on frontend.</p>
-     * <p>Preconditions:</p>
-     * <p>Create All Types of products (out of stock) and realize next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1.Create 1 configurable product in stock;
-     *      Attach all types of products to the first one as up-sell products</p>
-     * <p>2.Navigate to frontend;</p>
-     * <p>3.Open product details page;</p>
-     * <p>4.Validate that product details page for the 1st product does not contain up-sell block with the products</p>
-     * <p>Expected result:</p>
-     * <p>Products are created. The configurable product details page does not contain any up-sell product</p>
-     *
-     * @param array $attrData
-     * @param string $simple
-     * @param array $productsOutOfStock
-     *
-     * @test
-     * @depends createAttribute
-     * @depends createSimpleProductForBundle
-     * @depends createProductsForLinkingOutOfStock
-     */
-    public function upSellsOutOfStock($attrData, $simple, $productsOutOfStock)
+    public function linkingTypeDataProvider()
     {
-        $productData = $this->loadData('configurable_product_for_linking_products',
-                                       array('configurable_attribute_title' => $attrData['admin_title'],
-                                            'associated_search_sku'         => $simple));
-        $i = 1;
-        foreach ($productsOutOfStock as $prod) {
-            $productData['up_sells_data']['up_sells_' . $i++]['up_sells_search_sku'] = $prod['general_sku'];
-        }
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->reindexInvalidedData();
-        $this->clearInvalidedCache();
-
-        $this->logoutCustomer();
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        foreach ($productsOutOfStock as $prod) {
-            $this->addParameter('productName', $prod['general_name']);
-            if ($this->controlIsPresent('link', 'upsell_product')) {
-                $this->addVerificationMessage('Up-sell Product ' . $prod['general_name'] . ' is on the page');
-            }
-        }
-        $this->assertEmptyVerificationErrors();
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('bundle'),
+            array('configurable'),
+            array('grouped')
+        );
     }
 }

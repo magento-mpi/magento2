@@ -188,10 +188,10 @@ onepage_checkout:
                             shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]
                             payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]
                         links:
-                            billing_address_change_link: //dt[contains(.,'Billing Address')]/a[@href='#billing']
-                            shipping_address_change_link: //dt[contains(.,'Shipping Address')]/a[@href='#payment']
-                            shipping_method_change_link: //dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']
-                            payment_method_change_link: //dt[contains(.,'Payment Method')]/a[@href='#payment']
+                            billing_address_change_link: "//dt[contains(.,'Billing Address')]/a[@href='#billing']"
+                            shipping_address_change_link: "//dt[contains(.,'Shipping Address')]/a[@href='#payment']"
+                            shipping_method_change_link: "//dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']"
+                            payment_method_change_link: "//dt[contains(.,'Payment Method')]/a[@href='#payment']"
             links:
                 order_number: //a[contains(@href, '/sales/order/view/order_id/')]
             messages: &checkoutMessages
@@ -202,7 +202,7 @@ onepage_checkout:
                 invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
                 exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
                 long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
-                #nor verefied
+                #not verified
                 invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
                 incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"

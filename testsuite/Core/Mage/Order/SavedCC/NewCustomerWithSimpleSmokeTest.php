@@ -85,8 +85,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     public function orderWithout3DSecureSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_savedcc_flatrate',
-                                        array('filter_sku' => $simpleSku));
+        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                                        array('filter_sku'  => $simpleSku,
+                                             'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -109,7 +111,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     public function differentCardInSavedCC($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -154,7 +156,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3573
+     * @TestlinkId TL-MAGE-3573
      */
     public function fullInvoiceWithSavedCC($orderData)
     {
@@ -193,7 +195,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3577
+     * @TestlinkId TL-MAGE-3577
      */
     public function partialInvoiceWithCreditCard($orderData, $sku)
     {
@@ -234,7 +236,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3576
+     * @TestlinkId TL-MAGE-3576
      */
     public function fullCreditMemoWithCreditCard($orderData)
     {
@@ -273,7 +275,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3576
+     * @TestlinkId TL-MAGE-3576
      */
     public function partialCreditMemoWithCreditCard($orderData, $sku)
     {
@@ -313,7 +315,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3574
+     * @TestlinkId TL-MAGE-3574
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -353,7 +355,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3578
+     * @TestlinkId TL-MAGE-3578
      */
     public function partialShipmentForOrderWithoutInvoice($orderData, $sku)
     {
@@ -385,7 +387,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3575
+     * @TestlinkId TL-MAGE-3575
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -444,8 +446,9 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId	TL-MAGE-3579
+     * @TestlinkId TL-MAGE-3579
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {
@@ -491,7 +494,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('SalesOrder', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');

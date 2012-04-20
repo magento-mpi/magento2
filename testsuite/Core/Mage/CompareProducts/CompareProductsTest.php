@@ -49,8 +49,8 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
     {
         $this->addParameter('id', '0');
         self::$_popupId = null;
-        $this->frontend();
-        $this->compareProductsHelper()->frontClearAll();
+        $this->frontend('about_us');
+        $this->assertTrue($this->compareProductsHelper()->frontClearAll());
     }
 
     protected function tearDownAfterTest()
@@ -103,7 +103,8 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      * <p>1. Open product</p>
      * <p>2. Add product to Compare Products</p>
      * <p>Expected result:</p>
-     * <p>Success message is displayed.Product is displayed in Compare Products pop-up window</p>
+     * <p>Success message is displayed.</p>
+     * <p>Product is displayed in Compare Products pop-up window on About Us page</p>
      *
      * @param array $data
      *
@@ -118,6 +119,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromProductPage($value);
             $this->assertMessagePresent('success', 'product_added_to_comparison');
+            $this->frontend('about_us');
             $this->assertTrue($this->controlIsPresent('link', 'compare_product_link'),
                               'Product is not available in Compare widget');
         }

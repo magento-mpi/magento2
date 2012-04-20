@@ -81,6 +81,42 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Preconditions:</p>
+     *
+     * @test
+     * @return array
+     */
+    public function preconditionsForTestsNotDefaultStoreView()
+    {
+        //Data
+        $simpleData = $this->loadData('simple_product_visible');
+        $storeView = $this->loadData('generic_store_view');
+        $ratingData = $this->loadData('default_rating', array('visible_in' => $storeView['store_view_name']));
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simpleData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore($storeView, 'store_view');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Steps
+        $this->navigate('manage_ratings');
+        $this->ratingHelper()->createRating($ratingData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_rating');
+        return array(
+                'sku'        => $simpleData['general_sku'],
+                'name'       => $simpleData['general_name'],
+                'store'      => $storeView['store_view_name'],
+                'withRating' => array('filter_sku'  => $simpleData['general_sku'],
+                                      'rating_name' => $ratingData['default_value'],
+                                      'visible_in'  => $storeView['store_view_name']));
+    }
+
+    /**
      * <p>Creating a new review without rating</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Review"</p>
@@ -138,7 +174,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * @param $data
      *
      * @test
-     * @depends preconditionsForTests
+     * @depends preconditionsForTestsNotDefaultStoreView
      * @TestlinkId    TL-MAGE-3484
      */
     public function requiredFieldsWithRating($data)
@@ -161,9 +197,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->selectFrontStoreView();
         $this->productHelper()->frontOpenProduct($data['name']);
         //Verification
-        $this->clickControl('link', 'reviews');
-        $this->addParameter('reviewerName', $reviewData['nickname']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'review_reviwer_name'),
+        $this->assertFalse($this->controlIsPresent('link', 'reviews'),
                 'Review for product displayed for \'Default Store View\' store view');
     }
 

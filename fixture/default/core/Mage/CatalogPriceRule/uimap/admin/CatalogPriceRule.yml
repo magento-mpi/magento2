@@ -51,6 +51,7 @@ manage_catalog_price_rules:
                             filter_date_expired_to: //input[@name='to_date[to]']
                         pageelements:
                             grid_head: //div[@id='promo_catalog_grid']//tr[@class='headings']
+                            price_rule: //table[@id]/tbody/tr
         buttons:
             add_new_rule: //button[span='Add New Rule']
             apply_rules: //button[span='Apply Rules']
@@ -65,6 +66,7 @@ manage_catalog_price_rules:
             invalid_sub_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_sub_discount_amount' and not(contains(@style,'display: none;'))]"
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
+            no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
 
 add_new_rule:
     mca: promo_catalog/new/
@@ -113,7 +115,7 @@ add_new_rule:
                                         condition_aggregator: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
                                         condition_attribute: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chosser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
-                                        confirm_choise: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
+                                        confirm_choice: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
@@ -163,5 +165,5 @@ edit_rule_page:
             save_and_apply: //button[span='Save and Apply']
             save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-            delete_rule: //button[span='Delete Rule']
+            delete_rule: //button[span='Delete Rule' or span='Delete']
         messages: *catalogPriceRuleMessages

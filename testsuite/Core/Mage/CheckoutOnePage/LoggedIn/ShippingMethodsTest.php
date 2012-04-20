@@ -114,17 +114,17 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      * @test
      * @dataProvider shipmentDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3202
+     * @TestlinkId TL-MAGE-3202
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
-        $shippingData = $this->loadDataSet('OnePageCheckout', 'front_shipping_' . $shipping);
+        $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_' . $shippingDestination,
-                                           array('general_name'   => $simpleSku,
-                                                 'shipping_data'  => $shippingData));
+                                           array('general_name' => $simpleSku,
+                                                'shipping_data' => $shippingData));
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

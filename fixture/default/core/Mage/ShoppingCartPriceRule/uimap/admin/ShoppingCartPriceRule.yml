@@ -117,7 +117,7 @@ create_shopping_cart_price_rule:
                                         condition_aggregator: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
                                         condition_attribute: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chosser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
-                                        confirm_choise: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
+                                        confirm_choice: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
@@ -168,7 +168,7 @@ create_shopping_cart_price_rule:
                                         action_aggregator: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
                                         action_attribute: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chosser: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
-                                        confirm_choise: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
+                                        confirm_choice: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
@@ -201,7 +201,7 @@ create_shopping_cart_price_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rule: //button[span='Save Rule']
+            save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *ruleMessages
 
@@ -213,7 +213,7 @@ edit_shopping_cart_price_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            delete_rule: //button[span='Delete Rule']
-            save_rule: //button[span='Save Rule']
+            delete_rule: //button[span='Delete Rule' or span='Delete']
+            save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *ruleMessages

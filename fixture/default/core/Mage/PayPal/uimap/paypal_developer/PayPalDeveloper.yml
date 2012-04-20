@@ -125,7 +125,7 @@ paypal_developer_logged_in:
                         xpath: //*[@id='nav-menu']//a[text()='Test Email']
                 -
                     api_credentials:
-                        xpath: //*[@id='nav-menu']//a[text()='API Credentials']
+                        xpath: //*[@id='nav-menu']//a[text()='API and Payment Card Credentials']
                         fieldsets:
                             -
                                 account_api_credentials:

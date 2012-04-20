@@ -89,7 +89,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                            'associated_2'  => $virtual['general_sku'],
                                            'associated_3'  => $download['general_sku']));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $configurableOptionname = $attrData['option_1']['store_view_titles']['Default Store View'];
+        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
         $simpleWithCustomOptions = $this->loadDataSet('Product', 'simple_product_visible',
                                                       array('categories'         => $catPath,
@@ -141,7 +141,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                                    'grouped'          => $grouped['general_name'],
                                                    'downloadable_opt' => $downloadWithOption['general_name']),
                      'configurableOption' => array('title'                 => $attrData['admin_title'],
-                                                   'custom_option_dropdown'=> $configurableOptionname),
+                                                   'custom_option_dropdown'=> $configurableOptionName),
                      'groupedOption'      => array('subProduct_1' => $simple['general_name'],
                                                    'subProduct_2' => $virtual['general_name'],
                                                    'subProduct_3' => $download['general_name']),
@@ -303,7 +303,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Adds products to Shopping Cart from Wishlist. For all product types with additioanl options
+     * <p>Adds products to Shopping Cart from Wishlist. For all product types with additional options
      *    (downloadable, configurable, bundle, grouped)</p>
      * <p>Steps:</p>
      * <p>1. Empty the shopping cart</p>
@@ -349,7 +349,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Adds products to Shopping Cart from Wishlist. For all product types with additioanl options
+     * <p>Adds products to Shopping Cart from Wishlist. For all product types with additional options
      *    (downloadable, configurable, bundle, grouped)</p>
      * <p>Steps:</p>
      * <p>1. Empty the shopping cart</p>
@@ -455,6 +455,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                   'Product ' . $name . ' is not in the wishlist.');
             }
         } else {
+            $this->assertTrue($this->checkCurrentPage('shopping_cart'));
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
                               'Product ' . $productName . ' is not in the shopping cart.');
             $this->shoppingCartHelper()->frontMoveToWishlist($productName);
@@ -565,8 +566,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function withInvalidEmailDataProvider()
     {
         return array(
-            array('email@@domain.com', 'invalid_emails_js'),
-            array('.email@domain.com', 'invalid_emails')
+            array('email@@unknown-domain.com', 'invalid_emails_js'),
+            array('.email@unknown-domain.com', 'invalid_emails')
         );
     }
 

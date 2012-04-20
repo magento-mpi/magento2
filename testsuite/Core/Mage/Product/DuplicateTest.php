@@ -246,7 +246,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating grouped product with assosiated products</p>
+     * <p>Creating grouped product with associated products</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add product' button;</p>
      * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
@@ -358,7 +358,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Duplicate Configurable product with assosiated products</p>
+     * <p>Duplicate Configurable product with associated products</p>
      * <p>Preconditions</p>
      * <p>Attribute Set created</p>
      * <p>Virtual product created</p>
@@ -387,7 +387,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function duplicateConfigurable($attrData, $productData)
     {
         //Data
-        $configur = $this->loadData('duplicate_configurable',
+        $configurable = $this->loadData('duplicate_configurable',
                 array(
                     'configurable_attribute_title' => $attrData['admin_title'],
                     'related_search_sku'           => $productData['simple']['general_sku'],
@@ -397,9 +397,9 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
                     'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
                     'cross_sells_product_position' => 30
                 ), array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $configur['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($configur, 'configurable');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
@@ -408,9 +408,9 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         //Steps
-        $this->productHelper()->fillConfigurableSettings($configur);
+        $this->productHelper()->fillConfigurableSettings($configurable);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configur,
+        $this->productHelper()->verifyProductInfo($configurable,
                 array('general_sku', 'general_status', 'configurable_attribute_title'));
     }
 }

@@ -30,7 +30,7 @@
 # Test Datasets for searching Product Attribute
 attribute_search_data:
     attribute_code: %noValue%
-    attribute_lable: %noValue%
+    attribute_label: %noValue%
     required: %noValue%
     system: %noValue%
     visible: %noValue%
@@ -59,7 +59,7 @@ product_attribute_textfield: &productAttributeTextfield
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
     used_for_sorting_in_product_listing: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Text_Field_Admin
     store_view_titles:
         Default Store View: Text_Field_StoreView
@@ -83,7 +83,7 @@ product_attribute_textarea: &productAttributeTextarea
     allow_html_tags_on_frontend: %noValue%
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Text_Area_Admin
     store_view_titles:
         Default Store View: Text_Area_StoreView
@@ -106,7 +106,7 @@ product_attribute_date: &productAttributeDate
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
     used_for_sorting_in_product_listing: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Date_Admin
     store_view_titles:
         Default Store View: Date_Store_View
@@ -129,7 +129,7 @@ product_attribute_yesno: &productAttributeYesno
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
     used_for_sorting_in_product_listing: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Yes/No_Admin
     store_view_titles:
         Default Store View: Yes/No_StoreView
@@ -153,7 +153,7 @@ product_attribute_multiselect: &productAttributeMultiselect
     visible_on_product_view_page_on_frontend: Yes
     used_in_product_listing: %noValue%
     position: %noValue%
-    # manage_lables_options:
+    # manage_labels_options:
     admin_title: Multiple_Select_Admin
 
 product_attribute_multiselect_with_options: &productAttributeMultiselectWithOptions
@@ -174,7 +174,7 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
     visible_on_product_view_page_on_frontend: %noValue%
     used_in_product_listing: %noValue%
     position: %noValue%
-    # manage_lables_options:
+    # manage_labels_options:
     admin_title: Multiple_Select_Admin
     store_view_titles:
         Default Store View: Multiple_Select_Storeview
@@ -288,7 +288,7 @@ product_attribute_price: &productAttributePrice
     used_in_product_listing: Yes
     used_for_sorting_in_product_listing: %noValue%
     position: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Price_Admin
     store_view_titles:
         Default Store View: Price_StoreView
@@ -301,7 +301,7 @@ product_attribute_mediaimage: &productAttributeMediaimage
     scope: %noValue%
     apply_to: %noValue%
     apply_product_types: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Media_Image_Admin
     store_view_titles:
         Default Store View: Media_Image_Storeview
@@ -313,7 +313,7 @@ product_attribute_fpt:
     attribute_code: attr_fpt_code
     apply_to: %noValue%
     apply_product_types: %noValue%
-# manage_lables_options:
+# manage_labels_options:
     admin_title: Fixed_Product_Tax_Admin
     store_view_titles:
         Default Store View: Fixed_Product_Tax_Storeview

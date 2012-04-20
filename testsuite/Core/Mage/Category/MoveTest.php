@@ -151,7 +151,7 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
      * <p>2.Create 1 root category;</p>
      * <p>3.Create website with store;</p>
      * <p>4.Assign created root category to store</p>
-     * <p>4.Create another root categry</p>
+     * <p>4.Create another root category</p>
      * <p>3.Move first root category assigned to store to second root;</p>
      * <p>Expected result:</p>
      * <p>Category is not moved</p>

@@ -140,7 +140,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * <p>Page is not created successfully</p>
      *
      * @param string $fieldName
-     * @param string $fielsType
+     * @param string $fieldType
      * @param int $messCount
      *
      * @test
@@ -148,7 +148,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId    TL-MAGE-3211
      */
-    public function withEmptyRequiredFields($fieldName, $fielsType, $messCount)
+    public function withEmptyRequiredFields($fieldName, $fieldType, $messCount)
     {
         //Data
         $pageData = $this->loadData('new_cms_page_req', array($fieldName => '%noValue%'));
@@ -166,7 +166,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         if ($fieldName == 'filter_url_key') {
             $fieldName = 'chosen_option';
         }
-        $this->addFieldIdToMessage($fielsType, $fieldName);
+        $this->addFieldIdToMessage($fieldType, $fieldName);
         $this->assertTrue($this->verifyMessagesCount($messCount), $this->getParsedMessages());
         $this->assertMessagePresent('validation', 'empty_required_field');
     }
@@ -197,7 +197,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-3212
      */
-    public function withExistUrlkey($pageData)
+    public function withExistUrlKey($pageData)
     {
         //Steps
         $this->navigate('manage_cms_pages');

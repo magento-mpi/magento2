@@ -80,7 +80,9 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
             $this->click($buttonXpath);
             $this->pleaseWait();
         }
-        $this->clickButton('submit_invoice');
+        $this->clickButton('submit_invoice', false);
+        $this->waitForNewPage();
+        $this->validatePage();
         $this->assertMessagePresent('success', 'success_creating_invoice');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {

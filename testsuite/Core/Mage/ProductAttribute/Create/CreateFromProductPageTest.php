@@ -57,7 +57,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     }
 
     /**
-     * <p>Checking of attributes creation functionality during product createion process</p>
+     * <p>Checking of attributes creation functionality during product creation process</p>
      * <p>Steps:</p>
      * <p>1.Go to Catalog->Manage Products</p>
      * <p>2.Click on "Add Product" button</p>

@@ -80,6 +80,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             return $this->clickControlAndConfirm('link', 'compare_clear_all',
                             'confirmation_clear_all_from_compare');
         }
+        return true;
     }
 
     /**
@@ -245,7 +246,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      * Gets text for all element(s) by XPath
      *
      * @param string $elementsXpath General XPath of looking up element(s)
-     * @param string $additionalXPath Additional XPath (by defauilt = '')
+     * @param string $additionalXPath Additional XPath (by default = '')
      *
      * @return array Array of elements text with id of element
      */

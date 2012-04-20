@@ -37,18 +37,28 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 {
     public function setUpBeforeTests()
     {
+        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('default_tax_config');
         $this->systemConfigurationHelper()->configure('shipping_settings_default');
         $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
+        $this->systemConfigurationHelper()->configure($currency);
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()-> deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
+        $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
 
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '0');
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $flatrate = $this->loadDataSet('ShippingMethod', 'flatrate_enable');
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($flatrate);
     }
 
     /**
@@ -180,7 +190,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCrOnInv, $totAftInvCrOnInv);
         //Verify prices after creating Refund on Refund page
-        $this->navigate('manage_sales_creditmemos');
+        $this->navigate('manage_sales_credit_memos');
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCrOnRef, $totAftRefCrOnRef);
     }

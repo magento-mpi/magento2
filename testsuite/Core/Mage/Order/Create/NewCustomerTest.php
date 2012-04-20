@@ -139,6 +139,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3260
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function newCustomerWithAddress($simpleSku)
     {
@@ -240,7 +241,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function newCustomerWithLongEmail($simpleSku)
     {
         //Data
-        $email = $this->generate('string', 129, ':alnum:') . '@example.com';
+        $email = $this->generate('string', 129, ':alnum:') . '@unknown-domain.com';
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
                                      array('filter_sku'     => $simpleSku,
                                            'customer_email' => $email));

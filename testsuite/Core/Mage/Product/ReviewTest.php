@@ -35,14 +35,10 @@
  */
 class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -55,17 +51,19 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Products are created, Custom options are available for in stock product and disabled for out of stock;</p>
      *
-     * @param $productType
-     * @param $availability
+     * @param string $productType
+     * @param string $availability
      *
      * @test
      * @dataProvider reviewInfoInProductDetailsDataProvider
-     * @TestlinkId    TL-MAGE-3469
+     * @TestlinkId TL-MAGE-3469
+     * @group skip_due_to_bug1.12
      */
     public function reviewInfoInProductDetails($productType, $availability)
     {
-        $productData = $this->loadData('frontend_' . $productType . '_product_details_validation',
-                array('inventory_stock_availability' => $availability), array('general_name', 'general_sku'));
+        $productData = $this->loadDataSet('Product', 'frontend_' . $productType . '_product_details_validation',
+                                          array('inventory_stock_availability' => $availability),
+                                          array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
@@ -79,7 +77,7 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
             array('simple', 'In Stock'),
             array('simple', 'Out of Stock'),
             array('virtual', 'In Stock'),
-            array('virtual', 'Out of Stock'),
+            array('virtual', 'Out of Stock')
         );
     }
 }

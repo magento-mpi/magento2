@@ -47,7 +47,7 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      *
      * @test
-     * @return atring
+     * @return string
      */
     public function preconditionsForTests()
     {

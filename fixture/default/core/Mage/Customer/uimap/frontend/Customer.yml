@@ -25,7 +25,8 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#It was created for version CE 1.5.0.0. Operability fot other versions is not guaranteed.  Theme change can also influence accuracy of UImap forms
+#It was created for version CE 1.5.0.0. Observability fot other versions is not guaranteed.
+#Theme change can also influence accuracy of UIMap forms
 
 # 'Create an Account' page
 register_account:
@@ -53,7 +54,7 @@ register_account:
                         pageelements:
                             captcha: //img[@alt='CAPTCHA']
                         required: [first_name, last_name, email, password, password_confirmation]
-        messages:
+        messages: &customerMessages
             not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
             not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
@@ -62,6 +63,7 @@ register_account:
             passwords_not_match: //div[@id='advice-validate-cpassword-confirmation']
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
+            invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid login or password.')]
 
 # 'Login or Create an Account' page
 customer_login:
@@ -72,12 +74,12 @@ customer_login:
             fieldsets:
                 -
                     new_account:
-                        xpath: //div[normalize-space(@class)='col-1 new-users']
+                        xpath: //div[contains(@class,'new-users')]
                         buttons:
                             create_account: //button[span='Create an Account' or span='Register']
                 -
                     log_in_customer:
-                        xpath: //div[normalize-space(@class)='col-2 registered-users']
+                        xpath: //div[contains(@class,'registered-users')]
                         buttons:
                             login: //button[span='Login']
                         links:
@@ -85,10 +87,7 @@ customer_login:
                         fields:
                             email: //input[@id='email']
                             password: //input[@id='pass']
-        messages:
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
-            invalid_mail: //div[@id='advice-validate-email-email']
-            invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid login or password.')]
+        messages: *customerMessages
 
 edit_account_info:
     mca: customer/account/edit/
@@ -110,5 +109,4 @@ edit_account_info:
                             current_password: //input[@id='current_password']
                             new_password: //input[@id='password']
                             confirm_new_password: //input[@id='confirmation']
-        messages:
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+        messages: *customerMessages

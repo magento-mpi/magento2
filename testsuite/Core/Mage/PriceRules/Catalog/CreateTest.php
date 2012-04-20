@@ -35,14 +35,20 @@
  */
 class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Promotions -> Catalog Price Rules</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
         $this->navigate('manage_catalog_price_rules');
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_catalog_price_rules');
+        $this->priceRulesHelper()->deleteAllRules();
+        $this->clickButton('apply_rules', false);
+        $this->waitForNewPage();
+        $this->assertMessagePresent('success', 'success_applied_rule');
     }
 
     /**
@@ -56,12 +62,12 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @TestlinkId	TL-MAGE-3313
+     * @TestlinkId TL-MAGE-3313
      */
     public function requiredFields()
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array('customer_groups' => 'General'));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -89,7 +95,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule', array($emptyField => '%noValue%'));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule', array($emptyField => '%noValue%'));
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -103,7 +109,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('rule_name', 'field'),
             array('customer_groups', 'multiselect'),
-            array('discount_amount', 'field'),// MAGE-5623(reproduce in 1.6.2,but is not reproducible in nightly build)
+            array('discount_amount', 'field'), //MAGE-5623(reproduce in 1.6.2,but is not reproducible in nightly build)
             array('sub_discount_amount', 'field')
         );
     }
@@ -121,13 +127,14 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider invalidDiscountAmountDataProvider
-     * @TestlinkId	TL-MAGE-3311
+     * @TestlinkId TL-MAGE-3311
      */
     public function invalidDiscountAmount($invalidDiscountData)
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule',
-                array('sub_discount_amount' => $invalidDiscountData, 'discount_amount' => $invalidDiscountData));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
+                                            array('sub_discount_amount' => $invalidDiscountData,
+                                                 'discount_amount'      => $invalidDiscountData));
         //Steps
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification
@@ -141,7 +148,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
+            array('g3648GJTest'),
             array('-128')
         );
     }
@@ -156,20 +163,19 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Rule created, confirmation message appears</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3312
+     * @TestlinkId TL-MAGE-3312
+     * @group skip_due_to_bug1.12
      */
     public function longValues()
     {
-        $priceRuleData = $this->loadData('test_catalog_rule',
-                array(
-                    'rule_name'           => $this->generate('string', 255, ':alnum:'),
-                    'description'         => $this->generate('string', 255, ':alnum:'),
-                    'discount_amount'     => '99999999.9999',
-                    'sub_discount_amount' => '99999999.9999',
-                    'priority'            => '4294967295'
-                ));
-        $ruleSearch = $this->loadData('search_catalog_rule',
-                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
+                                            array('rule_name'          => $this->generate('string', 255, ':alnum:'),
+                                                 'description'         => $this->generate('string', 255, ':alnum:'),
+                                                 'discount_amount'     => '99999999.9999',
+                                                 'sub_discount_amount' => '99999999.9999',
+                                                 'priority'            => '4294967295'));
+        $ruleSearch = $this->loadDataSet('CatalogPriceRule', 'search_catalog_rule',
+                                         array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->priceRulesHelper()->openRule($ruleSearch);
@@ -186,14 +192,16 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * <p>Rule created, confirmation message appears</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3310
+     * @TestlinkId TL-MAGE-3310
+     * @group skip_due_to_bug1.12
      */
     public function incorrectLengthInDiscountAmount()
     {
-        $priceRuleData = $this->loadData('test_catalog_rule',
-                array('discount_amount' => '999999999', 'sub_discount_amount' => '999999999'));
-        $ruleSearch = $this->loadData('search_catalog_rule',
-                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
+                                            array('discount_amount'    => '999999999',
+                                                 'sub_discount_amount' => '999999999'));
+        $ruleSearch = $this->loadDataSet('CatalogPriceRule', 'search_catalog_rule',
+                                         array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->priceRulesHelper()->openRule($ruleSearch);

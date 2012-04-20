@@ -48,9 +48,9 @@ system_configuration:
                         fieldsets:
                             -
                                 countries_options:
-                                    xpath: //div/fieldset[legend='Countries Options']
+                                    xpath: //fieldset[@id='general_country']
                                     links:
-                                        countries_options_link: //a[text()='Countries Options']
+                                        countries_options_link: //parent::div//a[@id='general_country-head']
                                     dropdowns:
                                         default_country: //select[@name='groups[country][fields][default][value]']
                                     multiselects:
@@ -61,9 +61,9 @@ system_configuration:
                                         allowed_countries_use_default: //input[@name='groups[country][fields][allow][inherit]']
                             -
                                 locale_options:
-                                    xpath: //div/fieldset[legend='Locale Options']
+                                    xpath: //fieldset[@id='general_locale']
                                     links:
-                                        locale_options_link: //a[text()='Locale Options']
+                                        locale_options_link: //parent::div//a[@id='general_locale-head']
                                     dropdowns:
                                         timezone: //select[@name='groups[locale][fields][timezone][value]']
                                         locale: //select[@name='groups[locale][fields][code][value]']
@@ -77,9 +77,9 @@ system_configuration:
                                         weekend_days_use_default: //input[@name='groups[locale][fields][weekend][inherit]']
                             -
                                 store_information:
-                                    xpath: //div/fieldset[legend='Store Information']
+                                    xpath: //fieldset[@id='general_store_information']
                                     links:
-                                        store_information_link: //a[text()='Store Information']
+                                        store_information_link: //parent::div//a[@id='general_store_information-head']
                                     dropdowns:
                                         store_country: //select[@id='general_store_information_merchant_country']
                                     fields:
@@ -96,26 +96,26 @@ system_configuration:
                         fieldsets:
                             -
                                 url_options:
-                                    xpath: //div/fieldset[legend='Url Options']
+                                    xpath: //fieldset[@id='web_url']
                                     links:
-                                        url_options_link: //a[text()='Url Options']
+                                        url_options_link: //parent::div//a[@id='web_url-head']
                                     dropdowns:
                                         add_store_code_to_urls: //select[@name='groups[url][fields][use_store][value]']
                                         auto_redirect_to_base_url: //select[@name='groups[url][fields][redirect_to_base][value]']
                             -
                                 search_engines_optimization:
-                                    xpath: //div/fieldset[legend='Search Engines Optimization']
+                                    xpath: //fieldset[@id='web_seo']
                                     links:
-                                        search_engines_optimization_link: //a[text()='Search Engines Optimization']
+                                        search_engines_optimization_link: //parent::div//a[@id='web_seo-head']
                                     dropdowns:
                                         use_web_server_rewrites: //select[@name='groups[seo][fields][use_rewrites][value]']
                                     checkboxes:
                                         use_web_server_rewrites_use_default: //input[@name='groups[seo][fields][use_rewrites][inherit]']
                             -
                                 unsecure:
-                                    xpath: //div/fieldset[legend='Unsecure']
+                                    xpath: //fieldset[@id='web_unsecure']
                                     links:
-                                        unsecure_link: //a[text()='Unsecure']
+                                        unsecure_link: //parent::div//a[@id='web_unsecure-head']
                                     fields:
                                         unsecure_base_url: //input[@name='groups[unsecure][fields][base_url][value]']
                                         unsecure_base_link_url: //input[@name='groups[unsecure][fields][base_link_url][value]']
@@ -130,9 +130,9 @@ system_configuration:
                                         unsecure_base_javasript_url_use_default: //input[@name='groups[unsecure][fields][base_js_url][inherit]']
                             -
                                 secure:
-                                    xpath: //div/fieldset[legend='Secure']
+                                    xpath: //fieldset[@id='web_secure']
                                     links:
-                                        secure_link: //a[text()='Secure']
+                                        secure_link: //parent::div//a[@id='web_secure-head']
                                     fields:
                                         secure_base_url: //input[@name='groups[secure][fields][base_url][value]']
                                         secure_base_link_url: //input[@name='groups[secure][fields][base_link_url][value]']
@@ -152,9 +152,9 @@ system_configuration:
                                         use_secure_urls_in_frontend_use_default: //input[@name='groups[secure][fields][use_in_frontend][inherit]']
                             -
                                 default_pages:
-                                    xpath: //div/fieldset[legend='Default Pages']
+                                    xpath: //fieldset[@id='web_default']
                                     links:
-                                        default_pages_link: //a[text()='Default Pages']
+                                        default_pages_link: //parent::div//a[@id='web_default-head']
                                     fields:
                                         default_web_url: //input[@name='groups[default][fields][front][value]']
                                         default_no_route_url: //input[@name='groups[default][fields][no_route][value]']
@@ -172,18 +172,18 @@ system_configuration:
                                         show_breadcrumbs_for_cms_pages_use_default: //input[@name='groups[default][fields][show_cms_breadcrumbs][inherit]']
                             -
                                 polls:
-                                    xpath: //div/fieldset[legend='Polls']
+                                    xpath: //fieldset[@id='web_polls']
                                     links:
-                                        polls_link: //a[text()='Polls']
+                                        polls_link: //parent::div//a[@id='web_polls-head']
                                     dropdowns:
                                         disallow_voting_from_same_ip: //select[@name='groups[polls][fields][poll_check_by_ip][value]']
                                     checkboxes:
                                         disallow_voting_from_same_ip_use_default: //input[@name='groups[polls][fields][poll_check_by_ip][inherit]']
                             -
                                 session_cookie_management:
-                                    xpath: //div/fieldset[legend='Session Cookie Management']
+                                    xpath: //fieldset[@id='web_cookie']
                                     links:
-                                        session_cookie_management_link: //a[text()='Session Cookie Management']
+                                        session_cookie_management_link: //parent::div//a[@id='web_cookie-head']
                                     fields:
                                         cookie_lifetime: //input[@name='groups[cookie][fields][cookie_lifetime][value]']
                                         cookie_path: //input[@name='groups[cookie][fields][cookie_path][value]']
@@ -197,9 +197,9 @@ system_configuration:
                                         use_http_only_use_default: //input[@name='groups[cookie][fields][cookie_httponly][inherit]']
                             -
                                 session_validation_settings:
-                                    xpath: //div/fieldset[legend='Session Validation Settings']
+                                    xpath: //fieldset[@id='web_session']
                                     links:
-                                        session_validation_settings_link: //a[text()='Session Validation Settings']
+                                        session_validation_settings_link: //parent::div//a[@id='web_session-head']
                                     dropdowns:
                                         validate_remote_addr: //select[@name='groups[session][fields][use_remote_addr][value]']
                                         validate_http_via: //select[@name='groups[session][fields][use_http_via][value]']
@@ -210,9 +210,9 @@ system_configuration:
                                         use_sid_on_frontend_use_default: //input[@name='groups[session][fields][use_frontend_sid][inherit]']
                             -
                                 browser_capabilities_detection:
-                                    xpath: //div/fieldset[legend='Browser Capabilities Detection']
+                                    xpath: //fieldset[@id='web_browser_capabilities']
                                     links:
-                                        browser_capabilities_detection_link: //a[text()='Browser Capabilities Detection']
+                                        browser_capabilities_detection_link: //parent::div//a[@id='web_browser_capabilities-head']
                                     dropdowns:
                                         redirect_to_cms_page_if_cookies_are_disabled: //select[@name='groups[browser_capabilities][fields][cookies][value]']
                                         show_notice_if_javascript_is_disabled: //select[@name='groups[browser_capabilities][fields][javascript][value]']
@@ -225,9 +225,9 @@ system_configuration:
                         fieldsets:
                             -
                                 design_package:
-                                    xpath: //div/fieldset[legend='Package']
+                                    xpath: //fieldset[@id='design_package']
                                     links:
-                                        design_package_link: //a[text()='Package']
+                                        design_package_link: //parent::div//a[@id='design_package-head']
                                     fields:
                                         current_package_name: //input[@name='groups[package][fields][name][value]']
                                         matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
@@ -240,9 +240,9 @@ system_configuration:
                                         current_package_add_exception_use_default: //input[@name='groups[package][fields][ua_regexp][inherit]']
                             -
                                 design_themes:
-                                    xpath: //div/fieldset[legend='Themes']
+                                    xpath: //fieldset[@id='design_theme']
                                     links:
-                                        design_theme_link: //a[text()='Themes']
+                                        design_theme_link: //parent::div//a[@id='design_theme-head']
                                     fields:
                                         translations: //input[@name='groups[theme][fields][locale][value]']
                                         templates: //input[@name='groups[theme][fields][template][value]']
@@ -269,9 +269,9 @@ system_configuration:
                                         default_add_exception_use_default: //input[@name='groups[theme][fields][default_ua_regexp][inherit]']
                             -
                                 html_head:
-                                    xpath: //div/fieldset[legend='HTML Head']
+                                    xpath: //fieldset[@id='design_head']
                                     links:
-                                        html_head_link: //a[text()='HTML Head']
+                                        html_head_link: //parent::div//a[@id='design_head-head']
                                     fields:
                                         favicon_icon: //input[@name='groups[head][fields][shortcut_icon][value]']
                                         default_title: //input[@name='groups[head][fields][default_title][value]']
@@ -295,9 +295,9 @@ system_configuration:
                                         display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
                             -
                                 header:
-                                    xpath: //div/fieldset[legend='Header']
+                                    xpath: //fieldset[@id='design_header']
                                     links:
-                                        header_link: //a[text()='Header']
+                                        header_link: //parent::div//a[@id='design_header-head']
                                     fields:
                                         logo_image_src: //input[@name='groups[header][fields][logo_src][value]']
                                         logo_image_alt: //input[@name='groups[header][fields][logo_alt][value]']
@@ -308,9 +308,9 @@ system_configuration:
                                         welcome_text_use_default: //input[@name='groups[header][fields][welcome][inherit]']
                             -
                                 footer:
-                                    xpath: //div/fieldset[legend='Footer']
+                                    xpath: //fieldset[@id='design_footer']
                                     links:
-                                        footer_link: //a[text()='Footer']
+                                        footer_link: //parent::div//a[@id='design_footer-head']
                                     fields:
                                         copyright: //textarea[@name='groups[footer][fields][copyright][value]']
                                         misc_html: //textarea[@name='groups[footer][fields][absolute_footer][value]']
@@ -319,9 +319,9 @@ system_configuration:
                                         misc_html: //input[@name='groups[footer][fields][absolute_footer][inherit]']
                             -
                                 product_image_watermarks:
-                                    xpath: //div/fieldset[legend='Product Image Watermarks']
+                                    xpath: //fieldset[@id='design_watermark']
                                     links:
-                                        product_image_watermarks_link: //a[text()='Product Image Watermarks']
+                                        product_image_watermarks_link: //parent::div//a[@id='design_watermark-head']
                                     fields:
                                         base_image_watermark_default_size: //input[@name='groups[watermark][fields][image_size][value]']
                                         base_image_watermark_opacity_percent: //input[@name='groups[watermark][fields][image_imageOpacity][value]']
@@ -351,9 +351,9 @@ system_configuration:
                                         thumbnail_image_watermark_position_use_default: //input[@name='groups[watermark][fields][thumbnail_position][inherit]']
                             -
                                 pagination:
-                                    xpath: //div/fieldset[legend='Pagination']
+                                    xpath: //fieldset[@id='design_pagination']
                                     links:
-                                        pagination_link: //a[text()='Pagination']
+                                        pagination_link: //parent::div//a[@id='design_pagination-head']
                                     fields:
                                         pagination_frame: //input[@name='groups[pagination][fields][pagination_frame][value]']
                                         pagination_frame_skip: //input[@name='groups[pagination][fields][pagination_frame_skip][value]']
@@ -370,9 +370,9 @@ system_configuration:
                         fieldsets:
                             -
                                 currency_options:
-                                    xpath: //div/fieldset[legend='Currency Options']
+                                    xpath: //fieldset[@id='currency_options']
                                     links:
-                                        currency_options_link: //a[text()='Currency Options']
+                                        currency_options_link: //parent::div//a[@id='currency_options-head']
                                     dropdowns:
                                         base_currency: //select[@name='groups[options][fields][base][value]']
                                         default_display_currency: //select[@name='groups[options][fields][default][value]']
@@ -383,16 +383,16 @@ system_configuration:
                                         allowed_currencies_use_default: //input[@name='groups[options][fields][allow][inherit]']
                             -
                                 webservicex:
-                                    xpath: //div/fieldset[legend='Webservicex']
+                                    xpath: //fieldset[@id='currency_webservicex']
                                     links:
-                                        webservicex_link: //a[text()='Webservicex']
+                                        webservicex_link: //parent::div//a[@id='currency_webservicex-head']
                                     fields:
                                         connection_timeout_in_seconds: //input[@name='groups[webservicex][fields][timeout][value]']
                             -
                                 scheduled_import_settings:
-                                    xpath: //div/fieldset[legend='Scheduled Import Settings']
+                                    xpath: //fieldset[@id='currency_import']
                                     links:
-                                        scheduled_import_settings_link: //a[text()='Scheduled Import Settings']
+                                        scheduled_import_settings_link: //parent::div//a[@id='currency_import-head']
                                     fields:
                                         error_email_recipient: //input[@name='groups[import][fields][error_email][value]']
                                     dropdowns:
@@ -410,9 +410,9 @@ system_configuration:
                         fieldsets:
                             -
                                 general_contact:
-                                    xpath: //div/fieldset[legend='General Contact']
+                                    xpath: //fieldset[@id='trans_email_ident_general']
                                     links:
-                                        general_contact_link: //a[text()='General Contact']
+                                        general_contact_link: //parent::div//a[@id='trans_email_ident_general-head']
                                     fields:
                                         general_sender_name: //input[@name='groups[ident_general][fields][name][value]']
                                         general_sender_email: //input[@name='groups[ident_general][fields][email][value]']
@@ -421,9 +421,9 @@ system_configuration:
                                         general_sender_email_use_default: //input[@name='groups[ident_general][fields][email][inherit]']
                             -
                                 sales_representative:
-                                    xpath: //div/fieldset[legend='Sales Representative']
+                                    xpath: //fieldset[@id='trans_email_ident_sales']
                                     links:
-                                        sales_representative_link: //a[text()='Sales Representative']
+                                        sales_representative_link: //parent::div//a[@id='trans_email_ident_sales-head']
                                     fields:
                                         sales_sender_name: //input[@name='groups[ident_sales][fields][name][value]']
                                         sales_sender_email: //input[@name='groups[ident_sales][fields][email][value]']
@@ -432,9 +432,9 @@ system_configuration:
                                         sales_sender_email_use_default: //input[@name='groups[ident_sales][fields][email][inherit]']
                             -
                                 customer_support:
-                                    xpath: //div/fieldset[legend='Customer Support']
+                                    xpath: //fieldset[@id='trans_email_ident_support']
                                     links:
-                                        customer_support_link: //a[text()='Customer Support']
+                                        customer_support_link: //parent::div//a[@id='trans_email_ident_support-head']
                                     fields:
                                         customer_support_sender_name: //input[@name='groups[ident_support][fields][name][value]']
                                         customer_support_sender_email: //input[@name='groups[ident_support][fields][email][value]']
@@ -443,9 +443,9 @@ system_configuration:
                                         customer_support_sender_email_use_default: //input[@name='groups[ident_support][fields][email][inherit]']
                             -
                                 custom_email_1:
-                                    xpath: //div/fieldset[legend='Custom Email 1']
+                                    xpath: //fieldset[@id='trans_email_ident_custom1']
                                     links:
-                                        custom_email_1_link: //a[text()='Custom Email 1']
+                                        custom_email_1_link: //parent::div//a[@id='trans_email_ident_custom1-head']
                                     fields:
                                         custom1_sender_name: //input[@name='groups[ident_custom1][fields][name][value]']
                                         custom1_sender_email: //input[@name='groups[ident_custom1][fields][email][value]']
@@ -454,9 +454,9 @@ system_configuration:
                                         custom1_sender_email_use_default: //input[@name='groups[ident_custom1][fields][email][inherit]']
                             -
                                 custom_email_2:
-                                    xpath: //div/fieldset[legend='Custom Email 2']
+                                    xpath: //fieldset[@id='trans_email_ident_custom2']
                                     links:
-                                        custom_email_2_link: //a[text()='Custom Email 2']
+                                        custom_email_2_link: //parent::div//a[@id='trans_email_ident_custom2-head']
                                     fields:
                                         custom2_sender_name: //input[@name='groups[ident_custom2][fields][name][value]']
                                         custom2_sender_email: //input[@name='groups[ident_custom2][fields][email][value]']
@@ -469,18 +469,18 @@ system_configuration:
                         fieldsets:
                             -
                                 contact_us:
-                                    xpath: //div/fieldset[legend='Contact Us']
+                                    xpath: //fieldset[@id='contacts_contacts']
                                     links:
-                                        contact_us_link: //a[text()='Contact Us']
+                                        contact_us_link: //parent::div//a[@id='contacts_contacts-head']
                                     dropdowns:
                                         enable_contact_us: //select[@name='groups[contacts][fields][enabled][value]']
                                     checkboxes:
                                         enable_contact_us_use_default: //input[@name='groups[contacts][fields][enabled][inherit]']
                             -
                                 email_options:
-                                    xpath: //div/fieldset[legend='Email Options']
+                                    xpath: //fieldset[@id='contacts_email']
                                     links:
-                                        email_options_link: //a[text()='Email Options']
+                                        email_options_link: //parent::div//a[@id='contacts_email-head']
                                     fields:
                                         send_emails_to: //input[@name='groups[email][fields][recipient_email][value]']
                                     dropdowns:
@@ -496,9 +496,9 @@ system_configuration:
                         fieldsets:
                             -
                                 dashboard:
-                                    xpath: //div/fieldset[legend='Dashboard']
+                                    xpath: //fieldset[@id='reports_dashboard']
                                     links:
-                                        dashboard_link: //a[text()='Dashboard']
+                                        dashboard_link: //parent::div//a[@id='reports_dashboard-head']
                                     dropdowns:
                                         year_to_date_starts_month: //select[@name='groups[dashboard][fields][ytd_start][value][]'][1]
                                         year_to_date_starts_day: //select[@name='groups[dashboard][fields][ytd_start][value][]'][2]
@@ -509,9 +509,9 @@ system_configuration:
                         fieldsets:
                             -
                                 wysiwyg_options:
-                                    xpath: //div/fieldset[legend='WYSIWYG Options']
+                                    xpath: //fieldset[@id='cms_wysiwyg']
                                     links:
-                                        wysiwyg_options_link: //a[text()='WYSIWYG Options']
+                                        wysiwyg_options_link: //parent::div//a[@id='cms_wysiwyg-head']
                                     dropdowns:
                                         enable_wysiwyg_editor: //select[@name='groups[wysiwyg][fields][enabled][value]']
                                         use_static_urls_for_media_content: //select[@name='groups[wysiwyg][fields][use_static_urls_in_catalog][value]']
@@ -523,9 +523,9 @@ system_configuration:
                         fieldsets:
                             -
                                 frontend:
-                                    xpath: //div/fieldset[legend='Frontend']
+                                    xpath: //fieldset[@id='catalog_frontend']
                                     links:
-                                        frontend_link: //a[text()='Frontend']
+                                        frontend_link: //parent::div//a[@id='catalog_frontend-head']
                                     fields:
                                         products_per_page_on_grid_allowed_values: //input[@name='groups[frontend][fields][grid_per_page_values][value]']
                                         products_per_page_on_grid_default_value: //input[@name='groups[frontend][fields][grid_per_page][value]']
@@ -549,9 +549,9 @@ system_configuration:
                                         allow_dynamic_media_urls_in_products_and_categories_use_default: //input[@name='groups[frontend][fields][parse_url_directives][inherit]']
                             -
                                 sitemap:
-                                    xpath: //div/fieldset[legend='Sitemap']
+                                    xpath: //fieldset[@id='catalog_sitemap']
                                     links:
-                                        sitemap_link: //a[text()='Sitemap']
+                                        sitemap_link: //parent::div//a[@id='catalog_sitemap-head']
                                     dropdowns:
                                         use_tree_like_category_sitemap: //select[@name='groups[sitemap][fields][tree_mode][value]']
                                     fields:
@@ -561,18 +561,18 @@ system_configuration:
                                         minimum_lines_per_page_use_default: //input[@name='groups[sitemap][fields][lines_perpage][inherit]']
                             -
                                 product_reviews:
-                                    xpath: //div/fieldset[legend='Product Reviews']
+                                    xpath: //fieldset[@id='catalog_review']
                                     links:
-                                        product_reviews_link: //a[text()='Product Reviews']
+                                        product_reviews_link: //parent::div//a[@id='catalog_review-head']
                                     dropdowns:
                                         allow_guests_to_write_reviews: //select[@name='groups[review][fields][allow_guest][value]']
                                     checkboxes:
                                         allow_guests_to_write_reviews_use_default: //input[@name='groups[review][fields][allow_guest][inherit]']
                             -
                                 product_alerts:
-                                    xpath: //div/fieldset[legend='Product Alerts']
+                                    xpath: //fieldset[@id='catalog_productalert']
                                     links:
-                                        product_alerts_link: //a[text()='Product Alerts']
+                                        product_alerts_link: //parent::div//a[@id='catalog_productalert-head']
                                     dropdowns:
                                         allow_alert_when_product_price_changes: //select[@name='groups[productalert][fields][allow_price][value]']
                                         price_alert_email_template: //select[@name='groups[productalert][fields][allow_price][value]']
@@ -587,9 +587,9 @@ system_configuration:
                                         alert_email_sender_use_default: //input[@name='groups[productalert][fields][email_identity][inherit]']
                             -
                                 product_alerts_run_settings:
-                                    xpath: //div/fieldset[legend='Product Alerts Run Settings']
+                                    xpath: //fieldset[@id='catalog_productalert_cron']
                                     links:
-                                        product_alerts_run_settings_link: //a[text()='Product Alerts Run Settings']
+                                        product_alerts_run_settings_link: //parent::div//a[@id='catalog_productalert_cron-head']
                                     dropdowns:
                                         frequency: //select[@name='groups[productalert_cron][fields][frequency][value]']
                                         start_time_hours: //select[@name='groups[productalert_cron][fields][time][value][]'][1]
@@ -601,9 +601,9 @@ system_configuration:
                                         error_email_recipient: //input[@name='groups[productalert_cron][fields][error_email][value]']
                             -
                                 product_image_placeholders:
-                                    xpath: //div/fieldset[legend='Product Image Placeholders']
+                                    xpath: //fieldset[@id='catalog_placeholder']
                                     links:
-                                        product_image_placeholders_link: //a[text()='Product Image Placeholders']
+                                        product_image_placeholders_link: //parent::div//a[@id='catalog_placeholder-head']
                                     fields:
                                         base_image: //input[@name='groups[placeholder][fields][image_placeholder][value]']
                                         small_image: //input[@name='groups[placeholder][fields][small_image_placeholder][value]']
@@ -617,9 +617,9 @@ system_configuration:
                                         thumbnail_use_default: //input[@name='groups[placeholder][fields][thumbnail_placeholder][inherit]']
                             -
                                 recently_viewed_compared_products:
-                                    xpath: //div/fieldset[legend='Recently Viewed/Compared Products']
+                                    xpath: //fieldset[@id='catalog_recently_products']
                                     links:
-                                        recently_viewed_compared_products_link: //a[text()='Recently Viewed/Compared Products']
+                                        recently_viewed_compared_products_link: //parent::div//a[@id='catalog_recently_products-head']
                                     dropdowns:
                                         show_for_current: //select[@name='groups[recently_products][fields][scope][value]']
                                     fields:
@@ -631,16 +631,16 @@ system_configuration:
                                         default_recently_compared_products_count_use_default: //input[@name='groups[recently_products][fields][compared_count][inherit]']
                             -
                                 price:
-                                    xpath: //div/fieldset[legend='Price']
+                                    xpath: //fieldset[@id='catalog_price']
                                     links:
-                                        price_link: //a[text()='Price']
+                                        price_link: //parent::div//a[@id='catalog_price-head']
                                     dropdowns:
                                         catalog_price_scope: //select[@name='groups[price][fields][scope][value]']
                             -
                                 layered_navigation:
-                                    xpath: //div/fieldset[legend='Layered Navigation']
+                                    xpath: //fieldset[@id='catalog_layered_navigation']
                                     links:
-                                        layered_navigation_link: //a[text()='Layered Navigation']
+                                        layered_navigation_link: //parent::div//a[@id='catalog_layered_navigation-head']
                                     fields:
                                         default_price_navigation_step: //input[@name='groups[layered_navigation][fields][price_range_step][value]']
                                     dropdowns:
@@ -650,16 +650,16 @@ system_configuration:
                                         default_price_navigation_step_use_default: //input[@name='groups[layered_navigation][fields][price_range_step][inherit]']
                             -
                                 category_top_navigation:
-                                    xpath: //div/fieldset[legend='Category Top Navigation']
+                                    xpath: //fieldset[@id='catalog_navigation']
                                     links:
-                                        category_top_navigation_link: //a[text()='Category Top Navigation']
+                                        category_top_navigation_link: //parent::div//a[@id='catalog_navigation-head']
                                     fields:
                                         maximal_depth: //input[@name='groups[navigation][fields][max_depth][value]']
                             -
                                 search_engine_optimizations:
-                                    xpath: //div/fieldset[legend='Search Engine Optimizations']
+                                    xpath: //fieldset[@id='catalog_seo']
                                     links:
-                                        search_engine_optimizations_link: //a[text()='Search Engine Optimizations']
+                                        search_engine_optimizations_link: //parent::div//a[@id='catalog_seo-head']
                                     fields:
                                         product_url_suffix: //input[@name='groups[seo][fields][product_url_suffix][value]']
                                         category_url_suffix: //input[@name='groups[seo][fields][category_url_suffix][value]']
@@ -683,9 +683,9 @@ system_configuration:
                                         use_canonical_link_meta_tag_for_products_use_default: //input[@name='groups[seo][fields][product_canonical_tag][inherit]']
                             -
                                 catalog_search:
-                                    xpath: //div/fieldset[legend='Catalog Search']
+                                    xpath: //fieldset[@id='catalog_search']
                                     links:
-                                        catalog_search_link: //a[text()='Catalog Search']
+                                        catalog_search_link: //parent::div//a[@id='catalog_search-head']
                                     fields:
                                         minimal_query_length: //input[@name='groups[search][fields][min_query_length][value]']
                                         maximum_query_length: //input[@name='groups[search][fields][max_query_length][value]']
@@ -701,9 +701,9 @@ system_configuration:
                                         search_type_use_default: //input[@name='groups[search][fields][search_type][inherit]']
                             -
                                 downloadable_product_options:
-                                    xpath: //div/fieldset[legend='Downloadable Product Options']
+                                    xpath: //fieldset[@id='catalog_downloadable']
                                     links:
-                                        downloadable_product_options_link: //a[text()='Downloadable Product Options']
+                                        downloadable_product_options_link: //parent::div//a[@id='catalog_downloadable-head']
                                     fields:
                                         default_maximum_number_of_downloads: //input[@name='groups[downloadable][fields][downloads_number][value]']
                                         default_sample_title: //input[@name='groups[downloadable][fields][samples_title][value]']
@@ -725,9 +725,9 @@ system_configuration:
                                         disable_guest_checkout_if_cart_contains_downloadable_items_use_default: //input[@name='groups[downloadable][fields][disable_guest_checkout][inherit]']
                             -
                                 date_and_time_custom_options:
-                                    xpath: //div/fieldset[legend='Date & Time Custom Options']
+                                    xpath: //fieldset[@id='catalog_custom_options']
                                     links:
-                                        date_and_time_custom_options_link: //a[text()='Date & Time Custom Options']
+                                        date_and_time_custom_options_link: //parent::div//a[@id='catalog_custom_options-head']
                                     fields:
                                         year_range_from: //input[@name='groups[custom_options][fields][year_range][value][]'][1]
                                         year_range_to: //input[@name='groups[custom_options][fields][year_range][value][]'][2]
@@ -748,9 +748,9 @@ system_configuration:
                         fieldsets:
                             -
                                 stock_options:
-                                    xpath: //div/fieldset[legend='Stock Options']
+                                    xpath: //fieldset[@id='cataloginventory_options']
                                     links:
-                                        stock_options_link: //a[text()='Stock Options']
+                                        stock_options_link: //parent::div//a[@id='cataloginventory_options-head']
                                     fields:
                                         only_x_left_threshold: //input[@name='groups[options][fields][stock_threshold_qty][value]']
                                     dropdowns:
@@ -762,9 +762,9 @@ system_configuration:
                                         only_x_left_threshold_use_default: //input[@name='groups[options][fields][stock_threshold_qty][inherit]']
                             -
                                 product_stock_options:
-                                    xpath: //div/fieldset[legend='Product Stock Options']
+                                    xpath: //fieldset[@id='cataloginventory_item_options']
                                     links:
-                                        product_stock_options_link: //a[text()='Product Stock Options']
+                                        product_stock_options_link: //parent::div//a[@id='cataloginventory_item_options-head']
                                     fields:
                                         maximum_qty_allowed_in_shopping_cart: //input[@name='groups[item_options][fields][max_sale_qty][value]']
                                         qty_for_items_status_to_become_out_of_stock: //input[@name='groups[item_options][fields][min_qty][value]']
@@ -785,9 +785,9 @@ system_configuration:
                         fieldsets:
                             -
                                 categories_options:
-                                    xpath: //div/fieldset[legend='Categories Options']
+                                    xpath: //fieldset[@id='sitemap_category']
                                     links:
-                                        categories_options_link: //a[text()='Categories Options']
+                                        categories_options_link: //parent::div//a[@id='sitemap_category-head']
                                     fields:
                                         category_priority: //input[@name='groups[category][fields][priority][value]']
                                     dropdowns:
@@ -797,9 +797,9 @@ system_configuration:
                                         category_priority_use_default: //input[@name='groups[category][fields][priority][inherit]']
                             -
                                 product_options:
-                                    xpath: //div/fieldset[legend='Products Options']
+                                    xpath: //fieldset[@id='sitemap_product']
                                     links:
-                                        product_options_link: //a[text()='Products Options']
+                                        product_options_link: //parent::div//a[@id='sitemap_product-head']
                                     fields:
                                         product_priority: //input[@name='groups[product][fields][priority][value]']
                                     dropdowns:
@@ -809,9 +809,9 @@ system_configuration:
                                         product_priority_use_default: //input[@name='groups[product][fields][priority][inherit]']
                             -
                                 cms_pages_options:
-                                    xpath: //div/fieldset[legend='CMS Pages Options']
+                                    xpath: //fieldset[@id='sitemap_page']
                                     links:
-                                        cms_pages_options_link: //a[text()='CMS Pages Options']
+                                        cms_pages_options_link: //parent::div//a[@id='sitemap_page-head']
                                     fields:
                                         cms_priority: //input[@name='groups[page][fields][priority][value]']
                                     dropdowns:
@@ -821,9 +821,9 @@ system_configuration:
                                         cms_priority_use_default: //input[@name='groups[page][fields][priority][inherit]']
                             -
                                 generation_settings:
-                                    xpath: //div/fieldset[legend='Generation Settings']
+                                    xpath: //fieldset[@id='sitemap_generate']
                                     links:
-                                        generation_settings_link: //a[text()='Generation Settings']
+                                        generation_settings_link: //parent::div//a[@id='sitemap_generate-head']
                                     fields:
                                         error_email_recipient: //input[@name='groups[generate][fields][error_email][value]']
                                     dropdowns:
@@ -840,27 +840,27 @@ system_configuration:
                         fieldsets:
                             -
                                 rss_config:
-                                    xpath: //div/fieldset[legend='Rss Config']
+                                    xpath: //fieldset[@id='rss_config']
                                     links:
-                                        rss_config_link: //a[text()='Rss Config']
+                                        rss_config_link: //parent::div//a[@id='rss_config-head']
                                     dropdowns:
                                         general_enable_rss: //select[@name='groups[config][fields][active][value]']
                                     checkboxes:
                                         general_enable_rss_use_default: //input[@name='groups[config][fields][active][inherit]']
                             -
                                 wishlist:
-                                    xpath: //div/fieldset[legend='Wishlist']
+                                    xpath: //fieldset[@id='rss_wishlist']
                                     links:
-                                        wishlist_link: //a[text()='Wishlist']
+                                        wishlist_link: //parent::div//a[@id='rss_wishlist-head']
                                     dropdowns:
                                         wishlist_enable_rss: //select[@name='groups[wishlist][fields][active][value]']
                                     checkboxes:
                                         wishlist_enable_rss_use_default: //input[@name='groups[wishlist][fields][active][inherit]']
                             -
                                 catalog:
-                                    xpath: //div/fieldset[legend='Catalog']
+                                    xpath: //fieldset[@id='rss_catalog']
                                     links:
-                                        catalog_link: //a[text()='Catalog']
+                                        catalog_link: //parent::div//a[@id='rss_catalog-head']
                                     dropdowns:
                                         new_products: //select[@name='groups[catalog][fields][new][value]']
                                         special_products: //select[@name='groups[catalog][fields][special][value]']
@@ -875,9 +875,9 @@ system_configuration:
                                         top_level_category_use_default: //input[@name='groups[catalog][fields][category][inherit]']
                             -
                                 order:
-                                    xpath: //div/fieldset[legend='Order']
+                                    xpath: //fieldset[@id='rss_order']
                                     links:
-                                        order_link: //a[text()='Order']
+                                        order_link: //parent::div//a[@id='rss_order-head']
                                     dropdowns:
                                         customer_order_status_notification: //select[@name='groups[order][fields][status_notified][value]']
                                     checkboxes:
@@ -888,9 +888,9 @@ system_configuration:
                         fieldsets:
                             -
                                 email_templates:
-                                    xpath: //div/fieldset[legend='Email Templates']
+                                    xpath: //fieldset[@id='sendfriend_email']
                                     links:
-                                        email_templates_link: //a[text()='Email Templates']
+                                        email_templates_link: //parent::div//a[@id='sendfriend_email-head']
                                     fields:
                                         max_recipients: //input[@name='groups[email][fields][max_recipients][value]']
                                         max_products_sent_in_1_hour: //input[@name='groups[email][fields][max_per_hour][value]']
@@ -931,9 +931,9 @@ system_configuration:
                         fieldsets:
                             -
                                 subscription_options:
-                                    xpath: //div/fieldset[legend='Subscription Options']
+                                    xpath: //fieldset[@id='newsletter_subscription']
                                     links:
-                                        subscription_options_link: //a[text()='Subscription Options']
+                                        subscription_options_link: //parent::div//a[@id='newsletter_subscription-head']
                                     dropdowns:
                                         success_email_template: //select[@name='groups[subscription][fields][success_email_template][value]']
                                         unsubscription_email_sender: //select[@name='groups[subscription][fields][un_email_identity][value]']
@@ -958,23 +958,23 @@ system_configuration:
                         fieldsets:
                             -
                                 account_sharing_options:
-                                    xpath: //div/fieldset[legend='Account Sharing Options']
+                                    xpath: //fieldset[@id='customer_account_share']
                                     links:
-                                        account_sharing_options_link: //a[text()='Account Sharing Options']
+                                        account_sharing_options_link: //parent::div//a[@id='customer_account_share-head']
                                     dropdowns:
                                         share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
                             -
                                 online_customer_options:
-                                    xpath: //div/fieldset[legend='Online Customers Options']
+                                    xpath: //fieldset[@id='customer_online_customers']
                                     links:
-                                        online_customer_options_link: //a[text()='Online Customers Options']
+                                        online_customer_options_link: //parent::div//a[@id='customer_online_customers-head']
                                     fields:
                                         online_minutes_interval: //input[@name='groups[online_customers][fields][online_minutes_interval][value]']
                             -
                                 create_new_account_options:
-                                    xpath: //div/fieldset[legend='Create New Account Options']
+                                    xpath: //fieldset[@id='customer_create_account']
                                     links:
-                                        create_new_account_options_link: //a[text()='Create New Account Options']
+                                        create_new_account_options_link: //parent::div//a[@id='customer_create_account-head']
                                     fields:
                                         default_email_domain: //input[@name='groups[create_account][fields][email_domain][value]']
                                     dropdowns:
@@ -995,9 +995,9 @@ system_configuration:
                                         welcome_email_use_default: //input[@name='groups[create_account][fields][email_confirmed_template][inherit]']
                             -
                                 password_options:
-                                    xpath: //div/fieldset[legend='Password Options']
+                                    xpath: //fieldset[@id='customer_password']
                                     links:
-                                        password_options_link: //a[text()='Password Options']
+                                        password_options_link: //parent::div//a[@id='customer_password-head']
                                     dropdowns:
                                         forgot_email_template: //select[@name='groups[password][fields][forgot_email_template][value]']
                                         forgot_email_sender: //select[@name='groups[password][fields][forgot_email_identity][value]']
@@ -1006,9 +1006,9 @@ system_configuration:
                                         forgot_email_sender_use_default: //input[@name='groups[password][fields][forgot_email_identity][inherit]']
                             -
                                 name_and_address_options:
-                                    xpath: //div/fieldset[legend='Name and Address Options']
+                                    xpath: //fieldset[@id='customer_address']
                                     links:
-                                        name_and_address_options_link: //a[text()='Name and Address Options']
+                                        name_and_address_options_link: //parent::div//a[@id='customer_address-head']
                                     fields:
                                         number_of_lines_in_a_street_address: //input[@name='groups[address][fields][street_lines][value]']
                                         prefix_dropdown_options: //input[@name='groups[address][fields][prefix_options][value]']
@@ -1032,18 +1032,18 @@ system_configuration:
                                         show_gender_use_default: //input[@name='groups[address][fields][gender_show][inherit]']
                             -
                                 login_options:
-                                    xpath: //div/fieldset[legend='Login Options']
+                                    xpath: //fieldset[@id='customer_startup']
                                     links:
-                                        login_options_link: //a[text()='Login Options']
+                                        login_options_link: //parent::div//a[@id='customer_startup-head']
                                     dropdowns:
                                         redirect_customer_to_account_dashboard_after_logging_in: //select[@name='groups[startup][fields][redirect_dashboard][value]']
                                     checkboxes:
                                         redirect_customer_to_account_dashboard_after_logging_in_use_default: //input[@name='groups[startup][fields][redirect_dashboard][inherit]']
                             -
                                 address_templates:
-                                    xpath: //div/fieldset[legend='Address Templates']
+                                    xpath: //fieldset[@id='customer_address_templates']
                                     links:
-                                        address_templates_link: //a[text()='Address Templates']
+                                        address_templates_link: //parent::div//a[@id='customer_address_templates-head']
                                     fields:
                                         text: //textarea[@name='groups[address_templates][fields][text][value]']
                                         text_one_line: //textarea[@name='groups[address_templates][fields][oneline][value]']
@@ -1058,7 +1058,9 @@ system_configuration:
                                         javascript_template_use_default: //input[@name='groups[address_templates][fields][js_template][inherit]']
                             -
                                 captcha:
-                                      xpath: //div/fieldset[legend='CAPTCHA']
+                                      xpath: //fieldset[@id='customer_captcha']
+                                      links:
+                                        captcha_link: //parent::div//a[@id='customer_captcha-head']
                                       dropdowns:
                                           captcha_enable_frontend: //select[@id='customer_captcha_enable']
                                           captcha_font: //select[@id='customer_captcha_font']
@@ -1077,18 +1079,18 @@ system_configuration:
                         fieldsets:
                             -
                                 general_options:
-                                    xpath: //div/fieldset[legend='General Options']
+                                    xpath: //fieldset[@id='wishlist_general']
                                     links:
-                                        general_options_link: //a[text()='General Options']
+                                        general_options_link: //parent::div//a[@id='wishlist_general-head']
                                     dropdowns:
                                         enabled: //select[@name='groups[general][fields][active][value]']
                                     checkboxes:
                                         enabled_use_default: //input[@name='groups[general][fields][active][inherit]']
                             -
                                 share_options:
-                                    xpath: //div/fieldset[legend='Share Options']
+                                    xpath: //fieldset[@id='wishlist_email']
                                     links:
-                                        share_options_link: //a[text()='Share Options']
+                                        share_options_link: //parent::div//a[@id='wishlist_email-head']
                                     dropdowns:
                                         email_template: //select[@name='groups[email][fields][email_template][value]']
                                         email_sender: //select[@name='groups[email][fields][email_identity][value]']
@@ -1097,9 +1099,9 @@ system_configuration:
                                         email_sender_use_default: //input[@name='groups[email][fields][email_identity][inherit]']
                             -
                                 my_wishlist_link:
-                                    xpath: //div/fieldset[legend='My Wishlist Link']
+                                    xpath: //fieldset[@id='wishlist_wishlist_link']
                                     links:
-                                        my_wishlist_link_link: //a[text()='My Wishlist Link']
+                                        my_wishlist_link_link: //parent::div//a[@id='wishlist_wishlist_link-head']
                                     dropdowns:
                                         display_wishlist_summary: //select[@name='groups[wishlist_link][fields][use_qty][value]']
                                     checkboxes:
@@ -1110,9 +1112,9 @@ system_configuration:
                         fieldsets:
                             -
                                 general_options:
-                                    xpath: //div/fieldset[legend='General Options']
+                                    xpath: //fieldset[@id='persistent_options']
                                     links:
-                                        general_options_link: //a[text()='General Options']
+                                        general_options_link: //parent::div//a[@id='persistent_options-head']
                                     fields:
                                         persistence_lifetime_seconds: //input[@name='groups[options][fields][lifetime][value]']
                                     dropdowns:
@@ -1134,9 +1136,9 @@ system_configuration:
                         fieldsets:
                             -
                                 checkout_totals_sort_order:
-                                    xpath: //div/fieldset[legend='Checkout Totals Sort Order']
+                                    xpath: //fieldset[@id='sales_totals_sort']
                                     links:
-                                        checkout_totals_sort_order_link: //a[text()='Checkout Totals Sort Order']
+                                        checkout_totals_sort_order_link: //parent::div//a[@id='sales_totals_sort-head']
                                     fields:
                                         subtotal: //input[@name='groups[totals_sort][fields][subtotal][value]']
                                         discount: //input[@name='groups[totals_sort][fields][discount][value]']
@@ -1153,18 +1155,18 @@ system_configuration:
                                         grand_total_use_default: //input[@name='groups[totals_sort][fields][grand_total][inherit]']
                             -
                                 reorder:
-                                    xpath: //div/fieldset[legend='Reorder']
+                                    xpath: //fieldset[@id='sales_reorder']
                                     links:
-                                        reorder_link: //a[text()='Reorder']
+                                        reorder_link: //parent::div//a[@id='sales_reorder-head']
                                     dropdowns:
                                         allow_reorder: //select[@name='groups[reorder][fields][allow][value]']
                                     checkboxes:
                                         allow_reorder_use_default: //input[@name='groups[reorder][fields][allow][inherit]']
                             -
                                 invoice_and_packing_slip_design:
-                                    xpath: //div/fieldset[legend='Invoice and Packing Slip Design']
+                                    xpath: //fieldset[@id='sales_identity']
                                     links:
-                                        invoice_and_packing_slip_design_link: //a[text()='Invoice and Packing Slip Design']
+                                        invoice_and_packing_slip_design_link: //parent::div//a[@id='sales_identity-head']
                                     fields:
                                         logo_for_pdf_print_outs: //input[@name='groups[identity][fields][logo][value]']
                                         logo_for_html_print_view: //input[@name='groups[identity][fields][logo_html][value]']
@@ -1175,9 +1177,9 @@ system_configuration:
                                         address_use_default: //input[@name='groups[identity][fields][address][inherit]']
                             -
                                 minimum_order_amount:
-                                    xpath: //div/fieldset[legend='Minimum Order Amount']
+                                    xpath: //fieldset[@id='sales_minimum_order']
                                     links:
-                                        minimum_order_amount_link: //a[text()='Minimum Order Amount']
+                                        minimum_order_amount_link: //parent::div//a[@id='sales_minimum_order-head']
                                     fields:
                                         minimum_amount: //input[@name='groups[minimum_order][fields][amount][value]']
                                         description_message: //textarea[@name='groups[minimum_order][fields][description][value]']
@@ -1197,16 +1199,16 @@ system_configuration:
                                         validate_each_address_separately_in_multi_address_checkout_use_default: //input[@name='groups[minimum_order][fields][multi_address][inherit]']
                             -
                                 dashboard:
-                                    xpath: //div/fieldset[legend='Dashboard']
+                                    xpath: //fieldset[@id='sales_dashboard']
                                     links:
-                                        dashboard_link: //a[text()='Dashboard']
+                                        dashboard_link: //parent::div//a[@id='sales_dashboard-head']
                                     dropdowns:
                                         use_aggregated_data: //select[@name='groups[dashboard][fields][use_aggregated_data][value]']
                             -
                                 gift_options:
-                                    xpath: //div/fieldset[legend='Gift Options']
+                                    xpath: //fieldset[@id='sales_gift_options']
                                     links:
-                                        gift_options_link: //a[text()='Gift Options']
+                                        gift_options_link: //parent::div//a[@id='sales_gift_options-head']
                                     dropdowns:
                                         allow_gift_messages_on_order_level: //select[@name='groups[gift_options][fields][allow_order][value]']
                                         allow_gift_messages_for_order_items: //select[@name='groups[gift_options][fields][allow_items][value]']
@@ -1215,9 +1217,9 @@ system_configuration:
                                         allow_gift_messages_for_order_items_use_default: //input[@name='groups[gift_options][fields][allow_items][inherit]']
                             -
                                 minimum_advertised_price:
-                                    xpath: //div/fieldset[legend='Minimum Advertised Price']
+                                    xpath: //fieldset[@id='sales_msrp']
                                     links:
-                                        minimum_advertised_price_link: //a[text()='Minimum Advertised Price']
+                                        minimum_advertised_price_link: //parent::div//a[@id='sales_msrp-head']
                                     fields:
                                         default_popup_text_message: //textarea[@name='groups[msrp][fields][explanation_message][value]']
                                         default_whats_this_text_message: //textarea[@name='groups[msrp][fields][explanation_message_whats_this][value]']
@@ -1237,9 +1239,9 @@ system_configuration:
                         fieldsets:
                             -
                                 order:
-                                    xpath: //div/fieldset[legend='Order']
+                                    xpath: //fieldset[@id='sales_email_order']
                                     links:
-                                        order_link: //a[text()='Order']
+                                        order_link: //parent::div//a[@id='sales_email_order-head']
                                     fields:
                                         send_order_email_copy_to: //input[@name='groups[order][fields][copy_to][value]']
                                     dropdowns:
@@ -1257,9 +1259,9 @@ system_configuration:
                                         send_order_email_copy_method_use_default: //input[@name='groups[order][fields][copy_method][inherit]']
                             -
                                 order_comments:
-                                    xpath: //div/fieldset[legend='Order Comments']
+                                    xpath: //fieldset[@id='sales_email_order_comment']
                                     links:
-                                        order_comments_link: //a[text()='Order Comments']
+                                        order_comments_link: //parent::div//a[@id='sales_email_order_comment-head']
                                     fields:
                                         send_order_comment_email_copy_to: //input[@name='groups[order_comment][fields][copy_to][value]']
                                     dropdowns:
@@ -1277,9 +1279,9 @@ system_configuration:
                                         send_order_comments_email_copy_method_use_default: //input[@name='groups[order_comment][fields][copy_method][inherit]']
                             -
                                 invoice:
-                                    xpath: //div/fieldset[legend='Invoice']
+                                    xpath: //fieldset[@id='sales_email_invoice']
                                     links:
-                                        invoice_link: //a[text()='Invoice']
+                                        invoice_link: //parent::div//a[@id='sales_email_invoice-head']
                                     fields:
                                         send_invoice_email_copy_to: //input[@name='groups[invoice][fields][copy_to][value]']
                                     dropdowns:
@@ -1297,9 +1299,9 @@ system_configuration:
                                         send_invoice_email_copy_method_use_default: //input[@name='groups[invoice][fields][copy_method][inherit]']
                             -
                                 invoice_comments:
-                                    xpath: //div/fieldset[legend='Invoice Comments']
+                                    xpath: //fieldset[@id='sales_email_invoice_comment']
                                     links:
-                                        invoice_comments_link: //a[text()='Invoice Comments']
+                                        invoice_comments_link: //parent::div//a[@id='sales_email_invoice_comment-head']
                                     fields:
                                         send_invoice_comment_email_copy_to: //input[@name='groups[invoice_comment][fields][copy_to][value]']
                                     dropdowns:
@@ -1317,9 +1319,9 @@ system_configuration:
                                         send_invoice_comment_email_copy_method_use_default: //input[@name='groups[invoice_comment][fields][copy_method][inherit]']
                             -
                                 shipment:
-                                    xpath: //div/fieldset[legend='Shipment']
+                                    xpath: //fieldset[@id='sales_email_shipment']
                                     links:
-                                        shipment_link: //a[text()='Shipment']
+                                        shipment_link: //parent::div//a[@id='sales_email_shipment-head']
                                     fields:
                                         send_shipment_email_copy_to: //input[@name='groups[shipment][fields][copy_to][value]']
                                     dropdowns:
@@ -1337,9 +1339,9 @@ system_configuration:
                                         send_shipment_email_copy_method_use_default: //input[@name='groups[shipment][fields][copy_method][inherit]']
                             -
                                 shipment_comments:
-                                    xpath: //div/fieldset[legend='Shipment Comments']
+                                    xpath: //fieldset[@id='sales_email_shipment_comment']
                                     links:
-                                        shipment_comments_link: //a[text()='Shipment Comments']
+                                        shipment_comments_link: //parent::div//a[@id='sales_email_shipment_comment-head']
                                     fields:
                                         send_shipment_comment_email_copy_to: //input[@name='groups[shipment_comment][fields][copy_to][value]']
                                     dropdowns:
@@ -1357,9 +1359,9 @@ system_configuration:
                                         send_shipment_comment_email_copy_method_use_default: //input[@name='groups[shipment_comment][fields][copy_method][inherit]']
                             -
                                 credit_memo:
-                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    xpath: //fieldset[@id='sales_email_creditmemo']
                                     links:
-                                        credit_memo_link: //a[text()='Credit Memo']
+                                        credit_memo_link: //parent::div//a[@id='sales_email_creditmemo-head']
                                     fields:
                                         send_credit_memo_email_copy_to: //input[@name='groups[creditmemo][fields][copy_to][value]']
                                     dropdowns:
@@ -1377,9 +1379,9 @@ system_configuration:
                                         send_credit_memo_email_copy_method_use_default: //input[@name='groups[creditmemo][fields][copy_method][inherit]']
                             -
                                 credit_memo_comments:
-                                    xpath: //div/fieldset[legend='Credit Memo Comments']
+                                    xpath: //fieldset[@id='sales_email_creditmemo_comment']
                                     links:
-                                        credit_memo_comments_link: //a[text()='Credit Memo Comments']
+                                        credit_memo_comments_link: //parent::div//a[@id='sales_email_creditmemo_comment-head']
                                     fields:
                                         send_credit_memo_comment_email_copy_to: //input[@name='groups[creditmemo_comment][fields][copy_to][value]']
                                     dropdowns:
@@ -1401,27 +1403,27 @@ system_configuration:
                         fieldsets:
                             -
                                 invoice:
-                                    xpath: //div/fieldset[legend='Invoice']
+                                    xpath: //fieldset[@id='sales_pdf_invoice']
                                     links:
-                                        invoice_link: //a[text()='Invoice']
+                                        invoice_link: //parent::div//a[@id='sales_pdf_invoice-head']
                                     dropdowns:
                                         invoice_display_order_id_in_header: //select[@name='groups[invoice][fields][put_order_id][value]']
                                     checkboxes:
                                         invoice_display_order_id_in_header_use_default: //input[@name='groups[invoice][fields][put_order_id][inherit]']
                             -
                                 shipment:
-                                    xpath: //div/fieldset[legend='Shipment']
+                                    xpath: //fieldset[@id='sales_pdf_shipment']
                                     links:
-                                        shipment_link: //a[text()='Shipment']
+                                        shipment_link: //parent::div//a[@id='sales_pdf_shipment-head']
                                     dropdowns:
                                         shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]']
                                     checkboxes:
                                         shipment_display_order_id_in_header_use_default: //input[@name='groups[shipment][fields][put_order_id][inherit]']
                             -
                                 credit_memo:
-                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    xpath: //fieldset[@id='sales_pdf_creditmemo']
                                     links:
-                                        credit_memo_link: //a[text()='Credit Memo']
+                                        credit_memo_link: //parent::div//a[@id='sales_pdf_creditmemo-head']
                                     dropdowns:
                                         credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
                                     checkboxes:
@@ -1432,18 +1434,18 @@ system_configuration:
                         fieldsets:
                             -
                                 tax_classes:
-                                    xpath: //div/fieldset[legend='Tax Classes']
+                                    xpath: //fieldset[@id='tax_classes']
                                     links:
-                                        tax_classes_link: //a[text()='Tax Classes']
+                                        tax_classes_link: //parent::div//a[@id='tax_classes-head']
                                     dropdowns:
                                         tax_class_for_shipping: //select[@name='groups[classes][fields][shipping_tax_class][value]']
                                     checkboxes:
                                         tax_class_for_shipping_use_default: //input[@name='groups[classes][fields][shipping_tax_class][inherit]']
                             -
                                 calculation_settings:
-                                    xpath: //div/fieldset[legend='Calculation Settings']
+                                    xpath: //fieldset[@id='tax_calculation']
                                     links:
-                                        calculation_settings_link: //a[text()='Calculation Settings']
+                                        calculation_settings_link: //parent::div//a[@id='tax_calculation-head']
                                     dropdowns:
                                         tax_calculation_method_based_on: //select[@name='groups[calculation][fields][algorithm][value]']
                                         tax_calculation_based_on: //select[@name='groups[calculation][fields][based_on][value]']
@@ -1462,9 +1464,9 @@ system_configuration:
                                         apply_tax_on_use_default: //input[@name='groups[calculation][fields][apply_tax_on][inherit]']
                             -
                                 default_tax_destination_calculation:
-                                    xpath: //div/fieldset[legend='Default Tax Destination Calculation']
+                                    xpath: //fieldset[@id='tax_defaults']
                                     links:
-                                        default_tax_destination_calculation_link: //a[text()='Default Tax Destination Calculation']
+                                        default_tax_destination_calculation_link: //parent::div//a[@id='tax_defaults-head']
                                     fields:
                                         default_post_code: //input[@name='groups[defaults][fields][postcode][value]']
                                     dropdowns:
@@ -1476,9 +1478,9 @@ system_configuration:
                                         default_state_use_default: //input[@name='groups[defaults][fields][region][inherit]']
                             -
                                 price_display_settings:
-                                    xpath: //div/fieldset[legend='Price Display Settings']
+                                    xpath: //fieldset[@id='tax_display']
                                     links:
-                                        price_display_settings_link: //a[text()='Price Display Settings']
+                                        price_display_settings_link: //parent::div//a[@id='tax_display-head']
                                     dropdowns:
                                         display_product_prices_in_catalog: //select[@name='groups[display][fields][type][value]']
                                         display_shipping_prices: //select[@name='groups[display][fields][shipping][value]']
@@ -1487,9 +1489,9 @@ system_configuration:
                                         display_shipping_prices_use_default: //input[@name='groups[display][fields][shipping][inherit]']
                             -
                                 shopping_cart_display_settings:
-                                    xpath: //div/fieldset[legend='Shopping Cart Display Settings']
+                                    xpath: //fieldset[@id='tax_cart_display']
                                     links:
-                                        shopping_cart_display_settings_link: //a[text()='Shopping Cart Display Settings']
+                                        shopping_cart_display_settings_link: //parent::div//a[@id='tax_cart_display-head']
                                     dropdowns:
                                         sc_display_prices: //select[@name='groups[cart_display][fields][price][value]']
                                         sc_display_subtotal: //select[@name='groups[cart_display][fields][subtotal][value]']
@@ -1506,9 +1508,9 @@ system_configuration:
                                         sc_display_zero_tax_subtotal_use_default: //input[@name='groups[cart_display][fields][zero_tax][inherit]']
                             -
                                 orders_invoices_creditmemos_display_settings:
-                                    xpath: //div/fieldset[legend='Orders, Invoices, Creditmemos Display Settings']
+                                    xpath: //fieldset[@id='tax_sales_display']
                                     links:
-                                        orders_invoices_creditmemos_display_settings_link: //a[text()='Orders, Invoices, Creditmemos Display Settings']
+                                        orders_invoices_creditmemos_display_settings_link: //parent::div//a[@id='tax_sales_display-head']
                                     dropdowns:
                                         oic_display_prices: //select[@name='groups[sales_display][fields][price][value]']
                                         oic_display_subtotal: //select[@name='groups[sales_display][fields][subtotal][value]']
@@ -1525,9 +1527,9 @@ system_configuration:
                                         oic_display_zero_tax_subtotal_use_default: //input[@name='groups[sales_display][fields][zero_tax][inherit]']
                             -
                                 fixed_product_taxes:
-                                    xpath: //div/fieldset[legend='Fixed Product Taxes']
+                                    xpath: //fieldset[@id='tax_weee']
                                     links:
-                                        fixed_product_taxes_link: //a[text()='Fixed Product Taxes']
+                                        fixed_product_taxes_link: //parent::div//a[@id='tax_weee-head']
                                     dropdowns:
                                         enable_fpt: //select[@name='groups[weee][fields][enable][value]']
                                         display_prices_in_product_lists: //select[@name='groups[weee][fields][display_list][value]']
@@ -1552,9 +1554,9 @@ system_configuration:
                         fieldsets:
                             -
                                 checkout_options:
-                                    xpath: //div/fieldset[legend='Checkout Options']
+                                    xpath: //fieldset[@id='checkout_options']
                                     links:
-                                        checkout_options_link: //a[text()='Checkout Options']
+                                        checkout_options_link: //parent::div//a[@id='checkout_options-head']
                                     dropdowns:
                                         enable_onepage_checkout: //select[@name='groups[options][fields][onepage_checkout_enabled][value]']
                                         allow_guest_checkout: //select[@name='groups[options][fields][guest_checkout][value]']
@@ -1565,9 +1567,9 @@ system_configuration:
                                         enable_terms_and_conditions_use_default: //input[@name='groups[options][fields][enable_agreements][inherit]']
                             -
                                 shopping_cart:
-                                    xpath: //div/fieldset[legend='Shopping Cart']
+                                    xpath: //fieldset[@id='checkout_cart']
                                     links:
-                                        shopping_cart_link: //a[text()='Shopping Cart']
+                                        shopping_cart_link: //parent::div//a[@id='checkout_cart-head']
                                     fields:
                                         quote_lifetime: //input[@name='groups[cart][fields][delete_quote_after][value]']
                                     dropdowns:
@@ -1581,9 +1583,9 @@ system_configuration:
                                         configurable_product_image_use_default: //input[@name='groups[cart][fields][configurable_product_image][inherit]']
                             -
                                 my_cart_link:
-                                    xpath: //div/fieldset[legend='My Cart Link']
+                                    xpath: //fieldset[@id='checkout_cart_link']
                                     links:
-                                        my_cart_link_link: //a[text()='My Cart Link']
+                                        my_cart_link_link: //parent::div//a[@id='checkout_cart_link-head']
                                     dropdowns:
                                         display_cart_summary: //select[@name='groups[cart_link][fields][use_qty][value]']
                                     checkboxes:
@@ -1591,9 +1593,9 @@ system_configuration:
 
                             -
                                 shopping_cart_sidebar:
-                                    xpath: //div/fieldset[legend='Shopping Cart Sidebar']
+                                    xpath: //fieldset[@id='checkout_sidebar']
                                     links:
-                                        shopping_cart_sidebar_link: //a[text()='Shopping Cart Sidebar']
+                                        shopping_cart_sidebar_link: //parent::div//a[@id='checkout_sidebar-head']
                                     fields:
                                         maximum_display_recently_added_items: //input[@name='groups[sidebar][fields][count][value]']
                                     dropdowns:
@@ -1603,9 +1605,9 @@ system_configuration:
                                         display_shopping_cart_sidebar_use_default: //input[@name='groups[sidebar][fields][display][inherit]']
                             -
                                 payment_failed_emails:
-                                    xpath: //div/fieldset[legend='Payment Failed Emails']
+                                    xpath: //fieldset[@id='checkout_payment_failed']
                                     links:
-                                        payment_failed_emails_link: //a[text()='Payment Failed Emails']
+                                        payment_failed_emails_link: //parent::div//a[@id='checkout_payment_failed-head']
                                     fields:
                                         send_payment_failed_email_copy_to: //input[@name='groups[payment_failed][fields][copy_to][value]']
                                     dropdowns:
@@ -1625,9 +1627,9 @@ system_configuration:
                         fieldsets:
                             -
                                 origin:
-                                    xpath: //div/fieldset[legend='Origin']
+                                    xpath: //fieldset[@id='shipping_origin']
                                     links:
-                                        origin_link: //a[text()='Origin']
+                                        origin_link: //parent::div//a[@id='shipping_origin-head']
                                     fields:
                                         zip_postal_code: //input[@name='groups[origin][fields][postcode][value]']
                                         city: //input[@name='groups[origin][fields][city][value]']
@@ -1646,9 +1648,9 @@ system_configuration:
                                         street_address_line_2_use_default: //input[@name='groups[origin][fields][street_line2][inherit]']
                             -
                                 options:
-                                    xpath: //div/fieldset[legend='Options']
+                                    xpath: //fieldset[@id='shipping_option']
                                     links:
-                                        options_link: //a[text()='Options']
+                                        options_link: //parent::div//a[@id='shipping_option-head']
                                     fields:
                                         maximum_qty_allowed_for_shipping_to_multiple_addresses: //input[@name='groups[option][fields][checkout_multiple_maximum_qty][value]']
                                     dropdowns:
@@ -1662,9 +1664,9 @@ system_configuration:
                         fieldsets:
                             -
                                 flat_rate:
-                                    xpath: //div/fieldset[legend='Flat Rate']
+                                    xpath: //fieldset[@id='carriers_flatrate']
                                     links:
-                                        flat_rate_link: //a[text()='Flat Rate']
+                                        flat_rate_link: //parent::div//a[@id='carriers_flatrate-head']
                                     fields:
                                         flat_rate_title: //input[@name='groups[flatrate][fields][title][value]']
                                         flat_rate_method_name: //input[@name='groups[flatrate][fields][name][value]']
@@ -1695,9 +1697,9 @@ system_configuration:
                                         flat_rate_show_method_if_not_applicable_use_default: //input[@name='groups[flatrate][fields][showmethod][inherit]']
                             -
                                 table_rates:
-                                    xpath: //div/fieldset[legend='Table Rates']
+                                    xpath: //fieldset[@id='carriers_tablerate']
                                     links:
-                                        table_rates_link: //a[text()='Table Rates']
+                                        table_rates_link: //parent::div//a[@id='carriers_tablerate-head']
                                     fields:
                                         table_rates_title: //input[@name='groups[tablerate][fields][title][value]']
                                         table_rates_method_name: //input[@name='groups[tablerate][fields][name][value]']
@@ -1730,9 +1732,9 @@ system_configuration:
                                         table_rates_ship_to_specific_countries_use_default: //input[@name='groups[tablerate][fields][specificcountry][inherit]']
                             -
                                 free_shipping:
-                                    xpath: //div/fieldset[legend='Free Shipping']
+                                    xpath: //fieldset[@id='carriers_freeshipping']
                                     links:
-                                        free_shipping_link: //a[text()='Free Shipping']
+                                        free_shipping_link: //parent::div//a[@id='carriers_freeshipping-head']
                                     fields:
                                         free_shipping_title: //input[@name='groups[freeshipping][fields][title][value]']
                                         free_shipping_method_name: //input[@name='groups[freeshipping][fields][name][value]']
@@ -1756,9 +1758,9 @@ system_configuration:
                                         free_shipping_ship_to_specific_countries_use_default: //input[@name='groups[freeshipping][fields][specificcountry][inherit]']
                             -
                                 ups:
-                                    xpath: //div/fieldset[legend='UPS']
+                                    xpath: //fieldset[@id='carriers_ups']
                                     links:
-                                        ups_link: //a[text()='UPS']
+                                        ups_link: //parent::div//a[@id='carriers_ups-head']
                                     fields:
                                         ups_gateway_url: //input[@name='groups[ups][fields][gateway_url][value]']
                                         ups_title: //input[@name='groups[ups][fields][title][value]']
@@ -1819,9 +1821,9 @@ system_configuration:
                                         ups_ship_to_specific_countries_use_default: //input[@name='groups[ups][fields][specificcountry][inherit]']
                             -
                                 usps:
-                                    xpath: //div/fieldset[legend='USPS']
+                                    xpath: //fieldset[@id='carriers_usps']
                                     links:
-                                        usps_link: //a[text()='USPS']
+                                        usps_link: //parent::div//a[@id='carriers_usps-head']
                                     fields:
                                         usps_gateway_url: //input[@name='groups[usps][fields][gateway_url][value]']
                                         usps_secure_gateway_url: //input[@name='groups[usps][fields][gateway_secure_url][value]']
@@ -1874,9 +1876,9 @@ system_configuration:
                                         usps_ship_to_specific_countries_use_default: //input[@name='groups[usps][fields][specificcountry][inherit]']
                             -
                                 fedex:
-                                    xpath: //div/fieldset[legend='FedEx']
+                                    xpath: //fieldset[@id='carriers_fedex']
                                     links:
-                                        fedex_link: //a[text()='FedEx']
+                                        fedex_link: //parent::div//a[@id='carriers_fedex-head']
                                     fields:
                                         fedex_title: //input[@name='groups[fedex][fields][title][value]']
                                         fedex_account_id: //input[@name='groups[fedex][fields][account][value]']
@@ -1931,9 +1933,9 @@ system_configuration:
                                         fedex_ship_to_specific_countries_use_default: //input[@name='groups[fedex][fields][specificcountry][inherit]']
                             -
                                 dhl:
-                                    xpath: //div/fieldset[legend='DHL']
+                                    xpath: //fieldset[@id='carriers_dhl']
                                     links:
-                                        dhl_link: //a[@id='carriers_dhl-head']
+                                        dhl_link: //parent::div//a[@id='carriers_dhl-head']
                                     fields:
                                         dhl_gateway_url: //input[@id='carriers_dhl_gateway_url']
                                         dhl_title: //input[@id='carriers_dhl_title']
@@ -1973,92 +1975,15 @@ system_configuration:
                                         dhl_domestic_shipment_days: //select[@id='carriers_dhl_shipment_days']
                                         dhl_international_shipment_days: //select[@id='carriers_dhl_intl_shipment_days']
                                         dhl_ship_to_specific_countries: //select[@id='carriers_dhl_specificcountry']
-# Data for a release after CE1.6.2
-#
-#                            -
-#                                dhl_usa:
-#                                    xpath: //div/fieldset[legend='DHL (Deprecated)']
-#                                    links:
-#                                        dhl_link: //a[@id='carriers_dhl-head']
-#                                    fields:
-#                                        dhl_usa_gateway_url: //input[@id='carriers_dhl_gateway_url']
-#                                        dhl_usa_title: //input[@id='carriers_dhl_title']
-#                                        dhl_usa_access_id: //input[@id='carriers_dhl_id']
-#                                        dhl_usa_password: //input[@id='carriers_dhl_password']
-#                                        dhl_usa_account_number: //input[@id='carriers_dhl_account']
-#                                        dhl_usa_shipping_key_int: //input[@id='carriers_dhl_shipping_intlkey']
-#                                        dhl_usa_shipping_key: //input[@id='carriers_dhl_shipping_key']
-#                                        dhl_usa_package_description: //input[@id='carriers_dhl_contentdesc']
-#                                        dhl_usa_handling_fee: //input[@id='carriers_dhl_handling_fee']
-#                                        dhl_usa_maximum_package_weight: //input[@id='carriers_dhl_max_package_weight']
-#                                        dhl_usa_displayed_error_message: //textarea[@id='carriers_dhl_specificerrmsg']
-#                                        dhl_usa_min_order_amount_for_free_shipping: //input[@id='carriers_dhl_free_shipping_subtotal']
-#                                        dhl_usa_additional_protection_min_subtotal: //input[@id='carriers_dhl_additional_protection_min_value']
-#                                        dhl_usa_additional_protection_configuration_value: //input[@id='carriers_dhl_additional_protection_value']
-#                                        dhl_usa_default_package_length: //input[@id='carriers_dhl_default_length']
-#                                        dhl_usa_default_package_width: //input[@id='carriers_dhl_default_width']
-#                                        dhl_usa_default_package_height: //input[@id='carriers_dhl_default_height']
-#                                        dhl_usa_sort_order: //input[@id='carriers_dhl_sort_order']
-#                                    dropdowns:
-#                                        dhl_usa_enabled: //select[@id='carriers_dhl_active']
-#                                        dhl_usa_shipment_type: //select[@id='carriers_dhl_shipment_type']
-#                                        dhl_usa_calculate_handling_fee:: //select[@id='carriers_dhl_handling_type']
-#                                        dhl_usa_handling_applied: //select[@id='carriers_dhl_handling_action']
-#                                        dhl_usa_shipment_duty_payment_type': //select[@id='carriers_dhl_dutypaymenttype']
-#                                        dhl_usa_free_method: //select[@id='carriers_dhl_free_method_doc']
-#                                        dhl_usa_free_shipping_with_min_order_amount: //select[@id='carriers_dhl_free_shipping_enable']
-#                                        dhl_usa_additional_protection_enabled: //select[@id='carriers_dhl_additional_protection_enabled']
-#                                        dhl_usa_additional_protection_value: //select[@id='carriers_dhl_additional_protection_use_subtotal']
-#                                        dhl_usa_additional_protection_value_rounding_method: //select[@id='carriers_dhl_additional_protection_rounding']
-#                                        dhl_usa_shipment_contains_hazardous_materials: //select[@id='carriers_dhl_hazardous_materials']
-#                                        dhl_usa_ship_to_applicable_countries: //select[@id='carriers_dhl_sallowspecific']
-#                                        dhl_usa_show_method_if_not_applicable: //select[@id='carriers_dhl_showmethod']
-#                                        dhl_usa_debug: //select[@id='carriers_dhl_debug']
-#                                    multiselects:
-#                                        dhl_usa_allowed_methods: //select[@id='carriers_dhl_allowed_methods']
-#                                        dhl_usa_domestic_shipment_days: //select[@id='carriers_dhl_shipment_days']
-#                                        dhl_usa_international_shipment_days: //select[@id='carriers_dhl_intl_shipment_days']
-#                                        dhl_usa_ship_to_specific_countries: //select[@id='carriers_dhl_specificcountry']
-#                            -
-#                                dhl_international:
-#                                    xpath: //div/fieldset[legend='DHL']
-#                                    links:
-#                                        dhl_link: //a[@id='carriers_dhlint-head']
-#                                    fields:
-#                                        dhl_int_title: //input[@id='carriers_dhlint_title']
-#                                        dhl_int_gateway_url: //input[@id='carriers_dhlint_gateway_url']
-#                                        dhl_int_access_id: //input[@id='carriers_dhlint_id']
-#                                        dhl_int_password: //input[@id='carriers_dhlint_password']
-#                                        dhl_int_account_number: //input[@id='carriers_dhlint_account']
-#                                        dhl_int_handling_fee: //input[@id='carriers_dhlint_handling_fee']
-#                                        dhl_int_maximum_package_weight: //input[@id='carriers_dhlint_max_package_weight']
-#                                        dhl_int_ready_time: //input[@id='carriers_dhlint_ready_time']
-#                                        dhl_int_displayed_error_message: //textarea[@id='carriers_dhlint_specificerrmsg']
-#                                        dhl_int_min_order_amount_for_free_shipping: //input[@id='carriers_dhlint_free_shipping_subtotal']
-#                                        dhl_int_sort_order: //input[@id='carriers_dhlint_sort_order']
-#                                    dropdowns:
-#                                        dhl_int_enabled: //select[@id='carriers_dhlint_active']
-#                                        dhl_int_content_type: //select[@id='carriers_dhlint_content_type']
-#                                        dhl_int_calculate_handling_fee:: //select[@id='carriers_dhlint_handling_type']
-#                                        dhl_int_handling_applied: //select[@id='carriers_dhlint_handling_action']
-#                                        dhl_int_free_method: //select[@id='carriers_dhlint_free_method_doc']
-#                                        dhl_int_free_shipping_with_min_order_amount: //select[@id='carriers_dhlint_free_shipping_enable']
-#                                        dhl_int_ship_to_applicable_countries: //select[@id='carriers_dhlint_sallowspecific']
-#                                        dhl_int_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
-#                                        dhl_int_debug: //select[@id='carriers_dhlint_debug']
-#                                    multiselects:
-#                                        dhl_int_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods' and not(@disabled)]
-#                                        dhl_int_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods' and not(@disabled)]
-#                                        dhl_int_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
                 -
                     sales_google_api:
                         xpath: //a[contains(@href, 'edit/section/google/')]
                         fieldsets:
                             -
                                 google_analytics:
-                                    xpath: //div/fieldset[legend='Google Analytics']
+                                    xpath: //fieldset[@id='google_analytics']
                                     links:
-                                        google_analytics_link: //a[text()='Google Analytics']
+                                        google_analytics_link: //parent::div//a[@id='google_analytics-head']
                                     fields:
                                         account_number: //input[@name='groups[analytics][fields][account][value]']
                                     dropdowns:
@@ -2077,9 +2002,9 @@ system_configuration:
                                         enable_use_default: //input[@name='groups[optimizer][fields][active][inherit]']
                             -
                                 google_checkout:
-                                    xpath: //div/fieldset[legend='Google Checkout']
+                                    xpath: //fieldset[@id='google_checkout']
                                     links:
-                                        google_checkout_link: //a[text()='Google Checkout']
+                                        google_checkout_link: //parent::div//a[@id='google_checkout-head']
                                         signup_for_google_checkout: //a[text()='Signup for Google Checkout']
                                     fields:
                                         title: //input[@name='groups[checkout][fields][title][value]']
@@ -2112,9 +2037,9 @@ system_configuration:
                                         disable_default_tax_tables_use_default: //input[@name='groups[checkout][fields][disable_default_tax_tables][inherit]']
                             -
                                 google_checkout_shipping_merchant_calculated:
-                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Merchant Calculated']
+                                    xpath: //fieldset[@id='google_checkout_shipping_merchant']
                                     links:
-                                        google_checkout_shipping_merchant_calculated_link: //a[text()='Google Checkout Shipping - Merchant Calculated']
+                                        google_checkout_shipping_merchant_calculated_link: //parent::div//a[@id='google_checkout_shipping_merchant-head']
                                     fields:
                                         default_price: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][price][]']
                                     dropdowns:
@@ -2128,9 +2053,9 @@ system_configuration:
                                         add_shipping_method_use_default: //input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][inherit]']
                             -
                                 google_checkout_shipping_carrier_calculated:
-                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Carrier Calculated']
+                                    xpath: //fieldset[@id='google_checkout_shipping_carrier']
                                     links:
-                                        google_checkout_shipping_carrier_calculated_link: //a[text()='Google Checkout Shipping - Carrier Calculated']
+                                        google_checkout_shipping_carrier_calculated_link: //parent::div//a[@id='google_checkout_shipping_carrier-head']
                                     fields:
                                         default_price_for_methods: //input[@name='groups[checkout_shipping_carrier][fields][default_price][value]']
                                         default_package_width: //input[@name='groups[checkout_shipping_carrier][fields][default_width][value]']
@@ -2151,9 +2076,9 @@ system_configuration:
                                         carrier_calculated_methods_use_default: //input[@name='groups[checkout_shipping_carrier][fields][methods][inherit]']
                             -
                                 google_checkout_shipping_flat_rate:
-                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Flat Rate']
+                                    xpath: //fieldset[@id='google_checkout_shipping_flatrate']
                                     links:
-                                        google_checkout_shipping_flat_rate_link: //a[text()='Google Checkout Shipping - Flat Rate']
+                                        google_checkout_shipping_flat_rate_link: //parent::div//a[@id='google_checkout_shipping_flatrate-head']
                                     fields:
                                         rate_1_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][value]']
                                         rate_1_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][value]']
@@ -2186,9 +2111,9 @@ system_configuration:
                                         rate_3_ship_to_specific_countries_use_default: //input[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][inherit]']
                             -
                                 google_checkout_shipping_digital_delivery:
-                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Digital Delivery']
+                                    xpath: //fieldset[@id='google_checkout_shipping_virtual']
                                     links:
-                                        google_checkout_shipping_digital_delivery_link: //a[text()='Google Checkout Shipping - Digital Delivery']
+                                        google_checkout_shipping_digital_delivery_link: //parent::div//a[@id='google_checkout_shipping_virtual-head']
                                     dropdowns:
                                         enable_digital_delivery: //select[@name='groups[checkout_shipping_virtual][fields][active][value]']
                                         delivery_schedule: //select[@name='groups[checkout_shipping_virtual][fields][schedule][value]']
@@ -2203,9 +2128,9 @@ system_configuration:
                         fieldsets:
                             -
                                 merchant_account:
-                                    xpath: //div/fieldset[legend='Merchant Account']
+                                    xpath: //fieldset[@id='paypal_account']
                                     links:
-                                        merchant_account_link: //a[text()='Merchant Account']
+                                        merchant_account_link: //parent::div//a[@id='paypal_account-head']
                                     fields:
                                         email_associated_with_paypal_merchant_account: //input[@name='groups[account][fields][business_account][value]']
                                     dropdowns:
@@ -2244,9 +2169,9 @@ system_configuration:
                                         payflow_link_learn_more: //a[contains(@href, '_payflow-link-overview-outside')]
                             -
                                 api_integration_settings:
-                                    xpath: //div/fieldset[legend='API/Integration Settings']
+                                    xpath: //fieldset[@id='paypal_api']
                                     links:
-                                        api_integration_settings_link: //a[text()='API/Integration Settings']
+                                        api_integration_settings_link: //parent::div//a[@id='paypal_api-head']
                                     fields:
                                         api_username: //input[@name='groups[api][fields][api_username][value]']
                                         api_password: //input[@name='groups[api][fields][api_password][value]']
@@ -2274,9 +2199,9 @@ system_configuration:
                                         proxy_port: //input[@name='groups[api][fields][proxy_port][inherit]']
                             -
                                 express_checkout_settings:
-                                    xpath: //div/fieldset[legend='Express Checkout Settings']
+                                    xpath: //fieldset[@id='paypal_express']
                                     links:
-                                        express_checkout_settings_link: //a[text()='Express Checkout Settings']
+                                        express_checkout_settings_link: //parent::div//a[@id='paypal_express-head']
                                     fields:
                                         excheck_title: //input[@name='groups[express][fields][title][value]']
                                         excheck_sort_order: //input[@name='groups[express][fields][sort_order][value]']
@@ -2315,9 +2240,9 @@ system_configuration:
                                         number_of_child_authorizations_use_default: //input[@name='groups[express][fields][child_authorization_number][inherit]']
                             -
                                 website_payments_standard_settings:
-                                    xpath: //div/fieldset[legend='Website Payments Standard Settings']
+                                    xpath: //fieldset[@id='paypal_wps']
                                     links:
-                                        website_payments_standard_settings_link: //a[text()='Website Payments Standard Settings']
+                                        website_payments_standard_settings_link: //parent::div//a[@id='paypal_wps-head']
                                     fields:
                                         wps_title: //input[@name='groups[wps][fields][title][value]']
                                         wps_sort_order: //input[@name='groups[wps][fields][sort_order][value]']
@@ -2340,9 +2265,9 @@ system_configuration:
                                         wps_countries_payment_applicable_from_use_default: //input[@name='groups[wps][fields][specificcountry][inherit]']
                             -
                                 website_payments_pro_settings:
-                                    xpath: //div/fieldset[legend='Website Payments Pro Settings']
+                                    xpath: //fieldset[@id='paypal_wpp']
                                     links:
-                                        website_payments_pro_settings_link: //a[text()='Website Payments Pro Settings']
+                                        website_payments_pro_settings_link: //parent::div//a[@id='paypal_wpp-head']
                                     fields:
                                         wpp_title: //input[@name='groups[wpp][fields][title][value]']
                                         wpp_sort_order: //input[@name='groups[wpp][fields][sort_order][value]']
@@ -2373,9 +2298,9 @@ system_configuration:
                                         wpp_allowed_credit_card_types_use_default: //input[@name='groups[wpp][fields][cctypes][inherit]']
                             -
                                 paypal_billing_agreement_settings:
-                                    xpath: //div/fieldset[legend='Paypal Billing Agreement Settings']
+                                    xpath: //fieldset[@id='paypal_paypal_billing_agreement']
                                     links:
-                                        paypal_billing_agreement_settings_link: //a[text()='Paypal Billing Agreement Settings']
+                                        paypal_billing_agreement_settings_link: //parent::div//a[@id='paypal_paypal_billing_agreement-head']
                                     fields:
                                         pba_title: //input[@name='groups[paypal_billing_agreement][fields][title][value]']
                                         pba_sort_order: //input[@name='groups[paypal_billing_agreement][fields][sort_order][value]']
@@ -2400,9 +2325,9 @@ system_configuration:
                                         pba_countries_payment_applicable_from_use_default: //input[@name='groups[paypal_billing_agreement][fields][specificcountry][inherit]']
                             -
                                 website_payments_pro_payflow_edition_settings:
-                                    xpath: //div/fieldset[legend='Website Payments Pro (Payflow Edition) Settings']
+                                    xpath: //fieldset[@id='paypal_wpp_pe']
                                     links:
-                                        website_payments_pro_payflow_edition_settings_link: //a[text()='Website Payments Pro (Payflow Edition) Settings']
+                                        website_payments_pro_payflow_edition_settings_link: //parent::div//a[@id='paypal_wpp_pe-head']
                                     fields:
                                         wpppe_title: //input[@name='groups[wpp_pe][fields][title][value]']
                                         wpppe_sort_order: //input[@name='groups[wpp_pe][fields][sort_order][value]']
@@ -2449,9 +2374,9 @@ system_configuration:
                                         wpppe_allowed_credit_card_types_use_default: //input[@name='groups[wpp_pe][fields][cctypes][inherit]']
                             -
                                 payflow_pro_settings:
-                                    xpath: //div/fieldset[legend='Payflow Pro Settings']
+                                    xpath: //fieldset[@id='paypal_verisign']
                                     links:
-                                        payflow_pro_settings_link: //a[text()='Payflow Pro Settings']
+                                        payflow_pro_settings_link: //parent::div//a[@id='paypal_verisign-head']
                                     fields:
                                         pp_title: //input[@name='groups[verisign][fields][title][value]']
                                         pp_sort_order: //input[@name='groups[verisign][fields][sort_order][value]']
@@ -2496,9 +2421,9 @@ system_configuration:
                                         pp_allowed_credit_card_types_use_default: //input[@name='groups[verisign][fields][cctypes][inherit]']
                             -
                                 express_checkout_payflow_edition_settings:
-                                    xpath: //div/fieldset[legend='Express Checkout (Payflow Edition) Settings']
+                                    xpath: //fieldset[@id='paypal_express_pe']
                                     links:
-                                        express_checkout_payflow_edition_settings_link: //a[text()='Express Checkout (Payflow Edition) Settings']
+                                        express_checkout_payflow_edition_settings_link: //parent::div//a[@id='paypal_express_pe-head']
                                     fields:
                                         ecpe_title: //input[@name='groups[express_pe][fields][title][value]']
                                         ecpe_sort_order: //input[@name='groups[express_pe][fields][sort_order][value]']
@@ -2523,9 +2448,9 @@ system_configuration:
                                         ecpe_countries_payment_applicable_from_use_default: //input[@name='groups[express_pe][fields][specificcountry][inherit]']
                             -
                                 settlement_report_settings:
-                                    xpath: //div/fieldset[legend='Settlement Report Settings']
+                                    xpath: //parent::div//a[@id='paypal_settlement_reports']
                                     links:
-                                        settlement_report_settings_link: //a[text()='Settlement Report Settings']
+                                        settlement_report_settings_link: //parent::div//a[@id='paypal_settlement_reports-head']
                                     fields:
                                         login: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_login][value]']
                                         password: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_password][value]']
@@ -2547,9 +2472,9 @@ system_configuration:
                                         enable_automatic_fetching_use_default: //input[@name='groups[settlement_reports][fields][settlement_reports_active][inherit]']
                             -
                                 frontend_experience_settings:
-                                    xpath: //div/fieldset[legend='Frontend Experience Settings']
+                                    xpath: //fieldset[@id='paypal_style']
                                     links:
-                                        frontend_experience_settings_link: //a[text()='Frontend Experience Settings']
+                                        frontend_experience_settings_link: //parent::div//a[@id='paypal_style-head']
                                     fields:
                                         page_style: //input[@name='groups[style][fields][page_style][value]']
                                         header_image_url: //input[@name='groups[style][fields][paypal_hdrimg][value]']
@@ -2567,9 +2492,9 @@ system_configuration:
                                         paypal_product_logo_use_default: //input[@name='groups[style][fields][logo][inherit]']
                             -
                                 payflow_link_settings:
-                                    xpath: //div/fieldset[legend='Payflow Link Settings']
+                                    xpath: //fieldset[@id='paypal_payflow_link']
                                     links:
-                                        payflow_link_settings_link: //a[text()='Payflow Link Settings']
+                                        payflow_link_settings_link: //parent::div//a[@id='paypal_payflow_link-head']
                                     fields:
                                         pl_title: //input[@name='groups[payflow_link][fields][title][value]']
                                         pl_sort_order: //input[@name='groups[payflow_link][fields][sort_order][value]']
@@ -2608,9 +2533,9 @@ system_configuration:
                         fieldsets:
                             -
                                 saved_cc:
-                                    xpath: //div/fieldset[legend='Saved CC']
+                                    xpath: //fieldset[@id='payment_ccsave']
                                     links:
-                                        saved_cc_link: //a[text()='Saved CC']
+                                        saved_cc_link: //parent::div//a[@id='payment_ccsave-head']
                                     fields:
                                         scc_title: //input[@name='groups[ccsave][fields][title][value]']
                                         scc_centinel_api_url: //input[@name='groups[ccsave][fields][centinel_api_url][value]']
@@ -2643,9 +2568,9 @@ system_configuration:
                                         scc_payment_from_specific_countries_use_default: //input[@name='groups[ccsave][fields][specificcountry][inherit]']
                             -
                                 check_money_order:
-                                    xpath: //div/fieldset[legend='Check / Money Order']
+                                    xpath: //fieldset[@id='payment_checkmo']
                                     links:
-                                        check_money_order_link: //a[text()='Check / Money Order']
+                                        check_money_order_link: //parent::div//a[@id='payment_checkmo-head']
                                     fields:
                                         cmo_title: //input[@name='groups[checkmo][fields][title][value]']
                                         cmo_make_check_payable_to: //input[@name='groups[checkmo][fields][payable_to][value]']
@@ -2672,9 +2597,9 @@ system_configuration:
                                         cmo_payment_from_specific_countries_use_default: //input[@name='groups[checkmo][fields][specificcountry][inherit]']
                             -
                                 zero_subtotal_checkout:
-                                    xpath: //div/fieldset[legend='Zero Subtotal Checkout']
+                                    xpath: //fieldset[@id='payment_free']
                                     links:
-                                        zero_subtotal_checkout_link: //a[text()='Zero Subtotal Checkout']
+                                        zero_subtotal_checkout_link: //parent::div//a[@id='payment_free-head']
                                     fields:
                                         zsc_title: //input[@name='groups[free][fields][title][value]']
                                         zsc_sort_order: //input[@name='groups[free][fields][sort_order][value]']
@@ -2695,9 +2620,9 @@ system_configuration:
                                         zsc_payment_from_specific_countries_use_default: //input[@name='groups[free][fields][specificcountry][inherit]']
                             -
                                 purchase_order:
-                                    xpath: //div/fieldset[legend='Purchase Order']
+                                    xpath: //fieldset[@id='payment_purchaseorder']
                                     links:
-                                        purchase_order_link: //a[text()='Purchase Order']
+                                        purchase_order_link: //parent::div//a[@id='payment_purchaseorder-head']
                                     fields:
                                         po_title: //input[@name='groups[purchaseorder][fields][title][value]']
                                         po_minimum_order_total: //input[@name='groups[purchaseorder][fields][min_order_total][value]']
@@ -2720,9 +2645,9 @@ system_configuration:
                                         po_payment_from_specific_countries_use_default: //input[@name='groups[purchaseorder][fields][specificcountry][inherit]']
                             -
                                 authorize_net:
-                                    xpath: //div/fieldset[legend='Authorize.net']
+                                    xpath: //fieldset[@id='payment_authorizenet']
                                     links:
-                                        authorize_net_link: //a[text()='Authorize.net']
+                                        authorize_net_link: //parent::div//a[@id='payment_authorizenet-head']
                                     fields:
                                         an_title: //input[@name='groups[authorizenet][fields][title][value]']
                                         an_api_login_id: //input[@name='groups[authorizenet][fields][login][value]']
@@ -2775,9 +2700,9 @@ system_configuration:
                                         an_payment_from_specific_coutries_use_default: //input[@name='groups[authorizenet][fields][specificcountry][inherit]']
                             -
                                 authorize_net_direct_post:
-                                    xpath: //div/fieldset[legend='Authorize.net Direct Post']
+                                    xpath: //fieldset[@id='payment_authorizenet_directpost']
                                     links:
-                                        authorize_net_direct_post_link: //a[text()='Authorize.net Direct Post']
+                                        authorize_net_direct_post_link: //parent::div//a[@id='payment_authorizenet_directpost-head']
                                     fields:
                                         andp_title: //input[@name='groups[authorizenet_directpost][fields][title][value]']
                                         andp_api_login_id: //input[@name='groups[authorizenet_directpost][fields][login][value]']
@@ -2895,9 +2820,9 @@ system_configuration:
                                         ps_payment_from_specific_countries_use_default: //input[@name='groups[paybox_system][fields][specificcountry][inherit]']
                             -
                                 paybox_direct:
-                                    xpath: //div/fieldset[legend='Paybox Direct']
+                                    xpath: //fieldset[@id='payment_paybox_direct']
                                     links:
-                                        paybox_direct_link: //a[text()='Paybox Direct']
+                                        paybox_direct_link: //parent::div//a[@id='payment_paybox_direct-head']
                                     fields:
                                         pd_site_number_tpe: //input[@name='groups[paybox_direct][fields][pbx_site][value]']
                                         pd_rank_number: //input[@name='groups[paybox_direct][fields][pbx_rang][value]']
@@ -2969,9 +2894,9 @@ system_configuration:
                                         ps_payment_from_specific_countries_use_default: //input[@name='groups[protx_standard][fields][specificcountry][inherit]']
                             -
                                 eway_direct:
-                                    xpath: //div/fieldset[legend='eWAY Direct']
+                                    xpath: //fieldset[@id='payment_eway_direct']
                                     links:
-                                        eway_direct_link: //a[text()='eWAY Direct']
+                                        eway_direct_link: //parent::div//a[@id='payment_eway_direct-head']
                                     fields:
                                         ed_title: //input[@name='groups[eway_direct][fields][title][value]']
                                         ed_customer_id: //input[@name='groups[eway_direct][fields][customer_id][value]']
@@ -3249,9 +3174,9 @@ system_configuration:
                                         ia_payment_from_specific_countries_use_default: //input[@name='groups[ideal_advanced][fields][specificcountry][inherit]']
                             -
                                 cybersource_soap_toolkit:
-                                    xpath: //div/fieldset[legend='Cybersource (SOAP Toolkit)']
+                                    xpath: //fieldset[@id='payment_cybersource_soap']
                                     links:
-                                        cybersource_soap_toolkit_link: //a[text()='Cybersource (SOAP Toolkit)']
+                                        cybersource_soap_toolkit_link: //parent::div//a[@id='payment_cybersource_soap-head']
                                     fields:
                                         css_title: //input[@name='groups[cybersource_soap][fields][title][value]']
                                         css_merchant_id: //input[@name='groups[cybersource_soap][fields][merchant_id][value]']
@@ -3323,9 +3248,9 @@ system_configuration:
                                         f2cpws_payment_from_specific_countries_use_default: //input[@name='groups[flo2cash_web][fields][specificcountry][inherit]']
                             -
                                 amazon_simple_pay:
-                                    xpath: //div/fieldset[legend='Amazon Simple Pay']
+                                    xpath: //fieldset[@id='payment_amazonpayments_asp']
                                     links:
-                                        amazon_simple_pay_link: //a[text()='Amazon Simple Pay']
+                                        amazon_simple_pay_link: //parent::div//a[@id='payment_amazonpayments_asp-head']
                                     fields:
                                         asp_title: //input[@name='groups[amazonpayments_asp][fields][title][value]']
                                         asp_access_key: //input[@name='groups[amazonpayments_asp][fields][access_key][value]']
@@ -3367,9 +3292,9 @@ system_configuration:
                                         asp_debug_log_use_default: //input[@name='groups[amazonpayments_asp][fields][debug_log][inherit]']
                             -
                                 checkout_by_amazon:
-                                    xpath: //div/fieldset[legend='Checkout by Amazon']
+                                    xpath: //fieldset[@id='payment_amazonpayments_cba']
                                     links:
-                                        checkout_by_amazon_link: //a[text()='Checkout by Amazon']
+                                        checkout_by_amazon_link: //parent::div//a[@id='payment_amazonpayments_cba-head']
                                     fields:
                                         cba_title: //input[@name='groups[amazonpayments_cba][fields][title][value]']
                                         cba_merchant_id: //input[@name='groups[amazonpayments_cba][fields][merchant_id][value]']
@@ -3407,9 +3332,9 @@ system_configuration:
                                         cba_twoday_rate_use_default: //input[@name='groups[amazonpayments_cba][fields][twoday_rate][inherit]']
                             -
                                 ogone:
-                                    xpath: //div/fieldset[legend='Ogone']
+                                    xpath: //fieldset[@id='payment_ogone']
                                     links:
-                                        ogone_link: //a[text()='Ogone']
+                                        ogone_link: //parent::div//a[@id='payment_ogone-head']
                                     fields:
                                         o_title: //input[@name='groups[ogone][fields][title][value]']
                                         o_pspid: //input[@name='groups[ogone][fields][pspid][value]']
@@ -3461,9 +3386,9 @@ system_configuration:
                         fieldsets:
                             -
                                 3d_secure_credit_card_validation:
-                                    xpath: //div/fieldset[legend='3D Secure Credit Card Validation']
+                                    xpath: //fieldset[@id='payment_services_centinel']
                                     links:
-                                        3d_secure_credit_card_validation_link: //a[text()='3D Secure Credit Card Validation']
+                                        3d_secure_credit_card_validation_link: //parent::div//a[@id='payment_services_centinel-head']
                                     fields:
                                         processor_id: //input[@name='groups[centinel][fields][processor_id][value]']
                                         merchant_id: //input[@name='groups[centinel][fields][merchant_id][value]']
@@ -3483,9 +3408,9 @@ system_configuration:
                         fieldsets:
                             -
                                 moneybookers_settings:
-                                    xpath: //div/fieldset[legend='Moneybookers Settings']
+                                    xpath: //fieldset[@id='moneybookers_settings']
                                     links:
-                                        moneybookers_settings_link: //a[text()='Moneybookers Settings']
+                                        moneybookers_settings_link: //parent::div//a[@id='moneybookers_settings-head']
                                     fields:
                                         email_address_of_your_moneybookers_account: //input[@name='groups[settings][fields][moneybookers_email][value]']
                                         customer_id: //input[@name='groups[settings][fields][customer_id][value]']
@@ -3496,9 +3421,9 @@ system_configuration:
                                         email_address_of_your_moneybookers_account_use_default: //input[@name='groups[settings][fields][moneybookers_email][inherit]']
                             -
                                 all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international:
-                                    xpath: //div/fieldset[legend='All Credit Cards / Visa, Mastercard, AMEX, JCB, Diners (powered by Moneybookers) - International']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_acc']
                                     links:
-                                        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international_link: //a[text()='All Credit Cards / Visa, Mastercard, AMEX, JCB, Diners (powered by Moneybookers) - International']
+                                        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international_link: //parent::div//a[@id='moneybookers_moneybookers_acc-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_acc][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_acc][fields][title][value]']
@@ -3515,9 +3440,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_acc][fields][specificcountry][inherit]']
                             -
                                 lastschrift_elv_powered_by_moneybookers_germany:
-                                    xpath: //div/fieldset[legend='Lastschrift (ELV) (powered by Moneybookers) - Germany']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_did']
                                     links:
-                                        lastschrift_elv_powered_by_moneybookers_germany_link: //a[text()='Lastschrift (ELV) (powered by Moneybookers) - Germany']
+                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//a[@id='-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_did][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_did][fields][title][value]']
@@ -3534,9 +3459,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_did][fields][specificcountry][inherit]']
                             -
                                 giropay_powered_by_moneybookers_germany:
-                                    xpath: //div/fieldset[legend='Giropay (powered by Moneybookers) - Germany']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_gir']
                                     links:
-                                        giropay_powered_by_moneybookers_germany_link: //a[text()='Giropay (powered by Moneybookers) - Germany']
+                                        giropay_powered_by_moneybookers_germany_link: //parent::div//a[@id='-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_gir][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_gir][fields][title][value]']
@@ -3553,9 +3478,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_gir][fields][specificcountry][inherit]']
                             -
                                 sofortüberweisung_powered_by_moneybookers_germany:
-                                    xpath: //div/fieldset[legend='Sofortüberweisung (powered by Moneybookers) - Germany']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_sft']
                                     links:
-                                        sofortüberweisung_powered_by_moneybookers_germany_link: //a[text()='Sofortüberweisung (powered by Moneybookers) - Germany']
+                                        sofortüberweisung_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_sft-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_sft][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_sft][fields][title][value]']
@@ -3572,9 +3497,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_sft][fields][specificcountry][inherit]']
                             -
                                 laser_powered_by_moneybookers_ireland:
-                                    xpath: //div/fieldset[legend='Laser (powered by Moneybookers) - Ireland']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_lsr']
                                     links:
-                                        laser_powered_by_moneybookers_ireland_link: //a[text()='Laser (powered by Moneybookers) - Ireland']
+                                        laser_powered_by_moneybookers_ireland_link: //parent::div//a[@id='-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_lsr][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_lsr][fields][title][value]']
@@ -3591,9 +3516,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_lsr][fields][specificcountry][inherit]']
                             -
                                 maestro_powered_by_moneybookers_united_kingdom_austria_spain:
-                                    xpath: //div/fieldset[legend='Maestro (powered by Moneybookers) - United Kingdom, Austria, Spain']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_mae']
                                     links:
-                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //a[text()='Maestro (powered by Moneybookers) - United Kingdom, Austria, Spain']
+                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//a[@id='-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_mae][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_mae][fields][title][value]']
@@ -3610,9 +3535,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_mae][fields][specificcountry][inherit]']
                             -
                                 carte_bleue_powered_by_moneybookers_france:
-                                    xpath: //div/fieldset[legend='Carte Bleue (powered by Moneybookers) - France']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_gcb']
                                     links:
-                                        carte_bleue_powered_by_moneybookers_france_link: //a[text()='Carte Bleue (powered by Moneybookers) - France']
+                                        carte_bleue_powered_by_moneybookers_france_link: //parent::div//a[@id='moneybookers_moneybookers_gcb-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_gcb][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_gcb][fields][title][value]']
@@ -3629,9 +3554,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_gcb][fields][specificcountry][inherit]']
                             -
                                 dankort_powered_by_moneybookers_denmark:
-                                    xpath: //div/fieldset[legend='Dankort (powered by Moneybookers) - Denmark']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_dnk']
                                     links:
-                                        dankort_powered_by_moneybookers_denmark_link: //a[text()='Dankort (powered by Moneybookers) - Denmark']
+                                        dankort_powered_by_moneybookers_denmark_link: //parent::div//a[@id='moneybookers_moneybookers_dnk-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_dnk][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_dnk][fields][title][value]']
@@ -3648,9 +3573,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_dnk][fields][specificcountry][inherit]']
                             -
                                 postepay_powered_by_moneybookers_italy:
-                                    xpath: //div/fieldset[legend='Postepay (powered by Moneybookers) - Italy']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_psp']
                                     links:
-                                        postepay_powered_by_moneybookers_italy_link: //a[text()='Postepay (powered by Moneybookers) - Italy']
+                                        postepay_powered_by_moneybookers_italy_link: //parent::div//a[@id='moneybookers_moneybookers_psp-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_psp][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_psp][fields][title][value]']
@@ -3667,9 +3592,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_psp][fields][specificcountry][inherit]']
                             -
                                 cartasi_powered_by_moneybookers_italy:
-                                    xpath: //div/fieldset[legend='CartaSi (powered by Moneybookers) - Italy']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_csi']
                                     links:
-                                        cartasi_powered_by_moneybookers_italy_link: //a[text()='CartaSi (powered by Moneybookers) - Italy']
+                                        cartasi_powered_by_moneybookers_italy_link: //parent::div//a[@id='moneybookers_moneybookers_csi-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_csi][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_csi][fields][title][value]']
@@ -3686,9 +3611,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_csi][fields][specificcountry][inherit]']
                             -
                                 enets_powered_by_moneybookers_singapore:
-                                    xpath: //div/fieldset[legend='eNETS (powered by Moneybookers) - Singapore']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_ent']
                                     links:
-                                        enets_powered_by_moneybookers_singapore_link: //a[text()='eNETS (powered by Moneybookers) - Singapore']
+                                        enets_powered_by_moneybookers_singapore_link: //parent::div//a[@id='moneybookers_moneybookers_ent-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_ent][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_ent][fields][title][value]']
@@ -3705,9 +3630,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_ent][fields][specificcountry][inherit]']
                             -
                                 nordea_solo_powered_by_moneybookers_sweden:
-                                    xpath: //div/fieldset[legend='Nordea Solo (powered by Moneybookers) - Sweden']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_ebt']
                                     links:
-                                        nordea_solo_powered_by_moneybookers_sweden_link: //a[text()='Nordea Solo (powered by Moneybookers) - Sweden']
+                                        nordea_solo_powered_by_moneybookers_sweden_link: //parent::div//a[@id='moneybookers_moneybookers_ebt-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_ebt][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_ebt][fields][title][value]']
@@ -3724,9 +3649,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_ebt][fields][specificcountry][inherit]']
                             -
                                 nordea_solo_powered_by_moneybookers_finland:
-                                    xpath: //div/fieldset[legend='Nordea Solo (powered by Moneybookers) - Finland']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_so2']
                                     links:
-                                        nordea_solo_powered_by_moneybookers_finland_link: //a[text()='Nordea Solo (powered by Moneybookers) - Finland']
+                                        nordea_solo_powered_by_moneybookers_finland_link: //parent::div//a[@id='moneybookers_moneybookers_so2-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_so2][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_so2][fields][title][value]']
@@ -3743,9 +3668,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_so2][fields][specificcountry][inherit]']
                             -
                                 ideal_powered_by_moneybookers_netherlands:
-                                    xpath: //div/fieldset[legend='iDeal (powered by Moneybookers) - Netherlands']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_idl']
                                     links:
-                                        ideal_powered_by_moneybookers_netherlands_link: //a[text()='iDeal (powered by Moneybookers) - Netherlands']
+                                        ideal_powered_by_moneybookers_netherlands_link: //parent::div//a[@id='moneybookers_moneybookers_idl-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_idl][fields][title][value]']
@@ -3762,9 +3687,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_idl][fields][specificcountry][inherit]']
                             -
                                 eps_online_überweisung_powered_by_moneybookers_austria:
-                                    xpath: //div/fieldset[legend='EPS Online-Überweisung (powered by Moneybookers) - Austria']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_npy']
                                     links:
-                                        eps_online_überweisung_powered_by_moneybookers_austria_link: //a[text()='EPS Online-Überweisung (powered by Moneybookers) - Austria']
+                                        eps_online_überweisung_powered_by_moneybookers_austria_link: //parent::div//a[@id='moneybookers_moneybookers_npy-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_npy][fields][title][value]']
@@ -3781,9 +3706,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_npy][fields][specificcountry][inherit]']
                             -
                                 poli_powered_by_moneybookers_australia:
-                                    xpath: //div/fieldset[legend='POLi (powered by Moneybookers) - Australia']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_pli']
                                     links:
-                                        poli_powered_by_moneybookers_australia_link: //a[text()='POLi (powered by Moneybookers) - Australia']
+                                        poli_powered_by_moneybookers_australia_link: //parent::div//a[@id='moneybookers_moneybookers_pli-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_pli][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_pli][fields][title][value]']
@@ -3800,9 +3725,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_pli][fields][specificcountry][inherit]']
                             -
                                 przelewy24_powered_by_moneybookers_poland:
-                                    xpath: //div/fieldset[legend='Przelewy24 (powered by Moneybookers) - Poland']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_pwy']
                                     links:
-                                        przelewy24_powered_by_moneybookers_poland_link: //a[text()='Przelewy24 (powered by Moneybookers) - Poland']
+                                        przelewy24_powered_by_moneybookers_poland_link: //parent::div//a[@id='moneybookers_moneybookers_pwy-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_pwy][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_pwy][fields][title][value]']
@@ -3819,9 +3744,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_pwy][fields][specificcountry][inherit]']
                             -
                                 moneybookers_ewallet:
-                                    xpath: //div/fieldset[legend='Moneybookers eWallet']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_wlt']
                                     links:
-                                        moneybookers_ewallet_link: //a[text()='Moneybookers eWallet']
+                                        moneybookers_ewallet_link: //parent::div//a[@id='moneybookers_moneybookers_wlt-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_wlt][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_wlt][fields][title][value]']
@@ -3838,9 +3763,9 @@ system_configuration:
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_wlt][fields][specificcountry][inherit]']
                             -
                                 online_bank_transfer_powered_by_moneybookers:
-                                    xpath: //div/fieldset[legend='Online Bank Transfer (powered by Moneybookers)']
+                                    xpath: //fieldset[@id='moneybookers_moneybookers_obt']
                                     links:
-                                        online_bank_transfer_powered_by_moneybookers_link: //a[text()='Online Bank Transfer (powered by Moneybookers)']
+                                        online_bank_transfer_powered_by_moneybookers_link: //parent::div//a[@id='moneybookers_moneybookers_obt-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_obt][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_obt][fields][title][value]']
@@ -3951,9 +3876,9 @@ system_configuration:
                         fieldsets:
                             -
                                 general_settings:
-                                    xpath: //div/fieldset[legend='General Settings']
+                                    xpath: //fieldset[@id='api_config']
                                     links:
-                                        general_settings_link: //a[text()='General Settings']
+                                        general_settings_link: //parent::div//a[@id='api_config-head']
                                     fields:
                                         default_response_charset: //input[@name='groups[config][fields][charset][value]']
                                         client_session_timeout_sec: //input[@name='groups[config][fields][session_timeout][value]']
@@ -3969,24 +3894,24 @@ system_configuration:
                         fieldsets:
                             -
                                 admin_user_emails:
-                                    xpath: //div/fieldset[legend='Admin User Emails']
+                                    xpath: //fieldset[@id='admin_emails']
                                     links:
-                                        admin_user_emails_link: //a[text()='Admin User Emails']
+                                        admin_user_emails_link: //parent::div//a[@id='admin_emails-head']
                                     dropdowns:
                                         forgot_password_email_template: //select[@name='groups[emails][fields][forgot_email_template][value]']
                                         forgot_password_email_sender: //select[@name='groups[emails][fields][forgot_email_identity][value]']
                             -
                                 startup_page:
-                                    xpath: //div/fieldset[legend='Startup Page']
+                                    xpath: //fieldset[@id='admin_startup']
                                     links:
-                                        startup_page_link: //a[text()='Startup Page']
+                                        startup_page_link: //parent::div//a[@id='admin_startup-head']
                                     fields:
                                         startup_page: //select[@name='groups[startup][fields][page][value]']
                             -
                                 admin_base_url:
-                                    xpath: //div/fieldset[legend='Admin Base URL']
+                                    xpath: //fieldset[@id='admin_url']
                                     links:
-                                        admin_base_url_link: //a[text()='Admin Base URL']
+                                        admin_base_url_link: //parent::div//a[@id='admin_url-head']
                                     fields:
                                         custom_admin_url: //input[@name='groups[url][fields][custom][value]']
                                         custom_admin_path: //input[@name='groups[url][fields][custom_path][value]']
@@ -3995,9 +3920,9 @@ system_configuration:
                                         use_custom_admin_path: //select[@name='groups[url][fields][use_custom_path][value]']
                             -
                                 security:
-                                    xpath: //div/fieldset[legend='Security']
+                                    xpath: //fieldset[@id='admin_security']
                                     links:
-                                        security_link: //a[text()='Security']
+                                        security_link: //parent::div//a[@id='admin_security-head']
                                     fields:
                                         session_lifetime_seconds: //input[@name='groups[security][fields][session_cookie_lifetime][value]']
                                     dropdowns:
@@ -4005,16 +3930,16 @@ system_configuration:
                                         login_is_case_sensitive: //select[@name='groups[security][fields][use_case_sensitive_login][value]']
                             -
                                 dashboard:
-                                    xpath: //div/fieldset[legend='Dashboard']
+                                    xpath: //fieldset[@id='admin_dashboard']
                                     links:
-                                        dashboard_link: //a[text()='Dashboard']
+                                        dashboard_link: //parent::div//a[@id='admin_dashboard-head']
                                     dropdowns:
                                         enable_charts: //select[@name='groups[dashboard][fields][enable_charts][value]']
                             -
                                 captcha:
-                                    xpath: //div/fieldset[legend='CAPTCHA']
+                                    xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        dashboard_link: //a[text()='Dashboard']
+                                        dashboard_link: //parent::div//a[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']
@@ -4033,9 +3958,9 @@ system_configuration:
                         fieldsets:
                             -
                                 cron_scheduled_tasks_all_the_times_are_in_minutes:
-                                    xpath: //div/fieldset[legend='Cron (Scheduled Tasks) - all the times are in minutes']
+                                    xpath: //fieldset[@id='system_cron']
                                     links:
-                                        cron_scheduled_tasks_all_the_times_are_in_minutes_link: //a[text()='Cron (Scheduled Tasks) - all the times are in minutes']
+                                        cron_scheduled_tasks_all_the_times_are_in_minutes_link: //parent::div//a[@id='system_cron-head']
                                     fields:
                                         generate_schedules_every: //input[@name='groups[cron][fields][schedule_generate_every][value]']
                                         schedule_ahead_for: //input[@name='groups[cron][fields][schedule_ahead_for][value]']
@@ -4045,9 +3970,9 @@ system_configuration:
                                         failure_history_lifetime: //input[@name='groups[cron][fields][history_failure_lifetime][value]']
                             -
                                 mail_sending_settings:
-                                    xpath: //div/fieldset[legend='Mail Sending Settings']
+                                    xpath: //fieldset[@id='system_smtp']
                                     links:
-                                        mail_sending_settings_link: //a[text()='Mail Sending Settings']
+                                        mail_sending_settings_link: //parent::div//a[@id='system_smtp-head']
                                     fields:
                                         host: //input[@name='groups[smtp][fields][host][value]']
                                         port: //input[@name='groups[smtp][fields][port][value]']
@@ -4060,16 +3985,16 @@ system_configuration:
                                         port_use_default: //input[@name='groups[smtp][fields][port][inherit]']
                             -
                                 currency:
-                                    xpath: //div/fieldset[legend='Currency']
+                                    xpath: //fieldset[@id='system_currency']
                                     links:
-                                        currency_link: //a[text()='Currency']
+                                        currency_link: //parent::div//a[@id='system_currency-head']
                                     multiselects:
                                         installed_currencies: //select[@name='groups[currency][fields][installed][value][]']
                             -
                                 log_cleaning:
-                                    xpath: //div/fieldset[legend='Log Cleaning']
+                                    xpath: //fieldset[@id='system_log']
                                     links:
-                                        log_cleaning_link: //a[text()='Log Cleaning']
+                                        log_cleaning_link: //parent::div//a[@id='system_log-head']
                                     fields:
                                         save_log_days: //input[@name='groups[log][fields][clean_after_day][value]']
                                         error_email_recipient: //input[@name='groups[log][fields][error_email][value]']
@@ -4083,17 +4008,17 @@ system_configuration:
                                         error_email_template: //select[@name='groups[log][fields][error_email_template][value]']
                             -
                                 notifications:
-                                    xpath: //div/fieldset[legend='Notifications']
+                                    xpath: //fieldset[@id='system_adminnotification']
                                     links:
-                                        notifications_link: //a[text()='Notifications']
+                                        notifications_link: //parent::div//a[@id='system_adminnotification-head']
                                     dropdowns:
                                         use_https_to_get_feed: //select[@name='groups[adminnotification][fields][use_https][value]']
                                         update_frequency: //select[@name='groups[adminnotification][fields][frequency][value]']
                             -
                                 external_full_page_cache_settings:
-                                    xpath: //div/fieldset[legend='External Full Page Cache Settings']
+                                    xpath: //fieldset[@id='system_external_page_cache']
                                     links:
-                                        external_full_page_cache_settings_link: //a[text()='External Full Page Cache Settings']
+                                        external_full_page_cache_settings_link: //parent::div//a[@id='system_external_page_cache-head']
                                     fields:
                                         cookie_lifetime_seconds: //input[@name='groups[external_page_cache][fields][cookie_lifetime][value]']
                                     dropdowns:
@@ -4101,9 +4026,9 @@ system_configuration:
                                         external_cache_control: //select[@name='groups[external_page_cache][fields][control][value]']
                             -
                                 storage_configuration_for_media:
-                                    xpath: //div/fieldset[legend='Storage Configuration for Media']
+                                    xpath: //fieldset[@id='system_media_storage_configuration']
                                     links:
-                                        storage_configuration_for_media_link: //a[text()='Storage Configuration for Media']
+                                        storage_configuration_for_media_link: //parent::div//a[@id='system_media_storage_configuration-head']
                                     fields:
                                         environment_update_time: //input[@name='groups[media_storage_configuration][fields][configuration_update_time][value]']
                                     dropdowns:
@@ -4117,9 +4042,9 @@ system_configuration:
                         fieldsets:
                             -
                                 disable_modules_output:
-                                    xpath: //div/fieldset[legend='Disable Modules Output']
+                                    xpath: //fieldset[@id='advanced_modules_disable_output']
                                     links:
-                                        disable_modules_output_link: //a[text()='Disable Modules Output']
+                                        disable_modules_output_link: //parent::div//a[@id='advanced_modules_disable_output-head']
                                     dropdowns:
                                         enterprise_admingws: //select[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][value]']
                                         enterprise_banner: //select[@name='groups[modules_disable_output][fields][Enterprise_Banner][value]']
@@ -4346,18 +4271,18 @@ system_configuration:
                         fieldsets:
                             -
                                 developer_client_restrictions:
-                                    xpath: //div/fieldset[legend='Developer Client Restrictions']
+                                    xpath: //fieldset[@id='dev_restrict']
                                     links:
-                                        developer_client_restrictions_link: //a[text()='Developer Client Restrictions']
+                                        developer_client_restrictions_link: //parent::div//a[@id='dev_restrict-head']
                                     fields:
                                         allowed_ips_comma_separated: //input[@name='groups[restrict][fields][allow_ips][value]']
                                     checkboxes:
                                         allowed_ips_comma_separated_use_default: //input[@name='groups[restrict][fields][allow_ips][inherit]']
                             -
                                 debug:
-                                    xpath: //div/fieldset[legend='Debug']
+                                    xpath: //fieldset[@id='dev_debug']
                                     links:
-                                        debug_link: //a[text()='Debug']
+                                        debug_link: //parent::div//a[@id='dev_debug-head']
                                     dropdowns:
                                         profiler: //select[@name='groups[debug][fields][profiler][value]']
                                         template_path_hints: //select[@name='groups[debug][fields][template_hints][value]']
@@ -4366,18 +4291,18 @@ system_configuration:
                                         profiler_use_default: //input[@name='groups[debug][fields][profiler][inherit]']
                             -
                                 template_settings:
-                                    xpath: //div/fieldset[legend='Template Settings']
+                                    xpath: //fieldset[@id='dev_template']
                                     links:
-                                        template_settings_link: //a[text()='Template Settings']
+                                        template_settings_link: //parent::div//a[@id='dev_template-head']
                                     dropdowns:
                                         allow_symlinks: //select[@name='groups[template][fields][allow_symlink][value]']
                                     checkboxes:
                                         allow_symlinks_use_default: //input[@name='groups[template][fields][allow_symlink][inherit]']
                             -
                                 translate_inline:
-                                    xpath: //div/fieldset[legend='Translate Inline']
+                                    xpath: //fieldset[@id='dev_translate_inline']
                                     links:
-                                        translate_inline_link: //a[text()='Translate Inline']
+                                        translate_inline_link: //parent::div//a[@id='dev_translate_inline-head']
                                     dropdowns:
                                         enabled_for_frontend: //select[@name='groups[translate_inline][fields][active][value]']
                                         enabled_for_admin: //select[@name='groups[translate_inline][fields][active_admin][value]']
@@ -4385,9 +4310,9 @@ system_configuration:
                                         enabled_for_frontend_use_default: //input[@name='groups[translate_inline][fields][active][inherit]']
                             -
                                 log_settings:
-                                    xpath: //div/fieldset[legend='Log Settings']
+                                    xpath: //fieldset[@id='dev_log']
                                     links:
-                                        log_settings_link: //a[text()='Log Settings']
+                                        log_settings_link: //parent::div//a[@id='dev_log-head']
                                     fields:
                                         system_log_file_name: //input[@name='groups[log][fields][file][value]']
                                         exceptions_log_file_name: //input[@name='groups[log][fields][exception_file][value]']
@@ -4399,9 +4324,9 @@ system_configuration:
                                         enabled_use_default: //input[@name='groups[log][fields][active][inherit]']
                             -
                                 javascript_settings:
-                                    xpath: //div/fieldset[legend='JavaScript Settings']
+                                    xpath: //fieldset[@id='dev_js']
                                     links:
-                                        javascript_settings_link: //a[text()='JavaScript Settings']
+                                        javascript_settings_link: //parent::div//a[@id='dev_js-head']
                                     dropdowns:
                                         merge_javascript_files: //select[@name='groups[js][fields][merge_files][value]']
                                         enable_prototype_deprecation_log: //select[@name='groups[js][fields][deprecation][value]']
@@ -4409,9 +4334,9 @@ system_configuration:
                                         merge_javascript_files_use_default: //input[@name='groups[js][fields][merge_files][inherit]']
                             -
                                 css_settings:
-                                    xpath: //div/fieldset[legend='CSS Settings']
+                                    xpath: //fieldset[@id='dev_css']
                                     links:
-                                        css_settings_link: //a[text()='CSS Settings']
+                                        css_settings_link: //parent::div//a[@id='dev_css-head']
                                     dropdowns:
                                         merge_css_files: //select[@name='groups[css][fields][merge_css_files][value]']
                                     checkboxes:

@@ -286,7 +286,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->validatePage();
         $this->fillForm($parameters['credentials']);
         $this->clickControl('button', 'button_login');
-        $this->clickControl('button', 'button_iagree');
+        $this->clickControl('button', 'button_agree');
     }
 
     /**
