@@ -6,31 +6,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 #vde_toolbar {
+    position: fixed;
+    margin-top: -54pt;
+    width: 100%;
     z-index: 999;
-    font:1.1em Arial, Helvetica, sans-serif;
+    font:10pt Arial, Helvetica, sans-serif;
     color:#555;
     text-align:left;
-    -moz-box-shadow:0 0 2pt 1pt #6c6c6c;
-    -webkit-box-shadow:0 0 2pt 1pt #6c6c6c;
-    box-shadow:0 0 2pt 1pt #6c6c6c;
+    box-shadow:0 0 4pt 1pt #cbcbcb;
 }
-#vde_breadcrumbs, #vde_toolbar_row {
+body {
+    margin-top: 54pt;
+}
+.vde_breadcrumbs, #vde_toolbar_row {
     padding:0 3em;
-    line-height:2.5em;
+    height:26pt;
+    line-height:26pt;
     vertical-align:middle;
 }
-#vde_breadcrumbs {
+.vde_breadcrumbs {
     text-transform:uppercase;
     background:white;
 }
 
 #vde_toolbar_row {
-    height:2.5em;
     background:#f0efe9;
-    border-top:1pt solid #deddd9;
-    border-bottom:1pt solid #deddd9;
+    border-top:1pt solid #dddcd8;
+    border-bottom:1pt solid #dddcd8;
     position:relative;
     z-index:100;
 }
@@ -53,28 +56,23 @@
     float: right;
     z-index: 1000;
     position: relative;
-    line-height:2em;
-    padding:.25em 0;
+    line-height:21pt;
+    padding:2pt 0;
 }
 #vde_toolbar_buttons a.vde_button {
     display:block;
-    -moz-box-shadow:0 0 2pt 1pt #6c6c6c;
-    -webkit-box-shadow:0 0 1pt #6c6c6c;
-    box-shadow:0 0 1pt #6c6c6c;
+    border:1px solid #c9c6be;
+    box-shadow:0 0 1pt 0 #c9c6be;
     border-radius:3pt;
-    padding:0 1.5em;
+    padding:0 1.7em;
     color:#555;
     text-decoration:none;
-    font-size:110%;
-    background:url(../images/button.png);
-    background-size:auto;
+    background-image:url(../images/button.png);
+    background-size:contain;
 }
-#vde_toolbar a.vde_button:hover {
-    -moz-box-shadow:0 0  2pt 1pt #6c6c6c;
-    -webkit-box-shadow:0 0  2pt 1pt #6c6c6c;
-    box-shadow:0 0  2pt 1pt #6c6c6c;
-    background:url(../images/button_hover.png);
-    background-size:auto;
+#vde_toolbar_buttons a.vde_button:hover {
+    box-shadow:0 0 1pt 1pt #c9c6be;
+    background-image:url(../images/button_hover.png);
 }
 #vde_toolbar .item-msg {
     border-style: solid;
@@ -191,18 +189,17 @@
 .vde_toolbar_cell_content .checked {
     background:url(../images/checked.png) no-repeat 5pt center;
 }
-
-#vde_breadcrumbs a {
+.vde_breadcrumbs a {
     font-weight: bold;
     text-decoration: none;
     color: #2483c7;
 }
 
-#vde_breadcrumbs a:hover {
+.vde_breadcrumbs a:hover {
     text-decoration: underline;
 }
 
-#vde_breadcrumbs .vde_breadcrumbs_separator {
+.vde_breadcrumbs .vde_breadcrumbs_separator {
     margin:0 0.3em;
 }
 
