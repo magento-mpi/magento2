@@ -44,10 +44,10 @@
     padding:0 10pt;
     position:relative;
 }
-#vde_toolbar_row .vde_toolbar_cell:hover, .vde_toolbar_cell.active {
+#vde_toolbar_row .vde_toolbar_cell:hover, #vde_toolbar_row .vde_toolbar_cell.active {
     background-color:white;
-    border-right:1pt solid #deddd9 !important;
-    border-left:1pt solid #deddd9 !important;
+    border-right:1pt solid #deddd9;
+    border-left:1pt solid #deddd9;
 }
 #vde_toolbar_buttons {
     float: right;
@@ -97,10 +97,10 @@
     margin: -2px 0px 0px -4px;
     padding: 0px;
     border-width: 2px 5px 6px 7px;
-    border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
     border-image-outset: fill;
-    -webkit-border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/block.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
     color: white;
     font-size: 8pt;
     font-weight: bold;
@@ -112,29 +112,28 @@
     cursor: default;
 }
 .vde_element_wrapper.vde_container {
-    border: 2px dashed #7bc361;
+    border: 2px solid #7bc361;
 }
 .vde_container > .vde_element_title {
-    border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/container.png) 2 5 6 7 stretch stretch;
+    border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
 }
 .vde_element_wrapper.vde_stub {
     border: 2px solid #92978d;
 }
 .vde_stub > .vde_element_title {
-    border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(Mage_DesignEditor::images/stub.png) 2 5 6 7 stretch stretch;
-}
-.vde_element_wrapper.vde_container.vde_draggable {
-    border-style: solid;
+    border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
 }
 .vde_container.vde_container_hover {
     border-color: #006400;
 }
 .vde_container.vde_container_hover > .vde_element_title {
-    background-color: #006400;
+    border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
+    -webkit-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
+    -moz-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
 }
 .vde_placeholder {
     background-color: #F5F5DC;
@@ -151,14 +150,15 @@
 .vde_toolbar_cell_value {
     font-weight: normal;
 }
+#vde_toolbar_row .vde_toolbar_cell_content, #vde_toolbar_row .vde_toolbar_cell_content * {
+    color:#f0efe9;
+}
 .vde_toolbar_cell_content {
     display: none;
     position: absolute;
     top:2.5em;
     left:0;
     background: #494949;
-    color: #f0efe9;
-
     padding:.5em 0;
     z-index: 190;
     min-width:20em;
@@ -185,8 +185,8 @@
     font-style:italic;
     cursor:default;
 }
-.vde_toolbar_cell_content .vde_cell_list_item:hover {
-    background-color:#5a5a5a;
+.vde_toolbar_cell_content .vde_cell_list_item:hover, #vde_page_types_tree .jstree-clicked, #vde_page_types_tree .jstree-hovered {
+    background-color:#7b7b7b;
 }
 .vde_toolbar_cell_content .checked {
     background:url(../images/checked.png) no-repeat 5pt center;
@@ -208,13 +208,36 @@
 
 #visual_design_editor_skin a {
     display:block;
-    width:100%;
-    color:#f0efe9;
     text-decoration:none;
-}
-#visual_design_editor_skin a:hover {
-    text-decoration:underline;
 }
 .ui-sortable-helper {
     opacity: 0.9;
+}
+
+#vde_page_types_hierarchy .vde_toolbar_cell_content {
+    padding: 1em .5em 1em 0;
+}
+#vde_page_types_tree {
+    max-height: 30em; /* max allowed height */
+    overflow: hidden; /* don't display native scrollbars */
+    padding-right: .5em;
+    text-align: left;
+    background-color: transparent;
+}
+#vde_page_types_tree li {
+    overflow: hidden;
+}
+#vde_page_types_tree a {
+    margin-left: .5em;
+    padding: .5em;
+    width: 100%;
+}
+#vde_page_types_tree .jstree-clicked, #vde_page_types_tree .jstree-hovered {
+    border: none;
+}
+#vde_page_types_tree .jstree-closed > .jstree-icon {
+    background: url(../images/jstree_plus_minus.png) top left no-repeat;
+}
+#vde_page_types_tree .jstree-open > .jstree-icon {
+    background: url(../images/jstree_plus_minus.png) top right no-repeat;
 }

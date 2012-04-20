@@ -138,6 +138,17 @@ abstract class Mage_Core_Controller_Varien_Action
     {
     }
 
+    /**
+     * Set currently used area code
+     * @param string $areaCode
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    public function setCurrentArea($areaCode)
+    {
+        $this->_currentArea = $areaCode;
+        return $this;
+    }
+
     public function hasAction($action)
     {
         return method_exists($this, $this->getActionMethodName($action));

@@ -11,7 +11,7 @@
 /**
  * Generic backend controller
  */
-class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
+class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Name of "is URLs checked" flag

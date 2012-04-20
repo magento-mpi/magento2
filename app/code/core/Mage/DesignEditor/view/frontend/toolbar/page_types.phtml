@@ -47,6 +47,7 @@
         });
         <?php endif; ?>
         $('#vde_page_types_hierarchy').one('activate_toolbar_cell.vde', function () {
+            /* At the time of applying the scroll bar, the underlying element should be visible */
             treeElement.slimScroll({
                 color: '#cccccc',
                 alwaysVisible: true,
