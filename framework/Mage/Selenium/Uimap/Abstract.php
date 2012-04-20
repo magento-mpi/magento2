@@ -32,41 +32,40 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method getAllFieldsets()
- * @method getAllTabs()
- * @method getAllMessages()
- * @method getAllButtons()
- * @method getAllLinks()
- * @method getAllDropdowns()
- * @method getAllFields()
- * @method getAllMultiselects()
- * @method getAllCheckboxes()
- * @method getAllRadiobuttons()
- * @method getAllPageelements()
- * @method getFieldsets()
- * @method getTabs()
- * @method getMessages()
- * @method getButtons()
- * @method getLinks()
- * @method getDropdowns()
- * @method getFields()
- * @method getMultiselects()
- * @method getCheckboxes()
- * @method getRadiobuttons()
- * @method getPageelements()
- * @method getRequired()
- * @method Mage_Selenium_Uimap_Fieldset findFieldset()
- * @method Mage_Selenium_Uimap_Tab findTab()
- * @method string findMessage()
+ * @method string findCheckbox()
  * @method string findButton()
- * @method string findLink()
  * @method string findDropdown()
  * @method string findField()
+ * @method Mage_Selenium_Uimap_Fieldset findFieldset()
+ * @method string findLink()
+ * @method string findMessage()
  * @method string findMultiselect()
- * @method string findCheckbox()
- * @method string findRadiobutton()
  * @method string findPageelement()
- *
+ * @method string findRadiobutton()
+ * @method Mage_Selenium_Uimap_Tab findTab()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllCheckboxes()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllButtons()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllDropdowns()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllFields()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllFieldsets()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllLinks()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllMessages()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllMultiselects()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllPageelements()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllRadiobuttons()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllTabs()
+ * @method Mage_Selenium_Uimap_ElementsCollection getCheckboxes()
+ * @method Mage_Selenium_Uimap_ElementsCollection getButtons()
+ * @method Mage_Selenium_Uimap_ElementsCollection getDropdowns()
+ * @method Mage_Selenium_Uimap_ElementsCollection getFields()
+ * @method Mage_Selenium_Uimap_ElementsCollection getFieldsets()
+ * @method Mage_Selenium_Uimap_ElementsCollection getLinks()
+ * @method Mage_Selenium_Uimap_ElementsCollection getMessages()
+ * @method Mage_Selenium_Uimap_ElementsCollection getMultiselects()
+ * @method Mage_Selenium_Uimap_ElementsCollection getPageelements()
+ * @method Mage_Selenium_Uimap_ElementsCollection getRadiobuttons()
+ * @method Mage_Selenium_Uimap_ElementsCollection getRequired()
+ * @method Mage_Selenium_Uimap_ElementsCollection getTabs()
  */
 class Mage_Selenium_Uimap_Abstract
 {
@@ -160,7 +159,8 @@ class Mage_Selenium_Uimap_Abstract
 
         foreach ($this->_elements as $elem) {
             if ($elem instanceof Mage_Selenium_Uimap_Abstract
-                    || $elem instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
+            ) {
                 $elem->assignParams($params);
             } elseif ($elem instanceof ArrayObject) {
                 foreach ($elem as $arrElem) {
