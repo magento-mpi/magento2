@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_User
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_User>
+            <version>1.0.0.0</version>
+        </Mage_User>
+    </modules>
+</config>
