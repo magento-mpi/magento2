@@ -33,7 +33,7 @@ $product->setTypeId('simple')
 $product->load(1);
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = new Mage_Sales_Model_Order_Address($addressData);
+$billingAddress = new Mage_Sales_Model_Quote_Address($addressData);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
