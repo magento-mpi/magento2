@@ -4,7 +4,7 @@
  *
  * @category    Magento
  * @package     Mage_Wishlist
- * @subpackage  unit_tests
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
