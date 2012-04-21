@@ -19,7 +19,7 @@ php -f publish.php --
 SYNOPSIS
 );
 $options = getopt('', array(
-    'source:', 'target:', 'source-branch::', 'target-branch::', 'target-dir::', 'no-push'
+    'source:', 'target:', 'source-branch::', 'source-commit::', 'target-branch::', 'target-dir::', 'no-push'
 ));
 if (empty($options['source']) || empty($options['target'])) {
     echo SYNOPSIS;
