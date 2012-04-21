@@ -12,7 +12,7 @@
 // get CLI options, define variables
 define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
-    --source="<repository>" [--source-branch="<branch>"]
+    --source="<repository>" [--source-branch="<branch>"] [--source-commit="<commit>"]
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
     [--no-push]
 
@@ -29,6 +29,7 @@ if (empty($options['source']) || empty($options['target'])) {
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
 $sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
+$source = empty($options['source-commit']) ? "source/{$sourceBranch}" : $options['source-commit'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
 $canPush = !isset($options['no-push']);
@@ -36,6 +37,12 @@ $canPush = !isset($options['no-push']);
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
 try {
+    // clone target and merge source into it
+    execVerbose('git clone %s %s', $targetRepository, $targetDir);
+    execVerbose("$gitCmd remote add source %s", $sourceRepository);
+    execVerbose("$gitCmd fetch source");
+    execVerbose("$gitCmd checkout $targetBranch");
+
     // compare if changelog is different from current
     $sourceLogFile = realpath(__DIR__ . '/../../../CHANGELOG.markdown');
     $log = file_get_contents($sourceLogFile);
@@ -50,16 +57,10 @@ try {
         throw new Exception('No commit message found in changelog.');
     }
 
-    // clone target and merge source into it
-    execVerbose('git clone %s %s', $targetRepository, $targetDir);
-    execVerbose("$gitCmd remote add source %s", $sourceRepository);
-    execVerbose("$gitCmd fetch source");
-    execVerbose("$gitCmd checkout $targetBranch");
-
     // Copy files from source repository to our working tree and index
-    execVerbose("$gitCmd checkout source/$sourceBranch -- .");
+    execVerbose("$gitCmd checkout {$source} -- .");
     // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
-    $files = execVerbose("$gitCmd diff --name-only source/$sourceBranch");
+    $files = execVerbose("$gitCmd diff --name-only {$source}");
     foreach ($files as $file) {
         execVerbose("$gitCmd rm -f %s", $file);
     }

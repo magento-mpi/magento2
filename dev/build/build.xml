@@ -144,6 +144,9 @@
         <condition property="env.bamboo_source_branch" value="master">
             <not><isset property="env.bamboo_source_branch"/></not>
         </condition>
+        <condition property="env.bamboo_source_commit" value="">
+            <not><isset property="env.bamboo_source_commit"/></not>
+        </condition>
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
@@ -151,6 +154,7 @@
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/publish.php --
                 --source=${env.bamboo_source_repository} --source-branch=${env.bamboo_source_branch}
+                --source-commit=${env.bamboo_source_commit}
                 --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
                 --target-dir=${dir.publication_target}
                 --no-push
