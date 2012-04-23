@@ -73,25 +73,24 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             ? $this->_configFixtures['uimapInclude']
             : array();
         $includeElements = array();
-        foreach ($uimapInclude as $area => $includeFiles) {
+        foreach ($uimapInclude as $area => $files) {
             $includeElements[$area] = array();
-            foreach ($includeFiles as $includeFile) {
-                $includePages = $this->getConfig()->getHelper('file')->loadYamlFile($includeFile);
-                if (!$includePages) {
+            foreach ($files as $file) {
+                $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                //Skip if file is empty
+                if (!$pages) {
                     continue;
                 }
-                foreach ($includePages as $includeContent) {
-                    if ($includeContent) {
-                        if (empty($includeElements[$area])) {
-                            $includeElements[$area] = $includeContent;
-                        } else {
-                            $this->_mergeUimapIncludes($includeElements[$area], $includeContent);
-                        }
+                foreach ($pages as $content) {
+                    //Skip if page content is empty
+                    if (!$content) {
+                        continue;
                     }
+                    $this->_mergeUimapIncludes($includeElements[$area], $content);
                 }
             }
         }
-        //Form uimap pages
+        //Form uimap files array
         $uimapFiles = array();
         foreach ($this->_configFixtures as $codePoolName => $codePoolData) {
             if ($codePoolName == 'uimapInclude') {
@@ -104,25 +103,32 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             }
         }
         $codePoolNames = array_keys($uimapFiles);
+        //Uimaps loading for first project
         $baseCodePoolName = array_shift($codePoolNames);
         $baseUimapFiles = array_shift($uimapFiles);
-        foreach ($baseUimapFiles as $areaName => $files) {
+        foreach ($baseUimapFiles as $area => $files) {
             foreach ($files as $file) {
                 $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
-                foreach ($codePoolNames as $additionalCodePoolName) {
-                    if (!isset($uimapFiles[$additionalCodePoolName][$areaName])) {
+                foreach ($codePoolNames as $codePoolName) {
+                    $loadedUimaps = array();
+                    //Skip if area is not exist for current project
+                    if (!isset($uimapFiles[$codePoolName][$area])) {
                         continue;
                     }
-                    $additionalFile = str_replace($baseCodePoolName, $additionalCodePoolName, $file);
-                    if (!in_array($additionalFile, $uimapFiles[$additionalCodePoolName][$areaName])) {
+                    $additionalFile = str_replace($baseCodePoolName, $codePoolName, $file);
+                    //Skip if file is not exist for current project
+                    if (!in_array($additionalFile, $uimapFiles[$codePoolName][$area])) {
                         continue;
                     }
                     $additionalPages = $this->getConfig()->getHelper('file')->loadYamlFile($additionalFile);
+                    $loadedUimaps[] = $additionalFile;
+                    //Skip if file is empty for current project
                     if (!$additionalPages) {
                         continue;
                     }
                     if ($pages) {
                         foreach ($additionalPages as $pageName => $content) {
+                            //Skip if page content is empty for current project
                             if (!$content) {
                                 continue;
                             }
@@ -135,20 +141,47 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                     } else {
                         $pages = $additionalPages;
                     }
+                    $uimapFiles[$codePoolName][$area] = array_diff($uimapFiles[$codePoolName][$area], $loadedUimaps);
                 }
                 if (!$pages) {
                     continue;
                 }
                 foreach ($pages as $pageKey => $content) {
-                    if ($content) {
-                        if (isset($includeElements[$areaName])) {
-                            $this->_mergeUimapIncludes($content, $includeElements[$areaName]);
-                        }
-                        $this->_uimapData[$areaName][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
+                    //Skip if page content is empty
+                    if (!$content) {
+                        continue;
                     }
+                    if (isset($includeElements[$area])) {
+                        $this->_mergeUimapIncludes($content, $includeElements[$area]);
+                    }
+                    $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
                 }
             }
         }
+        //Uimaps loading from files that do not exist in base project
+        foreach ($uimapFiles as $codePoolData) {
+            foreach ($codePoolData as $area => $files) {
+                foreach ($files as $file) {
+                    $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                    //Skip if file is empty
+                    if (!$pages) {
+                        continue;
+                    }
+                    foreach ($pages as $pageKey => $content) {
+                        //Skip if page content is empty
+                        if (!$content) {
+                            continue;
+                        }
+                        if (isset($includeElements[$area])) {
+                            $this->_mergeUimapIncludes($content, $includeElements[$area]);
+                        }
+                        $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
+                    }
+                }
+            }
+
+        }
+
         return $this;
     }
 
@@ -169,6 +202,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                         $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
                     } else {
                         list($keyFrom) = array_keys($value);
+                        $keysTo = array();
                         foreach ($replaceArrayTo as $number => $content) {
                             foreach ($replaceArrayTo[$number] as $name => $content) {
                                 $keysTo[$number] = $name;
