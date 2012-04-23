@@ -62,8 +62,7 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     public function reviewInfoInProductDetails($productType, $availability)
     {
         $productData = $this->loadDataSet('Product', 'frontend_' . $productType . '_product_details_validation',
-                                          array('inventory_stock_availability' => $availability),
-                                          array('general_name', 'general_sku'));
+                                          array('inventory_stock_availability' => $availability));
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();

@@ -1395,10 +1395,10 @@ duplicate_downloadable:
 ########################################################################################################################
 frontend_simple_product_details_validation:
     product_attribute_set: Default
-    general_name: Simple Product
+    general_name: Simple Product %randomize%
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku
+    general_sku: simple_sku_%randomize%
     general_weight: 2.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1424,10 +1424,10 @@ frontend_simple_product_details_validation:
 
 frontend_virtual_product_details_validation:
     product_attribute_set: Default
-    general_name: Virtual Product
+    general_name: Virtual Product %randomize%
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
-    general_sku: virtual_sku
+    general_sku: virtual_sku_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
