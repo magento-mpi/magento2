@@ -25,12 +25,15 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+/**
+ * Implementation of the Teamcity Observer for getting tests statuses in real-time
+ */
 class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
 {
     /**
      * @var Mage_Listener_EventListener
      */
-    protected $_listener;
+    protected static $_listener;
 
     /**
      * @var bool
@@ -75,7 +78,7 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
      */
     protected function setListener($listener)
     {
-        $this->_listener = $listener;
+        self::$_listener = $listener;
         return $this;
     }
 
@@ -95,7 +98,7 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
      */
     public function startTest()
     {
-        $listener = $this->getListener();
+        $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest(): null;
         if ($test != null) {
             if ($this->_lastTest != $test->getName(false)) {
@@ -103,11 +106,9 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
             }
             $this->_lastTest = $test->getName(false);
         }
-        $message = sprintf("##teamcity[testStarted name='%s' captureStandardOutput='%s']" . PHP_EOL,
-            $test->getName(),
-            'true'
-        );
-        $this->write($message);
+        $tcmessage = sprintf("##teamcity[testStarted name='%s' captureStandardOutput='true']" . PHP_EOL,
+                            $test->getName());
+        $this->write($tcmessage);
     }
 
     /**
@@ -117,7 +118,7 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
      */
     protected function getMessage()
     {
-        $listener = $this->getListener();
+        $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
         $message = '';
         if ($test != null) {
@@ -146,11 +147,11 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
     public function testFailed()
     {
         $this->_failed = true;
-        $listener = $this->getListener();
+        $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
-        $e = $this->getMessage();
-        $message = sprintf("##teamcity[testFailed name='%s' message='%s']" . PHP_EOL, $test->getName(), $e);
-        $this->write($message);
+        $message = $this->getMessage();
+        $tcmessage = sprintf("##teamcity[testFailed name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $this->write($tcmessage);
     }
 
     /**
@@ -159,11 +160,11 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
     public function testSkipped()
     {
         $this->_failed = true;
-        $listener = $this->getListener();
+        $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
-        $e = $this->getMessage();
-        $message = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $e);
-        $this->write($message);
+        $message = $this->getMessage();
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $this->write($tcmessage);
     }
 
     /**
@@ -172,11 +173,11 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
     public function testIncomplete()
     {
         $this->_failed = true;
-        $listener = $this->getListener();
+        $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
-        $e = $this->getMessage();
-        $message = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $e);
-        $this->write($message);
+        $message = $this->getMessage();
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $this->write($tcmessage);
     }
 
     /**
@@ -184,9 +185,11 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
      */
     public function endTest()
     {
-        $listener = $this->getListener();
-        $test = ($listener) ? $listener->getCurrentTest() : null;
-        $message = sprintf("##teamcity[testPassed name='%s']" . PHP_EOL, $test->getName());
-        $this->write($message);
+        if ($this->_failed == false) {
+            $listener = self::$_listener;
+            $test = ($listener) ? $listener->getCurrentTest() : null;
+            $message = sprintf("##teamcity[testFinished name='%s']" . PHP_EOL, $test->getName());
+            $this->write($message);
+        }
     }
 }
