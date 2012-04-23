@@ -114,7 +114,7 @@ category_page_before_reindex:
                             view_all_tags: //a[text()='View All Tags']
         messages: &categoryPageMessages
             newsletter_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
-            newsletter_reqired_field: //*[@id='advice-required-entry-newsletter']
+            newsletter_required_field: //*[@id='advice-required-entry-newsletter']
             newsletter_success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
             newsletter_email_used: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: This email address is already assigned to another user.')]"
             newsletter_long_email: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"

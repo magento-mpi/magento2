@@ -100,10 +100,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
 
@@ -133,10 +131,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
     }
@@ -186,10 +182,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -230,10 +224,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -277,10 +269,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $orderId = $this->orderHelper()->defineOrderId();
@@ -315,10 +305,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $orderId = $this->orderHelper()->defineOrderId();
@@ -372,10 +360,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
@@ -407,10 +393,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->clickButton('hold');
@@ -435,10 +419,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
@@ -487,10 +469,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -502,10 +482,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->assertEmptyVerificationErrors();
@@ -545,10 +523,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -603,10 +579,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath)) {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
     }

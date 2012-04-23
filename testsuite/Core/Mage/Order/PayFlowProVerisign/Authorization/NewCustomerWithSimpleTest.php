@@ -96,11 +96,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
 
@@ -128,11 +125,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
     }
@@ -173,7 +167,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider captureTypeDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3289
+     * @TestlinkId TL-MAGE-3289
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
@@ -183,11 +177,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
@@ -229,7 +220,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider creditMemoDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3288
+     * @TestlinkId TL-MAGE-3288
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
@@ -239,11 +230,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $orderId = $this->orderHelper()->defineOrderId();
@@ -287,7 +275,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3290
+     * @TestlinkId TL-MAGE-3290
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
@@ -297,11 +285,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
@@ -323,7 +308,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3291
+     * @TestlinkId TL-MAGE-3291
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
@@ -333,11 +318,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->clickButton('hold');
@@ -362,11 +344,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
@@ -400,7 +379,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3292
+     * @TestlinkId TL-MAGE-3292
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      */
@@ -413,11 +392,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -454,7 +430,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      *
      * @test
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3293
+     * @TestlinkId TL-MAGE-3293
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
@@ -465,11 +441,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
         //Steps
@@ -503,7 +476,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @dataProvider createOrderWith3DSecureDataProvider
      * @depends orderWithout3DSecureSmoke
-     * @TestlinkId    TL-MAGE-3287
+     * @TestlinkId TL-MAGE-3287
      */
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
@@ -521,11 +494,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         //$this->assertMessagePresent('success', 'success_created_order');
         //Workaround start
-        $messageXpath = $this->_getMessageXpath('success_created_order');
-        if (!$this->isElementPresent($messageXpath))
-        {
-            $messages = $this->getParsedMessages();
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($messages));
+        if (!$this->controlIsPresent('message', 'success_created_order')) {
+            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
         }
         //Workaround finish
     }

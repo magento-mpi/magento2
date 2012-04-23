@@ -37,7 +37,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
-        $this->addParameter('categoryUrl', '');
+        $this->logoutCustomer();
     }
 
     /**
@@ -50,7 +50,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $category = $this->loadData('sub_category_required');
+        $category = $this->loadDataSet('Category', 'sub_category_required');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_categories', false);
@@ -81,14 +81,13 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3250
+     * @TestlinkId TL-MAGE-3250
      */
     public function guestUseValidNotExistCustomerEmail($category)
     {
-        $search = $this->loadData('search_newsletter_subscribers',
-                array('filter_email' => $this->generate('email', 15, 'valid')));
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
-        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($search['filter_email']);
         //Verifying
@@ -98,7 +97,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('newsletter_subscribers');
         //Verifying
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
-                'Incorrect status for ' . $search['filter_email'] . ' email');
+                          'Incorrect status for ' . $search['filter_email'] . ' email');
     }
 
     /**
@@ -115,16 +114,15 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * @param string $category
      *
      * @test
-     * @TestlinkId TL-MAGE-3239
      * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3239
      */
     public function guestUseValidExistCustomerEmail($category)
     {
-        $customer = $this->loadData('customer_account_register');
-        $search = $this->loadData('search_newsletter_subscribers',
-                array('filter_email' => $customer['email']));
+        $customer = $this->loadDataSet('Customers', 'customer_account_register');
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $customer['email']));
         //Steps
-        $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($customer);
         $this->logoutCustomer();
@@ -149,14 +147,13 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3249
+     * @TestlinkId TL-MAGE-3249
      */
     public function guestInvalidEmail($category)
     {
-        $search = $this->loadData('search_newsletter_subscribers',
-                array('filter_email' => $this->generate('email', 15, 'invalid')));
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $this->generate('email', 15, 'invalid')));
         //Steps
-        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($search['filter_email']);
         //Verifying
@@ -177,13 +174,12 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      * @param string $category
      *
      * @test
-     * @TestlinkId	TL-MAGE-3248
      * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3248
      */
     public function guestEmptyEmail($category)
     {
         //Steps
-        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe('');
         //Verifying
@@ -206,7 +202,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3251
+     * @TestlinkId TL-MAGE-3251
      */
     public function guestLongValidEmail($category)
     {
@@ -237,14 +233,14 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-5399
+     * @TestlinkId TL-MAGE-5399
      */
     public function customerUseOwnEmail($category)
     {
-        $customer = $this->loadData('customer_account_register');
-        $search = $this->loadData('search_newsletter_subscribers', array('filter_email' => $customer['email']));
+        $customer = $this->loadDataSet('Customers', 'customer_account_register');
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $customer['email']));
         //Steps
-        $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($customer);
         $this->categoryHelper()->frontOpenCategory($category);
@@ -256,7 +252,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('newsletter_subscribers');
         //Verifying
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
-                'Incorrect status for ' . $search['filter_email'] . ' email');
+                          'Incorrect status for ' . $search['filter_email'] . ' email');
     }
 
     /**
@@ -280,14 +276,13 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3247
+     * @TestlinkId TL-MAGE-3247
      */
     public function deleteSubscriber($category)
     {
-        $search = $this->loadData('search_newsletter_subscribers',
-                array('filter_email' => $this->generate('email', 15, 'valid')));
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
-        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($search['filter_email']);
         //Verifying
@@ -297,7 +292,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('newsletter_subscribers');
         //Verifying
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
-                'Incorrect status for ' . $search['filter_email'] . ' email');
+                          'Incorrect status for ' . $search['filter_email'] . ' email');
         //Steps
         $this->newsletterHelper()->massAction('delete', array($search));
         //Verifying
@@ -326,14 +321,13 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3252
+     * @TestlinkId TL-MAGE-3252
      */
     public function subscriberUnsubscribe($category)
     {
-        $search = $this->loadData('search_newsletter_subscribers',
-                array('filter_email' => $this->generate('email', 15, 'valid')));
+        $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
+                                     array('filter_email' => $this->generate('email', 15, 'valid')));
         //Steps
-        $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($category);
         $this->newsletterHelper()->frontSubscribe($search['filter_email']);
         //Verifying
@@ -343,12 +337,12 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('newsletter_subscribers');
         //Verifying
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
-                'Incorrect status for ' . $search['filter_email'] . ' email');
+                          'Incorrect status for ' . $search['filter_email'] . ' email');
         //Steps
         $this->newsletterHelper()->massAction('unsubscribe', array($search));
         //Verifying
         $this->assertMessagePresent('success', 'success_update');
         $this->assertTrue($this->newsletterHelper()->checkStatus('unsubscribed', $search),
-                $this->getParsedMessages());
+                          $this->getParsedMessages());
     }
 }

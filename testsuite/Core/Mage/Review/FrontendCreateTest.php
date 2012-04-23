@@ -35,14 +35,10 @@
  */
 class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
-    protected $_useTearDown = false;
-
     protected function tearDownAfterTest()
     {
-        if ($this->_useTearDown) {
-            $this->frontend();
-            $this->selectFrontStoreView();
-        }
+        $this->frontend();
+        $this->selectFrontStoreView();
     }
 
     /**
@@ -50,6 +46,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return array
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {
@@ -112,6 +109,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-440
+     * @skipTearDown
      */
     public function addReviewByGuest($data)
     {
@@ -160,10 +158,9 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     public function addReviewByGuestWithRating($data)
     {
         //Data
-        $this->_useTearDown = true;
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_with_rating',
                                          array('rating_name' => $data['withRating']['rating_name']));
-        $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_customer',
+        $searchData = $this->loadDataSet('ReviewAndRating', 'search_review_guest',
                                          array('filter_nickname'   => $reviewData['nickname'],
                                               'filter_product_sku' => $data['name']));
         //Steps
@@ -201,6 +198,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-456
+     * @skipTearDown
      */
     public function addReviewByLoggedCustomer($data)
     {
@@ -246,6 +244,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3568
+     * @skipTearDown
      */
     public function withEmptyRequiredFields($emptyFieldName, $data)
     {
@@ -286,6 +285,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      * @dataProvider frontendReviewSpecialCharactersDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3569
+     * @skipTearDown
      */
     public function frontendReviewSpecialCharacters($reviewData, $data)
     {

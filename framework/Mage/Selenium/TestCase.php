@@ -1443,12 +1443,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Navigate to the specified frontend page<br>
      * Page identifier must be described in the UIMap. Opens "Home page" by default.
      *
-     * @param string $page Page identifier (by default = 'home')
+     * @param string $page Page identifier (by default = 'home_page')
      * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
-    public function frontend($page = 'home', $validatePage = true)
+    public function frontend($page = 'home_page', $validatePage = true)
     {
         $this->goToArea('frontend', $page, $validatePage);
         return $this;
