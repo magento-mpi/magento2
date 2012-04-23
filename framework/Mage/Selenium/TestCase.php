@@ -1481,6 +1481,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $currentUrl Full URL to page
      *
      * @return string
+     * @throws RuntimeException
      */
     protected static function _getAreaFromCurrentUrl($areasConfig, $currentUrl)
     {
@@ -1495,7 +1496,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 break;
             }
         }
-
+        if ($currentArea == '') {
+            throw new RuntimeException('Area is not defined for ulr:  ' . $currentUrl);
+        }
         return $currentArea;
     }
 
@@ -1958,6 +1961,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Returns HTTP responce for the specified URL.
      *
      * @param string $url
+     *
      * @return array
      *
      * @throws RuntimeException when an internal CURL error happens

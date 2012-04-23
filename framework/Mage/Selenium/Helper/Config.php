@@ -379,6 +379,44 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Get base url for area
+     *
+     * @param string $area
+     *
+     * @return string
+     * @throws OutOfRangeException
+     */
+    public function getAreaBaseUrl($area)
+    {
+        if (!isset($this->_configAreas[$area])) {
+            throw new OutOfRangeException('Config for "' . $area . '" area is not set');
+        }
+        if (!isset($this->_configAreas[$area]['url'])) {
+            throw new OutOfRangeException('Base Url is not set for "' . $area . '" area');
+        }
+        return $this->_configAreas[$area]['url'];
+    }
+
+    /**
+     * Set base url for area
+     *
+     * @param string $area
+     * @param string $url
+     *
+     * @throws OutOfRangeException
+     */
+    public function setAreaBaseUrl($area, $url)
+    {
+        if (!isset($this->_configAreas[$area])) {
+            throw new OutOfRangeException('Config for "' . $area . '" area is not set');
+        }
+        if (!preg_match('|/$|', $url)) {
+            $url .= '/';
+        }
+        $this->_configAreas[$area]['url'] = $url;
+    }
+
+    /**
      * Return default Login for current area
      * @return string
      * @throws OutOfRangeException
