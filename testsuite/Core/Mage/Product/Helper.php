@@ -924,7 +924,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);
         $this->addParameter('productName', $openedProductName);
-        $this->clickButton('add_to_cart');
+        $this->saveForm('add_to_cart');
+        $this->assertMessageNotPresent('validation');
     }
 
     /**
