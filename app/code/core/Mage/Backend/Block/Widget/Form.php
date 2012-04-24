@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Admin form widget
+ * Backend form widget
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
 {
 
     /**
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Mage_Adminhtml::widget/form.phtml');
+        $this->setTemplate('Mage_Backend::widget/form.phtml');
         $this->setDestElementId('edit_form');
         $this->setShowGlobalIcon(false);
     }
@@ -47,13 +47,13 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     protected function _prepareLayout()
     {
         Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Element')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Renderer_Element')
         );
         Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Renderer_Fieldset')
         );
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element')
         );
 
         return parent::_prepareLayout();
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
      * Set form object
      *
      * @param Varien_Data_Form $form
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Mage_Backend_Block_Widget_Form
      */
     public function setForm(Varien_Data_Form $form)
     {
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Mage_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     /**
      * This method is called before rendering HTML
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Mage_Backend_Block_Widget_Form
      */
     protected function _beforeToHtml()
     {
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
      * Initialize form fields values
      * Method will be called after prepareForm and can be used for field values initialization
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Mage_Backend_Block_Widget_Form
      */
     protected function _initFormValues()
     {

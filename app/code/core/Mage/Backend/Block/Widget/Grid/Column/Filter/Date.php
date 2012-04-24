@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Date grid column filter
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
+class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
     protected $_locale;
 
@@ -33,14 +33,14 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
         $htmlId = $this->_getHtmlId() . microtime(true);
         $format = $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $html = '<div class="range"><div class="range-line date">
-            <span class="label">' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('From').':</span>
+            <span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>
             <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>
-            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_from_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Date selector')).'"/>
+            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_from_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>
             </div>';
         $html.= '<div class="range-line date">
-            <span class="label">' . Mage::helper('Mage_Adminhtml_Helper_Data')->__('To').' :</span>
+            <span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>
             <input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>
-            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_to_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Date selector')).'"/>
+            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_to_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>
             </div></div>';
         $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]" value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +12,11 @@
  * Adminhtml permissions user edit form
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_User_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_User_Block_User_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
-
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
@@ -25,5 +24,4 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Form extends Mage_Adminhtml_Blo
         $this->setForm($form);
         return parent::_prepareForm();
     }
-
 }

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * implementing now
  *
  */
-class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block_Widget_Form implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_User_Block_Tab_Roleinfo extends Mage_Backend_Block_Widget_Form implements Mage_Backend_Block_Widget_Tab_Interface
 {
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Info');
+        return Mage::helper('Mage_User_Helper_Data')->__('Role Info');
     }
 
     public function getTabTitle()
@@ -46,12 +46,12 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_User_Helper_Data')->__('Role Information')));
 
         $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'rolename',
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
+                'label' => Mage::helper('Mage_User_Helper_Data')->__('Role Name'),
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,

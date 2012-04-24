@@ -3,22 +3,24 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml view container block
+ * Mage_Backend view container block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Widget_Container
+class Mage_Backend_Block_Widget_View_Container extends Mage_Backend_Block_Widget_Container
 {
     protected $_objectId = 'id';
+
+    protected $_blockGroup = 'Mage_Backend';
 
     public function __construct()
     {
@@ -27,13 +29,13 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
         $this->setTemplate('widget/view/container.phtml');
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),
             'onclick'   => 'window.location.href=\'' . $this->getUrl('*/*/') . '\'',
             'class'     => 'back',
         ));
 
         $this->_addButton('edit', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit'),
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Edit'),
             'class'     => 'edit',
             'onclick'   => 'window.location.href=\'' . $this->getEditUrl() . '\'',
         ));
@@ -42,10 +44,13 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareLayout()
     {
-        $this->setChild('plane', $this->getLayout()->createBlock(
-            'Mage_Adminhtml_Block_'
+        $blockName = $this->_blockGroup
+            . '_Block_'
             . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller)))
-            . '_View_Plane'));
+            . '_View_Plane';
+
+        $this->setChild('plane', $this->getLayout()->createBlock($blockName));
+
         return parent::_prepareLayout();
     }
 

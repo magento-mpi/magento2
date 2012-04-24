@@ -11,25 +11,6 @@
 -->
 
 <layout>
-    <!-- admin acl roles grid page -->
-    <adminhtml_permissions_role_index>
-        <reference name="content">
-            <block type="Mage_Adminhtml_Block_Permissions_Roles" name="adminhtml.permission.role.index" template="permissions/roles.phtml">
-                <block type="Mage_Adminhtml_Block_Permissions_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
-            </block>
-        </reference>
-    </adminhtml_permissions_role_index>
-    <adminhtml_permissions_role_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_Adminhtml_Block_Permissions_Grid_Role" name="adminhtml.permission.role.grid"/>
-    </adminhtml_permissions_role_rolegrid>
-
-    <!-- admin acl roles edit page -->
-    <adminhtml_permissions_role_editrole>
-        <reference name="left">
-            <block type="Mage_Adminhtml_Block_Permissions_Editroles" name="adminhtml.permissions.editroles"/>
-        </reference>
-    </adminhtml_permissions_role_editrole>
     <adminhtml_system_config_edit>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_System_Config_Switcher" name="adminhtml.system.config.switcher" before="-"/>

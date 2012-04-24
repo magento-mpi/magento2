@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Rolesedit Tab Display Block
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_User_Block_Tab_Rolesedit extends Mage_Backend_Block_Widget_Form
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Get tab label
@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Resources');
+        return Mage::helper('Mage_User_Helper_Data')->__('Role Resources');
     }
 
     /**
@@ -84,9 +84,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
         $this->setSelectedResources($selrids);
 
-        $this->setTemplate('permissions/rolesedit.phtml');
-        //->assign('resources', $resources);
-        //->assign('checkedResources', join(',', $selrids));
+        $this->setTemplate('rolesedit.phtml');
     }
 
     /**
@@ -141,7 +139,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
         $selres = $this->getSelectedResources();
 
         if ($level != 0) {
-            $item['text'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__((string)$node->title);
+            $item['text'] = Mage::helper('Mage_User_Helper_Data')->__((string)$node->title);
             $item['sort_order'] = isset($node->sort_order) ? (string)$node->sort_order : 0;
             $item['id'] = (string)$node->attributes()->aclpath;
 

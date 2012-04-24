@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Admin page left menu
+ * User page left menu
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_User_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_User_Block_User_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
 
     public function __construct()
@@ -23,24 +23,24 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tabs extends Mage_Adminhtml_Blo
         parent::__construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Information'));
+        $this->setTitle(Mage::helper('Mage_User_Helper_Data')->__('User Information'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
-            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Info'),
+            'label'     => Mage::helper('Mage_User_Helper_Data')->__('User Info'),
+            'title'     => Mage::helper('Mage_User_Helper_Data')->__('User Info'),
             'content'   => $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Main')->toHtml(),
+                ->createBlock('Mage_User_Block_User_Edit_Tab_Main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('roles_section', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Role'),
-            'title'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Role'),
+            'label'     => Mage::helper('Mage_User_Helper_Data')->__('User Role'),
+            'title'     => Mage::helper('Mage_User_Helper_Data')->__('User Role'),
             'content'   => $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles', 'user.roles.grid')->toHtml(),
+                ->createBlock('Mage_User_Block_User_Edit_Tab_Roles', 'user.roles.grid')->toHtml(),
         ));
         return parent::_beforeToHtml();
     }

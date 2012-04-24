@@ -3,12 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Block_Widget_Tabs {
+class Mage_User_Block_Tab_Rolesusers extends Mage_Backend_Block_Widget_Tabs
+{
 
     public function __construct()
     {
@@ -17,7 +18,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
         $roleId = $this->getRequest()->getParam('rid', false);
 
         $users = Mage::getModel('Mage_Admin_Model_User')->getCollection()->load();
-        $this->setTemplate('permissions/rolesusers.phtml')
+        $this->setTemplate('rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
     }
@@ -26,7 +27,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Role_Grid_User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('Mage_User_Block_Role_Grid_User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

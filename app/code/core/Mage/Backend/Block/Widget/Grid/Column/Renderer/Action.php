@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Grid column widget for rendering action grid cells
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_Action
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
 
     /**
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
      * @param array $action
      * @param string $actionCaption
      * @param Varien_Object $row
-     * @return Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+     * @return Mage_Backend_Block_Widget_Grid_Column_Renderer_Action
      */
     protected function _transformActionData(&$action, &$actionCaption, Varien_Object $row)
     {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  *
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
+class Mage_Backend_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
 {
 
     /**
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Templa
     /**
      * Set serializer template
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Serializer
+     * @return Mage_Backend_Block_Widget_Grid_Serializer
      */
     public function _construct()
     {
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Templa
      * Also use reload param name for saving grid checked boxes states
      *
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid | string $grid grid object or grid block name
+     * @param Mage_Backend_Block_Widget_Grid | string $grid grid object or grid block name
      * @param string $callback block method  to retrieve data to serialize
      * @param string $hiddenInputName hidden input name where serialized data will be store
      * @param string $reloadParamName name of request parametr that will be used to save setted data while reload grid
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Serializer extends Mage_Core_Block_Templa
         if (is_string($grid)) {
             $grid = $this->getLayout()->getBlock($grid);
         }
-        if ($grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
+        if ($grid instanceof Mage_Backend_Block_Widget_Grid) {
             $this->setGridBlock($grid)
                  ->setInputElementName($hiddenInputName)
                  ->setReloadParamName($reloadParamName)

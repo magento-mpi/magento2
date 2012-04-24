@@ -3,42 +3,42 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml form container block
+ * Backend form container block
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Widget_Container
+class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget_Container
 {
     protected $_objectId = 'id';
     protected $_formScripts = array();
     protected $_formInitScripts = array();
     protected $_mode = 'edit';
-    protected $_blockGroup = 'Mage_Adminhtml';
+    protected $_blockGroup = 'Mage_Backend';
 
     public function __construct()
     {
         parent::__construct();
 
         if (!$this->hasData('template')) {
-            $this->setTemplate('Mage_Adminhtml::widget/form/container.phtml');
+            $this->setTemplate('Mage_Backend::widget/form/container.phtml');
         }
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
         ), -1);
         $this->_addButton('reset', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset'),
             'onclick'   => 'setLocation(window.location.href)',
         ), -1);
 
@@ -46,15 +46,15 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
         if (! empty($objId)) {
             $this->_addButton('delete', array(
-                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?')
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('Mage_Backend_Helper_Data')->__('Are you sure you want to do this?')
                     .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
         $this->_addButton('save', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save'),
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Save'),
             'onclick'   => 'editForm.submit();',
             'class'     => 'save',
         ), 1);
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
      * Set data object and pass it to form
      *
      * @param Varien_Object $object
-     * @return Mage_Adminhtml_Block_Widget_Form_Container
+     * @return Mage_Backend_Block_Widget_Form_Container
      */
     public function setDataObject($object)
     {

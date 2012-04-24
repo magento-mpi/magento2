@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml permissions user grid
+ * User permissions user grid
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_User
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_User_Block_User_Grid extends Mage_Backend_Block_Widget_Grid
 {
 
     public function __construct()
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('user_id', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('ID'),
             'width'     => 5,
             'align'     => 'right',
             'sortable'  => true,
@@ -45,32 +45,32 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('username', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('User Name'),
             'index'     => 'username'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('First Name'),
             'index'     => 'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('Last Name'),
             'index'     => 'lastname'
         ));
 
         $this->addColumn('email', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('Email'),
             'width'     => 40,
             'align'     => 'left',
             'index'     => 'email'
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inactive')),
+            'options'   => array('1' => Mage::helper('Mage_User_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_User_Helper_Data')->__('Inactive')),
         ));
 
         return parent::_prepareColumns();
@@ -83,8 +83,6 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-        //$uid = $this->getRequest()->getParam('user_id');
         return $this->getUrl('*/*/roleGrid', array());
     }
-
 }

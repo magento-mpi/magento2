@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Adminhtml image gallery item renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Form_Element_Gallery extends Mage_Adminhtml_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
 
     protected $_element = null;
@@ -50,17 +50,17 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Gallery extends Mage_Adminhtml_Bl
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
+                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Delete'),
                     'onclick'   => "deleteImage(#image#)",
                     'class' => 'delete'
                 )));
 
         $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New Image'),
+                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Add New Image'),
                     'onclick'   => 'addNewImage()',
                     'class' => 'add'
                 )));

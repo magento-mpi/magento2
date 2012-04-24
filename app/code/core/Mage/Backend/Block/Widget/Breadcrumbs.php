@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml page breadcrumbs
+ * Mage_Backend page breadcrumbs
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Adminhtml_Block_Template
+class Mage_Backend_Block_Widget_Breadcrumbs extends Mage_Backend_Block_Template
 {
     /**
      * breadcrumbs links
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Adminhtml_Block_Templ
     public function __construct()
     {
         $this->setTemplate('widget/breadcrumbs.phtml');
-        $this->addLink(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Home'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Home'), $this->getUrl('*'));
+        $this->addLink(Mage::helper('Mage_Backend_Helper_Data')->__('Home'), Mage::helper('Mage_Backend_Helper_Data')->__('Home'), $this->getUrl('*'));
     }
 
     public function addLink($label, $title=null, $url=null)

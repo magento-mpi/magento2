@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml container block
+ * Backend container block
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Template
+class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
 {
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * @param integer $level
      * @param integer $sortOrder
      * @param string|null $placement area, that button should be displayed in ('header', 'footer', null)
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     protected function _addButton($id, $data, $level = 0, $sortOrder = 0, $area = 'header')
     {
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * @param integer $level
      * @param integer $sortOrder
      * @param string|null $placement area, that button should be displayed in ('header', 'footer', null)
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     public function addButton($id, $data, $level = 0, $sortOrder = 0, $area = 'header')
     {
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * Remove existing button
      *
      * @param string $id
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     protected function _removeButton($id)
     {
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * Public wrapper for the _removeButton() method
      *
      * @param string $id
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     public function removeButton($id)
     {
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * @param string $id
      * @param string|null $key
      * @param mixed $data
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     protected function _updateButton($id, $key=null, $data)
     {
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * @param string $id
      * @param string|null $key
      * @param mixed $data
-     * @return Mage_Adminhtml_Block_Widget_Container
+     * @return Mage_Backend_Block_Widget_Container
      */
     public function updateButton($id, $key=null, $data)
     {
@@ -186,11 +186,11 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
      * Adding child block with specified child's id.
      *
      * @param string $childId
-     * @return Mage_Adminhtml_Block_Widget_Button
+     * @return Mage_Backend_Block_Widget_Button
      */
     protected function _addButtonChildBlock($childId)
     {
-        $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button');
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $this->setChild($childId, $block);
         return $block;
     }

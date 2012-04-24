@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Grid widget massaction single action item
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_Widget_Grid_Massaction_Item extends Mage_Backend_Block_Widget
 {
 
     protected $_massaction = null;
@@ -24,8 +24,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
     /**
      * Set parent massaction block
      *
-     * @param  Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract $massaction
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Item
+     * @param  Mage_Backend_Block_Widget_Grid_Massaction_Abstract $massaction
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Item
      */
     public function setMassaction($massaction)
     {
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
     /**
      * Retrive parent massaction block
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function getMassaction()
     {
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
      * Set additional action block for this item
      *
      * @param string|Mage_Core_Block_Abstract $block
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Item
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Item
      */
     public function setAdditionalActionBlock($block)
     {
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
         $type = isset($config['type']) ? $config['type'] : 'default';
         switch($type) {
             default:
-                $blockClass = 'Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Default';
+                $blockClass = 'Mage_Backend_Block_Widget_Grid_Massaction_Item_Additional_Default';
                 break;
         }
 

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Base widget class
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
+class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
 {
     public function getId()
     {
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
     }
 
     /**
-     * Create buttonn and return its html
+     * Create button and return its html
      *
      * @param string $label
      * @param string $onclick
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
      * @return string
      */
     public function getButtonHtml($label, $onclick, $class='', $id=null) {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
             ->setData(array(
                 'label'     => $label,
                 'onclick'   => $onclick,

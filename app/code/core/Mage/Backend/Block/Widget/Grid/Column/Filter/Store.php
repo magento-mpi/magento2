@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +13,11 @@
  * Store grid column filter
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
+class Mage_Backend_Block_Widget_Grid_Column_Filter_Store
+    extends Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
 
     /**
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store
         $value = $this->getColumn()->getValue();
         if ($allShow) {
             $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>'
-                  . Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views') . '</option>';
+                  . Mage::helper('Mage_Backend_Helper_Data')->__('All Store Views') . '</option>';
         } else {
             $html .= '<option value=""' . (!$value ? ' selected="selected"' : '') . '></option>';
         }

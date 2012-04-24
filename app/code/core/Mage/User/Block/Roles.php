@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * user roles block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Adminhtml_Block_Template
+class Mage_User_Block_Roles extends Mage_Backend_Block_Template
 {
     /**
      * Get URL of adding new record

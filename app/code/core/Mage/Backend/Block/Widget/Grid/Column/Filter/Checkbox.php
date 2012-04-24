@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Checkbox grid column filter
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Backend_Block_Widget_Grid_Column_Filter_Select
 {
     public function getHtml()
     {
@@ -26,15 +26,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Admin
     {
         return array(
             array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Any'),
+                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Any'),
                 'value' => ''
             ),
             array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
+                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Yes'),
                 'value' => 1
             ),
             array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
+                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('No'),
                 'value' => 0
             ),
         );

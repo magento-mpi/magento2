@@ -3,34 +3,34 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Grid colum filter block
+ * Grid column filter block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Adminhtml_Block_Abstract
-    implements Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Interface
+class Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Backend_Block_Abstract
+    implements Mage_Backend_Block_Widget_Grid_Column_Filter_Interface
 {
 
     /**
      * Column related to filter
      *
-     * @var Mage_Adminhtml_Block_Widget_Grid_Column
+     * @var Mage_Backend_Block_Widget_Grid_Column
      */
     protected $_column;
 
     /**
      * Set column related to filter
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
-     * @return Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
+     * @return Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
      */
     public function setColumn($column)
     {
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Admin
     /**
      * Retrieve column related to filter
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Column
+     * @return Mage_Backend_Block_Widget_Grid_Column
      */
     public function getColumn()
     {

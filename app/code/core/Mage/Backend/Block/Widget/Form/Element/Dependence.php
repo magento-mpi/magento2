@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Assumes that one element may depend on other element values.
  * Will toggle as "enabled" only if all elements it depends from toggle as true.
  */
-class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml_Block_Abstract
+class Mage_Backend_Block_Widget_Form_Element_Dependence extends Mage_Backend_Block_Abstract
 {
     /**
      * name => id mapper
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
      *
      * @param string $fieldId - element ID in DOM
      * @param string $fieldName - element name in their fieldset/form namespace
-     * @return Mage_Adminhtml_Block_Widget_Form_Element_Dependence
+     * @return Mage_Backend_Block_Widget_Form_Element_Dependence
      */
     public function addFieldMap($fieldId, $fieldName)
     {
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
      * @param string $fieldName
      * @param string $fieldNameFrom
      * @param string|array $refValues
-     * @return Mage_Adminhtml_Block_Widget_Form_Element_Dependence
+     * @return Mage_Backend_Block_Widget_Form_Element_Dependence
      */
     public function addFieldDependence($fieldName, $fieldNameFrom, $refValues)
     {
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Dependence extends Mage_Adminhtml
      * Add misc configuration options to the javascript dependencies controller
      *
      * @param array $options
-     * @return Mage_Adminhtml_Block_Widget_Form_Element_Dependence
+     * @return Mage_Backend_Block_Widget_Form_Element_Dependence
      */
     public function addConfigOptions(array $options)
     {

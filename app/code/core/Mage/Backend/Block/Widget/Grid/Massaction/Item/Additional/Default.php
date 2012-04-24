@@ -3,20 +3,22 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Adminhtml grid widget massaction item additional action default
+ * Backend grid widget massaction item additional action default
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Default extends Mage_Adminhtml_Block_Widget_Form implements Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Interface
+class Mage_Backend_Block_Widget_Grid_Massaction_Item_Additional_Default
+    extends Mage_Backend_Block_Widget_Form
+    implements Mage_Backend_Block_Widget_Grid_Massaction_Item_Additional_Interface
 {
 
     public function createFromConfiguration(array $configuration)

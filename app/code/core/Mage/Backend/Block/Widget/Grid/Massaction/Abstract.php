@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,10 +14,10 @@
  * @method Mage_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
  * @method boolean getHideFormElement()
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage_Adminhtml_Block_Widget
+abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_Backend_Block_Widget
 {
     /**
      * Massaction items
@@ -32,8 +32,8 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('Mage_Adminhtml::widget/grid/massaction.phtml');
-        $this->setErrorText(Mage::helper('Mage_Catalog_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Catalog_Helper_Data')->__('Please select items.')));
+        $this->setTemplate('Mage_Backend::widget/grid/massaction.phtml');
+        $this->setErrorText(Mage::helper('Mage_Backend_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Backend_Helper_Data')->__('Please select items.')));
     }
 
     /**
@@ -49,11 +49,11 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      *
      * @param string $itemId
      * @param array $item
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function addItem($itemId, array $item)
     {
-        $this->_items[$itemId] =  $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Massaction_Item')
+        $this->_items[$itemId] =  $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Massaction_Item')
             ->setData($item)
             ->setMassaction($this)
             ->setId($itemId);
@@ -70,7 +70,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      * Retrieve massaction item with id $itemId
      *
      * @param string $itemId
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Item
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Item
      */
     public function getItem($itemId)
     {
@@ -241,7 +241,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      * Remove existing massaction item by its id
      *
      * @param string $itemId
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function removeItem($itemId)
     {
@@ -266,7 +266,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      * Retrieve select all functionality flag check
      *
      * @param boolean $flag
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function setUseSelectAll($flag)
     {

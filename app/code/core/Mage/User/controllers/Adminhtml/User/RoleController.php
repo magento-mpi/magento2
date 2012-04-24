@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml roles controller
+ * Mage_User roles controller
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controller_Action
+class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_ActionAbstract
 {
 
     /**
      * Preparing layout for output
      *
-     * @return Mage_Adminhtml_Permissions_RoleController
+     * @return Mage_User_Adminhtml_User_RoleController
      */
     protected function _initAction()
     {
@@ -103,14 +103,14 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Buttons')
+            $this->getLayout()->createBlock('Mage_User_Block_Buttons')
                 ->setRoleId($role->getId())
                 ->setRoleInfo($role)
-                ->setTemplate('permissions/roleinfo.phtml')
+                ->setTemplate('roleinfo.phtml')
         );
         $this->_addJs($this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Template')
-            ->setTemplate('permissions/role_users_grid_js.phtml')
+            ->createBlock('Mage_Backend_Block_Template')
+            ->setTemplate('role_users_grid_js.phtml')
         );
         $this->renderLayout();
     }
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $currentUser = Mage::getModel('Mage_Admin_Model_User')->setId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
         }
@@ -134,9 +134,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         try {
             $role = $this->_initRole()->delete();
 
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -164,13 +164,13 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
 
         $role = $this->_initRole('role_id');
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This Role no longer exists.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('This Role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
 
         try {
-            $roleName = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($this->getRequest()->getParam('rolename', false));
+            $roleName = Mage::helper('Mage_User_Helper_Data')->stripTags($this->getRequest()->getParam('rolename', false));
 
             $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))
@@ -195,11 +195,11 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been successfully saved.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess($this->__('The role has been successfully saved.'));
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('An error occurred while saving this role.'));
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
@@ -214,7 +214,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     public function editrolegridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Role_Grid_User')->toHtml()
+            $this->getLayout()->createBlock('Mage_User_Block_Role_Grid_User')->toHtml()
         );
     }
 

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +12,16 @@
  * users block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_Users extends Mage_Adminhtml_Block_Template
+class Mage_User_Block_Users extends Mage_Backend_Block_Template
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('permissions/users.phtml');
+        $this->setTemplate('users.phtml');
     }
 
     public function getAddNewUrl()
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Permissions_Users extends Mage_Adminhtml_Block_Templa
 
     public function getGridHtml()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Permissions_Grid_User')->toHtml();
+        return $this->getLayout()->createBlock('Mage_User_Block_Grid_User')->toHtml();
     }
 
 }

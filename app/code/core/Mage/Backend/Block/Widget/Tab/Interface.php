@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Adminhtml Widget Tab Interface
+ * Backend Widget Tab Interface
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Adminhtml_Block_Widget_Tab_Interface
+interface Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Return Tab label

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Grid column block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
 {
     protected $_grid;
     protected $_renderer;
@@ -199,58 +199,58 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
         switch ($type) {
             case 'date':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Date';
                 break;
             case 'datetime':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Datetime';
                 break;
             case 'number':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Number';
                 break;
             case 'currency':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency';
                 break;
             case 'price':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Price';
                 break;
             case 'country':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Country';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Country';
                 break;
             case 'concat':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Concat';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Concat';
                 break;
             case 'action':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Action';
                 break;
             case 'options':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Options';
                 break;
             case 'checkbox':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox';
                 break;
             case 'massaction':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Massaction';
                 break;
             case 'radio':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Radio';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Radio';
                 break;
             case 'input':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Input';
                 break;
             case 'select':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Select';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Select';
                 break;
             case 'text':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Longtext';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Longtext';
                 break;
             case 'store':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Store';
                 break;
             case 'wrapline':
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Wrapline';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Wrapline';
                 break;
             default:
-                $rendererClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text';
+                $rendererClass = 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Text';
                 break;
         }
         return $rendererClass;
@@ -259,7 +259,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     /**
      * Retrieve column renderer
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
      */
     public function getRenderer()
     {
@@ -290,45 +290,45 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
         switch ($type) {
             case 'datetime':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Datetime';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime';
                 break;
             case 'date':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Date';
                 break;
             case 'range':
             case 'number':
             case 'currency':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Range';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Range';
                 break;
             case 'price':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Price';
                 break;
             case 'country':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Country';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Country';
                 break;
             case 'options':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Select';
                 break;
 
             case 'massaction':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Massaction';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Massaction';
                 break;
 
             case 'checkbox':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox';
                 break;
 
             case 'radio':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Radio';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Radio';
                 break;
             case 'store':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Store';
                 break;
             case 'theme':
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Theme';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme';
                 break;
             default:
-                $filterClass = 'Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text';
+                $filterClass = 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text';
                 break;
         }
         return $filterClass;

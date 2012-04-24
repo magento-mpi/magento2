@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +13,11 @@
  * Grid widget column renderer massaction
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_Massaction
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
 {
     protected $_defaultWidth = 20;
 

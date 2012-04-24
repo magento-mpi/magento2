@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml grid widget block
+ * Backend grid widget block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 {
     /**
      * Columns array
@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      //'renderer'  => Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface,
+     *      //'renderer'  => Mage_Backend_Block_Widget_Grid_Column_Renderer_Interface,
      *      'format'    => string
      *      'total'     => string (sum, avg)
      * )
@@ -171,7 +171,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @var string
      */
-    protected $_massactionBlockName = 'Mage_Adminhtml_Block_Widget_Grid_Massaction';
+    protected $_massactionBlockName = 'Mage_Backend_Block_Widget_Grid_Massaction';
 
     /**
     * RSS list
@@ -204,32 +204,32 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
-        $this->setTemplate('Mage_Adminhtml::widget/grid.phtml');
+        $this->setTemplate('Mage_Backend::widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
-        $this->_emptyText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('No records found.');
+        $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('No records found.');
     }
 
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Export'),
+                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()',
                     'class'   => 'task'
                 ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset Filter'),
+                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search'),
+                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
                     'onclick'   => $this->getJsObjectName().'.doFilter()',
                     'class'   => 'task'
                 ))
@@ -267,7 +267,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param Varien_Data_Collection $collection
      */
-    //public function setCollection(Varien_Data_Collection $collection)
     public function setCollection($collection)
     {
         $this->_collection = $collection;
@@ -288,20 +287,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param   string $columnId
      * @param   array || Varien_Object $column
-     * @return  Mage_Adminhtml_Block_Widget_Grid
+     * @return  Mage_Backend_Block_Widget_Grid
      */
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
+            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                 ->setData($column)
                 ->setGrid($this);
-        }
-        /*elseif ($column instanceof Varien_Object) {
-            $this->_columns[$columnId] = $column;
-        }*/
-        else {
-            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong column format.'));
+        } else {
+            throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong column format.'));
         }
 
         $this->_columns[$columnId]->setId($columnId);
@@ -313,7 +308,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Remove existing column
      *
      * @param string $columnId
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function removeColumn($columnId)
     {
@@ -332,7 +327,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @param   string $columnId
      * @param   array|Varien_Object $column
      * @param   string $after
-     * @return  Mage_Adminhtml_Block_Widget_Grid
+     * @return  Mage_Backend_Block_Widget_Grid
      */
     public function addColumnAfter($columnId, $column, $after)
     {
@@ -346,7 +341,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param string $columnId
      * @param string $after
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function addColumnsOrder($columnId, $after)
     {
@@ -367,7 +362,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Sort columns by predefined order
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function sortColumnsByOrder()
     {
@@ -463,8 +458,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Sets sorting order by some column
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
+     * @return Mage_Backend_Block_Widget_Grid
      */
     protected function _setCollectionOrder($column)
     {
@@ -497,7 +492,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
 
             if (is_string($filter)) {
-                $data = $this->helper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
+                $data = $this->helper('Mage_Backend_Helper_Data')->prepareFilterString($filter);
                 $this->_setFilterValues($data);
             }
             else if ($filter && is_array($filter)) {
@@ -529,7 +524,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = $this->helper('Mage_Adminhtml_Helper_Data')->decodeFilter($value);
+        $value = $this->helper('Mage_Backend_Helper_Data')->decodeFilter($value);
     }
 
     protected function _preparePage()
@@ -547,7 +542,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Prepare grid massaction block
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareMassactionBlock()
     {
@@ -562,11 +557,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Prepare grid massaction actions
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareMassaction()
     {
-
         return $this;
     }
 
@@ -578,7 +572,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Column')
+        $massactionColumn = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                 ->setData(array(
                     'index'        => $this->getMassactionIdField(),
                     'filter_index' => $this->getMassactionIdFilter(),
@@ -797,7 +791,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param   string $url
      * @param   string $label
-     * @return  Mage_Adminhtml_Block_Widget_Grid
+     * @return  Mage_Backend_Block_Widget_Grid
      */
     public function addExportType($url, $label)
     {
@@ -842,7 +836,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param   string $url
      * @param   string $label
-     * @return  Mage_Adminhtml_Block_Widget_Grid
+     * @return  Mage_Backend_Block_Widget_Grid
      */
     public function addRssList($url, $label)
     {
@@ -918,7 +912,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param string $callback
      * @param array $args additional arguments for callback method
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function _exportIterateCollection($callback, array $args)
     {
@@ -1225,7 +1219,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function getParam($paramName, $default=null)
     {
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $sessionParamName = $this->getId().$paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
@@ -1267,7 +1261,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set massaction row identifier field
      *
      * @param  string    $idField
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setMassactionIdField($idField)
     {
@@ -1289,7 +1283,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set massaction row identifier filter
      *
      * @param string $idFilter
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setMassactionIdFilter($idFilter)
     {
@@ -1311,7 +1305,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set massaction block name
      *
      * @param  string    $blockName
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setMassactionBlockName($blockName)
     {
@@ -1322,7 +1316,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Retrive massaction block
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function getMassactionBlock()
     {
@@ -1338,7 +1332,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set empty text for grid
      *
      * @param string $text
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setEmptyText($text)
     {
@@ -1360,7 +1354,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set empty text CSS class
      *
      * @param string $cssClass
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setEmptyTextClass($cssClass)
     {
@@ -1422,7 +1416,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set subtotals
      *
      * @param boolean $flag
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setCountSubTotals($flag = true)
     {
@@ -1444,7 +1438,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set subtotal items
      *
      * @param array $items
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setSubTotals(array $items)
     {
@@ -1503,7 +1497,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Retrieve rowspan number
      *
      * @param Varien_Object $item
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
      * @return integer|boolean
      */
     public function getRowspan($item, $column)
@@ -1519,7 +1513,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param string|object $column
      * @param string $value
-     * @return boolean|Mage_Adminhtml_Block_Widget_Grid
+     * @return boolean|Mage_Backend_Block_Widget_Grid
      */
     public function isColumnGrouped($column, $value = null)
     {
@@ -1563,7 +1557,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Check whether should render cell
      *
      * @param Varien_Object $item
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
     public function shouldRenderCell($item, $column)
@@ -1581,7 +1575,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Check whether should render empty cell
      *
      * @param Varien_Object $item
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
     public function shouldRenderEmptyCell($item, $column)
@@ -1614,7 +1608,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * Set label for empty cell
      *
      * @param string $label
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setEmptyCellLabel($label)
     {

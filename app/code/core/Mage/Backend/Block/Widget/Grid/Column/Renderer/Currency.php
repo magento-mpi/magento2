@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml grid item renderer currency
+ * Backend grid item renderer currency
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected $_defaultWidth = 100;
 

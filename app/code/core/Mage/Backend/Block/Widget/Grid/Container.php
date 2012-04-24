@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml grid container block
+ * Backend grid container block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Widget_Container
+class Mage_Backend_Block_Widget_Grid_Container extends Mage_Backend_Block_Widget_Container
 {
 
     protected $_addButtonLabel;
     protected $_backButtonLabel;
-    protected $_blockGroup = 'Mage_Adminhtml';
+    protected $_blockGroup = 'Mage_Backend';
 
     public function __construct()
     {
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
         parent::__construct();
 
-        $this->setTemplate('Mage_Adminhtml::widget/grid/container.phtml');
+        $this->setTemplate('Mage_Backend::widget/grid/container.phtml');
 
         $this->_addButton('add', array(
             'label'     => $this->getAddButtonLabel(),

@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml accordion widget
+ * Mage_Backend accordion widget
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Adminhtml_Block_Widget 
+class Mage_Backend_Block_Widget_Accordion extends Mage_Backend_Block_Widget
 {
     protected $_items = array();
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('Mage_Adminhtml::widget/accordion.phtml');
+        $this->setTemplate('Mage_Backend::widget/accordion.phtml');
     }
     
     public function getItems()
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Widget_Accordion extends Mage_Adminhtml_Block_Widget
     
     public function addItem($itemId, $config)
     {
-        $this->_items[$itemId] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion_Item')
+        $this->_items[$itemId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Accordion_Item')
             ->setData($config)
             ->setAccordion($this)
             ->setId($itemId);

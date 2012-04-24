@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Grid checkbox column renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected $_defaultWidth = 55;
     protected $_values;
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
         $html .= 'name="' . $this->getColumn()->getFieldName() . '" ';
         $html .= 'onclick="' . $this->getColumn()->getGrid()->getJsObjectName() . '.checkCheckboxes(this)" ';
         $html .= 'class="checkbox"' . $checked . $disabled . ' ';
-        $html .= 'title="'.Mage::helper('Mage_Adminhtml_Helper_Data')->__('Select All') . '"/>';
+        $html .= 'title="'.Mage::helper('Mage_Backend_Helper_Data')->__('Select All') . '"/>';
         return $html;
     }
 }

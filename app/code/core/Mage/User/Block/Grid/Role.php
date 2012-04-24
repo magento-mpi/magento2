@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * roles grid
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_User_Block_Grid_Role extends Mage_Backend_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     {
 
         $this->addColumn('role_id', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Mage_User_Helper_Data')->__('ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
+            'header'    =>Mage::helper('Mage_User_Helper_Data')->__('Role Name'),
             'index'     =>'role_name'
         ));
 

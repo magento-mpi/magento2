@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Tabs block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
 {
     /**
      * tabs structure
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     protected function _construct()
     {
-        $this->setTemplate('Mage_Adminhtml::widget/tabs.phtml');
+        $this->setTemplate('Mage_Backend::widget/tabs.phtml');
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * @param   string $tabId new tab Id
      * @param   array|Varien_Object $tab
      * @param   string $afterTabId
-     * @return  Mage_Adminhtml_Block_Widget_Tabs
+     * @return  Mage_Backend_Block_Widget_Tabs
      */
     public function addTabAfter($tabId, $tab, $afterTabId)
     {
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      *
      * @param   string $tabId
      * @param   array|Varien_Object $tab
-     * @return  Mage_Adminhtml_Block_Widget_Tabs
+     * @return  Mage_Backend_Block_Widget_Tabs
      */
     public function addTab($tabId, $tab)
     {
@@ -102,12 +102,12 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
                 $this->_tabs[$tabId] = null;
             }
 
-            if (!($this->_tabs[$tabId] instanceof Mage_Adminhtml_Block_Widget_Tab_Interface)) {
-                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tab configuration.'));
+            if (!($this->_tabs[$tabId] instanceof Mage_Backend_Block_Widget_Tab_Interface)) {
+                throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong tab configuration.'));
             }
         }
         else {
-            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong tab configuration.'));
+            throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong tab configuration.'));
         }
 
         if (is_null($this->_tabs[$tabId]->getUrl())) {
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * Tab has to be not hidden and can show
      *
      * @param string $tabId
-     * @return Mage_Adminhtml_Block_Widget_Tabs
+     * @return Mage_Backend_Block_Widget_Tabs
      */
     public function setActiveTab($tabId)
     {
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * Set Active Tab
      *
      * @param string $tabId
-     * @return Mage_Adminhtml_Block_Widget_Tabs
+     * @return Mage_Backend_Block_Widget_Tabs
      */
     protected function _setActiveTab($tabId)
     {
@@ -214,7 +214,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabId($tab, $withPrefix = true)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             return ($withPrefix ? $this->getId().'_' : '').$tab->getTabId();
         }
         return ($withPrefix ? $this->getId().'_' : '').$tab->getId();
@@ -222,7 +222,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function canShowTab($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             return $tab->canShowTab();
         }
         return true;
@@ -230,7 +230,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabIsHidden($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             return $tab->isHidden();
         }
         return $tab->getIsHidden();
@@ -238,7 +238,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabUrl($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             if (method_exists($tab, 'getTabUrl')) {
                 return $tab->getTabUrl();
             }
@@ -252,7 +252,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabTitle($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             return $tab->getTabTitle();
         }
         return $tab->getTitle();
@@ -260,7 +260,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabClass($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             if (method_exists($tab, 'getTabClass')) {
                 return $tab->getTabClass();
             }
@@ -272,7 +272,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabLabel($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             return $tab->getTabLabel();
         }
         return $tab->getLabel();
@@ -280,7 +280,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     public function getTabContent($tab)
     {
-        if ($tab instanceof Mage_Adminhtml_Block_Widget_Tab_Interface) {
+        if ($tab instanceof Mage_Backend_Block_Widget_Tab_Interface) {
             if ($tab->getSkipGenerateContent()) {
                 return '';
             }
@@ -353,7 +353,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * @param string $tab
      * @param string $key
      * @param mixed $value
-     * @return Mage_Adminhtml_Block_Widget_Tabs
+     * @return Mage_Backend_Block_Widget_Tabs
      */
     public function setTabData($tab, $key, $value)
     {
@@ -371,7 +371,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      * Removes tab with passed id from tabs block
      *
      * @param string $tabId
-     * @return Mage_Adminhtml_Block_Widget_Tabs
+     * @return Mage_Backend_Block_Widget_Tabs
      */
     public function removeTab($tabId)
     {
