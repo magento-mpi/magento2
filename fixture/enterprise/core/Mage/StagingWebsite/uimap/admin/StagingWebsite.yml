@@ -1,0 +1,216 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# System - Content Staging
+manage_staging_websites:
+    mca: staging_manage/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'staging_manage/')]
+    title: Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    staging_websites_grid:
+                        xpath: //div[@id='enterpriseStagingManageGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            filter_website_name: //input[@id='enterpriseStagingManageGrid_filter_name']
+                            filter_created_at: //input[@name='created_at[from]']
+                            filter_created_to: //input[@name='created_at[to]']
+                            filter_updated_at: //input[@name='updated_at[from]']
+                            filter_updated_to: //input[@name='updated_at[to]']
+                            page: //input[@name='page']
+                        dropdowns:
+                            filter_status: //select[@name='status']
+                            view_per_page: //select[@name='limit']
+                            action: //tr[%param%]//select[@class='action-select']
+                        pageelements:
+                            grid_head: //table[@id='enterpriseStagingManageGrid_table']//tr[@class='headings']
+                            url: //tr[contains(.,'%websiteName%')]//a[@href='%stagingWebsiteUrl%']
+                            latest_event: //tr[contains(.,'%websiteName%')]//a[text()='%latestEvent%']
+        buttons:
+            add_staging_website: //button[span='Add Staging Website']
+        messages:
+            success_created_website: //li[normalize-space(@class)='success-msg' and contains(.,'The staging website has been created.')]
+            success_saved_website: //li[normalize-space(@class)='success-msg' and contains(.,'The staging website has been saved.')]
+            success_merged_website: //li[normalize-space(@class)='success-msg' and contains(.,'The staging website has been merged.')]
+            success_scheduled_merge: //li[normalize-space(@class)='success-msg' and contains(.,'The staging website has been scheduled to merge.')]
+            success_unscheduled_merge: //li[normalize-space(@class)='success-msg' and contains(.,'Staging has been unscheduled.')]
+            error_characters_in_code: //li[normalize-space(@class)='error-msg' and contains(.,'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
+
+add_staging_website:
+    mca: staging_manage/new/
+    title: New Staging / Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    settings:
+                        xpath: //a[span='Settings']
+                        fieldsets:
+                            -
+                                staging_website:
+                                    xpath: //div[@id='settings']
+                                    dropdowns:
+                                        source_website: //select[@name='master_website_id']
+                                    buttons:
+                                        continue: //button[span='Continue']
+                        buttons:
+                            back: //button[span='Back']
+
+edit_master_staging_website:
+    mca: staging_manage/edit/master_website_id/%id%/type/website/
+    title: New Staging / Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    general_information:
+                        xpath: //a[span='General Information']
+                        fieldsets:
+                            -
+                                staging_website:
+                                    xpath: //div[@id='website_fieldset_%id%']
+                                    fields:
+                                        staging_website_code: //input[@name='staging[websites][%id%][code]']
+                                        staging_website_name: //input[@name='staging[websites][%id%][name]']
+                                        http_login: //input[@name='staging[websites][%id%][master_login]']
+                                        http_password: //input[@name='staging[websites][%id%][master_password]']
+                                        base_url: //input[@name='staging[websites][%id%][base_url]']
+                                        secure_base_url: //input[@name='staging[websites][%id%][base_secure_url]']
+                                    dropdowns:
+                                        frontend_restriction: //select[@name='staging[websites][%id%][visibility]']
+                            -
+                                select_original_website_content_to_be_copied_to_the_staging_website:
+                                    xpath: //div[@id='staging_website_items']
+                                    checkboxes:
+                                        system_configuration: //input[@name='staging[staging_items][config_data][staging_item_code]']
+                                        catalog_categories: //input[@name='staging[staging_items][category][staging_item_code]']
+                                        category_permissions: //input[@name='staging[staging_items][catalog_permissions][staging_item_code]']
+                                        catalog_products: //input[@name='staging[staging_items][product][staging_item_code]']
+                                        cms_pages: //input[@name='staging[staging_items][cms_page][staging_item_code]']
+                                        cms_blocks: //input[@name='staging[staging_items][cms_block][staging_item_code]']
+                                        shopping_cart_price_rules: //input[@name='staging[staging_items][salesrule][staging_item_code]']
+                                        catalog_price_rules: //input[@name='staging[staging_items][catalogrule][staging_item_code]']
+                                        polls: //input[@name='staging[staging_items][poll][staging_item_code]']
+                                        terms_and_conditions: //input[@name='staging[staging_items][checkout][staging_item_code]']
+                            -
+                                select_original_website_store_views_to_be_copied_to_staging_website:
+                                    xpath: //div[@id='staging_website_stores']
+                                    checkboxes:
+                                        store_view: //td[label[contains(text(), '%storeView%')]]/following-sibling::*/input
+        buttons:
+            back: //button[span='Back']
+            create: //button[span='Create']
+        messages:
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            website_item_must_be_checked: "//div[@id='advice-staging_website_item_check-staging_website_item_check' and not(contains(@style,'display: none;'))]"
+            password_validation_length: "//div[@id='advice-validate-password-%fieldId%' and not(contains(@style,'display: none;'))]"
+            error_website_with_the_same_code: //li[normalize-space(@class)='error-msg' and contains(.,'Website with the same code already exists.')]
+
+edit_staging_website:
+    mca: staging_manage/edit/id/%id%/
+    title: %elementTitle% / Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    general_information:
+                        xpath: //a[span='General Information']
+                        fieldsets:
+                            -
+                                staging_website:
+                                    xpath: //div[contains(@id,'website_fieldset_')]
+                                    fields:
+                                        http_login: //input[contains(@class,'validate-login')]
+                                        http_password: //input[contains(@class,'validate-password')]
+                                    dropdowns:
+                                        frontend_restriction: //select[@title='Frontend Restriction']
+                                    links:
+                                        base_url: //tr[*/label[text()='Base URL']]//a[text()='%baseUrl%']
+                                        secure_base_url: //tr[*/label[text()='Secure Base URL']]//a[text()='%secureBaseUrl%']
+        buttons:
+            back: //button[span='Back']
+            save: //button[span='Save']
+            merge: //button[span='Merge...']
+            unschedule_merge: //button[span='Unschedule Merge']
+
+merge_staging_website:
+    mca: staging_manage/merge/id/%id%/
+    title: %elementTitle% / Merging / Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    merge_configuration:
+                        xpath: //div[@id='staging_website_mapper']
+                        dropdowns:
+                            merge_to: //select[@name='map[websites][to][]']
+                            store_from: //tr[%ind%]//select[@name='map[stores][%websiteFromId%-%websiteToId%][from][]']
+                            store_to: //tr[%ind%]//select[@name='map[stores][%websiteFromId%-%websiteToId%][to][]']
+                        buttons:
+                            add_new_store_view_map: //button[not(contains(@class, 'disabled')) and span='Add new store view map']
+                            remove: //button[span='Remove']
+                        pageelements:
+                            merge_from: //input[@name='map[websites][from][]']
+                -
+                    merge_configuration_addition:
+                        xpath: //div[@id='staging_merge_additional_config']
+                        checkboxes:
+                            create_a_backup: //input[@name='map[backup]']
+                -
+                    content:
+                        xpath: //div[@id='staging_dataset_item']
+                        checkboxes:
+                            system_configuration: //input[@name='map[staging_items][config_data][staging_item_code]']
+                            catalog_categories: //input[@name='map[staging_items][category][staging_item_code]']
+                            category_permissions: //input[@name='map[staging_items][catalog_permissions][staging_item_code]']
+                            catalog_products: //input[@name='map[staging_items][product][staging_item_code]']
+                            cms_pages: //input[@name='map[staging_items][cms_page][staging_item_code]']
+                            cms_blocks: //input[@name='map[staging_items][cms_block][staging_item_code]']
+                            shopping_cart_price_rules: //input[@name='map[staging_items][salesrule][staging_item_code]']
+                            catalog_price_rules: //input[@name='map[staging_items][catalogrule][staging_item_code]']
+                            polls: //input[@name='map[staging_items][poll][staging_item_code]']
+                            terms_and_conditions: //input[@name='map[staging_items][checkout][staging_item_code]']
+                -
+                    schedule:
+                        xpath: //form[@id='enterprise_staging_merge_form']
+                        fields:
+                            schedule_merge_input: //input[@name='schedule_merge_later']
+        buttons:
+            merge_now: //button[span='Merge Now']
+            schedule_merge: //button[span='Schedule Merge']
+        fields:
+            schedule_merge_input: //input[@name='schedule_merge_later']
+        messages:
+            confirmation_select_website_to_map: Please, select website to map
+            empty_required_field_merge_date: //div[@id='advice-schedule_merge_empty-schedule_merge_later' and not(contains(@style,'display: none;'))]
+            empty_required_field_store_view: //div[@id='advice-validate-select-store-%fieldId%' and not(contains(@style,'display: none;'))]
+
+
