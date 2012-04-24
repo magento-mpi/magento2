@@ -33,7 +33,7 @@ class Mage_Backend_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('widget/grid/serializer.phtml');
+        $this->setTemplate('Mage_Backend::widget/grid/serializer.phtml');
         return $this;
     }
 

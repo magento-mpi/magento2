@@ -26,7 +26,7 @@ class Mage_Backend_Block_Widget_View_Container extends Mage_Backend_Block_Widget
     {
         parent::__construct();
 
-        $this->setTemplate('widget/view/container.phtml');
+        $this->setTemplate('Mage_Backend::widget/view/container.phtml');
 
         $this->_addButton('back', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),

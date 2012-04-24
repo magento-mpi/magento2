@@ -22,7 +22,7 @@ class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_
 
     public function __construct()
     {
-        $this->setTemplate('widget/form/element/gallery.phtml');
+        $this->setTemplate('Mage_Backend::widget/form/element/gallery.phtml');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)
