@@ -15,4 +15,26 @@
             <version>1.0.0.0</version>
         </Mage_User>
     </modules>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <user module="Mage_User">
+                    <file>layout.xml</file>
+                </user>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <user before="Mage_Backend">Mage_User_Adminhtml</user>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 </config>

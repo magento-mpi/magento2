@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+    <!-- admin acl roles grid page -->
+    <adminhtml_user_role_index>
+        <reference name="content">
+            <block type="Mage_User_Block_Roles" name="adminhtml.permission.role.index" template="roles.phtml">
+                <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_user_role_index>
+
+    <adminhtml_user_role_rolegrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid"/>
+    </adminhtml_user_role_rolegrid>
+
+    <!-- admin acl roles edit page -->
+    <adminhtml_user_role_editrole>
+        <reference name="left">
+            <block type="Mage_User_Block_Editroles" name="adminhtml.permissions.editroles"/>
+        </reference>
+    </adminhtml_user_role_editrole>
+ </layout>
