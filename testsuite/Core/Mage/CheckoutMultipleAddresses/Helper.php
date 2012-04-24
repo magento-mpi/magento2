@@ -180,7 +180,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $filledProducts = array();
         foreach ($products as $productName => $qty) {
             $this->addParameter('productName', $productName);
-            $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
+            $isVirtual = false;
+            if (!$this->controlIsPresent('dropdown', 'is_any_address_choice')) {
+                $productInCard = $this->getAttribute($this->_getControlXpath('field', 'product_qty') . '@value');
+                $isVirtual = true;
+            } else {
+                $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
+            }
             if ($productInCard == 0) {
                 $this->fail($productName . ' product is not present in card');
             }
@@ -188,7 +194,15 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 if (!is_int($qty)) {
                     $this->fillField('product_qty', $qty);
                     $this->clickButton('update_qty_and_addresses');
-                } elseif ($productInCard > $qty) {
+                    continue;
+                }
+                if ($isVirtual) {
+                    $this->fillField('product_qty', $qty);
+                    $this->clickButton('update_qty_and_addresses');
+                    $filledProducts[$productName] = 1;
+                    continue;
+                }
+                if ($productInCard > $qty) {
                     while ($productInCard != $qty) {
                         $this->clickControl('link', 'remove_product');
                         $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
