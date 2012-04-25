@@ -59,6 +59,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Backend_Model_Url::getSecure
+     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
      */
     public function testGetUrl()
     {

@@ -224,27 +224,7 @@ Supported layout update handles (special):
     </adminhtml_dashboard_productsviewed>
 
     <!--
-    /**
-    * @deprecated Moved to module Backend
-    */
-    <adminhtml_index_login>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Template" name="content" template="admin/login.phtml">
-                <container name="form.additional.info"  label="Form Additional Info"/>
-            </block>
-        </container>
-    </adminhtml_index_login>
-
-    <adminhtml_index_forgotpassword>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Template" name="content" template="admin/forgotpassword.phtml">
-                <container name="form.additional.info" label="Form Additional Info"/>
-            </block>
-        </container>
-    </adminhtml_index_forgotpassword>
-    -->
-    <!--
-    Empty hanle for ajax response etc.
+    Empty handle for ajax response etc.
     -->
     <empty>
     </empty>

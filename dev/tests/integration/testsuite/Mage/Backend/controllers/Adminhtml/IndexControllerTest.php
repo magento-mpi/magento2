@@ -21,7 +21,10 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     protected $_session;
 
-    protected  function _login()
+    /**
+     * Performs user login
+     */
+    protected function _login()
     {
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
@@ -29,7 +32,10 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
         $this->_session->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
     }
 
-    protected  function _logout()
+    /**
+     * Performs user logout
+     */
+    protected function _logout()
     {
         $this->_session->logout();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
