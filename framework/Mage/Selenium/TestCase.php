@@ -1309,6 +1309,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $verificationErrors = $this->getParsedMessages('verification');
         if ($verificationErrors) {
+            $this->clearMessages('verification');
             $this->fail(implode("\n", $verificationErrors));
         }
     }
