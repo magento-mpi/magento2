@@ -153,9 +153,9 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
         unset($buff['items_to_rollback']);
         $noRollbackData = $buff;
         $rollbackStarted = $this->loadData('staging_website_rollback_started_log',
-                                            array('filter_website_from' => $websiteName));
+                                            array('filter_website_from' => 'Main Website'));
         $rollbackCompleted = $this->loadData('staging_website_rollback_completed_log',
-                                            array('filter_website_from' => $websiteName));
+                                            array('filter_website_from' => 'Main Website'));
         //Steps
         $this->navigate('manage_backups');
         $this->rollbackHelper()->rollbackBackup($noRollbackData);
