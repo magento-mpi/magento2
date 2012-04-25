@@ -289,4 +289,23 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         array_unshift($args, $expr);
         return Mage::app()->getTranslator()->translate($args);
     }
+
+    /**
+     * Render specified template
+     *
+     * @param string $tplName
+     * @param array $data parameters required by template
+     */
+    protected function _outTemplate($tplName, $data = array())
+    {
+        $this->_initLayoutMessages('Mage_Backend_Model_Session');
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("$tplName.phtml");
+        foreach ($data as $index => $value) {
+            $block->assign($index, $value);
+        }
+        $html = $block->toHtml();
+        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
+        $this->getResponse()->setBody($html);
+    }
+
 }

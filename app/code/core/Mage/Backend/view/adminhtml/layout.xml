@@ -14,15 +14,10 @@
         <container name="root" label="Root" output="1">
             <block type="Mage_Backend_Block_Template" name="content" template="admin/login.phtml">
                 <container name="form.additional.info"  label="Form Additional Info"/>
+                <container name="form.buttons">
+                    <block type="Mage_Backend_Block_Template" name="adminhtml_index_login_buttons" template="admin/login_buttons.phtml" />
+                </container>
             </block>
         </container>
     </adminhtml_index_login>
-
-    <adminhtml_index_forgotpassword>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Backend_Block_Template" name="content" template="admin/forgotpassword.phtml">
-                <container name="form.additional.info" label="Form Additional Info"/>
-            </block>
-        </container>
-    </adminhtml_index_forgotpassword>
 </layout>
