@@ -422,7 +422,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
                         //get discount for original price
                         $originalDiscountAmount = min($itemOriginalPrice * $qty, $quoteAmount);
-                        $baseOriginalDiscountAmount = $quote->getStore()->roundPrice($originalDiscountAmount);
                         $baseOriginalDiscountAmount = $quote->getStore()->roundPrice($baseItemOriginalPrice);
 
                         $cartRules[$rule->getId()] -= $baseDiscountAmount;
@@ -832,14 +831,16 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     public function prepareDescription($address, $separator=', ')
     {
-        $description = $address->getDiscountDescriptionArray();
-
-        if (is_array($description) && !empty($description)) {
-            $description = array_unique($description);
-            $description = implode($separator, $description);
-        } else {
-            $description = '';
+        $descriptionArray = $address->getDiscountDescriptionArray();
+        /** @see Mage_SalesRule_Model_Validator::_getAddress */
+        if (!$descriptionArray && $address->getQuote()->getItemVirtualQty() > 0) {
+            $descriptionArray = $address->getQuote()->getBillingAddress()->getDiscountDescriptionArray();
         }
+
+        $description = $descriptionArray && is_array($descriptionArray)
+            ? implode($separator, array_unique($descriptionArray))
+            :  '';
+
         $address->setDiscountDescription($description);
         return $this;
     }
