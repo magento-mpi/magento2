@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * ACL user resource
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table
@@ -30,18 +30,18 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     /**
      * Initialize unique fields
      *
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     protected function _initUniqueFields()
     {
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email')
+                'title' => Mage::helper('Mage_User_Helper_Data')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name')
+                'title' => Mage::helper('Mage_User_Helper_Data')->__('User Name')
             ),
         );
         return $this;
@@ -50,10 +50,10 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     /**
      * Authenticate user by $username and $password
      *
-     * @param Mage_Admin_Model_User $user
-     * @return Mage_Admin_Model_Resource_User
+     * @param Mage_User_Model_User $user
+     * @return Mage_User_Model_Resource_User
      */
-    public function recordLogin(Mage_Admin_Model_User $user)
+    public function recordLogin(Mage_User_Model_User $user)
     {
         $adapter = $this->_getWriteAdapter();
 
@@ -142,7 +142,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * Set created/modified values before user save
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $user)
     {
@@ -158,7 +158,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * Unserialize user extra data after user save
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     protected function _afterSave(Mage_Core_Model_Abstract $user)
     {
@@ -170,7 +170,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * Unserialize user extra data after user load
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $user)
     {
@@ -216,7 +216,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * TODO: unify _saveRelations() and add() methods, they make same things
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     public function _saveRelations(Mage_Core_Model_Abstract $user)
     {
@@ -239,7 +239,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
-                    $row = Mage::getModel('Mage_Admin_Model_Role')->load($rid)->getData();
+                    $row = Mage::getModel('Mage_User_Model_Role')->load($rid)->getData();
                 } else {
                     $row = array('tree_level' => 0);
                 }
@@ -307,7 +307,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * Save user roles
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     public function add(Mage_Core_Model_Abstract $user)
     {
@@ -325,7 +325,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('Mage_Admin_Model_Role')->load($user->getRoleId());
+            $role = Mage::getModel('Mage_User_Model_Role')->load($user->getRoleId());
         } else {
             $role = new Varien_Object();
             $role->setTreeLevel(0);
@@ -351,7 +351,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * Delete user role
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     public function deleteFromRole(Mage_Core_Model_Abstract $user)
     {
@@ -430,7 +430,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      *
      * @param Mage_Core_Model_Abstract $object
      * @param string $data
-     * @return Mage_Admin_Model_Resource_User
+     * @return Mage_User_Model_Resource_User
      */
     public function saveExtra($object, $data)
     {

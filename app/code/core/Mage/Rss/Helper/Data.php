@@ -42,7 +42,7 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      * If user authentication fails, then shows error and exits php instantly.
      *
      * @param string $path
-     * @return Mage_Admin_Model_User
+     * @return Mage_User_Model_User
      */
     public function authAdmin($path)
     {

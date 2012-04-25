@@ -98,7 +98,7 @@ class Enterprise_Pci_Model_Observer
 
         // upgrade admin password
         if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
-            Mage::getModel('Mage_Admin_Model_User')->load($user->getId())
+            Mage::getModel('Mage_User_Model_User')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }
@@ -162,7 +162,7 @@ class Enterprise_Pci_Model_Observer
      */
     public function checkAdminPasswordChange($observer)
     {
-        /* @var $user Mage_Admin_Model_User */
+        /* @var $user Mage_User_Model_User */
         $user = $observer->getEvent()->getObject();
 
         if ($user->getNewPassword()) {
@@ -194,7 +194,7 @@ class Enterprise_Pci_Model_Observer
      */
     public function trackAdminNewPassword($observer)
     {
-        /* @var $user Mage_Admin_Model_User */
+        /* @var $user Mage_User_Model_User */
         $user = $observer->getEvent()->getObject();
         if ($user->getId()) {
             $password = $user->getNewPassword();

@@ -15,15 +15,6 @@
             <version>1.6.1.0</version>
         </Mage_Admin>
     </modules>
-    <global>
-        <resources>
-            <admin_setup>
-                <setup>
-                    <module>Mage_Admin</module>
-                </setup>
-            </admin_setup>
-        </resources>
-    </global>
     <default>
         <admin>
             <emails>

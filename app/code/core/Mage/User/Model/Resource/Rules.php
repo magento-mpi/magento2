@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Admin rule resource model
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table
@@ -30,9 +30,9 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Save ACL resources
      *
-     * @param Mage_Admin_Model_Rules $rule
+     * @param Mage_User_Model_Rules $rule
      */
-    public function saveRel(Mage_Admin_Model_Rules $rule)
+    public function saveRel(Mage_User_Model_Rules $rule)
     {
         try {
             $adapter = $this->_getWriteAdapter();
@@ -62,7 +62,7 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    foreach (Mage::getModel('Mage_Admin_Model_Roles')->getResourcesList2D() as $index => $resName) {
+                    foreach (Mage::getModel('Mage_User_Model_Roles')->getResourcesList2D() as $index => $resName) {
                         $row['permission']  = (in_array($resName, $postedResources) ? 'allow' : 'deny');
                         $row['resource_id'] = trim($resName, '/');
 

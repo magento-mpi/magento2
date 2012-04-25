@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_User>
-            <version>1.0.0.0</version>
+            <version>1.6.1.0</version>
         </Mage_User>
     </modules>
 
@@ -37,4 +37,14 @@
             </adminhtml>
         </routers>
     </admin>
+
+    <global>
+        <resources>
+            <user_setup>
+                <setup>
+                    <module>Mage_User</module>
+                </setup>
+            </user_setup>
+        </resources>
+    </global>
 </config>

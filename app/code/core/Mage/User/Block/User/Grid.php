@@ -29,7 +29,7 @@ class Mage_User_Block_User_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
+        $collection = Mage::getResourceModel('Mage_User_Model_Resource_User_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

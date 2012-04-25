@@ -45,7 +45,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_Role_Collection');
+        $collection = Mage::getResourceModel('Mage_User_Model_Resource_Role_Collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -89,7 +89,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        /* @var $user Mage_Admin_Model_User */
+        /* @var $user Mage_User_Model_User */
         $user = Mage::registry('permissions_user');
         //checking if we have this data and we
         //don't need load it through resource model

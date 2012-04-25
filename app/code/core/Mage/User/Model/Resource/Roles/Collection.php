@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Admin roles collection
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Roles_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_User_Model_Resource_Roles_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Initialize resource model
@@ -24,13 +24,13 @@ class Mage_Admin_Model_Resource_Roles_Collection extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('Mage_Admin_Model_Role', 'Mage_Admin_Model_Resource_Role');
+        $this->_init('Mage_User_Model_Role', 'Mage_User_Model_Resource_Role');
     }
 
     /**
      * Init select
      *
-     * @return Mage_Admin_Model_Resource_Roles_Collection
+     * @return Mage_User_Model_Resource_Roles_Collection
      */
     protected function _initSelect()
     {

@@ -35,7 +35,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     /**
      * Get the role object
      *
-     * @return Mage_Admin_Model_Roles
+     * @return Mage_User_Model_Roles
      */
     public function getRole()
     {

@@ -58,12 +58,12 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 
     /**
      * Try to login user in admin. Possible results:
-     * - Mage_Admin_Model_User - user logged in and appropriate model is loaded
+     * - Mage_User_Model_User - user logged in and appropriate model is loaded
      * - false - user not logged in
      *
      * @param  string $username
      * @param  string $password
-     * @return Mage_Admin_Model_User|bool
+     * @return Mage_User_Model_User|bool
      */
     public function login($username, $password)
     {
@@ -72,8 +72,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         }
 
         try {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('Mage_Admin_Model_User');
+            /** @var $user Mage_User_Model_User */
+            $user = Mage::getModel('Mage_User_Model_User');
             $user->login($username, $password);
             if (!$user->getId()) {
                 Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid User Name or Password.'));
@@ -112,7 +112,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Refresh ACL resources stored in session
      *
-     * @param  Mage_Admin_Model_User $user
+     * @param  Mage_User_Model_User $user
      * @return Mage_Admin_Model_Session
      */
     public function refreshAcl($user = null)

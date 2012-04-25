@@ -28,7 +28,7 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testRssActionsLoggedUser($action)
     {
-        $admin = new Mage_Admin_Model_User;
+        $admin = new Mage_User_Model_User;
         $admin->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $session = Mage::getSingleton('Mage_Rss_Model_Session');
         $session->setAdmin($admin);

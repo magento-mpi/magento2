@@ -36,7 +36,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
         $pwd    = null;
 
-        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
+        $user = Mage::getModel('Mage_User_Model_User')->load($userId);
 
         $user->setId($userId)
             ->setUsername($this->getRequest()->getParam('username', false))

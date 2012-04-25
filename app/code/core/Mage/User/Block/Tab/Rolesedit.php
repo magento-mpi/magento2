@@ -68,9 +68,9 @@ class Mage_User_Block_Tab_Rolesedit extends Mage_Backend_Block_Widget_Form
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('Mage_Admin_Model_Roles')->getResourcesList();
+        $resources = Mage::getModel('Mage_User_Model_Roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('Mage_Admin_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
+        $rules_set = Mage::getResourceModel('Mage_User_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -105,7 +105,7 @@ class Mage_User_Block_Tab_Rolesedit extends Mage_Backend_Block_Widget_Form
     public function getResTreeJson()
     {
         $rid = Mage::app()->getRequest()->getParam('rid', false);
-        $resources = Mage::getModel('Mage_Admin_Model_Roles')->getResourcesTree();
+        $resources = Mage::getModel('Mage_User_Model_Roles')->getResourcesTree();
 
         $rootArray = $this->_getNodeJson($resources->admin, 1);
 

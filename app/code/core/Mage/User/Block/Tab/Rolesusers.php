@@ -17,7 +17,7 @@ class Mage_User_Block_Tab_Rolesusers extends Mage_Backend_Block_Widget_Tabs
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel('Mage_Admin_Model_User')->getCollection()->load();
+        $users = Mage::getModel('Mage_User_Model_User')->getCollection()->load();
         $this->setTemplate('rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);

@@ -36,7 +36,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     /**
      * Initialize role model by passed parameter in request
      *
-     * @return Mage_Admin_Model_Roles
+     * @return Mage_User_Model_Roles
      */
     protected function _initRole($requestVariable = 'rid')
     {
@@ -44,7 +44,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
              ->_title($this->__('Permissions'))
              ->_title($this->__('Roles'));
 
-        $role = Mage::getModel('Mage_Admin_Model_Roles')->load($this->getRequest()->getParam($requestVariable));
+        $role = Mage::getModel('Mage_User_Model_Roles')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());
@@ -123,7 +123,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('Mage_Admin_Model_User')->setId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
+        $currentUser = Mage::getModel('Mage_User_Model_User')->setId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
@@ -181,7 +181,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
             );
             $role->save();
 
-            Mage::getModel('Mage_Admin_Model_Rules')
+            Mage::getModel('Mage_User_Model_Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -228,7 +228,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel('Mage_Admin_Model_User')
+            Mage::getModel('Mage_User_Model_User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -248,7 +248,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
      */
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel('Mage_Admin_Model_User')->load($userId);
+        $user = Mage::getModel('Mage_User_Model_User')->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
 
         if( $user->roleUserExists() === true ) {

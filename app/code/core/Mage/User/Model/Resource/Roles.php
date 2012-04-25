@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Admin roles resource model
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Users table
@@ -48,7 +48,7 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
      * Process role before saving
      *
      * @param Mage_Core_Model_Abstract $role
-     * @return Mage_Admin_Model_Resource_Roles
+     * @return Mage_User_Model_Resource_Roles
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $role)
     {
@@ -82,7 +82,7 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
      * Process role after saving
      *
      * @param Mage_Core_Model_Abstract $role
-     * @return Mage_Admin_Model_Resource_Roles
+     * @return Mage_User_Model_Resource_Roles
      */
     protected function _afterSave(Mage_Core_Model_Abstract $role)
     {
@@ -96,7 +96,7 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
      * Process role after deleting
      *
      * @param Mage_Core_Model_Abstract $role
-     * @return Mage_Admin_Model_Resource_Roles
+     * @return Mage_User_Model_Resource_Roles
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $role)
     {
@@ -118,10 +118,10 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Get role users
      *
-     * @param Mage_Admin_Model_Roles $role
+     * @param Mage_User_Model_Roles $role
      * @return array|false
      */
-    public function getRoleUsers(Mage_Admin_Model_Roles $role)
+    public function getRoleUsers(Mage_User_Model_Roles $role)
     {
         $read = $this->_getReadAdapter();
 
@@ -142,10 +142,10 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Update role users ACL
      *
-     * @param Mage_Admin_Model_Roles $role
+     * @param Mage_User_Model_Roles $role
      * @return bool
      */
-    private function _updateRoleUsersAcl(Mage_Admin_Model_Roles $role)
+    private function _updateRoleUsersAcl(Mage_User_Model_Roles $role)
     {
         $write  = $this->_getWriteAdapter();
         $users  = $this->getRoleUsers($role);

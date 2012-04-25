@@ -12,16 +12,16 @@
 /**
  * @group module:Mage_Admin
  */
-class Mage_Admin_Model_UserTest extends PHPUnit_Framework_TestCase
+class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Admin_Model_User
+     * @var Mage_User_Model_User
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Mage_Admin_Model_User;
+        $this->_model = new Mage_User_Model_User;
     }
 
     /**
