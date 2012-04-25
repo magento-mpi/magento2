@@ -90,7 +90,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
             $website['general_information']['staging_website_code']);
         $creationStarted = $this->loadData('staging_website_creation_started_log',
                             array('filter_website_from' => 'Main Website'));
-        $creationCompleted = $this->loadData('staging_website_creation_started_log',
+        $creationCompleted = $this->loadData('staging_website_creation_completed_log',
                             array('filter_website_from' => 'Main Website',
                                   'filter_website_to' => $website['general_information']['staging_website_name']));
         //Steps

@@ -304,8 +304,6 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $website['general_information']['staging_website_name']);
         $this->stagingWebsiteHelper()->mergeWebsite($mergeWebsiteData);
-        $this->assertFalse($this->controlIsPresent('message', 'success_scheduled_merge'),
-            'Website was scheduled successfully with date: "' .
-                    $mergeWebsiteData['schedule_merge']['schedule_merge_input'] . '"');
+        $this->assertMessagePresent('error', 'error_invalid_date');
     }
 }
