@@ -183,7 +183,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends createSimpleProduct
-     * @TestlinkId    TL-MAGE-3495
+     * @TestlinkId TL-MAGE-3495
      */
     public function productTaggedByAdministrator($product)
     {

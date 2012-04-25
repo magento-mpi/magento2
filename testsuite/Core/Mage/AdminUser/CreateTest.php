@@ -327,7 +327,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>1.Go to System-Permissions-Users.</p>
      * <p>2.Press "Add New User" button.</p>
      * <p>3.Fill all required fields by regular data (exclude 'email').</p>
-     * <p>4.Fill 'email' field by invalid data [example: me&you@domain.com / me&you@com / nothing@домен.com].</p>
+     * <p>4.Fill 'email' field by invalid data [example: me&you@domain.com / me&you@com.</p>
      * <p>5.Press "Save User" button.</p>
      * <p>Expected result:</p>
      * <p>New user is not saved.</p>

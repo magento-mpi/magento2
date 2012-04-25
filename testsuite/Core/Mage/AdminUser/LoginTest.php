@@ -337,7 +337,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>3. Click "Back to Login" link</p>
      * <p>4. Try to login using old credentials</p>
      * <p>Expected result:</p>
-     * <p>User still can login, since the password hasn't been reset.</p>
+     * <p>User still can login, since the password has not been reset.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3153

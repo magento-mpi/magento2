@@ -101,14 +101,14 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : null;
         $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
         $products = (isset($orderData['products_to_add'])) ? $orderData['products_to_add'] : array();
-        $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : null;
-        $billingAddress = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : null;
-        $shippingAddress = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : null;
+        $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : array();
+        $billingAddress = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : array();
+        $shippingAddress = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : array();
         $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : null;
         $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : null;
         $giftMessages = (isset($orderData['gift_messages'])) ? $orderData['gift_messages'] : array();
         $verProduct = (isset($orderData['prod_verification'])) ? $orderData['prod_verification'] : null;
-        $verPrTotal = (isset($orderData['prod_total_verification'])) ? $orderData['prod_total_verification'] : null;
+        $verPrTotal = (isset($orderData['prod_total_verification'])) ? $orderData['prod_total_verification'] : array();
         $verTotal = (isset($orderData['total_verification'])) ? $orderData['total_verification'] : null;
 
         $this->navigateToCreateOrderPage($customer, $storeView);

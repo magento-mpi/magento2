@@ -237,7 +237,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         //Data
         $pollData = $this->loadData('poll_open');
         $name = $pollData['poll_question'];
-        $searchPollData = $this->loadData('search_poll', array('filter_question' => $name));
         //Steps and Verifying
         $this->cmsPollsHelper()->createPoll($pollData);
         $this->assertMessagePresent('success', 'success_saved_poll');

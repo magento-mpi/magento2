@@ -189,6 +189,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
      * @param array $data
      * @param string $tabId
      * @param bool $isNested
+     *
+     * @throws RuntimeException
      */
     public function fillConditionFields(array $data, $tabId = '', $isNested = false)
     {

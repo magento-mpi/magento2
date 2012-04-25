@@ -160,7 +160,6 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $fieldset = $this->getCurrentUimapPage()->findFieldset('account_info');
         $this->addParameter('fieldXpath', $this->_getControlXpath('field', $field));
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());

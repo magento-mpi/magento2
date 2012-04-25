@@ -335,8 +335,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $setUpBeforeTestsError = null;
                 $this->setUpBeforeTests();
             } catch (Exception $e) {
-                $setUpBeforeTestsError = "\nError in setUpBeforeTests method for '"
-                    . $currentTestClass . "' class:\n" . $e->getMessage();
+                $setUpBeforeTestsError =
+                    "\nError in setUpBeforeTests method for '" . $currentTestClass . "' class:\n" . $e->getMessage();
             }
             if (isset($e)) {
                 throw $e;
@@ -405,6 +405,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Used ONLY one time after execution of last test in test class
      * Implementation of tearDownAfterEachTest() method in the object context, called as tearDownAfterTest()<br>
      * Used after execution of each test in test class
+     * @throws Exception
      */
     final function tearDown()
     {
@@ -695,7 +696,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $fieldXpath = $this->_getControlXpath($fieldType, $fieldName);
         if ($this->isElementPresent($fieldXpath . '/@id')) {
             $fieldId = $this->getAttribute($fieldXpath . '/@id');
-            $fieldId = empty($fieldId) ? $this->getAttribute($fieldXpath . '/@name') : $fieldId;
+            $fieldId = empty($fieldId)
+                ? $this->getAttribute($fieldXpath . '/@name')
+                : $fieldId;
         } else {
             $fieldId = $this->getAttribute($fieldXpath . '/@name');
         }
@@ -783,8 +786,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $messageParam = strtolower(substr_replace(str_replace('by', '', $overrideType), ' ', 5, 0));
         foreach ($dataForOverride as $fieldKey => $fieldValue) {
             if (!$this->overrideDataByCondition($fieldKey, $fieldValue, $overrideArray, $overrideType)) {
-                $errorMessages[] = "Value for '" . $fieldKey . "' " . $messageParam
-                    . " is not changed: [There is no this " . $messageParam . " in dataset]";
+                $errorMessages[] =
+                    "Value for '" . $fieldKey . "' " . $messageParam . " is not changed: [There is no this "
+                    . $messageParam . " in dataset]";
             }
         }
         if ($errorMessages) {
@@ -824,8 +828,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $currentValue = $overrideValue;
                 $isOverridden = true;
             } elseif (is_array($currentValue)) {
-                $isOverridden = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue,
-                                                               $condition) || $isOverridden;
+                $isOverridden = $this->overrideDataByCondition($overrideKey, $overrideValue, $currentValue, $condition)
+                                || $isOverridden;
             }
         }
         return $isOverridden;
@@ -916,7 +920,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         array_walk_recursive($data, array($this, 'setDataParams'));
 
         if (!empty($randomize)) {
-            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
+            $randomize = (!is_array($randomize))
+                ? array($randomize)
+                : $randomize;
             array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
         }
 
@@ -1093,8 +1099,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($area == 'admin' || $area == 'frontend') {
             $fieldNameWithMessage = $page->findPageelement('fieldNameWithValidationMessage');
             self::$_messages['notice'] = $this->getElementsByXpath($page->findMessage('general_notice'));
-            self::$_messages['validation'] = $this->getElementsByXpath($page->findMessage('general_validation'),
-                                                                       'text', $fieldNameWithMessage);
+            self::$_messages['validation'] =
+                $this->getElementsByXpath($page->findMessage('general_validation'), 'text', $fieldNameWithMessage);
         } else {
             self::$_messages['validation'] = $this->getElementsByXpath($page->findMessage('general_validation'));
         }
@@ -1468,8 +1474,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCurrentLocationArea()
     {
-        $currentArea = self::_getAreaFromCurrentUrl($this->_configHelper->getConfigAreas(),
-                                                    $this->getLocation());
+        $currentArea = self::_getAreaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
         $this->_configHelper->setArea($currentArea);
         return $currentArea;
     }
@@ -1490,8 +1495,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $currentUrl = preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl));
 
         foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl = preg_replace('|^http([s]{0,1})://|', '',
-                                    preg_replace('|/index.php/?|', '/', $areaConfig['url']));
+            $areaUrl =
+                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $currentArea = $area;
                 break;
@@ -1639,8 +1644,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $currentPage = $this->_findCurrentPageFromUrl();
         if ($currentPage != $page) {
-            $this->addVerificationMessage("Opened the wrong page '"
-                                              . $currentPage . "'(should be: '" . $page . "')");
+            $this->addVerificationMessage("Opened the wrong page '" . $currentPage . "'(should be: '" . $page . "')");
             return false;
         }
         return true;
@@ -1661,7 +1665,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
         $this->assertTextNotPresent('There has been an error processing your request',
-                                    'Fatal error on page: \'There has been an error processing your request\'');
+            'Fatal error on page: \'There has been an error processing your request\'');
         $this->assertTextNotPresent('Notice:', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
         if (!$this->isElementPresent($this->_getMessageXpath('general_notice'))) {
@@ -1673,10 +1677,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
         $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
         if (end($fallbackOrderHelper) == 'enterprise') {
-            $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(),
-                                                 $page)->getTitle($this->_paramsHelper);
+            $expectedTitle =
+                $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
             $this->assertSame($expectedTitle, $this->getTitle(),
-                              'Title for page "' . $this->getCurrentPage() . '" is unexpected.');
+                'Title for page "' . $this->getCurrentPage() . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
@@ -1703,8 +1707,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $baseUrl = '';
         $currentUrl = preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl));
         foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl = preg_replace('|^http([s]{0,1})://|', '',
-                                    preg_replace('|/index.php/?|', '/', $areaConfig['url']));
+            $areaUrl =
+                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $baseUrl = $areaUrl;
                 $currentArea = $area;
@@ -1786,8 +1790,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
-            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                . 'Current page "' . $this->getCurrentPage() . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
+            $errorMessage =
+                'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+                . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
             }
@@ -1868,8 +1873,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
-            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
-                . 'Current page "' . $this->getCurrentPage() . '": ' . 'Message "' . $message . '" is not found';
+            $errorMessage =
+                'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+                . '": ' . 'Message "' . $message . '" is not found';
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
             }
@@ -1904,11 +1910,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
-                            $dataMap[$dataFieldName] = array(
-                                'type'  => $fieldsType,
-                                'path'  => $uimapFieldValue,
-                                'value' => $dataFieldValue
-                            );
+                            $dataMap[$dataFieldName] = array('type'  => $fieldsType,
+                                                             'path'  => $uimapFieldValue,
+                                                             'value' => $dataFieldValue);
                             break 3;
                         }
                     }
@@ -1959,7 +1963,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     ################################################################################
 
     /**
-     * Returns HTTP responce for the specified URL.
+     * Returns HTTP response for the specified URL.
      *
      * @param string $url
      *
@@ -1989,17 +1993,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $url
      *
-     * @return bool True if the responce is 200 or redirects to a such page. False otherwise.
+     * @return bool True if the response is 200 or redirects to a such page. False otherwise.
      */
     public function httpResponseIsOK($url)
     {
-        $maxRedirections = 100;
+        $maxRedirects = 100;
         $response = null;
         do {
             $response = $this->getHttpResponse($url);
-            $url = ($response['http_code'] == 301) ? $response['redirect_url'] : null;
-            $maxRedirections--;
-        } while ($url && $maxRedirections > 0);
+            $url = ($response['http_code'] == 301)
+                ? $response['redirect_url']
+                : null;
+            $maxRedirects--;
+        } while ($url && $maxRedirects > 0);
         return $response['http_code'] == 200;
     }
 
@@ -2166,8 +2172,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
         if (!$this->isVisible($xpath)) {
-            $this->fail('Control "' . $controlName . '" is not present on the page "'
-                            . $this->getCurrentPage() . '". ' . 'Type: ' . $controlType . ', xpath: ' . $xpath);
+            $this->fail('Control "' . $controlName . '" is not present on the page "' . $this->getCurrentPage() . '". '
+                        . 'Type: ' . $controlType . ', xpath: ' . $xpath);
         }
         $this->click($xpath);
         if ($willChangePage) {
@@ -2564,9 +2570,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         $jsCondition = 'var c = function(){if(typeof selenium.browserbot.getCurrentWindow().Ajax != "undefined"){'
-            . 'if(selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount){return false;};};'
-            . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
-            . 'if(selenium.browserbot.getCurrentWindow().jQuery.active){return false;};};return true;};c();';
+                       . 'if(selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount){return false;};};'
+                       . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
+                       . 'if(selenium.browserbot.getCurrentWindow().jQuery.active){return false;};};return true;};c();';
         $this->waitForCondition($jsCondition, $timeout);
     }
 
@@ -2657,8 +2663,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Moving scroll bar to previously defined offset
         // Position (to the element what should be visible after scrolling)
-        $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
-                           . "').scrollTop = " . $destinationOffsetTop);
+        $this->getEval(
+            "this.browserbot.findElement('id=" . $specFieldsetId . "').scrollTop = " . $destinationOffsetTop);
     }
 
     /**
@@ -2685,13 +2691,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // Getting offset position of the element to move
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Storing of current height of the block with JS tree
-        $tmpBlockHeight = (integer)$this->getEval("this.browserbot.findElement('id="
-                                                      . $specFieldsetId . "').style.height");
+        $tmpBlockHeight =
+            (integer)$this->getEval("this.browserbot.findElement('id=" . $specFieldsetId . "').style.height");
         // If element to move situated abroad of the current height, it will be increased
         if ($destinationOffsetTop >= $tmpBlockHeight) {
             $destinationOffsetTop = $destinationOffsetTop + 50;
-            $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
-                               . "').style.height='" . $destinationOffsetTop . "px'");
+            $this->getEval(
+                "this.browserbot.findElement('id=" . $specFieldsetId . "').style.height='" . $destinationOffsetTop
+                . "px'");
         }
         $this->clickAt($specElementXpath, '1,1');
         $blockTo = $specFieldsetXpath . '//li[' . $moveToPosition . ']//a//span';
@@ -2865,9 +2872,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (isset($fillData['outFieldset']) && $failIfFieldsWithoutXpath) {
-            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": '
-                . 'There are no fields in "' . $fieldsetId . '" fieldset:' . "\n"
-                . implode("\n", array_keys($fillData['outFieldset']));
+            $message =
+                "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $fieldsetId
+                . '" fieldset:' . "\n" . implode("\n", array_keys($fillData['outFieldset']));
             $this->fail($message);
         }
 
@@ -2884,15 +2891,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $tabId
      * @param bool $failIfFieldsWithoutXpath
      *
-     * @throws OutOfRangeException
+     * @throws RuntimeException
      */
     public function fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
     {
         $tabUimap = $this->_findUimapElement('tab', $tabId);
         $fieldsets = $tabUimap->getFieldsetNames();
         if (empty($fieldsets)) {
-            throw new RuntimeException('There is no fieldsets in "' . $tabId . '" tab on "'
-                . $this->getCurrentPage() . '" page');
+            throw new RuntimeException(
+                'There is no fieldsets in "' . $tabId . '" tab on "' . $this->getCurrentPage() . '" page');
         }
         $fillTabData = array();
         $errorFields = array();
@@ -2911,8 +2918,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (!empty($errorFields) && $failIfFieldsWithoutXpath) {
-            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "'
-                . $tabId . '" fieldset:' . "\n" . implode("\n", array_keys($errorFields));
+            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $tabId
+                       . '" fieldset:' . "\n" . implode("\n", array_keys($errorFields));
             $this->fail($message);
         }
 
@@ -2946,8 +2953,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
-            throw new OutOfRangeException("Can't find main form in UIMap array for page '"
-                . $this->getCurrentPage() . "', area['" . $this->_configHelper->getArea() . "']");
+            throw new OutOfRangeException(
+                "Can't find main form in UIMap array for page '" . $this->getCurrentPage() . "', area['"
+                . $this->_configHelper->getArea() . "']");
         }
 
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
@@ -3011,8 +3019,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
-            throw new OutOfRangeException("Can't find main form in UIMap array for page '"
-                . $this->getCurrentPage() . "', area['" . $this->_configHelper->getArea() . "']");
+            throw new OutOfRangeException(
+                "Can't find main form in UIMap array for page '" . $this->getCurrentPage() . "', area['"
+                . $this->_configHelper->getArea() . "']");
         }
 
         if ($tabId) {
@@ -3033,9 +3042,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
-                            $this->addVerificationMessage($formFieldName
-                                                              . ": The stored value is not equal to specified: ("
-                                                              . $formField['value'] . "' != '" . $val . "')");
+                            $this->addVerificationMessage(
+                                $formFieldName . ": The stored value is not equal to specified: (" . $formField['value']
+                                . "' != '" . $val . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3051,10 +3060,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         if (($isChecked && $expectedVal != 'yes')
                             || (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))
                         ) {
-                            $printVal = ($isChecked) ? 'yes' : 'no';
-                            $this->addVerificationMessage($formFieldName
-                                                              . ": The stored value is not equal to specified: ("
-                                                              . $expectedVal . "' != '" . $printVal . "')");
+                            $printVal = ($isChecked)
+                                ? 'yes'
+                                : 'no';
+                            $this->addVerificationMessage(
+                                $formFieldName . ": The stored value is not equal to specified: (" . $expectedVal
+                                . "' != '" . $printVal . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3066,9 +3077,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($this->isElementPresent($formField['path'])) {
                         $label = $this->getSelectedLabel($formField['path']);
                         if ($formField['value'] != $label) {
-                            $this->addVerificationMessage($formFieldName
-                                                              . ": The stored value is not equal to specified: ("
-                                                              . $formField['value'] . "' != '" . $label . "')");
+                            $this->addVerificationMessage(
+                                $formFieldName . ": The stored value is not equal to specified: (" . $formField['value']
+                                . "' != '" . $label . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3085,15 +3096,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         foreach ($expectedLabels as $value) {
                             if (!in_array($value, $selectedLabels)) {
                                 $this->addVerificationMessage($formFieldName . ": The value '" . $value
-                                                                  . "' is not selected. (Selected values are: '"
-                                                                  . implode(', ', $selectedLabels) . "')");
+                                                              . "' is not selected. (Selected values are: '"
+                                                              . implode(', ', $selectedLabels) . "')");
                                 $resultFlag = false;
                             }
                         }
                         if (count($selectedLabels) != count($expectedLabels)) {
-                            $this->addVerificationMessage("Amounts of the expected options are not equal to selected: ('"
-                                                              . $formField['value'] . "' != '"
-                                                              . implode(', ', $selectedLabels) . "')");
+                            $this->addVerificationMessage(
+                                "Amounts of the expected options are not equal to selected: ('" . $formField['value']
+                                . "' != '" . implode(', ', $selectedLabels) . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3136,8 +3147,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
                 break;
             default:
-                throw new OutOfRangeException('Unsupported field type: "'
-                    . $fieldData['type'] . '" for fillFieldset() function');
+                throw new OutOfRangeException(
+                    'Unsupported field type: "' . $fieldData['type'] . '" for fillFieldset() function');
         }
     }
 
@@ -3175,8 +3186,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->type($xpath, $value);
             $this->waitForAjax();
         } else {
-            throw new RuntimeException($errorMessage . "Element is not present on '"
-                . $this->getCurrentPage() . "' page");
+            throw new RuntimeException(
+                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -3238,8 +3249,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException($errorMessage . "Element is not present on '"
-                . $this->getCurrentPage() . "' page");
+            throw new RuntimeException(
+                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -3286,8 +3297,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException($errorMessage . "Element is not present on '"
-                . $this->getCurrentPage() . "' page");
+            throw new RuntimeException(
+                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -3336,8 +3347,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException($errorMessage . "Element is not present on '"
-                . $this->getCurrentPage() . "' page");
+            throw new RuntimeException(
+                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -3382,8 +3393,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException($errorMessage . "Element is not present on '"
-                . $this->getCurrentPage() . "' page");
+            throw new RuntimeException(
+                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
         }
     }
 
@@ -3426,10 +3437,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function loginAdminUser()
     {
         $this->admin('log_in_to_admin', false);
-        $loginData = array(
-            'user_name' => $this->_configHelper->getDefaultLogin(),
-            'password'  => $this->_configHelper->getDefaultPassword()
-        );
+        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
+                           'password'  => $this->_configHelper->getDefaultPassword());
         if ($this->_findCurrentPageFromUrl() != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
@@ -3437,7 +3446,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
             $this->waitForElement(array($dashboardLogo, $this->_getMessageXpath('general_error'),
-                                       $this->_getMessageXpath('general_validation')));
+                                        $this->_getMessageXpath('general_validation')));
             if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
                 $this->click($closeButton);
             }
@@ -3521,7 +3530,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * @throws PHPUnit_Framework_Exception
+     *
+     * @throws RuntimeException
      */
     public function waitForNewPage()
     {
@@ -3605,12 +3615,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function getCodeCoverage()
     {
         if (!empty($this->coverageScriptUrl)) {
-            $url = sprintf(
-                '%s?PHPUNIT_SELENIUM_TEST_ID=%s',
-                $this->coverageScriptUrl,
-                //$this->testId
-                $_COOKIE['PHPUNIT_SELENIUM_TEST_ID']
-            );
+            $url = sprintf('%s?PHPUNIT_SELENIUM_TEST_ID=%s', $this->coverageScriptUrl, //$this->testId
+                $_COOKIE['PHPUNIT_SELENIUM_TEST_ID']);
 
             $buffer = @file_get_contents($url);
 

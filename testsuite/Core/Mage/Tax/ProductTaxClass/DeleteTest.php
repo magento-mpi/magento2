@@ -38,7 +38,7 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Save rule name for clean up</p>
      */
-    protected $_ruleToBeDeleted = null;
+    protected $_ruleToBeDeleted = array();
 
     /**
      * <p>Preconditions:</p>
@@ -53,10 +53,10 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         //Remove Tax rule after test
-        if (!is_null($this->_ruleToBeDeleted)) {
+        if (!empty($this->_ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
             $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'rule');
-            $this->_ruleToBeDeleted = null;
+            $this->_ruleToBeDeleted = array();
         }
     }
 

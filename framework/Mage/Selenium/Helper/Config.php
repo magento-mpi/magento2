@@ -351,6 +351,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
 
     /**
      * Return current page name
+     * @throws OutOfRangeException
      * @return string
      */
     public function getCurrentPageId()
@@ -467,8 +468,8 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderFixture'])) {
-            throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
-                . $this->getApplication() . '" application');
+            throw new OutOfRangeException(
+                'FallbackOrder for fixtures is not set for "' . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
@@ -483,8 +484,8 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderHelper'])) {
-            throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
-                . $this->getApplication() . '" application');
+            throw new OutOfRangeException(
+                'FallbackOrder for test helpers is not set for "' . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));
@@ -492,7 +493,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
 
     /**
      * Set path to the screenshot directory.
-     * Creates a directory if it doesn't exist.
+     * Creates a directory if it does not exist.
      *
      * @param string $dirPath
      *
@@ -522,7 +523,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
 
     /**
      * Set path to the logs directory.
-     * Creates a directory if it doesn't exist.
+     * Creates a directory if it does not exist.
      *
      * @param string $dirPath
      *

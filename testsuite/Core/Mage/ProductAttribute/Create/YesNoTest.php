@@ -100,14 +100,14 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Yes/No" type] shouldn't be created.</p>
+     * <p>New attribute ["Yes/No" type] should not be created.</p>
      * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
      * @param array $attrData
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-5362
+     * @TestlinkId TL-MAGE-5362
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
@@ -125,7 +125,7 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
      * <p>3.Skip filling of one field required and fill other required fields.</p>
      * <p>4.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Yes/No" type] shouldn't be created.</p>
+     * <p>New attribute ["Yes/No" type] should not be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
      * @param $emptyField
@@ -133,7 +133,7 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3539
+     * @TestlinkId TL-MAGE-3539
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -175,7 +175,7 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Yes/No" type] shouldn't be created.</p>
+     * <p>New attribute ["Yes/No" type] should not be created.</p>
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *
@@ -185,7 +185,7 @@ class Core_Mage_ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidAttributeCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3538
+     * @TestlinkId TL-MAGE-3538
      */
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {

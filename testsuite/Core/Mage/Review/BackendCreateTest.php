@@ -132,7 +132,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-5350
+     * @TestlinkId TL-MAGE-5350
      */
     public function requiredFieldsWithoutRating($data)
     {
@@ -175,7 +175,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTestsNotDefaultStoreView
-     * @TestlinkId    TL-MAGE-3484
+     * @TestlinkId TL-MAGE-3484
      */
     public function requiredFieldsWithRating($data)
     {
@@ -218,7 +218,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3482
+     * @TestlinkId TL-MAGE-3482
      */
     public function withEmptyRequiredFields($emptyField, $fieldType, $data)
     {
@@ -266,7 +266,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3481
+     * @TestlinkId TL-MAGE-3481
      */
     public function withLongValues($data)
     {
@@ -299,7 +299,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3485
+     * @TestlinkId TL-MAGE-3485
      */
     public function withSpecialCharacters($data)
     {
@@ -336,7 +336,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3479
+     * @TestlinkId TL-MAGE-3479
      */
     public function changeStatusOfReview($data)
     {

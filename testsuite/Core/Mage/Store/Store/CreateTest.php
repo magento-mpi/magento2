@@ -103,7 +103,7 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3617
+     * @TestlinkId TL-MAGE-3617
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {

@@ -100,7 +100,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
     public function fillLayoutUpdates(array $layoutData)
     {
         $count = 0;
-        foreach ($layoutData as $key => $value) {
+        foreach ($layoutData as $value) {
             $this->clickButton('add_layout_update', false);
             $this->addParameter('index', $count);
             $xpath = $this->_getControlXpath('dropdown', 'select_display_on');
@@ -135,11 +135,11 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->clickControl('link', 'open_chooser', false);
         $this->pleaseWait();
         if ($layoutName == 'categories') {
-            foreach ($layoutOptions as $key => $value) {
+            foreach ($layoutOptions as $value) {
                 $this->categoryHelper()->selectCategory($value, 'layout_updates_body');
             }
         } elseif ($layoutName == 'products') {
-            foreach ($layoutOptions as $key => $value) {
+            foreach ($layoutOptions as $value) {
                 $this->searchAndChoose($value, 'layout_products_fieldset');
             }
         } else {
@@ -155,7 +155,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
      */
     public function fillWidgetOptions(array $widgetOptions)
     {
-        $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : null;
+        $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : array();
         $this->fillForm($widgetOptions, 'widgets_options');
         if ($options) {
             $this->cmsPagesHelper()->selectOptionItem($options);

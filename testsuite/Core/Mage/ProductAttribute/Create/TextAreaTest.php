@@ -76,7 +76,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * @return array
      * @test
      * @depends navigation
-     * @TestlinkId    TL-MAGE-3548
+     * @TestlinkId TL-MAGE-3548
      */
     public function withRequiredFieldsOnly()
     {
@@ -100,14 +100,14 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] shouldn't be created.</p>
+     * <p>New attribute ["Text Area" type] should not be created.</p>
      * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
      * @param array $attrData
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-5357
+     * @TestlinkId TL-MAGE-5357
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
@@ -125,7 +125,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * <p>3.Skip filling of one field required and fill other required fields.</p>
      * <p>4.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] shouldn't be created.</p>
+     * <p>New attribute ["Text Area" type] should not be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
      * @param $emptyField
@@ -133,7 +133,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3547
+     * @TestlinkId TL-MAGE-3547
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -176,7 +176,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] shouldn't be created.</p>
+     * <p>New attribute ["Text Area" type] should not be created.</p>
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *
@@ -186,7 +186,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      * @test
      * @dataProvider withInvalidAttributeCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3545
+     * @TestlinkId TL-MAGE-3545
      */
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
@@ -257,7 +257,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3546
+     * @TestlinkId TL-MAGE-3546
      */
     public function withLongValues()
     {

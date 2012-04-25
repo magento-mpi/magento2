@@ -101,8 +101,6 @@ class Enterprise_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
     {
         //Steps
         $taxRateData = $this->loadData('tax_rate_create_test_zip_no');
-        $searchTaxRateData = $this->loadData('search_tax_rate',
-                array('filter_tax_id' => $taxRateData['tax_identifier']));
         //Steps
         $this->taxHelper()->createTaxItem($taxRateData, 'rate');
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
@@ -124,7 +122,7 @@ class Enterprise_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
-     * @TestlinkId    TL-MAGE-3506
+     * @TestlinkId TL-MAGE-3506
      * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName)
@@ -204,7 +202,7 @@ class Enterprise_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidValuesForRangeDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3508
+     * @TestlinkId TL-MAGE-3508
      */
     public function withInvalidValuesForRange($specialValue)
     {
@@ -244,7 +242,7 @@ class Enterprise_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidValueForRatePercentDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3507
+     * @TestlinkId TL-MAGE-3507
      */
     public function withInvalidValueForRatePercent($specialValue)
     {

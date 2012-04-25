@@ -100,7 +100,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      * @test
      * @dataProvider paymentsWithout3dDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3183
+     * @TestlinkId TL-MAGE-3183
      */
     public function paymentsWithout3d($payment, $testData)
     {
@@ -173,7 +173,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      * @test
      * @dataProvider paymentsWith3dDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3182
+     * @TestlinkId TL-MAGE-3182
      */
     public function paymentsWith3d($payment, $testData)
     {

@@ -64,8 +64,6 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
-        $searchData = $this->loadData('search_admin_user',
-                array('email' => $userData['email'], 'user_name' => $userData['user_name']));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

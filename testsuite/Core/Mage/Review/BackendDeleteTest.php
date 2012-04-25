@@ -97,7 +97,7 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3600
+     * @TestlinkId TL-MAGE-3600
      */
     public function deleteWithRating($data)
     {
@@ -131,7 +131,7 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-461
+     * @TestlinkId TL-MAGE-461
      */
     public function deleteWithoutRating($data)
     {
@@ -165,7 +165,7 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-459
+     * @TestlinkId TL-MAGE-459
      */
     public function deleteMassAction($data)
     {

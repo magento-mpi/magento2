@@ -62,7 +62,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider deleteProductAttributeDeletableDataProvider
-     * @TestlinkId    TL-MAGE-3343
+     * @TestlinkId TL-MAGE-3343
      */
     public function deleteProductAttributeDeletable($dataName)
     {

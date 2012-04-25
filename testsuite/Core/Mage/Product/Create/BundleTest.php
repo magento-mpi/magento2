@@ -59,7 +59,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @return array $productData
      * @test
-     * @TestlinkId    TL-MAGE-3359
+     * @TestlinkId TL-MAGE-3359
      */
     public function requiredFieldsForDynamicSmoke()
     {
@@ -109,7 +109,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3344
+     * @TestlinkId TL-MAGE-3344
      */
     public function allFieldsForDynamic()
     {
@@ -139,7 +139,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3345
+     * @TestlinkId TL-MAGE-3345
      */
     public function allFieldsForFixed()
     {
@@ -172,7 +172,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3351
+     * @TestlinkId TL-MAGE-3351
      */
     public function existSkuInBundle($productData)
     {
@@ -202,7 +202,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider emptyRequiredFieldInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3349
+     * @TestlinkId TL-MAGE-3349
      */
     public function emptyRequiredFieldInBundle($emptyField, $fieldType)
     {
@@ -248,7 +248,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3361
+     * @TestlinkId TL-MAGE-3361
      */
     public function specialCharactersInRequiredFields()
     {
@@ -282,7 +282,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3358
+     * @TestlinkId TL-MAGE-3358
      */
     public function longValuesInRequiredFields()
     {
@@ -316,7 +316,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3352
+     * @TestlinkId TL-MAGE-3352
      */
     public function incorrectSkuLengthInBundle()
     {
@@ -342,7 +342,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
      * @test
-     * @TestlinkId    TL-MAGE-3357
+     * @TestlinkId TL-MAGE-3357
      * @group skip_due_to_bug
      */
     public function invalidWeightInBundle()
@@ -373,7 +373,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3354
+     * @TestlinkId TL-MAGE-3354
      */
     public function invalidPriceInBundle($invalidPrice)
     {
@@ -403,7 +403,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3355
+     * @TestlinkId TL-MAGE-3355
      */
     public function invalidSpecialPriceInBundle($invalidValue)
     {
@@ -434,7 +434,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider emptyTierPriceFieldsInBundleDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3350
+     * @TestlinkId TL-MAGE-3350
      */
     public function emptyTierPriceFieldsInBundle($emptyTierPrice)
     {
@@ -475,7 +475,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3356
+     * @TestlinkId TL-MAGE-3356
      */
     public function invalidTierPriceInBundle($invalidTierData)
     {
@@ -511,7 +511,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3348
+     * @TestlinkId TL-MAGE-3348
      */
     public function emptyBundleItemsTitle()
     {
@@ -545,7 +545,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3353
+     * @TestlinkId TL-MAGE-3353
      */
     public function invalidPositionForBundleItems($invalidPosition)
     {
@@ -581,7 +581,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3346
+     * @TestlinkId TL-MAGE-3346
      */
     public function bundleWithSimpleProduct($dataBundleType)
     {
@@ -625,7 +625,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider bundleTypeDataProvider
      * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId    TL-MAGE-3347
+     * @TestlinkId TL-MAGE-3347
      */
     public function bundleWithVirtualProduct($dataBundleType)
     {
