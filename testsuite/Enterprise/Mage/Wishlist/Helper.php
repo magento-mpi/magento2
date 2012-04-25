@@ -48,14 +48,11 @@ class Enterprise_Mage_Wishlist_Helper extends Core_Mage_Wishlist_Helper
         if (!empty($options)) {
             $this->productHelper()->frontFillBuyInfo($options);
         }
-        //Click one of the 'Add To Wishlist' links depending on their availability
-        $xpathAddToWishlist = $this->_getControlXpath('link', 'add_to_wishlist');
-        $xpathAddToWishlistCustomization = $this->_getControlXpath('link', 'customized_add_to_wishlist');
         $this->addParameter('productName', $productName);
-        if ($this->isVisible($xpathAddToWishlist)) {
-            $this->clickControlAndWaitMessage('link', 'add_to_wishlist', 'successfully_added_product');
+        if ($this->controlIsPresent('link', 'add_to_wishlist') && $this->controlIsVisible('link', 'add_to_wishlist')) {
+            $this->clickControl('link', 'add_to_wishlist');
         } else {
-            $this->clickControlAndWaitMessage('link', 'customized_add_to_wishlist', 'successfully_added_product');
+            $this->clickControl('link', 'customized_add_to_wishlist');
         }
     }
 }
