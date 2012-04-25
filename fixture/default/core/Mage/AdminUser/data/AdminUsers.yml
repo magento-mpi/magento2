@@ -36,10 +36,10 @@ generic_admin_role:
 
 generic_admin_user:
     #user_info:
-    user_name: testuser
+    user_name: testuser_%randomize%
     first_name: John
     last_name: Doe
-    email: johndoe@unknown-domain.com
+    email: johndoe_%randomize%@unknown-domain.com
     password: 123123q
     password_confirmation: 123123q
     this_account_is: %noValue%

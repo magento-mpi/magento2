@@ -43,7 +43,6 @@ class Enterprise_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -63,14 +62,14 @@ class Enterprise_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     public function deleteAdminUserDeletable()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
-        $searchData = $this->loadData('search_admin_user',
-                array('email' => $userData['email'], 'user_name' => $userData['user_name']));
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
+        $search = $this->loadDataSet('AdminUsers', 'search_admin_user', array('email'     => $userData['email'],
+                                                                              'user_name' => $userData['user_name']));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($search);
         //Steps
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
@@ -86,7 +85,7 @@ class Enterprise_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     public function deleteAdminUserCurrent()
     {
         //Data
-        $searchData = $this->loadData('search_admin_user');
+        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user');
         $searchDataCurrentUser = array();
         //Steps
         $this->navigate('my_account');
@@ -101,7 +100,7 @@ class Enterprise_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         }
         $this->navigate('manage_admin_users');
         $this->addParameter('user_first_last_name',
-                $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
+            $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
         $this->searchAndOpen($searchDataCurrentUser);
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');

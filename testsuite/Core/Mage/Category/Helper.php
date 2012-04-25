@@ -181,7 +181,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
     public function checkCategoriesPage()
     {
         $this->addParameter('id', $this->defineIdFromUrl());
-        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        $currentPage = $this->_findCurrentPageFromUrl();
         if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories'
             && $currentPage != 'edit_category'
         ) {
