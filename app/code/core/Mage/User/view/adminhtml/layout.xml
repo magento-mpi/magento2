@@ -45,4 +45,31 @@
             <block type="Mage_User_Block_Editroles" name="adminhtml.permissions.editroles"/>
         </reference>
     </adminhtml_user_role_editrole>
+
+    <adminhtml_user_index>
+        <reference name="content">
+            <block type="Mage_User_Block_User" name="adminhtml.permission.user.index"/>
+        </reference>
+    </adminhtml_user_index>
+
+    <adminhtml_user_edit>
+        <reference name="left">
+            <block type="Mage_User_Block_User_Edit_Tabs" name="adminhtml.permission.user.edit.tabs"/>
+        </reference>
+
+        <reference name="content">
+            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.user.roles.grid.js" template="Mage_User::user_roles_grid_js.phtml"/>
+            <block type="Mage_User_Block_User_Edit" name="adminhtml.permission.user.edit"/>
+        </reference>
+    </adminhtml_user_edit>
+
+    <adminhtml_user_rolegrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_User_Grid" name="adminhtml.permission.user.rolegrid"/>
+    </adminhtml_user_rolegrid>
+
+    <adminhtml_user_rolesgrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.permission.user.rolesgrid"/>
+    </adminhtml_user_rolesgrid>
  </layout>

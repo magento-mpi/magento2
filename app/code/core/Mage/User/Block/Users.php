@@ -14,6 +14,7 @@
  * @category   Mage
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated is not used in code
  */
 class Mage_User_Block_Users extends Mage_Backend_Block_Template
 {

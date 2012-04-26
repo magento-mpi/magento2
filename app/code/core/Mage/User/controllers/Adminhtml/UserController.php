@@ -27,9 +27,8 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
              ->_title($this->__('Permissions'))
              ->_title($this->__('Users'));
 
-        $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Mage_User_Block_User'))
-            ->renderLayout();
+        $this->_initAction();
+        $this->renderLayout();
     }
 
     public function newAction()
@@ -70,20 +69,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         } else {
             $breadcrumb = $this->__('New User');
         }
-        $this->_initAction()
-            ->_addBreadcrumb($breadcrumb, $breadcrumb)
-            ->_addContent(
-                $this->getLayout()
-                    ->createBlock('Mage_User_Block_User_Edit')
-                    ->setData('action', $this->getUrl('*/user/save'))
-            )
-            ->_addLeft($this->getLayout()->createBlock('Mage_User_Block_User_Edit_Tabs'));
-
-        $this->_addJs(
-            $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Template')
-                ->setTemplate('user_roles_grid_js.phtml')
-        );
+        $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
         $this->renderLayout();
     }
 
@@ -189,20 +175,14 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         }
 
         Mage::register('permissions_user', $model);
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('Mage_User_Block_User_Edit_Tab_Roles')
-                ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.user.rolesgrid')->toHtml());
     }
 
     public function roleGridAction()
     {
-        $this->getResponse()
-            ->setBody($this->getLayout()
-            ->createBlock('Mage_User_Block_User_Grid')
-            ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.user.rolegrid')->toHtml());
     }
 
     protected function _isAllowed()
