@@ -150,9 +150,6 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     public function renewSecretUrls()
     {
-        /**
-         * TODO remove/change constant usage after implementation menu functionality
-         */
-        Mage::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
+        Mage::app()->cleanCache(array(Mage_Backend_Block_Menu::CACHE_TAGS));
     }
 }
