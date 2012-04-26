@@ -119,7 +119,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('shipping' => $shippingMethod),
+                                           array('shipping_method' => $shippingMethod),
                                            $testData['products1']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
@@ -158,7 +158,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('shipping' => $shippingMethod),
+                                           array('shipping_method' => $shippingMethod),
                                            $testData['products2']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
@@ -195,7 +195,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_dhl');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in_france',
-                                           array('shipping' => $shippingMethod),
+                                           array('shipping_method' => $shippingMethod),
                                            $testData[$productTypes]);
         $shippingSettings = $this->loadDataSet('ShippingMethod', 'dhl_enable');
         $shippingOrigin = $this->loadDataSet('ShippingSettings', 'shipping_settings_usa');

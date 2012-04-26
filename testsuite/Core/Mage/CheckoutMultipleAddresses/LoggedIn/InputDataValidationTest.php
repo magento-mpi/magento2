@@ -394,7 +394,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('shipping'=> '%noValue%'),
+                                           array('shipping_method'=> '%noValue%'),
                                            $testData['products']);
         //Steps
         $this->frontend();

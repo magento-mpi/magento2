@@ -84,7 +84,7 @@ class Enterprise_Mage_GiftWrapping_GiftOptionsProductLevelTest extends Mage_Sele
         $products = array();
         for ($i = 0; $i < 2; $i++){
             //Data
-            $productData = $this->loadData('simple_product_for_order');
+            $productData = $this->loadData('simple_product_visible');
             $productData['websites'] .= ',' . $website['general_information']['staging_website_name'];
             //Steps
             $this->navigate('manage_products');

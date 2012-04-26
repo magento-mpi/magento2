@@ -119,8 +119,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('shipping'  => $shippingMethod,
-                                                'email'      => $testData['email']),
+                                           array('shipping_method'  => $shippingMethod,
+                                                 'email'      => $testData['email']),
                                            $testData['products1']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
@@ -156,9 +156,9 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     {
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('shipping'  => $shippingMethod,
-                                                'email'      => $testData['email']),
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_with_virtual',
+                                           array('shipping_method'  => $shippingMethod,
+                                                 'email'      => $testData['email']),
                                            $testData['products2']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
@@ -173,29 +173,30 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     {
         return array(
             array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex')
+//            array('free'),
+//            array('ups'),
+//            array('upsxml'),
+//            array('usps'),
+//            array('fedex')
         );
     }
 
     /**
      * @param array $testData
+     * @param string $dataset
      * @param string $productTypes
      *
      * @test
      * @dataProvider productTypesProvider
      * @depends preconditionsForTests
      */
-    public function withDhlMethod($productTypes, $testData)
+    public function withDhlMethod($productTypes, $dataset, $testData)
     {
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_dhl');
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_france',
-                                           array('shipping' => $shippingMethod,
-                                                'email'     => $testData['email']),
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataset,
+                                           array('shipping_method' => $shippingMethod,
+                                                 'email'     => $testData['email']),
                                            $testData[$productTypes]);
         $shippingSettings = $this->loadDataSet('ShippingMethod', 'dhl_enable');
         $shippingOrigin = $this->loadDataSet('ShippingSettings', 'shipping_settings_usa');
@@ -210,8 +211,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     public function productTypesProvider()
     {
         return array(
-            array('products1'),
-            array('products2'),
+            array('products1', 'multiple_with_login_france'),
+            array('products2', 'multiple_with_login_france_with_virtual'),
         );
     }
 }
