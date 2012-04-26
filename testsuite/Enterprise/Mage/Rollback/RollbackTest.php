@@ -68,7 +68,7 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -104,7 +104,8 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     public function mergeWebsite($websiteName)
     {
         //Data
-        $mergeWebsiteData = $this->loadData('merge_website', array('filter_website_name' => $websiteName));
+        $mergeWebsiteData = $this->loadDataSet(
+            'StagingWebsite', 'merge_website', array('filter_website_name' => $websiteName));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $websiteName);
@@ -137,7 +138,8 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
      * <p>2. Message "The master website has been restored." appears;</p>
      * <p>3. In "Latest Event" column on Manage Staging Websites page shown value "Rollback";</p>
      * <p>4. Master website has been restored</p>
-     * <p>5. On Staging Operations Log page record is added with info: "Action - Rollback, Websites from - target website, Websites to - empty, Result - Started, Completed"</p>
+     * <p>5. On Staging Operations Log page record is added with info: "Action - Rollback,
+     *      Websites from - target website, Websites to - empty, Result - Started, Completed"</p>
      *
      * @depends createWebsite
      * @depends mergeWebsite
@@ -148,14 +150,14 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     public function rollbackBackup($websiteName)
     {
         //Data
-        $buff = $this->loadData('rollback_backup', array('filter_website_name' => 'Main Website'));
+        $buff = $this->loadDataSet('Backups', 'rollback_backup', array('filter_website_name' => 'Main Website'));
         $rollbackData = $buff;
         unset($buff['items_to_rollback']);
         $noRollbackData = $buff;
-        $rollbackStarted = $this->loadData('staging_website_rollback_started_log',
-                                            array('filter_website_from' => 'Main Website'));
-        $rollbackCompleted = $this->loadData('staging_website_rollback_completed_log',
-                                            array('filter_website_from' => 'Main Website'));
+        $rollbackStarted = $this->loadDataSet('Backups', 'staging_website_rollback_started_log',
+            array('filter_website_from' => 'Main Website'));
+        $rollbackCompleted = $this->loadDataSet('Backups', 'staging_website_rollback_completed_log',
+            array('filter_website_from' => 'Main Website'));
         //Steps
         $this->navigate('manage_backups');
         $this->rollbackHelper()->rollbackBackup($noRollbackData);
@@ -198,7 +200,8 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     public function deleteBackup()
     {
         //Data
-        $searchWebsite = $this->loadData('rollback_backup', array('filter_website_name' => 'Main Website'));
+        $searchWebsite = $this->loadDataSet(
+            'Backups', 'rollback_backup', array('filter_website_name' => 'Main Website'));
         unset($searchWebsite['items_to_rollback']);
         //Steps
         $this->navigate('manage_backups');

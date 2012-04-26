@@ -35,6 +35,7 @@
  */
 class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
 {
+
     /**
      * Log in to Backend.
      */
@@ -53,7 +54,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->setApplication(Mage_Selenium_Helper_Config::DEFAULT_APPLICATION);
+        $this->_configHelper->setApplication($this->_configHelper->getApplication());
     }
 
     /**
@@ -73,10 +74,13 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
      * <p>1. New Staging Website has been created;</p>
      * <p>2. Admin user is redirected to Manage Staging Website page;</p>
      * <p>3. Message "The staging website has been created." appears;</p>
-     * <p>4. Newly created Staging Website entity can be found in the list of Staging Websites and base URL for this website is automatically created;</p>
+     * <p>4. Newly created Staging Website entity can be found in the list of Staging Websites and base URL for this
+     * website is automatically created;</p>
      * <p>5. In "Latest Event" column on Manage Staging Websites page shown value "Staging Website Creation";</p>
-     * <p>6. Staging Website opens to the newly created automatically URL and includes only data of Source Website selected in Select Original Website Content to be Copied to the Staging Website tab;</p>
-     * <p>7. On Staging Operations Log page record is added with info: "Action - Staging Website Creation, Websites from - master website, Websites to - target website, Result - Started, Completed".</p>
+     * <p>6. Staging Website opens to the newly created automatically URL and includes only data of Source Website
+     * selected in Select Original Website Content to be Copied to the Staging Website tab;</p>
+     * <p>7. On Staging Operations Log page record is added with info: "Action - Staging Website Creation,
+     * Websites from - master website, Websites to - target website, Result - Started, Completed".</p>
      *
      * @return string $websiteCode
      *
@@ -85,12 +89,12 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     public function createWebsite()
     {
         //Data
-        $website = $this->loadData('staging_website');
-        $newFronendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $creationStarted = $this->loadData('staging_website_creation_started_log',
+        $creationStarted = $this->loadDataSet('Backups', 'staging_website_creation_started_log',
                             array('filter_website_from' => 'Main Website'));
-        $creationCompleted = $this->loadData('staging_website_creation_completed_log',
+        $creationCompleted = $this->loadDataSet('Backups', 'staging_website_creation_completed_log',
                             array('filter_website_from' => 'Main Website',
                                   'filter_website_to' => $website['general_information']['staging_website_name']));
         //Steps
@@ -108,7 +112,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         $this->stagingLogHelper()->openLog($creationStarted);
         $this->navigate('manage_staging_operations_log');
         $this->stagingLogHelper()->openLog($creationCompleted);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFronendUrl);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->frontend();
 
         return $website['general_information']['staging_website_code'];
@@ -140,7 +144,8 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     public function createWebsiteWithExistingCode($websiteCode)
     {
         //Data
-        $website = $this->loadData('staging_website', array('staging_website_code' => $websiteCode));
+        $website = $this->loadDataSet(
+            'StagingWebsite', 'staging_website', array('staging_website_code' => $websiteCode));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -176,7 +181,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         } else {
             $overrideData = array($emptyField => '');
         }
-        $website = $this->loadData('create_website_empty_fields', $overrideData);
+        $website = $this->loadDataSet('StagingWebsite', 'create_website_empty_fields', $overrideData);
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -218,14 +223,15 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
      *
      * <p>Expected Results:</p>
      * <p>1. New Staging Website has not been created;</p>
-     * <p>2. Message "Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter." appears;</p>
+     * <p>2. Message "Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character
+     * must be a letter." appears;</p>
      *
      * @test
      */
     public function createWebsiteWithIncorrectCode()
     {
         //Data
-        $website = $this->loadData('staging_website', array('staging_website_code' => '(test)'));
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website', array('staging_website_code' => '(test)'));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -257,9 +263,9 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     public function editWebsite()
     {
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $searchData = array('filter_website_name' => $website['general_information']['staging_website_name']);
-        $editWebsite = $this->loadData('edit_staging_website');
+        $editWebsite = $this->loadDataSet('StagingWebsite', 'edit_staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -268,7 +274,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->addParameter('elementTitle', $website['general_information']['staging_website_name']);
         $this->stagingWebsiteHelper()->openStagingWebsite($searchData);
-        $this->fillForm($editWebsite['general_information']);
+        $this->fillTab($editWebsite['general_information'], 'general_information');
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_website');
     }

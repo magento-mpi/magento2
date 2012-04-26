@@ -65,7 +65,7 @@ class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
     public function createWebsite()
     {
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -100,5 +100,4 @@ class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_stores');
         $this->assertTrue($this->storeHelper()->deleteStore($deleteWebsiteData), 'Could not delete website');
     }
-
 }
