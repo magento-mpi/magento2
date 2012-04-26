@@ -3,29 +3,29 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml menu block
+ * Backend menu block
  *
- * @method Mage_Adminhtml_Block_Page_Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
+ * @method Mage_Backend_Block_Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
  * @method array getAdditionalCacheKeyInfo()
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
+class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
 {
     const CACHE_TAGS = 'BACKEND_MAINMENU';
 
     /**
-     * Adminhtml URL instance
+     * Backend URL instance
      *
-     * @var Mage_Adminhtml_Model_Url
+     * @var Mage_Backend_Model_Url
      */
     protected $_url;
 
@@ -36,8 +36,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('page/menu.phtml');
-        $this->_url = Mage::getModel('Mage_Adminhtml_Model_Url');
+        $this->setTemplate('menu.phtml');
+        $this->_url = Mage::getModel('Mage_Backend_Model_Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
 
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _getHelperValue(Varien_Simplexml_Element $child)
     {
-        $helperName         = 'Mage_Adminhtml_Helper_Data';
+        $helperName         = 'Mage_Backend_Helper_Data';
         $titleNodeName      = 'title';
         $childAttributes    = $child->attributes();
         if (isset($childAttributes['module'])) {
@@ -201,14 +201,6 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return true;
     }
 
-    /*protected function _checkAcl(Varien_Simplexml_Element $acl)
-    {
-        return true;
-        $resource = (string)$acl->resource;
-        $privilege = (string)$acl->privilege;
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($resource, $privilege);
-    }*/
-
     /**
      * Check is Allow menu item for admin user
      *
@@ -233,7 +225,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _afterToHtml($html)
     {
-        $html = preg_replace_callback('#'.Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#U', array($this, '_callbackSecretKey'), $html);
+        $html = preg_replace_callback('#'.Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#U', array($this, '_callbackSecretKey'), $html);
 
         return $html;
     }
@@ -246,7 +238,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
      */
     protected function _callbackSecretKey($match)
     {
-        return Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME . '/'
+        return Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME . '/'
             . $this->_url->getSecretKey($match[1], $match[2]);
     }
 
@@ -282,7 +274,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
                 . (!empty($item['click']) ? ' onclick="' . $item['click'] . '"' : '')
                 . ($level === 0 && !empty($item['active']) ? ' class="active"' : '')
                 . '>'
-                . '<span>' . Mage::helper('Mage_Adminhtml_Helper_Data')->escapeHtml($item['label']) . '</span>'
+                . '<span>' . Mage::helper('Mage_Backend_Helper_Data')->escapeHtml($item['label']) . '</span>'
                 . '</a>'
             ;
             if ($hasChildren) {
