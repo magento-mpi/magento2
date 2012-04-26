@@ -36,7 +36,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('menu.phtml');
+        $this->setTemplate('Mage_Backend::menu.phtml');
         $this->_url = Mage::getModel('Mage_Backend_Model_Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
