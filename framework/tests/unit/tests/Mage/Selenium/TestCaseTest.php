@@ -609,6 +609,174 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @covers openTab
+     */
+    public function testOpenTabActive()
+    {
+        //Stub
+        $stub = $this->getMock('Mage_Selenium_TestCase',
+            array('getTabAttribute', 'clickControl', 'pleaseWait'));
+        //Data
+        $tabName = 'control_1';
+
+        $stub->expects($this->any())
+            ->method('getTabAttribute')
+            ->with($this->equalTo($tabName), $this->equalTo('class'))
+            ->will($this->returnValue('activeTab'));
+        $stub->expects($this->never())
+            ->method('clickControl');
+        $stub->expects($this->never())
+            ->method('pleaseWait');
+
+        $stub->openTab($tabName);
+    }
+
+    /**
+     * @param string $attributeValue
+     * @dataProvider testOpenTabInactiveDataProvider
+     * @covers openTab
+     */
+    public function testOpenTabInactive($attributeValue)
+    {
+        $stub = $this->getMock('Mage_Selenium_TestCase',
+            array('getTabAttribute', 'clickControl', 'pleaseWait'));
+
+        $tabName = 'control_1';
+        $matcherPleaseWait = preg_match('/ajax/', $attributeValue) ? 'once' : 'never';
+
+        $stub->expects($this->any())
+            ->method('getTabAttribute')
+            ->with($this->equalTo($tabName), $this->equalTo('class'))
+            ->will($this->returnValue($attributeValue));
+        $stub->expects($this->once())
+            ->method('clickControl')
+            ->with($this->equalTo('tab'), $this->equalTo($tabName), $this->equalTo(false));
+        $stub->expects($this->$matcherPleaseWait())
+            ->method('pleaseWait');
+
+        $stub->openTab($tabName);
+    }
+
+    public function testOpenTabInactiveDataProvider()
+    {
+        return array(
+            array('Tab'),
+            array('Tab_ajax')
+        );
+    }
+
+    /**
+     * @param string $tabName
+     * @param string $tabXpath
+     * @param string $paramForVerify
+     * @param string $paramForGetClass
+     * @param string $classValue
+     *
+     * @dataProvider getTabAttributeDataProvider
+     *
+     * @covers getTabAttribute with simple Xpath
+     */
+    public function testGetTabAttribute($tabName, $tabXpath, $paramForVerify, $paramForGetClass, $classValue)
+    {
+        $stub = $this->getMock('Mage_Selenium_TestCase',
+            array('_getControlXpath', 'isElementPresent', 'getAttribute'));
+
+        $stub->expects($this->any())
+            ->method('_getControlXpath')
+            ->with($this->equalTo('tab'), $this->equalTo($tabName))
+            ->will($this->returnValue($tabXpath));
+
+        $stub->expects($this->any())
+            ->method('isElementPresent')
+            ->with($this->equalTo($tabXpath . $paramForVerify))
+            ->will($this->returnValue(true));
+
+        $stub->expects($this->any())
+            ->method('getAttribute')
+            ->with($this->equalTo($tabXpath . $paramForGetClass))
+            ->will($this->returnValue($classValue));
+
+        $this->assertEquals($classValue, $stub->getTabAttribute($tabName, 'class'));
+    }
+
+    public function getTabAttributeDataProvider()
+    {
+        return array(
+            array('control_1', 'css=control_1[class=class_1]', '[class]', '@class', 'class_1'),
+            array('control_2', '//div[@id="id_2"][@class=class_2]', '[@class]', '@class', 'class_2')
+        );
+    }
+
+    /**
+     * @covers getTabAttribute function with complex Xpath
+     */
+    public function testGetTabAttributeComplex()
+    {
+        //Data
+        $tabName = 'control_3';
+        $tabXpath = '//div[@id="id_3"][@class=class_3]/span';
+        $paramForVerify = '/parent::*[@class]';
+        $paramForGetClass = '/parent::*@class';
+        $classValue = 'class_3';
+        //Stub
+        $stub = $this->getMock('Mage_Selenium_TestCase',
+            array('_getControlXpath', 'isElementPresent', 'getAttribute'));
+
+        $stub->expects($this->any())
+            ->method('_getControlXpath')
+            ->with($this->equalTo('tab'), $this->equalTo($tabName))
+            ->will($this->returnValue($tabXpath));
+
+        $stub->expects($this->at(1))
+            ->method('isElementPresent')
+            ->with($this->equalTo($tabXpath . '[@class]'))
+            ->will($this->returnValue(false));
+
+        $stub->expects($this->at(2))
+            ->method('isElementPresent')
+            ->with($this->equalTo($tabXpath . $paramForVerify))
+            ->will($this->returnValue(true));
+
+        $stub->expects($this->any())
+            ->method('getAttribute')
+            ->with($this->equalTo($tabXpath . $paramForGetClass))
+            ->will($this->returnValue($classValue));
+
+        $this->assertEquals($classValue, $stub->getTabAttribute($tabName, 'class'));
+    }
+
+    /**
+     * @param string $tabXpath
+     * @param string $msg
+     * @dataProvider testGetTabAttributeNegativeDataProvider
+     * @covers getTabAttribute
+     */
+    public function testGetTabAttributeException($tabXpath, $msg)
+    {
+        $stub = $this->getMock('Mage_Selenium_TestCase',
+            array('_getControlXpath', 'isElementPresent'));
+
+        $stub->expects($this->at(0))
+            ->method('_getControlXpath')
+            ->with($this->equalTo('tab'), $this->equalTo('tab_1'))
+            ->will($this->returnValue($tabXpath));
+        $stub->expects($this->at(1))
+            ->method('isElementPresent')
+            ->will($this->returnValue(false));
+        $this->setExpectedException('OutOfRangeException', "Wrong $msg for tab:");
+
+        $stub->getTabAttribute('tab_1', 'class');
+    }
+
+    public function testGetTabAttributeNegativeDataProvider()
+    {
+        return array(
+            array('css=control_1[class=class_1]' , 'css'),
+            array('//div[@id="id_2"]', 'xpath')
+        );
+    }
+
+    /**
      * @covers Mage_Selenium_TestCase::setUrlPostfix
      * @covers Mage_Selenium_TestCase::checkCurrentPage
      * @covers Mage_Selenium_TestCase::_findCurrentPageFromUrl
