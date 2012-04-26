@@ -8,15 +8,14 @@
  * @license     {license_link}
  */
 
-
 /**
- * Adminhtml grid widget massaction item additional action interface
- *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
+ * @deprecated Moved to module Mage_Backend
  */
 interface Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Interface
+    extends Mage_Backend_Block_Widget_Grid_Massaction_Item_Additional_Interface
 {
-    function createFromConfiguration(array $configuration);
+
 }

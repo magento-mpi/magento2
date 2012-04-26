@@ -31,7 +31,7 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
 
     /**
      * @dataProvider initOptionsDataProvider
-     * @expectedException Exception
+     * @expectedException Mage_Core_Exception
      */
     public function testConstructor(array $options)
     {

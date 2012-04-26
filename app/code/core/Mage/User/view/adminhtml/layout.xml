@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+    <adminhtml_index_login>
+        <reference name="form.buttons">
+            <block type="Mage_Backend_Block_Template" name="adminhtml_index_login_forgotpassword" template="Mage_User::admin/forgotpassword_url.phtml" />
+        </reference>
+    </adminhtml_index_login>
+
+    <adminhtml_index_forgotpassword>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/forgotpassword.phtml">
+                <container name="form.additional.info" label="Form Additional Info"/>
+            </block>
+        </container>
+    </adminhtml_index_forgotpassword>
+
+    <!-- admin acl roles grid page -->
+    <adminhtml_user_role_index>
+        <reference name="content">
+            <block type="Mage_User_Block_Roles" name="adminhtml.permission.role.index" template="roles.phtml">
+                <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_user_role_index>
+
+    <adminhtml_user_role_rolegrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid"/>
+    </adminhtml_user_role_rolegrid>
+
+    <!-- admin acl roles edit page -->
+    <adminhtml_user_role_editrole>
+        <reference name="left">
+            <block type="Mage_User_Block_Editroles" name="adminhtml.permissions.editroles"/>
+        </reference>
+    </adminhtml_user_role_editrole>
+
+    <adminhtml_user_index>
+        <reference name="content">
+            <block type="Mage_User_Block_User" name="adminhtml.permission.user.index"/>
+        </reference>
+    </adminhtml_user_index>
+
+    <adminhtml_user_edit>
+        <reference name="left">
+            <block type="Mage_User_Block_User_Edit_Tabs" name="adminhtml.permission.user.edit.tabs"/>
+        </reference>
+
+        <reference name="content">
+            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.user.roles.grid.js" template="Mage_User::user_roles_grid_js.phtml"/>
+            <block type="Mage_User_Block_User_Edit" name="adminhtml.permission.user.edit"/>
+        </reference>
+    </adminhtml_user_edit>
+
+    <adminhtml_user_rolegrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_User_Grid" name="adminhtml.permission.user.rolegrid"/>
+    </adminhtml_user_rolegrid>
+
+    <adminhtml_user_rolesgrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.permission.user.rolesgrid"/>
+    </adminhtml_user_rolesgrid>
+ </layout>

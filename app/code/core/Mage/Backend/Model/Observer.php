@@ -68,7 +68,7 @@ class Mage_Adminhtml_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
         /** @var $session Mage_Admin_Model_Session */
         $session = Mage::getSingleton('Mage_Admin_Model_Session');
-        /** @var $user Mage_Admin_Model_User */
+        /** @var $user Mage_User_Model_User */
         $user = $session->getUser();
 
         $requestedActionName = $request->getActionName();

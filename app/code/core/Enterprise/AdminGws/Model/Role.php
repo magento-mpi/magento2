@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     /**
      * Store ACL role model instance
      *
-     * @var Mage_Admin_Model_Roles
+     * @var Mage_User_Model_Roles
      */
     protected $_adminRole;
 
@@ -55,7 +55,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param Mage_Admin_Model_Roles $role
+     * @param Mage_User_Model_Roles $role
      */
     public function setAdminRole($role)
     {

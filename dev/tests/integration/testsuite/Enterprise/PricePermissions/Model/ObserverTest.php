@@ -79,7 +79,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
      */
     protected function _initSession()
     {
-        $user = new Mage_Admin_Model_User;
+        $user = new Mage_User_Model_User;
         $user->setId(1)->setRole(true);
         $session = new Mage_Admin_Model_Session;
         $session->setUpdatedAt(time())->setUser($user);

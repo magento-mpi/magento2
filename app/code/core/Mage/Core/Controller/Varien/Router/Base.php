@@ -42,7 +42,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         }
 
         if (is_null($this->_area) || is_null($this->_baseController)) {
-            throw new Exception("Not enough options to initialize router.");
+            Mage::throwException("Not enough options to initialize router.");
         }
     }
 

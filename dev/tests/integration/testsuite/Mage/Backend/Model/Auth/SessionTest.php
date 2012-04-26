@@ -36,7 +36,7 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
     public function testLoginSuccessful()
     {
         $result = $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-        $this->assertInstanceOf('Mage_Admin_Model_User', $result);
+        $this->assertInstanceOf('Mage_User_Model_User', $result);
         $this->assertGreaterThan(time() - 10, $this->_model->getUpdatedAt());
     }
 
