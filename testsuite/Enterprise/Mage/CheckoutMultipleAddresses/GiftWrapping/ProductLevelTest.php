@@ -178,7 +178,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -245,7 +245,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification for the 1st product with custom settings
         $shippingAddress1 = $shippingInfoData['address_1']['search_shipping_address'];
@@ -333,7 +333,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification for the 1st product with custom settings
         $shippingAddress1 = $shippingInfoData['address_1']['search_shipping_address'];
@@ -422,7 +422,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification for the 1st product with custom settings
         $shippingAddress1 = $shippingInfoData['address_1']['search_shipping_address'];
@@ -526,7 +526,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification for the 1st product with custom settings
         $shippingAddress1 = $shippingInfoData['address_1']['search_shipping_address'];
@@ -630,7 +630,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification for the 1st product with custom settings
         $shippingAddress1 = $shippingInfoData['address_1']['search_shipping_address'];
@@ -752,7 +752,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $orderNums = $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $orderNums = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
         $this->assertTrue(count($orderNums) == 2, 'Expected that exactly 2 orders have been created.');

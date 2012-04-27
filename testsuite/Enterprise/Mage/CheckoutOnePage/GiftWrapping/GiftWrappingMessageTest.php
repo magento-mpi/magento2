@@ -38,13 +38,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     {
         $this->loginAdminUser();
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());
+        $this->_configHelper->getConfigAreas();
     }
 
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());;
+        $this->_configHelper->getConfigAreas();
     }
 
     /**

@@ -287,13 +287,11 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
      */
     public function getConfigAreas()
     {
-        if (!$this->_configAreas) {
-            $config = $this->getApplicationConfig();
-            if (!isset($config['areas'])) {
-                throw new OutOfRangeException('Areas for "' . $this->_application . '" application are not set');
-            }
-            $this->_configAreas = $config['areas'];
+        $config = $this->getApplicationConfig();
+        if (!isset($config['areas'])) {
+            throw new OutOfRangeException('Areas for "' . $this->_application . '" application are not set');
         }
+        $this->_configAreas = $config['areas'];
         return $this->_configAreas;
     }
 
@@ -468,7 +466,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderFixture'])) {
             throw new OutOfRangeException('FallbackOrder for fixtures is not set for "'
-                . $this->getApplication() . '" application');
+                                          . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderFixture'])));
@@ -484,7 +482,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getApplicationConfig();
         if (!isset($config['fallbackOrderHelper'])) {
             throw new OutOfRangeException('FallbackOrder for test helpers is not set for "'
-                . $this->getApplication() . '" application');
+                                          . $this->getApplication() . '" application');
         }
 
         return array_reverse(array_map('trim', explode(',', $config['fallbackOrderHelper'])));

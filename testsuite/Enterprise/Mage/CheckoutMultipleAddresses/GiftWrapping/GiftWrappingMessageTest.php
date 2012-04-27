@@ -39,13 +39,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     {
         $this->loginAdminUser();
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());
+        $this->_configHelper->getConfigAreas();
     }
 
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());;
+        $this->_configHelper->getConfigAreas();
     }
 
     /**
@@ -227,7 +227,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -283,7 +283,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_order'            => 'Yes'));
@@ -357,7 +357,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
@@ -427,7 +427,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
@@ -487,7 +487,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options' => 'Yes'));
         //Verification
@@ -543,7 +543,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
@@ -606,7 +606,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'      => 'Yes',
                               'gift_option_for_order' => 'Yes'));
@@ -669,7 +669,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'      => 'Yes',
                               'gift_option_for_order' => 'Yes'));
@@ -730,7 +730,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
@@ -780,7 +780,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -826,7 +826,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
@@ -876,7 +876,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -922,7 +922,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
@@ -1014,7 +1014,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
         $this->addParameter('param', '?no_cache=');
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -1078,7 +1078,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         //Verification
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($checkoutData);
         //Steps
@@ -1157,7 +1157,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         //Verification
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($checkoutData);
         //Steps
@@ -1220,7 +1220,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         //Verification
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($checkoutData);
         //Steps
@@ -1282,7 +1282,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingData, false);
         $this->fillForm(array('add_gift_options'      => 'Yes',
                               'gift_option_for_order' => 'Yes',
@@ -1360,7 +1360,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
         $this->addParameter('param', '?no_cache=');
-        $this->checkoutMultipleAddressesHelper()->frontCreateMultipleCheckout($checkoutData, false);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData, false);
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         //Verification
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');

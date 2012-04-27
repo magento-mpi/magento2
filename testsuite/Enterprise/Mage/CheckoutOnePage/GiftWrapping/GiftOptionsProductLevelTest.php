@@ -38,13 +38,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     {
         $this->loginAdminUser();
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());
+        $this->_configHelper->getConfigAreas();
     }
 
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());
+        $this->_configHelper->getConfigAreas();
     }
 
     /**
@@ -111,7 +111,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);;
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);

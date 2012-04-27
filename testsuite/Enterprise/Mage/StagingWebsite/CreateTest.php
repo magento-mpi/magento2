@@ -54,7 +54,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->setApplication($this->_configHelper->getApplication());
+        $this->_configHelper->getConfigAreas();
     }
 
     /**
