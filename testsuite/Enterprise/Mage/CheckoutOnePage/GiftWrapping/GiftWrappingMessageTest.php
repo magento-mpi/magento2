@@ -37,14 +37,14 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $this->_applicationHelper->changeApplication('magento');
+        //load default application settings
+        $this->_configHelper->setApplication($this->_configHelper->getApplication());
     }
 
     protected function tearDownAfterTest()
     {
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $this->_applicationHelper->changeApplication('magento');
+        //load default application settings
+        $this->_configHelper->setApplication($this->_configHelper->getApplication());;
     }
 
     /**
@@ -62,7 +62,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
         $website = $this->loadData('staging_website');
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -148,11 +147,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Data
         $userData = $this->loadData('customer_account_register');
         //Steps
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $newConfig = $this->stagingWebsiteHelper()->newConfigDataForStaging(
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_applicationHelper->changeApplication($website['general_information']['staging_website_code'],
-            $newConfig);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -221,8 +218,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure('gift_message_for_order_enable');
         //Data
         $checkoutData = $this->loadData('gift_data_general', array (
-            'products_to_add/product_1' => $productData,
-            'shipping_data/add_gift_options' => $this->loadData('gift_message_with_gift_wrapping_one_page')));
+                                                             'products_to_add/product_1' => $productData,
+                                                             'shipping_data/add_gift_options' => $this->loadData('gift_message_with_gift_wrapping_one_page')));
         //Steps
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -462,8 +459,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
         $this->fillForm(array('add_gift_options' => 'Yes',
-            'gift_option_for_' .  $entity => 'Yes',
-            $entity . '_gift_wrapping_design' => $giftWrappingData['noImg']['gift_wrapping_design']));
+                              'gift_option_for_' .  $entity => 'Yes',
+                              $entity . '_gift_wrapping_design' => $giftWrappingData['noImg']['gift_wrapping_design']));
         //Verification
         $this->addParameter('itemName', $productData['general_name']);
         $this->assertTrue($this->controlIsPresent('pageelement', $entity . '_gift_wrapping_price'),
@@ -518,8 +515,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure($printedCardOptions);
         //Data
         $checkoutData = $this->loadData('gift_data_general', array (
-            'products_to_add/product_1' => $productData,
-            'shipping_data/add_gift_options' => $this->loadData('gift_message_gift_printed_card')));
+                                                             'products_to_add/product_1' => $productData,
+                                                             'shipping_data/add_gift_options' => $this->loadData('gift_message_gift_printed_card')));
         //Steps
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -534,7 +531,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $printedCardPrice = trim($this->getElementByXpath($priceXpath),'$\t\n\r');
         if ($printedCardPrice != $expectedPrintedCardPrice) {
             $this->addVerificationMessage("Printed Card price is different. Actual: $printedCardPrice." .
-                ' Expected: ' . $expectedPrintedCardPrice);
+                                          ' Expected: ' . $expectedPrintedCardPrice);
         }
     }
 
@@ -617,8 +614,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure('gift_receipt_enable');
         //Data
         $checkoutData = $this->loadData('gift_data_general', array (
-            'products_to_add/product_1' => $productData,
-            'shipping_data/add_gift_options' => $this->loadData('gift_message_gift_receipt')));
+                                                             'products_to_add/product_1' => $productData,
+                                                             'shipping_data/add_gift_options' => $this->loadData('gift_message_gift_receipt')));
         //Steps
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -732,7 +729,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure('gift_wrapping_for_order_enable');
         //Data
         $productName = ($entity == 'items') ? $productData['general_name'] . ' Gift Wrapping Design : ' .
-            $giftWrappingData['noImg']['gift_wrapping_design'] : $productData['general_name'];
+                                              $giftWrappingData['noImg']['gift_wrapping_design'] : $productData['general_name'];
         if ($entity=='items') {
             $giftWrapping['individual_items'][$productData['general_name']]['item_gift_wrapping_design'] =
                 $giftWrappingData['noImg']['gift_wrapping_design'];
@@ -741,9 +738,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
                 $giftWrappingData['noImg']['gift_wrapping_design'];
         }
         $checkoutData = $this->loadData('recount_gift_wrapping_no_img_one_page', array (
-            'products_to_add/product_1' => $productData,
-            'product_name' => $productName,
-            'gift_wrapping_for_' . $entity => '$12.99'));
+                                                                                 'products_to_add/product_1' => $productData,
+                                                                                 'product_name' => $productName,
+                                                                                 'gift_wrapping_for_' . $entity => '$12.99'));
         $checkoutData['shipping_data']['add_gift_options'] = $giftWrapping;
         //Steps
         $this->customerHelper()->frontLoginCustomer($userData);
@@ -753,7 +750,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->clickControl('link','shipping_method_change_link',false);
         //Data
         $productName = ($entity == 'items') ? $productData['general_name'] . ' Gift Wrapping Design : ' .
-            $giftWrappingData['img']['gift_wrapping_design'] : $productData['general_name'];
+                                              $giftWrappingData['img']['gift_wrapping_design'] : $productData['general_name'];
         if ($entity=='items') {
             $giftWrapping['individual_items'][$productData['general_name']]['item_gift_wrapping_design'] =
                 $giftWrappingData['img']['gift_wrapping_design'];
@@ -762,9 +759,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
                 $giftWrappingData['img']['gift_wrapping_design'];
         }
         $checkoutData = $this->loadData('recount_gift_wrapping_with_img_one_page', array (
-            'products_to_add/product_1' => $productData,
-            'product_name' => $productName,
-            'gift_wrapping_for_' . $entity => '$18.33'));
+                                                                                   'products_to_add/product_1' => $productData,
+                                                                                   'product_name' => $productName,
+                                                                                   'gift_wrapping_for_' . $entity => '$18.33'));
         $checkoutData['shipping_data']['add_gift_options'] = $giftWrapping;
         //Steps
         $this->checkoutOnePageHelper()->frontSelectShippingMethod($checkoutData['shipping_data']);
@@ -780,8 +777,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
             $giftWrapping['entire_order']['order_gift_wrapping_design'] = 'Please select';
         }
         $checkoutData = $this->loadData('recount_no_gift_wrapping_one_page', array (
-            'products_to_add/product_1' => $productData,
-            'product_name' => $productData['general_name']));
+                                                                             'products_to_add/product_1' => $productData,
+                                                                             'product_name' => $productData['general_name']));
         $checkoutData['shipping_data']['add_gift_options'] = $giftWrapping;
         //Steps
         $this->checkoutOnePageHelper()->frontSelectShippingMethod($checkoutData['shipping_data']);
@@ -843,7 +840,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Data
         $checkoutData = $this->loadData('recount_gift_wrapping_printed_card_yes_one_page',
             array ('products_to_add/product_1' => $productData,
-                'product_name' => $productData['general_name']));
+                   'product_name' => $productData['general_name']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -853,7 +850,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Data
         $checkoutData = $this->loadData('recount_gift_wrapping_printed_card_no_one_page',
             array ('products_to_add/product_1' => $productData,
-                'product_name' => $productData['general_name']));
+                   'product_name' => $productData['general_name']));
         //Steps
         $this->checkoutOnePageHelper()->frontSelectShippingMethod($checkoutData['shipping_data']);
         $this->checkoutOnePageHelper()->frontSelectPaymentMethod($checkoutData['payment_data']);
@@ -967,25 +964,23 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
 
         $giftWrappingData = $this->loadData('gift_wrapping_without_image',
-                    array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
+            array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
         $individualItemsMessage = $this->loadData('gift_message_for_individual_items_one_page_website');
         $indItems = array($productData['general_name'] =>
-                                       array('item_gift_wrapping_design'  => $giftWrappingData['gift_wrapping_design'],
-                                             'gift_message'               => $individualItemsMessage));
+                          array('item_gift_wrapping_design'  => $giftWrappingData['gift_wrapping_design'],
+                                'gift_message'               => $individualItemsMessage));
 
         $checkoutData = $this->loadData('gift_data_general_for_website_scope', array (
-                    'products_to_add/product_1'     => $productData,
-                    'product_name'                  => $productData['general_name'],
-                    'individual_items'              => $indItems));
+                                                                               'products_to_add/product_1'     => $productData,
+                                                                               'product_name'                  => $productData['general_name'],
+                                                                               'individual_items'              => $indItems));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $newConfig = $this->stagingWebsiteHelper()->newConfigDataForStaging(
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_applicationHelper->changeApplication($website['general_information']['staging_website_code'],
-            $newConfig);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -1052,21 +1047,21 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
             'item_gift_wrapping_design'      => $giftWrappingData['gift_wrapping_design']));
         $entireOrder = $this->loadData('gift_message_with_gift_wrapping_one_page');
         $checkoutData = $this->loadData('gift_data_general', array (
-            'products_to_add/product_1'      => $productData,
-            'entire_order'                   => $entireOrder['entire_order'],
-            'order_gift_wrapping_design'     => $giftWrappingData['gift_wrapping_design'],
-            'individual_items'                    => $indItems    ));
+                                                             'products_to_add/product_1'      => $productData,
+                                                             'entire_order'                   => $entireOrder['entire_order'],
+                                                             'order_gift_wrapping_design'     => $giftWrappingData['gift_wrapping_design'],
+                                                             'individual_items'                    => $indItems    ));
         $vrfGiftData = $this->loadData('verify_gift_data',array(
-            'sku_product'   => $productData['general_sku'],
-            'product_gift_message_from'      => $individualItemsMessage['item_gift_message_from'],
-            'product_gift_message_to'        => $individualItemsMessage['item_gift_message_to'],
-            'product_gift_message'           => $individualItemsMessage['item_gift_message'],
-            'product_gift_wrapping_price'    => $giftWrappingData['gift_wrapping_price'],
-            'order_gift_message_from'        => $entireOrder['entire_order']['gift_message']['order_gift_message_from'],
-            'order_gift_message_to'          => $entireOrder['entire_order']['gift_message']['order_gift_message_to'],
-            'order_gift_message'             => $entireOrder['entire_order']['gift_message']['order_gift_message'],
-            'order_gift_wrapping_price'      => $giftWrappingData['gift_wrapping_price']
-        ));
+                                                          'sku_product'   => $productData['general_sku'],
+                                                          'product_gift_message_from'      => $individualItemsMessage['item_gift_message_from'],
+                                                          'product_gift_message_to'        => $individualItemsMessage['item_gift_message_to'],
+                                                          'product_gift_message'           => $individualItemsMessage['item_gift_message'],
+                                                          'product_gift_wrapping_price'    => $giftWrappingData['gift_wrapping_price'],
+                                                          'order_gift_message_from'        => $entireOrder['entire_order']['gift_message']['order_gift_message_from'],
+                                                          'order_gift_message_to'          => $entireOrder['entire_order']['gift_message']['order_gift_message_to'],
+                                                          'order_gift_message'             => $entireOrder['entire_order']['gift_message']['order_gift_message'],
+                                                          'order_gift_wrapping_price'      => $giftWrappingData['gift_wrapping_price']
+                                                          ));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -1126,18 +1121,16 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Data
         $giftWrappingData = $this->loadData('gift_wrapping_without_image');
         $checkoutData = $this->loadData('gift_data_general', array (
-            'products_to_add/product_1'      => $productData));
+                                                             'products_to_add/product_1'      => $productData));
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-        $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
-        $newConfig = $this->stagingWebsiteHelper()->newConfigDataForStaging(
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_applicationHelper->changeApplication($website['general_information']['staging_website_code'],
-            $newConfig);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
