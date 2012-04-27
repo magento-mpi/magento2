@@ -141,11 +141,8 @@
         <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
         <fail unless="env.bamboo_source_repository" message="Bamboo variable 'source_repository' must be defined."/>
         <fail unless="env.bamboo_target_repository" message="Bamboo variable 'target_repository' must be defined."/>
-        <condition property="env.bamboo_source_branch" value="master">
-            <not><isset property="env.bamboo_source_branch"/></not>
-        </condition>
-        <condition property="env.bamboo_source_commit" value="">
-            <not><isset property="env.bamboo_source_commit"/></not>
+        <condition property="env.bamboo_source_point" value="">
+            <not><isset property="env.bamboo_source_point"/></not>
         </condition>
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
@@ -153,8 +150,7 @@
         <delete dir="${dir.publication_target}" failonerror="true"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/publish.php --
-                --source=${env.bamboo_source_repository} --source-branch=${env.bamboo_source_branch}
-                --source-commit=${env.bamboo_source_commit}
+                --source=${env.bamboo_source_repository} --source-point=${env.bamboo_source_point}
                 --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
                 --target-dir=${dir.publication_target}
                 --no-push
