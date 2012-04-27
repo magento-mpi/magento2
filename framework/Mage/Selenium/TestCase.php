@@ -62,6 +62,8 @@
  * @method Core_Mage_Tags_Helper tagsHelper()
  * @method Core_Mage_Tax_Helper taxHelper()
  * @method Core_Mage_Wishlist_Helper wishlistHelper()
+ * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
+ * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

@@ -34,19 +34,15 @@
  */
 class Enterprise_Mage_StagingLog_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Open Log</p>
      *
-     * @param string|array $searchData
+     * @param array $searchData
+     *
      * @return bool
      */
-    public function openLog($searchData)
+    public function openLog(array $searchData)
     {
-        if (is_string($searchData)) {
-            $searchData = $this->loadData($searchData);
-        }
-        $searchData = $this->arrayEmptyClear($searchData);
         $this->searchAndOpen($searchData);
     }
 }
