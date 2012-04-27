@@ -182,7 +182,7 @@ multiple_front_shipping_flatrate: &flat_rate
 #                                                                              #
 ################################################################################
 multiple_with_register:
-    products_to_add:
+    products_to_add: &products_two
         product_1:
             product_name: %product_1%
             options: %option_product_1%
@@ -243,14 +243,29 @@ multiple_with_register:
         select_address: *billing_address
     payment_data: *check_money
 
-multiple_with_register_france:
-    products_to_add:
-        product_1:
+multiple_with_register_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *register
+    general_customer_data: *general_customer_data_register
+    shipping_address_data: &shipping_address_data_with_virtual
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
             product_name: %product_1%
-            options: %option_product_1%
-        product_2:
+            qty: 2
+            shipping_address: *shipping_usa_1
+        address_to_ship_2:
             product_name: %product_2%
-            options: %option_product_2%
+            qty: 2
+    shipping_data: &shipping_data_with_virtual
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_register_france:
+    products_to_add: *products_two
     checkout_as_customer: *register
     general_customer_data: *general_customer_data_register
     shipping_address_data: &shipping_address_data_france
@@ -275,19 +290,33 @@ multiple_with_register_france:
             shipping_method: *flat_rate
     billing_address_data: *billing_data
     payment_data: *check_money
+
+multiple_with_register_france_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *register
+    general_customer_data: *general_customer_data_register
+    shipping_address_data: &shipping_address_data_france_with_virtual
+        address_to_add_1:
+            shipping_address: *shipping_france_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: *shipping_france_1
+        address_to_ship_2:
+            product_name: %product_2%
+    shipping_data: &shipping_data_france_with_virtual
+        address_1:
+            search_shipping_address: *shipping_france_1
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
 ################################################################################
 #                                                                              #
 #               Order Data for Signed in  Customer                             #
 #                                                                              #
 ################################################################################
 multiple_with_signed_in:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     general_customer_data: &general_customer_data_signedin
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
@@ -306,17 +335,27 @@ multiple_with_signed_in:
     billing_address_data: *billing_data
     payment_data: *check_money
 
+multiple_with_signed_in_with_virtual:
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_with_virtual
+    shipping_data: *shipping_data_with_virtual
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
 multiple_with_signed_in_france:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     general_customer_data: *general_customer_data_signedin
     shipping_address_data: *shipping_address_data_france
     shipping_data: *shipping_data_france
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_signed_in_france_with_virtual:
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_france_with_virtual
+    shipping_data: *shipping_data_france_with_virtual
     billing_address_data: *billing_data
     payment_data: *check_money
 ################################################################################
@@ -325,13 +364,7 @@ multiple_with_signed_in_france:
 #                                                                              #
 ################################################################################
 multiple_with_login:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
     general_customer_data: *general_customer_data_signedin
     shipping_address_data: *shipping_address_data
@@ -340,40 +373,16 @@ multiple_with_login:
     payment_data: *check_money
 
 multiple_with_login_with_virtual:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
     general_customer_data: *general_customer_data_signedin
-    shipping_address_data: &shipping_address_data
-        address_to_add_1:
-            shipping_address: *shipping_usa_1
-        address_to_ship_1:
-            product_name: %product_1%
-            qty: 2
-            shipping_address: *shipping_usa_1
-        address_to_ship_2:
-            product_name: %product_2%
-            qty: 2
-    shipping_data: &shipping_data
-        address_1:
-            search_shipping_address: *shipping_usa_1
-            shipping_method: *flat_rate
+    shipping_address_data: *shipping_address_data_with_virtual
+    shipping_data: *shipping_data_with_virtual
     billing_address_data: *billing_data
     payment_data: *check_money
 
 multiple_with_login_france:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
     general_customer_data: *general_customer_data_signedin
     shipping_address_data: *shipping_address_data_france
@@ -382,29 +391,11 @@ multiple_with_login_france:
     payment_data: *check_money
 
 multiple_with_login_france_with_virtual:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
     general_customer_data: *general_customer_data_signedin
-    shipping_address_data:
-        address_to_add_1:
-            shipping_address: *shipping_france_1
-        address_to_ship_1:
-            product_name: %product_1%
-            qty: 2
-            shipping_address: *shipping_france_1
-        address_to_ship_2:
-            product_name: %product_2%
-            qty: 2
-    shipping_data: &shipping_data_france
-        address_1:
-            search_shipping_address: *shipping_france_1
-            shipping_method: *flat_rate
+    shipping_address_data: *shipping_address_data_france_with_virtual
+    shipping_data: *shipping_data_france_with_virtual
     billing_address_data: *billing_data
     payment_data: *check_money
 
@@ -429,7 +420,7 @@ gift_message_for_individual_items:
     gift_option_for_individual_items_message: %randomize%_message
 
 multiple_with_gift_wrapping_and_message:
-    products_to_add:
+    products_to_add: &product_one
         product_1:
             product_name: %product_1%
     checkout_as_customer: *login
@@ -466,9 +457,7 @@ multiple_with_gift_wrapping_and_message:
 
 
 multiple_with_gift_wrapping_and_message_for_order_only:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -486,9 +475,7 @@ shipping_data_for_wrapping:
         shipping_method: *flat_rate
 
 multiple_with_gift_card:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -523,9 +510,7 @@ multiple_with_gift_card:
                 subtotal: $27.99
 
 multiple_with_gift_receipt:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -559,9 +544,7 @@ multiple_with_gift_receipt:
                 subtotal: $12.99
 
 multiple_with_gift_wrapping_message_card_receipt:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -622,9 +605,7 @@ recount_gift_options_for_order:
                 subtotal: $12.99
 
 recount_gift_options_for_order_checkout:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -663,9 +644,7 @@ recount_gift_options_for_order_checkout:
                 subtotal: $12.99
 
 recount_gift_options_for_items_checkout:
-    products_to_add:
-        product_1:
-            product_name:%product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -699,9 +678,7 @@ recount_gift_options_for_items_checkout:
                 subtotal: $12.99
 
 recount_gift_card_checkout:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -736,9 +713,7 @@ recount_gift_card_checkout:
                 subtotal: $12.99
 
 miltiple_without_gift_wrapping:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
+    products_to_add: *product_one
     checkout_as_customer: *login
     billing_address_data: %noValue%
     general_customer_data: *general_customer_data_signedin
@@ -756,11 +731,7 @@ miltiple_without_gift_wrapping:
 
 #<-------------------------------------- Gift Wrapping on Product Level ----------------------------------------------->
 multiple_for_two_addresses_verify_wrapping_prices:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-        product_2:
-            product_name: %product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
     general_customer_data: *general_customer_data_signedin
     shipping_address_data:

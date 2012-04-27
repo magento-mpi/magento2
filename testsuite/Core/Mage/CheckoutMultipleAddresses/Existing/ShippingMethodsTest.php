@@ -173,11 +173,11 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     {
         return array(
             array('flatrate'),
-//            array('free'),
-//            array('ups'),
-//            array('upsxml'),
-//            array('usps'),
-//            array('fedex')
+            array('free'),
+            array('ups'),
+            array('upsxml'),
+            array('usps'),
+            array('fedex')
         );
     }
 

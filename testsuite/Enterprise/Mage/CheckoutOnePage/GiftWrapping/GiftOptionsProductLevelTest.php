@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_GiftWrapping_GiftOptionsProductLevelTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest extends Mage_Selenium_TestCase
 {
     public function assertPreconditions()
     {
