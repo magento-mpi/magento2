@@ -63,7 +63,7 @@ class Enterprise_Mage_StagingWebsite_SystemConfigurationTest extends Mage_Seleni
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_disable_auto_entries');
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $this->navigate('manage_staging_websites');
         $this->clickButton('add_staging_website');
         $this->stagingWebsiteHelper()->fillSettings($website['settings']);
@@ -96,7 +96,7 @@ class Enterprise_Mage_StagingWebsite_SystemConfigurationTest extends Mage_Seleni
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $this->navigate('manage_staging_websites');
         $this->clickButton('add_staging_website');
         $this->stagingWebsiteHelper()->fillSettings($website['settings']);

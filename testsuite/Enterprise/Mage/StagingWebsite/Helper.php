@@ -34,17 +34,19 @@
  */
 class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
 {
+
     /**
      * <p>Creates staging for website</p>
      *
      * @param string|array $websiteData
+     * @param string $filename
      */
-    public function createStagingWebsite($websiteData)
+    public function createStagingWebsite($websiteData, $filename = 'StagingWebsite')
     {
         if (is_string($websiteData)) {
-            $websiteData = $this->loadData($websiteData);
+            $websiteData = $this->loadDataSet($filename, $websiteData);
         }
-        $websiteData = $this->arrayEmptyClear($websiteData);
+        $websiteData = $this->clearDataArray($websiteData);
         $settings = (isset($websiteData['settings'])) ? $websiteData['settings'] : array();
         $generalInfo = (isset($websiteData['general_information'])) ? $websiteData['general_information'] : array();
         $storeViews = (isset($websiteData['store_views'])) ? $websiteData['store_views'] : array();
@@ -52,7 +54,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
         $this->clickButton('add_staging_website');
         $this->fillSettings($settings);
         if ($generalInfo) {
-            $this->fillForm($generalInfo, 'general_information');
+            $this->fillTab($generalInfo, 'general_information');
         }
         $this->selectStoreViews($storeViews);
         $this->saveForm('create');
@@ -69,7 +71,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             $xpath = $this->_getControlXpath('dropdown', 'source_website');
             $websiteId = $this->getValue($xpath . '/option[text()="' . $settings['source_website'] . '"]');
             $this->addParameter('id', $websiteId);
-            $this->fillForm($settings);
+            $this->fillFieldset($settings, 'staging_website');
         }
         $this->clickButton('continue');
     }
@@ -84,7 +86,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
         if ($storeViews) {
             foreach ($storeViews as $storeViewName => $action) {
                 $this->addParameter('storeView', $storeViewName);
-                $this->fillForm(array('store_view' => $action));
+                $this->fillCheckbox('store_view', $action);
             }
         }
     }
@@ -93,7 +95,6 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
      * <p>Open staging website<p>
      *
      * @param array $searchWebsiteData
-     * @return bool
      */
     public function openStagingWebsite(array $searchWebsiteData)
     {
@@ -101,7 +102,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             if (isset($searchWebsiteData['filter_website_name'])) {
                 $this->addParameter('elementTitle', $searchWebsiteData['filter_website_name']);
             }
-            return $this->searchAndOpen($searchWebsiteData);
+            $this->searchAndOpen($searchWebsiteData);
         }
     }
 
@@ -109,25 +110,26 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
      * <p>Merge Website</p>
      *
      * @param string | array $mergeWebsiteData
+     * @param string $filename
      */
-    public function mergeWebsite($mergeWebsiteData)
+    public function mergeWebsite($mergeWebsiteData, $filename = 'StagingWebsite')
     {
         if (is_string($mergeWebsiteData)) {
-            $mergeWebsiteData = $this->loadData($mergeWebsiteData);
+            $mergeWebsiteData = $this->loadDataSet($filename, $mergeWebsiteData);
         }
-        $mergeWebsiteData = $this->arrayEmptyClear($mergeWebsiteData);
+        $mergeWebsiteData = $this->clearDataArray($mergeWebsiteData);
         $searchWebsiteData = (isset($mergeWebsiteData['search_website']))
-                ? $mergeWebsiteData['search_website'] : array();
+            ? $mergeWebsiteData['search_website'] : array();
         $generalInfo = (isset($mergeWebsiteData['general_information']))
-                ? $mergeWebsiteData['general_information'] : array();
+            ? $mergeWebsiteData['general_information'] : array();
         $mergeConfig = (isset($mergeWebsiteData['merge_configuration']))
-                ? $mergeWebsiteData['merge_configuration'] : array();
+            ? $mergeWebsiteData['merge_configuration'] : array();
         $scheduleMerge = (isset($mergeWebsiteData['schedule_merge']))
-                ? $mergeWebsiteData['schedule_merge'] : array();
+            ? $mergeWebsiteData['schedule_merge'] : array();
 
         $this->openStagingWebsite($searchWebsiteData);
         if ($generalInfo) {
-            $this->fillForm($generalInfo);
+            $this->fillTab($generalInfo, 'general_information');
         }
         $this->clickButton('merge');
         if ($mergeConfig) {
@@ -145,7 +147,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
                         $this->addParameter('ind', $i++);
                         $this->clickButton('add_new_store_view_map', false);
                         $this->waitForAjax();
-                        $this->fillForm($storeViews);
+                        $this->fillFieldset($storeViews, 'merge_configuration');
                         if ($this->isAlertPresent()) {
                             $this->fail($this->getAlert());
                         }
@@ -154,7 +156,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             }
         }
         if ($scheduleMerge) {
-            $this->fillForm($scheduleMerge);
+            $this->fillFieldset($scheduleMerge, 'schedule');
             $this->saveForm('schedule_merge');
         } else {
             $this->saveForm('merge_now');

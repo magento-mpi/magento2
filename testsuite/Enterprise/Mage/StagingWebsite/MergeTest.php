@@ -69,7 +69,7 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -102,8 +102,10 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
      * <p>3. Admin user is redirected to Manage Staging Website page;</p>
      * <p>4. Message "The staging website has been merged." appears;</p>
      * <p>5. In "Latest Event" column on Manage Staging Websites page shown value "Instant Merger".</p>
-     * <p>6. On Staging Operations Log page record is added with info: "Action - Backup, Websites from - target website, Websites to - empty, Result - Started, Completed"</p>
-     * <p>7. On Staging Operations Log page record is added with info: "Action - Instant Merger, Websites from - target website, Websites to - staging website, Result - Started, Completed"</p>
+     * <p>6. On Staging Operations Log page record is added with info: "Action - Backup, Websites from - target website,
+     * Websites to - empty, Result - Started, Completed"</p>
+     * <p>7. On Staging Operations Log page record is added with info: "Action - Instant Merger,
+     * Websites from - target website, Websites to - staging website, Result - Started, Completed"</p>
      *
      * @depends createWebsite
      * @param string $websiteName
@@ -113,23 +115,25 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
     public function mergeWebsite($websiteName)
     {
         //Data
-        $mergeWebsiteData = $this->loadData('merge_website', array('filter_website_name' => $websiteName));
-        $withoutMapToData = $this->loadData('merge_website_without_map', array('filter_website_name' => $websiteName));
-        $withoutMapToData = $this->arrayEmptyClear($withoutMapToData);
-        $backupStarted = $this->loadData('staging_website_backup_started_log',
-                                    array('filter_website_from' => 'Main Website'));
-        $backupCompleted = $this->loadData('staging_website_backup_completed_log',
-                                    array('filter_website_from' => 'Main Website'));
-        $mergeStarted = $this->loadData('staging_website_merge_started_log',
-                                            array('filter_website_from' => $websiteName,
-                                                  'filter_website_to' => 'Main Website'));
-        $mergeCompleted = $this->loadData('staging_website_merge_completed_log',
-                                            array('filter_website_from' => $websiteName,
-                                                  'filter_website_to' => 'Main Website'));
+        $mergeWebsiteData = $this->loadDataSet(
+            'StagingWebsite', 'merge_website', array('filter_website_name' => $websiteName));
+        $withoutMapToData = $this->loadDataSet(
+            'StagingWebsite', 'merge_website_without_map', array('filter_website_name' => $websiteName));
+        $withoutMapToData = $this->clearDataArray($withoutMapToData);
+        $backupStarted = $this->loadDataSet('Backups', 'staging_website_backup_started_log',
+            array('filter_website_from' => 'Main Website'));
+        $backupCompleted = $this->loadDataSet('Backups', 'staging_website_backup_completed_log',
+            array('filter_website_from' => 'Main Website'));
+        $mergeStarted = $this->loadDataSet('Backups', 'staging_website_merge_started_log',
+            array('filter_website_from' => $websiteName,
+                  'filter_website_to' => 'Main Website'));
+        $mergeCompleted = $this->loadDataSet('Backups', 'staging_website_merge_completed_log',
+            array('filter_website_from' => $websiteName,
+                  'filter_website_to' => 'Main Website'));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->openStagingWebsite($withoutMapToData['search_website']);
-        $this->fillForm($withoutMapToData['general_information']);
+        $this->fillTab($withoutMapToData['general_information'], 'general_information');
         $this->clickButton('merge');
         $this->fillForm($withoutMapToData['merge_configuration']);
         //TL-MAGE-2013 verification
@@ -188,7 +192,8 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
      * <p>3. Admin user is redirected to Manage Staging Website page;</p>
      * <p>4. Message "The staging website has been scheduled to merge." appears;</p>
      * <p>5. In "Latest Event" column on Manage Staging Websites page shown value "Merger Scheduling".</p>
-     * <p>6. On Staging Operations Log page record is added with info: "Action - Merger Scheduling, Websites from - target website, Websites to - staging website, Result - Completed"</p>
+     * <p>6. On Staging Operations Log page record is added with info: "Action - Merger Scheduling,
+     * Websites from - target website, Websites to - staging website, Result - Completed"</p>
      *
      * @depends createWebsite
      * @param string $websiteName
@@ -200,13 +205,14 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
     public function scheduleMergeWebsite($websiteName)
     {
         //Data
-        $mergeWebsiteData = $this->loadData('schedule_merge_website', array('filter_website_name' => $websiteName));
+        $mergeWebsiteData = $this->loadDataSet(
+            'StagingWebsite', 'schedule_merge_website', array('filter_website_name' => $websiteName));
         $mergeWebsiteDataWODate = $mergeWebsiteData;
         $mergeWebsiteDataWODate['schedule_merge']['schedule_merge_input'] = '';
-        $mergeWebsiteDataWODate = $this->arrayEmptyClear($mergeWebsiteDataWODate);
-        $scheduleCompleted = $this->loadData('staging_website_schedule_completed_log',
-                                                    array('filter_website_from' => $websiteName,
-                                                          'filter_website_to' => 'Main Website'));
+        $mergeWebsiteDataWODate = $this->clearDataArray($mergeWebsiteDataWODate);
+        $scheduleCompleted = $this->loadDataSet('Backups', 'staging_website_schedule_completed_log',
+            array('filter_website_from' => $websiteName,
+                  'filter_website_to' => 'Main Website'));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $websiteName);
@@ -240,7 +246,8 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
      * <p>2. Admin user is redirected to Manage Staging Website page;</p>
      * <p>3. Message "Staging has been unscheduled." appears;</p>
      * <p>4. In "Latest Event" column on Manage Staging Websites page shown value "Merger Unscheduling".</p>
-     * <p>5. On Staging Operations Log page record is added with info: "Action - Merger Unscheduling, Websites from - target website, Websites to - staging website, Result - Completed"</p>
+     * <p>5. On Staging Operations Log page record is added with info: "Action - Merger Unscheduling,
+     * Websites from - target website, Websites to - staging website, Result - Completed"</p>
      *
      * @depends scheduleMergeWebsite
      * @param string $websiteName
@@ -250,10 +257,11 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
     public function unscheduleMergeWebsite($websiteName)
     {
         //Data
-        $mergeWebsiteData = $this->loadData('schedule_merge_website', array('filter_website_name' => $websiteName));
-        $unscheduleCompleted = $this->loadData('staging_website_schedule_completed_log',
-                                                            array('filter_website_from' => $websiteName,
-                                                                  'filter_website_to' => 'Main Website'));
+        $mergeWebsiteData = $this->loadDataSet(
+            'StagingWebsite', 'schedule_merge_website', array('filter_website_name' => $websiteName));
+        $unscheduleCompleted = $this->loadDataSet('Backups', 'staging_website_schedule_completed_log',
+            array('filter_website_from' => $websiteName,
+                  'filter_website_to' => 'Main Website'));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $websiteName);
@@ -292,20 +300,18 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
     public function scheduleMergeWebsiteWithIncorrectDate()
     {
         //Preconditions
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
         $this->assertMessagePresent('success', 'success_created_website');
         //Data
-        $mergeWebsiteData = $this->loadData('schedule_merge_website',
+        $mergeWebsiteData = $this->loadDataSet('StagingWebsite', 'schedule_merge_website',
             array('filter_website_name'     => $website['general_information']['staging_website_name'],
                   'schedule_merge_input'    => $this->generate('string', 6, ':alnum:')));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $website['general_information']['staging_website_name']);
         $this->stagingWebsiteHelper()->mergeWebsite($mergeWebsiteData);
-        $this->assertFalse($this->controlIsPresent('message', 'success_scheduled_merge'),
-            'Website was scheduled successfully with date: "' .
-                    $mergeWebsiteData['schedule_merge']['schedule_merge_input'] . '"');
+        $this->assertMessagePresent('error', 'error_invalid_date');
     }
 }

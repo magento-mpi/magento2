@@ -67,6 +67,21 @@ system_configuration:
                                         dhl_allowed_methods: //select[@id='carriers_dhlint_doc_methods']
                                         dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
 
+                -
+                    general_general:
+                        fieldsets:
+                            -
+                                staging_websites:
+                                    xpath: //div/fieldset[legend='Staging Websites']
+                                    dropdowns:
+                                        automatically_create_entry_points_for_staging_website: //select[@name='groups[content_staging][fields][create_entry_point][value]']
+                                        close_website_during_merge_or_rollback: //select[@name='groups[content_staging][fields][block_frontend][value]']
+                                        landing_page: //select[@name='groups[content_staging][fields][block_frontend_stub][value]']
+                                    fields:
+                                        folder_name_for_entry_points: //input[@name='groups[content_staging][fields][entry_points_folder_name][value]']
+                                    checkboxes:
+                                        landing_page_use_default: //input[@name='groups[content_staging][fields][block_frontend_stub][inherit]']
+
 system_configuration_tabs:
     uimap: *systemConfiguration
 

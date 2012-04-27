@@ -209,8 +209,7 @@ merge_staging_website:
         fields:
             schedule_merge_input: //input[@name='schedule_merge_later']
         messages:
-            confirmation_select_website_to_map: Please, select website to map
+            confirmation_select_website_to_map: Please, select websites to map
             empty_required_field_merge_date: //div[@id='advice-schedule_merge_empty-schedule_merge_later' and not(contains(@style,'display: none;'))]
             empty_required_field_store_view: //div[@id='advice-validate-select-store-%fieldId%' and not(contains(@style,'display: none;'))]
-
-
+            error_invalid_date: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid date')]
