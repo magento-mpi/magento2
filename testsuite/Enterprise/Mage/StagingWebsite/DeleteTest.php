@@ -35,7 +35,6 @@
  */
 class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -44,7 +43,6 @@ class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions</p>
      * <p>Create Staging Website</p>
-     *
      * <p>Steps:</p>
      * <p>1. Go to system - Content Staging - Staging Websites;</p>
      * <p>2. Press button "Add Staging Website";</p>
@@ -53,7 +51,6 @@ class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
      * <p>Staging Website Code, Staging Website Name, Frontend Restriction</p>
      * <p>and Select Original Website Content to be Copied to the Staging Website</p>
      * <p>5. Press button "Create".</p>
-     *
      * <p>Expected Results:</p>
      * <p>1. New Staging Website has been created;</p>
      * <p>2. Admin user is redirected to Manage Staging Website page;</p>
@@ -78,19 +75,17 @@ class Enterprise_Mage_StagingWebsite_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Test case TL-MAGE-2048</p>
      * <p>Deleting Staging Websites</p>
-     *
      * <p>Steps:</p>
      * <p>1. Go to "Manage Stores";</p>
      * <p>2. Open previously created website;</p>
      * <p>3. Press button "Delete Website".</p>
-     *
      * <p>Expected Results:</p>
      * <p>1. Website should be deleted;</p>
      *
-     * @depends createWebsite
      * @param string $websiteName
      *
      * @test
+     * @depends createWebsite
      */
     public function deleteWebsite($websiteName)
     {

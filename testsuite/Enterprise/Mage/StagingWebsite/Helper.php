@@ -34,7 +34,6 @@
  */
 class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Creates staging for website</p>
      *
@@ -47,9 +46,15 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             $websiteData = $this->loadDataSet($filename, $websiteData);
         }
         $websiteData = $this->clearDataArray($websiteData);
-        $settings = (isset($websiteData['settings'])) ? $websiteData['settings'] : array();
-        $generalInfo = (isset($websiteData['general_information'])) ? $websiteData['general_information'] : array();
-        $storeViews = (isset($websiteData['store_views'])) ? $websiteData['store_views'] : array();
+        $settings = (isset($websiteData['settings']))
+            ? $websiteData['settings']
+            : array();
+        $generalInfo = (isset($websiteData['general_information']))
+            ? $websiteData['general_information']
+            : array();
+        $storeViews = (isset($websiteData['store_views']))
+            ? $websiteData['store_views']
+            : array();
 
         $this->clickButton('add_staging_website');
         $this->fillSettings($settings);
@@ -119,13 +124,17 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
         }
         $mergeWebsiteData = $this->clearDataArray($mergeWebsiteData);
         $searchWebsiteData = (isset($mergeWebsiteData['search_website']))
-            ? $mergeWebsiteData['search_website'] : array();
+            ? $mergeWebsiteData['search_website']
+            : array();
         $generalInfo = (isset($mergeWebsiteData['general_information']))
-            ? $mergeWebsiteData['general_information'] : array();
+            ? $mergeWebsiteData['general_information']
+            : array();
         $mergeConfig = (isset($mergeWebsiteData['merge_configuration']))
-            ? $mergeWebsiteData['merge_configuration'] : array();
+            ? $mergeWebsiteData['merge_configuration']
+            : array();
         $scheduleMerge = (isset($mergeWebsiteData['schedule_merge']))
-            ? $mergeWebsiteData['schedule_merge'] : array();
+            ? $mergeWebsiteData['schedule_merge']
+            : array();
 
         $this->openStagingWebsite($searchWebsiteData);
         if ($generalInfo) {
@@ -168,6 +177,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
      * <p>Build Frontend URL for staging website</p>
      *
      * @param string $stagingWebsiteCode
+     *
      * @return string $frontendUrl
      */
     public function buildFrontendUrl($stagingWebsiteCode)
