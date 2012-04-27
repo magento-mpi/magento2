@@ -363,7 +363,7 @@ class Mage_Core_Model_Translate_Inline
      * Prepare tags inline translates for the content
      *
      * @param string $content
-     * @return string|array
+     * @return void
      */
     protected function _prepareTagAttributesForContent(&$content)
     {
@@ -396,7 +396,6 @@ class Mage_Core_Model_Translate_Inline
             }
             $nextTag = $tagMatch[0][1] + strlen($tagHtml);
         }
-        return $content;
     }
 
     /**
