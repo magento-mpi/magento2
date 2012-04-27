@@ -142,7 +142,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         if (isset($verifyData['gift_wrapping_websites'])
             && !$this->controlIsPresent('multiselect', 'gift_wrapping_websites')
         ) {
-            $this->verifyForm($verifyData, array('gift_wrapping_websites'));
+            $this->verifyForm($verifyData, null, array('gift_wrapping_websites'));
         } else {
             $this->verifyForm($verifyData);
         }

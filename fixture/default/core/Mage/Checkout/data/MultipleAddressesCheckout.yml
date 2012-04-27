@@ -93,6 +93,34 @@ long_values:
     telephone: %longValue255%
     fax: %longValue255%
 
+shipping_usa_1: &shipping_usa_1
+    first_name: Steven
+    last_name: Stevenson
+    company: %noValue%
+    street_address_1: Oak street
+    street_address_2: 1234
+    city: Los Angelos
+    country: United States
+    state: California
+    region: %noValue%
+    zip_code: 90064
+    telephone: 732-757-2923
+    fax: %noValue%
+
+shipping_usa_2: &shipping_usa_2
+    first_name: Chuk
+    last_name: Norris
+    company: %noValue%
+    street_address_1: Chuk Norris street
+    street_address_2: %noValue%
+    city: Navasota
+    country: United States
+    state: Texas
+    region: %noValue%
+    zip_code: 77868
+    telephone: 1800-2209-7492
+    fax: %noValue%
+
 shipping_france_1: &shipping_france_1
     first_name: Michèle
     last_name: St-Pierre
@@ -135,11 +163,26 @@ multiple_login: &login
         password: 123123q
 ################################################################################
 #                                                                              #
+#                                 Payment Method                               #
+#                                                                              #
+################################################################################
+multiple_front_payment_checkmoney: &check_money
+    payment_method: Check / Money order
+################################################################################
+#                                                                              #
+#                                 Shipping Method                              #
+#                                                                              #
+################################################################################
+multiple_front_shipping_flatrate: &flat_rate
+    shipping_service: Flat Rate
+    shipping_method: Fixed
+################################################################################
+#                                                                              #
 #                    Order Data with Register Customer                         #
 #                                                                              #
 ################################################################################
 multiple_with_register:
-    products_to_add:
+    products_to_add: &products_two
         product_1:
             product_name: %product_1%
             options: %option_product_1%
@@ -147,7 +190,7 @@ multiple_with_register:
             product_name: %product_2%
             options: %option_product_2%
     checkout_as_customer: *register
-    general_customer_data:
+    general_customer_data: &general_customer_data_register
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
         email: multiple_checkout_%randomize%@unknown-domain.com
@@ -163,140 +206,118 @@ multiple_with_register:
         country: United States
         password: 123123q
         password_confirmation: 123123q
+    shipping_address_data: &shipping_address_data
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: *shipping_usa_1
+        address_to_add_2:
+            shipping_address: *shipping_usa_2
+        address_to_ship_2:
+            product_name: %product_2%
+            qty: 2
+            shipping_address: *shipping_usa_2
     shipping_data: &shipping_data
-        address_data_1:
-            address:
-                first_name: John
-                last_name: Doe
-                company: %noValue%
-                telephone: 732-757-2923
-                fax: %noValue%
-                street_address_1: street_address_1
-                street_address_2: suite 1
-                city: Los Angelos
-                state: California
-                region: %noValue%
-                zip_code: 90064
-                country: United States
-            products:
-                product_1:
-                    product_name: %product_1%
-                    product_qty: 2
-            shipping:
-                shipping_service: Flat Rate
-                shipping_method: Fixed
-        address_data_2:
-            address:
-                first_name: Chuck
-                last_name: Norris
-                company: %noValue%
-                telephone: 530-918-3581
-                fax: %noValue%
-                street_address_1: street_address_2
-                street_address_2: suite 2
-                city: Culver City
-                state: California
-                region: %noValue%
-                zip_code: 90232
-                country: United States
-            products:
-                product_1:
-                    product_name: %product_2%
-                    product_qty: 2
-            shipping:
-                shipping_service: Flat Rate
-                shipping_method: Fixed
-    payment_data: &payment_data
-        billing_address:
-                first_name: Charlie
-                last_name: Pane
-                company: %noValue%
-                telephone: 732-757-2923
-                fax: %noValue%
-                street_address_1: street_address_3
-                street_address_2: suite 3
-                city: Los Angelos
-                state: California
-                region: %noValue%
-                zip_code: 90064
-                country: United States
-        payment:
-            payment_method: Check / Money order
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+        address_2:
+            search_shipping_address: *shipping_usa_2
+            shipping_method: *flat_rate
+    billing_address_data: &billing_data
+        new_address: &billing_address
+            first_name: Charlie
+            last_name: Pane
+            company: %noValue%
+            telephone: 732-757-2923
+            fax: %noValue%
+            street_address_1: street_address_3
+            street_address_2: suite 3
+            city: Los Angelos
+            state: California
+            region: %noValue%
+            zip_code: 90064
+            country: United States
+        select_address: *billing_address
+    payment_data: *check_money
+
+multiple_with_register_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *register
+    general_customer_data: *general_customer_data_register
+    shipping_address_data: &shipping_address_data_with_virtual
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: *shipping_usa_1
+        address_to_ship_2:
+            product_name: %product_2%
+            qty: 2
+    shipping_data: &shipping_data_with_virtual
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
 
 multiple_with_register_france:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *register
-    general_customer_data:
-        first_name: %randomize%_first_name
-        last_name: %randomize%_last_name
-        email: multiple_checkout_%randomize%@unknown-domain.com
-        sign_up_newsletter: No
-        company: %noValue%
-        telephone: 732-757-2923
-        street_address_1: street_address_%randomize%
-        street_address_2: suite %randomize%
-        city: Los Angelos
-        state: California
-        region: %noValue%
-        zip_code: 90064
-        country: United States
-        password: 123123q
-        password_confirmation: 123123q
+    general_customer_data: *general_customer_data_register
+    shipping_address_data: &shipping_address_data_france
+        address_to_add_1:
+            shipping_address: *shipping_france_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: *shipping_france_1
+        address_to_add_2:
+            shipping_address: *shipping_france_2
+        address_to_ship_2:
+            product_name: %product_2%
+            qty: 2
+            shipping_address: *shipping_france_2
     shipping_data: &shipping_data_france
-        address_data_1:
-            address: *shipping_france_1
-            products:
-                product_1:
-                    product_name: %product_1%
-                    product_qty: 2
-            shipping:
-                shipping_service: Flat Rate
-                shipping_method: Fixed
-        address_data_2:
-            address: *shipping_france_2
-            products:
-                product_1:
-                    product_name: %product_2%
-                    product_qty: 2
-            shipping:
-                shipping_service: Flat Rate
-                shipping_method: Fixed
-    payment_data:
-        billing_address:
-                first_name: Charlie
-                last_name: Pane
-                company: %noValue%
-                telephone: 732-757-2923
-                fax: %noValue%
-                street_address_1: street_address_3
-                street_address_2: suite 3
-                city: Los Angelos
-                state: California
-                region: %noValue%
-                zip_code: 90064
-                country: United States
-        payment:
-            payment_method: Check / Money order
+        address_1:
+            search_shipping_address: *shipping_france_1
+            shipping_method: *flat_rate
+        address_2:
+            search_shipping_address: *shipping_france_2
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_register_france_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *register
+    general_customer_data: *general_customer_data_register
+    shipping_address_data: &shipping_address_data_france_with_virtual
+        address_to_add_1:
+            shipping_address: *shipping_france_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: *shipping_france_1
+        address_to_ship_2:
+            product_name: %product_2%
+    shipping_data: &shipping_data_france_with_virtual
+        address_1:
+            search_shipping_address: *shipping_france_1
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
 ################################################################################
 #                                                                              #
 #               Order Data for Signed in  Customer                             #
 #                                                                              #
 ################################################################################
 multiple_with_signed_in:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
-    general_customer_data:
+    products_to_add: *products_two
+    general_customer_data: &general_customer_data_signedin
         first_name: %randomize%_first_name
         last_name: %randomize%_last_name
         company: %noValue%
@@ -309,83 +330,469 @@ multiple_with_signed_in:
         region: %noValue%
         zip_code: 90064
         country: United States
+    shipping_address_data: *shipping_address_data
     shipping_data: *shipping_data
-    payment_data: *payment_data
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_signed_in_with_virtual:
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_with_virtual
+    shipping_data: *shipping_data_with_virtual
+    billing_address_data: *billing_data
+    payment_data: *check_money
 
 multiple_with_signed_in_france:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
-    general_customer_data:
-        first_name: %randomize%_first_name
-        last_name: %randomize%_last_name
-        company: %noValue%
-        telephone: 732-757-2923
-        fax: %noValue%
-        street_address_1: street_address_%randomize%
-        street_address_2: suite %randomize%
-        city: Los Angelos
-        state: California
-        region: %noValue%
-        zip_code: 90064
-        country: United States
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_france
     shipping_data: *shipping_data_france
-    payment_data: *payment_data
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_signed_in_france_with_virtual:
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_france_with_virtual
+    shipping_data: *shipping_data_france_with_virtual
+    billing_address_data: *billing_data
+    payment_data: *check_money
 ################################################################################
 #                                                                              #
 #               Order Data with logging Customer                               #
 #                                                                              #
 ################################################################################
 multiple_with_login:
-    products_to_add:
-        product_1:
-            product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
+    products_to_add: *products_two
     checkout_as_customer: *login
-    general_customer_data:
-        first_name: %randomize%_first_name
-        last_name: %randomize%_last_name
-        company: %noValue%
-        telephone: 732-757-2923
-        fax: %noValue%
-        street_address_1: street_address_%randomize%
-        street_address_2: suite %randomize%
-        city: Los Angelos
-        state: California
-        region: %noValue%
-        zip_code: 90064
-        country: United States
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data
     shipping_data: *shipping_data
-    payment_data: *payment_data
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_login_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *login
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_with_virtual
+    shipping_data: *shipping_data_with_virtual
+    billing_address_data: *billing_data
+    payment_data: *check_money
 
 multiple_with_login_france:
-    products_to_add:
+    products_to_add: *products_two
+    checkout_as_customer: *login
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_france
+    shipping_data: *shipping_data_france
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+multiple_with_login_france_with_virtual:
+    products_to_add: *products_two
+    checkout_as_customer: *login
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data: *shipping_address_data_france_with_virtual
+    shipping_data: *shipping_data_france_with_virtual
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
+########################################################################################################################
+#                                                                                                                      #
+#                                          Gift Wrapping data                                                          #
+#                                                                                                                      #
+########################################################################################################################
+
+gift_message_with_gift_wrapping: &giftOptions
+    entire_order:
+        order_gift_wrapping_design: %noValue%
+        gift_message:
+            gift_option_entire_order_from: Me
+            gift_option_entire_order_to: Someone else
+            gift_option_entire_order_message: Message itself
+    individual_items: %noValue%
+
+gift_message_for_individual_items:
+    gift_option_for_individual_items_from: From_%randomize%,
+    gift_option_for_individual_items_to: To_%randomize%',
+    gift_option_for_individual_items_message: %randomize%_message
+
+multiple_with_gift_wrapping_and_message:
+    products_to_add: &product_one
         product_1:
             product_name: %product_1%
-            options: %option_product_1%
-        product_2:
-            product_name: %product_2%
-            options: %option_product_2%
     checkout_as_customer: *login
-    general_customer_data:
-        first_name: %randomize%_first_name
-        last_name: %randomize%_last_name
-        company: %noValue%
-        telephone: 732-757-2923
-        fax: %noValue%
-        street_address_1: street_address_%randomize%
-        street_address_2: suite %randomize%
-        city: Los Angelos
-        state: California
-        region: %noValue%
-        zip_code: 90064
-        country: United States
-    shipping_data: *shipping_data_france
-    payment_data: *payment_data
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options: *giftOptions
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $41.53
+                gift_wrapping_for_items: $11.77
+                gift_wrapping_for_order: $11.77
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+
+multiple_with_gift_wrapping_and_message_for_order_only:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+
+shipping_data_for_wrapping:
+    address_1:
+        search_shipping_address: *shipping_usa_1
+        shipping_method: *flat_rate
+
+multiple_with_gift_card:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                add_gift_options: Yes
+                add_printed_card: Yes
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $27.99
+                printed_card: $10.00
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $27.99
+
+multiple_with_gift_receipt:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                add_gift_options: Yes
+                send_gift_receipt: Yes
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $17.99
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+multiple_with_gift_wrapping_message_card_receipt:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                add_gift_options: Yes
+                send_gift_receipt: Yes
+                add_printed_card: Yes
+                entire_order:
+                    order_gift_wrapping_design: %noValue%
+                    gift_message:
+                        gift_option_entire_order_from: Me
+                        gift_option_entire_order_to: Someone else
+                        gift_option_entire_order_message: Message itself
+                individual_items: %noValue%
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $60.06
+                gift_wrapping_for_items: $11.77
+                gift_wrapping_for_order: $11.77
+                printed_card: $18.53
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+
+recount_gift_options_for_order:
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %noValue%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $17.99
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+recount_gift_options_for_order_checkout:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                entire_order:
+                    order_gift_wrapping_design: %noValue%
+                    gift_message:
+                        gift_option_entire_order_from: Me
+                        gift_option_entire_order_to: Someone else
+                        gift_option_entire_order_message: Message itself
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $29.76
+                gift_wrapping_for_order: $11.77
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+recount_gift_options_for_items_checkout:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                individual_items: %noValue%
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $29.76
+                gift_wrapping_for_order: $11.77
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+recount_gift_card_checkout:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                add_gift_options: Yes
+                add_printed_card: Yes
+    payment_data: *check_money
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $36.52
+                printed_card: $18.53
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+
+miltiple_without_gift_wrapping:
+    products_to_add: *product_one
+    checkout_as_customer: *login
+    billing_address_data: %noValue%
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+
+#<-------------------------------------- Gift Wrapping on Product Level ----------------------------------------------->
+multiple_for_two_addresses_verify_wrapping_prices:
+    products_to_add: *products_two
+    checkout_as_customer: *login
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: *shipping_usa_1
+        address_to_add_2:
+            shipping_address: *shipping_usa_2
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 1
+            shipping_address: *shipping_usa_1
+        address_to_ship_2:
+            product_name: %product_2%
+            qty: 1
+            shipping_address: *shipping_usa_2
+    billing_address_data: %noValue%
+    payment_data: *check_money
+    shipping_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            shipping_method: *flat_rate
+            gift_options:
+                entire_order:
+                    order_gift_wrapping_design: %noValue%
+                individual_items: %noValue%
+        address_2:
+            search_shipping_address: *shipping_usa_2
+            shipping_method: *flat_rate
+            gift_options:
+                entire_order:
+                    order_gift_wrapping_design: %noValue%
+                individual_items: %noValue%
+    verify_products_data:
+        address_1:
+            search_shipping_address: *shipping_usa_1
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_1%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $41.53
+                gift_wrapping_for_items: $11.77
+                gift_wrapping_for_order: $11.77
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+        address_2:
+            search_shipping_address: *shipping_usa_2
+            validate_prod_data:
+                product_1:
+                    product_name: %validate_name_2%
+                    price: $12.99
+                    qty: 1
+                    subtotal: $12.99
+            validate_total_data:
+                total_for_this_address: $41.53
+                gift_wrapping_for_items: $11.77
+                gift_wrapping_for_order: $11.77
+                shipping_handling_flat_rate_fixed: $5.00
+                subtotal: $12.99
+        total_verification:
+            validate_total_data:
+                grand_total: 83.06

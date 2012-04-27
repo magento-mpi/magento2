@@ -38,7 +38,7 @@ gift_wrapping_without_image:
     gift_wrapping_design: gift wrapping %randomize%
     gift_wrapping_websites: Main Website
     gift_wrapping_status: Enabled
-    gift_wrapping_price: 12.99
+    gift_wrapping_price: 11.77
 
 edit_gift_wrapping_without_image:
     gift_wrapping_design: gift wrapping %randomize%

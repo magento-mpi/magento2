@@ -67,7 +67,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function createWrappingWithEmptyFields($fieldName, $fieldType)
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image', array($fieldName => ''));
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image', array($fieldName => ''));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -106,7 +106,8 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function createWrappingWithIncorrectPrice($fieldName, $fieldData, $messageName)
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image', array($fieldName => $fieldData));
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
+                                               array($fieldName => $fieldData));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -120,7 +121,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('gift_wrapping_price', '-10', 'enter_not_negative_number'),
-            array('gift_wrapping_price', ' ', 'enter_greater_zero')
+            array('gift_wrapping_price', ' ', 'empty_required_field')
         );
     }
 
@@ -142,9 +143,9 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function createWrapping()
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $editGiftWrappingData = $this->loadData('edit_gift_wrapping_without_image');
-        $searchGiftWrapping = $this->loadData('search_gift_wrapping',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $editGiftWrappingData = $this->loadDataSet('GiftWrapping', 'edit_gift_wrapping_without_image');
+        $searchGiftWrapping = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
             array('filter_gift_wrapping_design' => $editGiftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
@@ -183,11 +184,11 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function editWrapping($wrappingDesign)
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $editGiftWrappingData = $this->loadData('edit_gift_wrapping_without_image');
-        $searchGiftWrappingBefore = $this->loadData('search_gift_wrapping',
-            array('filter_gift_wrapping_design' => $wrappingDesign));
-        $searchGiftWrappingAfter = $this->loadData('search_gift_wrapping',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $editGiftWrappingData = $this->loadDataSet('GiftWrapping', 'edit_gift_wrapping_without_image');
+        $searchGiftWrappingBefore = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
+                    array('filter_gift_wrapping_design' => $wrappingDesign));
+        $searchGiftWrappingAfter = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
                     array('filter_gift_wrapping_design' => $editGiftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
@@ -226,7 +227,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function massactionEditWrapping()
     {
         //Preconditions
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');

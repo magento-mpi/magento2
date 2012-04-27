@@ -119,6 +119,7 @@ manage_sales_orders:
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
             confirmation_for_cancel: Are you sure you want to cancel this order?
             confirmation_to_void: Are you sure you want to void the payment?
+            confirmation_to_send_email: Are you sure you want to send order email to customer?
             #not verified
             authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
 

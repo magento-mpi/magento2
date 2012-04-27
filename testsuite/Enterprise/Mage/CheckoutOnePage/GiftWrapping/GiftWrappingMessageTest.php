@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_GiftWrapping_GiftWrappingMessageTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest extends Mage_Selenium_TestCase
 {
     public function assertPreconditions()
     {
@@ -81,7 +81,7 @@ class Enterprise_Mage_GiftWrapping_GiftWrappingMessageTest extends Mage_Selenium
     public function preconditionsCreateProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order');
+        $productData = $this->loadData('simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -104,7 +104,7 @@ class Enterprise_Mage_GiftWrapping_GiftWrappingMessageTest extends Mage_Selenium
     public function preconditionsCreateProductForWebsite($website)
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order',
+        $productData = $this->loadData('simple_product_visible',
             array('websites' => $website['general_information']['staging_website_name']));
         //Steps
         $this->loginAdminUser();

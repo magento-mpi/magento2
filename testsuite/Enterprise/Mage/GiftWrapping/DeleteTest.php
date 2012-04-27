@@ -71,7 +71,7 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
     public function createWrapping()
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -102,7 +102,7 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
     public function deleteWrapping($wrappingDesign)
     {
         //Data
-        $giftWrappingSearch = $this->loadData('search_gift_wrapping',
+        $giftWrappingSearch = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
             array('filter_gift_wrapping_design' => $wrappingDesign));
         //Steps
         $this->navigate('manage_gift_wrapping');
@@ -133,7 +133,7 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
     public function massactionDeleteWrapping()
     {
         //Preconditions
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
