@@ -37,6 +37,11 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     const IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER   = 3;
 
     /**
+     * Code of custom carrier
+     */
+    const CUSTOM_CARRIER_CODE = 'custom';
+
+    /**
      * Tracking info
      *
      * @var array
@@ -246,5 +251,15 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
         unlink($tmpFileName);
         return $page;
+    }
+
+    /**
+     * Check whether custom carrier was used for this track
+     *
+     * @return bool
+     */
+    public function isCustom()
+    {
+        return $this->getCarrierCode() == self::CUSTOM_CARRIER_CODE;
     }
 }
