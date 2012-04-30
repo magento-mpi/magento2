@@ -258,16 +258,16 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
         if ($this->getProduct()->getHasError()) {
             $this->setHasError(true)
-                ->setMessage(Mage::helper('sales')->__('Some of the selected options are not currently available.'));
+                ->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Some of the selected options are not currently available.'));
             $this->getQuote()->setHasError(true)
                 ->addMessage($this->getProduct()->getMessage(), 'options');
         }
 
         if ($this->getHasConfigurationUnavailableError()) {
             $this->setHasError(true)
-                ->setMessage(Mage::helper('sales')->__('Selected option(s) or their combination is not currently available.'));
+                ->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Selected option(s) or their combination is not currently available.'));
             $this->getQuote()->setHasError(true)
-                ->addMessage(Mage::helper('sales')->__('Some item options or their combination are not currently available.'), 'unavailable-configuration');
+                ->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Some item options or their combination are not currently available.'), 'unavailable-configuration');
             $this->unsHasConfigurationUnavailableError();
         }
 

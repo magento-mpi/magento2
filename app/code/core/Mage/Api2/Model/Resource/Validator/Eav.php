@@ -208,9 +208,9 @@ class Mage_Api2_Model_Resource_Validator_Eav extends Mage_Api2_Model_Resource_Va
         $errors        = array();
         $helper        = Mage::helper('Mage_Eav_Helper_Data');
         $requiredAttrs = array();
-        $isRequiredRE  = '/^' . str_replace('%s', '(.+)', preg_quote(Mage::helper('eav')->__('"%s" is a required value.'))) . '$/';
+        $isRequiredRE  = '/^' . str_replace('%s', '(.+)', preg_quote(Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is a required value.'))) . '$/';
         $greaterThanRE = '/^' . str_replace(
-            '%s', '(.+)', preg_quote(Mage::helper('eav')->__('"%s" length must be equal or greater than %s characters.'))
+            '%s', '(.+)', preg_quote(Mage::helper('Mage_Eav_Helper_Data')->__('"%s" length must be equal or greater than %s characters.'))
         ) . '$/';
 
         // find all required attributes labels

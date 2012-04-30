@@ -309,7 +309,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
         Mage::getConfig()->reinit();
         Mage::app()->reinitStores();
-        $isCategoryFlatAvailable = Mage::helper('catalog/category_flat')->isAvailable();
+        $isCategoryFlatAvailable = Mage::helper('Mage_Catalog_Helper_Category_Flat')->isAvailable();
 
         // rebuild flat tables after rollback
         if ($process == 'rollback') {

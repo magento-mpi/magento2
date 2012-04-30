@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
     public function isVisible()
     {
         /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('catalog/category_flat');
+        $categoryFlatHelper = Mage::helper('Mage_Catalog_Helper_Category_Flat');
         return $categoryFlatHelper->isEnabled() || !$categoryFlatHelper->isBuilt();
     }
 

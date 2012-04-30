@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     public function isVisible()
     {
         /** @var $productFlatHelper Mage_Catalog_Helper_Product_Flat */
-        $productFlatHelper = Mage::helper('catalog/product_flat');
+        $productFlatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
         return $productFlatHelper->isEnabled() || !$productFlatHelper->isBuilt();
     }
 
