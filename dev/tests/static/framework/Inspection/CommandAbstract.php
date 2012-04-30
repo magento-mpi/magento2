@@ -34,12 +34,16 @@ abstract class Inspection_CommandAbstract
      *
      * @param array $whiteList Files/directories to be inspected
      * @param array $blackList Files/directories to be excluded from the inspection
+     * @param array $resInfo Extended result information
      * @return bool
      */
-    public function run(array $whiteList, array $blackList = array())
+    public function run(array $whiteList, array $blackList = array(), &$resInfo = array())
     {
+        if (file_exists($this->_reportFile)) {
+            unlink($this->_reportFile);
+        }
         $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
-        return ($this->_execShellCmd($shellCmd) !== false);
+        return ($this->_execShellCmd($shellCmd, $resInfo) !== false);
     }
 
     /**
@@ -96,13 +100,41 @@ abstract class Inspection_CommandAbstract
      * Execute a shell command on the current environment and return its output or FALSE on failure
      *
      * @param string $shellCmd
+     * @param array $resInfo Extended result information
      * @return string|false
      */
-    protected function _execShellCmd($shellCmd)
+    protected function _execShellCmd($shellCmd, &$resInfo = array())
     {
         $output = array();
         exec($shellCmd . ' 2>&1', $output, $exitCode);
         $output = implode(PHP_EOL, $output);
+        $resInfo = array(
+            'exitCode' => $exitCode,
+            'output' => $output,
+            'message' => $this->_buildResultMessage($exitCode, $output)
+        );
         return ($exitCode === 0 ? $output : false);
+    }
+
+    /**
+     * Upon running a tool compose a message to show to a human
+     *
+     * @param int $exitCode
+     * @param string $output
+     * @return string
+     */
+    protected function _buildResultMessage($exitCode, $output)
+    {
+        if (!$exitCode) {
+            return 'Success reported.';
+        }
+        if (file_exists($this->_reportFile)) {
+            return "See detailed report in '{$this->_reportFile}'.";
+        }
+        if (strlen($output) <= 1000) {
+            return 'Command-line tool reports: ' . $output;
+        }
+        return 'Command-line tool reports (shortened): '
+            . substr($output, 0, 500) . "\n ... \n" . substr($output, -500);
     }
 }
