@@ -30,7 +30,8 @@ class Mage_Catalog_Model_Product_Flat_Flag extends Mage_Core_Model_Flag
      *
      * @return array
      */
-    public function getFlagData() {
+    public function getFlagData()
+    {
         $flagData = parent::getFlagData();
         if (!is_array($flagData)) {
             $flagData = array();
@@ -40,11 +41,12 @@ class Mage_Catalog_Model_Product_Flat_Flag extends Mage_Core_Model_Flag
     }
 
     /**
-     * Retrieve Catalog Product Flat is built flag
+     * Retrieve Catalog Product Flat Data is built flag
      *
      * @return bool
      */
-    public function getIsBuilt() {
+    public function getIsBuilt()
+    {
         $flagData = $this->getFlagData();
         if (!isset($flagData['is_built'])) {
             $flagData['is_built'] = false;
@@ -54,15 +56,32 @@ class Mage_Catalog_Model_Product_Flat_Flag extends Mage_Core_Model_Flag
     }
 
     /**
-     * Set Catalog Product Flat is built flag
+     * Set Catalog Product Flat Data is built flag
      *
      * @param bool $flag
+     *
      * @return Mage_Catalog_Model_Product_Flat_Flag
      */
-    public function setIsBuild($flag) {
+    public function setIsBuilt($flag)
+    {
         $flagData = $this->getFlagData();
         $flagData['is_built'] = (bool)$flag;
         $this->setFlagData($flagData);
+        return $this;
+    }
+
+    /**
+     * Set Catalog Product Flat Data is built flag
+     *
+     * @deprecated after 1.7.0.0 use Mage_Catalog_Model_Product_Flat_Flag::setIsBuilt() instead
+     *
+     * @param bool $flag
+     *
+     * @return Mage_Catalog_Model_Product_Flat_Flag
+     */
+    public function setIsBuild($flag)
+    {
+        $this->setIsBuilt($flag);
         return $this;
     }
 }

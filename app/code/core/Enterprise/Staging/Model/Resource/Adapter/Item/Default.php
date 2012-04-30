@@ -128,7 +128,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $helper   = Mage::helper($this->_flatTables[$entityName]['helper']);
         $resource = Mage::getResourceModel($this->_flatTables[$entityName]['resource_model']);
 
-        if ($helper->isBuilt()) {
+        /** @var $helper Mage_Catalog_Helper_Flat_Abstract */
+        if ($helper->isAvailable() && $helper->isBuilt()) {
             $staging    = $this->getStaging();
             $websites   = $staging->getMapperInstance()->getWebsiteObjects();
             $callback   = $callbackMethod . 'Flat';

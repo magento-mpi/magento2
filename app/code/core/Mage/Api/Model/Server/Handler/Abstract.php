@@ -271,7 +271,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
                 throw new Mage_Api_Exception('resource_path_not_callable');
             }
 
-            if (method_exists(&$model, $method)) {
+            if (method_exists($model, $method)) {
                 if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
                     return $model->$method((is_array($args) ? $args : array($args)));
                 } elseif (!is_array($args)) {
@@ -384,7 +384,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
                     throw new Mage_Api_Exception('resource_path_not_callable');
                 }
 
-                if (method_exists(&$model, $method)) {
+                if (method_exists($model, $method)) {
                     if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
                         $result[] = $model->$method((is_array($args) ? $args : array($args)));
                     } elseif (!is_array($args)) {

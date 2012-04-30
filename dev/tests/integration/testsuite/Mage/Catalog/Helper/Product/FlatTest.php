@@ -35,12 +35,12 @@ class Mage_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_helper->isBuilt());
         $flag = $this->_helper->getFlag();
         try {
-            $flag->setIsBuild(true);
+            $flag->setIsBuilt(true);
             $this->assertTrue($this->_helper->isBuilt());
 
-            $flag->setIsBuild(false);
+            $flag->setIsBuilt(false);
         } catch (Exception $e) {
-            $flag->setIsBuild(false);
+            $flag->setIsBuilt(false);
             throw $e;
         }
     }
