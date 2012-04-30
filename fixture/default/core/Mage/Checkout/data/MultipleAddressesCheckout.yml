@@ -343,6 +343,32 @@ multiple_with_signed_in_with_virtual:
     billing_address_data: *billing_data
     payment_data: *check_money
 
+multiple_with_signed_in_shipping_input_validation:
+    products_to_add: *products_two
+    general_customer_data: *general_customer_data_signedin
+    shipping_address_data:
+        address_to_add_1:
+            shipping_address: %shippingAddress1%
+        address_to_ship_1:
+            product_name: %product_1%
+            qty: 2
+            shipping_address: %shippingAddress1%
+        address_to_add_2:
+            shipping_address: *shipping_usa_2
+        address_to_ship_2:
+            product_name: %product_2%
+            qty: 2
+            shipping_address: *shipping_usa_2
+    shipping_data:
+        address_1:
+            search_shipping_address: %shippingAddress1%
+            shipping_method: *flat_rate
+        address_2:
+            search_shipping_address: *shipping_usa_2
+            shipping_method: *flat_rate
+    billing_address_data: *billing_data
+    payment_data: *check_money
+
 multiple_with_signed_in_france:
     products_to_add: *products_two
     general_customer_data: *general_customer_data_signedin
