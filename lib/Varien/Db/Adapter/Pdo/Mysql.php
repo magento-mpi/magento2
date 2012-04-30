@@ -1883,6 +1883,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Insert array to table based on columns definition
      *
+     * $data can be represented as:
+     * - array of associative arrays (e.g. array(array('column1' => 'value1'), array('column1' => 'value2'))
+     * - array of values, if $columns contains only one column (e.g. array('value1', 'value2'))
+     *
      * @param   string $table
      * @param   array $columns
      * @param   array $data
@@ -3371,23 +3375,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     protected function _prepareInsertData($row, &$bind)
     {
-        if (is_array($row)) {
-            $line = array();
-            foreach ($row as $value) {
-                if ($value instanceof Zend_Db_Expr) {
-                    $line[] = $value->__toString();
-                } else {
-                    $line[] = '?';
-                    $bind[] = $value;
-                }
+        $row = (array)$row;
+        $line = array();
+        foreach ($row as $value) {
+            if ($value instanceof Zend_Db_Expr) {
+                $line[] = $value->__toString();
+            } else {
+                $line[] = '?';
+                $bind[] = $value;
             }
-            $line = implode(', ', $line);
-        } elseif ($row instanceof Zend_Db_Expr) {
-            $line = $row->__toString();
-        } else {
-            $line = '?';
-            $bind[] = $row;
         }
+        $line = implode(', ', $line);
 
         return sprintf('(%s)', $line);
     }

@@ -2347,6 +2347,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Insert array to table based on columns definition
      *
+     * $data can be represented as:
+     * - array of associative arrays (e.g. array(array('column1' => 'value1'), array('column1' => 'value2'))
+     * - array of values, if $columns contains only one column (e.g. array('value1', 'value2'))
+     *
      * @param   string $table
      * @param   array $columns  the data array column map
      * @param   array $data
@@ -2363,6 +2367,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $ddlColumnTypeBlob = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB];
         $ddlColumnTypeVarbinary = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY];
         foreach ($data as $row) {
+            $row = (array)$row;
             if ($columnsCount != count($row)) {
                 throw new Zend_Db_Exception('Invalid data for insert');
             }

@@ -2421,6 +2421,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Insert array to table based on columns definition
      *
+     * $data can be represented as:
+     * - array of associative arrays (e.g. array(array('column1' => 'value1'), array('column1' => 'value2'))
+     * - array of values, if $columns contains only one column (e.g. array('value1', 'value2'))
+     *
      * @param   string $table
      * @param   array $columns  the data array column map
      * @param   array $data
@@ -2441,6 +2445,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $over = array_slice($data, $i);
                 break;
             }
+            $row = (array)$row;
             if ($columnsCount != count($row)) {
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
