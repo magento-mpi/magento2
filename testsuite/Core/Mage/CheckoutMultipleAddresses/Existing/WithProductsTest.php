@@ -104,14 +104,22 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         list($products) = $testData;
         $simple = $products['simple']['simple']['product_name'];
         $virtual = $products['configurable'][$productType]['product_name'];
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_with_virtual',
                                            array('email' => $testData['email']),
                                            array('product_1'=> $simple,
-                                                'product_2' => $virtual));
+                                                 'product_2' => $virtual));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
+    }
+
+    public function virtualProductsDataProvider()
+    {
+        return array(
+            array('simple'),
+            array('virtual')
+        );
     }
 
     /**
@@ -132,15 +140,16 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * <p>Expected result:</p>
      * <p>Checkout is successful;</p>
      *
-     * @param array $testData
      * @param string $productType
+     * @param string $dataset
+     * @param array $testData
      *
      * @test
-     * @dataProvider productsDataProvider
+     * @dataProvider withGroupedProductDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5236
      */
-    public function withGroupedProduct($productType, $testData)
+    public function withGroupedProduct($productType, $dataset, $testData)
     {
         //Data
         list($products) = $testData;
@@ -149,21 +158,29 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $optionParams = $products['grouped'][$productType]['product_name'];
         $productOptions = $this->loadDataSet('Products', 'grouped_options_to_add_to_shopping_cart', null,
                                              array('subProduct_1' => $optionParams));
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataset,
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
-                                                'product_2'        => $grouped,
-                                                'option_product_2' => $productOptions));
-        $checkoutData['shipping_data'] = $this->loadDataSet('MultipleAddressesCheckout',
-                                                            'multiple_with_login/shipping_data', null,
+                                                 'product_2'        => $grouped,
+                                                 'option_product_2' => $productOptions));
+        $checkoutData['shipping_address_data'] = $this->loadDataSet('MultipleAddressesCheckout',
+                                                            $dataset . '/shipping_address_data', null,
                                                             array('product_1' => $simple,
-                                                                 'product_2'  => $optionParams));
+                                                                  'product_2'  => $optionParams));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
     }
 
+    public function withGroupedProductDataProvider()
+    {
+        return array(
+            array('simple', 'multiple_with_login'),
+            array('virtual', 'multiple_with_login_with_virtual'),
+            array('downloadable', 'multiple_with_login_with_virtual')
+        );
+    }
     /**
      * <p>Checkout with multiple addresses bundle products</p>
      * <p>Preconditions:</p>
@@ -204,8 +221,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
-                                                'product_2'        => $bundle,
-                                                'option_product_2' => $productOptions));
+                                                 'product_2'        => $bundle,
+                                                 'option_product_2' => $productOptions));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
@@ -231,14 +248,15 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * <p>Checkout is successful;</p>
      *
      * @param string $productType
+     * @param string $dataset
      * @param array $testData
      *
      * @test
-     * @dataProvider productsDataProvider
+     * @dataProvider withConfigurableDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5238
      */
-    public function withConfigurable($productType, $testData)
+    public function withConfigurable($productType, $dataset, $testData)
     {
         //Data
         list($products) = $testData;
@@ -247,15 +265,24 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $optionParams = $products['configurable']['configurableOption'];
         $optionParams['custom_option_dropdown'] = $products['configurable'][$productType . 'Option']['option_front'];
         $productOptions = $this->loadDataSet('Products', 'configurable_options_to_add_to_shopping_cart', $optionParams);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataset,
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
-                                                'product_2'        => $configurable,
-                                                'option_product_2' => $productOptions));
+                                                 'product_2'        => $configurable,
+                                                 'option_product_2' => $productOptions));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
+    }
+
+    public function withConfigurableDataProvider()
+    {
+        return array(
+            array('simple', 'multiple_with_login'),
+            array('virtual', 'multiple_with_login_with_virtual'),
+            array('downloadable', 'multiple_with_login_with_virtual')
+        );
     }
 
     /**
@@ -289,32 +316,15 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $downloadable = $products['downloadable']['downloadable']['product_name'];
         $optionParams = $products['downloadable']['downloadableOption'];
         $productOptions = $this->loadDataSet('Products', 'downloadable_options_to_add_to_shopping_cart', $optionParams);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_with_virtual',
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
-                                                'product_2'        => $downloadable,
-                                                'option_product_2' => $productOptions));
+                                                 'product_2'        => $downloadable,
+                                                 'option_product_2' => $productOptions));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         $this->assertMessagePresent('success', 'success_checkout');
         $this->assertTrue(count($orderNumbers) == 2, $this->getMessagesOnPage());
-    }
-
-    public function productsDataProvider()
-    {
-        return array(
-            array('simple'),
-            array('virtual'),
-            array('downloadable')
-        );
-    }
-
-    public function virtualProductsDataProvider()
-    {
-        return array(
-            array('simple'),
-            array('virtual')
-        );
     }
 
     /**
@@ -336,6 +346,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * <p>Checkout is successful;</p>
      *
      * @param string $productType
+     * @param string $dataset
      * @param array $testData
      *
      * @test
@@ -343,7 +354,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5235
      */
-    public function withCustomOptions($productType, $testData)
+    public function withCustomOptions($productType, $dataset, $testData)
     {
         //Data
         list($products) = $testData;
@@ -366,7 +377,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         }
         $customOptions = $this->loadDataSet('Products', 'custom_options_to_add_to_shopping_cart');
         $productOptions = array_merge($productOptions, $customOptions);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataset,
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
                                                 'product_2'        => $secondProduct,
@@ -387,11 +398,11 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
     public function withCustomOptionsDataProvider()
     {
         return array(
-            array('virtual'),
-            array('downloadable'),
-            array('bundle'),
-            array('configurable'),
-            array('simple')
+            array('virtual', 'multiple_with_login_with_virtual'),
+            array('downloadable', 'multiple_with_login_with_virtual'),
+            array('bundle', 'multiple_with_login'),
+            array('configurable', 'multiple_with_login'),
+            array('simple', 'multiple_with_login')
         );
     }
 }
