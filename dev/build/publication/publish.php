@@ -12,14 +12,14 @@
 // get CLI options, define variables
 define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
-    --source="<repository>" [--source-branch="<branch>"] [--source-commit="<commit>"]
+    --source="<repository>" [--source-point="<branch name or commit ID>"]
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
     [--no-push]
 
 SYNOPSIS
 );
 $options = getopt('', array(
-    'source:', 'target:', 'source-branch::', 'source-commit::', 'target-branch::', 'target-dir::', 'no-push'
+    'source:', 'target:', 'source-point::', 'target-branch::', 'target-dir::', 'no-push'
 ));
 if (empty($options['source']) || empty($options['target'])) {
     echo SYNOPSIS;
@@ -28,8 +28,6 @@ if (empty($options['source']) || empty($options['target'])) {
 
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
-$sourceBranch = isset($options['source-branch']) ? $options['source-branch'] : 'master';
-$source = empty($options['source-commit']) ? "source/{$sourceBranch}" : $options['source-commit'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
 $canPush = !isset($options['no-push']);
@@ -58,9 +56,20 @@ try {
     }
 
     // Copy files from source repository to our working tree and index
-    execVerbose("$gitCmd checkout {$source} -- .");
+    if (empty($options['source-point'])) {
+        $sourcePoint = 'source/master';
+    } else {
+        try {
+            $sourcePoint = "source/{$options['source-point']}";
+            execVerbose("$gitCmd rev-parse $sourcePoint");
+        } catch (Exception $e) {
+            echo "Continuing assuming that 'source-point' is a commit ID.\n";
+            $sourcePoint = $options['source-point'];
+        }
+    }
+    execVerbose("$gitCmd checkout {$sourcePoint} -- .");
     // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
-    $files = execVerbose("$gitCmd diff --name-only {$source}");
+    $files = execVerbose("$gitCmd diff --name-only {$sourcePoint}");
     foreach ($files as $file) {
         execVerbose("$gitCmd rm -f %s", $file);
     }
