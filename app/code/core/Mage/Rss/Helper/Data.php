@@ -53,8 +53,13 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 
         list($username, $password) = $this->authValidate();
         Mage::getSingleton('Mage_Adminhtml_Model_Url')->setNoSecret(true);
-        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
-        $user = $adminSession->login($username, $password);
+
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->login($username, $password);
+        $adminSession = $auth->getAuthStorage();
+
+        $user = $adminSession->getUser();
+
         if ($user && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
             return $user;

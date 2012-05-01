@@ -18,14 +18,14 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     {
         parent::setUp();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
-        $session = new Mage_Admin_Model_Session();
-        $session->login('admingws_user', 'admingws_password');
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->login('admingws_user', 'admingws_password');
     }
 
     protected function tearDown()
     {
-        $session = new Mage_Admin_Model_Session();
-        $session->logout();
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->logout();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
         parent::tearDown();
     }

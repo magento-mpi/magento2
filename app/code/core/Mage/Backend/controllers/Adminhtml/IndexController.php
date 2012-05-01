@@ -37,7 +37,7 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             $this->_redirect('*');
             return;
         }
@@ -50,10 +50,9 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
      */
     public function logoutAction()
     {
-        /** @var $adminSession Mage_Admin_Model_Session */
-        $adminSession = Mage::getSingleton('Mage_Admin_Model_Session');
-        $adminSession->logout();
-        $adminSession->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('You have logged out.'));
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->logout();
+        $auth->getAuthStorage()->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('You have logged out.'));
         $this->_redirect('*');
     }
 

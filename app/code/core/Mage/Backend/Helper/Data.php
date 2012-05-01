@@ -65,8 +65,8 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getCurrentUserId()
     {
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->getUser()) {
-            return Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()) {
+            return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
         }
         return false;
     }

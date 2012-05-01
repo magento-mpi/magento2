@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Installation event observer
+ * Backend event observer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Observer
+class Mage_Backend_Model_Observer
 {
 
     public function bindLocale($observer)
     {
         if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getLocale()) {
+            if ($choosedLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale()) {
                 $locale->setLocaleCode($choosedLocale);
             }
         }
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Model_Observer
     /**
      * Prepare massaction separated data
      *
-     * @return Mage_Adminhtml_Model_Observer
+     * @return Mage_Backend_Model_Observer
      */
     public function massactionPrepareKey()
     {
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Model_Observer
     /**
      * Clear result of configuration files access level verification in system cache
      *
-     * @return Mage_Adminhtml_Model_Observer
+     * @return Mage_Backend_Model_Observer
      */
     public function clearCacheConfigurationFilesAccessLevelVerification()
     {
@@ -60,16 +60,17 @@ class Mage_Adminhtml_Model_Observer
      * Handler for controller_action_predispatch event
      *
      * @param Varien_Event_Observer $observer
+     * @return Mage_Backend_Model_Observer
      */
     public function actionPreDispatchAdmin($observer)
     {
         $request = Mage::app()->getRequest();
+
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = $observer->getEvent()->getControllerAction();
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
-        /** @var $user Mage_User_Model_User */
-        $user = $session->getUser();
+
+        /** @var $auth Mage_Backend_Model_Auth */
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
 
         $requestedActionName = $request->getActionName();
         $openActions = array(
@@ -82,10 +83,10 @@ class Mage_Adminhtml_Model_Observer
         if (in_array($requestedActionName, $openActions)) {
             $request->setDispatched(true);
         } else {
-            if ($user) {
-                $user->reload();
+            if ($auth->getUser()) {
+                $auth->getUser()->reload();
             }
-            if (!$session->isLoggedIn()) {
+            if (!$auth->isLoggedIn()) {
                 $isRedirectNeeded = false;
                 if ($request->getPost('login')) {
                     $this->_performLogin($controller, $isRedirectNeeded);
@@ -111,8 +112,8 @@ class Mage_Adminhtml_Model_Observer
                 }
             }
         }
-
-        $session->refreshAcl();
+        $auth->getAuthStorage()->refreshAcl();
+        return $this;
     }
 
     /**
@@ -120,29 +121,33 @@ class Mage_Adminhtml_Model_Observer
      *
      * @param Mage_Core_Controller_Varien_Action $controller
      * @param bool $isRedirectNeeded
-     * @return bool
+     * @return Mage_Backend_Model_Observer
      */
     protected function _performLogin($controller, &$isRedirectNeeded)
     {
         $isRedirectNeeded = false;
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+
         $request = $controller->getRequest();
 
         $postLogin  = $request->getPost('login');
         $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
         $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
         $request->setPost('login', null);
-        $result = $session->login($username, $password);
-        if ($result) {
+
+
+        try {
+            Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
             $this->_redirectIfNeededAfterLogin($controller);
-        } else if (!$request->getParam('messageSent')) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid User Name or Password.')
-            );
-            $request->setParam('messageSent', true);
+        } catch (Mage_Backend_Model_Auth_Exception $e) {
+            if (!$request->getParam('messageSent')) {
+                Mage::getSingleton('Mage_Backend_Model_Session')->addError(
+                    Mage::helper('Mage_Backend_Helper_Data')->__('Invalid User Name or Password.')
+                );
+                $request->setParam('messageSent', true);
+            }
         }
-        return $result;
+
+        return $this;
     }
 
     /**

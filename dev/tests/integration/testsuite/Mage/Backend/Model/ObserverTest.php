@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @group module:Mage_Adminhtml
+ * @group module:Mage_Backend
  */
-class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Adminhtml_Model_Observer
+     * @var Mage_Backend_Model_Observer
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Mage_Adminhtml_Model_Observer();
+        $this->_model = new Mage_Backend_Model_Observer();
     }
 
     public function testActionPreDispatchAdminNotLogged()
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $this->assertTrue($session->isLoggedIn());
     }
 

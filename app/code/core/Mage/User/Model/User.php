@@ -42,7 +42,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_User extends Mage_Core_Model_Abstract
+class Mage_User_Model_User extends Mage_Core_Model_Abstract implements Mage_Backend_Model_Auth_Credential_StorageInterface
 {
     /**
      * Configuration paths for email templates and identities

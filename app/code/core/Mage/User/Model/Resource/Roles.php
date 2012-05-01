@@ -88,7 +88,7 @@ class Mage_User_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstrac
     {
         $this->_updateRoleUsersAcl($role);
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array(Mage_Backend_Block_Page_Menu::CACHE_TAGS));
+            array(Mage_Backend_Block_Menu::CACHE_TAGS));
         return $this;
     }
 

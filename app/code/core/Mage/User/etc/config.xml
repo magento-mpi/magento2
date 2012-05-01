@@ -32,6 +32,11 @@
                 </admin_emails_forgot_email_template>
             </email>
         </template>
+        <backend>
+            <auth>
+                <credential_storage>Mage_User_Model_User</credential_storage>
+            </auth>
+        </backend>
     </global>
     <default>
         <admin>

@@ -3,51 +3,32 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Admin
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @group module:Mage_Admin
+ * @group module:Mage_Backend
  */
-class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Admin_Model_Session
+     * @var Mage_Backend_Model_Auth
      */
-    protected $_model;
-
-    public function setUp()
-    {
-        $this->_model = new Mage_Admin_Model_Session();
-    }
-
-    public function testLoginFailed()
-    {
-        $result = $this->_model->login('not_exists', 'not_exists');
-        $this->assertFalse($result);
-    }
+    protected $_auth;
 
     /**
-     * @magentoAppIsolation enabled
+     * @var Mage_Backend_Model_Auth_Session
      */
-    public function testLoginSuccessful()
+    protected $_model;
+    
+    public function setUp()
     {
-        $result = $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-        $this->assertInstanceOf('Mage_User_Model_User', $result);
-        $this->assertGreaterThan(time() - 10, $this->_model->getUpdatedAt());
-    }
-
-    public function testLogout()
-    {
-        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-        $this->assertNotEmpty($this->_model->getData());
-        $this->_model->getCookie()->set($this->_model->getSessionName(), 'session_id');
-        $this->_model->logout();
-        $this->assertEmpty($this->_model->getData());
-        $this->assertEmpty($this->_model->getCookie()->get($this->_model->getSessionName()));
+        $this->_auth  = new Mage_Backend_Model_Auth();
+        $this->_model = new Mage_Backend_Model_Auth_Session();
+        $this->_auth->setAuthStorage($this->_model);
     }
 
     /**
@@ -56,7 +37,7 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedIn()
     {
-        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);
@@ -69,7 +50,7 @@ class Mage_Admin_Model_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedInWithIgnoredLifetime()
     {
-        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);

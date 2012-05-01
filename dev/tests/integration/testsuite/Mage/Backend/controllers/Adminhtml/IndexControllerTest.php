@@ -22,14 +22,20 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
     protected $_session;
 
     /**
+     * @var Mage_Backend_Model_Auth
+     */
+    protected $_auth;
+
+    /**
      * Performs user login
      */
-    protected function _login()
+    protected  function _login()
     {
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
-        $this->_session = Mage::getSingleton('Mage_Admin_Model_Session');
-        $this->_session->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_session = $this->_auth->getAuthStorage();
     }
 
     /**
@@ -37,7 +43,7 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     protected function _logout()
     {
-        $this->_session->logout();
+        $this->_auth->logout();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
     }
 

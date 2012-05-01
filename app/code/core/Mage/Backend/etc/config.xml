@@ -27,6 +27,9 @@
                 </routers>
             </adminhtml>
         </areas>
+        <backend>
+            <auth/>
+        </backend>
     </global>
     <admin>
         <routers>

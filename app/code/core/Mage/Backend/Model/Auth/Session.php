@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Auth session model
+ * Backend Auth session model
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract implements Mage_Backend_Model_Auth_StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
@@ -54,59 +54,6 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         parent::init($namespace, $sessionName);
         $this->isFirstPageAfterLogin();
         return $this;
-    }
-
-    /**
-     * Try to login user in admin. Possible results:
-     * - Mage_User_Model_User - user logged in and appropriate model is loaded
-     * - false - user not logged in
-     *
-     * @param  string $username
-     * @param  string $password
-     * @return Mage_User_Model_User|bool
-     */
-    public function login($username, $password)
-    {
-        if (empty($username) || empty($password)) {
-            return false;
-        }
-
-        try {
-            /** @var $user Mage_User_Model_User */
-            $user = Mage::getModel('Mage_User_Model_User');
-            $user->login($username, $password);
-            if (!$user->getId()) {
-                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid User Name or Password.'));
-            }
-
-            $this->renewSession();
-
-            if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Url')->renewSecretUrls();
-            }
-            $this->setIsFirstPageAfterLogin(true);
-            $this->setUser($user);
-            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
-            $this->setUpdatedAt(time());
-
-            Mage::dispatchEvent('admin_session_user_login_success', array('user' => $user));
-
-            return $user;
-        } catch (Mage_Core_Exception $e) {
-            Mage::dispatchEvent('admin_session_user_login_failed',
-                array('user_name' => $username, 'exception' => $e));
-            return false;
-        }
-    }
-
-    /**
-     * Log out the user from the admin
-     */
-    public function logout()
-    {
-        $this->unsetAll();
-        $this->getCookie()->delete($this->getSessionName());
-        Mage::dispatchEvent('admin_session_user_logout');
     }
 
     /**
@@ -211,5 +158,38 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $this->_isFirstPageAfterLogin = (bool)$value;
         return $this->setIsFirstVisit($this->_isFirstPageAfterLogin);
+    }
+
+    /**
+     * Process of configuring of current auth storage when login was performed
+     *
+     * @return Mage_Backend_Model_Auth_Session
+     */
+    public function processLogin()
+    {
+        if ($this->getUser()) {
+            $this->renewSession();
+
+            if (Mage::getSingleton('Mage_Adminhtml_Model_Url')->useSecretKey()) {
+                Mage::getSingleton('Mage_Adminhtml_Model_Url')->renewSecretUrls();
+            }
+
+            $this->setIsFirstPageAfterLogin(true);
+            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setUpdatedAt(time());
+        }
+        return $this;
+    }
+
+    /**
+     * Process of configuring of current auth storage when logout was performed
+     *
+     * @return Mage_Backend_Model_Auth_Session
+     */
+    public function processLogout()
+    {
+        $this->unsetAll();
+        $this->getCookie()->delete($this->getSessionName());
+        return $this;
     }
 }
