@@ -57,15 +57,14 @@ try {
 
     // Copy files from source repository to our working tree and index
     if (empty($options['source-point'])) {
-        $sourcePoint = 'source/master';
-    } else {
-        try {
-            $sourcePoint = "source/{$options['source-point']}";
-            execVerbose("$gitCmd rev-parse $sourcePoint");
-        } catch (Exception $e) {
-            echo "Continuing assuming that 'source-point' is a commit ID.\n";
-            $sourcePoint = $options['source-point'];
-        }
+        $options['source-point'] = 'master';
+    }
+    try {
+        $sourcePoint = "source/{$options['source-point']}";
+        execVerbose("$gitCmd rev-parse $sourcePoint");
+    } catch (Exception $e) {
+        echo "Continuing assuming that 'source-point' is a commit ID.\n";
+        $sourcePoint = $options['source-point'];
     }
     execVerbose("$gitCmd checkout {$sourcePoint} -- .");
     // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
