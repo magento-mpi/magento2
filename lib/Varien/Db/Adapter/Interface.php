@@ -373,7 +373,7 @@ interface Varien_Db_Adapter_Interface
     public function insertMultiple($table, array $data);
 
     /**
-     * Insert array to a table based on columns definition
+     * Insert array into a table based on columns definition
      *
      * $data can be represented as:
      * - arrays of values ordered according to columns in $columns array
