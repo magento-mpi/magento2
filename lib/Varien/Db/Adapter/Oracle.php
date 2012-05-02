@@ -2345,11 +2345,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Insert array to table based on columns definition
+     * Insert array into a table based on columns definition
      *
      * $data can be represented as:
-     * - array of associative arrays (e.g. array(array('column1' => 'value1'), array('column1' => 'value2'))
-     * - array of values, if $columns contains only one column (e.g. array('value1', 'value2'))
+     * - arrays of values ordered according to columns in $columns array
+     *      array(
+     *          array('value1', 'value2'),
+     *          array('value3', 'value4'),
+     *      )
+     * - array of values, if $columns contains only one column
+     *      array('value1', 'value2')
      *
      * @param   string $table
      * @param   array $columns  the data array column map
