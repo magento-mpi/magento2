@@ -38,13 +38,45 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
     /**
      * Get title for specified theme and package code
      *
-     * @param string $themeCode
-     * @param string $packageCode
+     * @param string $package
+     * @param string $theme
      * @return string|false
      */
-    public function getThemeTitle($themeCode, $packageCode)
+    public function getThemeTitle($package, $theme)
     {
-        return $this->_getScalarNodeValue("/design/package[@code='{$packageCode}']/theme[@code='{$themeCode}']/title");
+        return $this->_getScalarNodeValue("/design/package[@code='{$package}']/theme[@code='{$theme}']/title");
+    }
+
+    /**
+     * Retrieve a parent theme code
+     *
+     * @param string $package
+     * @param string $theme
+     * @return string|null
+     */
+    public function getParentTheme($package, $theme)
+    {
+        $this->_ensureThemeExists($package, $theme);
+        $xPath = new DOMXPath($this->_dom);
+        /** @var $themeNode DOMElement */
+        $themeNode = $xPath->query("/design/package[@code='{$package}']/theme[@code='{$theme}']")->item(0);
+        return $themeNode->getAttribute('parent') ?: null;
+    }
+
+    /**
+     * Check whether a theme exists in a design package
+     *
+     * @param string $package
+     * @param string $theme
+     * @throws Magento_Exception
+     */
+    protected function _ensureThemeExists($package, $theme)
+    {
+        $xPath = new DOMXPath($this->_dom);
+        $themeNodeList = $xPath->query("/design/package[@code='{$package}']/theme[@code='{$theme}']");
+        if (!$themeNodeList->length) {
+            throw new Magento_Exception('Unknown theme "' . $theme . '" in "' . $package . '" package.');
+        }
     }
 
     /**
@@ -70,18 +102,16 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
      *
      * @param string $package
      * @param string $theme
-     * @throw Magento_Exception an exception in case of unknown theme
      * @return array
      */
     public function getCompatibleVersions($package, $theme)
     {
+        $this->_ensureThemeExists($package, $theme);
         $xPath = new DOMXPath($this->_dom);
+        /** @var $version DOMElement */
         $version = $xPath
             ->query("/design/package[@code='{$package}']/theme[@code='{$theme}']/requirements/magento_version")
             ->item(0);
-        if (!$version) {
-            throw new Magento_Exception('Unknown theme "' . $theme . '" in "' . $package . '" package.');
-        }
         $result = array(
             'from'  => $version->getAttribute('from'),
             'to'    => $version->getAttribute('to')

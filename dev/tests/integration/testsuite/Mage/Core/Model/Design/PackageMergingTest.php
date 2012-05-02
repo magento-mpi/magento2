@@ -51,7 +51,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
         $pub = Mage::getBaseDir('media');
         $this->_pubMerged = "{$pub}/skin/_merged";
-        $this->_pubLib = Mage::getBaseDir('js');;
+        $this->_pubLib = Mage::getBaseDir('js');
         // emulate source skin
         $this->_skinFixture = dirname(__DIR__) . '/_files/skin';
     }

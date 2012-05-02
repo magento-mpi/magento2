@@ -57,14 +57,14 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $themeCode
      * @param string $packageCode
+     * @param string $themeCode
      * @param mixed $expected
      * @dataProvider getThemeTitleDataProvider
      */
-    public function testGetThemeTitle($themeCode, $packageCode, $expected)
+    public function testGetThemeTitle($packageCode, $themeCode, $expected)
     {
-        $this->assertSame($expected, self::$_model->getThemeTitle($themeCode, $packageCode));
+        $this->assertSame($expected, self::$_model->getThemeTitle($packageCode, $themeCode));
     }
 
     /**
@@ -74,7 +74,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('default', 'default', 'Default'),
-            array('test', 'default', 'Test'),
+            array('default', 'test',    'Test'),
             array('invalid', 'invalid', false),
             array('default', 'invalid', false),
             array('invalid', 'default', false),

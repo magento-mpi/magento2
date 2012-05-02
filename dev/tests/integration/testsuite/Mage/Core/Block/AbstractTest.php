@@ -456,6 +456,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Isolation level has been raised in order to flush themes configuration in-memory cache
+     *
+     * @magentoAppIsolation enabled
+     */
     public function testGetSkinUrl()
     {
         $this->assertStringStartsWith('http://localhost/pub/media/skin/frontend/', $this->_block->getSkinUrl());

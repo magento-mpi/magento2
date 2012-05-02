@@ -4,6 +4,7 @@
  *
  * @category    Magento
  * @package     Design
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +12,8 @@
 <design>
     <package code="package">
         <title>Default</title>
-        <theme version="2.0.0.0" code="custom_theme">
-            <title>Default</title>
+        <theme version="2.0.0.0" code="custom_theme" parent="default">
+            <title>Custom Theme</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>
