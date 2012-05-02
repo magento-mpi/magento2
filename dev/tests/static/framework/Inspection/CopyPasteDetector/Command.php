@@ -108,6 +108,7 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
             escapeshellarg($this->_reportFile),
             escapeshellarg("{$this->_reportFile}.html")
         ));
+        $this->_generateLastRunMessage();
         return ($result !== false);
     }
 }

@@ -58,7 +58,7 @@ abstract class Inspection_CommandAbstract
         }
         $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
         $result = $this->_execShellCmd($shellCmd);
-        $this->_buildLastRunMessage();
+        $this->_generateLastRunMessage();
         return $result !== false;
     }
 
@@ -127,11 +127,11 @@ abstract class Inspection_CommandAbstract
     }
 
     /**
-     * Return message about last execution result, prepared for output to user
+     * Generate message about last execution result, prepared for output to a user
      *
      * @return Inspection_CommandAbstract
      */
-    protected function _buildLastRunMessage()
+    protected function _generateLastRunMessage()
     {
         if ($this->_lastExitCode === null) {
             $this->_lastRunMessage = "Nothing was executed.";
@@ -139,11 +139,8 @@ abstract class Inspection_CommandAbstract
             $this->_lastRunMessage = 'Success reported.';
         } else if (file_exists($this->_reportFile)) {
             $this->_lastRunMessage = "See detailed report in '{$this->_reportFile}'.";
-        } else if (strlen($this->_lastOutput) <= 1000) {
-            $this->_lastRunMessage = 'Command-line tool reports: ' . $this->_lastOutput;
         } else {
-            $this->_lastRunMessage = 'Command-line tool reports (shortened): '
-                . substr($this->_lastOutput, 0, 500) . "\n ... \n" . substr($this->_lastOutput, -500);
+            $this->_lastRunMessage = 'Command-line tool reports: ' . $this->_lastOutput;
         }
         return $this;
     }
