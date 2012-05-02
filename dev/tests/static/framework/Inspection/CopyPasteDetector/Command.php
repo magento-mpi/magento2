@@ -77,12 +77,11 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
      *
      * @param array $whiteList Files/directories to be inspected
      * @param array $blackList Files/directories to be excluded from the inspection
-     * @param array $resInfo Extended result information
      * @return bool
      */
-    public function run(array $whiteList, array $blackList = array(), &$resInfo = array())
+    public function run(array $whiteList, array $blackList = array())
     {
-        $result = parent::run($whiteList, $blackList, $resInfo);
+        $result = parent::run($whiteList, $blackList);
         if ($result) {
             $generateHtmlResult = $this->_generateHtmlReport();
             if ($generateHtmlResult === false) {

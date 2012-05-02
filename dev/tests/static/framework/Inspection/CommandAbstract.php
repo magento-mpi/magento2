@@ -20,6 +20,21 @@ abstract class Inspection_CommandAbstract
     protected $_reportFile;
 
     /**
+     * @var int
+     */
+    protected $_lastExitCode;
+
+    /**
+     * @var string
+     */
+    protected $_lastOutput;
+
+    /**
+     * @var string
+     */
+    protected $_lastRunMessage;
+
+    /**
      * Constructor
      *
      * @param string $reportFile Destination file to write inspection report to
@@ -34,16 +49,17 @@ abstract class Inspection_CommandAbstract
      *
      * @param array $whiteList Files/directories to be inspected
      * @param array $blackList Files/directories to be excluded from the inspection
-     * @param array $resInfo Extended result information
      * @return bool
      */
-    public function run(array $whiteList, array $blackList = array(), &$resInfo = array())
+    public function run(array $whiteList, array $blackList = array())
     {
         if (file_exists($this->_reportFile)) {
             unlink($this->_reportFile);
         }
         $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
-        return ($this->_execShellCmd($shellCmd, $resInfo) !== false);
+        $result = $this->_execShellCmd($shellCmd);
+        $this->_buildLastRunMessage();
+        return $result !== false;
     }
 
     /**
@@ -100,41 +116,45 @@ abstract class Inspection_CommandAbstract
      * Execute a shell command on the current environment and return its output or FALSE on failure
      *
      * @param string $shellCmd
-     * @param array $resInfo Extended result information
      * @return string|false
      */
-    protected function _execShellCmd($shellCmd, &$resInfo = array())
+    protected function _execShellCmd($shellCmd)
     {
         $output = array();
-        exec($shellCmd . ' 2>&1', $output, $exitCode);
-        $output = implode(PHP_EOL, $output);
-        $resInfo = array(
-            'exitCode' => $exitCode,
-            'output' => $output,
-            'message' => $this->_buildResultMessage($exitCode, $output)
-        );
-        return ($exitCode === 0 ? $output : false);
+        exec($shellCmd . ' 2>&1', $output, $this->_lastExitCode);
+        $this->_lastOutput = implode(PHP_EOL, $output);
+        return ($this->_lastExitCode === 0 ? $this->_lastOutput : false);
     }
 
     /**
-     * Upon running a tool compose a message to show to a human
+     * Return message about last execution result, prepared for output to user
      *
-     * @param int $exitCode
-     * @param string $output
+     * @return Inspection_CommandAbstract
+     */
+    protected function _buildLastRunMessage()
+    {
+        if ($this->_lastExitCode === null) {
+            $this->_lastRunMessage = "Nothing was executed.";
+        } else if (!$this->_lastExitCode) {
+            $this->_lastRunMessage = 'Success reported.';
+        } else if (file_exists($this->_reportFile)) {
+            $this->_lastRunMessage = "See detailed report in '{$this->_reportFile}'.";
+        } else if (strlen($this->_lastOutput) <= 1000) {
+            $this->_lastRunMessage = 'Command-line tool reports: ' . $this->_lastOutput;
+        } else {
+            $this->_lastRunMessage = 'Command-line tool reports (shortened): '
+                . substr($this->_lastOutput, 0, 500) . "\n ... \n" . substr($this->_lastOutput, -500);
+        }
+        return $this;
+    }
+
+    /**
+     * Return message from the last run of the command
+     *
      * @return string
      */
-    protected function _buildResultMessage($exitCode, $output)
+    public function getLastRunMessage()
     {
-        if (!$exitCode) {
-            return 'Success reported.';
-        }
-        if (file_exists($this->_reportFile)) {
-            return "See detailed report in '{$this->_reportFile}'.";
-        }
-        if (strlen($output) <= 1000) {
-            return 'Command-line tool reports: ' . $output;
-        }
-        return 'Command-line tool reports (shortened): '
-            . substr($output, 0, 500) . "\n ... \n" . substr($output, -500);
+        return $this->_lastRunMessage;
     }
 }
