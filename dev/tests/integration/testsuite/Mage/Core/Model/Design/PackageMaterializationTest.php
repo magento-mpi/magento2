@@ -479,6 +479,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
         mkdir($this->_getMatFixtureSkinPath() . '/images', 0777, true);
         $this->_copyFilesToFixtureDir(
             array(
+                '../../theme.xml' => '../../theme.xml',
                 'mat_style_before.css' => 'mat_style.css',
                 'mat_sub_before.css' => 'mat_sub.css',
                 'images_before/square.png' => 'images/square.png',
@@ -553,7 +554,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      */
     protected function _getMatSourcePath()
     {
-        return dirname(__DIR__) . '/_files/materialization/';
+        return dirname(__DIR__) . '/_files/materialization/skin/default/';
     }
 
     /**
