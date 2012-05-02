@@ -668,16 +668,23 @@ class Mage_Core_Model_Design_Package
         }
 
         $fileMTime = filemtime($file);
-        /* Validate if file not exists or was updated */
-        if (!file_exists($publicFile) || $fileMTime != filemtime($publicFile)) {
-            $publicDir = dirname($publicFile);
-            if (!is_dir($publicDir)) {
-                mkdir($publicDir, 0777, true);
+
+        /* Validate whether file needs to be materialized */
+        $isFileUpToDate = file_exists($publicFile) && $fileMTime == filemtime($publicFile);
+        if (!$isFileUpToDate || $isCssFile) {
+            if (!$isFileUpToDate) {
+                $publicDir = dirname($publicFile);
+                if (!is_dir($publicDir)) {
+                    mkdir($publicDir, 0777, true);
+                }
             }
+
             /* Process relative urls for CSS files */
             if ($isCssFile) {
                 $content = $this->_getPublicCssContent($file, dirname($publicFile), $skinFile, $params);
-                file_put_contents($publicFile, $content);
+                if (!$isFileUpToDate) {
+                    file_put_contents($publicFile, $content);
+                }
             } else {
                 if (is_file($file)) {
                     copy($file, $publicFile);

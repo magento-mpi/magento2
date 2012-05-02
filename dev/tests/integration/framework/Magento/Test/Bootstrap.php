@@ -85,6 +85,13 @@ class Magento_Test_Bootstrap
     protected $_installEtcDir;
 
     /**
+     * Temporary directory
+     *
+     * @var string
+     */
+    protected $_tmpDir;
+
+    /**
      * Application initialization options
      *
      * @var array
@@ -184,6 +191,7 @@ class Magento_Test_Bootstrap
         $this->_readLocalXml();
 
         $this->_verifyDirectories($tmpDir);
+        $this->_tmpDir = $tmpDir;
 
         $sandboxUniqueId = md5(sha1_file($this->_localXmlFile) . '_' . $globalEtcFiles . '_' . $moduleEtcFiles);
         $this->_installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
@@ -538,5 +546,15 @@ class Magento_Test_Bootstrap
             'role_name'  => $user->getFirstname(),
         ));
         $roleUser->save();
+    }
+
+    /**
+     * Returns path to framework's temporary directory
+     *
+     * @return string
+     */
+    public function getTmpDir()
+    {
+        return $this->_tmpDir;
     }
 }

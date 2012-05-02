@@ -19,11 +19,22 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
+    protected static $_originalDesignDir;
+
     public static function setUpBeforeClass()
     {
+        self::$_originalDesignDir = Mage::app()->getConfig()->getOptions()->getDesignDir();
         $fixtureDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         Mage::app()->getConfig()->getOptions()->setDesignDir($fixtureDir . DIRECTORY_SEPARATOR . 'design');
         Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_originalDesignDir);
     }
 
     protected function setUp()

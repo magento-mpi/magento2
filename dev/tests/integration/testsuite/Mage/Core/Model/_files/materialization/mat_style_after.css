@@ -1,0 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+@import url(mat_sub.css);
+b {background: url(images/square.png);}
+i {background: url(images/vrectangle.png);}

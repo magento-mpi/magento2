@@ -33,19 +33,45 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
+    protected static $_originalDesignDir;
+
     public static function setUpBeforeClass()
     {
-        $fixtureDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files';
-        Mage::app()->getConfig()->getOptions()->setDesignDir($fixtureDir . DIRECTORY_SEPARATOR . 'design');
-        Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin');
+        self::$_originalDesignDir = Mage::app()->getConfig()->getOptions()->getDesignDir();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_originalDesignDir);
     }
 
     protected function setUp()
     {
+        Mage::app()->getConfig()->getOptions()->setDesignDir(
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design'
+        );
         $this->_model = new Mage_Core_Model_Design_Package();
         $this->_model->setDesignTheme('test/default/default', 'frontend');
     }
 
+    protected function tearDown()
+    {
+        Varien_Io_File::rmdirRecursive($this->_getSkinDir());
+        Varien_Io_File::rmdirRecursive($this->_getMatFixtureDir());
+    }
+
+    /**
+     * Return path to skin directory of Magento installation
+     *
+     * @return string
+     */
+    protected function _getSkinDir()
+    {
+        return Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+    }
 
     /**
      * @param string $skinFile
@@ -323,7 +349,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      */
     public function testMaterializeCssFileFromTheme()
     {
-        $materializedDir = Mage::getBaseDir('media') . '/skin/frontend/package/default/theme/en_US';
+        $materializedDir = $this->_getSkinDir() . '/frontend/package/default/theme/en_US';
         $this->assertFileNotExists($materializedDir, 'Please verify isolation from previous test(s).');
         $this->_model->getSkinUrl('css/file.css', array(
             '_package' => 'package',
@@ -343,11 +369,10 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     public function testMaterializeCssFileFromModule(
         $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        $baseDir = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR;
-
+        $baseDir = $this->_getSkinDir();
         $this->_model->getSkinUrl($cssSkinFile, $designParams);
 
-        $expectedCssFile = $baseDir . $expectedCssFile;
+        $expectedCssFile = $baseDir . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -406,5 +431,173 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
                 ),
             ),
         );
+    }
+
+
+    /**
+     * Test that modified CSS file and changed resources are re-materialized
+     */
+    public function testMaterializeResourcesAndCssWhenChangedCss()
+    {
+        $mTime = time();
+        $this->_prepareMatCssFixture($mTime - 10);
+
+        $this->_model->getSkinUrl('mat_style.css', $this->_getMatDesignParams());
+        $this->_assertFilesMaterializedWell(array(
+            'mat_style.css', 'mat_sub.css', 'images/square.png', 'images/hrectangle.png'
+        ));
+
+        $changedFiles = array(
+            'mat_style_after.css' => 'mat_style.css',
+            'mat_sub_after.css' => 'mat_sub.css',
+            'images_after/square.png' => 'images/square.png',
+            'images_after/vrectangle.png' => 'images/vrectangle.png'
+        );
+        $this->_copyFilesToFixtureDir($changedFiles, $mTime);
+
+        $this->_model->getSkinUrl('mat_style.css', $this->_getMatDesignParams());
+        $this->_assertFilesMaterializedWell($changedFiles);
+    }
+
+    /**
+     * Test changed resources, referenced in non-modified CSS file, are re-materialized
+     */
+    public function testMaterializeChangedResourcesWhenUnchangedCss()
+    {
+        $mTime = time();
+        $this->_prepareMatCssFixture($mTime - 10);
+
+        $this->_model->getSkinUrl('mat_style.css', $this->_getMatDesignParams());
+        $this->_assertFilesMaterializedWell(array(
+            'mat_style.css', 'mat_sub.css', 'images/square.png'
+        ));
+
+        $changedFiles = array(
+            'mat_sub_after.css' => 'mat_sub.css',
+            'images_after/square.png' => 'images/square.png'
+        );
+        $this->_copyFilesToFixtureDir($changedFiles, $mTime);
+
+        $this->_model->getSkinUrl('mat_style.css', $this->_getMatDesignParams());
+        $this->_assertFilesMaterializedWell($changedFiles);
+    }
+
+    /**
+     * Prepare design directory with initial css and resources.
+     *
+     * @param int $mTime
+     * @return Mage_Core_Model_Design_PackageMaterializationTest
+     */
+    protected function _prepareMatCssFixture($mTime)
+    {
+        Mage::app()->getConfig()->getOptions()->setDesignDir($this->_getMatFixtureDir());
+        mkdir($this->_getMatFixtureSkinPath() . '/images', 0777, true);
+        $this->_copyFilesToFixtureDir(
+            array(
+                'mat_style_before.css' => 'mat_style.css',
+                'mat_sub_before.css' => 'mat_sub.css',
+                'images_before/square.png' => 'images/square.png',
+                'images_before/hrectangle.png' => 'images/hrectangle.png'
+            ),
+            $mTime
+        );
+
+        return $this;
+    }
+
+    /**
+     * Return design parameters for materialization
+     *
+     * @return array
+     */
+    protected function _getMatDesignParams()
+    {
+        return array(
+            '_area'    => 'frontend',
+            '_package' => 'default',
+            '_theme' => 'default',
+            '_skin'    => 'default',
+            '_module'  => false
+        );
+    }
+
+    /**
+     * Assert that files are materialized and are equal to their originals.
+     *
+     * Indexes in $file array can be names of original files (then the files are checked for content equality) or just
+     * usual numeric keys (then only existence of materialized files is checked).
+     *
+     * @param array $files
+     * @return Mage_Core_Model_Design_PackageMaterializationTest
+     */
+    protected function _assertFilesMaterializedWell($files)
+    {
+        $materializedPath = $this->_getMatSkinPath();
+        $sourcePath = $this->_getMatSourcePath();
+        foreach ($files as $sourceFile => $materializedFile) {
+            $this->assertFileExists($materializedPath . $materializedFile);
+            if (!is_numeric($sourceFile)) {
+                $this->assertFileEquals($sourcePath . $sourceFile, $materializedPath . $materializedFile);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Copy required files to fixture skin directory
+     *
+     * @param array $files
+     * @param int $mTime
+     * @return Mage_Core_Model_Design_PackageMaterializationTest
+     */
+    protected function _copyFilesToFixtureDir($files, $mTime)
+    {
+        $sourcePath = $this->_getMatSourcePath();
+        $fixtureSkinPath = $this->_getMatFixtureSkinPath();
+        foreach ($files as $fileFrom => $fileTo) {
+            copy($sourcePath . $fileFrom, $fixtureSkinPath . $fileTo);
+            touch($fixtureSkinPath . $fileTo, $mTime);
+        }
+        return $this;
+    }
+
+    /**
+     * Return path to source directory, where original files for materialization tests are located
+     *
+     * @return string
+     */
+    protected function _getMatSourcePath()
+    {
+        return dirname(__DIR__) . '/_files/materialization/';
+    }
+
+    /**
+     * Return path to temp directory, where fixture design will be created
+     *
+     * @return string
+     */
+    protected function _getMatFixtureDir()
+    {
+        return Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/materialization';
+    }
+
+    /**
+     * Return path to fixture skin directory, where fixture design resource are located for current test
+     *
+     * @return string
+     */
+    protected function _getMatFixtureSkinPath()
+    {
+        return $this->_getMatFixtureDir() . '/frontend/default/default/skin/default/';
+    }
+
+    /**
+     * Return path to skin directory, where files are materialized
+     *
+     * @return string
+     */
+    protected function _getMatSkinPath()
+    {
+        return $this->_getSkinDir() . '/frontend/default/default/default/en_US/';
     }
 }
