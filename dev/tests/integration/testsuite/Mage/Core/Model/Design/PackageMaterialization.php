@@ -33,21 +33,6 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      */
     protected $_model;
 
-    /**
-     * @var string
-     */
-    protected static $_originalDesignDir;
-
-    public static function setUpBeforeClass()
-    {
-        self::$_originalDesignDir = Mage::app()->getConfig()->getOptions()->getDesignDir();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_originalDesignDir);
-    }
-
     protected function setUp()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(

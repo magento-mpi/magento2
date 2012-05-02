@@ -34,14 +34,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
      */
     protected $_pubLib = '';
 
-    /**
-     * @var string
-     */
-    protected static $_originalDesignDir;
-
     protected function setUp()
     {
-        self::$_originalDesignDir = Mage::app()->getConfig()->getOptions()->getDesignDir();
         Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/_files/design');
         Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin');
 
@@ -54,11 +48,6 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->_pubLib = Mage::getBaseDir('js');
         // emulate source skin
         $this->_skinFixture = dirname(__DIR__) . '/_files/skin';
-    }
-
-    public static function tearDownAfterClass()
-    {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_originalDesignDir);
     }
 
     /**
