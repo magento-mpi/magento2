@@ -281,6 +281,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();
             $shipping = (isset($oneAddressData['shipping'])) ? $oneAddressData['shipping'] : array();
+            $giftOptions = (isset($oneAddressData['gift_options'])) ? $oneAddressData['gift_options'] : array();
             if (empty($address)) {
                 continue;
             }
@@ -290,7 +291,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('addressHeader', $header);
                     $this->selectShippingMethod($shipping);
                 }
-                //@TODO add work with giftMessages
+                $this->addGiftOptions($giftOptions);
                 //@TODO verify products qty for one address
             }
         }
@@ -399,6 +400,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                                    $this->_getMessageXpath('general_error'),
                                    $this->_getMessageXpath('general_validation')));
         $this->validatePage();
+    }
+
+    /**
+     * @param array $giftOptions
+     * @TODO
+     */
+    public function addGiftOptions(array $giftOptions)
+    {
     }
 
     /**
