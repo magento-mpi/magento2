@@ -100,7 +100,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Fixed Product Tax" type] shouldn't be created.</p>
+     * <p>New attribute ["Fixed Product Tax" type] should not be created.</p>
      * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
      * @param array $attrData
@@ -125,7 +125,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
      * <p>3.Skip filling of one field required and fill other required fields.</p>
      * <p>4.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Fixed Product Tax" type] shouldn't be created.</p>
+     * <p>New attribute ["Fixed Product Tax" type] should not be created.</p>
      * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
      * @param $emptyField
@@ -175,7 +175,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
      * <p>4.Fill other required fields by regular data.</p>
      * <p>5.Click on "Save Attribute" button</p>
      * <p>Expected result:</p>
-     * <p>New attribute ["Fixed Product Tax" type] shouldn't be created.</p>
+     * <p>New attribute ["Fixed Product Tax" type] should not be created.</p>
      * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
      * this field, first character should be a letter.' is displayed.</p>
      *

@@ -181,7 +181,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
                 unset($tagData['switch_store']);
             }
         }
-        $prodTagAdmin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : null;
+        $prodTagAdmin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : array();
         // Fill general options
         $this->fillForm($tagData);
         if ($prodTagAdmin) {
@@ -270,6 +270,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
      * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
+     *
+     * @return bool
      */
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
@@ -285,6 +287,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag
      * @param array $customerSearchData Search data to open customer. Same as in customerHelper()->openCustomer
+     *
+     * @return bool
      */
     public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {

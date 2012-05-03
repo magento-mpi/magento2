@@ -202,7 +202,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
         $attrData = $this->loadData('product_attributes', null, array('attribute_code', 'admin_title'));
         $setData = $this->loadData('attribute_set', null, 'set_name');
         $attrCodes = array();
-        foreach ($attrData as $key => $value) {
+        foreach ($attrData as $value) {
             if (is_array($value) && array_key_exists('attribute_code', $value)) {
                 $attrCodes[] = $value['attribute_code'];
             }

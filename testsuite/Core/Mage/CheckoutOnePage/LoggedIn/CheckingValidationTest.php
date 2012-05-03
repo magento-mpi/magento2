@@ -35,6 +35,21 @@
  */
 class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingMethod', 'free_enable'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure'));
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     /**
      * <p>Creating Simple product and customer</p>
      *
@@ -86,22 +101,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      */
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
-        //Preconditions
-        $this->customerHelper()->frontLoginCustomer($data['customer']);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'      => $data['sku'],
                                                 'billing_' . $field  => ''));
-        try {
-            //Steps
-            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-            $this->fail('Expected message is not displayed: [' . $message . ']');
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            //Verification
-            $this->assertSame($message, $e->toString());
-            $this->clearMessages('verification');
-        }
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
     }
 
     /**
@@ -130,22 +137,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      */
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
-        //Preconditions
-        $this->customerHelper()->frontLoginCustomer($data['customer']);
-        $this->shoppingCartHelper()->frontClearShoppingCart();
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'       => $data['sku'],
                                                 'shipping_' . $field  => ''));
-        try {
-            //Steps
-            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-            $this->fail('Expected message is not displayed: [' . $message . ']');
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            //Verification
-            $this->assertSame($message, $e->toString());
-            $this->clearMessages('verification');
-        }
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
     }
 
     public function addressEmptyFieldsDataProvider()
@@ -176,7 +175,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         $checkoutData = $this->loadDataSet('OnePageCheckout', $dataName, array('general_name' => $data['sku']));
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -226,7 +224,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
                                            array('general_name' => $data['sku']));
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -261,32 +258,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      */
     public function shippingMethodNotDefined($data)
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $config = $this->loadDataSet('ShippingMethod', 'free_enable');
-        $this->systemConfigurationHelper()->configure($config);
         //Data
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('shipping_alert');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name'   => $data['sku'],
                                                 'shipping_data'   => '%noValue%'));
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        //Steps
-        $this->logoutCustomer();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('shipping_alert');
-        try {
-            //Steps
-            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-            $this->fail('Expected message is not displayed: [' . $message . ']');
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            //Verification
-            $this->assertSame($message, $e->toString());
-            $this->clearMessages('verification');
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
     }
 
     /**
@@ -315,31 +294,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
      */
     public function frontPaymentMethodNotDefined($data)
     {
-        //Preconditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $config = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
-        $this->systemConfigurationHelper()->configure($config);
         //Data
+        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('payment_alert');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
                                            array('general_name' => $data['sku'],
                                                 'payment_data'  => '%noValue%'));
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->logoutCustomer();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        $message = $this->getUimapPage('frontend', 'onepage_checkout')->findMessage('payment_alert');
-        try {
-            //Steps
-            $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-            $this->fail('Expected message is not displayed: [' . $message . ']');
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            //Verification
-            $this->assertSame($message, $e->toString());
-            $this->clearMessages('verification');
-        }
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
     }
 }

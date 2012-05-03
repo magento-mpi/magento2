@@ -104,11 +104,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
                                            $testData['products']);
-        $path = 'multiple_with_signed_in/shipping_address_data/address_to_add_1/shipping_address';
-        $checkoutData['shipping_address_data']['address_to_add_1']['shipping_address'] =
-                 $this->loadDataSet('MultipleAddressesCheckout',
-                                    'multiple_with_signed_in/shipping_address_data/address_to_add_1/shipping_address',
-                                    array($emptyField => ''));
+        $path = 'multiple_with_signed_in/shipping_data/address_data_1/address';
+        $checkoutData['shipping_data']['address_data_1']['address'] = $this->loadDataSet('MultipleAddressesCheckout',
+                                                                                         $path,
+                                                                                         array($emptyField => ''));
         //Steps
         if ($emptyField == 'state' || $emptyField == 'country') {
             $message = '"' . $fieldName . '": Please select an option.';
@@ -153,11 +152,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
                                            $testData['products']);
-        $path = 'multiple_with_signed_in/billing_address_data/new_address';
-        $checkoutData['billing_address_data']['new_address'] =
-                 $this->loadDataSet('MultipleAddressesCheckout',
-                                    'multiple_with_signed_in/billing_address_data/new_address',
-                                    array($emptyField => ''));
+        $path = 'multiple_with_signed_in/payment_data/billing_address';
+        $checkoutData['payment_data']['billing_address'] = $this->loadDataSet('MultipleAddressesCheckout',
+                                                                              $path,
+                                                                              array($emptyField => ''));
         //Steps
         if ($emptyField == 'state' || $emptyField == 'country') {
             $message = '"' . $fieldName . '": Please select an option.';
@@ -211,10 +209,9 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
-                                           'multiple_with_signed_in_shipping_input_validation',
-                                           null,
-                                           array_merge($testData['products'], array('shippingAddress1' => $address)));
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -246,10 +243,9 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
-                                           'multiple_with_signed_in_shipping_input_validation',
-                                           null,
-                                           array_merge($testData['products'], array('shippingAddress1' => $address)));
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
+                                           $testData['products']);
+        $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -287,8 +283,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
                                            $testData['products']);
-        $checkoutData['billing_address_data']['new_address'] = $address;
-        $checkoutData['billing_address_data']['select_address'] = $address;
+        $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -323,8 +318,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
                                            $testData['products']);
-        $checkoutData['billing_address_data']['new_address'] = $address;
-        $checkoutData['billing_address_data']['select_address'] = $address;
+        $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -355,9 +349,11 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     public function selectInvalidProductQty($invalidQty, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
-        $checkoutData['shipping_address_data']['address_to_ship_2']['qty'] = $invalidQty;
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
+                                           array('product_2'     => '%noValue%',
+                                                'address_data_2' => '%noValue%',
+                                                'product_qty'    => $invalidQty,),
+                                           array('product_1' => $testData['products']['product_1']));
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -398,7 +394,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('shipping_method'=> '%noValue%'),
+                                           array('shipping'=> '%noValue%'),
                                            $testData['products']);
         //Steps
         $this->frontend();
@@ -432,7 +428,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment_method'=> '%noValue%'),
+                                           array('payment'=> '%noValue%'),
                                            $testData['products']);
         //Steps
         $this->frontend();
@@ -486,7 +482,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array($emptyField => ''));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment_method'=> $paymentData),
+                                           array('payment'=> $paymentData),
                                            $testData['products']);
         //Steps
         $this->frontend();

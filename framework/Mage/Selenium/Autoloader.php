@@ -27,7 +27,7 @@
 
 /**
  * Class, which described method for automatically calling of needed class/interface what you are trying to use,
- * which hasn't been defined yet. Simple autoloader implementation.
+ * which has not been defined yet. Simple autoloader implementation.
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -45,7 +45,7 @@ class Mage_Selenium_Autoloader
     }
 
     /**
-     * Autoload handler implementation. Performs calling of class/interface, which hasn't been defined yet
+     * Autoload handler implementation. Performs calling of class/interface, which has not been defined yet
      *
      * @param string $className Class name to be loaded, e.g. Mage_Selenium_TestCase
      *

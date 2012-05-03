@@ -56,11 +56,14 @@ class Mage_Selenium_Helper_Cache extends Mage_Selenium_Helper_Abstract
      *
      * @param array $options
      *
+     * @throws Exception
      * @return string
      */
     protected function _getCacheDir($options)
     {
-        $cacheDir = isset($options['cache_dir']) ? $options['cache_dir'] : self::DEFAULT_CACHE_DIR;
+        $cacheDir = isset($options['cache_dir'])
+            ? $options['cache_dir']
+            : self::DEFAULT_CACHE_DIR;
         $cacheDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $cacheDir;
         if (!is_dir($cacheDir)) {
             $io = new Varien_Io_File();

@@ -115,9 +115,9 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
     public function withLongValues($testData)
     {
         //Data
-        $customerData = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_long');
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_long');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
-                                           array('general_customer_data' => $customerData),
+                                           array('general_customer_data' => $address),
                                            $testData);
         //Steps
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
@@ -148,43 +148,38 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5316
      */
-    public function withRequiredFieldsEmpty($field, $fieldId, $testData)
+    public function withRequiredFieldsEmpty($field, $fieldName, $testData)
     {
         //Data
-        $customerData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
                                       array($field => ''));
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register', null,
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
+                                           array('general_customer_data' => $address),
                                            $testData);
         //Steps
-        $this->addParameter('fieldId', $fieldId);
         if ($field == 'state' || $field == 'country') {
-            $message = 'please_select_option';
+            $message = '"' . $fieldName . '": Please select an option.';
         } else {
-            $message = 'empty_required_field';
+            $message = '"' . $fieldName . '": This is a required field.';
         }
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('products_to_add' => $checkoutData['products_to_add']));
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('checkout_as_customer' => $checkoutData['checkout_as_customer']));
-        $this->fillForm($customerData);
-        $this->clickButton('submit', false);
-        $this->assertMessagePresent('validation', $message);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('first_name', 'firstname'),
-            array('last_name', 'lastname'),
-            array('email', 'email_address'),
-            array('telephone', 'telephone'),
-            array('street_address_1', 'street_1'),
-            array('city', 'city'),
-            array('state', 'region_id'),
-            array('zip_code', 'zip'),
-            array('country', 'country'),
-            array('password', 'password'),
-            array('password_confirmation', 'confirmation')
+            array('first_name', 'First Name'),
+            array('last_name', 'Last Name'),
+            array('email', 'Email Address'),
+            array('telephone', 'Telephone'),
+            array('street_address_1', 'Street Address'),
+            array('city', 'City'),
+            array('state', 'State/Province'),
+            array('zip_code', 'Zip/Postal Code'),
+            array('country', 'Country'),
+            array('password', 'Password'),
+            array('password_confirmation', 'Confirm Password')
         );
     }
 
@@ -211,9 +206,9 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
     public function withSpecialCharacters($testData)
     {
         //Data
-        $customerData = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_special');
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_special');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
-                                           array('general_customer_data' => $customerData),
+                                           array('general_customer_data' => $address),
                                            $testData);
         //Steps
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
@@ -247,18 +242,15 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
     public function withInvalidEmail($invalidEmail, $testData)
     {
         //Data
-        $customerData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
                                       array('email' => $invalidEmail));
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register', null,
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
+                                           array('general_customer_data' => $address),
                                            $testData);
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('products_to_add' => $checkoutData['products_to_add']));
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('checkout_as_customer' => $checkoutData['checkout_as_customer']));
-        $this->fillForm($customerData);
-        $this->clickButton('submit', false);
-        $this->addParameter('fieldId', 'email_address');
-        $this->assertMessagePresent('validation', 'invalid_email_address');
+        $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        //Steps
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     public function withInvalidEmailDataProvider()
@@ -286,7 +278,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param string $invalidPasswordData
+     * @param string $invalidPassword
      * @param string $errorMessage
      * @param array $testData
      *
@@ -295,21 +287,17 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5321
      */
-    public function withInvalidPassword($invalidPasswordData, $errorMessage, $testData)
+    public function withInvalidPassword($invalidPassword, $errorMessage, $testData)
     {
         //Data
-        $customerData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
-                                      $invalidPasswordData);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register', null,
+        $address = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register/general_customer_data',
+                                      $invalidPassword);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
+                                           array('general_customer_data' => $address),
                                            $testData);
         //Steps
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('products_to_add' => $checkoutData['products_to_add']));
-        $this->checkoutMultipleAddressesHelper()->
-                frontDoMultipleCheckoutSteps(array('checkout_as_customer' => $checkoutData['checkout_as_customer']));
-        $this->fillForm($customerData);
-        $this->clickButton('submit', false);
-        $this->assertMessagePresent('validation', $errorMessage);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $errorMessage);
+        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     public function withInvalidPasswordDataProvider()
@@ -317,10 +305,10 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
         return array(
             array(array('password'              => 12345,
                         'password_confirmation' => 12345),
-                  'short_passwords'),
+                  '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.'),
             array(array('password'              => 1234567,
                         'password_confirmation' => 12345678),
-                  'passwords_not_match'),
+                  '"Confirm Password": Please make sure your passwords match.'),
         );
     }
 }

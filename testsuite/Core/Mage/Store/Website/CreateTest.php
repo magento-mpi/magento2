@@ -109,7 +109,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3614
+     * @TestlinkId TL-MAGE-3614
      */
     public function withCodeThatAlreadyExists(array $websiteData)
     {
@@ -134,7 +134,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3617
+     * @TestlinkId TL-MAGE-3617
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -227,7 +227,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @depends withRequiredFieldsOnly
      * @dataProvider withInvalidCodeDataProvider
-     * @TestlinkId    TL-MAGE-3615
+     * @TestlinkId TL-MAGE-3615
      */
     public function withInvalidCode($invalidCode)
     {

@@ -37,8 +37,11 @@ class Mage_Testlink_AnnotationMock extends Mage_Testlink_Annotation
 
     /**
      * Calls all parent methods, even protected
+     *
      * @param type $name
      * @param type $arguments
+     *
+     * @return mixed
      */
     public function __call($name, $arguments)
     {

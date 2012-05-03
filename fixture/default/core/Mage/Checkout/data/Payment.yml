@@ -147,23 +147,9 @@ else_american_express:
     expiration_year: '2013'
     card_verification_number: '1234'
 
-else_american_express_direct:
-    card_type: 'American Express'
-    card_number: '340000000000009'
-    expiration_month: '01 - January'
-    expiration_year: '2013'
-    card_verification_number: '1234'
-
 else_visa: &visaElse
     card_type: 'Visa'
     card_number: '4000000000000002'
-    expiration_month: '01 - January'
-    expiration_year: '2013'
-    card_verification_number: '111'
-
-else_visa_direct:
-    card_type: 'Visa'
-    card_number: '4832011527418035'
     expiration_month: '01 - January'
     expiration_year: '2013'
     card_verification_number: '111'
@@ -182,13 +168,6 @@ else_discover:
     expiration_year: '2013'
     card_verification_number: '111'
 
-else_discover_direct:
-    card_type: 'Discover'
-    card_number: '6011000000000004'
-    expiration_month: '01 - January'
-    expiration_year: '2013'
-    card_verification_number: '111'
-
 else_other:
     card_type: 'Other'
     card_number: '6011000000000004'
@@ -197,13 +176,6 @@ else_other:
     card_verification_number: '111'
 
 else_jcb: &jcbElse
-    card_type: 'JCB'
-    card_number: '3566002020360505'
-    expiration_month: '01 - January'
-    expiration_year: '2013'
-    card_verification_number: '1234'
-
-else_jcb_3d:
     card_type: 'JCB'
     card_number: '3566002020360505'
     expiration_month: '01 - January'
@@ -230,6 +202,27 @@ else_switch_maestro:
     start_date_month: '12 - December'
     start_date_year: '2011'
 
+#<------------Specific Card------------>
+payflowpro_mastercard:
+    card_type: 'MasterCard'
+    card_number: '5200000000000007'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
+
+3dsecure_visa:
+    card_type: 'Visa'
+    card_number: '4832011527418035'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
+
+3dsecure_jcb:
+    card_type: 'JCB'
+    card_number: '3566002020360505'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '1234'
 #*********************************************
 #*              Payment Data                 *
 #*********************************************

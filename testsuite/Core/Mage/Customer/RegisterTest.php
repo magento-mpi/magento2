@@ -160,15 +160,13 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($field, $messageCount)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $field);
+        $userData = $this->loadData('customer_account_register', array($field => '%noValue%'));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $fieldset = $this->getCurrentUimapPage()->findFieldset('account_info');
-        foreach ($field as $key => $value) {
-            $xpath = $fieldset->findField($key);
-            $this->addParameter('fieldXpath', $xpath);
-        }
+        $xpath = $fieldset->findField($field);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -176,11 +174,11 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array(array('first_name' => '%noValue%'), 1),
-            array(array('last_name' => '%noValue%'), 1),
-            array(array('email' => '%noValue%'), 1),
-            array(array('password' => '%noValue%'), 2),
-            array(array('password_confirmation' => '%noValue%'), 1),
+            array('first_name', 1),
+            array('last_name', 1),
+            array('email', 1),
+            array('password', 2),
+            array('password_confirmation', 1)
         );
     }
 

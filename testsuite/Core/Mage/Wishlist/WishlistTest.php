@@ -43,7 +43,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->frontend();
-        if ($this->isElementPresent("//a[@title='Log Out']")) {
+        if ($this->controlIsPresent('link', 'log_out')) {
             $this->navigate('my_wishlist');
             $this->wishlistHelper()->frontClearWishlist();
             $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -55,6 +55,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * Create all types of products
      * @return array
      * @test
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {

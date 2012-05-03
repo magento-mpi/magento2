@@ -33,26 +33,26 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_Wishlist_Helper extends Core_Mage_Wishlist_Helper
+class Enterprise_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
 {
     /**
-     * Adds product to wishlist from the product details page.
+     * Fills settings for creating widget
      *
-     * @param string $productName
-     * @param string $categoryPath
-     * @param array $options
+     * @param array $settings
      */
-    public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null, $options = array())
+    public function fillWidgetSettings(array $settings)
     {
-        $this->productHelper()->frontOpenProduct($productName, $categoryPath);
-        if (!empty($options)) {
-            $this->productHelper()->frontFillBuyInfo($options);
+        if ($settings) {
+            $xpath = $this->_getControlXpath('dropdown', 'type');
+            $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
+            $this->addParameter('type', str_replace('/', '-', $type));
+            $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
+            $this->addParameter('package', $packageTheme[0]);
+            $this->addParameter('theme', $packageTheme[1]);
+            $this->fillFieldset($settings, 'settings_fieldset');
         }
-        $this->addParameter('productName', $productName);
-        if ($this->controlIsPresent('link', 'add_to_wishlist') && $this->controlIsVisible('link', 'add_to_wishlist')) {
-            $this->clickControl('link', 'add_to_wishlist');
-        } else {
-            $this->clickControl('link', 'customized_add_to_wishlist');
-        }
+        $this->clickButton('continue', false);
+        $this->pleaseWait();
+        $this->validatePage('add_widget_options');
     }
 }

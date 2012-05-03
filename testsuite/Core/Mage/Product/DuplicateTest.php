@@ -126,7 +126,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @TestlinkId    TL-MAGE-3431
+     * @TestlinkId TL-MAGE-3431
      */
     public function duplicateSimple($attrData, $productData)
     {
@@ -262,7 +262,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @param $productData
      *
      * @test
-     * @TestlinkId    TL-MAGE-3430
+     * @TestlinkId TL-MAGE-3430
      * @depends createProducts
      */
     public function duplicateGrouped($productData)
@@ -382,7 +382,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @TestlinkId    TL-MAGE-3428
+     * @TestlinkId TL-MAGE-3428
      */
     public function duplicateConfigurable($attrData, $productData)
     {

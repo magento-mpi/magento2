@@ -130,7 +130,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3471
+     * @TestlinkId TL-MAGE-3471
      */
     public function withExistingRatingName($ratingData)
     {
@@ -157,7 +157,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-435
+     * @TestlinkId TL-MAGE-435
      */
     public function withAllFields($storeView)
     {
@@ -186,7 +186,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId    TL-MAGE-3473
+     * @TestlinkId TL-MAGE-3473
      */
     public function withLongValues($storeView)
     {

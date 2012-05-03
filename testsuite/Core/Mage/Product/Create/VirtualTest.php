@@ -57,8 +57,9 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-5333
+     * @return array
      * @test
+     * @TestlinkId TL-MAGE-5333
      */
     public function onlyRequiredFieldsInVirtual()
     {
@@ -86,7 +87,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInVirtual
      *
-     * @TestlinkId    TL-MAGE-5334
+     * @TestlinkId TL-MAGE-5334
      * @test
      */
     public function allFieldsInVirtual()
@@ -116,10 +117,11 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
-     * @depends onlyRequiredFieldsInVirtual
+     * @param array $productData
      *
-     * @TestlinkId    TL-MAGE-5336
      * @test
+     * @depends onlyRequiredFieldsInVirtual
+     * @TestlinkId TL-MAGE-5336
      */
     public function existSkuInVirtual($productData)
     {
@@ -143,11 +145,13 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyField
+     * @param string $fieldType
+     *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     *
-     * @TestlinkId    TL-MAGE-5337
-     * @test
+     * @TestlinkId TL-MAGE-5337
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -201,7 +205,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInVirtual
      *
-     * @TestlinkId    TL-MAGE-5338
+     * @TestlinkId TL-MAGE-5338
      * @test
      */
     public function specialCharactersInRequiredFields()
@@ -275,7 +279,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInVirtual
      *
-     * @TestlinkId    TL-MAGE-5340
+     * @TestlinkId TL-MAGE-5340
      * @test
      */
     public function incorrectSkuLengthInVirtual()
@@ -301,9 +305,11 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidPrice
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     * @test
      */
     public function invalidPriceInVirtual($invalidPrice)
     {
@@ -329,11 +335,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidValue
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     *
-     * @TestlinkId    TL-MAGE-5342
-     * @test
+     * @TestlinkId TL-MAGE-5342
      */
     public function invalidSpecialPriceInVirtual($invalidValue)
     {
@@ -360,11 +367,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyTierPrice
+     *
+     * @test
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     *
-     * @TestlinkId    TL-MAGE-5343
-     * @test
+     * @TestlinkId TL-MAGE-5343
      */
     public function emptyTierPriceFields($emptyTierPrice)
     {
@@ -400,11 +408,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidTierData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     *
-     * @TestlinkId    TL-MAGE-5344
-     * @test
+     * @TestlinkId TL-MAGE-5344
      */
     public function invalidTierPriceInVirtual($invalidTierData)
     {
@@ -436,11 +445,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidQty
+     *
+     * @test
      * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInVirtual
-     *
-     * @TestlinkId    TL-MAGE-5345
-     * @test
+     * @TestlinkId TL-MAGE-5345
      */
     public function invalidQtyInVirtual($invalidQty)
     {

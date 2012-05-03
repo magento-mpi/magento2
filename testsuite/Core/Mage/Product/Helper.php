@@ -924,7 +924,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);
         $this->addParameter('productName', $openedProductName);
-        $this->clickButton('add_to_cart');
+        $this->saveForm('add_to_cart');
+        $this->assertMessageNotPresent('validation');
     }
 
     /**
@@ -935,10 +936,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function frontFillBuyInfo($dataForBuy)
     {
         foreach ($dataForBuy as $value) {
-            $fill = (isset($value['options_to_choose'])) ? $value['options_to_choose'] : array();
-            $params = (isset($value['parameters'])) ? $value['parameters'] : array();
-            foreach ($params as $key => $value) {
-                $this->addParameter($key, $value);
+            $fill = (isset($value['options_to_choose']))
+                ? $value['options_to_choose']
+                : array();
+            $params = (isset($value['parameters']))
+                ? $value['parameters']
+                : array();
+            foreach ($params as $k => $v) {
+                $this->addParameter($k, $v);
             }
             $this->fillForm($fill);
         }

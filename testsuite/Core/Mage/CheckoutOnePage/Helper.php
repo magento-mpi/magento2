@@ -214,7 +214,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
                     $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
-                    //$this->addVerificationMessage('No Shipping Method is available for this order');
+                    //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
                 } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                     $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
                     $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
@@ -227,8 +227,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                     }
                 } else {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
-                    //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
+                    $this->markTestSkipped($service . ': This shipping method is currently not display');
+                    //$this->addVerificationMessage($service . ': This shipping method is currently not display');
                 }
             }
 

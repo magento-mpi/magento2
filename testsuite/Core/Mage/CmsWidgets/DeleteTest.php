@@ -107,7 +107,7 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
      * @dataProvider widgetTypesReqDataProvider
      * @depends createCategory
      * @depends createProducts
-     * @TestlinkId    TL-MAGE-3232
+     * @TestlinkId TL-MAGE-3232
      */
     public function deleteAllTypesOfWidgets($dataWidgetType, $category, $products)
     {

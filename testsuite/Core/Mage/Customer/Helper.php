@@ -44,9 +44,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 {
     /**
      * Verify that address is present.
-     *
      * PreConditions: Customer is opened on 'Addresses' tab.
+     *
      * @param array $addressData
+     *
+     * @return int|mixed|string
      */
     public function isAddressPresent(array $addressData)
     {
@@ -67,8 +69,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Defining and adding %address_number% for customer Uimap.
-     *
      * PreConditions: Customer is opened on 'Addresses' tab.
+     * @return int
      */
     public function addAddressNumber()
     {

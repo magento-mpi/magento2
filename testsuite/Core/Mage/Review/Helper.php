@@ -153,7 +153,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         $ratings = (isset($reviewData['product_rating'])) ? $reviewData['product_rating'] : array();
 
         $this->verifyForm($reviewData, $skipFields);
-        foreach ($ratings as $rating => $ratingData) {
+        foreach ($ratings as $ratingData) {
             $this->addParameter('ratingName', $ratingData['rating_name']);
             $this->addParameter('stars', $ratingData['stars']);
             $this->verifyChecked($this->_getControlXpath('radiobutton', 'detailed_rating'));
@@ -204,7 +204,6 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             if ($this->controlIsPresent('radiobutton', 'select_rate')) {
                 $this->fillForm(array('select_rate' => 'Yes'));
             } else {
-                $xpath = $this->_getControlXpath('radiobutton', 'select_rate');
                 $this->addVerificationMessage('Rating with name ' . $value['rating_name'] . ' is not on the page');
             }
         }
@@ -231,7 +230,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         $rating = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
         $ratingNames = array();
         $actualRatings = array();
-        foreach ($rating as $key => $value) {
+        foreach ($rating as $value) {
             $ratingNames[] = $value['rating_name'];
         }
         if ($this->controlIsPresent('link', 'reviews')) {

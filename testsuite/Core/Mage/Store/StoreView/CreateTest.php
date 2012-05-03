@@ -134,7 +134,7 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3627
+     * @TestlinkId TL-MAGE-3627
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -253,7 +253,7 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidCodeDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3625
+     * @TestlinkId TL-MAGE-3625
      */
     public function withInvalidCode($invalidCode)
     {

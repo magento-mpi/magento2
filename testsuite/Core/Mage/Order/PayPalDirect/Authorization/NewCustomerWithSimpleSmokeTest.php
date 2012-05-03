@@ -89,10 +89,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect',
-                                          array('payment_info' => $testData['cards']['mastercard']));
+            array('payment_info' => $testData['cards']['mastercard']));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $testData['sku'],
-                                             'payment_data' => $paymentData));
+            array('filter_sku'   => $testData['sku'],
+                  'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -215,8 +215,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
-                                      array('invoice_product_sku' => $testData['sku']));
+        $invoice =
+            $this->loadDataSet('SalesOrder', 'products_to_invoice', array('invoice_product_sku' => $testData['sku']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -297,8 +297,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
-                                         array('return_filter_sku' => $testData['sku']));
+        $creditMemo =
+            $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -588,7 +588,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
-            array('else_visa_direct', true),
+            array('3dsecure_visa', true),
             array('else_mastercard', false)
         );
     }
