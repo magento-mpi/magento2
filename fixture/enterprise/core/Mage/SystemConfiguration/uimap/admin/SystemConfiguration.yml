@@ -32,6 +32,34 @@ system_configuration:
         form:
             tabs:
                 -
+                    general_general:
+                        fieldsets:
+                            -
+                                staging_websites:
+                                    xpath: //fieldset[@id='general_content_staging']
+                                    links:
+                                        dhl_link: //parent::div//a[@id='general_content_staging-head']
+                                    dropdowns:
+                                        automatically_create_entry_points_for_staging_website: //select[@id='general_content_staging_create_entry_point']
+                                        close_website_during_merge_or_rollback: //select[@id='general_content_staging_block_frontend']
+                                        landing_page: //select[@id='general_content_staging_block_frontend_stub']
+                                    fields:
+                                        folder_name_for_entry_points: //input[@id='general_content_staging_entry_points_folder_name']
+                                    checkboxes:
+                                        landing_page_use_default: //input[@name='groups[content_staging][fields][block_frontend_stub][inherit]']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -
+                                gift_options:
+                                    dropdowns:
+                                        allow_gift_wrapping_on_order_level: //select[@id='sales_gift_options_wrapping_allow_order']
+                                        allow_gift_wrapping_for_order_items: //select[@id='sales_gift_options_wrapping_allow_items']
+                                        allow_gift_receipt: //select[@id='sales_gift_options_allow_gift_receipt']
+                                        allow_printed_card: //select[@id='sales_gift_options_allow_printed_card']
+                                    fields:
+                                        default_price_for_printed_card: //input[@id='sales_gift_options_printed_card_price']
+                -
                     sales_shipping_methods:
                         fieldsets:
                             -
@@ -66,21 +94,6 @@ system_configuration:
                                     multiselects:
                                         dhl_allowed_methods: //select[@id='carriers_dhlint_doc_methods']
                                         dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
-
-                -
-                    general_general:
-                        fieldsets:
-                            -
-                                staging_websites:
-                                    xpath: //div/fieldset[legend='Staging Websites']
-                                    dropdowns:
-                                        automatically_create_entry_points_for_staging_website: //select[@name='groups[content_staging][fields][create_entry_point][value]']
-                                        close_website_during_merge_or_rollback: //select[@name='groups[content_staging][fields][block_frontend][value]']
-                                        landing_page: //select[@name='groups[content_staging][fields][block_frontend_stub][value]']
-                                    fields:
-                                        folder_name_for_entry_points: //input[@name='groups[content_staging][fields][entry_points_folder_name][value]']
-                                    checkboxes:
-                                        landing_page_use_default: //input[@name='groups[content_staging][fields][block_frontend_stub][inherit]']
 
 system_configuration_tabs:
     uimap: *systemConfiguration
