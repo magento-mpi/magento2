@@ -187,11 +187,10 @@ class Magento_Test_Bootstrap
         $this->_localXmlFile = $localXmlFile;
         $this->_globalEtcFiles = $this->_exposeFiles($globalEtcFiles);
         $this->_moduleEtcFiles = $this->_exposeFiles($moduleEtcFiles);
+        $this->_tmpDir = $tmpDir;
 
         $this->_readLocalXml();
-
-        $this->_verifyDirectories($tmpDir);
-        $this->_tmpDir = $tmpDir;
+        $this->_verifyDirectories();
 
         $sandboxUniqueId = md5(sha1_file($this->_localXmlFile) . '_' . $globalEtcFiles . '_' . $moduleEtcFiles);
         $this->_installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
@@ -321,18 +320,17 @@ class Magento_Test_Bootstrap
     /**
      * Check all required directories contents and permissions
      *
-     * @param string $tmpDir
      * @throws Magento_Exception when any of required directories is not eligible
      */
-    protected function _verifyDirectories($tmpDir)
+    protected function _verifyDirectories()
     {
         /* Magento application dir */
         if (!is_file($this->_magentoDir . '/app/bootstrap.php')) {
             throw new Magento_Exception('Unable to locate Magento root folder and bootstrap.php.');
         }
         /* Temporary directory */
-        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
-            throw new Magento_Exception("The '{$tmpDir}' is not a directory or not writable.");
+        if (!is_dir($this->_tmpDir) || !is_writable($this->_tmpDir)) {
+            throw new Magento_Exception("The '{$this->_tmpDir}' is not a directory or not writable.");
         }
     }
 
