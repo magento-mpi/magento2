@@ -118,9 +118,8 @@ checkout_multishipping_addresses:
                 -
                     checkout_progress: &checkoutProgress
                         xpath: //*[@id='checkout-progress-state']
-                        pageelements: &validationSteps
-                            address_box: //fieldset//h3[./following-sibling::*[1]//div[./address%param%]]
-                            address_box_ship: //fieldset/h2[./following-sibling::*[1]//div[./address%param%]]
+                        pageelements:
+                            address_box: //div[./h2[text()='Shipping Information'] and //div[./address%addressParams%]]/h3
                             select_addresses: //li[@title='Select Addresses']
                             shipping_information: //li[@title='Shipping Information']
                             billing_information: //li[@title='Billing Information']
@@ -140,9 +139,8 @@ checkout_multishipping_addresses:
                         dropdowns:
                             address_choice: //tr[.//a='%productName%'][%index%]//select
                             is_any_address_choice: //tr[.//a='%productName%']//select
-                            shipping_address_choice: //table[@id='multiship-addresses-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]//td[3]//select
                         fields:
-                            qty: //tr[.//a='%productName%']//input[@type='text']
+                            product_qty: //tr[.//a='%productName%']//input[@type='text']
         messages: *checkoutMessages
 
 checkout_multishipping_addresses_post:
@@ -189,39 +187,42 @@ checkout_multishipping_shipping_methods:
         form: &createNewShipping
             fieldsets:
                 -
-                    shipping_method:
-                        xpath: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]
+                    checkout_progress: *checkoutProgress
+                -
+                    general_shipping_methods_form:
+                        xpath: //form[@id='shipping_method_form']
+                        pageelements:
+                            shipping_methods_forms: /div[h2]
+                            shipping_method_address_header: /div[h2][%number%]/h2
+                            shipping_method_address: /div[h2][%number%]//address
+                        buttons:
+                            continue_to_billing_information: //button[span='Continue to Billing Information']
                         links:
-                            change_shipping_address: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//a[contains(@href,'editShipping/id/')]
+                            back_to_select_addresses: //a[text()='Back to Select Addresses']
+                -
+                    shipping_method_form:
+                        xpath: //h2[text()='%addressHeader%']//following-sibling::div[1]
+                        links:
+                            change_shipping_address: //a[contains(@href,'editShipping/id/')]
                             edit_items: //a[contains(@href, 'backToAddresses/')]
-                            product: //a[contains(.,'%productName%')]
-                            gift_message_for_order: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//div[@class='gift-message-form']//div[contains(@id, 'allow-gift-options-for-order')]//a[text()='Gift Message']
-                            gift_message_for_item: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//div[@class='gift-message-form']//div[contains(@id, 'allow-gift-options-for-items')]//div[h5[contains(.,'%productName%')]]/following-sibling::div[1]//a[text()='Gift Message']
+                            product: //a[text()='%productName%']
+                            product_qty: //tr[.//a[text()='%productName%']]/td/text()
                         checkboxes:
-                            add_gift_options: //div[not(contains(@class,'no-display'))]/p[label='Add gift options']/input
-                            gift_option_for_order: //div[not (@class='no-display')]/p[label='Add gift options for the Entire Order']/input
-                            gift_option_for_item: //div[not (@class='no-display')]/p[label='Add gift options for Individual Items']/input
-                            send_gift_receipt: //div[not (@class='no-display')]/p[label='Send Gift Receipt']/input
-                            add_printed_card: //div[not (@class='no-display')]/p[label='Add Printed Card']/input
-                        dropdowns:
-                            order_gift_wrapping_design: //div[contains(@id,'allow-gift-options-for-order-container')]//div[label='Gift Wrapping Design']/select
-                            item_gift_wrapping_design: //li[./div[h5='%productName%']]//div[label='Gift Wrapping Design']/select
+                            add_gift_options: //p[label='Add gift options']/input
+                            gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
+                            gift_option_for_individual_items: //p[label='Add gift options for Individual Items']/input
                         radiobuttons:
-                            ship_method: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
-                            one_method_selected: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and ../following-sibling::*[contains(text(),'%shipMethod%')]]
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input[not(@checked)]
+                            one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
                         fields:
-                            gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../../following-sibling::*/div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
-                            gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../../following-sibling::*/div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
-                            gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../../following-sibling::*/div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//textarea[@title='Message']
-                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]/following-sibling::div//input[@title='From']
-                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]/following-sibling::div//input[@title='To']
-                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]/following-sibling::div//textarea[@title='Message']
-                            ship_service_name: //div[div/h1[contains(text(),'Select Shipping Method')]]/form//h2[contains(.,'%addressHeader%')]/following-sibling::div[1]//dt[text()='%shipService%']
-        buttons:
-            continue_to_billing_information: //button[span='Continue to Billing Information']
-        links:
-            back_to_select_addresses: //a[text()='Back to Select Addresses']
-        pageelements: *validationSteps
+                            ship_service_name: //dt[text()='%shipService%']
+                            #@TODO
+                            gift_option_entire_order_from: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='From']
+                            gift_option_entire_order_to: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='To']
+                            gift_option_entire_order_message: //div[contains(@id,'allow-gift-messages-for-order-container')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
+                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]] //input[@title='To']
+                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='Message']
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
@@ -305,17 +306,17 @@ checkout_multishipping_select_billing_address:
                             billing_method_address: /descendant::*[address][%number%]/address
                 -
                     billing_address:
-                        xpath: //div[div/h1[contains(text(),'Change Billing Address')]]
+                        xpath: //div[div/h1[contains(text(),'Change Billing Address')]]/descendant::*[address][%number%]
                         links:
-                            edit_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/editAddress/id/')]
-                            select_address: //div[./address%param%]//a[contains(@href, 'multishipping_address/setBilling/id/')]
+                            edit_address: //a[contains(@href, 'multishipping_address/editAddress/id/')]
+                            select_address: //a[contains(@href, 'multishipping_address/setBilling/id/')]
         messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:
     mca: checkout/multishipping_address/newBilling/
     title: Create Billing Address - Magento Commerce
     uimap:
-        form:
+        form: 
             fieldsets:
                 -
                     create_billing_address:
@@ -357,6 +358,8 @@ checkout_multishipping_review_order:
         form: &reviewOrder
             fieldsets:
                 -
+                    checkout_progress: *checkoutProgress
+                -
                     review_order:
                         xpath: //div[div/h1[contains(text(),'Review Order')]]
                         links:
@@ -366,10 +369,9 @@ checkout_multishipping_review_order:
                             shipping_method_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'backtoshipping/')]
                             back_to_billing_information: //a[text() = 'Back to Billing Information')]
                         pageelements:
-                            product_table_head: //fieldset[./h2[text()='Shipping Information']]//h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
-                            price_totals: //fieldset[./h2[text()='Shipping Information']]//h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
-                            product_line:  //fieldset[./h2[text()='Shipping Information']]//h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr
-                            grand_total:  //fieldset[./h2[text()='Shipping Information']]//p[@class='grand-total']/span[@class='price']
+                            product_table_head: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
+                            price_totals: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
+                            product_line:  //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr
                         buttons:
                             place_order: //button[span='Place Order']
                 -
@@ -388,13 +390,12 @@ checkout_multishipping_review_order:
                         pageelements:
                             incorrect_password: //b[text()='Incorrect, Please try again']
                             verification_successful: //h1[text()='Verification Successful']
-            pageelements: *validationSteps
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
     title: Magento Commerce
     uimap:
-        form:
+        form: 
             fieldsets:
                 -
                     checkout_progress: *checkoutProgress

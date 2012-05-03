@@ -115,7 +115,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('payment_data' => $paymentData,
+                                           array('payment' => $paymentData,
                                                 'email'    => $testData['email']),
                                            $testData['products']);
         if ($payment != 'checkmoney') {
@@ -189,7 +189,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('payment_data' => $paymentData,
+                                           array('payment' => $paymentData,
                                                 'email'    => $testData['email']),
                                            $testData['products']);
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
