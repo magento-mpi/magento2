@@ -91,7 +91,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
     public function preconditionsCreateGiftWrapping()
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -154,7 +154,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $productGiftSettings = 'gift_options_message_yes_wrapping_yes';
         $productName = $products[0]['general_name'];
         $giftWrappingName = $giftWrapping['gift_wrapping_design'];
-        $individualItemsMessage = $this->loadData('gift_message_for_individual_items');
+        $individualItemsMessage = $this->loadDataSet('MultipleAddressesCheckout', 'gift_message_for_individual_items');
         $indItems = array($productName =>
                           array('item_gift_wrapping_design' => $giftWrappingName,
                                 'gift_message'              => $individualItemsMessage));
@@ -232,7 +232,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $checkoutData['products_to_add']['product_1']['general_name'] = $productName1;
         $checkoutData['products_to_add']['product_2']['general_name'] = $productName2;
         $shippingInfoData = $this->loadData('shipping_data_for_two_addresses');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($backendSettings);
@@ -320,7 +320,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $checkoutData['products_to_add']['product_1']['general_name'] = $productName1;
         $checkoutData['products_to_add']['product_2']['general_name'] = $productName2;
         $shippingInfoData = $this->loadData('shipping_data_for_two_addresses');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($backendSettings);
@@ -409,7 +409,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $checkoutData['products_to_add']['product_1']['general_name'] = $productName1;
         $checkoutData['products_to_add']['product_2']['general_name'] = $productName2;
         $shippingInfoData = $this->loadData('shipping_data_for_two_addresses');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($backendSettings);
@@ -513,7 +513,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $checkoutData['products_to_add']['product_1']['general_name'] = $productName1;
         $checkoutData['products_to_add']['product_2']['general_name'] = $productName2;
         $shippingInfoData = $this->loadData('shipping_data_for_two_addresses');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($backendSettings);
@@ -617,7 +617,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $checkoutData['products_to_add']['product_1']['general_name'] = $productName1;
         $checkoutData['products_to_add']['product_2']['general_name'] = $productName2;
         $shippingInfoData = $this->loadData('shipping_data_for_two_addresses');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($backendSettings);

@@ -61,7 +61,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -80,7 +80,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function preconditionsCreateProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -103,7 +103,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function preconditionsCreateProductForWebsite($website)
     {
         //Data
-        $productData = $this->loadData('simple_product_visible',
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
             array('websites' => $website['general_information']['staging_website_name']));
         //Steps
         $this->loginAdminUser();
@@ -123,7 +123,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function preconditionsCreateCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
@@ -145,7 +145,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function preconditionsCreateCustomerForWebsite($website)
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
@@ -167,8 +167,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function preconditionsGiftWrapping()
     {
         //Data
-        $giftWrappingDataWithoutImg = $this->loadData('gift_wrapping_without_image');
-        $giftWrappingDataWithImg = $this->loadData('gift_wrapping_with_image');
+        $giftWrappingDataWithoutImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $giftWrappingDataWithImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_with_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingDataWithoutImg);
@@ -1040,7 +1040,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure($giftWrappingEnableWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $individualItemsMessage = $this->loadData('gift_message_for_individual_items_one_page');
         $indItems = array($productData['general_name'] => array(
             'gift_message'                   => $individualItemsMessage,
@@ -1119,7 +1119,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->systemConfigurationHelper()->configure($giftWrappingDisableWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesDisableWebsite);
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $checkoutData = $this->loadData('gift_data_general', array (
                                                              'products_to_add/product_1'      => $productData));
         unset($checkoutData['shipping_data']);

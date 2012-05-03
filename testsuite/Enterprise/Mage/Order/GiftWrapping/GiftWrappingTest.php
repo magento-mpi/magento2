@@ -49,7 +49,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     public function preconditionsCreateProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -68,7 +68,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     public function preconditionsCreateCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');

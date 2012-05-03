@@ -62,7 +62,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -82,7 +82,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function preconditionsCreateProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -105,7 +105,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function preconditionsCreateProductForWebsite($website)
     {
         //Data
-        $productData = $this->loadData('simple_product_visible',
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
             array('websites' => $website['general_information']['staging_website_name']));
         //Steps
         $this->loginAdminUser();
@@ -125,7 +125,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function preconditionsCreateCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
@@ -147,7 +147,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function preconditionsCreateCustomerForWebsite($website)
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
@@ -166,7 +166,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>1. Simple product is created;</p>
      * <p>2. Customer is created;</p>
      * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration.</p>
+     * <p>4. Gift wrapping and gift messages are allowed for entire order and individual items in system
+     * configuration.</p>
      * <p>Steps:</p>
      * <p>1. Log into Frontend;</p>
      * <p>2. Add one product to shopping cart;</p>
@@ -206,20 +207,19 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $individualItemsMessage = $this->loadData('gift_message_for_individual_items');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $individualItemsMessage = $this->loadDataSet('MultipleAddressesCheckout', 'gift_message_for_individual_items');
         $indItems = array($productData['general_name'] =>
                           array('item_gift_wrapping_design'  => $giftWrappingData['gift_wrapping_design'],
                                 'gift_message'               => $individualItemsMessage));
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_gift_wrapping_and_message',
             array('email'                      => $customerData['email'],
                   'password'                   => $customerData['password'],
                   'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                  'individual_items'           => $indItems,
-                  'product_name'               => $productData['general_name'] .
-                                                  ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'individual_items'           => $indItems),
+            array('product_1'                  => $productData['general_name'],
+                  'validate_name_1'            => $productData['general_name'] .
+                        ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -268,14 +268,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_yes');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -288,21 +288,15 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_order'            => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertTrue($this->isElementPresent($fieldsetXpath .
-                                                  $this->_getControlXpath('dropdown', 'order_gift_wrapping_design')),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'order_gift_wrapping_design'),
             'Gift wrapping for entire order is not available');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_order')),
+        $this->assertTrue($this->controlIsPresent('link', 'gift_message_for_order'),
             'Gift message for entire order is not available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'gift_option_for_item')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'gift_option_for_item'),
             'Gift options checkbox for individual items is available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'item_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
             'Gift wrapping for individual item is available');
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_item')),
+        $this->assertFalse($this->controlIsPresent('link', 'gift_message_for_item'),
             'Gift message for individual item is available');
     }
 
@@ -342,14 +336,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_yes');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -362,21 +356,15 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'gift_option_for_order')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'gift_option_for_order'),
             'Gift options checkbox for entire order is available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'order_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'order_gift_wrapping_design'),
             'Gift wrapping for entire order is available');
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_order')),
+        $this->assertFalse($this->controlIsPresent('link', 'gift_message_for_order'),
             'Gift message for entire order is available');
-        $this->assertTrue($this->isElementPresent($fieldsetXpath .
-                                                  $this->_getControlXpath('dropdown', 'item_gift_wrapping_design')),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
             'Gift wrapping for individual item is not available');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_item')),
+        $this->assertTrue($this->controlIsPresent('link', 'gift_message_for_item'),
             'Gift message for individual item is not available');
     }
 
@@ -391,7 +379,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check the "Add gift options" checkboxes;</p>
      * <p>6. Check "Add gift options for Individual Items" checkboxes;</p>
@@ -412,14 +401,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -432,12 +421,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_item')),
+        $this->assertTrue($this->controlIsPresent('link', 'gift_message_for_item'),
             'Gift message for individual item is available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'item_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
             'Gift wrapping for individual item is available');
     }
 
@@ -452,7 +438,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      *
@@ -472,14 +459,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_no');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -491,9 +478,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options' => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'gift_option_for_item')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'gift_option_for_item'),
             'Gift options for individual item are available');
     }
 
@@ -508,7 +493,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check the "Add gift options" checkbox;</p>
      *
@@ -528,14 +514,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_no');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -548,12 +534,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'                 => 'Yes',
                               'gift_option_for_item'             => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_item')),
+        $this->assertFalse($this->controlIsPresent('link', 'gift_message_for_item'),
             'Gift message for individual item is available');
-        $this->assertTrue($this->isElementPresent($fieldsetXpath .
-                                                  $this->_getControlXpath('dropdown', 'item_gift_wrapping_design')),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
             'Gift wrapping for individual item is available');
     }
 
@@ -568,7 +551,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify dropdown "Gift Wrapping Design" is not visible for order;</p>
@@ -591,14 +575,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -611,12 +595,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'      => 'Yes',
                               'gift_option_for_order' => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_order')),
+        $this->assertTrue($this->controlIsPresent('link', 'gift_message_for_order'),
             'Gift message for order is not available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'order_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'order_gift_wrapping_design'),
             'Gift wrapping for order is available');
     }
 
@@ -631,7 +612,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check the "Add gift options" checkbox;</p>
      * <p>6. Verify dropdown "Gift Wrapping Design" is visible for order;</p>
@@ -654,14 +636,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -674,12 +656,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options'      => 'Yes',
                               'gift_option_for_order' => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('link', 'gift_message_for_order')),
+        $this->assertFalse($this->controlIsPresent('link', 'gift_message_for_order'),
             'Gift message for order is available');
-        $this->assertTrue($this->isElementPresent($fieldsetXpath .
-                                                  $this->_getControlXpath('dropdown', 'order_gift_wrapping_design')),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'order_gift_wrapping_design'),
             'Gift wrapping for order is not available');
     }
 
@@ -694,7 +673,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify checkbox "Add Gift Options For The Entire Order" is not visible for order.</p>
@@ -715,14 +695,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_no');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1'   => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -734,9 +714,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'gift_option_for_order')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'gift_option_for_order'),
             'Add gift options for order checkbox is available');
     }
 
@@ -749,13 +727,15 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify checkbox "Add Gift Card" is visible for order.</p>
      *
      * <p>Expected Results:</p>
-     * <p>1. Gift Options block of Orders pages should contain information about Printed Card with the price that set in the system configuration (Default Price for Printed Card).</p>
+     * <p>1. Gift Options block of Orders pages should contain information about Printed Card with the price that set
+     * in the system configuration (Default Price for Printed Card).</p>
      *
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProduct
@@ -770,12 +750,10 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_card_enable_yes');
         //Data
-        $checkoutData = $this->loadData('multiple_with_gift_card',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_gift_card',
             array('email'        => $customerData['email'],
-                  'password'     => $customerData['password'],
-                  'product_name' => $productData['general_name']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'password'     => $customerData['password']),
+            array('product_1' => $productData['general_name']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -794,7 +772,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify checkbox "Add Gift Card" is not visible for order.</p>
@@ -815,13 +794,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_card_enable_no');
         //Data
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+            array('product_1' => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -830,9 +809,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'add_printed_card')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'add_printed_card'),
             'Add printed card is available');
     }
 
@@ -845,7 +822,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify checkbox "Add Gift Receipt" is visible for order.</p>
@@ -866,12 +844,10 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_receipt_enable_yes');
         //Data
-        $checkoutData = $this->loadData('multiple_with_gift_receipt',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_gift_receipt',
             array('email'        => $customerData['email'],
-                  'password'     => $customerData['password'],
-                  'product_name' => $productData['general_name']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'password'     => $customerData['password']),
+            array('product_1' => $productData['general_name']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -890,7 +866,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
      * <p>Steps:</p>
      * <p>1. Log in to frontend;</p>
      * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping information";</p>
+     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
+     * information";</p>
      * <p>4. Select any shipping methods in shipping method tabs;</p>
      * <p>5. Check "Add gift options" checkbox;</p>
      * <p>6. Verify checkbox "Add Gift Receipt" is not visible for order.</p>
@@ -911,13 +888,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_receipt_enable_no');
         //Data
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'       => $customerData['email'],
-                  'password'    => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'    => $customerData['password']),
+             array('product_1' => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -926,20 +903,20 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->fillShippingInfo($shippingInfoData, false);
         $this->fillForm(array('add_gift_options'     => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('checkbox', 'send_gift_receipt')),
+        $this->assertFalse($this->controlIsPresent('checkbox', 'send_gift_receipt'),
             'Send Gift Receipt is available');
     }
 
     /**
-     * <p>Test Case TL-MAGE-860: Possibility to adding Gift attributes to Order during the process of Multiple Addresses Checkout - Website</p>
+     * <p>Test Case TL-MAGE-860: Possibility to adding Gift attributes to Order during the process of Multiple Addresses
+     * Checkout - Website</p>
      * <p>Preconditions:</p>
      * <p>1. Simple product is created;</p>
      * <p>2. Customer is created;</p>
      * <p>3. Website is created;</p>
      * <p>4. Gift wrapping is created for new website;</p>
-     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration in website scope;</p>
+     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration
+     * in website scope;</p>
      * <p>6. Navigate to newly created website URL.</p>
      * <p>Steps:</p>
      * <p>1. Log into Frontend;</p>
@@ -978,9 +955,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function checkoutWithGiftWrappingAndMessageWebsiteScope($customerData, $productData, $website)
     {
         //Preconditions
-        $giftWrappingEnableWebsite = $this->loadData('gift_wrapping_all_enable_on_website',
+        $giftWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $giftMessagesEnableWebsite = $this->loadData('gift_message_all_enable_on_website',
+        $giftMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_all_disable');
@@ -988,21 +965,20 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure($giftWrappingEnableWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
             array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
-        $individualItemsMessage = $this->loadData('gift_message_for_individual_items');
+        $individualItemsMessage = $this->loadDataSet('MultipleAddressesCheckout', 'gift_message_for_individual_items');
         $indItems = array($productData['general_name'] =>
                           array('item_gift_wrapping_design'  => $giftWrappingData['gift_wrapping_design'],
                                 'gift_message'               => $individualItemsMessage));
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_gift_wrapping_and_message',
             array('email'                      => $customerData['email'],
                   'password'                   => $customerData['password'],
                   'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                  'individual_items'           => $indItems,
-                  'product_name'               => $productData['general_name'] .
-                                                  ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'individual_items'           => $indItems),
+            array('product_1'                  => $productData['general_name'],
+                  'validate_name_1'            => $productData['general_name'] .
+                             ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -1063,14 +1039,12 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $checkoutData = $this->loadData('recount_gift_options_for_order_checkout',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'recount_gift_options_for_order_checkout',
             array('email'                      => $customerData['email'],
                   'password'                   => $customerData['password'],
-                  'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                  'product_name'               => $productData['general_name']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+            array('product_1'               => $productData['general_name']));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -1136,20 +1110,19 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
-        $individualItemsMessage = $this->loadData('gift_message_for_individual_items');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $individualItemsMessage = $this->loadDataSet('MultipleAddressesCheckout', 'gift_message_for_individual_items');
         $indItems = array($productData['general_name'] =>
                           array('item_gift_wrapping_design'  => $giftWrappingData['gift_wrapping_design'],
                                 'gift_message'               => $individualItemsMessage));
-        $checkoutData = $this->loadData('recount_gift_options_for_items_checkout',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'recount_gift_options_for_items_checkout',
             array('email'                      => $customerData['email'],
                   'password'                   => $customerData['password'],
                   'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                  'individual_items'           => $indItems,
-                  'product_name'               => $productData['general_name'] .
-                                                  ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'individual_items'           => $indItems),
+            array('product_1'                  => $productData['general_name'],
+                  'validate_name_1'            => $productData['general_name'] .
+                                               ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -1165,8 +1138,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options' => 'Yes', 'gift_option_for_item' => 'No'));
         $this->clickButton('continue_to_billing_information');
         $this->clickButton('continue_to_review_order');
-        $recountCheckout = $this->loadData('recount_gift_options_for_order',
-            array('product_name' => $productData['general_name']));
+        $recountCheckout = $this->loadDataSet('MultipleAddressesCheckout', 'recount_gift_options_for_order', null,
+            array('product_1' => $productData['general_name']));
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($recountCheckout);
     }
 
@@ -1210,12 +1183,10 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
         //Data
-        $checkoutData = $this->loadData('recount_gift_card_checkout',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'recount_gift_card_checkout',
             array('email'                      => $customerData['email'],
-                  'password'                   => $customerData['password'],
-                  'product_name'               => $productData['general_name']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'password'                   => $customerData['password']),
+            array('product_1'                  => $productData['general_name']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -1228,8 +1199,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->fillForm(array('add_gift_options' => 'Yes', 'add_printed_card' => 'No'));
         $this->clickButton('continue_to_billing_information');
         $this->clickButton('continue_to_review_order');
-        $recountCheckout = $this->loadData('recount_gift_options_for_order',
-            array('product_name' => $productData['general_name']));
+        $recountCheckout = $this->loadDataSet('MultipleAddressesCheckout', 'recount_gift_options_for_order', null,
+            array('product_1' => $productData['general_name']));
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($recountCheckout);
     }
 
@@ -1269,14 +1240,12 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->disableAllGiftWrapping();
         //Data
-        $checkoutData = $this->loadData('miltiple_without_gift_wrapping',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'miltiple_without_gift_wrapping',
             array('email'                      => $customerData['email'],
-                  'password'                   => $customerData['password'],
-                  'product_name'               => $productData['general_name']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
+                  'password'                   => $customerData['password']),
+            array('product_1'                  => $productData['general_name']));
         $shippingData = $checkoutData['shipping_data'];
-        $shippingData = $this->arrayEmptyClear($shippingData);
+        $shippingData = $this->clearDataArray($shippingData);
         unset($checkoutData['shipping_data']);
         //Steps
         $this->customerHelper()->frontLoginCustomer($customerData);
@@ -1288,24 +1257,24 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
                               'gift_option_for_order' => 'Yes',
                               'gift_option_for_item'  => 'Yes'));
         //Verification
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'shipping_method');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'order_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'order_gift_wrapping_design'),
             'Gift Wrapping Design dropdown is available');
-        $this->assertFalse($this->isElementPresent($fieldsetXpath .
-                                                   $this->_getControlXpath('dropdown', 'item_gift_wrapping_design')),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
             'Gift Wrapping Design dropdown is available');
     }
 
     /**
-     * <p>Test Case TL-MAGE-871: Possibility to adding Gift attributes to Order during the process of Multiple Addresses Checkout - Global</p>
+     * <p>Test Case TL-MAGE-871: Possibility to adding Gift attributes to Order during the process of
+     * Multiple Addresses Checkout - Global</p>
      * <p>Preconditions:</p>
      * <p>1. Simple product is created;</p>
      * <p>2. Customer is created;</p>
      * <p>3. Website is created;</p>
      * <p>4. Gift wrapping is created for new website;</p>
-     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration in global scope;</p>
-     * <p>6. Gift wrapping and gift messages are not allowed for entire order and individual items in system configuration in website scope;</p>
+     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration
+     * in global scope;</p>
+     * <p>6. Gift wrapping and gift messages are not allowed for entire order and individual items in system
+     * configuration in website scope;</p>
      * <p>7. Navigate to newly created website URL.</p>
      * <p>Steps:</p>
      * <p>1. Log into Frontend;</p>
@@ -1330,9 +1299,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     public function checkoutWithGiftWrappingAndMessageGlobalScope($customerData, $productData, $website)
     {
         //Preconditions
-        $giftWrappingDisableWebsite = $this->loadData('gift_wrapping_all_disable_on_website',
+        $giftWrappingDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $giftMessagesDisableWebsite = $this->loadData('gift_message_all_disable_on_website',
+        $giftMessagesDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_all_enable');
@@ -1340,15 +1309,15 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure($giftWrappingDisableWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesDisableWebsite);
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image',
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
             array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
-        $checkoutData = $this->loadData('multiple_with_gift_wrapping_and_message_for_order_only',
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout',
+            'multiple_with_gift_wrapping_and_message_for_order_only',
             array('email'                      => $customerData['email'],
-                  'password'                   => $customerData['password']));
-        $checkoutData['shipping_address_data']['address_to_ship_1']['general_name'] = $productData['general_name'];
-        $checkoutData['products_to_add']['product_1']['general_name'] = $productData['general_name'];
-        $shippingInfoData = $this->loadData('shipping_data_for_wrapping');
-        $shippingInfoData = $this->arrayEmptyClear($shippingInfoData);
+                  'password'                   => $customerData['password']),
+            array('product_1'                  => $productData['general_name']));
+        $shippingInfoData = $this->loadDataSet('MultipleAddressesCheckout', 'shipping_data_for_wrapping');
+        $shippingInfoData = $this->clearDataArray($shippingInfoData);
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);

@@ -61,7 +61,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
         //Data
-        $website = $this->loadData('staging_website');
+        $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -83,7 +83,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $products = array();
         for ($i = 0; $i < 2; $i++){
             //Data
-            $productData = $this->loadData('simple_product_visible');
+            $productData = $this->loadDataSet('Product', 'simple_product_visible');
             $productData['websites'] .= ',' . $website['general_information']['staging_website_name'];
             //Steps
             $this->navigate('manage_products');
@@ -107,7 +107,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function preconditionsCreateCustomerForWebsite($website)
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
@@ -129,7 +129,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function preconditionsCreateCustomer()
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
@@ -151,7 +151,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function preconditionsGiftWrapping($website)
     {
         //Data
-        $giftWrappingData = $this->loadData('gift_wrapping_without_image');
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $giftWrappingData['gift_wrapping_websites'] .= ',' . $website['general_information']['staging_website_name'];
         //Steps
         $this->navigate('manage_gift_wrapping');

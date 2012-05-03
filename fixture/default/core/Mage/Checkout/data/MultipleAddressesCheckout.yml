@@ -533,7 +533,7 @@ multiple_with_gift_card:
                 total_for_this_address: $27.99
                 printed_card: $10.00
                 shipping_handling_flat_rate_fixed: $5.00
-                subtotal: $27.99
+                subtotal: $12.99
 
 multiple_with_gift_receipt:
     products_to_add: *product_one
@@ -621,7 +621,7 @@ recount_gift_options_for_order:
             search_shipping_address: *shipping_usa_1
             validate_prod_data:
                 product_1:
-                    product_name: %noValue%
+                    product_name: %product_1%
                     price: $12.99
                     qty: 1
                     subtotal: $12.99
