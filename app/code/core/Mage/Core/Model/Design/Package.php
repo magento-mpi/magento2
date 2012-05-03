@@ -672,7 +672,7 @@ class Mage_Core_Model_Design_Package
 
         $fileMTime = filemtime($file);
 
-        /* Validate whether file needs to be materialized */
+        /* Validate whether file needs to be published */
         if (!file_exists($publicFile) || $fileMTime != filemtime($publicFile)) {
             $publicDir = dirname($publicFile);
             if (!is_dir($publicDir)) {

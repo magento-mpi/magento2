@@ -12,7 +12,7 @@
 /**
  * @group module:Mage_Core
  */
-class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
 {
     protected static $_cssFiles = array(
         'css/file.css',
@@ -45,7 +45,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     protected function tearDown()
     {
         Varien_Io_File::rmdirRecursive($this->_getSkinDir());
-        Varien_Io_File::rmdirRecursive($this->_getMatFixtureDir());
+        Varien_Io_File::rmdirRecursive($this->_getPublishFixtureDir());
     }
 
     /**
@@ -271,18 +271,18 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     }
 
     /**
-     * Materialization of skin files in development mode
+     * Publication of skin files in development mode
      *
      * @param string $application
      * @param string $package
      * @param string $theme
      * @param string $skin
      * @param string $file
-     * @dataProvider materializeSkinFileDataProvider
+     * @dataProvider publishSkinFileDataProvider
      */
-    public function testMaterializeSkinFile($application, $package, $theme, $skin, $file)
+    public function testPublishSkinFile($application, $package, $theme, $skin, $file)
     {
-        // determine path where a materialized file is to be expected
+        // determine path where a published file is to be expected
         $expectedModule = false;
         $targetFile   = $file;
         if (false !== strpos($file, '::')) {
@@ -307,12 +307,12 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
         $originalFile = $this->_model->getSkinFile($file, $params);
         $this->assertFileExists($originalFile);
 
-        // getSkinUrl() will trigger materialization in development mode
+        // getSkinUrl() will trigger publication in development mode
         $this->assertFileNotExists($targetFile, 'Please verify isolation from previous test(s).');
         $this->_model->getSkinUrl($file, $params);
         $this->assertFileExists($targetFile);
 
-        // as soon as the files are materialized, they must have the same mtime as originals
+        // as soon as the files are published, they must have the same mtime as originals
         $this->assertEquals(filemtime($originalFile), filemtime($targetFile),
             "These files mtime must be equal: {$originalFile} / {$targetFile}"
         );
@@ -321,7 +321,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     /**
      * @return array
      */
-    public function materializeSkinFileDataProvider()
+    public function publishSkinFileDataProvider()
     {
         return array(
             array('frontend', 'test', 'default', 'default', 'images/logo_email.gif'),
@@ -330,28 +330,28 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     }
 
     /**
-     * Materialization of CSS files located in the theme (development mode)
+     * Publication of CSS files located in the theme (development mode)
      */
-    public function testMaterializeCssFileFromTheme()
+    public function testPublishCssFileFromTheme()
     {
-        $materializedDir = $this->_getSkinDir() . '/frontend/package/default/theme/en_US';
-        $this->assertFileNotExists($materializedDir, 'Please verify isolation from previous test(s).');
+        $publishedDir = $this->_getSkinDir() . '/frontend/package/default/theme/en_US';
+        $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
         $this->_model->getSkinUrl('css/file.css', array(
             '_package' => 'package',
             '_skin' => 'theme',
         ));
         foreach (self::$_cssFiles as $file) {
-            $this->assertFileExists("{$materializedDir}/{$file}");
+            $this->assertFileExists("{$publishedDir}/{$file}");
         }
-        $this->assertFileNotExists("{$materializedDir}/absolute.gif");
-        $this->assertFileNotExists(dirname($materializedDir) . '/access_violation.php');
+        $this->assertFileNotExists("{$publishedDir}/absolute.gif");
+        $this->assertFileNotExists(dirname($publishedDir) . '/access_violation.php');
     }
 
     /**
-     * Materialization of CSS files located in the module
-     * @dataProvider materializeCssFileFromModuleDataProvider
+     * Publication of CSS files located in the module
+     * @dataProvider publishCssFileFromModuleDataProvider
      */
-    public function testMaterializeCssFileFromModule(
+    public function testPublishCssFileFromModule(
         $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
         $baseDir = $this->_getSkinDir();
@@ -364,7 +364,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
         $this->assertNotRegExp(
             '/url\(.*?' . Mage_Core_Model_Design_Package::SCOPE_SEPARATOR . '.*?\)/',
             $actualCssContent,
-            'Materialized CSS file must not contain scope separators in URLs.'
+            'Published CSS file must not contain scope separators in URLs.'
         );
 
         foreach ($expectedCssContent as $expectedCssSubstring) {
@@ -377,7 +377,7 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
         }
     }
 
-    public function materializeCssFileFromModuleDataProvider()
+    public function publishCssFileFromModuleDataProvider()
     {
         return array(
             'frontend' => array(
@@ -420,85 +420,85 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
 
 
     /**
-     * Test that modified CSS file and changed resources are re-materialized
+     * Test that modified CSS file and changed resources are re-published
      */
-    public function testMaterializeResourcesAndCssWhenChangedCss()
+    public function testPublishResourcesAndCssWhenChangedCss()
     {
-        $this->_prepareMatCssFixture();
+        $this->_preparePublishCssFixture();
 
-        $this->_model->getSkinUrl('mat_style.css');
+        $this->_model->getSkinUrl('style.css');
 
-        $fixtureSkinPath = $this->_getMatFixtureSkinPath();
-        $materializedPath = $this->_getMatSkinPath();
-        $this->assertFileEquals($fixtureSkinPath . 'mat_style.css', $materializedPath . 'mat_style.css');
-        $this->assertFileEquals($fixtureSkinPath . 'mat_sub.css', $materializedPath . 'mat_sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $materializedPath . 'images/square.png');
-        $this->assertFileNotExists($materializedPath . 'images/rectangle.png');
+        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
+        $publishedPath = $this->_getPublishSkinPath();
+        $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
+        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
+        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $publishedPath . 'images/square.png');
+        $this->assertFileNotExists($publishedPath . 'images/rectangle.png');
 
         // Change main file and referenced files - everything changed and referenced must appear
         file_put_contents(
-            $fixtureSkinPath . 'mat_style.css',
+            $fixtureSkinPath . 'style.css',
             'div {background: url(images/rectangle.png);}',
             FILE_APPEND
         );
         file_put_contents(
-            $fixtureSkinPath . 'mat_sub.css',
+            $fixtureSkinPath . 'sub.css',
             '.sub2 {border: 1px solid magenta}',
             FILE_APPEND
         );
-        $this->_model->getSkinUrl('mat_style.css');
+        $this->_model->getSkinUrl('style.css');
 
-        $this->assertFileEquals($fixtureSkinPath . 'mat_style.css', $materializedPath . 'mat_style.css');
-        $this->assertFileEquals($fixtureSkinPath . 'mat_sub.css', $materializedPath . 'mat_sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $materializedPath . 'images/rectangle.png');
+        $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
+        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
+        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/rectangle.png');
     }
 
     /**
-     * Test changed resources, referenced in non-modified CSS file, are re-materialized
+     * Test changed resources, referenced in non-modified CSS file, are re-published
      */
-    public function testMaterializeChangedResourcesWhenUnchangedCss()
+    public function testPublishChangedResourcesWhenUnchangedCss()
     {
-        $this->_prepareMatCssFixture();
+        $this->_preparePublishCssFixture();
 
-        $this->_model->getSkinUrl('mat_style.css');
+        $this->_model->getSkinUrl('style.css');
 
-        $fixtureSkinPath = $this->_getMatFixtureSkinPath();
-        $materializedPath = $this->_getMatSkinPath();
-        $this->assertFileEquals($fixtureSkinPath . 'mat_style.css', $materializedPath . 'mat_style.css');
-        $this->assertFileEquals($fixtureSkinPath . 'mat_sub.css', $materializedPath . 'mat_sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $materializedPath . 'images/square.png');
+        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
+        $publishedPath = $this->_getPublishSkinPath();
+        $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
+        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
+        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $publishedPath . 'images/square.png');
 
         // Change referenced files - everything changed must appear
         copy($fixtureSkinPath . 'images/rectangle.png', $fixtureSkinPath . 'images/square.png');
         touch($fixtureSkinPath . 'images/square.png');
         file_put_contents(
-            $fixtureSkinPath . 'mat_sub.css',
+            $fixtureSkinPath . 'sub.css',
             '.sub2 {border: 1px solid magenta}',
             FILE_APPEND
         );
 
-        $this->_model->getSkinUrl('mat_style.css');
+        $this->_model->getSkinUrl('style.css');
 
-        $this->assertFileEquals($fixtureSkinPath . 'mat_sub.css', $materializedPath . 'mat_sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $materializedPath . 'images/square.png');
+        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
+        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/square.png');
     }
 
     /**
      * Prepare design directory with initial css and resources.
      *
      * @param int $mTime
-     * @return Mage_Core_Model_Design_PackageMaterializationTest
+     * @return Mage_Core_Model_Design_PackagePublicationTest
      */
-    protected function _prepareMatCssFixture()
+    protected function _preparePublishCssFixture()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir($this->_getMatFixtureDir());
-        mkdir($this->_getMatFixtureSkinPath() . '/images', 0777, true);
+        Mage::app()->getConfig()->getOptions()->setDesignDir($this->_getPublishFixtureDir());
+        mkdir($this->_getPublishFixtureSkinPath() . '/images', 0777, true);
 
         // Copy all files to fixture location
-        $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for materialization
-        $sourcePath = $this->_getMatSourcePath();
-        $fixtureSkinPath = $this->_getMatFixtureSkinPath();
-        $files = array('../../theme.xml', 'mat_style.css', 'mat_sub.css', 'images/square.png', 'images/rectangle.png');
+        $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
+        $sourcePath = $this->_getPublishSourcePath();
+        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
+        $files = array('../../theme.xml', 'style.css', 'sub.css', 'images/square.png', 'images/rectangle.png');
         foreach ($files as $file) {
             copy($sourcePath . $file, $fixtureSkinPath . $file);
             touch($fixtureSkinPath . $file, $mTime);
@@ -508,13 +508,13 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
     }
 
     /**
-     * Return path to source directory, where original files for materialization tests are located
+     * Return path to source directory, where original files for publication tests are located
      *
      * @return string
      */
-    protected function _getMatSourcePath()
+    protected function _getPublishSourcePath()
     {
-        return dirname(__DIR__) . '/_files/design/frontend/test/materialization/skin/default/';
+        return dirname(__DIR__) . '/_files/design/frontend/test/publication/skin/default/';
     }
 
     /**
@@ -522,9 +522,9 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      *
      * @return string
      */
-    protected function _getMatFixtureDir()
+    protected function _getPublishFixtureDir()
     {
-        return Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/materialization';
+        return Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
     }
 
     /**
@@ -532,17 +532,17 @@ class Mage_Core_Model_Design_PackageMaterializationTest extends PHPUnit_Framewor
      *
      * @return string
      */
-    protected function _getMatFixtureSkinPath()
+    protected function _getPublishFixtureSkinPath()
     {
-        return $this->_getMatFixtureDir() . '/frontend/test/default/skin/default/';
+        return $this->_getPublishFixtureDir() . '/frontend/test/default/skin/default/';
     }
 
     /**
-     * Return path to skin directory, where files are materialized
+     * Return path to skin directory, where files are published
      *
      * @return string
      */
-    protected function _getMatSkinPath()
+    protected function _getPublishSkinPath()
     {
         return $this->_getSkinDir() . '/frontend/test/default/default/en_US/';
     }
