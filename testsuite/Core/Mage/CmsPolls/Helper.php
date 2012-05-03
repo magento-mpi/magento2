@@ -73,7 +73,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     /**
      * Open Poll
      *
-     * @param array $pollData Poll to open.
+     * @param array $searchPollData
      */
     public function openPoll(array $searchPollData)
     {
@@ -112,7 +112,10 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     /**
      * Change Poll state
      *
-     * @param string $pollData Array of Poll data
+     * @param array $searchPollData
+     * @param string $state
+     *
+     * @internal param string $pollData Array of Poll data
      */
     public function setPollState($searchPollData, $state)
     {
@@ -173,7 +176,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     /**
      * Delete a Poll
      *
-     * @param array $pollData Array of Poll data
+     * @param array $searchPollData Array of Poll data
      */
     public function deletePoll($searchPollData)
     {

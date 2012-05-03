@@ -57,8 +57,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3398
      * @test
+     * @return array
+     * @TestlinkId TL-MAGE-3398
      */
     public function requiredFieldsInDownloadable()
     {
@@ -85,7 +86,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsInDownloadable
      *
-     * @TestlinkId    TL-MAGE-3385
+     * @TestlinkId TL-MAGE-3385
      * @test
      */
     public function allFieldsInDownloadable()
@@ -115,10 +116,11 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
-     * @depends requiredFieldsInDownloadable
+     * @param array $productData
      *
-     * @TestlinkId    TL-MAGE-3390
      * @test
+     * @depends requiredFieldsInDownloadable
+     * @TestlinkId TL-MAGE-3390
      */
     public function existSkuInDownloadable($productData)
     {
@@ -142,11 +144,13 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @depends requiredFieldsInDownloadable
-     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @param string $emptyField
+     * @param string $fieldType
      *
-     * @TestlinkId    TL-MAGE-3482
      * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends requiredFieldsInDownloadable
+     * @TestlinkId TL-MAGE-3482
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -195,7 +199,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsInDownloadable
      *
-     * @TestlinkId    TL-MAGE-3399
+     * @TestlinkId TL-MAGE-3399
      * @test
      */
     public function specialCharactersInRequiredFields()
@@ -232,7 +236,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsInDownloadable
      *
-     * @TestlinkId    TL-MAGE-3397
+     * @TestlinkId TL-MAGE-3397
      * @test
      */
     public function longValuesInRequiredFields()
@@ -269,7 +273,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      *
      * @depends requiredFieldsInDownloadable
      *
-     * @TestlinkId    TL-MAGE-3391
+     * @TestlinkId TL-MAGE-3391
      * @test
      */
     public function incorrectSkuLengthInDownloadable()
@@ -295,11 +299,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidPrice
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3393
-     * @test
+     * @TestlinkId TL-MAGE-3393
      */
     public function invalidPriceInDownloadable($invalidPrice)
     {
@@ -325,11 +330,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidValue
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3395
-     * @test
+     * @TestlinkId TL-MAGE-3395
      */
     public function invalidSpecialPriceInDownloadable($invalidValue)
     {
@@ -356,11 +362,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyTierPrice
+     *
+     * @test
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3389
-     * @test
+     * @TestlinkId TL-MAGE-3389
      */
     public function emptyTierPriceFields($emptyTierPrice)
     {
@@ -396,11 +403,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidTierData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3396
-     * @test
+     * @TestlinkId TL-MAGE-3396
      */
     public function invalidTierPriceInDownloadable($invalidTierData)
     {
@@ -432,11 +440,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidQty
+     *
+     * @test
      * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3394
-     * @test
+     * @TestlinkId TL-MAGE-3394
      */
     public function invalidQtyInDownloadable($invalidQty)
     {
@@ -472,10 +481,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3387
+     * @param string $emptyField
+     *
      * @test
-     * @depends requiredFieldsInDownloadable
      * @dataProvider emptyFieldForSamplesDataProvider
+     * @depends requiredFieldsInDownloadable
+     * @TestlinkId TL-MAGE-3387
      */
     public function emptyFieldForSamples($emptyField)
     {
@@ -516,10 +527,13 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3386
+     *
+     * @param string $emptyField
+     *
      * @test
      * @depends requiredFieldsInDownloadable
      * @dataProvider emptyFieldForLinksDataProvider
+     * @TestlinkId TL-MAGE-3386
      */
     public function emptyFieldForLinks($emptyField)
     {
@@ -558,11 +572,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidValue
+     *
+     * @test
      * @dataProvider invalidQtyDataProvider
      * @depends requiredFieldsInDownloadable
-     *
-     * @TestlinkId    TL-MAGE-3392
-     * @test
+     * @TestlinkId TL-MAGE-3392
      */
     public function invalidLinksPriceInDownloadable($invalidValue)
     {

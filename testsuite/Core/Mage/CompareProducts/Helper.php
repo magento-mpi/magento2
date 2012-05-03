@@ -85,10 +85,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
 
     /**
      * Removes product from the Compare Products block
-     *
      * Preconditions: page with Compare Products block is opened
      *
      * @param string $productName Name of product to be deleted
+     *
+     * @return bool
      */
     public function frontRemoveProductFromCompareBlock($productName)
     {
@@ -99,10 +100,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
 
     /**
      * Removes product from the Compare Products pop-up
-     *
      * Preconditions: Compare Products pop-up is opened
      *
      * @param string $productName Name of product to be deleted
+     *
+     * @return bool
      */
     public function frontRemoveProductFromComparePopup($productName)
     {
@@ -164,7 +166,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             }
             unset($data[$number]);
         }
-        foreach ($returnArray as $key => &$value) {
+        foreach ($returnArray as &$value) {
             if (isset($value['remove'])) {
                 unset($value['remove']);
             }
@@ -231,9 +233,9 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
 
     /**
      * Get list of available products in Compare Products pop-up
-     *
      * Preconditions: Compare Products pop-up is opened
      *
+     * @return array
      */
     public function frontGetProductsListComparePopup()
     {

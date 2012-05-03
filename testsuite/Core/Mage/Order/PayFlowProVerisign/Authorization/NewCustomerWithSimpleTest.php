@@ -136,7 +136,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         return array(
             array('else_american_express'),
             array('else_visa'),
-            array('else_mastercard'),
+            array('payflowpro_mastercard'),
             array('else_discover'),
             array('else_jcb')
         );
@@ -503,9 +503,9 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
-            array('else_jcb_3d', true),
-            array('else_visa', false),
-            array('else_mastercard', false)
+            array('3dsecure_jcb', true),
+            array('payflowpro_mastercard', false),
+            array('else_visa', false)
         );
     }
 }

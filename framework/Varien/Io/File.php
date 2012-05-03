@@ -63,8 +63,8 @@ class Varien_Io_File extends Varien_Io_Abstract
     const GREP_DIRS = 'dirs_only';
 
     /**
-     * If this variable is set to TRUE, our library will be able to automaticaly create
-     * non-existant directories.
+     * If this variable is set to TRUE, our library will be able to automatically create
+     * non-existent directories.
      *
      * @var bool
      * @access protected
@@ -115,6 +115,9 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $fileName
      * @param string $mode
+     * @param int $chmod
+     *
+     * @throws Exception
      * @return bool
      */
     public function streamOpen($fileName, $mode = 'w+', $chmod = 0666)
@@ -142,6 +145,8 @@ class Varien_Io_File extends Varien_Io_Abstract
 
     /**
      * Lock file
+     *
+     * @param bool $exclusive
      *
      * @return bool
      */
@@ -173,6 +178,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Binary-safe file read
      *
      * @param int $length
+     *
      * @return string
      */
     public function streamRead($length = 1024)
@@ -189,6 +195,9 @@ class Varien_Io_File extends Varien_Io_Abstract
     /**
      * Gets line from file pointer and parse for CSV fields
      *
+     * @param string $delimiter
+     * @param string $enclosure
+     *
      * @return string
      */
     public function streamReadCsv($delimiter = ',', $enclosure = '"')
@@ -203,6 +212,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Binary-safe file write
      *
      * @param string $str
+     *
      * @return bool
      */
     public function streamWrite($str)
@@ -219,6 +229,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @param array $row
      * @param string $delimiter
      * @param string $enclosure
+     *
      * @return bool|int
      */
     public function streamWriteCsv(array $row, $delimiter = ',', $enclosure = '"')
@@ -254,6 +265,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $part the part of statistic
      * @param mixed $default default value for part
+     *
      * @return array|bool
      */
     public function streamStat($part = null, $default = null)
@@ -285,13 +297,14 @@ class Varien_Io_File extends Varien_Io_Abstract
      * - path     default current path
      *
      * @param array $args
+     *
      * @return boolean
      */
-    public function open(array $args=array())
+    public function open(array $args = array())
     {
         if (!empty($args['path'])) {
             if ($args['path']) {
-                if($this->_allowCreateFolders ) {
+                if ($this->_allowCreateFolders) {
                     $this->_createDestinationFolder($args['path']);
                 }
             }
@@ -306,6 +319,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Used to set {@link _allowCreateFolders} value
      *
      * @param mixed $flag
+     *
      * @access public
      * @return void
      */
@@ -331,9 +345,10 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @param string $dir
      * @param int $mode
      * @param boolean $recursive
+     *
      * @return boolean
      */
-    public function mkdir($dir, $mode=0777, $recursive=true)
+    public function mkdir($dir, $mode = 0777, $recursive = true)
     {
         if ($this->_cwd) {
             chdir($this->_cwd);
@@ -353,6 +368,8 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Delete a directory
      *
      * @param string $dir
+     * @param bool $recursive
+     *
      * @return boolean
      */
     public function rmdir($dir, $recursive = false)
@@ -367,8 +384,10 @@ class Varien_Io_File extends Varien_Io_Abstract
 
     /**
      * Delete a directory recursively
+     *
      * @param string $dir
      * @param bool $recursive
+     *
      * @return bool
      */
     public static function rmdirRecursive($dir, $recursive = true)
@@ -405,11 +424,13 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Change current working directory
      *
      * @param string $dir
+     *
+     * @throws Exception
      * @return boolean
      */
     public function cd($dir)
     {
-        if( is_dir($dir) ) {
+        if (is_dir($dir)) {
             @chdir($this->_iwd);
             $this->_cwd = realpath($dir);
             return true;
@@ -427,9 +448,10 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $filename
      * @param string|resource $dest
+     *
      * @return boolean|string
      */
-    public function read($filename, $dest=null)
+    public function read($filename, $dest = null)
     {
         if (!is_null($dest)) {
             chdir($this->_cwd);
@@ -450,9 +472,11 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $filename
      * @param string|resource $src
+     * @param null $mode
+     *
      * @return int|boolean
      */
-    public function write($filename, $src, $mode=null)
+    public function write($filename, $src, $mode = null)
     {
         if (is_string($src) && is_readable($src)) {
             $src = realpath($src);
@@ -466,12 +490,12 @@ class Varien_Io_File extends Varien_Io_Abstract
 
         if (file_exists($filename)) {
             if (!is_writeable($filename)) {
-                printf('File %s don\'t writeable', $filename);
+                printf('File %s don\'t writable', $filename);
                 return false;
             }
         } else {
             if (!is_writable(dirname($filename))) {
-                printf('Folder %s don\'t writeable', dirname($filename));
+                printf('Folder %s don\'t writable', dirname($filename));
                 return false;
             }
         }
@@ -519,6 +543,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Create destination folder
      *
      * @param string $path
+     *
      * @return Varien_Io_File
      */
     public function createDestinationDir($path)
@@ -534,6 +559,8 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $folder
      * @param int $mode
+     *
+     * @throws Exception
      * @return bool
      */
     public function checkAndCreateFolder($folder, $mode = 0777)
@@ -554,7 +581,7 @@ class Varien_Io_File extends Varien_Io_Abstract
     {
         return $this->checkAndCreateFolder($destinationFolder);
 
-        if( !$destinationFolder ) {
+        if (!$destinationFolder) {
             return $this;
         }
         if (!(@is_dir($destinationFolder) || $this->mkdir($destinationFolder, 0777, true))) {
@@ -565,20 +592,22 @@ class Varien_Io_File extends Varien_Io_Abstract
         $path = explode(DIRECTORY_SEPARATOR, $destinationFolder);
         $newPath = null;
         $oldPath = null;
-        foreach( $path as $key => $directory ) {
-            if (trim($directory)=='') {
+        foreach ($path as $key => $directory) {
+            if (trim($directory) == '') {
                 continue;
             }
-            if (strlen($directory)===2 && $directory{1}===':') {
+            if (strlen($directory) === 2 && $directory{1} === ':') {
                 $newPath = $directory;
                 continue;
             }
-            $newPath.= ( $newPath != DIRECTORY_SEPARATOR ) ? DIRECTORY_SEPARATOR . $directory : $directory;
-            if( is_dir($newPath) ) {
+            $newPath .= ($newPath != DIRECTORY_SEPARATOR)
+                ? DIRECTORY_SEPARATOR . $directory
+                : $directory;
+            if (is_dir($newPath)) {
                 $oldPath = $newPath;
                 continue;
             } else {
-                if( is_writable($oldPath) ) {
+                if (is_writable($oldPath)) {
                     $this->mkdir($newPath, 0777);
                 } else {
                     throw new Exception("Unable to create directory '{$newPath}'. Access forbidden.");
@@ -588,10 +617,12 @@ class Varien_Io_File extends Varien_Io_Abstract
         }
         return $this;
     }
+
     /**
      * Delete a file
      *
      * @param string $filename
+     *
      * @return boolean
      */
     public function rm($filename)
@@ -607,6 +638,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $src
      * @param string $dest
+     *
      * @return boolean
      */
     public function mv($src, $dest)
@@ -622,6 +654,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $src
      * @param string $dest
+     *
      * @return boolean
      */
     public function cp($src, $dest)
@@ -637,6 +670,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $filename
      * @param int $mode
+     *
      * @return boolean
      */
     public function chmod($filename, $mode)
@@ -662,16 +696,18 @@ class Varien_Io_File extends Varien_Io_Abstract
      *   - LS_ALL   = 3
      *
      * @param Varien_Io_File const
+     *
+     * @throws Exception
      * @access public
      * @return array
      */
-    public function ls($grep=null)
+    public function ls($grep = null)
     {
         $ignoredDirectories = Array('.', '..');
 
-        if( is_dir($this->_cwd) ) {
+        if (is_dir($this->_cwd)) {
             $dir = $this->_cwd;
-        } elseif( is_dir($this->_iwd) ) {
+        } elseif (is_dir($this->_iwd)) {
             $dir = $this->_iwd;
         } else {
             throw new Exception('Unable to list current working directory.');
@@ -685,30 +721,33 @@ class Varien_Io_File extends Varien_Io_Abstract
 
                 $fullpath = $dir . DIRECTORY_SEPARATOR . $entry;
 
-                if( ($grep == self::GREP_DIRS) && (!is_dir($fullpath)) ) {
+                if (($grep == self::GREP_DIRS) && (!is_dir($fullpath))) {
                     continue;
-                } elseif( ($grep == self::GREP_FILES) && (!is_file($fullpath)) ) {
+                } elseif (($grep == self::GREP_FILES) && (!is_file($fullpath))) {
                     continue;
-                } elseif( in_array($entry, $ignoredDirectories) ) {
+                } elseif (in_array($entry, $ignoredDirectories)) {
                     continue;
                 }
 
                 $list_item['text'] = $entry;
-                $list_item['mod_date'] = date ('Y-m-d H:i:s', filectime($fullpath));
+                $list_item['mod_date'] = date('Y-m-d H:i:s', filectime($fullpath));
                 $list_item['permissions'] = $this->_parsePermissions(fileperms($fullpath));
                 $list_item['owner'] = $this->_getFileOwner($fullpath);
 
-                if( is_file($fullpath) ) {
+                if (is_file($fullpath)) {
                     $pathinfo = pathinfo($fullpath);
                     $list_item['size'] = filesize($fullpath);
                     $list_item['leaf'] = true;
-                    if( isset($pathinfo['extension']) && in_array(strtolower($pathinfo['extension']), Array('jpg', 'jpeg', 'gif', 'bmp', 'png')) && $list_item['size'] > 0 ) {
+                    if (isset($pathinfo['extension'])
+                        && in_array(strtolower($pathinfo['extension']), Array('jpg', 'jpeg', 'gif', 'bmp', 'png'))
+                        && $list_item['size'] > 0
+                    ) {
                         $list_item['is_image'] = true;
                         $list_item['filetype'] = $pathinfo['extension'];
-                    } elseif( $list_item['size'] == 0 ) {
+                    } elseif ($list_item['size'] == 0) {
                         $list_item['is_image'] = false;
                         $list_item['filetype'] = 'unknown';
-                    } elseif( isset($pathinfo['extension']) ) {
+                    } elseif (isset($pathinfo['extension'])) {
                         $list_item['is_image'] = false;
                         $list_item['filetype'] = $pathinfo['extension'];
                     } else {
@@ -734,6 +773,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Convert integer permissions format into human readable
      *
      * @param integer $mode
+     *
      * @access protected
      * @return string
      */
@@ -775,10 +815,10 @@ class Varien_Io_File extends Varien_Io_Abstract
         if( $mode & 0x200 )
             $world["execute"] = ($world['execute']=='x') ? 't' : 'T';
 
-        $s=sprintf('%1s', $type);
-        $s.=sprintf('%1s%1s%1s', $owner['read'], $owner['write'], $owner['execute']);
-        $s.=sprintf('%1s%1s%1s', $group['read'], $group['write'], $group['execute']);
-        $s.=sprintf('%1s%1s%1s', $world['read'], $world['write'], $world['execute']);
+        $s = sprintf('%1s', $type);
+        $s .= sprintf('%1s%1s%1s', $owner['read'], $owner['write'], $owner['execute']);
+        $s .= sprintf('%1s%1s%1s', $group['read'], $group['write'], $group['execute']);
+        $s .= sprintf('%1s%1s%1s', $world['read'], $world['write'], $world['execute']);
         return trim($s);
     }
 
@@ -786,16 +826,17 @@ class Varien_Io_File extends Varien_Io_Abstract
      * Get file owner
      *
      * @param string $filename
+     *
      * @access protected
      * @return string
      */
     protected function _getFileOwner($filename)
     {
-        if( !function_exists('posix_getpwuid') ) {
+        if (!function_exists('posix_getpwuid')) {
             return 'n/a';
         }
 
-        $owner     = posix_getpwuid(fileowner($filename));
+        $owner = posix_getpwuid(fileowner($filename));
         $groupinfo = posix_getgrnam(filegroup($filename));
 
         return $owner['name'] . ' / ' . $groupinfo;

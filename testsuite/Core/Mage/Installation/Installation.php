@@ -108,6 +108,6 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
         //Go to Frontend
-        $this->assertTrue($this->frontend());
+        $this->frontend();
     }
 }

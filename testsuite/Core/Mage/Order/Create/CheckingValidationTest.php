@@ -369,16 +369,16 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
                                         array('filter_sku'  => $simpleSku,
                                              'payment_data' => $paymentData));
-        $emptyFields = array('field'    => 'name_on_card',
-                             'dropdown' => 'card_type',
-                             'dropdown' => 'expiration_year',
-                             'field'    => 'card_verification_number');
+        $emptyFields = array('name_on_card'             => 'field',
+                             'card_type'                => 'dropdown',
+                             'expiration_year'          => 'dropdown',
+                             'card_verification_number' => 'field');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        foreach ($emptyFields as $key => $value) {
-            $xpath = $this->_getControlXpath($key, $value);
+        foreach ($emptyFields as $fieldName => $fieldType) {
+            $xpath = $this->_getControlXpath($fieldType, $fieldName);
             $this->addParameter('fieldXpath', $xpath);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }

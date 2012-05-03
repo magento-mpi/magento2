@@ -44,8 +44,9 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
     public function frontAddProductToWishlistFromCatalogPage($productName, $category)
     {
         $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
-        if (!$pageId)
+        if (!$pageId) {
             $this->fail('Could not find the product');
+        }
         $this->addParameter('productName', $productName);
         $this->clickControl('link', 'add_to_wishlist');
     }
@@ -64,14 +65,15 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
-        $this->clickControlAndWaitMessage('link', 'add_to_wishlist', 'successfully_added_product');
+        $this->clickControl('link', 'add_to_wishlist');
     }
 
     /**
      * Finds the product in the wishlist.
      *
      * @param string|array $productNameSet Product name or array of product names to search for.
-     * @return true|array True if the products are all present.
+     *
+     * @return bool|array True if the products are all present.
      *                    Otherwise returns an array of product names that are absent.
      */
     public function frontWishlistHasProducts($productNameSet)
@@ -97,14 +99,16 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
      */
     public function frontRemoveProductsFromWishlist($productNameSet, $validate = true)
     {
-        if (is_string($productNameSet))
+        if (is_string($productNameSet)) {
             $productNameSet = array($productNameSet);
+        }
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
             if ($this->controlIsPresent('link', 'remove_item')) {
                 $this->clickControlAndConfirm('link', 'remove_item', 'confirmation_for_delete');
-            } else if ($validate) {
+            } elseif ($validate) {
                 $this->fail($productName . ' is not in the wishlist.');
+
             }
         }
     }
@@ -131,7 +135,7 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
             $this->fail("Cannot share an empty wishlist");
         }
         $this->clickButton('share_wishlist');
-        $this->fillForm($shareData);
+        $this->fillFieldset($shareData, 'sharing_info');
         $this->saveForm('share_wishlist');
     }
 

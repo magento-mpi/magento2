@@ -184,7 +184,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * @depends createCustomer
      * @depends createCategory
      * @depends createProduct
-     * @TestlinkId    TL-MAGE-3650
+     * @TestlinkId TL-MAGE-3650
      */
     public function frontendTagVerificationInCategory($customer, $category, $product)
     {
@@ -219,13 +219,13 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      * <p>4. Login page opened</p>
      * <p>Expected result:</p>
      * <p>Customer is redirected to the login page.</p>
-     * <p>The tag hasn't been added for moderation in backend.</p>
+     * <p>The tag has not been added for moderation in backend.</p>
      *
      * @param $product
      *
      * @test
      * @depends createProduct
-     * @TestlinkId    TL-MAGE-3652
+     * @TestlinkId TL-MAGE-3652
      */
     public function frontendTagVerificationNotLoggedCustomer($product)
     {

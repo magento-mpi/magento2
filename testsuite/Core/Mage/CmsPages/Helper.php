@@ -75,7 +75,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     /**
      * Fills Content tab
      *
-     * @param string $content
+     * @param array $content
      */
     public function fillContent(array $content)
     {
@@ -94,7 +94,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     /**
      * Insert widget
      *
-     * @param array $widgets
+     * @param array $widgetData
      */
     public function insertWidget(array $widgetData)
     {

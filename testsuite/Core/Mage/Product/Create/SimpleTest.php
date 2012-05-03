@@ -69,7 +69,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @return array $productData
      *
-     * @TestlinkId    TL-MAGE-3422
+     * @TestlinkId TL-MAGE-3422
      * @test
      */
     public function onlyRequiredFieldsInSimple()
@@ -97,7 +97,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3411
+     * @TestlinkId TL-MAGE-3411
      * @test
      */
     public function allFieldsInSimple()
@@ -131,7 +131,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3414
+     * @TestlinkId TL-MAGE-3414
      * @test
      */
     public function existSkuInSimple($productData)
@@ -162,7 +162,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-12
+     * @TestlinkId TL-MAGE-12
      * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
@@ -213,7 +213,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3423
+     * @TestlinkId TL-MAGE-3423
      * @test
      */
     public function specialCharactersInRequiredFields()
@@ -250,7 +250,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3421
+     * @TestlinkId TL-MAGE-3421
      * @test
      */
     public function longValuesInRequiredFields()
@@ -288,7 +288,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3415
+     * @TestlinkId TL-MAGE-3415
      * @test
      */
     public function incorrectSkuLengthInSimple()
@@ -315,7 +315,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
      *
-     * @TestlinkId    TL-MAGE-3420
+     * @TestlinkId TL-MAGE-3420
      * @test
      * @group skip_due_to_bug
      */
@@ -347,7 +347,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3416
+     * @TestlinkId TL-MAGE-3416
      * @test
      */
     public function invalidPriceInSimple($invalidPrice)
@@ -378,7 +378,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3418
+     * @TestlinkId TL-MAGE-3418
      * @test
      */
     public function invalidSpecialPriceInSimple($invalidValue)
@@ -410,7 +410,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider emptyTierPriceFieldsDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3413
+     * @TestlinkId TL-MAGE-3413
      * @test
      */
     public function emptyTierPriceFields($emptyTierPrice)
@@ -452,7 +452,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3419
+     * @TestlinkId TL-MAGE-3419
      * @test
      */
     public function invalidTierPriceInSimple($invalidTierData)
@@ -490,7 +490,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInSimple
      *
-     * @TestlinkId    TL-MAGE-3417
+     * @TestlinkId TL-MAGE-3417
      * @test
      */
     public function invalidQtyInSimple($invalidQty)

@@ -146,7 +146,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends withRequiredFields
-     * @TestlinkId    TL-MAGE-3211
+     * @TestlinkId TL-MAGE-3211
      */
     public function withEmptyRequiredFields($fieldName, $fieldType, $messCount)
     {

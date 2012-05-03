@@ -158,7 +158,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withSpecialValuesDataProvider
      * @depends createNewWithReqField
-     * @TestlinkId    TL-MAGE-3227
+     * @TestlinkId TL-MAGE-3227
      */
     public function withSpecialValues(array $specialValue)
     {

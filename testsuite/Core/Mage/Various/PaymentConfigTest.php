@@ -57,7 +57,7 @@ class Core_Mage_Various_PaymentConfigTest extends Mage_Selenium_TestCase
      * <p>5. Click on "Save" button.</p>
      *
      * <p>Expected Result:</p>
-     * <p>After step 3: Sort Order field shouldn't be required field;</p>
+     * <p>After step 3: Sort Order field should not be required field;</p>
      * <p>After step 5: payment method should be saved;</p>
      *
      * @test

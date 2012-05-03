@@ -39,8 +39,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
-            && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -61,12 +60,10 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'log_in_to_admin'
-            && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -78,10 +75,8 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginValidUser()
     {
         //Data
-        $loginData = array(
-            'user_name' => $this->_configHelper->getDefaultLogin(),
-            'password'  => $this->_configHelper->getDefaultPassword()
-        );
+        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
+                           'password'  => $this->_configHelper->getDefaultPassword());
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -191,15 +186,14 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginInactiveAdminAccount()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user',
-                                    array('this_account_is' => 'Inactive',
-                                         'role_name'       => 'Administrators'), array('email', 'user_name'));
-        $loginData = array('user_name' => $userData['user_name'],
-                           'password'  => $userData['password']);
+        $user = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('this_account_is' => 'Inactive',
+                                                                             'role_name'       => 'Administrators'));
+        $loginData = array('user_name' => $user['user_name'],
+                           'password'  => $user['password']);
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
-        $this->adminUserHelper()->createAdminUser($userData);
+        $this->adminUserHelper()->createAdminUser($user);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
@@ -226,7 +220,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginWithoutPermissions()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
         $loginData = array('user_name' => $userData['user_name'],
                            'password'  => $userData['password']);
         //Pre-Conditions
@@ -307,7 +301,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function forgotPasswordCorrectEmail()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
         $emailData = array('email' => $userData['email']);
         //Steps
         $this->loginAdminUser();
@@ -337,7 +331,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>3. Click "Back to Login" link</p>
      * <p>4. Try to login using old credentials</p>
      * <p>Expected result:</p>
-     * <p>User still can login, since the password hasn't been reset.</p>
+     * <p>User still can login, since the password has not been reset.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3153
@@ -345,8 +339,7 @@ class Enterprise_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function forgotPasswordOldPassword()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
-                                    array('email', 'user_name'));
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('role_name' => 'Administrators'));
         $emailData = array('email' => $userData['email']);
         $loginData = array('user_name' => $userData['user_name'],
                            'password'  => $userData['password']);

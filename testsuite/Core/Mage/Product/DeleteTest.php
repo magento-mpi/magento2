@@ -65,7 +65,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider deleteSingleProductDataProvider
-     * @TestlinkId    TL-MAGE-3425
+     * @TestlinkId TL-MAGE-3425
      */
     public function deleteSingleProduct($type)
     {
@@ -256,7 +256,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      * <p>Products are deleted.</p>
      * <p>Success Message is displayed.</p>
      * @test
-     * @TestlinkId    TL-MAGE-3426
+     * @TestlinkId TL-MAGE-3426
      */
     public function throughMassAction()
     {

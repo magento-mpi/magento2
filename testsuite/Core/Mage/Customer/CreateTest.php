@@ -112,7 +112,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3582
+     * @TestlinkId TL-MAGE-3582
      */
     public function withEmailThatAlreadyExists(array $userData)
     {
@@ -137,7 +137,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId    TL-MAGE-3586
+     * @TestlinkId TL-MAGE-3586
      */
     public function withRequiredFieldsEmpty($emptyField)
     {

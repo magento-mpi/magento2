@@ -49,6 +49,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     /**
      * Test Realizing precondition for creating configurable product.
      *
+     * @return array
      * @test
      */
     public function createConfigurableAttribute()
@@ -85,10 +86,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends createConfigurableAttribute
+     * @param array $attrData
      *
-     * @TestlinkId    TL-MAGE-3374
+     * @return array
      * @test
+     * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3374
      */
     public function onlyRequiredFieldsInConfigurable($attrData)
     {
@@ -115,10 +118,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends createConfigurableAttribute
+     * @param array $attrData
      *
-     * @TestlinkId    TL-MAGE-3362
      * @test
+     * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3362
      */
     public function allFieldsInConfigurable($attrData)
     {
@@ -149,10 +153,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
-     * @depends onlyRequiredFieldsInConfigurable
+     * @param array $productData
      *
-     * @TestlinkId    TL-MAGE-3368
      * @test
+     * @depends onlyRequiredFieldsInConfigurable
+     * @TestlinkId TL-MAGE-3368
      */
     public function existSkuInConfigurable($productData)
     {
@@ -176,11 +181,14 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyField
+     * @param string $fieldType
+     * @param array $attrData
+     *
+     * @test
      * @dataProvider emptyRequiredFieldInConfigurableDataProvider
      * @depends createConfigurableAttribute
-     *
-     * @TestlinkId    TL-MAGE-3366
-     * @test
+     * @TestlinkId TL-MAGE-3366
      */
     public function emptyRequiredFieldInConfigurable($emptyField, $fieldType, $attrData)
     {
@@ -228,10 +236,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
-     * @depends createConfigurableAttribute
+     * @param array $attrData
      *
-     * @TestlinkId    TL-MAGE-3375
      * @test
+     * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3375
      */
     public function specialCharactersInRequiredFields($attrData)
     {
@@ -266,10 +275,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
-     * @depends createConfigurableAttribute
+     * @param array $attrData
      *
-     * @TestlinkId    TL-MAGE-3373
      * @test
+     * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3373
      */
     public function longValuesInRequiredFields($attrData)
     {
@@ -304,10 +314,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @depends createConfigurableAttribute
+     * @param array $attrData
      *
-     * @TestlinkId    TL-MAGE-3369
      * @test
+     * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3369
      */
     public function incorrectSkuLengthInConfigurable($attrData)
     {
@@ -334,11 +345,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidPrice
+     * @param array $attrData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
-     *
-     * @TestlinkId    TL-MAGE-3370
-     * @test
+     * @TestlinkId TL-MAGE-3370
      */
     public function invalidPriceInConfigurable($invalidPrice, $attrData)
     {
@@ -366,11 +379,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidValue
+     * @param array $attrData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
-     *
-     * @TestlinkId    TL-MAGE-3371
-     * @test
+     * @TestlinkId TL-MAGE-3371
      */
     public function invalidSpecialPriceInConfigurable($invalidValue, $attrData)
     {
@@ -399,11 +414,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyTierPrice
+     * @param array $attrData
+     *
+     * @test
      * @dataProvider emptyTierPriceFieldsInConfigurableDataProvider
      * @depends createConfigurableAttribute
-     *
-     * @TestlinkId    TL-MAGE-3367
-     * @test
+     * @TestlinkId TL-MAGE-3367
      */
     public function emptyTierPriceFieldsInConfigurable($emptyTierPrice, $attrData)
     {
@@ -441,11 +458,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $invalidTierData
+     * @param array $attrData
+     *
+     * @test
      * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
-     *
-     * @TestlinkId    TL-MAGE-3372
-     * @test
+     * @TestlinkId TL-MAGE-3372
      */
     public function invalidTierPriceInConfigurable($invalidTierData, $attrData)
     {
@@ -493,9 +512,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3364
+     * @param array $attrData
+     *
      * @test
      * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3364
      */
     public function configurableWithSimpleProduct($attrData)
     {
@@ -538,9 +559,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3365
+     * @param array $attrData
+     *
      * @test
      * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3365
      */
     public function configurableWithVirtualProduct($attrData)
     {
@@ -583,9 +606,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3363
+     * @param array $attrData
+     *
      * @test
      * @depends createConfigurableAttribute
+     * @TestlinkId TL-MAGE-3363
      */
     public function configurableWithDownloadableProduct($attrData)
     {

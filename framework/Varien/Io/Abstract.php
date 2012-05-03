@@ -35,17 +35,18 @@
 abstract class Varien_Io_Abstract implements Varien_Io_Interface
 {
     /**
-     * If this variable is set to true, our library will be able to automaticaly
-     * create non-existant directories
+     * If this variable is set to true, our library will be able to automatically
+     * create non-existent directories
      *
      * @var bool
      */
     protected $_allowCreateFolders = false;
 
     /**
-     * Allow automaticaly create non-existant directories
+     * Allow automatically create non-existent directories
      *
      * @param bool $flag
+     *
      * @return Varien_Io_Abstract
      */
     public function setAllowCreateFolders($flag)
@@ -57,7 +58,9 @@ abstract class Varien_Io_Abstract implements Varien_Io_Interface
     /**
      * Open a connection
      *
-     * @param array $config
+     * @param array $args
+     *
+     * @internal param array $config
      * @return bool
      */
     public function open(array $args = array())
@@ -97,9 +100,8 @@ abstract class Varien_Io_Abstract implements Varien_Io_Interface
         for ($i = 0, $realPathParts = array(); $i < count($pathParts); $i++) {
             if ($pathParts[$i] == '.') {
                 continue;
-            }
-            elseif ($pathParts[$i] == '..') {
-                if ((isset($realPathParts[0])  &&  $realPathParts[0] != '..') || ($pathTokR != "")) {
+            } elseif ($pathParts[$i] == '..') {
+                if ((isset($realPathParts[0]) && $realPathParts[0] != '..') || ($pathTokR != "")) {
                     array_pop($realPathParts);
                     continue;
                 }

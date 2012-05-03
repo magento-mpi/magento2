@@ -57,8 +57,9 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @TestlinkId    TL-MAGE-3409
      * @test
+     * @return array
+     * @TestlinkId TL-MAGE-3409
      */
     public function onlyRequiredFieldsInGrouped()
     {
@@ -85,7 +86,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3400
+     * @TestlinkId TL-MAGE-3400
      * @test
      */
     public function allFieldsInGrouped()
@@ -113,10 +114,11 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
-     * @depends onlyRequiredFieldsInGrouped
+     * @param array $productData
      *
-     * @TestlinkId    TL-MAGE-3402
      * @test
+     * @depends onlyRequiredFieldsInGrouped
+     * @TestlinkId TL-MAGE-3402
      */
     public function existSkuInGrouped($productData)
     {
@@ -140,11 +142,13 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @param string $emptyField
+     * @param string $fieldType
+     *
+     * @test
+     * @TestlinkId TL-MAGE-15
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends onlyRequiredFieldsInGrouped
-     *
-     * @TestlinkId    TL-MAGE-15
-     * @test
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -188,7 +192,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3410
+     * @TestlinkId TL-MAGE-3410
      * @test
      */
     public function specialCharactersInRequiredFields()
@@ -225,7 +229,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3408
+     * @TestlinkId TL-MAGE-3408
      * @test
      */
     public function longValuesInRequiredFields()
@@ -262,7 +266,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3407
+     * @TestlinkId TL-MAGE-3407
      * @test
      */
     public function incorrectSkuLengthInGrouped()
@@ -294,7 +298,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3405
+     * @TestlinkId TL-MAGE-3405
      * @test
      */
     public function groupedWithSimpleProduct()
@@ -338,7 +342,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3406
+     * @TestlinkId TL-MAGE-3406
      * @test
      */
     public function groupedWithVirtualProduct()
@@ -382,7 +386,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      *
      * @depends onlyRequiredFieldsInGrouped
      *
-     * @TestlinkId    TL-MAGE-3404
+     * @TestlinkId TL-MAGE-3404
      * @test
      */
     public function groupedWithDownloadableProduct()
@@ -425,12 +429,15 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @param string $simpleSku
+     * @param string $virtualSku
+     * @param string $downloadableSku
+     *
+     * @test
      * @depends groupedWithSimpleProduct
      * @depends groupedWithVirtualProduct
      * @depends groupedWithDownloadableProduct
-     *
-     * @TestlinkId    TL-MAGE-3403
-     * @test
+     * @TestlinkId TL-MAGE-3403
      */
     public function groupedWithAllTypesProduct($simpleSku, $virtualSku, $downloadableSku)
     {
