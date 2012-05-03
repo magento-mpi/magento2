@@ -20,7 +20,9 @@
 <script type="text/javascript">
 (function ($) {
     $(document).ready(function () {
-        designEditor = new DesignEditor();
+        designEditor = new DesignEditor({
+            'cookie_name': '<?php echo Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING; ?>'
+        });
 
         $('.vde_toolbar_cell_title').click(function(){
             var cellElement = $(this).parents('.vde_toolbar_cell');

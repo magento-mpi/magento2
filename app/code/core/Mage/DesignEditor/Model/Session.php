@@ -19,6 +19,11 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
     const SESSION_DESIGN_EDITOR_ACTIVE = 'DESIGN_EDITOR_ACTIVE';
 
     /**
+     * Cookie name, which indicates whether highlighting of elements is enabled or not
+     */
+    const COOKIE_HIGHLIGHTING = 'vde_highlighting';
+
+    /**
      * Check whether the design editor is active for the current session or not
      *
      * @return bool
@@ -49,8 +54,20 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
          */
         if ($this->getData(self::SESSION_DESIGN_EDITOR_ACTIVE)) {
             $this->unsetData(self::SESSION_DESIGN_EDITOR_ACTIVE);
+            Mage::getSingleton('Mage_Core_Model_Cookie')->delete(self::COOKIE_HIGHLIGHTING);
             Mage::dispatchEvent('design_editor_session_deactivate');
         }
+    }
+
+    /**
+     * Check whether highlighting of elements is enabled or not
+     *
+     * @return bool
+     */
+    public function isHighlightingEnabled()
+    {
+        $highlighting = Mage::getSingleton('Mage_Core_Model_Cookie')->get(self::COOKIE_HIGHLIGHTING);
+        return false === $highlighting || 'on' == $highlighting;
     }
 
     /**
