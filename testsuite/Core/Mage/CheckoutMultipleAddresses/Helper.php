@@ -132,8 +132,8 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $options = (isset($data['options'])) ? $data['options'] : array();
                 $this->productHelper()->frontAddProductToCart($options);
             }
+            $this->clickControl('link', 'checkout_with_multiple_addresses');
         }
-        $this->clickControl('link', 'checkout_with_multiple_addresses');
         if ($customer) {
             $this->frontSelectMultipleCheckoutMethod($customer);
         }
