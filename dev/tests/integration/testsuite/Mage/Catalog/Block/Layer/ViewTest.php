@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**

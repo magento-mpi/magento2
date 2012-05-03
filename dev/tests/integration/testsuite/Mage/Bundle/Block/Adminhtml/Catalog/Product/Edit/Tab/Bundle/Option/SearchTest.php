@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Bundle
- */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_SearchTest
     extends PHPUnit_Framework_TestCase
 {

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_PageCache
- */
 class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

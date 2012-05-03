@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_CatalogEvent
- */
 class Enterprise_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
 {
     /**

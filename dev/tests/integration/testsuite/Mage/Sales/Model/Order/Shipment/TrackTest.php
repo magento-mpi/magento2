@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Sales
- */
 class Mage_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCase
 {
     /**

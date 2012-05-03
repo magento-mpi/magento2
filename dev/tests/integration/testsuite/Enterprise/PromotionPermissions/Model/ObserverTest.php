@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_PromotionPermissions
- */
 class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */

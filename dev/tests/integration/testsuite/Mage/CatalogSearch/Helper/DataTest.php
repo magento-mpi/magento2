@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_CatalogSearch
- */
 class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

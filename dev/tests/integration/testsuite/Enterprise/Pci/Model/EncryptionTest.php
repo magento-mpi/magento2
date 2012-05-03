@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Pci
- */
 class Enterprise_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Model_Convert_Adapter_ProductTest extends PHPUnit_Framework_TestCase
 {
     public function testLoadWithoutIssues()

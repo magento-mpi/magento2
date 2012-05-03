@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Customer
- */
 class Mage_Customer_Model_Convert_Adapter_CustomerTest extends PHPUnit_Framework_TestCase
 {
     public function testLoadWithoutIssues()

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_AjaxControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

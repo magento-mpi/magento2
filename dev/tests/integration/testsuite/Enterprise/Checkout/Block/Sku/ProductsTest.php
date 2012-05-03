@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Checkout
- */
 class Enterprise_Checkout_Block_Sku_ProductsTest extends PHPUnit_Framework_TestCase
 {
     public function testToHtml()

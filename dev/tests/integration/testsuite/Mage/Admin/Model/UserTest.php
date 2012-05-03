@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Admin
- */
 class Mage_Admin_Model_UserTest extends PHPUnit_Framework_TestCase
 {
     /**

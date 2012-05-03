@@ -10,7 +10,6 @@
  */
 
 /**
- * @group module:Enterprise_CatalogEvent
  * @magentoDataFixture Enterprise/CatalogEvent/_files/events.php
  */
 class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase

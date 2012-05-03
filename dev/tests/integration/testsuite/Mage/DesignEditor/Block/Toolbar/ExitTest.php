@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_DesignEditor
- */
 class Mage_DesignEditor_Block_Toolbar_ExitTest extends PHPUnit_Framework_TestCase
 {
     /**

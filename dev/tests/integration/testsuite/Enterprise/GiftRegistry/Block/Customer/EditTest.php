@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_GiftRegistry
- */
 class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_TestCase
 {
     /**

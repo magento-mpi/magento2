@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Widget
- */
 class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     protected function setUp()

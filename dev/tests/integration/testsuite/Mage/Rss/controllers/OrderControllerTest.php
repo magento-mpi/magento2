@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Rss
- */
 class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testNewActionNonLoggedUser()

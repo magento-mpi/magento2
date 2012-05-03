@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Widget
- */
 class Mage_Widget_Adminhtml_WidgetControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**

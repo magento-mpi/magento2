@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Cms
- */
 class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
 {
     /**

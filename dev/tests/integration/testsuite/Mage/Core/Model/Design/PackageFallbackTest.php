@@ -11,8 +11,6 @@
 
 /**
  * Tests for the view layer fallback mechanism
- *
- * @group module:Mage_Core
  */
 class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
 {

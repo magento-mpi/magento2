@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Rss
- */
 class Mage_Rss_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

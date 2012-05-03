@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 {
     /**

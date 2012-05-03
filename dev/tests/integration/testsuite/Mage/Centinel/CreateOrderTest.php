@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Centinel
- */
 class Mage_Centinel_CreateOrderTest extends Mage_Adminhtml_Utility_Controller
 {
     /**

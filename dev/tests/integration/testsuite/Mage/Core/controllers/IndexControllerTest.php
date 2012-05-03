@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testIndexAction()

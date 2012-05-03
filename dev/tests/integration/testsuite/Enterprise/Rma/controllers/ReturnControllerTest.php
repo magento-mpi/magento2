@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Rma
- */
 class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

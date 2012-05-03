@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Page
- */
 class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 {
     /**

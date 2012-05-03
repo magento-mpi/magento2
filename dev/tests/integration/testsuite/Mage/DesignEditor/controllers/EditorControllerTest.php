@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_DesignEditor
- */
 class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testPreDispatchSession()

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Review
- */
 class Mage_Review_ProductControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

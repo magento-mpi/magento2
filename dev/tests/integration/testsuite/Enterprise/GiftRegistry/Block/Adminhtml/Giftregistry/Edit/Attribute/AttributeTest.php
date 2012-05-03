@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_GiftRegistry
- */
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_AttributeTest
     extends PHPUnit_Framework_TestCase
 {

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     const DATE_TIMEZONE = 'America/Los_Angeles'; // hardcoded in the installation

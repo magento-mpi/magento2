@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Cron
- */
 class Mage_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Enterprise
- */
 class Enterprise_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framework_TestCase
 {
     public function testGetChildHtmlList()

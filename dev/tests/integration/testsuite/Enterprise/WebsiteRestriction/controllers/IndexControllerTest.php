@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_WebsiteRestriction
- */
 class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_PageCache
- */
 class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 {
     /**

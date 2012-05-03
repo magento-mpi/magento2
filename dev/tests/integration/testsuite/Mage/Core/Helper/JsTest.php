@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
 {
     const FILE = 'blank.html';

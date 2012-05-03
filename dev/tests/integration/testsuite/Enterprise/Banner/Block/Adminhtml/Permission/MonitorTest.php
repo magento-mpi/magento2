@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Banner
- */
 class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
 {
     /**

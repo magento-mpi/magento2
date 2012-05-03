@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Paypal
- */
 class Mage_Paypal_ExpressControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

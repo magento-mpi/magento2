@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Index
- */
 class Mage_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
 {
     /**

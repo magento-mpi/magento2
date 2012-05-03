@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Model_Product_Type_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**

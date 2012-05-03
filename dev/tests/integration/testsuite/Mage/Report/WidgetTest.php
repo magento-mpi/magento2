@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Report
- */
 class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
 {
     public function testViewedProductsWidget()

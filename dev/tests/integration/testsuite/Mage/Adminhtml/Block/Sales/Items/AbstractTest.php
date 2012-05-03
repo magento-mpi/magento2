@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testGetItemExtraInfoHtml()

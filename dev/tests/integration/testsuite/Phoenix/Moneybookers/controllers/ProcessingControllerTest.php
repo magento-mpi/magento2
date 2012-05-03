@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Phoenix_Moneybookers
- */
 class Phoenix_Moneybookers_ProcessingControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testCancelActionRedirect()

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Xmlconnect
- */
 class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

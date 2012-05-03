@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_DesignEditor
- */
 class Mage_DesignEditor_Block_ToolbarTest extends PHPUnit_Framework_TestCase
 {
     /**

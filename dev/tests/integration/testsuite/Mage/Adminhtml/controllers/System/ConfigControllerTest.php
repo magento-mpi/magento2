@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_System_ConfigControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testEditAction()

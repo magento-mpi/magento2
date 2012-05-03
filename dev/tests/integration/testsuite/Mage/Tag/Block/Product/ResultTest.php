@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Tag
- */
 class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Checkout
- */
 class Enterprise_Checkout_LayoutTest extends PHPUnit_Framework_TestCase
 {
     public function testCartLayout()

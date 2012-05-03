@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_CatalogSearch
- */
 class Mage_CatalogSearch_AjaxControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
