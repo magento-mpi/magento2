@@ -1,0 +1,140 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Test data for Staging Website
+
+staging_website:
+    settings:
+        source_website: Main Website
+    general_information:
+        staging_website_code: %randomize%_test_website_code
+        staging_website_name: (%randomize%) test website name
+        frontend_restriction: Accessible
+        system_configuration: Yes
+        catalog_categories: Yes
+        category_permissions: Yes
+        catalog_products: Yes
+        cms_pages: No
+        cms_blocks: No
+        shopping_cart_price_rules: No
+        catalog_price_rules: No
+        polls: No
+        terms_and_conditions: No
+    store_views:
+        Default Store View: Yes
+
+edit_staging_website:
+    general_information:
+        frontend_restriction: Require HTTP Authentication
+        http_login: %randomize%
+        http_password: %randomize%testpassword
+
+merge_website:
+    search_website:
+        filter_website_name: %noValue%
+    general_information:
+        frontend_restriction: Accessible
+    merge_configuration:
+        merge_to: Main Website
+        system_configuration: Yes
+        catalog_categories: Yes
+        category_permissions: Yes
+        catalog_products: Yes
+        cms_pages: No
+        cms_blocks: No
+        shopping_cart_price_rules: No
+        catalog_price_rules: No
+        polls: No
+        terms_and_conditions: No
+        define_stores:
+            store_1:
+                store_from: Default Store View
+                store_to: Default Store View
+
+merge_website_without_map:
+    search_website:
+        filter_website_name: %noValue%
+    general_information:
+        frontend_restriction: Accessible
+    merge_configuration:
+        system_configuration: Yes
+        catalog_categories: Yes
+        category_permissions: Yes
+        catalog_products: Yes
+        cms_pages: No
+        cms_blocks: No
+        shopping_cart_price_rules: No
+        catalog_price_rules: No
+        polls: No
+        terms_and_conditions: No
+
+
+create_website_empty_fields:
+    settings:
+        source_website: Main Website
+    general_information:
+        staging_website_code: %randomize%_test_website_code
+        staging_website_name: (%randomize%) test website name
+        frontend_restriction: Require HTTP Authentication
+        http_login: admin
+        http_password: 123123q
+        system_configuration: No
+        catalog_categories: No
+        category_permissions: No
+        catalog_products: No
+        cms_pages: No
+        cms_blocks: No
+        shopping_cart_price_rules: No
+        catalog_price_rules: No
+        polls: No
+        terms_and_conditions: Yes
+    store_views:
+        Default Store View: Yes
+
+schedule_merge_website:
+    search_website:
+        filter_website_name: %noValue%
+    general_information:
+        frontend_restriction: Accessible
+    merge_configuration:
+        merge_to: Main Website
+        system_configuration: Yes
+        catalog_categories: Yes
+        category_permissions: Yes
+        catalog_products: Yes
+        cms_pages: No
+        cms_blocks: No
+        shopping_cart_price_rules: No
+        catalog_price_rules: No
+        polls: No
+        terms_and_conditions: No
+        define_stores:
+            store_1:
+                store_from: Default Store View
+                store_to: Default Store View
+    schedule_merge:
+        schedule_merge_input: 10/10/2015
