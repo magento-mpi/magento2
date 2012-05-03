@@ -1222,7 +1222,7 @@ class Mage_Core_Model_Design_Package
     {
         if (!isset($this->_themeConfigs[$area])) {
             $themeConfigFiles = glob(Mage::getBaseDir('design') . "/{$area}/*/*/theme.xml", GLOB_NOSORT);
-            $this->_themeConfigs[$area] = new Magento_Config_Theme($themeConfigFiles);
+            $this->_themeConfigs[$area] = new Magento_Config_Theme($themeConfigFiles, Mage::app()->getCache());
         }
         return $this->_themeConfigs[$area];
     }
@@ -1266,7 +1266,7 @@ class Mage_Core_Model_Design_Package
         }
 
         /** @var Magento_Config_View $config */
-        $config = new Magento_Config_View($files);
+        $config = new Magento_Config_View($files, Mage::app()->getCache());
         $this->_viewConfigs[$key] = $config;
         return $config;
     }

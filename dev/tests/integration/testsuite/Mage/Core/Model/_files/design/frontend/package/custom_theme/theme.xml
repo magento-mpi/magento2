@@ -11,7 +11,7 @@
 -->
 <design>
     <package code="package">
-        <title>Default</title>
+        <title>Package</title>
         <theme version="2.0.0.0" code="custom_theme" parent="default">
             <title>Custom Theme</title>
             <requirements>

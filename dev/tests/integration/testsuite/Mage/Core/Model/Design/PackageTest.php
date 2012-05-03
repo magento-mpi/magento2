@@ -77,35 +77,33 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getTemplateFilenameDataProvider
+     * @dataProvider getFilenameDataProvider
      */
-    public function testGetTemplateFilename($file, $params)
+    public function testGetFilename($file, $params)
     {
-        $this->assertFileExists($this->_model->getTemplateFilename($file, $params));
+        $this->assertFileExists($this->_model->getFilename($file, $params));
     }
 
     /**
      * @return array
      */
-    public function getTemplateFilenameDataProvider()
+    public function getFilenameDataProvider()
     {
         return array(
             array('theme_file.txt', array('_module' => 'Mage_Catalog')),
             array('Mage_Catalog::theme_file.txt', array()),
             array('Mage_Catalog::theme_file_with_2_dots..txt', array()),
             array('Mage_Catalog::theme_file.txt', array('_module' => 'Overriden_Module')),
-            array('fallback.phtml', array('_package' => 'package', '_theme' => 'custom_theme')),
         );
     }
-    /*
-    public function testGetThemeLocaleFile()
+
+    public function testGetLocaleFileName()
     {
-        $this->assertFileExists($this->_model->getThemeLocaleFile('translate.csv'));
-        $this->assertFileExists($this->_model->getThemeLocaleFile('fallback.csv', array(
+        $this->assertFileExists($this->_model->getLocaleFileName('translate.csv'));
+        $this->assertFileExists($this->_model->getLocaleFileName('fallback.csv', array(
             '_package' => 'package', '_theme' => 'custom_theme'
         )));
     }
-    */
 
     public function testGetOptimalCssUrls()
     {

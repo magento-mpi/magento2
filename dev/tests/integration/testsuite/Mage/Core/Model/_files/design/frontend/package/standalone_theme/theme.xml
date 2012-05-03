@@ -1,20 +1,19 @@
-<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
- * @subpackage  unit_tests
+ * @package     Design
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <design>
-    <package code="default">
-        <title>Default</title>
-        <theme version="2.0.0.0" code="test2" parent="test">
-            <title>Test2</title>
+    <package code="package">
+        <title>Package</title>
+        <theme version="2.0.0.0" code="standalone_theme">
+            <title>Standalone Theme</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>
