@@ -584,7 +584,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function createOrderWith3DSecureDataProvider()
     {
         return array(
-            array('else_visa_direct', true),
+            array('3dsecure_visa', true),
             array('else_mastercard', false)
         );
     }
