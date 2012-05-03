@@ -64,6 +64,8 @@
  * @method Core_Mage_Wishlist_Helper wishlistHelper()
  * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
  * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
+ * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
+ * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

@@ -56,9 +56,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
     /**
      * Fill gift wrapping info
      *
-     * @param $inputData
+     * @param array $inputData
      * @param bool $save
-     * @return bool
      */
     public function fillGiftWrappingForm($inputData, $save = true)
     {
@@ -74,14 +73,13 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         $this->clickControl('field', 'gift_wrapping_file', false);
         $this->fillForm($inputData);
         if (isset($inputData['gift_wrapping_file'])) {
+            $xpathArray = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                                $this->_getControlXpath('checkbox', 'delete_image'));
             $this->clickButton('upload_file', false);
-            $this->waitForElement(array(self::$xpathErrorMessage, self::$xpathValidationMessage,
-                                       $this->_getControlXpath('checkbox', 'delete_image')));
+            $this->waitForElement($xpathArray);
         }
         if ($save) {
             $this->saveForm('save');
-        } else {
-            return false;
         }
     }
 
@@ -158,8 +156,9 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
                 $actualImageTitle = $this->getAttribute($imageXpath . '@title');
                 $expectedImageTitle = implode('(_(\d)+)?\.', explode('.', $image));
                 if (!preg_match("/$expectedImageTitle/", $actualImageTitle)) {
-                    $this->addVerificationMessage('Image title does not match with specified: (Expected: '
-                                                      . $image . ' . Actual: ' . $actualImageTitle . ')');
+                    $this->addVerificationMessage(
+                        'Image title does not match with specified: (Expected: ' . $image . ' . Actual: '
+                        . $actualImageTitle . ')');
                 }
             }
         }
