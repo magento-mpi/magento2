@@ -79,6 +79,19 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isDesignEditorActive());
         $this->_model->deactivateDesignEditor();
         $this->assertFalse($this->_model->isDesignEditorActive());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
+        $this->assertTrue($this->_model->isHighlightingDisabled());
+    }
+
+    public function testIsHighlightingDisabled()
+    {
+        $this->assertFalse($this->_model->isHighlightingDisabled());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
+        $this->assertTrue($this->_model->isHighlightingDisabled());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'on');
+        $this->assertFalse($this->_model->isHighlightingDisabled());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'any');
+        $this->assertFalse($this->_model->isHighlightingDisabled());
     }
 
     public function testSetSkin()

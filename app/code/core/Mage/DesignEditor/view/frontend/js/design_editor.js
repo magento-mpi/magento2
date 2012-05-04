@@ -18,10 +18,10 @@
         /* Configuration options for design editor */
         this._options = {};
 
-        var defaultOptions = {'cookie_name': 'vde_highlighting'};
+        var defaultOptions = {'cookie_highlighting_name': 'vde_highlighting'};
         $.extend(this._options, defaultOptions, opts);
 
-        if (Mage.Cookies.get(this._options['cookie_name']) == 'off') {
+        if (Mage.Cookies.get(this._options['cookie_highlighting_name']) == 'off') {
             this._addParentMarkers();
         }
         this._enableDragDrop();
@@ -79,7 +79,7 @@
 
     DesignEditor.prototype._turnHighlightingOn = function () {
         var thisObj = this;
-        Mage.Cookies.set(this._options['cookie_name'], "on");
+        Mage.Cookies.set(this._options['cookie_highlighting_name'], "on");
         $('.vde_element_wrapper').each(function () {
             $(this)
                 .append(thisObj._getChildren($(this).attr('id')))
@@ -92,7 +92,7 @@
 
     DesignEditor.prototype._turnHighlightingOff = function () {
         var thisObj = this;
-        Mage.Cookies.set(this._options['cookie_name'], "off");
+        Mage.Cookies.set(this._options['cookie_highlighting_name'], "off");
         $('.vde_element_wrapper').each(function () {
             var elem = $(this);
             elem.children('.vde_element_title').slideUp('fast', function () {

@@ -60,14 +60,14 @@ class Mage_DesignEditor_Model_Session extends Mage_Admin_Model_Session
     }
 
     /**
-     * Check whether highlighting of elements is enabled or not
+     * Check whether highlighting of elements is disabled or not
      *
      * @return bool
      */
-    public function isHighlightingEnabled()
+    public function isHighlightingDisabled()
     {
         $highlighting = Mage::getSingleton('Mage_Core_Model_Cookie')->get(self::COOKIE_HIGHLIGHTING);
-        return false === $highlighting || 'on' == $highlighting;
+        return 'off' == $highlighting;
     }
 
     /**
