@@ -42,7 +42,9 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_User extends Mage_Core_Model_Abstract implements Mage_Backend_Model_Auth_Credential_StorageInterface
+class Mage_User_Model_User
+    extends Mage_Core_Model_Abstract
+    implements Mage_Backend_Model_Auth_Credential_StorageInterface
 {
     /**
      * Configuration paths for email templates and identities
@@ -141,17 +143,6 @@ class Mage_User_Model_User extends Mage_Core_Model_Abstract implements Mage_Back
     }
 
     /**
-     * Save user roles
-     *
-     * @return Mage_User_Model_User
-     */
-    public function saveRelations()
-    {
-        $this->_getResource()->_saveRelations($this);
-        return $this;
-    }
-
-    /**
      * Retrieve user roles
      *
      * @return array
@@ -198,17 +189,6 @@ class Mage_User_Model_User extends Mage_Core_Model_Abstract implements Mage_Back
     {
         $result = $this->_getResource()->roleUserExists($this);
         return (is_array($result) && count($result) > 0) ? true : false;
-    }
-
-    /**
-     * Assign user to role
-     *
-     * @return Mage_User_Model_User
-     */
-    public function add()
-    {
-        $this->_getResource()->add($this);
-        return $this;
     }
 
     /**

@@ -107,22 +107,11 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
             }
 
             try {
-                $model->save();
-                if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
-                    /*parse_str($uRoles, $uRoles);
-                    $uRoles = array_keys($uRoles);*/
-                    if ( 1 == sizeof($uRoles) ) {
-                        $model->setRoleIds($uRoles)
-                            ->setRoleUserId($model->getUserId())
-                            ->saveRelations();
-                    } else if ( sizeof($uRoles) > 1 ) {
-                        //@FIXME: stupid fix of previous multi-roles logic.
-                        //@TODO:  make proper DB upgrade in the future revisions.
-                        $rs = array();
-                        $rs[0] = $uRoles[0];
-                        $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
-                    }
+                $uRoles = $this->getRequest()->getParam('roles', false);
+                if ($uRoles && sizeof($uRoles) ) {
+                    $model->setRoleId($uRoles[0]);
                 }
+                $model->save();
                 Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess($this->__('The user has been saved.'));
                 Mage::getSingleton('Mage_Backend_Model_Session')->setUserData(false);
                 $this->_redirect('*/*/');
