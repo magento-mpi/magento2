@@ -11,6 +11,18 @@
 
 class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Path to skin directory of Magento installation
+     * @var string
+     */
+    protected static $_skinDir;
+
+    /**
+     * Path for temporary fixture files. Used to test publishing changed files.
+     * @var string
+     */
+    protected static $_fixtureDir;
+
     protected static $_cssFiles = array(
         'css/file.css',
         'recursive.css',
@@ -30,6 +42,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected $_model;
 
+    public static function setUpBeforeClass()
+    {
+        self::$_skinDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+        self::$_fixtureDir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
+    }
+
     protected function setUp()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(
@@ -41,18 +59,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive($this->_getSkinDir());
-        Varien_Io_File::rmdirRecursive($this->_getPublishFixtureDir());
-    }
-
-    /**
-     * Return path to skin directory of Magento installation
-     *
-     * @return string
-     */
-    protected function _getSkinDir()
-    {
-        return Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+        Varien_Io_File::rmdirRecursive(self::$_skinDir);
+        Varien_Io_File::rmdirRecursive(self::$_fixtureDir);
     }
 
     /**
@@ -258,7 +266,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testPublishCssFileFromTheme()
     {
-        $publishedDir = $this->_getSkinDir() . '/frontend/package/default/theme/en_US';
+        $publishedDir = self::$_skinDir . '/frontend/package/default/theme/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
         $this->_model->getSkinUrl('css/file.css', array(
             '_package' => 'package',
@@ -278,10 +286,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testPublishCssFileFromModule(
         $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        $baseDir = $this->_getSkinDir();
         $this->_model->getSkinUrl($cssSkinFile, $designParams);
 
-        $expectedCssFile = $baseDir . '/' . $expectedCssFile;
+        $expectedCssFile = self::$_skinDir . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -296,7 +303,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
 
         foreach ($expectedRelatedFiles as $expectedFile) {
-            $expectedFile = $baseDir . '/' . $expectedFile;
+            $expectedFile = self::$_skinDir . '/' . $expectedFile;
             $this->assertFileExists($expectedFile);
         }
     }
@@ -350,16 +357,13 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         $this->_preparePublishCssFixture();
 
+        // Publish files from fixture directory
         $this->_model->getSkinUrl('style.css');
 
-        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
-        $publishedPath = $this->_getPublishSkinPath();
-        $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
-        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $publishedPath . 'images/square.png');
-        $this->assertFileNotExists($publishedPath . 'images/rectangle.png');
-
         // Change main file and referenced files - everything changed and referenced must appear
+        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
+        $publishedPath = self::$_skinDir . '/frontend/test/default/default/en_US/';
+
         file_put_contents(
             $fixtureSkinPath . 'style.css',
             'div {background: url(images/rectangle.png);}',
@@ -379,20 +383,19 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Test changed resources, referenced in non-modified CSS file, are re-published
+     * @magentoAppIsolation enabled
      */
     public function testPublishChangedResourcesWhenUnchangedCss()
     {
         $this->_preparePublishCssFixture();
 
+        // Publish files from fixture directory
         $this->_model->getSkinUrl('style.css');
 
-        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
-        $publishedPath = $this->_getPublishSkinPath();
-        $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
-        $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/square.png', $publishedPath . 'images/square.png');
+        // Change referenced files
+        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
+        $publishedPath = self::$_skinDir . '/frontend/test/default/default/en_US/';
 
-        // Change referenced files - everything changed must appear
         copy($fixtureSkinPath . 'images/rectangle.png', $fixtureSkinPath . 'images/square.png');
         touch($fixtureSkinPath . 'images/square.png');
         file_put_contents(
@@ -401,6 +404,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             FILE_APPEND
         );
 
+        // Without developer mode nothing must be re-published
+        Mage::setIsDeveloperMode(false);
+        $this->_model->getSkinUrl('style.css');
+
+        $this->assertFileNotEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
+        $this->assertFileNotEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/square.png');
+
+        // With developer mode all changed files must be re-published
+        Mage::setIsDeveloperMode(true);
         $this->_model->getSkinUrl('style.css');
 
         $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
@@ -415,13 +427,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _preparePublishCssFixture()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir($this->_getPublishFixtureDir());
-        mkdir($this->_getPublishFixtureSkinPath() . '/images', 0777, true);
+        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
+
+        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_fixtureDir);
+        mkdir($fixtureSkinPath . '/images', 0777, true);
 
         // Copy all files to fixture location
         $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
-        $sourcePath = $this->_getPublishSourcePath();
-        $fixtureSkinPath = $this->_getPublishFixtureSkinPath();
+        $sourcePath = dirname(__DIR__) . '/_files/design/frontend/test/publication/skin/default/';
         $files = array('../../theme.xml', 'style.css', 'sub.css', 'images/square.png', 'images/rectangle.png');
         foreach ($files as $file) {
             copy($sourcePath . $file, $fixtureSkinPath . $file);
@@ -429,45 +442,5 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
 
         return $this;
-    }
-
-    /**
-     * Return path to source directory, where original files for publication tests are located
-     *
-     * @return string
-     */
-    protected function _getPublishSourcePath()
-    {
-        return dirname(__DIR__) . '/_files/design/frontend/test/publication/skin/default/';
-    }
-
-    /**
-     * Return path to temp directory, where fixture design will be created
-     *
-     * @return string
-     */
-    protected function _getPublishFixtureDir()
-    {
-        return Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
-    }
-
-    /**
-     * Return path to fixture skin directory, where fixture design resource are located for current test
-     *
-     * @return string
-     */
-    protected function _getPublishFixtureSkinPath()
-    {
-        return $this->_getPublishFixtureDir() . '/frontend/test/default/skin/default/';
-    }
-
-    /**
-     * Return path to skin directory, where files are published
-     *
-     * @return string
-     */
-    protected function _getPublishSkinPath()
-    {
-        return $this->_getSkinDir() . '/frontend/test/default/default/en_US/';
     }
 }
