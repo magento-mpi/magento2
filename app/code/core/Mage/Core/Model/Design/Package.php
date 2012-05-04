@@ -693,7 +693,7 @@ class Mage_Core_Model_Design_Package
             if (is_file($publicFile)) {
                 touch($publicFile, $fileMTime);
             }
-        } else if ($isCssFile) {
+        } else if ($isCssFile && Mage::getIsDeveloperMode()) {
             // Trigger related skin files publication, if CSS file itself has not been changed
             $this->_getPublicCssContent($file, dirname($publicFile), $skinFile, $params);
         }
