@@ -1,3 +1,13 @@
+Update as of 5/05/2012
+======================
+* Removed @group Annotation Usage in Integration Tests
+* Added Theme Inheritance Ability
+* Fixed:
+  * Persistent Highlighting in Visual Design Editor
+  * Misleading Failures of phpcs and phpmd
+  * Images Automatic Materialization in Case when CSS-File is not Changed
+* Fetched updates from Magento 1.x up to April 30 2012. Refer to [Magento 1 release notes](http://www.magentocommerce.com/download/release_notes) for details
+
 Update as of 4/26/2012
 ======================
 * Introduced `Mage_Backend` module and relocated backend area routing model there (was `Mage_Core_Controller_Varien_Router_Admin`). The "adminhtml" area is also declared in the `Mage_Backend` module.
