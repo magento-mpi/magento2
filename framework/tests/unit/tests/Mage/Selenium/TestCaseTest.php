@@ -609,59 +609,32 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * @param string $tabAttributeReturnValue
+     * @param int $clickControlInvokeTimes
+     * @param int $pleaseWaitInvokeTimes
+     * @dataProvider testOpenTabDataProvider
      * @covers openTab
      */
-    public function testOpenTabActive()
+    public function testOpenTab($tabAttributeReturnValue, $clickControlInvokeTimes, $pleaseWaitInvokeTimes)
     {
-        //Stub
         $stub = $this->getMock('Mage_Selenium_TestCase',
             array('getTabAttribute', 'clickControl', 'pleaseWait'));
-        //Data
-        $tabName = 'control_1';
-
         $stub->expects($this->any())
             ->method('getTabAttribute')
-            ->with($this->equalTo($tabName), $this->equalTo('class'))
-            ->will($this->returnValue('activeTab'));
-        $stub->expects($this->never())
+            ->will($this->returnValue($tabAttributeReturnValue));
+        $stub->expects($this->exactly($clickControlInvokeTimes))
             ->method('clickControl');
-        $stub->expects($this->never())
+        $stub->expects($this->exactly($pleaseWaitInvokeTimes))
             ->method('pleaseWait');
-
-        $stub->openTab($tabName);
+        $stub->openTab('some_tab');
     }
 
-    /**
-     * @param string $attributeValue
-     * @dataProvider testOpenTabInactiveDataProvider
-     * @covers openTab
-     */
-    public function testOpenTabInactive($attributeValue)
-    {
-        $stub = $this->getMock('Mage_Selenium_TestCase',
-            array('getTabAttribute', 'clickControl', 'pleaseWait'));
-
-        $tabName = 'control_1';
-        $matcherPleaseWait = preg_match('/ajax/', $attributeValue) ? 'once' : 'never';
-
-        $stub->expects($this->any())
-            ->method('getTabAttribute')
-            ->with($this->equalTo($tabName), $this->equalTo('class'))
-            ->will($this->returnValue($attributeValue));
-        $stub->expects($this->once())
-            ->method('clickControl')
-            ->with($this->equalTo('tab'), $this->equalTo($tabName), $this->equalTo(false));
-        $stub->expects($this->$matcherPleaseWait())
-            ->method('pleaseWait');
-
-        $stub->openTab($tabName);
-    }
-
-    public function testOpenTabInactiveDataProvider()
+    public function testOpenTabDataProvider()
     {
         return array(
-            array('Tab'),
-            array('Tab_ajax')
+            array('activeTab', 0, 0),
+            array('Tab', 1, 0),
+            array('Tab_ajax', 1, 1)
         );
     }
 
