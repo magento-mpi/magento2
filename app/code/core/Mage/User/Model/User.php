@@ -128,6 +128,17 @@ class Mage_User_Model_User
     }
 
     /**
+     * Process data after model is saved
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _afterSave()
+    {
+        $this->_role = null;
+        return parent::_afterSave();
+    }
+
+    /**
      * Save admin user extra data (like configuration sections state)
      *
      * @param   array $data

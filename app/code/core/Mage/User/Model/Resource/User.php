@@ -198,17 +198,19 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
             $role->setTreeLevel(0);
         }
 
-        $data = new Varien_Object(array(
-            'parent_id'  => $parentId,
-            'tree_level' => $parentRole->getTreeLevel() + 1,
-            'sort_order' => 0,
-            'role_type'  => 'U',
-            'user_id'    => $user->getId(),
-            'role_name'  => $user->getFirstname()
-        ));
+        if ($parentRole->getId()) {
+            $data = new Varien_Object(array(
+                'parent_id'  => $parentRole->getId(),
+                'tree_level' => $parentRole->getTreeLevel() + 1,
+                'sort_order' => 0,
+                'role_type'  => 'U',
+                'user_id'    => $user->getId(),
+                'role_name'  => $user->getFirstname()
+            ));
 
-        $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
-        $this->_getWriteAdapter()->insert($this->getTable('admin_role'), $insertData);
+            $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
+            $this->_getWriteAdapter()->insert($this->getTable('admin_role'), $insertData);
+        }
     }
 
     /**
