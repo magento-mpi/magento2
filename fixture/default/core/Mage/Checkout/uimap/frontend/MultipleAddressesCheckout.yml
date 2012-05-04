@@ -216,13 +216,12 @@ checkout_multishipping_shipping_methods:
                             one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
                         fields:
                             ship_service_name: //dt[text()='%shipService%']
-                            #@TODO
-                            gift_option_entire_order_from: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='From']
-                            gift_option_entire_order_to: //div[contains(@id,'allow-gift-messages-for-order-container')]//input[@title='To']
-                            gift_option_entire_order_message: //div[contains(@id,'allow-gift-messages-for-order-container')]//textarea[@title='Message']
-                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
-                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]] //input[@title='To']
-                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='Message']
+                            gift_option_entire_order_from: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='From']
+                            gift_option_entire_order_to: //div[contains(@id,'gift-messages-for-order-container')]//input[@title='To']
+                            gift_option_entire_order_message: //div[contains(@id,'gift-messages-for-order-container')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //li[div/h5='%productName%']//input[@title='From']
+                            gift_option_for_individual_items_to: //li[div/h5='%productName%']//input[@title='To']
+                            gift_option_for_individual_items_message: //li[div/h5='%productName%']//textarea[@title='Message']
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:

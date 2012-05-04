@@ -116,6 +116,7 @@ gift_options_disable_all:
             allow_gift_wrapping_for_order_items: No
             allow_gift_receipt: No
             allow_gift_printered_card: No
+            default_price_for_printed_card: ''
 
 ind_items_all_yes_order_all_no:
     configuration_scope: Default Config

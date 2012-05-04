@@ -185,6 +185,7 @@ multiple_with_register:
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
+            gift_options: %gift_options_address1%
         address_data_2:
             address:
                 first_name: Chuck
@@ -206,6 +207,7 @@ multiple_with_register:
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
+            gift_options: %gift_options_address2%
     payment_data: &payment_data
         billing_address:
                 first_name: Charlie
@@ -258,6 +260,7 @@ multiple_with_register_france:
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
+            gift_options: %gift_options_address1%
         address_data_2:
             address: *shipping_france_2
             products:
@@ -267,6 +270,7 @@ multiple_with_register_france:
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
+            gift_options: %gift_options_address2%
     payment_data:
         billing_address:
                 first_name: Charlie

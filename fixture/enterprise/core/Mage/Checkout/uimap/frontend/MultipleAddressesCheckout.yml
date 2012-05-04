@@ -54,6 +54,14 @@ checkout_multishipping_shipping_methods:
                             shipping_methods_forms: /div[not(@class='buttons-set')]
                             shipping_method_address_header: /div[not(@class='buttons-set')][%number%]/preceding-sibling::h2[1]
                             shipping_method_address: /div[not(@class='buttons-set')][%number%]//address
+                -
+                    shipping_method_form:
+                        dropdowns:
+                            gift_wrapping_for_item: //li[div/h5='%productName%']//select
+                            gift_wrapping_for_order: //div[@class='gift-options-for-order']//select
+                        links:
+                            gift_message_for_item: //li[div/h5='%productName%']//a[text()='Gift Message']
+                            gift_message_for_order: //div[@class='gift-options-for-order']//a[text()='Gift Message']
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:

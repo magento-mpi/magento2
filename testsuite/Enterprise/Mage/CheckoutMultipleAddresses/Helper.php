@@ -33,33 +33,42 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
+class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_CheckoutMultipleAddresses_Helper
 {
     /**
      * @param array $giftOptions
      */
     public function addGiftOptions(array $giftOptions)
     {
-        $this->fillForm($giftOptions);
         if (isset($giftOptions['individual_items'])) {
-            $this->fillForm(array('add_gift_options'     => 'Yes',
-                                  'gift_option_for_item' => 'Yes'));
-            foreach ($giftOptions['individual_items'] as $key => $data) {
-                $this->addParameter('productName', $key);
-                $this->fillForm($data);
-                if (isset($data['gift_message'])) {
+            $this->fillCheckbox('add_gift_options', 'Yes');
+            $this->fillCheckbox('gift_option_for_individual_items', 'Yes');
+            foreach ($giftOptions['individual_items'] as $data) {
+                $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
+                $this->addParameter('productName', $productName);
+                $giftWrapping = (isset($data['gift_wrapping_for_item'])) ? $data['gift_wrapping_for_item'] : '';
+                $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
+                if ($giftWrapping) {
+                    $this->fillDropdown('gift_wrapping_for_item', $giftWrapping);
+                }
+                if ($giftMessage) {
                     $this->clickControl('link', 'gift_message_for_item', false);
-                    $this->fillForm($data['gift_message']);
+                    $this->fillFieldset($giftMessage, 'shipping_method_form');
                 }
             }
         }
         if (isset($giftOptions['entire_order'])) {
-            $this->fillForm(array('add_gift_options'      => 'Yes',
-                                  'gift_option_for_order' => 'Yes'));
-            $this->fillForm($giftOptions['entire_order']);
-            if (isset($giftOptions['entire_order']['gift_message'])) {
+            $data = $giftOptions['entire_order'];
+            $this->fillCheckbox('add_gift_options', 'Yes');
+            $this->fillCheckbox('gift_option_for_the_entire_order', 'Yes');
+            $giftWrapping = (isset($data['gift_wrapping_for_order'])) ? $data['gift_wrapping_for_order'] : '';
+            $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
+            if ($giftWrapping) {
+                $this->fillDropdown('gift_wrapping_for_order', $giftWrapping);
+            }
+            if ($giftMessage) {
                 $this->clickControl('link', 'gift_message_for_order', false);
-                $this->fillForm($giftOptions['entire_order']['gift_message']);
+                $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
     }
