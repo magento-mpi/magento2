@@ -706,3 +706,298 @@ exist_flatrate_checkmoney_usa:
 exist_flatrate_checkmoney_france:
     <<: *existFlatrateCheck
     billing_address_data: *newBillingSignedInReqWithShippingFrance
+
+################################################################################
+#                                                                              #
+#                           Order Data for Gift Wrapping                       #
+#                                                                              #
+################################################################################
+
+gift_message_with_gift_wrapping_one_page: &giftOptionsOnePage
+    entire_order:
+        order_gift_wrapping_design: %noValue%
+        gift_message:
+            order_gift_message_from: From_%randomize%
+            order_gift_message_to: To_%randomize%'
+            order_gift_message: %randomize%_message
+    individual_items: %noValue%
+
+gift_message_gift_receipt:
+    entire_order:
+        send_gift_receipt: Yes
+
+gift_message_gift_wrapping:
+    entire_order:
+        order_gift_wrapping_design: %noValue%
+    individual_items: %noValue%
+
+gift_message_gift_printed_card:
+    entire_order:
+        add_printed_card: Yes
+
+gift_message_for_individual_items_one_page:
+    item_gift_message_from: From_%randomize%
+    item_gift_message_to: To_%randomize%'
+    item_gift_message: %randomize%_message
+
+gift_data_general: &giftDataGeneral
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    payment_data:
+        payment_method: Check / Money order
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            entire_order: %noValue%
+            individual_items: %noValue%
+
+verify_gift_data:
+    entire_order:
+        order_gift_message_from: %noValue%
+        order_gift_message_to: %noValue%
+        order_gift_message: %noValue%
+        order_gift_wrapping_design: %noValue%
+        order_gift_wrapping_price: %noValue%
+    individual:
+        product_1:
+            sku_product: %noValue%
+            product_gift_message_from: %noValue%
+            product_gift_message_to: %noValue%
+            product_gift_message: %noValue%
+            product_gift_wrapping_design: %noValue%
+            product_gift_wrapping_price: %noValue%
+
+validate_total_gift_wrapping:
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $12.99
+            qty: 1
+            subtotal: $12.99
+    validate_total_data:
+        grand_total: %noValue%
+        gift_wrapping_for_items: %noValue%
+        gift_wrapping_for_order: %noValue%
+        shipping_handling_flat_rate_fixed: $5.00
+        subtotal: $12.99
+
+gift_data_general_for_website_scope:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            add_gift_options: Yes
+            send_gift_receipt: Yes
+            add_printed_card: Yes
+            entire_order:
+                order_gift_wrapping_design: %noValue%
+                gift_message:
+                    order_gift_message_from: From_%randomize%
+                    order_gift_message_to: To_%randomize%'
+                    order_gift_message: %randomize%_message
+            individual_items: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+
+gift_message_for_individual_items_one_page_website:
+    item_gift_wrapping_design: %noValue%
+    gift_messsage:
+        item_gift_message_from: From_%randomize%
+        item_gift_message_to: To_%randomize%'
+        item_gift_message: %randomize%_message
+
+recount_gift_wrapping_no_img_one_page:
+    products_to_add:
+        product_1:
+            general_name: %product_1%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            individual_items: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %validate_product_1%
+            price: $12.99
+            qty: 1
+            subtotal: $12.99
+    validate_total_data:
+        grand_total: $29.76
+        gift_wrapping_for_order: %noValue%
+        gift_wrapping_for_items: %noValue%
+        shipping_handling_flat_rate_fixed: $5.00
+        subtotal: $12.99
+
+recount_gift_wrapping_with_img_one_page:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+    validate_total_data:
+        grand_total: $78.28
+        gift_wrapping_for_order: %noValue%
+        gift_wrapping_for_items: %noValue%
+        shipping_handling_flat_rate_fixed: $5.00
+        subtotal: $54.95
+
+recount_no_gift_wrapping_one_page:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+    validate_total_data:
+        grand_total: $59.95
+        shipping_handling_flat_rate_fixed: $5.00
+        subtotal: $54.95
+
+recount_gift_wrapping_printed_card_yes_one_page:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            add_printed_card: Yes
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+    validate_total_data:
+        grand_total: $78.48
+        shipping_handling_flat_rate_fixed: $5.00
+        printed_card: $18.53
+        subtotal: $54.95
+
+recount_gift_wrapping_printed_card_no_one_page:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            add_printed_card: No
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+    validate_total_data:
+        grand_total: $59.95
+        shipping_handling_flat_rate_fixed: $5.00
+        subtotal: $54.95
+
+gift_wrapping_custom_price:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            entire_order: %noValue%
+            individual_items: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $12.99
+            qty: 1
+            subtotal: $12.99
+        product_2:
+            product_name: %noValue%
+            price: $12.99
+            qty: 1
+            subtotal: $12.99
+    validate_total_data:
+        grand_total: $65.52
+        gift_wrapping_for_order: %noValue%
+        gift_wrapping_for_items: %noValue%
+        shipping_handling_flat_rate_fixed: $10.00
+        subtotal: $25.98
+
+gift_wrapping_custom_price_on_site:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+        shipping_price: 5.00
+        add_gift_options:
+            entire_order: %noValue%
+            individual_items: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+        product_2:
+            product_name: %noValue%
+            price: $54.95
+            qty: 1
+            subtotal: $54.95
+    validate_total_data:
+        grand_total: $161.55
+        gift_wrapping_for_order: %noValue%
+        gift_wrapping_for_items: %noValue%
+        shipping_handling_flat_rate_fixed: $10.00
+        subtotal: $109.90

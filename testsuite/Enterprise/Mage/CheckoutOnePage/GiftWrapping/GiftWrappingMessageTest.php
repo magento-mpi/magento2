@@ -182,7 +182,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
-     * <p>TL-MAGE-850: Gift Message for entire Order is allowed</p>
+     * @TestlinkId TL-MAGE-850
+     * <p>Gift Message for entire Order is allowed</p>
      * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "Yes",customer in process of
      * OnePageCheckout have ability to add Gift Message to entire Order, prompt for which should be present on
      * Shipping Method step, after checking the appropriate checkbox</p>
@@ -230,10 +231,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($checkoutData['shipping_data']['add_gift_options']);
+        $this->orderHelper()->verifyGiftMessage($checkoutData['shipping_data']['add_gift_options']);
     }
 
     /**
+     * @TestlinkId
+     * @TestlinkId
      * <p>TL-MAGE-881: Gift Message for entire Order is not allowed (message-no; wrapping-no)</p>
      * <p>TL-MAGE-905: Gift Message for Individual Items is not allowed (message-no; wrapping-no)</p>
      * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "No",customer in process of
@@ -297,6 +300,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
+     * @TestlinkId
      * <p>TL-MAGE-891: Gift Message for entire Order is not allowed (message-no; wrapping-yes)</p>
      * <p>TL-MAGE-906: Gift Message for Individual Items is not allowed (message-no; wrapping-yes)</p>
      * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "No",customer in process of
@@ -355,6 +360,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-900: Gift Message for Individual Items is allowed</p>
      * <p>Verify that when setting "Allow Gift Messages for Order Items" is set to "Yes",customer in process of
      * OnePageCheckout have ability to add Gift Message to Individual Items, prompt for which should be present on
@@ -410,10 +416,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id','#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($vrfGiftData);
+        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
     /**
+     * @TestlinkId
+     * @TestlinkId
      * <p>TL-MAGE-898: Gift Wrapping image displaying for Entire Order gift options (image is not specified)</p>
      * <p>TL-MAGE-910: Gift Wrapping image displaying for Individual Items gift options (image is not specified)</p>
      * <p>Test Case TL-MAGE-842: Enabling Gift Wrapping (OnePageCheckout)</p>
@@ -478,6 +486,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-924: Printed Card is allowed </p>
      * <p>Verify that when setting "Allow Printed Card" is set to "Yes",customer in process of OnePageCheckout
      * have ability to add Printed Card to Order after checking the appropriate checkbox</p>
@@ -536,6 +545,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-998: Printed Card ia not allowed</p>
      * <p>Verify that when setting "Allow Printed Card" is set to "No",customer in process of OnePageCheckout not able
      * to add Printed Card to Order</p>
@@ -579,6 +589,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-996: Gift Receipt is allowed</p>
      * <p>Verify that when setting "Allow Gift Receipt" is set to "Yes", customer in process of OnePageCheckout have
      * ability to enable this option to each order.</p>
@@ -626,11 +637,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id','#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions(array('entire_order' => array('order_send_gift_receipt' => 'Yes')));
+        $this->orderHelper()->verifyGiftMessage(array('entire_order' => array('order_send_gift_receipt' => 'Yes')));
     }
 
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-997: Gift Receipt is not allowed</p>
      * <p>Verify that when setting "Allow Gift Receipt" is set to "No", customer in process of OnePageCheckout have not
      * able to enable this option to each order.</p>
@@ -677,6 +689,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
+     * @TestlinkId
      * <p>TL-MAGE-912: Recounting Gift Options (Entire Order)</p>
      * <p>TL-MAGE-918: Recounting Gift Options (Individual Item)</p>
      * <p>Need to verify, that customer in process of OnePageCheckout can change configuration of Gift Options more than
@@ -796,6 +810,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>TL-MAGE-920: Recounting Gift Options (Printed Card to Order)</p>
      * <p>Need to verify, that customer in process of OnePageCheckout can change configuration of Gift Options
      * (Printed Card) more than one time, and Printed Card prices/Grand Total on Order Review step will be recounted
@@ -858,6 +873,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
+     * @TestlinkId
      * <p>TL-MAGE-1037: No Gift Wrappings is created</p>
      * <p>TL-MAGE-847: Disabling Gift Wrapping (OnePageCheckout)</p>
      * <p>Verify that when setting "Allow Gift Wrapping on Order Level" is set to "Yes" and setting
@@ -916,6 +933,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>Test Case TL-MAGE-857: Possibility to adding Gift attributes to Order during the process of OnePageCheckout - Website</p>
      * <p>Preconditions:</p>
      * <p>1. Simple product is created;</p>
@@ -989,6 +1007,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     }
 
     /**
+     * @TestlinkId
      * <p>Test Case TL-MAGE-868: Possibility to adding Gift attributes to Order during the process of OnePageCheckout</p>
      * <p>Check If possible to add Gift Attributes to Order during the process of
      * OnePageCheckout (at Default Website) when all  "gift settings" in default scope is set to 'yes" and in the website
@@ -1075,10 +1094,11 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($vrfGiftData);
+        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
     /**
+     * @TestlinkId
      * <p>Test Case TL-MAGE-869: Possibility to adding Gift attributes to Order during the process of OnePageCheckout - Global</p>
      * <p>Check If possible to add Gift Attributes to Order during the process of
      * OnePageCheckout (at Default Website) when all  "gift settings" in default scope is set to 'yes" and in the website

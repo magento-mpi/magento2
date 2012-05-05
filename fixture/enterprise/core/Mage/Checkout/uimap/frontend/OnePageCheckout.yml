@@ -28,3 +28,36 @@
 # 'Checkout' page
 onepage_checkout_success:
     title: Magento Enterprise Edition
+
+onepage_checkout:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    shipping_method:
+                        checkboxes:
+                            add_gift_options: //input[@id='allow_gift_options']
+                            gift_option_for_order: //input[@id='allow_gift_options_for_order']
+                            gift_option_for_item: //input[@id='allow_gift_options_for_items']
+                            send_gift_receipt: //p[label='Send Gift Receipt']/input
+                            add_printed_card: //p[label='Add Printed Card']/input
+                        dropdowns:
+                            order_gift_wrapping_design: //div[@id='allow-gift-options-for-order-container']//div[label='Gift Wrapping Design']/select
+                            item_gift_wrapping_design: //li[./div[h5='%productName%']]//div[label='Gift Wrapping Design']/select
+                        fields:
+                            order_gift_message_from: //input[@id='gift-message-whole-from']
+                            order_gift_message_to: //input[@id='gift-message-whole-to']
+                            order_gift_message: //textarea[@id='gift-message-whole-message']
+                            item_gift_message_from: //li[./div[h5='%productName%']]//div[label='From']//input
+                            item_gift_message_to: //li[./div[h5='%productName%']]//div[label='To']//input
+                            item_gift_message: //li[./div[h5='%productName%']]//li[label='Message']//textarea
+                        links:
+                            order_gift_message: //div[@id='allow-gift-options-for-order-container']//a[text()='Gift Message']
+                            item_gift_message: //li[./div[h5='%productName%']]//a[text()='Gift Message']
+                        pageelements:
+                            order_gift_wrapping_image: //div[@id='allow-gift-options-for-order-container']//img[not(contains(@class,'no-display'))]
+                            order_gift_wrapping_price: //div[@id='allow-gift-options-for-order-container']//span[@class='price']
+                            printed_card_price: //div[@class='extra-options-container']//span[@class='price']
+                            item_gift_wrapping_image: //li[./div[h5='%itemName%']]//div[@class='gift-wrapping-form']//img[not(contains(@class,'no-display'))]
+                            item_gift_wrapping_price: //li[./div[h5='%itemName%']]//span[@class='price']
+                            item_product_name: //li[./div[h5='%productName%']]

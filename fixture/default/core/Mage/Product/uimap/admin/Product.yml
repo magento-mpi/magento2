@@ -30,7 +30,7 @@ manage_products:
     mca: catalog_product/
     click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
     title: Manage Products / Catalog / Magento Admin
-    uimap:
+    uimap: &manageProductsUimap
         form: &searchProductGrid
             fieldsets:
                 -
@@ -78,6 +78,12 @@ manage_products:
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
             no_records_found: //td[text()='No records found.']
+
+manage_products_store:
+    mca: catalog_product/index/store/%storeId%/
+    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    title: Manage Products / Catalog / Magento Admin
+    uimap: *manageProductsUimap
 
 # Settings for New Product creation
 new_product_settings:
@@ -250,10 +256,16 @@ new_product:
                                     xpath: //div[contains(div/div/h4,'Gift Options')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
+                                    fields:
+                                        gift_options_price_for_gift_wrapping: //input[@id='gift_wrapping_price']
                                     checkboxes:
                                         gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
+                                        gift_options_allow_gift_wrapping_default: //input[@id='use_config_gift_wrapping_available']
+                                        gift_options_allow_gift_wrapping_use_default: //input[@id='gift_wrapping_available_default']
+                                        gift_options_allow_gift_wrapping_price_use_default: //input[@id='gift_wrapping_price_default']
                                     dropdowns:
                                         gift_options_allow_gift_message: //select[@id='gift_message_available']
+                                        gift_options_allow_gift_wrapping: //select[@id='gift_wrapping_available']
                 -
                     inventory: &inventoryTab
                         xpath: //a[@title='Inventory']/span
@@ -580,6 +592,11 @@ edit_product:
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: &editProduct
         form:
+            fieldsets:
+                -
+                    websites:
+                        dropdowns:
+                             choose_store_view: //select[@id='store_switcher']
             tabs:
                 -
                     configurable_product_settings: *configurableProductsettings
@@ -674,6 +691,11 @@ edit_product:
 
 edit_saved_product:
     mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_product_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tabId%/
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

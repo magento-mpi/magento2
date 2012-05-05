@@ -35,12 +35,16 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    checkboxes:
-                                        gift_options_allow_gift_wrapping_default: //input[@id='use_config_gift_wrapping_available']
-                                    dropdowns:
-                                        gift_options_allow_gift_wrapping: //select[@id='gift_wrapping_available']
                                     fields:
                                         gift_options_price_for_gift_wrapping: //input[@id='gift_wrapping_price']
+                                    checkboxes:
+                                        gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
+                                        gift_options_allow_gift_wrapping_default: //input[@id='use_config_gift_wrapping_available']
+                                        gift_options_allow_gift_wrapping_use_default: //input[@id='gift_wrapping_available_default']
+                                        gift_options_allow_gift_wrapping_price_use_default: //input[@id='gift_wrapping_price_default']
+                                    dropdowns:
+                                        gift_options_allow_gift_message: //select[@id='gift_message_available']
+                                        gift_options_allow_gift_wrapping: //select[@id='gift_wrapping_available']
 
 new_configurable_product:
     uimap: *newProduct

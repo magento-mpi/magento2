@@ -172,13 +172,16 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_name' => $productName));
+        $productGiftSettings = (is_string($productGiftSettings)) ?
+            $this->loadDataSet('GiftWrapping', $productGiftSettings) : $productGiftSettings;
         $this->productHelper()->fillTab($productGiftSettings, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
     /**
-     * <p>TL-MAGE-826: Gift Options on product level set to Yes. FrontEnd. Case1.</p>
+     * @TestlinkId TL-MAGE-826
+     * <p>Gift Options on product level set to Yes. FrontEnd. Case1.</p>
      * <p>Verify when Allow Gift Wrapping and Gift Messages for Order Items in SysConfig set to “No” , but Gift Wrapping
      * and Gift Messages in a product Menu Gift Options set to “Yes” than Gift Wrapping and Gift messages for that
      * product in Frontend on item level are available.</p>
@@ -223,13 +226,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $indItems = array($products[0]['general_name'] => array(
             'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
             'gift_message' => $individualItemsMessage));
-        $checkoutData = $this->loadData('recount_gift_wrapping_no_img_one_page', array (
-                                                                                 'products_to_add/product_1' => $products[0],
-                                                                                 'product_name' => $products[0]['general_name'] . ' Gift Wrapping Design : ' .
-                                                                                                   $giftWrappingData['gift_wrapping_design'],
-                                                                                 'gift_wrapping_for_items' => '$' . $giftWrappingData['gift_wrapping_price']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_no_img_one_page',
+            array ('gift_wrapping_for_items' => '$' . $giftWrappingData['gift_wrapping_price']),
+            array('product_1' => $products[0]['general_name'],
+                   'validate_product_1' => $products[0]['general_name'] . ' Gift Wrapping Design : ' .
+                                           $giftWrappingData['gift_wrapping_design']));
         $checkoutData['shipping_data']['add_gift_options']['individual_items'] = $indItems;
-        $vrfGiftData = $this->loadData('verify_gift_data');
+        $vrfGiftData = $this->loadDataSet('OnePageCheckout', 'verify_gift_data');
         $vrfGiftData['individual']['product_1']['sku_product'] = $products[0]['general_sku'];
         $vrfGiftData['individual']['product_1']['product_gift_message_from'] =
             $individualItemsMessage['item_gift_message_from'];
@@ -241,7 +244,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
             $giftWrappingData['gift_wrapping_design'];
         $vrfGiftData['individual']['product_1']['product_gift_wrapping_price'] =
             $giftWrappingData['gift_wrapping_price'];
-        $vrfGiftData = $this->arrayEmptyClear($vrfGiftData);
+        $vrfGiftData = $this->clearDataArray($vrfGiftData);
         //Steps
         $this->updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_yes_wrapping_yes');
         $this->customerHelper()->frontLoginCustomer($userData);
@@ -253,11 +256,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($vrfGiftData);
+        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
     /**
-     * <p>TL-MAGE-827: Gift Options on product level set to No. FrontEnd. </p>
+     * @TestlinkId TL-MAGE-827
+     * <p>Gift Options on product level set to No. FrontEnd. </p>
      * <p>Verify When Allow Gift Wrapping and Gift Messages for Order Items in Confyg set to “Yes”, but Gift Wrapping
      * and Gift Messages in a product Menu Gift Options set to “No” , than Gift Wrapping and Gift Messages for that
      * product in Frontend on item level is not available.</p>
@@ -304,7 +308,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     }
 
     /**
-     * <p>TL-MAGE-831: Gift Options on product level set to No. FrontEnd</p>
+     * @TestlinkId TL-MAGE-831
+     * <p>Gift Options on product level set to No. FrontEnd</p>
      * <p>Verify when Allow Gift Wrapping and Gift  Messages for Order Items in Confyg set to “Yes”, but Gift Wrapping
      * and Gift Messages in a product Menu Gift Options set to “No”,  than Gift Wrapping and Gift Messages for that
      * product in Frontend on item level is not available.</p>
@@ -358,8 +363,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     }
 
     /**
-     * <p>TL-MAGE-832: Gift Wrapping on product level set to No. FrontEnd. Case3.</p>
-     * <p>TL-MAGE-849: Gift Messages on product level set to No. FrontEnd. Case4.</p>
+     * @TestlinkId TL-MAGE-832
+     * @TestlinkId TL-MAGE-849
+     * <p>Gift Wrapping on product level set to No. FrontEnd. Case3.</p>
+     * <p>Gift Messages on product level set to No. FrontEnd. Case4.</p>
      * <p>Verify When Allow Gift Messages for Order Items in Confyg set to “Yes"and Gift Messages in a product Menu
      * Gift Options set to “No”, than Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
@@ -425,8 +432,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     }
 
     /**
-     * <p>TL-MAGE-845: Gift Wrapping on product level set to No. FrontEnd. Case5.</p>
-     * <p>TL-MAGE-851: Gift Messages on product level set to No. FrontEnd. Case6.</p>
+     * @TestlinkId TL-MAGE-845
+     * @TestlinkId TL-MAGE-851
+     * <p>Gift Wrapping on product level set to No. FrontEnd. Case5.</p>
+     * <p>Gift Messages on product level set to No. FrontEnd. Case6.</p>
      * <p>Verify When Allow Gift Wrapping for Order Items in Confyg set to “Yes” and Gift Wrapping in a product Menu
      * Gift Options set to “No” , than Gift Wrapping for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
@@ -495,7 +504,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     }
 
     /**
-     * <p>TL-MAGE-878: Managing Price for Gift Wrapping on product level. Frontend. Case1</p>
+     * @TestlinkId TL-MAGE-878
+     * <p>Managing Price for Gift Wrapping on product level. Frontend. Case1</p>
      * <p>Verify When Price for Gift Wrapping in a product Menu is different to price setting in Manage Gift Wrapping
      * Menu, than price for Gift Wrapping for that product in Frontend is equal to first one.</p>
      * <p>Preconditions:</p>
@@ -568,11 +578,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($vrfGiftData);
+        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
     /**
-     * <p>TL-MAGE-1041: Managing Price for Gift Wrapping on product level for websites view. Frontend. Case2</p>
+     * @TestlinkId TL-MAGE-1041
+     * <p>Managing Price for Gift Wrapping on product level for websites view. Frontend. Case2</p>
      * <p>Verify when Price for Gift Wrapping in a product Menu(for store scope) is different to prices setting in
      * Manage Gift Wrapping Menu and Product Menu(for dafault values), than price for Gift Wrapping for that product in
      * Frontend is equal to first one (on selected Website scope).</p>
@@ -670,8 +681,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->chooseOkOnNextConfirmation();
-        $this->fillForm(array('choose_store_view' =>
-                              $website['general_information']['staging_website_name'] . '/Main Website Store/Default Store View'));
+        $this->fillForm(array('choose_store_view' => 'Default Store View'));
+                              //$website['general_information']['staging_website_name'])); // . '/Main Website Store/Default Store View'
         $this->getConfirmation();
         $this->productHelper()->fillTab($productGiftOptionsOnSite, 'gift_options');
         $this->clickButton('save');
@@ -688,6 +699,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftOptions($vrfGiftData);
+        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 }

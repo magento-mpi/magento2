@@ -103,7 +103,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('fieldset', 'shipping_method')) {
             $this->frontSelectShippingMethod($shipMethod);
         }
-        $this->frontSelectPaymentMethod($payMethod);
+        if ($payMethod) {
+            $this->frontSelectPaymentMethod($payMethod);
+        }
     }
 
     /**
@@ -233,6 +235,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
 
             if (array_key_exists('add_gift_options', $shipMethod)) {
+                $this->fillForm($shipMethod['add_gift_options']);
                 $this->frontAddGiftMessage($shipMethod['add_gift_options']);
             }
 
