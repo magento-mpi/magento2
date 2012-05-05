@@ -15,13 +15,13 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * Path to skin directory of Magento installation
      * @var string
      */
-    protected static $_skinDir;
+    protected static $_skinPublicDir;
 
     /**
      * Path for temporary fixture files. Used to test publishing changed files.
      * @var string
      */
-    protected static $_fixtureDir;
+    protected static $_fixtureTmpDir;
 
     protected static $_cssFiles = array(
         'css/file.css',
@@ -44,8 +44,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        self::$_skinDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
-        self::$_fixtureDir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
+        self::$_skinPublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+        self::$_fixtureTmpDir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
     }
 
     protected function setUp()
@@ -59,8 +59,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive(self::$_skinDir);
-        Varien_Io_File::rmdirRecursive(self::$_fixtureDir);
+        Varien_Io_File::rmdirRecursive(self::$_skinPublicDir);
+        Varien_Io_File::rmdirRecursive(self::$_fixtureTmpDir);
     }
 
     /**
@@ -266,7 +266,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testPublishCssFileFromTheme()
     {
-        $publishedDir = self::$_skinDir . '/frontend/package/default/theme/en_US';
+        $publishedDir = self::$_skinPublicDir . '/frontend/package/default/theme/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
         $this->_model->getSkinUrl('css/file.css', array(
             '_package' => 'package',
@@ -288,7 +288,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     ) {
         $this->_model->getSkinUrl($cssSkinFile, $designParams);
 
-        $expectedCssFile = self::$_skinDir . '/' . $expectedCssFile;
+        $expectedCssFile = self::$_skinPublicDir . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -303,7 +303,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
 
         foreach ($expectedRelatedFiles as $expectedFile) {
-            $expectedFile = self::$_skinDir . '/' . $expectedFile;
+            $expectedFile = self::$_skinPublicDir . '/' . $expectedFile;
             $this->assertFileExists($expectedFile);
         }
     }
@@ -355,18 +355,17 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testPublishResourcesAndCssWhenChangedCss()
     {
-        $this->_preparePublishCssFixture();
+        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/skin/default/';
+        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/default/en_US/';
 
-        // Publish files from fixture directory
+        // Prepare temporary fixture directory and publish files from it
+        $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
         $this->_model->getSkinUrl('style.css');
 
         // Change main file and referenced files - everything changed and referenced must appear
-        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
-        $publishedPath = self::$_skinDir . '/frontend/test/default/default/en_US/';
-
         file_put_contents(
             $fixtureSkinPath . 'style.css',
-            'div {background: url(images/rectangle.png);}',
+            'div {background: url(images/rectangle.gif);}',
             FILE_APPEND
         );
         file_put_contents(
@@ -378,7 +377,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
         $this->assertFileEquals($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
         $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/rectangle.png');
+        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.gif', $publishedPath . 'images/rectangle.gif');
     }
 
     /**
@@ -387,17 +386,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testPublishChangedResourcesWhenUnchangedCss()
     {
-        $this->_preparePublishCssFixture();
+        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/skin/default/';
+        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/default/en_US/';
 
-        // Publish files from fixture directory
+        // Prepare temporary fixture directory and publish files from it
+        $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
         $this->_model->getSkinUrl('style.css');
 
         // Change referenced files
-        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
-        $publishedPath = self::$_skinDir . '/frontend/test/default/default/en_US/';
-
-        copy($fixtureSkinPath . 'images/rectangle.png', $fixtureSkinPath . 'images/square.png');
-        touch($fixtureSkinPath . 'images/square.png');
+        copy($fixtureSkinPath . 'images/rectangle.gif', $fixtureSkinPath . 'images/square.gif');
+        touch($fixtureSkinPath . 'images/square.gif');
         file_put_contents(
             $fixtureSkinPath . 'sub.css',
             '.sub2 {border: 1px solid magenta}',
@@ -409,38 +407,33 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $this->_model->getSkinUrl('style.css');
 
         $this->assertFileNotEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
-        $this->assertFileNotEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/square.png');
+        $this->assertFileNotEquals($fixtureSkinPath . 'images/rectangle.gif', $publishedPath . 'images/square.gif');
 
         // With developer mode all changed files must be re-published
         Mage::setIsDeveloperMode(true);
         $this->_model->getSkinUrl('style.css');
 
         $this->assertFileEquals($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');
-        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.png', $publishedPath . 'images/square.png');
+        $this->assertFileEquals($fixtureSkinPath . 'images/rectangle.gif', $publishedPath . 'images/square.gif');
     }
 
     /**
-     * Prepare design directory with initial css and resources.
+     * Prepare design directory with initial css and resources
      *
-     * @param int $mTime
-     * @return Mage_Core_Model_Design_PackagePublicationTest
+     * @param string $fixtureSkinPath
      */
-    protected function _preparePublishCssFixture()
+    protected function _copyFixtureSkinToTmpDir($fixtureSkinPath)
     {
-        $fixtureSkinPath = self::$_fixtureDir . '/frontend/test/default/skin/default/';
-
-        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_fixtureDir);
+        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_fixtureTmpDir);
         mkdir($fixtureSkinPath . '/images', 0777, true);
 
         // Copy all files to fixture location
         $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
         $sourcePath = dirname(__DIR__) . '/_files/design/frontend/test/publication/skin/default/';
-        $files = array('../../theme.xml', 'style.css', 'sub.css', 'images/square.png', 'images/rectangle.png');
+        $files = array('../../theme.xml', 'style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
         foreach ($files as $file) {
             copy($sourcePath . $file, $fixtureSkinPath . $file);
             touch($fixtureSkinPath . $file, $mTime);
         }
-
-        return $this;
     }
 }
