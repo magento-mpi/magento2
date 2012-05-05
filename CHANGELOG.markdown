@@ -1,11 +1,12 @@
 Update as of 5/05/2012
 ======================
-* Removed @group Annotation Usage in Integration Tests
-* Added Theme Inheritance Ability
-* Fixed:
-  * Persistent Highlighting in Visual Design Editor
-  * Misleading Failures of phpcs and phpmd
-  * Images Automatic Materialization in Case when CSS-File is not Changed
+* Added theme inheritance ability
+* Removed @group annotation usage in integration tests
+* Introduced keeping of highlighting state while switching between pages in Visual Design Editor
+* Fixed some issues:
+  * Fixed producing a misleading message by phpcs and phpmd tests in a case, when no test is failed, but the tools themselves are failed
+  * Fixed automatic publication of images in case when image is changed, but CSS file is not
+  * Fixed broken "Customer My Account My OAuth Applications" page type in Visual Design Editor
 * Fetched updates from Magento 1.x up to April 30 2012. Refer to [Magento 1 release notes](http://www.magentocommerce.com/download/release_notes) for details
 
 Update as of 4/26/2012
@@ -26,7 +27,7 @@ Update as of 4/13/2012
   * Containers highlighting
   * Dropping of elements
 * Fixed some issues:
-  * Fixed sorting of elements in Layout in if element is added before its sibling
+  * Fixed sorting of elements in Layout if element is added before its sibling
   * Fixed broken Customer Registration page on Front-End and Back-End
   * Fixed broken Order Create page on Back-End
   * Replaced usages of deprecated Mage_Customer_Model_Address_Abstract::getFormated() to Mage_Customer_Model_Address_Abstract::format()
