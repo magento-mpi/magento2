@@ -41,16 +41,18 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
     protected $_failed;
 
     /**
-     * @var string
-     */
-    protected $_lastTest;
-
-    /**
      * Counter of errors
      *
      * @var int
      */
     protected $_errorsCount = 0;
+
+    /**
+     * Counter of skipped
+     *
+     * @var int
+     */
+    protected $_skippedCount = 0;
 
     /**
      * Counter of failures
@@ -101,18 +103,17 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest(): null;
         if ($test != null) {
-            if ($this->_lastTest != $test->getName(false)) {
-                $this->_failed = false;
-            }
-            $this->_lastTest = $test->getName(false);
+            //setting default status for test
+            //$this->_failed will be used for setting appropriate status for test in endTest()
+            $this->_failed = false;
         }
         $tcmessage = sprintf("##teamcity[testStarted name='%s' captureStandardOutput='true']" . PHP_EOL,
-                            $test->getName());
+                             get_class($test) . ":" . $test->getName());
         $this->write($tcmessage);
     }
 
     /**
-     * Generates message from last failures and errors
+     * Generates message from last failures, errors, skip
      *
      * @return string
      */
@@ -123,19 +124,35 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $message = '';
         if ($test != null) {
             $message = get_class($test) . ":" . $test->getName() . "\n";
+            //Getting actual errors count
             $errorsCount = $test->getTestResultObject()->errorCount();
+            //Getting actual failures count
             $failuresCount = $test->getTestResultObject()->failureCount();
+            //Getting actual skipped tests count
+            $skippedCount = $test->getTestResultObject()->skippedCount();
+            //Comparing number of actual errors and previous errors
             if ($errorsCount > $this->_errorsCount) {
+                //Getting last error message if actual number of errors is greater than previous
                 $errors = $test->getTestResultObject()->errors();
                 $error = end($errors);
                 $message .= $error->exceptionMessage();
                 $this->_errorsCount = $errorsCount;
             }
+            //Comparing number of actual failures and previous failures
             if ($failuresCount > $this->_failuresCount) {
+                //Getting last failure message if actual number of failures is greater than previous
                 $fails = $test->getTestResultObject()->failures();
                 $fail = end($fails);
                 $message .= $fail->exceptionMessage();
                 $this->_failuresCount = $failuresCount;
+            }
+            //Comparing number of actual skipped tests and previously skipped tests
+            if ($skippedCount > $this->_skippedCount) {
+                //Getting last skipped test message if actual number of skipped tests is greater than previous
+                $skipped = $test->getTestResultObject()->skipped();
+                $skip = end($skipped);
+                $message .= $skip->exceptionMessage();
+                $this->_skippedCount = $skippedCount;
             }
         }
         return $message;
@@ -150,7 +167,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
         $message = $this->getMessage();
-        $tcmessage = sprintf("##teamcity[testFailed name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $tcmessage = sprintf("##teamcity[testFailed name='%s' message='%s']" . PHP_EOL,
+                             get_class($test) . ":" . $test->getName(), $message);
         $this->write($tcmessage);
     }
 
@@ -163,7 +181,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
         $message = $this->getMessage();
-        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL,
+                             get_class($test) . ":" . $test->getName(), $message);
         $this->write($tcmessage);
     }
 
@@ -176,7 +195,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
         $message = $this->getMessage();
-        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL, $test->getName(), $message);
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL,
+                             get_class($test) . ":" . $test->getName(), $message);
         $this->write($tcmessage);
     }
 
@@ -188,7 +208,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         if ($this->_failed == false) {
             $listener = self::$_listener;
             $test = ($listener) ? $listener->getCurrentTest() : null;
-            $message = sprintf("##teamcity[testFinished name='%s']" . PHP_EOL, $test->getName());
+            $message = sprintf("##teamcity[testFinished name='%s']" . PHP_EOL,
+                               get_class($test) . ":" . $test->getName());
             $this->write($message);
         }
     }
