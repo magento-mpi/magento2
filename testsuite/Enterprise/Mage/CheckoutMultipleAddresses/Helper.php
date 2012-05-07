@@ -37,32 +37,33 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
 {
     /**
      * @param array $giftOptions
+     * @param string $header
      */
-    public function addGiftOptions(array $giftOptions)
+    public function addGiftOptions(array $giftOptions, $header)
     {
-        if (isset($giftOptions['individual_items'])) {
-            $this->fillCheckbox('add_gift_options', 'Yes');
+        $this->addParameter('addressHeader', $header);
+        $this->verifyGiftOptionsAvailability($giftOptions);
+        $this->fillCheckbox('add_gift_options', 'Yes');
+        $forItems = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
+        $forOrder = (isset($giftOptions['entire_order'])) ? $giftOptions['entire_order'] : array();
+        foreach ($forItems as $data) {
+            $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
+            $this->addParameter('productName', $productName);
             $this->fillCheckbox('gift_option_for_individual_items', 'Yes');
-            foreach ($giftOptions['individual_items'] as $data) {
-                $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
-                $this->addParameter('productName', $productName);
-                $giftWrapping = (isset($data['gift_wrapping_for_item'])) ? $data['gift_wrapping_for_item'] : '';
-                $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
-                if ($giftWrapping) {
-                    $this->fillDropdown('gift_wrapping_for_item', $giftWrapping);
-                }
-                if ($giftMessage) {
-                    $this->clickControl('link', 'gift_message_for_item', false);
-                    $this->fillFieldset($giftMessage, 'shipping_method_form');
-                }
+            $giftWrapping = (isset($data['gift_wrapping_for_item'])) ? $data['gift_wrapping_for_item'] : '';
+            $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
+            if ($giftWrapping) {
+                $this->fillDropdown('gift_wrapping_for_item', $giftWrapping);
+            }
+            if ($giftMessage) {
+                $this->clickControl('link', 'gift_message_for_item', false);
+                $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
-        if (isset($giftOptions['entire_order'])) {
-            $data = $giftOptions['entire_order'];
-            $this->fillCheckbox('add_gift_options', 'Yes');
+        if ($forOrder) {
             $this->fillCheckbox('gift_option_for_the_entire_order', 'Yes');
-            $giftWrapping = (isset($data['gift_wrapping_for_order'])) ? $data['gift_wrapping_for_order'] : '';
-            $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
+            $giftWrapping = (isset($forOrder['gift_wrapping_for_order'])) ? $forOrder['gift_wrapping_for_order'] : '';
+            $giftMessage = (isset($forOrder['gift_message'])) ? $forOrder['gift_message'] : array();
             if ($giftWrapping) {
                 $this->fillDropdown('gift_wrapping_for_order', $giftWrapping);
             }
@@ -70,6 +71,59 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
                 $this->clickControl('link', 'gift_message_for_order', false);
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
+        }
+    }
+
+    /**
+     * @param array $giftOptions
+     */
+    public function verifyGiftOptionsAvailability(array $giftOptions)
+    {
+        $this->assertTrue($this->controlIsPresent('checkbox', 'add_gift_options'),
+            'It\'s impossible to add gift options to order');
+        //Data
+        $forItemsData = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
+        $forOrder = (isset($giftOptions['entire_order'])) ? true : false;
+        $forOrderWrapping = (isset($giftOptions['entire_order']['gift_wrapping_for_order'])) ? true : false;
+        $forOrderMessage = (isset($giftOptions['entire_order']['gift_message'])) ? true : false;
+        $forItems = (isset($giftOptions['individual_items'])) ? true : false;
+        //Verifying
+        //For Entire Order
+        $this->verifyControlAvailability('checkbox', 'gift_option_for_the_entire_order', $forOrder,
+            'add gift options to Entire Order');
+        $this->verifyControlAvailability('dropdown', 'gift_wrapping_for_order', $forOrderWrapping,
+            'add gift wrapping to Entire Order');
+        $this->verifyControlAvailability('link', 'gift_message_for_order', $forOrderMessage,
+            'add gift message to Entire Order');
+        //For Individual Items
+        $this->verifyControlAvailability('checkbox', 'gift_option_for_individual_items', $forItems,
+            'add gift options to Individual Items');
+        foreach ($forItemsData as $data) {
+            $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
+            $this->addParameter('productName', $productName);
+            $forItemWrapping = (isset($data['gift_wrapping_for_item'])) ? true : false;
+            $forItemMessage = (isset($data['gift_message'])) ? true : false;
+            $this->verifyControlAvailability('link', 'gift_message_for_item', $forItemMessage,
+                'add gift message to ' . $productName);
+            $this->verifyControlAvailability('dropdown', 'gift_wrapping_for_item', $forItemWrapping,
+                'add gift wrapping to ' . $productName);
+        }
+        $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * @param string $controlType
+     * @param string $controlName
+     * @param bool $availability
+     * @param string $message
+     */
+    public function verifyControlAvailability($controlType, $controlName, $availability, $message)
+    {
+        $isAvailable = $this->controlIsPresent($controlType, $controlName);
+        if ($availability && !$isAvailable) {
+            $this->addVerificationMessage('It\'s impossible to ' . $message);
+        } elseif (!$availability && $isAvailable) {
+            $this->addVerificationMessage('It\'s possible to ' . $message);
         }
     }
 }

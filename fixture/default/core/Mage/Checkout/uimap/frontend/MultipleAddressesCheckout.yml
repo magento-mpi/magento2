@@ -208,9 +208,9 @@ checkout_multishipping_shipping_methods:
                             product: //a[text()='%productName%']
                             product_qty: //tr[.//a[text()='%productName%']]/td/text()
                         checkboxes:
-                            add_gift_options: //p[label='Add gift options']/input
-                            gift_option_for_the_entire_order: //p[label='Add gift options for the Entire Order']/input
-                            gift_option_for_individual_items: //p[label='Add gift options for Individual Items']/input
+                            add_gift_options: //div[@class='add-gift-message']//p[label='Add gift options']/input
+                            gift_option_for_the_entire_order: //div[not(@class='no-display')]/p[label='Add gift options for the Entire Order']/input
+                            gift_option_for_individual_items: //div[not(@class='no-display')]/p[label='Add gift options for Individual Items']/input
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//li[contains(label,'%shipMethod%')]//input[not(@checked)]
                             one_method_selected: //dt[text()='%shipService%']/following-sibling::*[contains(.//label,'%shipMethod%')]
