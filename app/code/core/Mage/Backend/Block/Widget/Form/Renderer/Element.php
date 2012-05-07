@@ -15,7 +15,8 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_Widget_Form_Renderer_Element extends Mage_Backend_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Backend_Block_Widget_Form_Renderer_Element extends Mage_Backend_Block_Template
+    implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_element;
 

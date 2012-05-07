@@ -51,7 +51,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
-     * @param string|null $placement area, that button should be displayed in ('header', 'footer', null)
+     * @param string|null $area, that button should be displayed in ('header', 'footer', null)
      * @return Mage_Backend_Block_Widget_Container
      */
     protected function _addButton($id, $data, $level = 0, $sortOrder = 0, $area = 'header')
@@ -76,7 +76,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
-     * @param string|null $placement area, that button should be displayed in ('header', 'footer', null)
+     * @param string|null $area, that button should be displayed in ('header', 'footer', null)
      * @return Mage_Backend_Block_Widget_Container
      */
     public function addButton($id, $data, $level = 0, $sortOrder = 0, $area = 'header')
