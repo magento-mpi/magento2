@@ -38,13 +38,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     {
         $this->loginAdminUser();
         //load default application settings
-        $this->_configHelper->getConfigAreas();
+        $this->_configHelper->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->getConfigAreas();
+        $this->_configHelper->getConfigAreas(true);
     }
 
     /**
@@ -681,8 +681,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->chooseOkOnNextConfirmation();
-        $this->fillForm(array('choose_store_view' => 'Default Store View'));
-                              //$website['general_information']['staging_website_name'])); // . '/Main Website Store/Default Store View'
+        $this->productHelper()->chooseStoreView($website['general_information']['staging_website_name'] .
+                                                '/Main Website Store/Default Store View');
         $this->getConfirmation();
         $this->productHelper()->fillTab($productGiftOptionsOnSite, 'gift_options');
         $this->clickButton('save');

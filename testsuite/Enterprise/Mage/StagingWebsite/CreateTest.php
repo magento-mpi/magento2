@@ -51,7 +51,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->getConfigAreas();
+        $this->_configHelper->getConfigAreas(true);
     }
 
     /**
@@ -108,7 +108,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         $this->stagingLogHelper()->openLog($creationCompleted);
         $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->frontend();
-
+        $this->assertEquals($newFrontendUrl, $this->getLocation(), 'Unexpected frontend URL.');
         return $website['general_information']['staging_website_code'];
     }
 

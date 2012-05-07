@@ -39,13 +39,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
     {
         $this->loginAdminUser();
         //load default application settings
-        $this->_configHelper->getConfigAreas();
+        $this->_configHelper->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->getConfigAreas();
+        $this->_configHelper->getConfigAreas(true);
     }
 
     /**

@@ -59,6 +59,12 @@ system_configuration:
                                         allow_gift_printered_card: //select[@id='sales_gift_options_allow_printed_card']
                                     fields:
                                         default_price_for_printed_card: //input[@id='sales_gift_options_printed_card_price']
+                                    checkboxes:
+                                        allow_gift_wrapping_on_order_level_use_default: //input[@name='groups[gift_options][fields][wrapping_allow_order][inherit]']
+                                        allow_gift_wrapping_for_order_items_use_default: //input[@name='groups[gift_options][fields][wrapping_allow_items][inherit]']
+                                        allow_gift_receipt_use_default: //input[@name='groups[gift_options][fields][allow_gift_receipt][inherit]']
+                                        allow_gift_printered_card_use_default: //input[@name='groups[gift_options][fields][allow_printed_card][inherit]']
+                                        default_price_for_printed_card_use_default: //input[@name='groups[gift_options][fields][printed_card_price][inherit]']
                 -
                     sales_shipping_methods:
                         fieldsets:

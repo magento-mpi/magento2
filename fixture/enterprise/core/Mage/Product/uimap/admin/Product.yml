@@ -58,6 +58,9 @@ edit_product:
 edit_saved_product:
     uimap: *newProduct
 
+edit_product_save_and_continue:
+    uimap: *newProduct
+
 create_empty_simple_from_configurable:
     uimap: *newProduct
 

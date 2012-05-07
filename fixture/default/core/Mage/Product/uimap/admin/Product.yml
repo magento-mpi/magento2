@@ -256,16 +256,10 @@ new_product:
                                     xpath: //div[contains(div/div/h4,'Gift Options')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
-                                    fields:
-                                        gift_options_price_for_gift_wrapping: //input[@id='gift_wrapping_price']
                                     checkboxes:
                                         gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
-                                        gift_options_allow_gift_wrapping_default: //input[@id='use_config_gift_wrapping_available']
-                                        gift_options_allow_gift_wrapping_use_default: //input[@id='gift_wrapping_available_default']
-                                        gift_options_allow_gift_wrapping_price_use_default: //input[@id='gift_wrapping_price_default']
                                     dropdowns:
                                         gift_options_allow_gift_message: //select[@id='gift_message_available']
-                                        gift_options_allow_gift_wrapping: //select[@id='gift_wrapping_available']
                 -
                     inventory: &inventoryTab
                         xpath: //a[@title='Inventory']/span
