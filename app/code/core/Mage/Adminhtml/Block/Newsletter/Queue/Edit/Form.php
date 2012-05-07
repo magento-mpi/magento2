@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getSkinUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }

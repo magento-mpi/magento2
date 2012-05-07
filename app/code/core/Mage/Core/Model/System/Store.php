@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Adminhtml System Store Model
+ * Core System Store Model
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Store extends Varien_Object
+class Mage_Core_Model_System_Store extends Varien_Object
 {
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @return Mage_Adminhtml_Model_System_Store
+     * @return Mage_Core_Model_System_Store
      */
     public function __construct()
     {
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         if ($all && $this->_isAdminScopeAllowed) {
             $options[] = array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views'),
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('All Store Views'),
                 'value' => 0
             );
         }
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         if ($isAll) {
             $out[] = array(
                 'value' => 0,
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Store Views')
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('All Store Views')
             );
         }
 
@@ -237,13 +237,13 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         $options = array();
         if ($empty) {
             $options[] = array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --'),
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'),
                 'value' => ''
             );
         }
         if ($all && $this->_isAdminScopeAllowed) {
             $options[] = array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Admin'),
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Admin'),
                 'value' => 0
             );
         }
@@ -425,7 +425,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      * Allowed types: website, group, store or null for all
      *
      * @param string $type
-     * @return Mage_Adminhtml_Model_System_Store
+     * @return Mage_Core_Model_System_Store
      */
     public function reload($type = null)
     {
@@ -482,7 +482,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      * Specify whether to show admin-scope options
      *
      * @param bool $value
-     * @return Mage_Adminhtml_Model_System_Store
+     * @return Mage_Core_Model_System_Store
      */
     public function setIsAdminScopeAllowed($value)
     {

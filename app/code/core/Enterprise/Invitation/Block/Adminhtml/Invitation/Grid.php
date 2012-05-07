@@ -101,7 +101,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'header'  => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Valid on Website'),
             'index'   => 'website_id',
             'type'    => 'options',
-            'options' => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash(),
+            'options' => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
             'width'   => 150,
         ));
 
