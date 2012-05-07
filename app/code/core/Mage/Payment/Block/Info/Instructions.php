@@ -11,7 +11,7 @@
 /**
  * Block for Bank Transfer payment generic info
  */
-class Mage_Payment_Block_Info_Banktransfer extends Mage_Payment_Block_Info
+class Mage_Payment_Block_Info_Instructions extends Mage_Payment_Block_Info
 {
     /**
      * Instructions text
@@ -23,7 +23,7 @@ class Mage_Payment_Block_Info_Banktransfer extends Mage_Payment_Block_Info
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('info/banktransfer.phtml');
+        $this->setTemplate('info/instructions.phtml');
     }
 
     /**
