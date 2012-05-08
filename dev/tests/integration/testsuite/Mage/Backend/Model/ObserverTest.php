@@ -35,7 +35,7 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->actionPreDispatchAdmin($observer);
 
         $this->assertEquals('adminhtml', $request->getRouteName());
-        $this->assertEquals('index', $request->getControllerName());
+        $this->assertEquals('auth', $request->getControllerName());
         $this->assertEquals('login', $request->getActionName());
     }
 

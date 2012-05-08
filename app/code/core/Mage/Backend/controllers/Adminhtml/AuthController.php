@@ -9,16 +9,15 @@
  */
 
 /**
- * Index backend controller
+ * Auth backend controller
  *
  * @category    Mage
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_ActionAbstract
+class Mage_Backend_Adminhtml_AuthController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
-     * Admin area entry point
      * Always redirects to the startup page url
      */
     public function indexAction()
@@ -38,7 +37,7 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
     public function loginAction()
     {
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
-            $this->_redirect('*');
+            $this->_redirect('adminhtml/auth/index');
             return;
         }
         $this->loadLayout();
@@ -71,7 +70,7 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
     {
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => $this->getUrl('*/index/login')
+            'ajaxRedirect' => $this->getUrl('*/auth/login')
         ));
     }
 
@@ -85,11 +84,12 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
 
     /**
      * Retrieve response for deniedIframeAction()
+     * @return string
      */
     protected function _getDeniedIframe()
     {
         return '<script type="text/javascript">parent.window.location = \''
-            . $this->getUrl('*/index/login') . '\';</script>';
+            . $this->getUrl('*/auth/login') . '\';</script>';
     }
 
     /**
