@@ -190,7 +190,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     {
         $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
         if (!Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
-            $this->_redirect('*/index/login');
+            $this->_redirect('*/auth/login');
             return;
         }
         $this->loadLayout(array('default', 'adminhtml_denied'));

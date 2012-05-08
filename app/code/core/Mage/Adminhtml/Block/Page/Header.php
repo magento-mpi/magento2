@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
 
     public function getLogoutLink()
     {
-        return $this->getUrl('adminhtml/index/logout');
+        return $this->getUrl('adminhtml/auth/logout');
     }
 
     /**

@@ -94,18 +94,18 @@ class Mage_Backend_Model_Observer
                 if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
                     if ($request->getParam('isIframe')) {
                         $request->setParam('forwarded', true)
-                            ->setControllerName('index')
+                            ->setControllerName('auth')
                             ->setActionName('deniedIframe')
                             ->setDispatched(false);
                     } else if ($request->getParam('isAjax')) {
                         $request->setParam('forwarded', true)
-                            ->setControllerName('index')
+                            ->setControllerName('auth')
                             ->setActionName('deniedJson')
                             ->setDispatched(false);
                     } else {
                         $request->setParam('forwarded', true)
                             ->setRouteName('adminhtml')
-                            ->setControllerName('index')
+                            ->setControllerName('auth')
                             ->setActionName('login')
                             ->setDispatched(false);
                     }

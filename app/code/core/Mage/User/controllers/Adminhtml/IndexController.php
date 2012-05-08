@@ -49,7 +49,7 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
                 }
                 $this->_getSession()
                     ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
-                $this->_redirect('adminhtml/index/login');
+                $this->_redirect('adminhtml/index/index');
                 return;
             } else {
                 $this->_getSession()->addError($this->__('Invalid email address.'));
@@ -99,7 +99,7 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
             $this->_validateResetPasswordLinkToken($userId, $resetPasswordLinkToken);
         } catch (Exception $exception) {
             $this->_getSession()->addError(Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.'));
-            $this->_redirect('adminhtml/index/login');
+            $this->_redirect('adminhtml/index/index');
             return;
         }
 
@@ -136,7 +136,7 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
             $user->setPasswordConfirmation(null);
             $user->save();
             $this->_getSession()->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.'));
-            $this->_redirect('adminhtml/index/login');
+            $this->_redirect('adminhtml/index/index');
         } catch (Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
             $data = array(
