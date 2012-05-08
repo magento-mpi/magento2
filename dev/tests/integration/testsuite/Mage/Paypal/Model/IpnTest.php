@@ -18,79 +18,42 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() == 'mssql') {
+            $this->markTestIncomplete('Currently "Mage/Paypal/_files/recurring_profile.php" data fixture causes problem on MSSQL.');
+        }
         $this->_model = new Mage_Paypal_Model_Ipn();
     }
 
     /**
+     * @param string $currencyCode
+     * @dataProvider currencyProvider
      * @magentoDataFixture Mage/Paypal/_files/order_express.php
      * @magentoConfigFixture current_store payment/paypal_direct/active 1
      * @magentoConfigFixture current_store payment/paypal_express/active 1
      * @magentoConfigFixture current_store paypal/general/merchant_country US
      */
-    public function testProcessIpnRequestExpressCurrencySame()
+    public function testProcessIpnRequestExpressCurrency($currencyCode)
     {
-        $this->_testProcessIpnRequestCurrency('USD');
+        $this->_testProcessIpnRequestCurrency($currencyCode);
     }
 
     /**
-     * @magentoDataFixture Mage/Paypal/_files/order_express.php
-     * @magentoConfigFixture current_store payment/paypal_direct/active 1
-     * @magentoConfigFixture current_store payment/paypal_express/active 1
-     * @magentoConfigFixture current_store paypal/general/merchant_country US
-     */
-    public function testProcessIpnRequestExpressCurrencyDifferent()
-    {
-        $this->_testProcessIpnRequestCurrency('EUR');
-    }
-
-    /**
+     * @param string $currencyCode
+     * @dataProvider currencyProvider
      * @magentoDataFixture Mage/Paypal/_files/order_standard.php
      * @magentoConfigFixture current_store payment/paypal_standard/active 1
      * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
      */
-    public function testProcessIpnRequestStandardCurrencySame()
+    public function testProcessIpnRequestStandardCurrency($currencyCode)
     {
-        $this->_testProcessIpnRequestCurrency('USD');
-    }
-
-    /**
-     * @magentoDataFixture Mage/Paypal/_files/order_standard.php
-     * @magentoConfigFixture current_store payment/paypal_standard/active 1
-     * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
-     */
-    public function testProcessIpnRequestStandardCurrencyDifferent()
-    {
-        $this->_testProcessIpnRequestCurrency('EUR');
-    }
-
-    /**
-     * @magentoDataFixture Mage/Paypal/_files/recurring_profile.php
-     * @magentoConfigFixture current_store payment/paypal_direct/active 1
-     * @magentoConfigFixture current_store payment/paypal_express/active 1
-     * @magentoConfigFixture current_store paypal/general/merchant_country US
-     * @magentoConfigFixture current_store sales_email/order/enabled 0
-     */
-    public function testProcessIpnRequestRecurringCurrencySame()
-    {
-        $this->_testProcessIpnRequestRecurringCurrency('USD');
-    }
-
-    /**
-     * @magentoDataFixture Mage/Paypal/_files/recurring_profile.php
-     * @magentoConfigFixture current_store payment/paypal_direct/active 1
-     * @magentoConfigFixture current_store payment/paypal_express/active 1
-     * @magentoConfigFixture current_store paypal/general/merchant_country US
-     * @magentoConfigFixture current_store sales_email/order/enabled 0
-     */
-    public function testProcessIpnRequestRecurringCurrencyDifferent()
-    {
-        $this->_testProcessIpnRequestRecurringCurrency('EUR');
+        $this->_testProcessIpnRequestCurrency($currencyCode);
     }
 
     /**
      * Test processIpnRequest() currency check for paypal_express and paypal_standard payment methods
      *
      * @param string $currencyCode
+     * @dataProvider currencyProvider
      */
     protected function _testProcessIpnRequestCurrency($currencyCode)
     {
@@ -108,8 +71,14 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
      * Test processIpnRequest() currency check for recurring profile
      *
      * @param string $currencyCode
+     * @dataProvider currencyProvider
+     * @magentoDataFixture Mage/Paypal/_files/recurring_profile.php
+     * @magentoConfigFixture current_store payment/paypal_direct/active 1
+     * @magentoConfigFixture current_store payment/paypal_express/active 1
+     * @magentoConfigFixture current_store paypal/general/merchant_country US
+     * @magentoConfigFixture current_store sales_email/order/enabled 0
      */
-    protected function _testProcessIpnRequestRecurringCurrency($currencyCode)
+    public function testProcessIpnRequestRecurringCurrency($currencyCode)
     {
         $ipnData = require(__DIR__ . '/../_files/ipn_recurring_profile.php');
         $ipnData['mc_currency'] = $currencyCode;
@@ -140,6 +109,20 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
             $this->assertEquals('payment_review', $order->getState());
             $this->assertEquals('fraud', $order->getStatus());
         }
+    }
+
+    /**
+     * Data provider for currency check tests
+     *
+     * @static
+     * @return array
+     */
+    public static function currencyProvider()
+    {
+        return array(
+            array('USD'),
+            array('EUR'),
+        );
     }
 
     /**
