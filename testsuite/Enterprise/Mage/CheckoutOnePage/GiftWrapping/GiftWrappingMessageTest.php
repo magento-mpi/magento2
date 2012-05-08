@@ -200,11 +200,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Expected result:</p>
      * <p>Prompt for entering Gift Message for Entire Order should appear with From/To/Message fields</p>
      * <p>6. Fill the fields, related to Gift Message for Entire Order (From/To/Message), click on "Continue" button</p>
-     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue" button</p>
+     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * button</p>
      * <p>8. On Order Review step click on "Place Order" button</p>
      * <p>9. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
-     * <p>Gift Options block of Order page should contain information about Gift Message, with the same data (From/To/Message), as specified at Step 6 <p>
+     * <p>Gift Options block of Order page should contain information about Gift Message, with the same data
+     * (From/To/Message), as specified at Step 6 <p>
      *
      * @param $productData
      * @param $userData
@@ -376,12 +378,15 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>6. Click on "Gift Message" link</p>
      * <p>Expected result:</p>
      * <p>Prompt for entering Gift Message for  Individual Items should be present there with From/To/Message fields</p>
-     * <p>7. Full fill fields, related to Gift Message forIndividual Items (From/To/Message), click on "Continue" button</p>
-     * <p>8. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue" button</p>
+     * <p>7. Full fill fields, related to Gift Message forIndividual Items (From/To/Message), click on "Continue"
+     * button</p>
+     * <p>8. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * button</p>
      * <p>9. On Order Review step click on "Place Order" button</p>
      * <p>10. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
-     * <p>Gift Options block of Order page should contain information about Gift Message, with the same data (From/To/Message), as specified at Step 7<p>
+     * <p>Gift Options block of Order page should contain information about Gift Message, with the same
+     * data (From/To/Message), as specified at Step 7<p>
      *
      * @param $productData
      * @param $userData
@@ -430,7 +435,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * for entire Order using dropdown "Gift Wrapping Design" on Payment Method step of checkout</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "Yes"</p>
-     * <p>2. Al least one Gift Wrapping is created and enabled (for example, with Price $10 and image for it is not specified)</p>
+     * <p>2. Al least one Gift Wrapping is created and enabled (for example, with Price $10 and image for it is not
+     * specified)</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
@@ -503,11 +509,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Expected result:</p>
      * <p>Printed card price must appears (for example: Price: $5.00)</p>
      * <p>6.Click on "Continue" button</p>
-     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue" button</p>
+     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * button</p>
      * <p>8. On Order Review step click on "Place Order" button</p>
      * <p>9. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
-     * <p>Gift Options block of Order page should contain information about Printed card, with the same price , as specified after Step 5<p>
+     * <p>Gift Options block of Order page should contain information about Printed card, with the same price,
+     * as specified after Step 5<p>
      *
      * @param $productData
      * @param $userData
@@ -694,7 +702,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Recounting Gift Options (Entire Order)</p>
      * <p>Recounting Gift Options (Individual Item)</p>
      * <p>Need to verify, that customer in process of OnePageCheckout can change configuration of Gift Options more than
-     * one time, and Gift Options prices/Grand Total on Order Review step will be recounted accordingly to these changes.</p>
+     * one time, and Gift Options prices/Grand Total on Order Review step will be recounted accordingly to these
+     * changes.</p>
      * <p>Preconditions:</p>
      * <p>1. At least two Gift Wrapping is created with different prices.</p>
      * <p>2. At least one product is created.</p>
@@ -711,20 +720,23 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>9. Select Payment method (Check/Money order).</p>
      * <p>10. Click button Continue.</p>
      * <p>Expected result:</p>
-     * <p>Price for Gift Wrapping is added to Grand Total, and appears in a Order Review step, total amounts is correctly recounted<p>
+     * <p>Price for Gift Wrapping is added to Grand Total, and appears in a Order Review step, total amounts is
+     * correctly recounted<p>
      * <p>11. Turn back to Shipping method step and changes selection of Gift Wrapping Design to another
      * Gift Wrapping (with different from first price).</p>
      * <p>12. Click button Continue.</p>
      * <p>13. Select Payment method (Check/Money order).</p>
      * <p>14. Click button Continue.</p>
      * <p>Expected result:</p>
-     * <p>Price for old Gift Wrapping replaced to new Gift Wrapping price, added to Grand Total, and appears in a Order Review step, total amounts is correctly recounted.<p>
+     * <p>Price for old Gift Wrapping replaced to new Gift Wrapping price, added to Grand Total, and appears in a
+     * Order Review step, total amounts is correctly recounted.<p>
      * <p>15. Turn back to Shipping method step and changes selection of Gift Wrapping Design to none.</p>
      * <p>16. Click button Continue.</p>
      * <p>17. Select Payment method (Check/Money order).</p>
      * <p>18. Click button Continue.</p>
      * <p>Expected result:</p>
-     * <p>Grand Total is recounted, Gift Wrapping Price disappears from a Order Review step, Total amounts is correctly recounted.<p>
+     * <p>Grand Total is recounted, Gift Wrapping Price disappears from a Order Review step, Total amounts is correctly
+     * recounted.<p>
      *
      * @param $entity
      * @param $productData
@@ -940,7 +952,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Customer is created;</p>
      * <p>3. Website is created;</p>
      * <p>4. Gift wrapping is created for new website;</p>
-     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration in website scope;</p>
+     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration
+     * in website scope;</p>
      * <p>6. Navigate to newly created website URL.</p>
      * <p>Steps:</p>
      * <p>1. Log into Frontend;</p>
@@ -1010,7 +1023,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * @TestlinkId TL-MAGE-868
      * <p>Test Case: Possibility to adding Gift attributes to Order during the process of OnePageCheckout</p>
      * <p>Check If possible to add Gift Attributes to Order during the process of
-     * OnePageCheckout (at Default Website) when all  "gift settings" in default scope is set to 'yes" and in the website
+     * OnePageCheckout (at Default Website) when all "gift settings" in default scope is set to 'yes" and in the website
      * scope all of this settings set to "no"</p>
      * <p>Preconditions:</p>
      * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch to "yes" all options;</p>
@@ -1101,7 +1114,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * @TestlinkId TL-MAGE-869
      * <p>Test Case: Possibility to adding Gift attributes to Order during the process of OnePageCheckout - Global</p>
      * <p>Check If possible to add Gift Attributes to Order during the process of
-     * OnePageCheckout (at Default Website) when all  "gift settings" in default scope is set to 'yes" and in the website
+     * OnePageCheckout (at Default Website) when all "gift settings" in default scope is set to 'yes" and in the website
      * scope all of this settings set to "no"</p>
      * <p>Preconditions:</p>
      * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch to "yes" all options;</p>

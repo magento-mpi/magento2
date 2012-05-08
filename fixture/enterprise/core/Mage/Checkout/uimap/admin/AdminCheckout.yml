@@ -34,5 +34,6 @@ view_order:
                         fieldsets:
                            -
                                 gift_options_for_order:
+                                    xpath: //div[div/h4[contains(text(),'Gift Options')]]
                                     pageelements:
                                         printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
