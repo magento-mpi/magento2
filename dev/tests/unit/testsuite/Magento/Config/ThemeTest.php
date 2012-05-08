@@ -22,7 +22,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testConstructException()
     {
@@ -89,9 +89,9 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
      * @param string $package
      * @param string $theme
      * @param mixed $expected
-     * @dataProvider getParentThemeTitleDataProvider
+     * @dataProvider getParentThemeDataProvider
      */
-    public function testGetParentThemeTitle($package, $theme, $expected)
+    public function testGetParentTheme($package, $theme, $expected)
     {
         $this->assertSame($expected, self::$_model->getParentTheme($package, $theme));
     }
@@ -99,7 +99,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getParentThemeTitleDataProvider()
+    public function getParentThemeDataProvider()
     {
         return array(
             array('default', 'default', null),

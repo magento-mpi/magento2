@@ -24,27 +24,20 @@ abstract class Magento_Config_XmlAbstract
     /**
      * Instantiate with the list of files to merge
      *
-     * @param array $configFiles
-     * @param Zend_Cache_Core $cache
-     * @throws Magento_Exception
+     * @param string|array $configDataOrFiles
+     * @throws InvalidArgumentException
      */
-    public function __construct(array $configFiles, Zend_Cache_Core $cache = null)
+    public function __construct($configDataOrFiles)
     {
-        if (empty($configFiles)) {
-            throw new Magento_Exception('There must be at least one configuration file specified.');
-        }
-        $cacheId = null;
-        if ($cache) {
-            $cacheId = 'CONFIG_XML_' . md5(implode('|', $configFiles));
-            $cachedData = $cache->load($cacheId);
-            if ($cachedData !== false) {
-                $this->_data = unserialize($cachedData);
-                return;
+        if (is_string($configDataOrFiles)) {
+            $this->_importData($configDataOrFiles);
+        } else if (is_array($configDataOrFiles)) {
+            if (empty($configDataOrFiles)) {
+                throw new InvalidArgumentException('There must be at least one configuration file specified.');
             }
-        }
-        $this->_data = $this->_extractData($this->_merge($configFiles));
-        if ($cache) {
-            $cache->save(serialize($this->_data), $cacheId);
+            $this->_data = $this->_extractData($this->_merge($configDataOrFiles));
+        } else {
+            throw new InvalidArgumentException('Configuration data or list of configuration files is expected.');
         }
     }
 
@@ -54,6 +47,26 @@ abstract class Magento_Config_XmlAbstract
      * @return string
      */
     abstract public function getSchemaFile();
+
+    /**
+     * Export configuration data in a format suitable for permanent storage
+     *
+     * @return string
+     */
+    public function exportData()
+    {
+        return serialize($this->_data);
+    }
+
+    /**
+     * Import configuration data from the permanent storage format
+     *
+     * @param string $data
+     */
+    protected function _importData($data)
+    {
+        $this->_data = unserialize($data);
+    }
 
     /**
      * Extract configuration data from the DOM structure

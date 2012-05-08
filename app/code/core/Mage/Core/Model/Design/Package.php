@@ -46,6 +46,11 @@ class Mage_Core_Model_Design_Package
     const REGEX_CSS_RELATIVE_URLS
         = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
+    /**
+     * Cache tag to mark view layer cache
+     */
+    const CACHE_TAG = 'VIEW_CONFIG';
+
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
 
@@ -387,10 +392,10 @@ class Mage_Core_Model_Design_Package
         $area = $params['_area'];
         $package = $params['_package'];
         $theme = $params['_theme'];
-        while ($theme) {
+        do {
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/locale/{$locale}";
             list($package, $theme) = $this->_getInheritedTheme($area, $package, $theme);
-        }
+        } while ($theme);
 
         return $this->_fallback($file, $dirs);
     }
@@ -1220,11 +1225,20 @@ class Mage_Core_Model_Design_Package
      */
     public function getThemeConfig($area)
     {
-        if (!isset($this->_themeConfigs[$area])) {
-            $themeConfigFiles = glob(Mage::getBaseDir('design') . "/{$area}/*/*/theme.xml", GLOB_NOSORT);
-            $this->_themeConfigs[$area] = new Magento_Config_Theme($themeConfigFiles, Mage::app()->getCache());
+        if (isset($this->_themeConfigs[$area])) {
+            return $this->_themeConfigs[$area];
         }
-        return $this->_themeConfigs[$area];
+        $cacheId = "THEME_CONFIG_{$area}";
+        $configData = Mage::app()->loadCache($cacheId);
+        if ($configData) {
+            $config = new Magento_Config_Theme($configData);
+        } else {
+            $configFiles = glob(Mage::getBaseDir('design') . "/{$area}/*/*/theme.xml", GLOB_NOSORT);
+            $config = new Magento_Config_Theme($configFiles);
+            Mage::app()->saveCache($config->exportData(), $cacheId, array(self::CACHE_TAG));
+        }
+        $this->_themeConfigs[$area] = $config;
+        return $config;
     }
 
     /**
@@ -1259,14 +1273,20 @@ class Mage_Core_Model_Design_Package
             return $this->_viewConfigs[$key];
         }
 
-        $files = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
-        $themeFile = $this->getFilename('view.xml', array());
-        if (file_exists($themeFile)) {
-            $files[] = $themeFile;
+        $cacheId = "VIEW_CONFIG_{$key}";
+        $configData = Mage::app()->loadCache($cacheId);
+        if ($configData) {
+            $config = new Magento_Config_View($configData);
+        } else {
+            $configFiles = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
+            $themeConfigFile = $this->getFilename('view.xml', array());
+            if (file_exists($themeConfigFile)) {
+                $configFiles[] = $themeConfigFile;
+            }
+            $config = new Magento_Config_View($configFiles);
+            Mage::app()->saveCache($config->exportData(), $cacheId, array(self::CACHE_TAG));
         }
 
-        /** @var Magento_Config_View $config */
-        $config = new Magento_Config_View($files, Mage::app()->getCache());
         $this->_viewConfigs[$key] = $config;
         return $config;
     }
