@@ -226,6 +226,26 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     */
+    public function testWrapPageElementHighlightingDisabled()
+    {
+        $elementName = 'draggable_block';
+        $elementHtml = '<b>Draggable Block</b>';
+        $expectedOutput =
+            '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable vde_wrapper_hidden">
+                <div class="vde_element_title">draggable_block</div>
+            </div>
+            <!--start_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->
+            <b>Draggable Block</b>
+            <!--end_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->';
+
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
+        $this->testWrapPageElement($elementName, $elementHtml, $expectedOutput);
+    }
+
+    /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testAdminSessionUserLogout()

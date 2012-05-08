@@ -107,7 +107,7 @@ class Mage_DesignEditor_Model_Observer
         }
 
         if (!$this->_wrappingRenderer) {
-            $this->_wrappingRenderer = Mage::getModel('Mage_Core_Block_Template', array(
+            $this->_wrappingRenderer = Mage::getModel('Mage_DesignEditor_Block_Template', array(
                 'template' => 'Mage_DesignEditor::wrapping.phtml'
             ));
         }
