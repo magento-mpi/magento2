@@ -38,7 +38,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/_files/design');
+        Mage::app()->getConfig()->getOptions()->setDesignDir(
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design'
+        );
 
         $this->_model = new Mage_Core_Model_Design_Package();
         $this->_model->setDesignTheme('test/default/default', 'frontend');
