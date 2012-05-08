@@ -29,8 +29,8 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getRoot() . '/design/*/*/*/view.xml') as $file) {
-            $result[] = array($file);
+        foreach (glob(Mage::getBaseDir('design') . '/*/*/*/view.xml') as $file) {
+            $result[$file] = array($file);
         }
         return $result;
     }
@@ -50,8 +50,8 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getRoot() . '/design/*/*/*', GLOB_ONLYDIR) as $themeDir) {
-            $result[] = array($themeDir);
+        foreach (glob(Mage::getBaseDir('design') . '/*/*/*', GLOB_ONLYDIR) as $themeDir) {
+            $result[$themeDir] = array($themeDir);
         }
         return $result;
     }
@@ -60,9 +60,31 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @dataProvider themeConfigFileDataProvider
      */
-    public function testThemeConfigFile($file)
+    public function testThemeConfigFileSchema($file)
     {
         $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/theme.xsd');
+    }
+
+    /**
+     * Configuration should declare a single package/theme that corresponds to the file system directories
+     *
+     * @param string $file
+     * @dataProvider themeConfigFileDataProvider
+     */
+    public function testThemeConfigFilePackageTheme($file)
+    {
+        list($expectedPackage, $expectedTheme) = array_slice(preg_split('[\\/]', $file), -3, 2);
+        $config = new Magento_Config_Theme(array($file));
+        $this->assertEquals(
+            array($expectedPackage),
+            $config->getPackages(),
+            "Configuration should declare the single package '$expectedPackage'."
+        );
+        $this->assertEquals(
+            array($expectedTheme),
+            $config->getThemes($expectedPackage),
+            "Configuration should declare the single theme '$expectedPackage/$expectedTheme'."
+        );
     }
 
     /**
@@ -71,8 +93,8 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getRoot() . '/design/*/*/*/theme.xml') as $file) {
-            $result[] = array($file);
+        foreach (glob(Mage::getBaseDir('design') . '/*/*/*/theme.xml') as $file) {
+            $result[$file] = array($file);
         }
         return $result;
     }

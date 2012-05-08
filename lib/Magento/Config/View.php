@@ -47,6 +47,16 @@ class Magento_Config_View extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Retrieve the list of module declared in the configuration
+     *
+     * @return array
+     */
+    public function getModules()
+    {
+        return array_keys($this->_data);
+    }
+
+    /**
      * Get a list of variables in scope of specified module
      *
      * Returns array(<var_name> => <var_value>)
