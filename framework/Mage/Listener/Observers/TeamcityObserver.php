@@ -194,9 +194,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $this->_failed = true;
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
-        $message = $this->getMessage();
-        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL,
-                             get_class($test) . ":" . $test->getName(), $message);
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='Test marked as incomplete']" . PHP_EOL,
+                             get_class($test) . ":" . $test->getName());
         $this->write($tcmessage);
     }
 
