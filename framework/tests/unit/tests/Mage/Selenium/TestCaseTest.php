@@ -793,7 +793,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_TestCase::getHttpResponse
      */
-    public function testgetHttpResponse()
+    public function testGetHttpResponse()
     {
         $instance = new Mage_Selenium_TestCase();
         $response = $instance->getHttpResponse('http://www.w3.org/');
@@ -802,12 +802,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('int', $response['http_code']);
         $this->assertEquals(200, $response['http_code']);
 
-        $response = $instance->getHttpResponce('http://foo.nowhere/');
+        $response = $instance->getHttpResponse('http://foo.nowhere/');
         $this->assertInternalType('array', $response);
         $this->assertArrayHasKey('http_code', $response);
         $this->assertEquals(0, $response['http_code']);
 
-        $response = $instance->getHttpResponce('wikipedia.org');
+        $response = $instance->getHttpResponse('wikipedia.org');
         $this->assertArrayHasKey('http_code', $response);
         $this->assertEquals(301, $response['http_code']);
     }
