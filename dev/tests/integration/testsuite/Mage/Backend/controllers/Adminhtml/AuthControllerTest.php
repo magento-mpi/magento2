@@ -10,11 +10,10 @@
  */
 
 /**
- * Test class for Mage_Backend_Adminhtml_IndexController.
+ * Test class for Mage_Backend_Adminhtml_AuthController.
  *
- * @group module:Mage_Backend
  */
-class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Admin_Model_Session
@@ -25,6 +24,11 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      * @var Mage_Backend_Model_Auth
      */
     protected $_auth;
+
+    /**
+     * @var Mage_User_Model_User
+     */
+    protected static $_newUser;
 
     /**
      * Performs user login
@@ -49,11 +53,11 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
 
     /**
      * Check not logged state
-     * @covers Mage_Backend_Adminhtml_IndexController::loginAction
+     * @covers Mage_Backend_Adminhtml_AuthController::loginAction
      */
     public function testNotLoggedLoginAction()
     {
-        $this->dispatch('admin/index/login');
+        $this->dispatch('admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';
         $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
@@ -61,50 +65,112 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
 
     /**
      * Check logged state
-     * @covers Mage_Backend_Adminhtml_IndexController::loginAction
+     * @covers Mage_Backend_Adminhtml_AuthController::loginAction
      */
     public function testLoggedLoginAction()
     {
         $this->_login();
-        $this->dispatch('admin/index/login');
+        $this->dispatch('admin/auth/login');
         $this->assertRedirect();
         $this->_logout();
     }
 
     /**
-     * @covers Mage_Backend_Adminhtml_IndexController::logoutAction
+     * @covers Mage_Backend_Adminhtml_AuthController::logoutAction
      */
     public function testLogoutAction()
     {
         $this->_login();
-        $this->dispatch('admin/index/logout');
+        $this->dispatch('admin/auth/logout');
         $this->assertRedirect();
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
     }
 
     /**
-     * @covers Mage_Backend_Adminhtml_IndexController::deniedJsonAction
-     * @covers Mage_Backend_Adminhtml_IndexController::_getDeniedJson
+     * @covers Mage_Backend_Adminhtml_AuthController::deniedJsonAction
+     * @covers Mage_Backend_Adminhtml_AuthController::_getDeniedJson
      */
     public function testDeniedJsonAction()
     {
         $this->_login();
-        $this->dispatch('admin/index/deniedJson');
+        $this->dispatch('admin/auth/deniedJson');
         $expected = '{"ajaxExpired":1,"ajaxRedirect":"http';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->_logout();
     }
 
     /**
-     * @covers Mage_Backend_Adminhtml_IndexController::deniedIframeAction
-     * @covers Mage_Backend_Adminhtml_IndexController::_getDeniedIframe
+     * @covers Mage_Backend_Adminhtml_AuthController::deniedIframeAction
+     * @covers Mage_Backend_Adminhtml_AuthController::_getDeniedIframe
      */
     public function testDeniedIframeAction()
     {
         $this->_login();
-        $this->dispatch('admin/index/deniedIframe');
+        $this->dispatch('admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->_logout();
+    }
+
+    /**
+     * Test user logging process when user not assigned to any role
+     * @dataProvider incorrectLoginDataProvider
+     * @magentoDataFixture userDataFixture
+     *
+     * @param $params
+     */
+    public function testIncorrectLogin($params)
+    {
+        $this->getRequest()->setPost($params);
+        $this->dispatch('admin/auth/index');
+        $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());
+    }
+
+    public static function userDataFixture()
+    {
+        self::$_newUser = new Mage_User_Model_User;
+        self::$_newUser->setFirstname('admin_role')
+            ->setUsername('test2')
+            ->setPassword('123123q')
+            ->setIsActive(1)
+            ->save();
+
+        self::$_newUser = new Mage_User_Model_User;
+        self::$_newUser->setFirstname('admin_role')
+            ->setUsername('test3')
+            ->setPassword('123123q')
+            ->setIsActive(0)
+            ->setRoleId(1)
+            ->save();
+    }
+
+    public function incorrectLoginDataProvider()
+    {
+        return array(
+            'login dummy user' => array (
+                array(
+                    'login' => array(
+                        'username' => 'test1',
+                        'password' => '123123q',
+                    )
+                ),
+            ),
+            'login without role' => array (
+                array(
+                    'login' => array(
+                        'username' => 'test2',
+                        'password' => '123123q',
+                    )
+                ),
+            ),
+            'login not active user' => array (
+                array(
+                    'login' => array(
+                        'username' => 'test3',
+                        'password' => '123123q',
+                    )
+                ),
+            ),
+        );
     }
 }
