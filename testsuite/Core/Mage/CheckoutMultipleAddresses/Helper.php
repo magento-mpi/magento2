@@ -241,18 +241,20 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                     $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
                 }
                 $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
-                $fillData[$product['product_name']]['qty'] = $qty;
-                $fillData[$product['product_name']]['address'] = $isAddressAdded;
+                $arr = array('product' => $product['product_name'],
+                             'qty'     => $qty,
+                             'address' => $isAddressAdded);
+                $fillData[] = $arr;
             }
         }
         //Select shipping address for each product
-        foreach ($fillData as $name => $data) {
-            $this->addParameter('productName', $name);
-            $filledQty = $filledProducts[$name];
+        foreach ($fillData as $data) {
+            $this->addParameter('productName', $data['product']);
+            $filledQty = $filledProducts[$data['product']];
             for ($i = $filledQty; $i < $data['qty'] + $filledQty; $i++) {
                 $this->addParameter('index', $i);
                 $this->fillDropdown('address_choice', $data['address']);
-                $filledProducts[$name] = $filledProducts[$name] + 1;
+                $filledProducts[$data['product']] = $filledProducts[$data['product']] + 1;
             }
         }
         $this->clickButton('continue_to_shipping_information', false);
@@ -291,7 +293,6 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 if (!empty($giftOptions)) {
                     $this->addGiftOptions($giftOptions, $header);
                 }
-                //@TODO verify products qty for one address
             }
         }
         $setXpath = $this->_getControlXpath('pageelement', 'billing_information');
