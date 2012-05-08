@@ -184,15 +184,15 @@ recount_gift_wrapping_with_img_one_page:
     validate_prod_data:
         product_1:
             product_name: %noValue%
-            price: $54.95
+            price: $12.99
             qty: 1
-            subtotal: $54.95
+            subtotal: $12.99
     validate_total_data:
-        grand_total: $78.28
+        grand_total: $36.32
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
         shipping_handling_flat_rate_fixed: $5.00
-        subtotal: $54.95
+        subtotal: $12.99
 
 recount_no_gift_wrapping_one_page:
     products_to_add: *product_add_one
@@ -243,13 +243,13 @@ recount_gift_wrapping_printed_card_no_one_page:
     validate_prod_data:
         product_1:
             product_name: %noValue%
-            price: $54.95
+            price: $12.99
             qty: 1
-            subtotal: $54.95
+            subtotal: $12.99
     validate_total_data:
-        grand_total: $59.95
+        grand_total: $17.99
         shipping_handling_flat_rate_fixed: $5.00
-        subtotal: $54.95
+        subtotal: $12.99
 
 gift_wrapping_custom_price:
     products_to_add: *product_add_one
