@@ -62,6 +62,13 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
     protected $_failuresCount = 0;
 
     /**
+     * Counter of incomplete tests
+     *
+     * @var int
+     */
+    protected $_incompleteCount = 0;
+
+    /**
      * Constructs Teamcity Observer
      *
      * @param Mage_Listener_EventListener $listener
@@ -130,6 +137,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
             $failuresCount = $test->getTestResultObject()->failureCount();
             //Getting actual skipped tests count
             $skippedCount = $test->getTestResultObject()->skippedCount();
+            //Getting actual incomplete tests count
+            $incompleteCount = $test->getTestResultObject()->notImplementedCount();
             //Comparing number of actual errors and previous errors
             if ($errorsCount > $this->_errorsCount) {
                 //Getting last error message if actual number of errors is greater than previous
@@ -153,6 +162,14 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
                 $skip = end($skipped);
                 $message .= $skip->exceptionMessage();
                 $this->_skippedCount = $skippedCount;
+            }
+            //Comparing number of actual not implemented tests and previously not implemented tests
+            if ($incompleteCount > $this->_incompleteCount) {
+                //Getting last not implemented test message if actual number of not implemented tests is greater than previous
+                $notImplemented = $test->getTestResultObject()->notImplemented();
+                $notImpl = end($notImplemented);
+                $message .= $notImpl->exceptionMessage();
+                $this->_incompleteCount = $incompleteCount;
             }
         }
         return $message;
@@ -194,8 +211,9 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
         $this->_failed = true;
         $listener = self::$_listener;
         $test = ($listener) ? $listener->getCurrentTest() : null;
-        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='Test marked as incomplete']" . PHP_EOL,
-                             get_class($test) . ":" . $test->getName());
+        $message = $this->getMessage();
+        $tcmessage = sprintf("##teamcity[testIgnored name='%s' message='%s']" . PHP_EOL,
+                             get_class($test) . ":" . $test->getName(), $message);
         $this->write($tcmessage);
     }
 
