@@ -684,6 +684,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->productHelper()->chooseStoreView($website['general_information']['staging_website_name'] .
                                                 '/Main Website Store/Default Store View');
         $this->getConfirmation();
+        $this->waitForPageToLoad();
         $this->productHelper()->fillTab($productGiftOptionsOnSite, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');

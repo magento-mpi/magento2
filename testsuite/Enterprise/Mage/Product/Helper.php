@@ -70,6 +70,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             return;
         }
         $complexValue = explode('/', $storeViewName);
+        $valueToSelect = array_pop($complexValue);
         $parentXpath = $fieldXpath; //Xpath of the needed option parent element
         for ($level = 0; $level < count($complexValue); $level++) {
             $nextNested = "/*[contains(@label,'" . $complexValue[$level] . "')]";
@@ -82,6 +83,17 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 throw new PHPUnit_Framework_Exception(
                     'Cannot find nested/sibling optgroup/option ' . $complexValue[$level]);
             }
+        }
+        if ($this->isElementPresent($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]")) {
+            $optionValue = $this->getValue($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]");
+            //Try to select by value first, since there may be options with equal labels.
+            if (isset($optionValue)) {
+                $this->select($fieldXpath, 'value=' . $optionValue);
+            } else {
+                $this->select($fieldXpath, 'label=' . $valueToSelect);
+            }
+        } else {
+            $this->select($fieldXpath, 'regexp:' . preg_quote($valueToSelect));
         }
 
     }

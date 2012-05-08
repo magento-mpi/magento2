@@ -290,17 +290,17 @@ gift_wrapping_custom_price_on_site:
     validate_prod_data:
         product_1:
             product_name: %noValue%
-            price: $54.95
+            price: $12.99
             qty: 1
-            subtotal: $54.95
+            subtotal: $12.99
         product_2:
             product_name: %noValue%
-            price: $54.95
+            price: $12.99
             qty: 1
-            subtotal: $54.95
+            subtotal: $12.99
     validate_total_data:
-        grand_total: $161.55
+        grand_total: $75.19
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
         shipping_handling_flat_rate_fixed: $10.00
-        subtotal: $109.90
+        subtotal: $25.98
