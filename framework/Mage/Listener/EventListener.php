@@ -77,11 +77,15 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
      * Register observer class
      *
      * @static
-     * @param string $observerInstance
+     * @param string|object $observerInstance
      */
     public static function attach($observerInstance)
     {
-        self::$_observerClasses[] = $observerInstance;
+        if (is_string($observerInstance)) {
+            self::$_observerClasses[] = $observerInstance;
+        } else {
+            self::$_observers[] = $observerInstance;
+        }
     }
 
     /**
