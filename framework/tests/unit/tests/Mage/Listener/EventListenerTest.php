@@ -61,8 +61,8 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
      */
     public function testDetach()
     {
-        $obj1 = $this->observersMocks[] = $this->getMock('Mage_Listener_Observers_EmptyObserver');
-        $obj2 = $this->observersMocks[] = $this->getMock('Mage_Listener_Observers_EmptyObserver');
+        $this->observersMocks[] = $obj1 = $this->getMock('Mage_Listener_Observers_EmptyObserver');
+        $this->observersMocks[] = $obj2 = $this->getMock('Mage_Listener_Observers_EmptyObserver');
 
         Mage_Listener_EventListener::attach($obj1);
         $this->assertInternalType('array', Mage_Listener_EventListener::getObservers());
@@ -97,7 +97,7 @@ class Mage_Listener_EventListenerTest extends Mage_PHPUnit_TestCase
     {
         return array(
             array(SELENIUM_TESTS_BASEDIR . implode(DIRECTORY_SEPARATOR,
-                array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')), 1),
+                array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')), 2),
             array('foo', 0),
         );
     }

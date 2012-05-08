@@ -3184,7 +3184,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('field', $name);
         }
-        $errorMessage = "Problem with field '$name' and xpath '$xpath': ";
+        $errorMessage =
+            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            . "Problem with field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             $this->waitForEditable($xpath);
             $this->type($xpath, $value);
@@ -3223,7 +3225,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('multiselect', $name);
         }
-        $errorMessage = "Problem with multiselect field '$name' and xpath '$xpath': ";
+        $errorMessage =
+            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            . "Problem with multiselect field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
 
@@ -3286,7 +3290,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
-        $errorMessage = "Problem with dropdown field '$name' and xpath '$xpath': ";
+        $errorMessage =
+            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
                 if ($this->getSelectedValue($xpath) != $value) {
@@ -3332,7 +3338,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('checkbox', $name);
         }
-        $errorMessage = "Problem with checkbox '$name' and xpath '$xpath': ";
+        $errorMessage =
+            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            . "Problem with checkbox '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
                 $currentValue = $this->getValue($xpath);
@@ -3383,7 +3391,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('radiobutton', $name);
         }
-        $errorMessage = "Problem with radiobutton '$name' and xpath '$xpath': ";
+        $errorMessage =
+            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            . "Problem with radiobutton '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
                 if (strtolower($value) == 'yes') {

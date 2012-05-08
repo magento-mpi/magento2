@@ -32,6 +32,13 @@
 class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
 {
     /**
+     * Registered event observers classes
+     *
+     * @var array
+     */
+    protected static $_observerClasses = array();
+
+    /**
      * Registered event observers
      *
      * @var array
@@ -49,14 +56,36 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
     protected $_currentSuite;
 
     /**
+     * Initializes connection settings
+     */
+    public function __construct()
+    {
+        $this->instantiateObservers();
+    }
+
+    /**
+     * Constructor instantiates observers from registered classes and passes itself to constructor
+     */
+    protected function instantiateObservers()
+    {
+        foreach (self::$_observerClasses as $observerClass) {
+            self::$_observers[] = new $observerClass($this);
+        }
+    }
+
+    /**
      * Register observer class
      *
      * @static
-     * @param Mage_Listener_Observers_EmptyObserver $observerInstance
+     * @param string|object $observerInstance
      */
     public static function attach($observerInstance)
     {
-        self::$_observers[] = $observerInstance;
+        if (is_string($observerInstance)) {
+            self::$_observerClasses[] = $observerInstance;
+        } else {
+            self::$_observers[] = $observerInstance;
+        }
     }
 
     /**
@@ -102,7 +131,7 @@ class Mage_Listener_EventListener implements PHPUnit_Framework_TestListener
             foreach ($files as $file) {
                 $className = 'Mage_Listener_Observers_' . basename($file, '.php');
                 if (class_exists($className)) {
-                    static::attach(new $className());
+                    static::attach($className);
                 }
             }
         }

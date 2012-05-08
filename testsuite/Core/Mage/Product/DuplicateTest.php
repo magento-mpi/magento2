@@ -43,7 +43,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -56,10 +55,9 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function createConfigurableAttribute()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('General' => $attrData['attribute_code']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -79,7 +77,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     /**
      * Test Realizing precondition for duplicating products.
      *
-     * @param $attrData
+     * @param array $attrData
      *
      * @return array $productData
      * @test
@@ -89,18 +87,20 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function createProducts($attrData)
     {
         //Data
-        $simple = $this->loadData('simple_product_visible');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_1']['admin_option_name'];
-        $virtual = $this->loadData('virtual_product_visible');
+            $attrData['option_1']['admin_option_name'];
+        $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_2']['admin_option_name'];
-        $downloadable = $this->loadData('downloadable_product_for_order',
-                array('downloadable_links_purchased_separately' => 'No'), array('general_name', 'general_sku'));
+            $attrData['option_2']['admin_option_name'];
+        $downloadable = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
+            array('downloadable_links_purchased_separately' => 'No'));
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_3']['admin_option_name'];
+            $attrData['option_3']['admin_option_name'];
 
-        $productData = array('simple' => $simple, 'downloadable' => $downloadable, 'virtual' => $virtual);
+        $productData = array('simple'       => $simple,
+                             'downloadable' => $downloadable,
+                             'virtual'      => $virtual);
         //Steps
         foreach ($productData as $key => $value) {
             $this->productHelper()->createProduct($value, $key);
@@ -108,7 +108,9 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_product');
         }
 
-        return $productData;
+        return array('related_search_sku'     => $simple['general_sku'],
+                     'up_sells_search_sku'    => $downloadable['general_sku'],
+                     'cross_sells_search_sku' => $virtual['general_sku']);
     }
 
     /**
@@ -120,35 +122,27 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
-     * @param $attrData
-     * @param $productData
+     * @param array $attrData
+     * @param array $assignData
      *
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @TestlinkId TL-MAGE-3431
      */
-    public function duplicateSimple($attrData, $productData)
+    public function duplicateSimple($attrData, $assignData)
     {
         //Data
-        $simple = $this->loadData('duplicate_simple',
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
+        $simple = $this->loadDataSet('Product', 'duplicate_simple', $assignData);
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_1']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $simple['general_sku']));
+            $attrData['option_1']['admin_option_name'];
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $simple['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
@@ -164,35 +158,27 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
-     * @param $attrData
-     * @param $productData
+     * @param array $attrData
+     * @param array $assignData
      *
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @TestlinkId	TL-MAGE-3432
+     * @TestlinkId TL-MAGE-3432
      */
-    public function duplicateVirtual($attrData, $productData)
+    public function duplicateVirtual($attrData, $assignData)
     {
         //Data
-        $virtual = $this->loadData('duplicate_virtual',
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
+        $virtual = $this->loadDataSet('Product', 'duplicate_virtual', $assignData);
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_2']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $virtual['general_sku']));
+            $attrData['option_2']['admin_option_name'];
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $virtual['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
@@ -209,36 +195,28 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
      *
-     * @param $attrData
-     * @param $productData
+     * @param array $attrData
+     * @param array $assignData
      *
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
-     * @TestlinkId	TL-MAGE-3429
+     * @TestlinkId TL-MAGE-3429
      * @group skip_due_to_bug
      */
-    public function duplicateDownloadable($attrData, $productData)
+    public function duplicateDownloadable($attrData, $assignData)
     {
         //Data
-        $downloadable = $this->loadData('duplicate_downloadable',
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
+        $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_3']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $downloadable['general_sku']));
+            $attrData['option_3']['admin_option_name'];
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $downloadable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
@@ -259,38 +237,26 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @param $productData
+     * @param array $assignData
      *
      * @test
-     * @TestlinkId TL-MAGE-3430
      * @depends createProducts
+     * @TestlinkId TL-MAGE-3430
      */
-    public function duplicateGrouped($productData)
+    public function duplicateGrouped($assignData)
     {
         //Data
-        $grouped = $this->loadData('duplicate_grouped',
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
-
-        $grouped['associated_grouped_data']['associated_grouped_1']['associated_search_sku'] =
-                $productData['simple']['general_sku'];
-        $grouped['associated_grouped_data']['associated_grouped_2']['associated_search_sku'] =
-                $productData['virtual']['general_sku'];
-        $grouped['associated_grouped_data']['associated_grouped_3']['associated_search_sku'] =
-                $productData['downloadable']['general_sku'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $grouped['general_sku']));
+        $grouped = $this->loadDataSet('Product', 'duplicate_grouped', $assignData,
+            array('product_1' => $assignData['related_search_sku'],
+                  'product_2' => $assignData['up_sells_search_sku'],
+                  'product_3' => $assignData['cross_sells_search_sku']));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $grouped['general_sku']));
         //Steps
         $this->productHelper()->createProduct($grouped, 'grouped');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
@@ -312,37 +278,26 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @param $data
-     * @param $productData
+     * @param array $assignData
      *
      * @test
      * @dataProvider duplicateBundleDataProvider
      * @depends createProducts
-     * @TestlinkId	TL-MAGE-3427
+     * @TestlinkId TL-MAGE-3427
      */
-    public function duplicateBundle($data, $productData)
+    public function duplicateBundle($data, $assignData)
     {
         //Data
-        $bundle = $this->loadData($data,
-                array(
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
-
-        $bundle['bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
-                $productData['simple']['general_sku'];
-        $bundle['bundle_items_data']['item_2']['add_product_1']['bundle_items_search_sku'] =
-                $productData['virtual']['general_sku'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $bundle['general_sku']));
+        $bundle = $this->loadDataSet('Product', $data, $assignData,
+            array('product_1' => $assignData['related_search_sku'],
+                  'product_2' => $assignData['cross_sells_search_sku']));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundle['general_sku']));
         //Steps
         $this->productHelper()->createProduct($bundle, 'bundle');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
@@ -353,7 +308,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('duplicate_fixed_bundle'),
-            array('duplicate_dynamic_bundle'),
+            array('duplicate_dynamic_bundle')
         );
     }
 
@@ -376,41 +331,33 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @param $attrData
-     * @param $productData
+     * @param array $attrData
+     * @param array $assignData
      *
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @TestlinkId TL-MAGE-3428
      */
-    public function duplicateConfigurable($attrData, $productData)
+    public function duplicateConfigurable($attrData, $assignData)
     {
         //Data
-        $configurable = $this->loadData('duplicate_configurable',
-                array(
-                    'configurable_attribute_title' => $attrData['admin_title'],
-                    'related_search_sku'           => $productData['simple']['general_sku'],
-                    'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
-                    'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
-                    'cross_sells_product_position' => 30
-                ), array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
+        $assign = array_merge($assignData, array('configurable_attribute_title' => $attrData['admin_title']));
+        $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         //Steps
         $this->productHelper()->fillConfigurableSettings($configurable);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable,
-                array('general_sku', 'general_status', 'configurable_attribute_title'));
+        $this->productHelper()
+            ->verifyProductInfo($configurable, array('general_sku', 'general_status', 'configurable_attribute_title'));
     }
 }
