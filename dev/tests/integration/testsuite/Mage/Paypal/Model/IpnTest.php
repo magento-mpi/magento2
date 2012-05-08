@@ -19,7 +19,9 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() == 'mssql') {
-            $this->markTestIncomplete('Currently "Mage/Paypal/_files/recurring_profile.php" data fixture causes problem on MSSQL.');
+            $this->markTestIncomplete(
+                'Currently "Mage/Paypal/_files/recurring_profile.php" data fixture causes problem on MSSQL.'
+            );
         }
         $this->_model = new Mage_Paypal_Model_Ipn();
     }
