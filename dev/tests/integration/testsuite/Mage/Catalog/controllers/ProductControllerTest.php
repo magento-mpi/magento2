@@ -36,6 +36,8 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->dispatch('catalog/product/view/id/1');
 
+        $this->markTestIncomplete('MAGETWO-1121 Logical error');
+
         /** @var $currentProduct Mage_Catalog_Model_Product */
         $currentProduct = Mage::registry('current_product');
         $this->assertInstanceOf('Mage_Catalog_Model_Product', $currentProduct);
@@ -69,6 +71,9 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     public function testViewActionConfigurable()
     {
         $this->dispatch('catalog/product/view/id/1');
+
+        $this->markTestIncomplete('MAGETWO-1121 Logical error');
+
         $html = $this->getResponse()->getBody();
         $format = '%Aclass="product-options" id="product-options-wrapper">%A'
             . '<div class="product-options-bottom">%A<div class="add-to-cart">%A<ul class="add-to-links">%A';

@@ -197,7 +197,6 @@ Product view
                     </block>
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml" translate="label">
                         <label>Bottom Block Options Wrapper</label>
-                        <block type="Mage_Catalog_Block_Product_View" name="product.tierprices" as="product.tierprices" template="product/view/tierprices.phtml"/>
                         <block type="Mage_Catalog_Block_Product_View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
                         <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="product.info.addtocart" template="product/view/addtocart.phtml"/>
                         <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="product.info.addto" template="product/view/addto.phtml"/>

@@ -399,7 +399,7 @@ final class Mage
     {
         Magento_Profiler::start('EVENT:' . $name);
         $result = self::app()->dispatchEvent($name, $data);
-        Magento_Profiler::stop('DISPATCH EVENT:'.$name);
+        Magento_Profiler::stop('EVENT:'.$name);
         return $result;
     }
 

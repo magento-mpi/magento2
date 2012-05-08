@@ -25,7 +25,7 @@ class Enterprise_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_Te
             array(array('area' => 'adminhtml'))
         );
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
-        $layout->generateXml()->generateBlocks();
+        $layout->generateXml()->generateElements();
         $layout->addOutputElement('enterprise_rma_edit_tab_items');
         Mage::getDesign()->setArea('adminhtml');
         $this->assertContains('<div id="enterprise_rma_item_edit_grid">', $layout->getOutput());
