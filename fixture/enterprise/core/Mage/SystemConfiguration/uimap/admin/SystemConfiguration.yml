@@ -66,6 +66,29 @@ system_configuration:
                                         allow_gift_printered_card_use_default: //input[@name='groups[gift_options][fields][allow_printed_card][inherit]']
                                         default_price_for_printed_card_use_default: //input[@name='groups[gift_options][fields][printed_card_price][inherit]']
                 -
+                    sales_tax:
+                        fieldsets:
+                            -
+                                tax_classes:
+                                    dropdowns:
+                                        tax_class_for_gift_options: //select[@id='tax_classes_wrapping_tax_class']
+                            -
+                                shopping_cart_display_settings:
+                                    dropdowns:
+                                        sc_display_gift_wrapping_prices: //select[@id='tax_cart_display_gift_wrapping']
+                                        sc_display_printed_card_prices: //select[@id='tax_cart_display_printed_card']
+                                    checkboxes:
+                                        sc_display_gift_wrapping_prices_use_default: //input[@id='tax_cart_display_gift_wrapping_inherit']
+                                        sc_display_printed_card_prices_use_default: //input[@id='tax_cart_display_printed_card_inherit']
+                            -
+                                orders_invoices_creditmemos_display_settings:
+                                    dropdowns:
+                                        oic_display_gift_wrapping_prices: //select[@id='tax_sales_display_gift_wrapping']
+                                        oic_display_printed_card_prices: //select[@id='tax_sales_display_printed_card']
+                                    checkboxes:
+                                        oic_display_gift_wrapping_prices_use_default: //input[@id='tax_sales_display_gift_wrapping_inherit']
+                                        oic_display_printed_card_prices_use_default: //input[@id='tax_sales_display_printed_card_inherit']
+                -
                     sales_shipping_methods:
                         fieldsets:
                             -

@@ -25,9 +25,27 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-gift_message_with_wrapping_for_item:
+#For Individual Items
+mess_yes_wrap_no_item:
     entire_order: %noValue%
-    individual_items:
+    individual_items: &mess_yes_wrap_no_item
+        item_1:
+            product_name: %noValue%
+            gift_message:
+                gift_option_for_individual_items_from: From_%randomize%
+                gift_option_for_individual_items_to: To_%randomize%'
+                gift_option_for_individual_items_message: %randomize%_message
+
+mess_no_wrap_yes_item:
+    entire_order: %noValue%
+    individual_items: &mess_no_wrap_yes_item
+        item_1:
+            product_name: %noValue%
+            gift_wrapping_for_item: %noValue%
+
+mess_yes_wrap_yes_item:
+    entire_order: %noValue%
+    individual_items: &mess_yes_wrap_yes_item
         item_1:
             product_name: %noValue%
             gift_wrapping_for_item: %noValue%
@@ -36,11 +54,54 @@ gift_message_with_wrapping_for_item:
                 gift_option_for_individual_items_to: To_%randomize%'
                 gift_option_for_individual_items_message: %randomize%_message
 
-gift_message_with_wrapping_for_order:
-    entire_order:
+#For the Entire Order
+mess_yes_wrap_no_order:
+    entire_order: &mess_yes_wrap_no_order
+        gift_message:
+            gift_option_entire_order_from: From_%randomize%
+            gift_option_entire_order_to: To_%randomize%'
+            gift_option_entire_order_message: %randomize%_message
+    individual_items: %noValue%
+
+mess_no_wrap_yes_order:
+    entire_order: &mess_no_wrap_yes_order
+        gift_wrapping_for_order: %noValue%
+    individual_items: %noValue%
+
+mess_yes_wrap_yes_order:
+    entire_order: &mess_yes_wrap_yes_order
         gift_wrapping_for_order: %noValue%
         gift_message:
             gift_option_entire_order_from: From_%randomize%
             gift_option_entire_order_to: To_%randomize%'
             gift_option_entire_order_message: %randomize%_message
     individual_items: %noValue%
+
+#For Individual Items and the Entire Order
+mess_yes_wrap_yes_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_yes_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_no_wrap_yes_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_yes_wrap_no_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_no_wrap_yes_order_mess_yes_wrap_no_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_yes_wrap_no_item
+
+mess_yes_wrap_no_order_mess_yes_wrap_no_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_yes_wrap_no_item
+
+mess_no_wrap_yes_order_mess_no_wrap_yes_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_no_wrap_yes_item
+
+mess_yes_wrap_no_order_mess_no_wrap_yes_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_no_wrap_yes_item
