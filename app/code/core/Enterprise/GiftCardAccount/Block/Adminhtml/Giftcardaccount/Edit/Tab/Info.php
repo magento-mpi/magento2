@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
             'required'  => true,
-            'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(true),
+            'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(true),
             'after_element_html' => Mage::getBlockSingleton('Mage_Adminhtml_Block_Store_Switcher')->getHintHtml()
         ));
 
@@ -111,7 +111,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     public function getCurrencyJson()
     {
         $result = array();
-        $websites = Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteCollection();
+        $websites = Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteCollection();
         foreach ($websites as $id=>$website) {
             $result[$id] = $website->getBaseCurrencyCode();
         }

@@ -19,6 +19,11 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var Mage_User_Model_Roles
+     */
+    protected static $_newRole;
+
     protected function setUp()
     {
         $this->_model = new Mage_User_Model_User;
@@ -34,4 +39,27 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->assertNotEmpty($this->_model->getId(), 'The admin user should have been loaded');
     }
+
+    /**
+     * Test that user role is updated after save
+     *
+     * @magentoDataFixture roleDataFixture
+     */
+    public function testUpdateRoleOnSave()
+    {
+        $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $this->assertEquals('Administrators', $this->_model->getRole()->getRoleName());
+        $this->_model->setRoleId(self::$_newRole->getId())->save();
+        $this->assertEquals('admin_role', $this->_model->getRole()->getRoleName());
+    }
+
+    public static function roleDataFixture()
+    {
+        self::$_newRole = new Mage_User_Model_Roles;
+        self::$_newRole->setName('admin_role')
+            ->setRoleType('G')
+            ->setPid('1');
+        self::$_newRole->save();
+    }
+
 }

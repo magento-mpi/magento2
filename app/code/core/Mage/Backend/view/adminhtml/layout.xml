@@ -10,7 +10,7 @@
  */
  -->
 <layout>
-    <adminhtml_index_login>
+    <adminhtml_auth_login>
         <container name="root" label="Root" output="1">
             <block type="Mage_Backend_Block_Template" name="content" template="admin/login.phtml">
                 <container name="form.additional.info"  label="Form Additional Info"/>
@@ -19,5 +19,5 @@
                 </container>
             </block>
         </container>
-    </adminhtml_index_login>
+    </adminhtml_auth_login>
 </layout>

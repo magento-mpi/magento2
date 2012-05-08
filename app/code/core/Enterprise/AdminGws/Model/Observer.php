@@ -264,7 +264,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
-                Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
+                Mage::getSingleton('Mage_Core_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
             }
 
             // inject into request predispatch to block disallowed actions

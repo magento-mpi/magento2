@@ -39,8 +39,6 @@ $user->setData(array(
     'password'  => 'admingws_password',
     'is_active' => 1
 ));
-$user->save();
 
-$user->setRoleIds(array($role->getId()))
-    ->setRoleUserId($user->getUserId())
-    ->saveRelations();
+$user->setRoleId($role->getId())
+    ->save();

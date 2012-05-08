@@ -249,12 +249,12 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     protected function _addUserToRole($userId, $roleId)
     {
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
-        $user->setRoleId($roleId)->setUserId($userId);
+        $user->setRoleId($roleId);
 
         if( $user->roleUserExists() === true ) {
             return false;
         } else {
-            $user->add();
+            $user->save();
             return true;
         }
     }

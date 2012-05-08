@@ -11,11 +11,11 @@
 -->
 
 <layout>
-    <adminhtml_index_login>
+    <adminhtml_auth_login>
         <reference name="form.buttons">
             <block type="Mage_Backend_Block_Template" name="adminhtml_index_login_forgotpassword" template="Mage_User::admin/forgotpassword_url.phtml" />
         </reference>
-    </adminhtml_index_login>
+    </adminhtml_auth_login>
 
     <adminhtml_index_forgotpassword>
         <container name="root" label="Root" output="1">

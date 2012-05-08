@@ -40,7 +40,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Preparing global layout
      *
-     * You can redefine this method in child classes for changin layout
+     * You can redefine this method in child classes for changing layout
      *
      * @return Mage_Core_Block_Abstract
      */

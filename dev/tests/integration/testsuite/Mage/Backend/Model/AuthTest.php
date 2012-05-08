@@ -72,10 +72,15 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
         $this->assertNotEmpty($this->_model->getAuthStorage()->getData());
-        $this->_model->getAuthStorage()->getCookie()->set($this->_model->getAuthStorage()->getSessionName(), 'session_id');
+        $this->_model->getAuthStorage()
+            ->getCookie()
+            ->set($this->_model->getAuthStorage()->getSessionName(), 'session_id');
         $this->_model->logout();
         $this->assertEmpty($this->_model->getAuthStorage()->getData());
-        $this->assertEmpty($this->_model->getAuthStorage()->getCookie()->get($this->_model->getAuthStorage()->getSessionName()));
+        $this->assertEmpty($this->_model->getAuthStorage()
+            ->getCookie()
+            ->get($this->_model->getAuthStorage()->getSessionName())
+        );
     }
 
     /**
