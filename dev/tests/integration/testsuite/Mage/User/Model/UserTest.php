@@ -104,11 +104,11 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $roles = $this->_model->getRoles();
-        $this->assertCount(1, $roles);
+        $this->assertEquals(1, count($roles));
         $this->assertEquals(1, $roles[0]);
         $this->_model->setRoleId(self::$_newRole->getId())->save();
         $roles = $this->_model->getRoles();
-        $this->assertCount(1, $roles);
+        $this->assertEquals(1, count($roles));
         $this->assertEquals(self::$_newRole->getId(), $roles[0]);
     }
 
@@ -263,7 +263,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $role = $this->_model->hasAssigned2Role($this->_model);
-        $this->assertCount(1, $role);
+        $this->assertEquals(1, count($role));
         $this->assertArrayHasKey('role_id', $role[0]);
         $this->_model->setRoleId(1)->deleteFromRole();
         $this->assertEmpty($this->_model->hasAssigned2Role($this->_model));
@@ -301,7 +301,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->_model->setSession($session);
-        $this->assertEquals('admin/dashboard', $this->_model->getStartupPageUrl());
+        $this->assertEquals('adminhtml/dashboard', (string) $this->_model->getStartupPageUrl());
     }
 
     public function testValidate()
