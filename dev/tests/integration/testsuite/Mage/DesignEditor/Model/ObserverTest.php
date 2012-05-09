@@ -229,8 +229,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      *
      * Generates layout and should be used with magentoAppIsolation enabled
      *
-     * @param $elementName string
-     * @param $elementHtml string
+     * @param string $elementName
+     * @param string $elementHtml
      * @return string
      */
     protected function _wrapElement($elementName, $elementHtml)
