@@ -80,6 +80,20 @@ class Mage_User_Model_User
     protected $_hasAvailableResources = true;
 
     /**
+     * Mail handler
+     *
+     * @var  Mage_Core_Model_Email_Template_Mailer
+     */
+    protected $_mailer;
+
+    /**
+     * Authentication session
+     *
+     * @var Mage_Backend_Model_Auth_Session
+     */
+    protected $_session;
+
+    /**
      * Initialize user model
      */
     protected function _construct()
@@ -218,8 +232,34 @@ class Mage_User_Model_User
      *
      * @return Mage_User_Model_Resource_User_Collection
      */
-    public function getCollection() {
+    public function getCollection()
+    {
         return Mage::getResourceModel('Mage_User_Model_Resource_User_Collection');
+    }
+
+    /**
+     * Set custom mail handler
+     *
+     * @param Mage_Core_Model_Email_Template_Mailer $mailer
+     * @return Mage_User_Model_User
+     */
+    public function setMailer(Mage_Core_Model_Email_Template_Mailer $mailer)
+    {
+        $this->_mailer = $mailer;
+        return $this;
+    }
+
+    /**
+     * Retrieve mailer
+     *
+     * @return Mage_Core_Model_Email_Template_Mailer
+     */
+    protected function _getMailer()
+    {
+        if (!$this->_mailer) {
+            $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        }
+        return $this->_mailer;
     }
 
     /**
@@ -229,8 +269,8 @@ class Mage_User_Model_User
      */
     public function sendPasswordResetConfirmationEmail()
     {
+        $mailer = $this->_getMailer();
         /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
@@ -299,12 +339,19 @@ class Mage_User_Model_User
             $this->loadByUsername($username);
             $sensitive = ($config) ? $username == $this->getUsername() : true;
 
-            if ($sensitive && $this->getId() && Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $this->getPassword())) {
+            if ($sensitive
+                && $this->getId()
+                && Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $this->getPassword())
+            ) {
                 if ($this->getIsActive() != '1') {
-                    Mage::throwException(Mage::helper('Mage_User_Helper_Data')->__('This account is inactive.'));
+                    throw new Mage_Backend_Model_Auth_Exception(
+                        Mage::helper('Mage_User_Helper_Data')->__('This account is inactive.')
+                    );
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
-                    Mage::throwException(Mage::helper('Mage_User_Helper_Data')->__('Access denied.'));
+                    throw new Mage_Backend_Model_Auth_Exception(
+                        Mage::helper('Mage_User_Helper_Data')->__('Access denied.')
+                    );
                 }
                 $result = true;
             }
@@ -393,6 +440,31 @@ class Mage_User_Model_User
     }
 
     /**
+     * Set custom auth session
+     *
+     * @param Mage_Backend_Model_Auth_Session $session
+     * @return Mage_User_Model_User
+     */
+    public function setSession(Mage_Backend_Model_Auth_Session $session)
+    {
+        $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Retrieve auth session
+     *
+     * @return Mage_Backend_Model_Auth_Session
+     */
+    protected function _getSession()
+    {
+        if ($this->_session == null) {
+            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        }
+        return $this->_session;
+    }
+
+    /**
      * Find first menu item that user is able to access
      *
      * @param Mage_Core_Model_Config_Element $parent
@@ -407,7 +479,7 @@ class Mage_User_Model_User
         }
         foreach ($parent->children() as $childName => $child) {
             $aclResource = 'admin/' . $path . $childName;
-            if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource)) {
+            if ($this->_getSession()->isAllowed($aclResource)) {
                 if (!$child->children) {
                     return (string)$child->action;
                 } else if ($child->children) {
@@ -439,7 +511,7 @@ class Mage_User_Model_User
     {
         $startupPage = Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
         $aclResource = 'admin/' . $startupPage;
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource)) {
+        if ($this->_getSession()->isAllowed($aclResource)) {
             $nodePath = 'menu/' . join('/children/', explode('/', $startupPage)) . '/action';
             $url = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode($nodePath);
             if ($url) {
