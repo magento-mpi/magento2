@@ -27,6 +27,8 @@ $recurringProfile->addData(array(
     'init_amount'             => '100.0000',
     'billing_amount'          => '100.0000',
     'currency_code'           => 'USD',
-    'order_info'              => array('base_currency_code' => 'USD')
+    'order_info'              => array('base_currency_code' => 'USD'),
+    'order_item_info'         => serialize('some info'),
+    'billing_address_info'    => serialize('billing address info'),
 ));
 $recurringProfile->save();
