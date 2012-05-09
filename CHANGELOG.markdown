@@ -8,6 +8,7 @@ Update as of 5/09/2012
   * Fixed suggestion text for the 'urlEscape' method in the legacy test
   * Fixed "Manage Currency Symbols" system configuration page
   * Fixed currency validation for the PayPal Website Payments Standard
+  * Fixed Web API for product to category assignment by SKU containing digits only
 * Implemented new tests
 
 Update as of 5/05/2012
