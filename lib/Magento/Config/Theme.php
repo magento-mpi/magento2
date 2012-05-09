@@ -67,28 +67,6 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Retrieve the list of packages declared in the configuration
-     *
-     * @return array
-     */
-    public function getPackages()
-    {
-        return array_keys($this->_data);
-    }
-
-    /**
-     * Retrieve the list of themes declared in the configuration
-     *
-     * @param string $package
-     * @return array
-     */
-    public function getThemes($package)
-    {
-        $this->_ensurePackageExists($package);
-        return array_keys($this->_data[$package]['themes']);
-    }
-
-    /**
      * Get title for specified package code
      *
      * @param string $package

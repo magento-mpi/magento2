@@ -74,16 +74,21 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function testThemeConfigFilePackageTheme($file)
     {
         list($expectedPackage, $expectedTheme) = array_slice(preg_split('[\\/]', $file), -3, 2);
-        $config = new Magento_Config_Theme(array($file));
+        /** @var $configXml SimpleXMLElement */
+        $configXml = simplexml_load_file($file);
+        $actualPackages = $configXml->xpath('/design/package');
+        $this->assertCount(1, $actualPackages, 'Single design package declaration is expected.');
         $this->assertEquals(
-            array($expectedPackage),
-            $config->getPackages(),
-            "Configuration should declare the single package '$expectedPackage'."
+            $expectedPackage,
+            $actualPackages[0]['code'],
+            'Design package code does not correspond to the directory name.'
         );
+        $actualThemes = $configXml->xpath('/design/package/theme');
+        $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
         $this->assertEquals(
-            array($expectedTheme),
-            $config->getThemes($expectedPackage),
-            "Configuration should declare the single theme '$expectedPackage/$expectedTheme'."
+            $expectedTheme,
+            $actualThemes[0]['code'],
+            'Theme code does not correspond to the directory name.'
         );
     }
 

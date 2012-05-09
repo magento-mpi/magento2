@@ -41,29 +41,15 @@ class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test that new object based on the exported data behaves identically to the one the data have been exported from
-     */
     public function testConstructorExportData()
     {
         $model = new Magento_Config_View($this->_model->exportData());
         $this->assertEquals($this->_model->exportData(), $model->exportData());
-        foreach ($this->_model->getModules() as $module) {
-            $this->assertEquals($this->_model->getVars($module), $model->getVars($module));
-            foreach ($this->_model->getVars($module) as $var) {
-                $this->assertEquals($this->_model->getVarValue($module, $var), $model->getVarValue($module, $var));
-            }
-        }
     }
 
     public function testGetSchemaFile()
     {
         $this->assertFileExists($this->_model->getSchemaFile());
-    }
-
-    public function testGetModules()
-    {
-        $this->assertEquals(array('One', 'Two', 'Three'), $this->_model->getModules());
     }
 
     public function testGetVars()

@@ -39,60 +39,15 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test that new object based on the exported data behaves identically to the one the data have been exported from
-     */
     public function testConstructorExportData()
     {
         $model = new Magento_Config_Theme(self::$_model->exportData());
         $this->assertEquals(self::$_model->exportData(), $model->exportData());
-        $this->assertEquals(self::$_model->getPackages(), $model->getPackages());
-        foreach (self::$_model->getPackages() as $package) {
-            $this->assertEquals(self::$_model->getPackageTitle($package), $model->getPackageTitle($package));
-            $this->assertEquals(self::$_model->getThemes($package), $model->getThemes($package));
-            foreach (self::$_model->getThemes($package) as $theme) {
-                $this->assertEquals(
-                    self::$_model->getThemeTitle($package, $theme),
-                    $model->getThemeTitle($package, $theme)
-                );
-                $this->assertEquals(
-                    self::$_model->getCompatibleVersions($package, $theme),
-                    $model->getCompatibleVersions($package, $theme)
-                );
-                $this->assertEquals(
-                    self::$_model->getParentTheme($package, $theme),
-                    $model->getParentTheme($package, $theme)
-                );
-            }
-        }
     }
 
     public function testGetSchemaFile()
     {
         $this->assertFileExists(self::$_model->getSchemaFile());
-    }
-
-    public function testGetPackages()
-    {
-        $this->assertEquals(array('default', 'test'), self::$_model->getPackages());
-    }
-
-    /**
-     * @param string $package
-     * @param array $expectedThemes
-     * @dataProvider getThemesDataProvider
-     */
-    public function testGetThemes($package, array $expectedThemes)
-    {
-        $this->assertEquals($expectedThemes, self::$_model->getThemes($package));
-    }
-
-    public function getThemesDataProvider()
-    {
-        return array(
-            array('default', array('default', 'test', 'test2')),
-            array('test',    array('default')),
-        );
     }
 
     /**
