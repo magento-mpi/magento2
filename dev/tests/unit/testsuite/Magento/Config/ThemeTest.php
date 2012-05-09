@@ -22,27 +22,11 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param mixed $constructorArgument
-     * @dataProvider constructorExceptionDataProvider
      * @expectedException InvalidArgumentException
      */
-    public function testConstructException($constructorArgument)
+    public function testConstructException()
     {
-        new Magento_Config_Theme($constructorArgument);
-    }
-
-    public function constructorExceptionDataProvider()
-    {
-        return array(
-            'empty files list' => array(array()),
-            'wrong data type'  => array(0.123),
-        );
-    }
-
-    public function testConstructorExportData()
-    {
-        $model = new Magento_Config_Theme(self::$_model->exportData());
-        $this->assertEquals(self::$_model->exportData(), $model->exportData());
+        new Magento_Config_Theme(array());
     }
 
     public function testGetSchemaFile()

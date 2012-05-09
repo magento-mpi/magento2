@@ -24,21 +24,15 @@ abstract class Magento_Config_XmlAbstract
     /**
      * Instantiate with the list of files to merge
      *
-     * @param string|array $configDataOrFiles
+     * @param array $configFiles
      * @throws InvalidArgumentException
      */
-    public function __construct($configDataOrFiles)
+    public function __construct(array $configFiles)
     {
-        if (is_string($configDataOrFiles)) {
-            $this->_importData($configDataOrFiles);
-        } else if (is_array($configDataOrFiles)) {
-            if (empty($configDataOrFiles)) {
-                throw new InvalidArgumentException('There must be at least one configuration file specified.');
-            }
-            $this->_data = $this->_extractData($this->_merge($configDataOrFiles));
-        } else {
-            throw new InvalidArgumentException('Configuration data or list of configuration files is expected.');
+        if (empty($configFiles)) {
+            throw new InvalidArgumentException('There must be at least one configuration file specified.');
         }
+        $this->_data = $this->_extractData($this->_merge($configFiles));
     }
 
     /**
@@ -47,26 +41,6 @@ abstract class Magento_Config_XmlAbstract
      * @return string
      */
     abstract public function getSchemaFile();
-
-    /**
-     * Export configuration data in a format suitable for permanent storage
-     *
-     * @return string
-     */
-    public function exportData()
-    {
-        return serialize($this->_data);
-    }
-
-    /**
-     * Import configuration data from the permanent storage format
-     *
-     * @param string $data
-     */
-    protected function _importData($data)
-    {
-        $this->_data = unserialize($data);
-    }
 
     /**
      * Extract configuration data from the DOM structure

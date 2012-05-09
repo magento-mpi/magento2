@@ -24,27 +24,11 @@ class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param mixed $constructorArgument
-     * @dataProvider constructorExceptionDataProvider
      * @expectedException InvalidArgumentException
      */
-    public function testConstructException($constructorArgument)
+    public function testConstructException()
     {
-        new Magento_Config_View($constructorArgument);
-    }
-
-    public function constructorExceptionDataProvider()
-    {
-        return array(
-            'empty files list' => array(array()),
-            'wrong data type'  => array(123),
-        );
-    }
-
-    public function testConstructorExportData()
-    {
-        $model = new Magento_Config_View($this->_model->exportData());
-        $this->assertEquals($this->_model->exportData(), $model->exportData());
+        new Magento_Config_View(array());
     }
 
     public function testGetSchemaFile()
