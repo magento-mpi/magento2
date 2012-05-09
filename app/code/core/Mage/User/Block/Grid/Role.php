@@ -29,7 +29,8 @@ class Mage_User_Block_Grid_Role extends Mage_Backend_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection =  Mage::getModel('Mage_User_Model_Roles')->getCollection();
+        $collection =  Mage::getModel('Mage_User_Model_Role')->getCollection()
+            ->setRolesFilter();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

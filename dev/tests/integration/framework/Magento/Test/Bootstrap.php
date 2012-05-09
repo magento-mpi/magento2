@@ -32,6 +32,8 @@ class Magento_Test_Bootstrap
     const ADMIN_NAME = 'user';
     const ADMIN_PASSWORD = 'password';
 
+    const ADMIN_ROLE_NAME = 'Administrators';
+
     /**
      * @var Magento_Test_Bootstrap
      */
@@ -526,7 +528,7 @@ class Magento_Test_Bootstrap
         $user->save();
 
         $roleAdmin = new Mage_User_Model_Role();
-        $roleAdmin->load('Administrators', 'role_name');
+        $roleAdmin->load(self::ADMIN_ROLE_NAME, 'role_name');
 
         $roleUser = new Mage_User_Model_Role();
         $roleUser->setData(array(

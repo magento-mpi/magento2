@@ -50,4 +50,14 @@ class Mage_User_Model_Resource_Role_Collection extends Mage_Core_Model_Resource_
         $this->addFieldToFilter('role_type', 'G');
         return $this;
     }
+
+    /**
+     * Convert to option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('role_id', 'role_name');
+    }
 }

@@ -36,7 +36,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     /**
      * Initialize role model by passed parameter in request
      *
-     * @return Mage_User_Model_Roles
+     * @return Mage_User_Model_Role
      */
     protected function _initRole($requestVariable = 'rid')
     {
@@ -44,7 +44,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
              ->_title($this->__('Permissions'))
              ->_title($this->__('Roles'));
 
-        $role = Mage::getModel('Mage_User_Model_Roles')->load($this->getRequest()->getParam($requestVariable));
+        $role = Mage::getModel('Mage_User_Model_Role')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());

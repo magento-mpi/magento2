@@ -252,7 +252,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param Mage_User_Model_Resource_Roles_Collection $collection
+     * @param Mage_User_Model_Resource_Role_Collection $collection
      */
     public function limitAdminPermissionRoles($collection)
     {

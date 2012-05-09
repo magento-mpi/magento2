@@ -54,7 +54,7 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
     {
         $roleId = $this->getRequest()->getParam('rid');
         Mage::register('RID', $roleId);
-        $collection = Mage::getModel('Mage_User_Model_Roles')->getUsersCollection();
+        $collection = Mage::getModel('Mage_User_Model_Role')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -144,7 +144,7 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
             return $this->getRequest()->getParam('in_role_user');
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
-        $users  = Mage::getModel('Mage_User_Model_Roles')->setId($roleId)->getRoleUsers();
+        $users  = Mage::getModel('Mage_User_Model_Role')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ( $json ) {
                 $jsonUsers = Array();

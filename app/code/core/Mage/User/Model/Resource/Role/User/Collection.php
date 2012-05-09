@@ -16,7 +16,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_User_Model_Resource_Role_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Initialize resource model
@@ -30,7 +30,7 @@ class Mage_User_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Res
     /**
      * Initialize select
      *
-     * @return Mage_User_Model_Resource_Roles_User_Collection
+     * @return Mage_User_Model_Resource_Role_User_Collection
      */
     protected function _initSelect()
     {

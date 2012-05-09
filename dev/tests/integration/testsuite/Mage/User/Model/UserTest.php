@@ -20,7 +20,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_User_Model_Roles
+     * @var Mage_User_Model_Role
      */
     protected static $_newRole;
 
@@ -55,11 +55,17 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = new Mage_User_Model_Roles;
+        self::$_newRole = new Mage_User_Model_Role;
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
         self::$_newRole->save();
+    }
+
+    public function testGetRole()
+    {
+        $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $this->assertInstanceOf('Mage_User_Model_Role', $this->_model->getRole());
     }
 
 }

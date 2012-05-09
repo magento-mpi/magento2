@@ -1350,7 +1350,7 @@
     <adminhtml_permission_roles translate="label">
         <label>Admin Permission Roles</label>
         <expected_models>
-            <Mage_User_Model_Roles/>
+            <Mage_User_Model_Role/>
         </expected_models>
         <actions>
             <adminhtml_permissions_role_editrole>

@@ -13,7 +13,7 @@ if (!isset($scope)) {
     $scope = 'websites';
 }
 
-$role = new Mage_User_Model_Roles;
+$role = new Mage_User_Model_Role;
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')

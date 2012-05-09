@@ -68,7 +68,7 @@ class Mage_User_Model_User
     /**
      * Admin role
      *
-     * @var Mage_User_Model_Roles
+     * @var Mage_User_Model_Role
      */
     protected $_role;
 
@@ -166,12 +166,12 @@ class Mage_User_Model_User
     /**
      * Get admin role model
      *
-     * @return Mage_User_Model_Roles
+     * @return Mage_User_Model_Role
      */
     public function getRole()
     {
         if (null === $this->_role) {
-            $this->_role = Mage::getModel('Mage_User_Model_Roles');
+            $this->_role = Mage::getModel('Mage_User_Model_Role');
             $roles = $this->getRoles();
             if ($roles && isset($roles[0]) && $roles[0]) {
                 $this->_role->load($roles[0]);
