@@ -146,29 +146,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testWrapPageElement($elementName, $elementHtml, $expectedOutput)
     {
-        // create a layout object mock with fixture data
-        $structure = new Mage_Core_Model_Layout_Structure;
-        $utility = new Mage_Core_Utility_Layout($this);
-        $layoutMock = $utility->getLayoutFromFixture(
-            __DIR__ . '/../_files/observer_test.xml', array(array('structure' => $structure))
-        );
-
-        // load the fixture data. This will populate layout structure as well
-        $layoutMock->getUpdate()->addHandle('test_handle')->load();
-        $layoutMock->generateXml()->generateBlocks();
-
-        $transport = new Varien_Object(array('output' => $elementHtml));
-        $observer = new Varien_Event_Observer(array(
-            'event' => new Varien_Event(array(
-                'structure' => $structure,
-                'layout' => $layoutMock,
-                'element_name' => $elementName,
-                'transport' => $transport,
-            ))
-        ));
-
-        $this->_observer->wrapPageElement($observer);
-        $actualOutput = $transport->getData('output');
+        $actualOutput = $this->_wrapElement($elementName, $elementHtml);
         $this->assertXmlStringEqualsXmlString("<root>$expectedOutput</root>", "<root>$actualOutput</root>");
     }
 
@@ -233,16 +211,53 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $elementName = 'draggable_block';
         $elementHtml = '<b>Draggable Block</b>';
-        $expectedOutput =
-            '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable vde_wrapper_hidden">
-                <div class="vde_element_title">draggable_block</div>
-            </div>
-            <!--start_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->
-            <b>Draggable Block</b>
-            <!--end_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->';
+        $expectedOutputFormat =
+            '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable vde_wrapper_hidden">%w'
+                . '<div class="vde_element_title">draggable_block</div>%w'
+            . '</div>%w'
+            . '<!--start_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->%w'
+            . '<b>Draggable Block</b>%w'
+            . '<!--end_vde_element_ZHJhZ2dhYmxlX2Jsb2Nr-->%w';
 
         Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
-        $this->testWrapPageElement($elementName, $elementHtml, $expectedOutput);
+        $actualOutput = $this->_wrapElement($elementName, $elementHtml);
+        $this->assertStringMatchesFormat($expectedOutputFormat, $actualOutput);
+    }
+
+    /**
+     * Process wrapping of an element
+     *
+     * Generates layout and should be used with magentoAppIsolation enabled
+     *
+     * @param $elementName string
+     * @param $elementHtml string
+     * @return string
+     */
+    protected function _wrapElement($elementName, $elementHtml)
+    {
+        // create a layout object mock with fixture data
+        $structure = new Mage_Core_Model_Layout_Structure;
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layoutMock = $utility->getLayoutFromFixture(
+            __DIR__ . '/../_files/observer_test.xml', array(array('structure' => $structure))
+        );
+
+        // load the fixture data. This will populate layout structure as well
+        $layoutMock->getUpdate()->addHandle('test_handle')->load();
+        $layoutMock->generateXml()->generateBlocks();
+
+        $transport = new Varien_Object(array('output' => $elementHtml));
+        $observer = new Varien_Event_Observer(array(
+            'event' => new Varien_Event(array(
+                'structure' => $structure,
+                'layout' => $layoutMock,
+                'element_name' => $elementName,
+                'transport' => $transport,
+            ))
+        ));
+
+        $this->_observer->wrapPageElement($observer);
+        return $transport->getData('output');
     }
 
     /**

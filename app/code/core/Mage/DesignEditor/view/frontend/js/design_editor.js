@@ -125,7 +125,7 @@
                     currentParentId = parentsIdsStack[parentsIdsStack.length - 1];
                     this.parentNode.removeChild(this);
                 }
-            } else if (!currentParentId) {
+            } else if (currentParentId) {
                 thisObj._storeChild(currentParentId, this);
             }
         });
