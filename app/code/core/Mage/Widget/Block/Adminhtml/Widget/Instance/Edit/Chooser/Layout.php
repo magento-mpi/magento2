@@ -63,7 +63,11 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
     protected function _addPageTypeOptions(array $pageTypes, $level = 0)
     {
         foreach ($pageTypes as $pageTypeName => $pageTypeInfo) {
-            $this->addOption($pageTypeName, str_repeat('. ', $level) . $pageTypeInfo['label']);
+            $params = array();
+            if ($pageTypeInfo['type'] == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
+                $params['class'] = 'fragment';
+            }
+            $this->addOption($pageTypeName, str_repeat('. ', $level) . $pageTypeInfo['label'], $params);
             $this->_addPageTypeOptions($pageTypeInfo['children'], $level + 1);
         }
     }
