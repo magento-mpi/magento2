@@ -432,7 +432,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            if (!$this->isVisible($frame)) {
+            if (!$this->isElementPresent($frame) || !$this->isVisible($frame)) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($frame);

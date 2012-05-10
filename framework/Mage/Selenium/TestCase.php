@@ -2171,9 +2171,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function clickControl($controlType, $controlName, $willChangePage = true)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-        if (!$this->isVisible($xpath)) {
-            $this->fail('Control "' . $controlName . '" is not present on the page "' . $this->getCurrentPage() . '". '
-                        . 'Type: ' . $controlType . ', xpath: ' . $xpath);
+        if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
+            $this->fail(
+                "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\nProblem with $controlType '$controlName', xpath '$xpath':\n"
+                . 'Control is not present on the page');
         }
         $this->click($xpath);
         if ($willChangePage) {
@@ -2292,7 +2294,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function controlIsVisible($controlType, $controlName)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-        if ($this->isVisible($xpath)) {
+        if ($this->isElementPresent($xpath) && $this->isVisible($xpath)) {
             return true;
         }
 
@@ -2544,12 +2546,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         while ($timeout > time() - $iStartTime) {
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
-                    if ($this->isVisible($loc)) {
+                    if ($this->isElementPresent($loc) && $this->isVisible($loc)) {
                         return true;
                     }
                 }
             } else {
-                if ($this->isVisible($locator)) {
+                if ($this->isElementPresent($locator) && $this->isVisible($locator)) {
                     return true;
                 }
             }
@@ -2841,7 +2843,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpathTR = "//table[@class='data']//tr";
         foreach ($data as $key => $value) {
-            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and !is_array($value)) {
+            if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
                     $value = "concat('" . str_replace('\'', "',\"'\",'", $value) . "')";
                 } else {

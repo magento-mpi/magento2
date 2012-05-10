@@ -305,7 +305,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
             $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
 
-            if (!$this->isVisible($frame)) {
+            if (!$this->isElementPresent($frame) || !$this->isVisible($frame)) {
                 //Skipping test, but not failing
                 $this->markTestSkipped('3D Secure frame is not loaded(maybe wrong card)');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
