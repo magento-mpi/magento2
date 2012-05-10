@@ -126,8 +126,8 @@ Advanced search results
 
     <catalogsearch_ajax_suggest translate="label" module="Mage_CatalogSearch" type="fragment" owner="default">
         <label>Catalog Quick Search Form Suggestions</label>
-        <container name="catalogsearch_ajax_suggest_fragment" label="Catalog Quick Search Form Suggestions Fragment" output="1">
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Mage_CatalogSearch_Block_Autocomplete" name="autocomplete"/>
-        </container>
+        </block>
     </catalogsearch_ajax_suggest>
 </layout>

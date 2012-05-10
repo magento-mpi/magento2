@@ -128,7 +128,7 @@ Onepage Checkout Review Page
         </reference>
     </paypal_express_review>
     <paypal_express_review_details>
-        <reference name="root">
+        <reference name="paypal.express.review.details">
             <action method="addItemRender"><type>bundle</type><block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
         </reference>
     </paypal_express_review_details>

@@ -257,7 +257,7 @@ class Mage_Core_Model_Layout_Update
                 'type' => $pageTypeNode->getAttribute('type'),
                 'children' => array()
             );
-            if ($info['type'] == 'page') {
+            if ($info['type'] == self::TYPE_PAGE) {
                 $info['children'] = $this->_getPageTypeChildren($pageTypeName);
             }
             $result[$pageTypeName] = $info;
@@ -294,7 +294,7 @@ class Mage_Core_Model_Layout_Update
      *             'page_type_2' => array(
      *                 'name'     => 'page_type_2',
      *                 'label'    => 'Page Type 2',
-     *                 'type'     => 'page' or 'fragment',
+     *                 'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
      *                 'children' => array(
      *                     // ...
      *                 )
@@ -356,7 +356,7 @@ class Mage_Core_Model_Layout_Update
     public function getPageTypeParent($pageType)
     {
         $node = $this->_getPageItemNode($pageType);
-        if (!$node || ($node->getAttribute('type') != 'page')) {
+        if (!$node || ($node->getAttribute('type') != self::TYPE_PAGE)) {
             return null;
         }
         return $node->getAttribute('parent');

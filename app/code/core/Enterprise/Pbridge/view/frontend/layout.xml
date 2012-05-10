@@ -10,28 +10,30 @@
  */
 -->
 <layout version="0.1.0">
-    
+
     <checkout_onepage_index>
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::checkout/payment/js.phtml" />
         </reference>
     </checkout_onepage_index>
-    
+
     <checkout_onepage_paymentmethod>
         <reference name="checkout.onepage.payment.methods.scripts">
             <block type="Mage_Core_Block_Template" template="Enterprise_Pbridge::checkout/payment/scripts.phtml" name="pbridge.scripts" />
         </reference>
     </checkout_onepage_paymentmethod>
-    
+
     <checkout_multishipping_billing>
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::checkout/payment/js.phtml" />
         </reference>
     </checkout_multishipping_billing>
 
-    <enterprise_pbridge_pbridge_result translate="label" type="page" parent="checkout_onepage_paymentmethod">
+    <enterprise_pbridge_pbridge_result translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Payment Bridge Checkout Payment Result</label>
-        <block type="Enterprise_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml" output="1" />
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
+            <block type="Enterprise_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml" />
+        </block>
     </enterprise_pbridge_pbridge_result>
 
     <enterprise_pbridge_payment_profile_index translate="label" type="page">

@@ -69,7 +69,7 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
         }
         if (count($pageHandles) == 1) {
             $pageHandle = reset($pageHandles);
-            if ($layoutUpdate->getPageItemType($pageHandle) == 'fragment') {
+            if ($layoutUpdate->getPageItemType($pageHandle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
                 $pageHandles = $layoutUpdate->getPageItemParents($pageHandle);
                 $pageHandles[] = $pageHandle;
             }

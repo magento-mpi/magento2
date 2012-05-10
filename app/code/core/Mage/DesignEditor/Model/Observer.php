@@ -13,7 +13,6 @@
  */
 class Mage_DesignEditor_Model_Observer
 {
-    const FRAGMENT_ROOT_HANDLE =    'design_editor_root_for_fragment';
     const PAGE_HANDLE =             'design_editor_page';
     const TOOLBAR_HANDLE =          'design_editor_toolbar';
 
@@ -53,20 +52,8 @@ class Mage_DesignEditor_Model_Observer
         /** @var $update Mage_Core_Model_Layout_Update */
         $update = $observer->getEvent()->getLayout()->getUpdate();
         $handles = $update->getHandles();
-        $isFragment = false;
-        foreach ($handles as $handle) {
-            if ($update->getPageItemType($handle) == 'fragment') {
-                $isFragment = true;
-                break;
-            }
-        }
-
-        if ($isFragment) {
-            foreach ($handles as $handle) {
-                $update->removeHandle($handle);
-            }
-            $update->addHandle(self::FRAGMENT_ROOT_HANDLE);
-            $update->addHandle($handles);
+        $handle = reset($handles);
+        if ($handle && $update->getPageItemType($handle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
             $update->addHandle(self::PAGE_HANDLE);
         }
         $update->addHandle(self::TOOLBAR_HANDLE);
@@ -139,13 +126,12 @@ class Mage_DesignEditor_Model_Observer
         $transport = $event->getData('transport');
 
         $block = $layout->getBlock($elementName);
-        $isVdeToolbar = ($block && 0 === strpos(get_class($block), 'Mage_DesignEditor_Block_'));
-        $isDraggable = $structure->isManipulationAllowed($elementName) && !$isVdeToolbar;
-
+        $isVde = ($block && 0 === strpos(get_class($block), 'Mage_DesignEditor_Block_'));
+        $isDraggable = $structure->isManipulationAllowed($elementName) && !$isVde;
         $isContainer = $layout->isContainer($elementName);
-        $elementTitle = $isContainer ? $structure->getElementAttribute($elementName, 'label') : $elementName;
 
         if ($isDraggable || $isContainer) {
+            $elementTitle = $isContainer ? $structure->getElementAttribute($elementName, 'label') : $elementName;
             $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
             $this->_wrappingRenderer->setData(array(
                 'element_id'    => $elementId,

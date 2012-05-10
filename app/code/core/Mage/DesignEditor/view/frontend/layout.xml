@@ -44,9 +44,4 @@
             <block type="Mage_DesignEditor_Block_Dummy" name="after_body_start" template="dummy.phtml"/>
         </reference>
     </design_editor_page>
-
-    <design_editor_root_for_fragment>
-        <label>Design Editor Root For Fragment</label>
-        <block type="Mage_DesignEditor_Block_Dummy" name="root" output="1" template="dummy.phtml"/>
-    </design_editor_root_for_fragment>
 </layout>
