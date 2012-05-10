@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
+ * @category    Mage
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
