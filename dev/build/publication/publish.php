@@ -12,63 +12,70 @@
 // get CLI options, define variables
 define('SYNOPSIS', <<<SYNOPSIS
 php -f publish.php --
-    --source="<repository>" [--source-point="<branch name or commit ID>"]
+    --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
+    --changelog-file="<markdown_file>"
     [--no-push]
 
 SYNOPSIS
 );
 $options = getopt('', array(
-    'source:', 'target:', 'source-point::', 'target-branch::', 'target-dir::', 'no-push'
+    'source:', 'source-point:', 'target:', 'target-branch::', 'target-dir::', 'changelog-file:', 'no-push'
 ));
-if (empty($options['source']) || empty($options['target'])) {
+if (empty($options['source']) || empty($options['source-point']) || empty($options['target'])
+    || empty($options['changelog-file'])) {
     echo SYNOPSIS;
     exit(1);
 }
 
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
+$sourcePoint = $options['source-point'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
+$changelogFile = $options['changelog-file'];
 $canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
 try {
-    // clone target and merge source into it
+    // clone target repository and attach the source repo as a remote
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
     execVerbose("$gitCmd checkout $targetBranch");
 
-    // compare if changelog is different from current
-    $sourceLogFile = realpath(__DIR__ . '/../../../CHANGELOG.markdown');
-    $log = file_get_contents($sourceLogFile);
-    $targetLogFile = realpath($targetDir . '/CHANGELOG.markdown');
-    if ($targetLogFile && $log == file_get_contents($targetLogFile)) {
-        throw new Exception("Aborting attempt to publish with old changelog."
-            . " Contents of these files are not supposed to be equal: {$sourceLogFile} and {$targetLogFile}"
-        );
-    }
-    $commitMsg = trim(getTopMarkdownSection($log));
-    if (empty($commitMsg)) {
-        throw new Exception('No commit message found in changelog.');
+    // determine whether source-point is a branch name or a commit ID
+    try {
+        $sourceBranch = "source/$sourcePoint";
+        execVerbose("$gitCmd rev-parse $sourceBranch");
+        $sourcePoint = $sourceBranch;
+    } catch (Exception $e) {
+        echo "Assuming that 'source-point' is a commit ID." . PHP_EOL;
     }
 
-    // Copy files from source repository to our working tree and index
-    if (empty($options['source-point'])) {
-        $options['source-point'] = 'master';
+    // compare if changelog is different from the published one, compose the commit message
+    $projectRootDir = realpath(__DIR__ . '/../../../');
+    $sourceLogFile = $projectRootDir . DIRECTORY_SEPARATOR . $changelogFile;
+    $targetLogFile = $targetDir . DIRECTORY_SEPARATOR . $changelogFile;
+    if (!file_exists($sourceLogFile)) {
+        throw new Exception("Changelog file '$sourceLogFile' does not exist.");
     }
-    try {
-        $sourcePoint = "source/{$options['source-point']}";
-        execVerbose("$gitCmd rev-parse $sourcePoint");
-    } catch (Exception $e) {
-        echo "Continuing assuming that 'source-point' is a commit ID.\n";
-        $sourcePoint = $options['source-point'];
+    $sourceLog = file_get_contents($sourceLogFile);
+    if (file_exists($targetLogFile) && $sourceLog == file_get_contents($targetLogFile)) {
+        throw new Exception("Aborting attempt to publish with old changelog."
+            . " Contents of these files are not supposed to be equal: '$sourceLogFile' and '$targetLogFile'."
+        );
     }
-    execVerbose("$gitCmd checkout {$sourcePoint} -- .");
-    // Additional command to remove files, deleted in source repository, as they are not removed by 'git checkout'
-    $files = execVerbose("$gitCmd diff --name-only {$sourcePoint}");
+    $commitMsg = trim(getTopMarkdownSection($sourceLog));
+    if (empty($commitMsg)) {
+        throw new Exception("No commit message found in the changelog file '$sourceLogFile'.");
+    }
+
+    // copy new & override existing files in the working tree and index from the source repository
+    execVerbose("$gitCmd checkout $sourcePoint -- .");
+    // remove files that don't exist in the source repository anymore
+    $files = execVerbose("$gitCmd diff --name-only $sourcePoint");
     foreach ($files as $file) {
         execVerbose("$gitCmd rm -f %s", $file);
     }
@@ -109,6 +116,7 @@ try {
  *
  * @param string $command
  * @return array
+ * @throws Exception
  */
 function execVerbose($command)
 {
@@ -122,7 +130,7 @@ function execVerbose($command)
         echo $line . PHP_EOL;
     }
     if (0 !== $exitCode) {
-        throw new Exception("Command is passed with error code: ". $exitCode);
+        throw new Exception("Command has failed with exit code: $exitCode.");
     }
     return $output;
 }
