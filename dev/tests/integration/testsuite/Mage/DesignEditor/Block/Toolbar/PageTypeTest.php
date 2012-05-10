@@ -24,40 +24,40 @@ class Mage_DesignEditor_Block_Toolbar_PageTypeTest extends PHPUnit_Framework_Tes
         $this->_block->setLayout($layoutUtility->getLayoutFromFixture($pageTypesFixture));
     }
 
-    public function testRenderPageTypes()
+    public function testRenderHierarchy()
     {
         $expected = __DIR__ . '/_files/_page_types_hierarchy.html';
-        $actual = $this->_block->renderPageTypes();
+        $actual = $this->_block->renderHierarchy();
         $this->assertXmlStringEqualsXmlFile($expected, $actual);
     }
 
-    public function testGetSelectedPageTypeFromPageHandles()
+    public function testGetSelectedItemFromPageHandles()
     {
         $this->_block->getLayout()->getUpdate()->addPageHandles(array('catalog_product_view_type_simple'));
-        $this->assertEquals('catalog_product_view_type_simple', $this->_block->getSelectedPageType());
+        $this->assertEquals('catalog_product_view_type_simple', $this->_block->getSelectedItem());
     }
 
-    public function testGetSelectedPageTypeFromHandles()
+    public function testGetSelectedItemFromHandles()
     {
         $this->_block->getLayout()->getUpdate()->addHandle(array(
             'catalog_product_view',
             'catalog_product_view_type_grouped',
             'not_a_page_type',
         ));
-        $this->assertEquals('catalog_product_view_type_grouped', $this->_block->getSelectedPageType());
+        $this->assertEquals('catalog_product_view_type_grouped', $this->_block->getSelectedItem());
     }
 
-    public function testGetSelectedPageTypeLabel()
+    public function testGetSelectedItemLabel()
     {
-        $this->assertFalse($this->_block->getSelectedPageTypeLabel());
-        $this->_block->setSelectedPageType('default');
-        $this->assertEquals('All Pages', $this->_block->getSelectedPageTypeLabel());
+        $this->assertNull($this->_block->getSelectedItemLabel());
+        $this->_block->setSelectedItem('default');
+        $this->assertEquals('All Pages', $this->_block->getSelectedItemLabel());
     }
 
-    public function testSetSelectedPageType()
+    public function testSetSelectedPageItem()
     {
-        $this->assertFalse($this->_block->getSelectedPageType());
-        $this->_block->setSelectedPageType('catalog_product_view_type_configurable');
-        $this->assertEquals('catalog_product_view_type_configurable', $this->_block->getSelectedPageType());
+        $this->assertFalse($this->_block->getSelectedItem());
+        $this->_block->setSelectedItem('catalog_product_view_type_configurable');
+        $this->assertEquals('catalog_product_view_type_configurable', $this->_block->getSelectedItem());
     }
 }

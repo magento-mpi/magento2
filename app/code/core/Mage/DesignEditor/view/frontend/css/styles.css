@@ -92,6 +92,7 @@ body {
     border-radius: 4px;
 }
 .vde_element_title {
+    font: 10pt Arial, Helvetica, sans-serif;
     margin: -2px 0px 0px -4px;
     padding: 0px;
     border-width: 2px 5px 6px 7px;

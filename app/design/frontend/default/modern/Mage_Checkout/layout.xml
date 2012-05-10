@@ -313,15 +313,15 @@ One page checkout main layout
 One page checkout progress block
 -->
 
-    <checkout_onepage_progress translate="label" type="page" parent="ajax_index">
+    <checkout_onepage_progress translate="label" type="fragment" owner="checkout_onepage_index">
         <label>One Page Checkout Progress</label>
-        <reference name="root">
+        <container name="checkout_onepage_progress_fragment" label="One Page Checkout Progress Fragment" output="1">
             <block type="Mage_Checkout_Block_Onepage_Progress" name="progress" template="onepage/progress.phtml">
                 <block type="Mage_Checkout_Block_Onepage_Payment_Info" name="payment_info">
                     <action method="setInfoTemplate"><method></method><template></template></action>
                 </block>
             </block>
-        </reference>
+        </container>
     </checkout_onepage_progress>
 
 <!--
@@ -361,9 +361,9 @@ One page checkout shipping methods block
 One page checkout order review block
 -->
 
-    <checkout_onepage_review translate="label" type="page" parent="ajax_index">
+    <checkout_onepage_review translate="label" type="fragment" owner="checkout_onepage_index">
         <label>One Page Checkout Overview</label>
-        <reference name="root">
+        <container name="onepage_checkout_review_fragment" label="Onepage Checkout Review Fragment" output="1">
             <block type="Mage_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
                 <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
@@ -374,7 +374,7 @@ One page checkout order review block
                 <block type="Mage_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
                 <block type="Mage_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Mage_Checkout::onepage/review/button.phtml"/>
             </block>
-        </reference>
+        </container>
     </checkout_onepage_review>
 
     <checkout_onepage_success translate="label" type="page" parent="default">

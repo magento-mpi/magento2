@@ -219,7 +219,7 @@ class Mage_Core_Model_Layout_Update
     public function getPageLayoutHandles($pageHandle)
     {
         $result = array();
-        while ($this->pageTypeExists($pageHandle)) {
+        while ($this->pageItemExists($pageHandle)) {
             array_unshift($result, $pageHandle);
             $pageHandle = $this->getPageTypeParent($pageHandle);
         }
@@ -235,31 +235,44 @@ class Mage_Core_Model_Layout_Update
     protected function _getPageTypeChildren($parentName)
     {
         $result = array();
-        $xpath = '/layouts/*[@type="page" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ']';
+
+        $conditions = array('(@type="page" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ')');
+        if ($parentName) {
+            $conditions[] = '(@type="fragment" and @owner="' . $parentName . '")';
+        }
+        $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $pageTypeNodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $pageTypeNode Varien_Simplexml_Element */
         foreach ($pageTypeNodes as $pageTypeNode) {
             $pageTypeName = $pageTypeNode->getName();
-            $result[$pageTypeName] = array(
+            $info = array(
                 'name'     => $pageTypeName,
                 'label'    => (string)$pageTypeNode->label,
-                'children' => $this->_getPageTypeChildren($pageTypeName),
+                'type' => $pageTypeNode->getAttribute('type'),
+                'children' => array()
             );
+            if ($info['type'] == 'page') {
+                $info['children'] = $this->_getPageTypeChildren($pageTypeName);
+            }
+            $result[$pageTypeName] = $info;
         }
         return $result;
     }
 
     /**
-     * @param string $pageTypeName
-     * @return Varien_Simplexml_Element
+     * Get xml node by its name
+     *
+     * @param string $pageItemName
+     * @return Varien_Simplexml_Element|null
      */
-    protected function _getPageTypeNode($pageTypeName)
+    protected function _getPageItemNode($pageItemName)
     {
         /* quick validation for non-existing page types */
-        if (!$pageTypeName || !isset($this->getFileLayoutUpdatesXml()->$pageTypeName)) {
+        if (!$pageItemName || !isset($this->getFileLayoutUpdatesXml()->$pageItemName)) {
             return null;
         }
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$pageTypeName}[@type='page'][1]");
+        $condition = '@type="page" or @type="fragment"';
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$pageItemName}[$condition][1]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -275,6 +288,7 @@ class Mage_Core_Model_Layout_Update
      *             'page_type_2' => array(
      *                 'name'     => 'page_type_2',
      *                 'label'    => 'Page Type 2',
+     *                 'type'     => 'page' or 'fragment',
      *                 'children' => array(
      *                     // ...
      *                 )
@@ -293,38 +307,75 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Whether a page type is declared in the system or not
+     * Whether a page item is declared in the system or not
      *
-     * @param string $pageType
+     * @param string $pageItem
      * @return bool
      */
-    public function pageTypeExists($pageType)
+    public function pageItemExists($pageItem)
     {
-        return (bool)$this->_getPageTypeNode($pageType);
+        return (bool)$this->_getPageItemNode($pageItem);
     }
 
     /**
-     * Retrieve the label for a page type
+     * Retrieve the label for a page item
      *
-     * @param string $pageType
+     * @param string $pageItem
+     * @return string|null
+     */
+    public function getPageItemLabel($pageItem)
+    {
+        $pageItemNode = $this->_getPageItemNode($pageItem);
+        return $pageItemNode ? (string)$pageItemNode->label : null;
+    }
+
+    /**
+     * Retrieve the type of a page item
+     *
+     * @param string $pageItem
      * @return string|bool
      */
-    public function getPageTypeLabel($pageType)
+    public function getPageItemType($pageItem)
     {
-        $pageTypeNode = $this->_getPageTypeNode($pageType);
-        return $pageTypeNode ? (string)$pageTypeNode->label : false;
+        $pageItemNode = $this->_getPageItemNode($pageItem);
+        return $pageItemNode ? $pageItemNode->getAttribute('type') : null;
     }
 
     /**
      * Retrieve the name of the parent for a page type
      *
      * @param string $pageType
-     * @return string|null|false
+     * @return string|null
      */
     public function getPageTypeParent($pageType)
     {
-        $pageTypeNode = $this->_getPageTypeNode($pageType);
-        return $pageTypeNode ? $pageTypeNode->getAttribute('parent') : false;
+        $node = $this->_getPageItemNode($pageType);
+        if (!$node || ($node->getAttribute('type') != 'page')) {
+            return null;
+        }
+        return $node->getAttribute('parent');
+    }
+
+    /**
+     * Return list of parents leading to the page item
+     *
+     * @return array
+     */
+    public function getPageItemParents($pageItem)
+    {
+        $result = array();
+        $node = $this->_getPageItemNode($pageItem);
+        while ($node) {
+            $parentItem = $node->getAttribute('parent');
+            if (!$parentItem) {
+                $parentItem = $node->getAttribute('owner');
+            }
+            $node = $this->_getPageItemNode($parentItem);
+            if ($node) {
+                $result[] = $parentItem;
+            }
+        }
+        return array_reverse($result);
     }
 
     /**

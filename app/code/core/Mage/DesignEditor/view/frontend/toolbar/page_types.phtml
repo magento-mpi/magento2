@@ -12,10 +12,10 @@
 <div id="vde_page_types_hierarchy" class="vde_toolbar_cell">
     <div class="vde_toolbar_cell_title">
         <?php echo $this->__('Page:'); ?>
-        <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedPageTypeLabel(); ?></span>
+        <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedItemLabel(); ?></span>
     </div>
     <div class="vde_toolbar_cell_content">
-        <div id="vde_page_types_tree"><?php echo $this->renderPageTypes(); ?></div>
+        <div id="vde_page_types_tree"><?php echo $this->renderHierarchy(); ?></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -40,10 +40,10 @@
                 window.location = selectedListItem.children('a').attr('href');
             }
         });
-        <?php if ($this->getSelectedPageType()) : ?>
+        <?php if ($this->getSelectedItem()) : ?>
         treeElement.bind('loaded.jstree', function (e, data) {
             var treeInstance = data.inst;
-            treeInstance.select_node($(this).find('li[rel="<?php echo $this->getSelectedPageType(); ?>"]'));
+            treeInstance.select_node($(this).find('li[rel="<?php echo $this->getSelectedItem(); ?>"]'));
         });
         <?php endif; ?>
         $('#vde_page_types_hierarchy').one('activate_toolbar_cell.vde', function () {

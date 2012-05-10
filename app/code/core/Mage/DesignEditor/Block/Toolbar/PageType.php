@@ -16,26 +16,26 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
     /**
      * @var string|false
      */
-    protected $_selectedPageType;
+    protected $_selectedItem;
 
     /**
      * Recursively render each level of the page types hierarchy as an HTML list
      *
-     * @param array $pageTypes
+     * @param array $hierarchy
      * @return string
      */
-    protected function _renderPageTypes(array $pageTypes)
+    protected function _renderHierarchy(array $hierarchy)
     {
-        if (!$pageTypes) {
+        if (!$hierarchy) {
             return '';
         }
         $result = '<ul>';
-        foreach ($pageTypes as $name => $info) {
+        foreach ($hierarchy as $name => $info) {
             $result .= '<li rel="' . $name . '">';
-            $result .= '<a href="' . $this->getUrl('design/editor/page', array('page_type' => $name)) . '">';
+            $result .= '<a href="' . $this->getUrl('design/editor/page', array('item' => $name)) . '">';
             $result .= $this->escapeHtml($info['label']);
             $result .= '</a>';
-            $result .= $this->_renderPageTypes($info['children']);
+            $result .= $this->_renderHierarchy($info['children']);
             $result .= '</li>';
         }
         $result .= '</ul>';
@@ -47,44 +47,44 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
      *
      * @return string
      */
-    public function renderPageTypes()
+    public function renderHierarchy()
     {
-        return $this->_renderPageTypes($this->getLayout()->getUpdate()->getPageTypesHierarchy());
+        return $this->_renderHierarchy($this->getLayout()->getUpdate()->getPageTypesHierarchy());
     }
 
     /**
-     * Retrieve the name of the currently selected page type
+     * Retrieve the name of the currently selected item
      *
      * @return string|false
      */
-    public function getSelectedPageType()
+    public function getSelectedItem()
     {
-        if ($this->_selectedPageType === null) {
-            $this->_selectedPageType = false;
+        if ($this->_selectedItem === null) {
+            $this->_selectedItem = false;
             $layoutUpdate = $this->getLayout()->getUpdate();
             $pageHandles = $layoutUpdate->getPageHandles();
             if ($pageHandles) {
-                $this->_selectedPageType = end($pageHandles);
+                $this->_selectedItem = end($pageHandles);
             } else {
                 foreach (array_reverse($layoutUpdate->getHandles()) as $handle) {
-                    if ($layoutUpdate->pageTypeExists($handle)) {
-                        $this->_selectedPageType = $handle;
+                    if ($layoutUpdate->pageItemExists($handle)) {
+                        $this->_selectedItem = $handle;
                         break;
                     }
                 }
             }
         }
-        return $this->_selectedPageType;
+        return $this->_selectedItem;
     }
 
     /**
-     * Retrieve label for the currently selected page type
+     * Retrieve label for the currently selected item
      *
      * @return string|false
      */
-    public function getSelectedPageTypeLabel()
+    public function getSelectedItemLabel()
     {
-        return $this->escapeHtml($this->getLayout()->getUpdate()->getPageTypeLabel($this->getSelectedPageType()));
+        return $this->escapeHtml($this->getLayout()->getUpdate()->getPageItemLabel($this->getSelectedItem()));
     }
 
     /**
@@ -92,8 +92,8 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
      *
      * @param string $name Page type name
      */
-    public function setSelectedPageType($name)
+    public function setSelectedItem($name)
     {
-        $this->_selectedPageType = $name;
+        $this->_selectedItem = $name;
     }
 }

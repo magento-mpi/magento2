@@ -55,7 +55,7 @@
         <container name="additional.product.info" label="Additional Product Info"/>
     </paypal_express_review>
 
-    <paypal_express_review_details translate="label" type="page" parent="checkout_onepage_review">
+    <paypal_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal Express Review Details</label>
         <block type="Mage_Paypal_Block_Express_Review_Details" name="root" output="1" template="express/review/details.phtml">
             <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>

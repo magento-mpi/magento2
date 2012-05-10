@@ -13,8 +13,9 @@
  */
 class Mage_DesignEditor_Model_Observer
 {
-    const PAGE_HANDLE = 'design_editor_page';
-    const TOOLBAR_HANDLE = 'design_editor_toolbar';
+    const FRAGMENT_ROOT_HANDLE =    'design_editor_root_for_fragment';
+    const PAGE_HANDLE =             'design_editor_page';
+    const TOOLBAR_HANDLE =          'design_editor_toolbar';
 
     /**
      * Renderer for wrapping html to be shown at frontend
@@ -48,11 +49,27 @@ class Mage_DesignEditor_Model_Observer
         if (!$this->_getSession()->isDesignEditorActive()) {
             return;
         }
-        $layout = $observer->getEvent()->getLayout();
-        if (in_array('ajax_index', $layout->getUpdate()->getHandles())) {
-            $layout->getUpdate()->addHandle(self::PAGE_HANDLE);
+
+        /** @var $update Mage_Core_Model_Layout_Update */
+        $update = $observer->getEvent()->getLayout()->getUpdate();
+        $handles = $update->getHandles();
+        $isFragment = false;
+        foreach ($handles as $handle) {
+            if ($update->getPageItemType($handle) == 'fragment') {
+                $isFragment = true;
+                break;
+            }
         }
-        $layout->getUpdate()->addHandle(self::TOOLBAR_HANDLE);
+
+        if ($isFragment) {
+            foreach ($handles as $handle) {
+                $update->removeHandle($handle);
+            }
+            $update->addHandle(self::FRAGMENT_ROOT_HANDLE);
+            $update->addHandle($handles);
+            $update->addHandle(self::PAGE_HANDLE);
+        }
+        $update->addHandle(self::TOOLBAR_HANDLE);
     }
 
     /**
