@@ -2,21 +2,19 @@
 /**
  * {license_notice}
  *
- * @category   ${CATEGORY}
- * @package    ${PACKAGE}
+ * @category   Mage
+ * @package    Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * ${DESCRIPTION}
+ * Mage_User index controller
  *
- * @category   ${CATEGORY}
- * @package    ${PACKAGE}
+ * @category   Mage
+ * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
@@ -39,7 +37,7 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
                     foreach ($collection as $item) {
                         $user = Mage::getModel('Mage_User_Model_User')->load($item->getId());
                         if ($user->getId()) {
-                            $newResetPasswordLinkToken = Mage::helper('Mage_Backend_Helper_Data')->generateResetPasswordLinkToken();
+                            $newResetPasswordLinkToken = Mage::helper('Mage_User_Helper_Data')->generateResetPasswordLinkToken();
                             $user->changeResetPasswordLinkToken($newResetPasswordLinkToken);
                             $user->save();
                             $user->sendPasswordResetConfirmationEmail();

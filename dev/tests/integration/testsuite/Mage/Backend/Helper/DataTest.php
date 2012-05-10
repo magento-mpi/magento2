@@ -87,13 +87,4 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $actual = $this->_helper->prepareFilterString($filterString);
         $this->assertEquals($expected, $actual);
     }
-
-    /**
-     * @covers Mage_Backend_Helper_Data::generateResetPasswordLinkToken
-     */
-    public function testGenerateResetPasswordLinkToken()
-    {
-        $actual = $this->_helper->generateResetPasswordLinkToken();
-        $this->assertGreaterThan(15, strlen($actual));
-    }
 }

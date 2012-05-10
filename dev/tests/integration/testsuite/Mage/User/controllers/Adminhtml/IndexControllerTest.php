@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Mage_User_Adminhtml_UserController.
+ * Test class for Mage_User_Adminhtml_IndexControllerTest.
  *
  * @group module:Mage_User
  */
@@ -37,7 +37,7 @@ class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_Cont
 
     /**
      * Test form existace
-     * @covers Mage_User_Adminhtml_UserController::forgotpasswordAction
+     * @covers Mage_User_Adminhtml_IndexControllerTest::forgotpasswordAction
      */
     public function testFormForgotpasswordAction()
     {
@@ -47,7 +47,7 @@ class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @covers Mage_User_Adminhtml_UserController::forgotpasswordAction
+     * @covers Mage_User_Adminhtml_IndexControllerTest::forgotpasswordAction
      */
     public function testForgotpasswordAction()
     {
@@ -57,8 +57,8 @@ class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @covers Mage_User_Adminhtml_UserController::resetPasswordAction
-     * @covers Mage_User_Adminhtml_UserController::_validateResetPasswordLinkToken
+     * @covers Mage_User_Adminhtml_IndexControllerTest::resetPasswordAction
+     * @covers Mage_User_Adminhtml_IndexControllerTest::_validateResetPasswordLinkToken
      */
     public function testResetPasswordAction()
     {
@@ -70,8 +70,8 @@ class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @covers Mage_User_Adminhtml_UserController::resetPasswordPostAction
-     * @covers Mage_User_Adminhtml_UserController::_validateResetPasswordLinkToken
+     * @covers Mage_User_Adminhtml_IndexControllerTest::resetPasswordPostAction
+     * @covers Mage_User_Adminhtml_IndexControllerTest::_validateResetPasswordLinkToken
      */
     public function testResetPasswordPostAction()
     {
