@@ -65,6 +65,8 @@ class Mage_Backend_Adminhtml_AuthController extends Mage_Backend_Controller_Acti
 
     /**
      * Retrieve response for deniedJsonAction()
+     *
+     * @return string
      */
     protected function _getDeniedJson()
     {
