@@ -14,7 +14,7 @@
 class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
 {
     /**
-     * @var string|false
+     * @var string|bool
      */
     protected $_selectedItem;
 
@@ -31,7 +31,10 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
         }
         $result = '<ul>';
         foreach ($hierarchy as $name => $info) {
-            $result .= '<li rel="' . $name . '">';
+            $class = $info['type'] == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT
+                ? ' class="vde_option_fragment"'
+                : '';
+            $result .= '<li rel="' . $name . '"' . $class . '>';
             $result .= '<a href="' . $this->getUrl('design/editor/page', array('item' => $name)) . '">';
             $result .= $this->escapeHtml($info['label']);
             $result .= '</a>';

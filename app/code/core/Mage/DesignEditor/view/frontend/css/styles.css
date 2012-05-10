@@ -243,3 +243,6 @@ body {
 #vde_page_types_tree .jstree-open > .jstree-icon {
     background: url(../images/jstree_plus_minus.png) top right no-repeat;
 }
+#vde_page_types_tree .vde_option_fragment a {
+    color: #eea243;
+}

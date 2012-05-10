@@ -17,6 +17,12 @@ class Mage_Core_Model_Layout_Update
     const LAYOUT_GENERAL_CACHE_TAG = 'LAYOUT_GENERAL_CACHE_TAG';
 
     /**
+     * Available item type names
+     */
+    const TYPE_PAGE = 'page';
+    const TYPE_FRAGMENT = 'fragment';
+
+    /**
      * @var string
      */
     private $_area;

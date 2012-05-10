@@ -48,4 +48,7 @@
     <catalog_product_view_type_grouped type="page" parent="catalog_product_view">
         <label>Catalog Product View (Grouped)</label>
     </catalog_product_view_type_grouped>
+    <catalogsearch_ajax_suggest translate="label" type="fragment" owner="default">
+        <label>Catalog Quick Search Form Suggestions</label>
+    </catalogsearch_ajax_suggest>
 </layouts>

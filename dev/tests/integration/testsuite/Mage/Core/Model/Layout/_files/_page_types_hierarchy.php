@@ -73,6 +73,12 @@ return array(
                     ),
                 ),
             ),
+            'catalogsearch_ajax_suggest' => array(
+                'name'     => 'catalogsearch_ajax_suggest',
+                'label'    => 'Catalog Quick Search Form Suggestions',
+                'type'     => 'fragment',
+                'children' => array(),
+            ),
         ),
     ),
 );
