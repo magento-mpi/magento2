@@ -109,7 +109,7 @@ class Mage_Backend_Model_Auth
      * @param string $username
      * @param string $password
      * @return void
-     * @throws Mage_Core_Exception if login process was unsuccessful
+     * @throws Mage_Backend_Model_Auth_Exception if login process was unsuccessful
      */
     public function login($username, $password)
     {
@@ -134,7 +134,7 @@ class Mage_Backend_Model_Auth
 
         } catch (Mage_Core_Exception $e) {
             Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
-            throw $e;
+            self::throwException($e->getMessage(), $e->getCode());
         }
     }
 

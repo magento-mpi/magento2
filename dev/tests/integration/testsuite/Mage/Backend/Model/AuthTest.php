@@ -49,6 +49,7 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
             $this->fail('Incorrect authentication storage setted.');
         } catch (Mage_Backend_Model_Auth_Exception $e) {
             // in case of exception - Auth works correct
+            $this->assertNotEmpty($e->getMessage());
         }
     }
 

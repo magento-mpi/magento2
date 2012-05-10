@@ -138,7 +138,7 @@ class Mage_Backend_Model_Observer
         try {
             Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
             $this->_redirectIfNeededAfterLogin($controller);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Mage_Backend_Model_Auth_Exception $e) {
             if (!$request->getParam('messageSent')) {
                 Mage::getSingleton('Mage_Backend_Model_Session')->addError(
                     Mage::helper('Mage_Backend_Helper_Data')->__('Invalid User Name or Password.')

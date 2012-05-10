@@ -46,7 +46,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      *
      * @param string $namespace
      * @param string $sessionName
-     * @return Mage_Admin_Model_Session
+     * @return Mage_Backend_Model_Auth_Session
      * @see self::login()
      */
     public function init($namespace, $sessionName = null)
@@ -60,7 +60,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      * Refresh ACL resources stored in session
      *
      * @param  Mage_User_Model_User $user
-     * @return Mage_Admin_Model_Session
+     * @return Mage_Backend_Model_Auth_Session
      */
     public function refreshAcl($user = null)
     {
@@ -83,8 +83,8 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
     /**
      * Check current user permission on resource and privilege
      *
-     * Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/catalog')
-     * Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('catalog')
+     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/catalog')
+     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog')
      *
      * @param   string $resource
      * @param   string $privilege
@@ -152,7 +152,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      * Setter whether the current/next page should be treated as first page after login
      *
      * @param bool $value
-     * @return Mage_Admin_Model_Session
+     * @return Mage_Backend_Model_Auth_Session
      */
     public function setIsFirstPageAfterLogin($value)
     {
