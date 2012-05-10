@@ -46,6 +46,12 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         $this->fillCheckbox('add_gift_options', 'Yes');
         $forItems = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
         $forOrder = (isset($giftOptions['entire_order'])) ? $giftOptions['entire_order'] : array();
+        if (isset($giftOptions['send_gift_receipt'])) {
+            $this->fillCheckbox('send_gift_receipt', $giftOptions['send_gift_receipt']);
+        }
+        if (isset($giftOptions['add_printed_card'])) {
+            $this->fillCheckbox('add_printed_card', $giftOptions['add_printed_card']);
+        }
         foreach ($forItems as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
@@ -75,6 +81,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
     }
 
     /**
+     * @param array $shippingData
+     */
+    public function verifyGiftOptions(array $shippingData)
+    {
+    }
+
+    /**
      * @param array $giftOptions
      */
     public function verifyGiftOptionsAvailability(array $giftOptions)
@@ -87,7 +100,13 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         $forOrderWrapping = (isset($giftOptions['entire_order']['gift_wrapping_for_order'])) ? true : false;
         $forOrderMessage = (isset($giftOptions['entire_order']['gift_message'])) ? true : false;
         $forItems = (isset($giftOptions['individual_items'])) ? true : false;
+        $giftReceipt = (isset($giftOptions['send_gift_receipt'])) ? true : false;
+        $printedCard = (isset($giftOptions['add_printed_card'])) ? true : false;
         //Verifying
+        $this->verifyControlAvailability('checkbox', 'send_gift_receipt', $giftReceipt,
+            'send Gift Receipt');
+        $this->verifyControlAvailability('checkbox', 'add_printed_card', $printedCard,
+            'add Printed Card to Order');
         //For Entire Order
         $this->verifyControlAvailability('checkbox', 'gift_option_for_the_entire_order', $forOrder,
             'add gift options to Entire Order');

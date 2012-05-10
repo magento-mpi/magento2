@@ -105,3 +105,9 @@ mess_no_wrap_yes_order_mess_no_wrap_yes_item:
 mess_yes_wrap_no_order_mess_no_wrap_yes_item:
     entire_order: *mess_yes_wrap_no_order
     individual_items: *mess_no_wrap_yes_item
+
+all_variants_for_gift_options:
+    entire_order: *mess_yes_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+    send_gift_receipt: Yes
+    add_printed_card: Yes

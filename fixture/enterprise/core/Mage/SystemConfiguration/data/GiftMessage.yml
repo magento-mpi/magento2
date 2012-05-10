@@ -80,7 +80,7 @@ gift_wrapping_all_disable_on_website:
             allow_gift_wrapping_for_order_items: No
             allow_gift_receipt: No
             allow_gift_printered_card: No
-            default_price_for_printed_card: 18.53
+            default_price_for_printed_card: ''
 
 #*********************************************
 #*      Gift Options Configuration Data      *
@@ -148,6 +148,15 @@ ind_items_all_yes_order_wrapping_no_message_yes:
             allow_gift_wrapping_for_order_items: Yes
             allow_gift_messages_for_order_items: Yes
 
+ind_items_all_yes_order_all_yes:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_wrapping_on_order_level: Yes
+            allow_gift_messages_on_order_level: Yes
+            allow_gift_wrapping_for_order_items: Yes
+            allow_gift_messages_for_order_items: Yes
 #<-----------------------------------------Individual Items------------------------------------------------------------>
 ind_items_gift_wrapping_no_message_yes:
     configuration_scope: Default Config
@@ -197,8 +206,8 @@ order_gift_wrapping_no_message_yes:
         configuration:
             allow_gift_wrapping_on_order_level: No
             allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            allow_gift_wrapping_for_order_items: No
+            allow_gift_messages_for_order_items: No
 
 order_gift_wrapping_yes_message_no:
     configuration_scope: Default Config
@@ -207,8 +216,8 @@ order_gift_wrapping_yes_message_no:
         configuration:
             allow_gift_wrapping_on_order_level: Yes
             allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            allow_gift_wrapping_for_order_items: No
+            allow_gift_messages_for_order_items: No
 
 order_gift_wrapping_no_message_no:
     configuration_scope: Default Config

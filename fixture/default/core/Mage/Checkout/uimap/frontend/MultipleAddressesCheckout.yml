@@ -29,7 +29,7 @@
 checkout_multishipping_login:
     mca: checkout/multishipping/login/
     title: Customer Login
-    uimap:
+    uimap: &checkout_multishipping_login_uimap
         form:
             fieldsets:
                 -
@@ -75,6 +75,11 @@ checkout_multishipping_login:
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
+
+checkout_multishipping_login_with_params:
+    mca: checkout/multishipping/login/?no_cache=
+    title: Customer Login
+    uimap: *checkout_multishipping_login_uimap
 
 checkout_multishipping_register:
     mca: checkout/multishipping/register/

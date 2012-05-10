@@ -62,6 +62,9 @@ checkout_multishipping_shipping_methods:
                         links:
                             gift_message_for_item: //li[div/h5='%productName%']//a[text()='Gift Message']
                             gift_message_for_order: //div[@class='gift-options-for-order']//a[text()='Gift Message']
+                        checkboxes:
+                            send_gift_receipt: //p[label='Send Gift Receipt']/input
+                            add_printed_card: //p[label='Add Printed Card']/input
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
@@ -91,6 +94,13 @@ checkout_multishipping_edit_billing_address:
 
 checkout_multishipping_review_order:
     title: Review Order - Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    review_order:
+                        links:
+                            shipping_method_change: //a[contains(@href, 'backtoshipping/')]
 
 checkout_multishipping_success_order:
     title: Magento Enterprise Edition

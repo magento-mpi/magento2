@@ -47,6 +47,16 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      */
     public function frontMultipleCheckout(array $checkout)
     {
+        $this->doMultipleCheckoutSteps($checkout);
+        //Place Order
+        return $this->placeMultipleCheckoutOrder();
+    }
+
+    /**
+     * @param array $checkout
+     */
+    public function doMultipleCheckoutSteps(array $checkout)
+    {
         //Data
         $products = (isset($checkout['products_to_add'])) ? $checkout['products_to_add'] : array();
         $customer = (isset($checkout['checkout_as_customer'])) ? $checkout['checkout_as_customer'] : array();
@@ -63,7 +73,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
         $this->clickControl('link', 'checkout_with_multiple_addresses');
         //If customer not signed in
-        if ($this->getCurrentPage() == 'checkout_multishipping_login') {
+        $currentPage = $this->getCurrentPage();
+        if ($currentPage == 'checkout_multishipping_login'
+            || $currentPage == 'checkout_multishipping_login_with_params'
+        ) {
             $this->frontSelectCheckoutMethod($customer);
         }
         //If Create an Account
@@ -93,8 +106,15 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->defineAndSelectShippingMethods($shippingData);
         //Select payment method and billing address
         $this->fillBillingInfo($paymentData);
-        //Place Order
         $this->frontOrderReview($checkout);
+    }
+
+    /**
+     * Place Multiple Checkout Order
+     * @return array
+     */
+    public function placeMultipleCheckoutOrder()
+    {
         $this->clickButton('place_order', false);
         $this->waitForAjax();
         $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
@@ -165,7 +185,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($shippingData as $oneAddressData) {
             foreach ($oneAddressData['products'] as $product) {
                 $name = $product['product_name'];
-                $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
+                $qty = (isset($product['product_qty']))
+                    ? $product['product_qty']
+                    : 1;
                 if (isset($products[$name])) {
                     $products[$name] = $products[$name] + $qty;
                 } else {
@@ -406,6 +428,15 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
      * @TODO
      */
     public function addGiftOptions(array $giftOptions, $header)
+    {
+    }
+
+    /**
+     * @param array $shippingData
+     *
+     * @TODO
+     */
+    public function verifyGiftOptions(array $shippingData)
     {
     }
 
