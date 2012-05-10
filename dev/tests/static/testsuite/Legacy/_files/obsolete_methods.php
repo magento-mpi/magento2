@@ -269,7 +269,6 @@ return array(
     'isLeyeredNavigationAllowed',
     'isReadablePopupObject',
     'isTemplateAllowedForApplication',
-    'isValidForSend' => array('class_scope' => 'Mage_Newsletter_Model_Template'),
     'loadLabel' => array('class_scope' => 'Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute'),
     'loadParentProductIds' => array('class_scope' => 'Mage_Catalog_Model_Product'),
     'loadPrices' => array('class_scope' => 'Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute'),

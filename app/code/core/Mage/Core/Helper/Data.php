@@ -45,6 +45,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     const DIVIDE_EPSILON = 10000;
 
     /**
+     * Config path to mail sending setting that shows if email communications are disabled
+     */
+    const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
+
+    /**
      * @var Mage_Core_Model_Encryption
      */
     protected $_encryptor = null;
