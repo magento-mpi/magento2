@@ -64,7 +64,6 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('allow', $rules[0]['permission']);
     }
 
-
     /**
      * @covers Mage_user_Model_Rules::saveRel
      * @magentoDataFixture emptyFixture
@@ -86,36 +85,6 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('all', $rules[0]['resource_id']);
         $this->assertEquals(1, $rules[0]['role_id']);
         $this->assertEquals('allow', $rules[0]['permission']);
-    }
-
-    /**
-     * @covers Mage_user_Model_Rules::saveRel
-     * @magentoDataFixture emptyFixture
-     */
-    public function testSetAllowForListOfResources()
-    {
-        $adapter = $this->_model->getResource()->getReadConnection();
-        $ruleSelect = $adapter->select()
-            ->from($adapter->getTableName('admin_rule'));
-
-        $resources = array('all', 'admin');
-
-        $this->_model->setRoleId(1)
-            ->setResources($resources)
-            ->saveRel();
-
-        $rules = $ruleSelect->query()->fetchAll();
-
-        $allowed = array();
-        foreach($rules as $rule) {
-            if (in_array($rule['resource_id'], $resources)) {
-                $this->assertEquals('allow', $rule['permission']);
-                array_push($allowed, $rule['resource_id']);
-            } else {
-                $this->assertEquals('deny', $rule['permission']);
-            }
-        }
-        $this->assertEquals(0, count(array_diff($resources, $allowed)));
     }
 }
 

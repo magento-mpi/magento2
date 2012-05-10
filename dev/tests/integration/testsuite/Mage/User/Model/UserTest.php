@@ -78,7 +78,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = new Mage_User_Model_Roles;
+        self::$_newRole = new Mage_User_Model_Role;
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -215,7 +215,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store admin/security/use_case_sensitive_login 0
      */
-    public function testAuthenticateCI()
+    public function testAuthenticateCaseInsensitive()
     {
         $this->assertTrue($this->_model->authenticate('user', Magento_Test_Bootstrap::ADMIN_PASSWORD));
         $this->assertTrue($this->_model->authenticate(
@@ -245,6 +245,25 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->load(1);
         $this->_model->setRoleId(1)->deleteFromRole();
         $this->_model->authenticate(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+    }
+
+    /**
+     * @magentoDataFixture emptyFixture
+     */
+    public function testLoginsAreLogged()
+    {
+        $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $lognum = $this->_model->getLognum();
+
+        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD)
+            ->reload();
+        $this->assertEquals(time(), strtotime($this->_model->getLogdate()));
+        $this->assertEquals(++$lognum, $this->_model->getLognum());
+
+        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD)
+            ->reload();
+        $this->assertEquals(time(), strtotime($this->_model->getLogdate()));
+        $this->assertEquals(++$lognum, $this->_model->getLognum());
     }
 
     public function testReload()
@@ -304,9 +323,92 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('adminhtml/dashboard', (string) $this->_model->getStartupPageUrl());
     }
 
-    public function testValidate()
+    public function testValidateEmptyUserName()
     {
-        $this->markTestIncomplete();
+        $errors = $this->_model->validate();
+        $this->assertContains(Mage::helper('Mage_User_Helper_Data')->__('User Name is required field.'), $errors);
+    }
+
+    public function testValidateEmptyFirstName()
+    {
+        $errors = $this->_model->validate();
+        $this->assertContains(Mage::helper('Mage_User_Helper_Data')->__('First Name is required field.'), $errors);
+    }
+
+    public function testValidateEmptyLastName()
+    {
+        $errors = $this->_model->validate();
+        $this->assertContains(Mage::helper('Mage_User_Helper_Data')->__('First Name is required field.'), $errors);
+    }
+
+    public function testValidateInvalidEmail()
+    {
+        $this->_model->setEmail('invalid@email');
+        $errors = $this->_model->validate();
+        $this->assertContains(Mage::helper('Mage_User_Helper_Data')->__('Please enter a valid email.'), $errors);
+    }
+
+    public function testValidatePasswordsDontMatch()
+    {
+        $this->_model->setNewPassword('password');
+        $this->_model->setPasswordConfirmation('password1');
+        $errors = $this->_model->validate();
+        $this->assertContains(
+            Mage::helper('Mage_User_Helper_Data')->__('Password confirmation must be same as password.'),
+            $errors
+        );
+    }
+
+    public function testValidatePasswordTooShort()
+    {
+        $this->_model->setNewPassword('123456');
+        $errors = $this->_model->validate();
+        $this->assertContains(
+            Mage::helper('Mage_User_Helper_Data')->__(
+                'Password must be at least of %d characters.', Mage_User_Model_User::MIN_PASSWORD_LENGTH
+            ),
+            $errors
+        );
+    }
+
+    /**
+     * @dataProvider providerInvalidUserPasswords
+     * @param string $password
+     */
+    public function testValidateInvalidPassword($password)
+    {
+        $this->_model->setNewPassword($password);
+        $errors = $this->_model->validate();
+        $this->assertContains(
+            Mage::helper('Mage_User_Helper_Data')->__('Password must include both numeric and alphabetic characters.'),
+            $errors
+        );
+    }
+
+    public function providerInvalidUserPasswords()
+    {
+        return array(array('aaaaaaaa'), array('1234567'));
+    }
+
+    public function testValidateExistingUser()
+    {
+        $this->_model->setUsername('user');
+        $errors = $this->_model->validate();
+        $this->assertContains(
+            Mage::helper('Mage_User_Helper_Data')->__('A user with the same user name or email aleady exists.'),
+            $errors
+        );
+    }
+
+    public function testValidateOk()
+    {
+        $this->_model->setUsername('user1')
+            ->setFirstname('John')
+            ->setLastname('Doe')
+            ->setEmail('jdoe@gmail.com')
+            ->setNewPassword('1234abc')
+            ->setPasswordConfirmation('1234abc');
+        $this->assertTrue($this->_model->validate());
     }
 
     /**
