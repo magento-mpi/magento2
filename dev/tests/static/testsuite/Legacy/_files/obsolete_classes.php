@@ -13,9 +13,24 @@ return array(
     'Mage_Admin_Model_Observer',
     'Mage_Admin_Model_Resource_Acl_Role',
     'Mage_Admin_Model_Resource_Acl_Role_Collection',
-    'Mage_Admin_Model_User',
-    'Mage_Admin_Model_Resource_User',
-    'Mage_Admin_Model_Resource_User_Collection',
+    'Mage_Admin_Model_User' => array('suggestion' => 'Mage_User_Model_User'),
+    'Mage_Admin_Model_Resource_User' => array('suggestion' => 'Mage_User_Model_Resource_User'),
+    'Mage_Admin_Model_Resource_User_Collection' => array('suggestion' => 'Mage_User_Model_Resource_User_Collection'),
+    'Mage_Admin_Model_Role' => array('suggestion' => 'Mage_User_Model_Role'),
+    'Mage_Admin_Model_Roles' => array('suggestion' => 'Mage_User_Model_Roles'),
+    'Mage_Admin_Model_Rules' => array('suggestion' => 'Mage_User_Model_Rules'),
+    'Mage_Admin_Model_Resource_Role' => array('suggestion' => 'Mage_User_Model_Resource_Role'),
+    'Mage_Admin_Model_Resource_Roles' => array('suggestion' => 'Mage_User_Model_Resource_Roles'),
+    'Mage_Admin_Model_Resource_Rules' => array('suggestion' => 'Mage_User_Model_Resource_Rules'),
+    'Mage_Admin_Model_Resource_Role_Collection' => array('suggestion' => 'Mage_User_Model_Resource_Role_Collection'),
+    'Mage_Admin_Model_Resource_Roles_Collection' => array('suggestion' => 'Mage_User_Model_Resource_Roles_Collection'),
+    'Mage_Admin_Model_Resource_Roles_User_Collection' => array(
+        'suggestion' => 'Mage_User_Model_Resource_Roles_User_Collection'
+    ),
+    'Mage_Admin_Model_Resource_Rules_Collection' => array('suggestion' => 'Mage_User_Model_Resource_Rules_Collection'),
+    'Mage_Admin_Model_Resource_Permissions_Collection' => array(
+        'suggestion' => 'Mage_User_Model_Resource_Permissions_Collection'
+    ),
     'Mage_Adminhtml_Block_Api_Edituser',
     'Mage_Adminhtml_Block_Api_Tab_Userroles',
     'Mage_Adminhtml_Block_Catalog',
