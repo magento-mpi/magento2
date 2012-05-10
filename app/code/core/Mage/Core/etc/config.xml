@@ -69,6 +69,11 @@
                 <writer_model>Zend_Log_Writer_Stream</writer_model>
             </core>
         </log>
+        <dev>
+            <page_type>
+                <render_inherited>0</render_inherited>
+            </page_type>
+        </dev>
     </global>
     <frontend>
         <routers>
@@ -178,9 +183,6 @@
             <js>
                 <merge_files>0</merge_files>
             </js>
-            <page_type>
-                <render_inherited>0</render_inherited>
-            </page_type>
         </dev>
         <system>
             <smtp>
