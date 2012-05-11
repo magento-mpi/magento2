@@ -85,6 +85,10 @@
         </item>
         <item>
             <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Integrity/ClassesTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
             <path>lib/Varien/Db/Helper.php</path>
         </item>
         <item>
