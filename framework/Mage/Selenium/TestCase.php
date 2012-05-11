@@ -2805,7 +2805,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->click($resetXpath);
         if ($waitAjax) {
-            $this->pleaseWait();
+            $this->waitForAjax();
         } else {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
