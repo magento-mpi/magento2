@@ -130,8 +130,12 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testEnterpriseEnabler()
     {
         $root = Utility_Files::init()->getPathToSource();
-        $xml = simplexml_load_file($root . '/app/etc/modules/XEnterprise_Enabler.xml.dist');
+        $xmlFile = $root . '/app/etc/modules/XEnterprise_Enabler.xml.dist';
+        if (realpath($xmlFile) != $xmlFile) {
+            $this->markTestSkipped($xmlFile . ' is not available.');
+        }
 
+        $xml = simplexml_load_file($xmlFile);
         $xmlModuleNodes = $xml->xpath('/config/modules');
         $this->assertEquals(1, count($xmlModuleNodes));
 
