@@ -211,13 +211,14 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     public function addSystemHiddenFilterWithPasswordHash()
     {
         $connection = $this->getConnection();
-        $field = $connection->getCheckSql(
+        $expression = $connection->getCheckSql(
             $connection->quoteInto(
                 'additional_table.is_system = 1 AND additional_table.is_visible = 0 AND main_table.attribute_code != ?',
                 self::EAV_CODE_PASSWORD_HASH
-            ), '1', '0'
+            ),
+            '1', '0'
         );
-        $this->addFieldToFilter($field, 0);
+        $this->getSelect()->where($connection->quoteInto($expression . ' = ?', 0));
         return $this;
     }
 
