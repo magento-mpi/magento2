@@ -65,8 +65,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        //$expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        //$this->assertSame($expectedTitle, $this->getTitle(), 'Title is unexpected for "' . $page . '" page');
+        $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        $this->assertSame($expectedTitle, $this->getTitle(), 'Title is unexpected for "' . $page . '" page');
         $this->setCurrentPage($page);
     }
 
@@ -80,6 +80,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
         $this->click($this->_getControlXpath('tab', $tabName, $page));
         $this->waitForNewPage();
+        $result = $this->errorMessage();
+        $this->assertFalse($result['success'], $this->getMessagesOnPage());
         $this->validatePage();
     }
 
