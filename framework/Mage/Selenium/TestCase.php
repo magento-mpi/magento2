@@ -3568,7 +3568,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
-            //$this->deleteAllVisibleCookies();
+            $this->deleteAllVisibleCookies();
             $this->validatePage('home_page');
         }
 
