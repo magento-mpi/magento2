@@ -554,7 +554,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
         $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
         //Verify quantity orders
-        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info') . '//address');
+        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info'));
         $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
         //Verify selected Shipping addresses for orders
         $orderHeaders = array();
@@ -562,6 +562,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($shippings as $shipping) {
             $address = (isset($shipping['address'])) ? $shipping['address'] : array();
             if (empty($address)) {
+                $orderHeaders[] = trim($this->getText("//*[contains(text(), 'Other')]"));
                 continue;
             }
             $header = $this->getAddressId($address, $actualShippings);
@@ -585,19 +586,20 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertEmptyVerificationErrors();
         //Get Shipping Addresses Data
         $ordersData = array();
+        $i = 1;
         foreach ($orderHeaders as $header) {
             $this->addParameter('addressHeader', $header);
-            $id = strtolower(str_replace(' ', '_', preg_replace('/ of [0-9]+$/', '', $header)));
-            $ordersData[$id] = $this->getOrderDataForAddress();
-
+            $ordersData['address_' . $i++] = $this->getOrderDataForAddress();
         }
         if (empty($verifyPrices)) {
             //Remove Prices
             $withoutPrices = array();
             foreach ($ordersData as $k => $addressData) {
-                $shipping = $addressData['shipping'];
-                unset($shipping['price']);
-                $withoutPrices[$k]['shipping'] = $shipping;
+                if (isset($addressData['shipping'])) {
+                    $shipping = $addressData['shipping'];
+                    unset($shipping['price']);
+                    $withoutPrices[$k]['shipping'] = $shipping;
+                }
                 $products = $addressData['products'];
                 foreach ($products as $key => $product) {
                     $temp['product_name'] = $product['product_name'];
@@ -609,7 +611,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $expected = array();
             foreach ($shippings as $key => $shipping) {
                 $k = str_replace('_data', '', $key);
-                $expected[$k]['shipping'] = $shipping['shipping'];
+                if (isset($shipping['shipping'])) {
+                    $expected[$k]['shipping'] = $shipping['shipping'];
+                }
                 $expected[$k]['products'] = $shipping['products'];
             }
             $this->assertEquals($expected, $withoutPrices);
@@ -625,13 +629,15 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     public function getOrderDataForAddress()
     {
         $addressData = array();
-        //Get order shipping method data
-        $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
-        list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
-        list($method, $price) = explode(' ', $methodAndPrice);
-        $addressData['shipping']['shipping_service'] = trim($service);
-        $addressData['shipping']['shipping_method'] = trim($method);
-        $addressData['shipping']['price'] = trim($price);
+        if ($this->getParameter('addressHeader') != 'Other Items in Your Order') {
+            //Get order shipping method data
+            $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+            list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
+            list($method, $price) = explode(' ', $methodAndPrice);
+            $addressData['shipping']['shipping_service'] = trim($service);
+            $addressData['shipping']['shipping_method'] = trim($method);
+            $addressData['shipping']['price'] = trim($price);
+        }
         //Get order products data
         $products = $this->shoppingCartHelper()->getProductInfoInTable();
         foreach ($products as &$product) {

@@ -150,13 +150,15 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
     public function getOrderDataForAddress()
     {
         $addressData = array();
-        //Get order shipping method data
-        $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
-        list($serviceAndMethod, $price) = explode(')', $shipping);
-        list($service, $method) = explode('(', $serviceAndMethod);
-        $addressData['shipping']['shipping_service'] = trim($service);
-        $addressData['shipping']['shipping_method'] = trim($method);
-        $addressData['shipping']['price'] = trim($price);
+        if ($this->getParameter('addressHeader') != 'Other items in your order') {
+            //Get order shipping method data
+            $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+            list($serviceAndMethod, $price) = explode(')', $shipping);
+            list($service, $method) = explode('(', $serviceAndMethod);
+            $addressData['shipping']['shipping_service'] = trim($service);
+            $addressData['shipping']['shipping_method'] = trim($method);
+            $addressData['shipping']['price'] = trim($price);
+        }
         //Get order products data
         $products = $this->shoppingCartHelper()->getProductInfoInTable();
         foreach ($products as &$product) {
