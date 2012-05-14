@@ -545,6 +545,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this->_error;
     }
 
+    /**
+     * @param string $message
+     */
+    public function skipTestWithScreenshot($message)
+    {
+        $name = '';
+        foreach (debug_backtrace() as $line) {
+            if (preg_match('/Test$/', $line['class'])) {
+                $name = time() . '-' . $line['class'] . '-' . $line['function'];
+                break;
+            }
+        }
+        $url = $this->takeScreenshot($name);
+        $this->markTestSkipped($url . $message);
+    }
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #

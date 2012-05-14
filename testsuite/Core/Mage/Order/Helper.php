@@ -473,15 +473,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                 if ($validate) {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $name = '';
-                    foreach (debug_backtrace() as $line) {
-                        if (preg_match('/Test$/', $line['class'])) {
-                            $name = time() . '-' . $line['class'] . '-' . $line['function'];
-                            break;
-                        }
-                    }
-                    $url = $this->takeScreenshot($name);
-                    $this->markTestSkipped($url . 'Shipping Service "' . $shipService . '" is currently unavailable.');
+                    $this->skipTestWithScreenshot('Shipping Service "' . $shipService . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
@@ -495,15 +487,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 }
             } elseif ($validate) {
                 //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $name = '';
-                foreach (debug_backtrace() as $line) {
-                    if (preg_match('/Test$/', $line['class'])) {
-                        $name = time() . '-' . $line['class'] . '-' . $line['function'];
-                        break;
-                    }
-                }
-                $url = $this->takeScreenshot($name);
-                $this->markTestSkipped($url . $shipService . ': This shipping method is currently not displayed');
+                $this->skipTestWithScreenshot($shipService . ': This shipping method is currently not displayed');
                 //$this->addVerificationMessage($shipService . ': This shipping method is currently not displayed');
             }
         }
