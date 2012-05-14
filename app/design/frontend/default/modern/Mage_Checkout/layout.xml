@@ -123,7 +123,7 @@ Multi address shipping checkout selection of address per item page
         </reference>
     </checkout_multishipping_address_select>
 
-    <checkout_multishipping_address_selectbilling translate="label" parent="checkout_multishipping_address_select">
+    <checkout_multishipping_address_selectbilling translate="label" type="page" parent="checkout_multishipping_address_select">
         <label>Multishipping Checkout Billing Address Selection</label>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->

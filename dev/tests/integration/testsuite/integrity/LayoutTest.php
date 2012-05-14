@@ -21,22 +21,74 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleHierarchy($area, $package, $theme)
     {
-        $layoutUpdate = new Mage_Core_Model_Layout_Update(array(
-            'area' => $area, 'package' => $package, 'theme' => $theme
-        ));
-        $xml = $layoutUpdate->getFileLayoutUpdatesXml();
-        $handles = $xml->xpath('/layouts/*[@parent]') ?: array();
+        $xml = $this->_composeXml($area, $package, $theme);
+
+        $xpath = '/layouts/*[@type or @parent or @owner]';
+        $handles = $xml->xpath($xpath) ?: array();
+
         /** @var Mage_Core_Model_Layout_Element $node */
         $errors = array();
         foreach ($handles as $node) {
+            $type = $node->getAttribute('type');
             $parent = $node->getAttribute('parent');
-            if (!$xml->xpath("/layouts/{$parent}")) {
-                $errors[$node->getName()] = $parent;
+            $owner = $node->getAttribute('owner');
+            $name = $node->getName();
+
+            if (!$type) {
+                $errors[$name] = 'Handle type is not defined';
+                continue;
+            }
+
+            if (Mage_Core_Model_Layout_Update::TYPE_PAGE == $type) {
+                if ($owner) {
+                    $errors[$name] = 'Attribute "owner" is not appropriate for page types';
+                    continue;
+                }
+                $refName = $parent ? $parent : null;
+            } else if ($type = Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
+                if ($parent) {
+                    $errors[$name] = 'Attribute "parent" is not appropriate for page fragment types';
+                    continue;
+                }
+                if (!$owner) {
+                    $errors[$name] = 'No owner specified for page fragment type handle';
+                    continue;
+                }
+                $refName = $owner;
+            } else {
+                $errors[$name] = 'Unknown handle type: ' . $type;
+                continue;
+            }
+
+            if ($refName) {
+                $refNode = $xml->xpath("/layouts/{$refName}");
+                if (!$refNode || !count($refNode)) {
+                    $errors[$name] = "Node '{$refName}', referenced in hierarchy, does not exist";
+                    continue;
+                }
+                if ($refNode[0]->getAttribute('type') == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
+                    $errors[$name] = "Page fragment type '{$refName}', cannot be an ancestor in a hierarchy";
+                    continue;
+                }
             }
         }
+
         if ($errors) {
-            $this->fail("Reference(s) to non-existing parent handle found at:\n" . var_export($errors, 1));
+            $this->fail("There are errors while checking the page type and fragment types hierarchy at:\n" . var_export($errors, 1));
         }
+    }
+
+    /**
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     */
+    protected function _composeXml($area, $package, $theme)
+    {
+        $layoutUpdate = new Mage_Core_Model_Layout_Update(array(
+            'area' => $area, 'package' => $package, 'theme' => $theme
+        ));
+        return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 
     /**
@@ -78,11 +130,14 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleLabels($area, $package, $theme)
     {
-        $layoutUpdate = new Mage_Core_Model_Layout_Update(array(
-            'area' => $area, 'package' => $package, 'theme' => $theme
-        ));
-        $xml = $layoutUpdate->getFileLayoutUpdatesXml();
-        $handles = $xml->xpath('/layouts/*[@type="page" or @translate="label"]') ?: array();
+        $xml = $this->_composeXml($area, $package, $theme);
+
+        $xpath = '/layouts/*['
+            . '@type="' . Mage_Core_Model_Layout_Update::TYPE_PAGE . '"'
+            . ' or @type="' . Mage_Core_Model_Layout_Update::TYPE_FRAGMENT . '"'
+            . ' or @translate="label"]';
+        $handles = $xml->xpath($xpath) ?: array();
+
         /** @var Mage_Core_Model_Layout_Element $node */
         $errors = array();
         foreach ($handles as $node) {
@@ -91,8 +146,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
             }
         }
         if ($errors) {
-            $this->fail("The following handles are declared as page types or claim to have label,"
-                . " but they don't have a label:\n" . var_export($errors, 1)
+            $this->fail("The following handles must have label, but they don't have it:\n" . var_export($errors, 1)
             );
         }
     }
