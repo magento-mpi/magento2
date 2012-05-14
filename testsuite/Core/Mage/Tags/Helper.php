@@ -309,6 +309,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->validatePage();
+        $this->assertMessagePresent('success');
         return true;
     }
 

@@ -45,7 +45,6 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->tagsHelper()->deleteAllTags();
-        $this->assertMessagePresent('success');
         $this->logoutCustomer();
     }
 
