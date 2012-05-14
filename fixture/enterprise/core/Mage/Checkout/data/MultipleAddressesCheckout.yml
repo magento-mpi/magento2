@@ -111,3 +111,45 @@ all_variants_for_gift_options:
     individual_items: *mess_yes_wrap_yes_item
     send_gift_receipt: Yes
     add_printed_card: Yes
+
+verify_prices_all_gift_options:
+    address_1:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+            product_1:
+                product_name: %product1%
+                gift_wrapping: %product1wrapping%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $78.05
+            printed_card: $18.53
+            gift_wrapping_for_items: $11.77
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    address_2:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+        products:
+            product_1:
+                product_name: %product2%
+                gift_wrapping: %product2wrapping%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $78.05
+            printed_card: $18.53
+            gift_wrapping_for_items: $11.77
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    grand_total: $156.10

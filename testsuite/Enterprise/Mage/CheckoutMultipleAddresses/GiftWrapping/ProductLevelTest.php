@@ -35,11 +35,16 @@
  */
 class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
     }
 
     protected function tearDownAfterTest()
@@ -47,6 +52,9 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
     }
 
     /**

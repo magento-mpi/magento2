@@ -185,9 +185,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($shippingData as $oneAddressData) {
             foreach ($oneAddressData['products'] as $product) {
                 $name = $product['product_name'];
-                $qty = (isset($product['product_qty']))
-                    ? $product['product_qty']
-                    : 1;
+                $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
                 if (isset($products[$name])) {
                     $products[$name] = $products[$name] + $qty;
                 } else {
@@ -542,12 +540,107 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * @param array $checkoutData
+     * @param array $checkout
      */
-    public function frontOrderReview(array $checkoutData)
+    public function frontOrderReview(array $checkout)
     {
         $this->assertMultipleCheckoutPageOpened('place_order');
         $this->checkoutOnePageHelper()->frontValidate3dSecure();
-        //@TODO Verify order data
+        //Data
+        $paymentData = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
+        $billing = (isset($paymentData['billing_address'])) ? $paymentData['billing_address'] : array();
+        $shippings = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
+        $expectedPayment =
+            (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
+        $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
+        //Verify quantity orders
+        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info') . '//address');
+        $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
+        //Verify selected Shipping addresses for orders
+        $orderHeaders = array();
+        $actualShippings = $this->defineAddresses('shipping', $actualQty);
+        foreach ($shippings as $shipping) {
+            $address = (isset($shipping['address'])) ? $shipping['address'] : array();
+            if (empty($address)) {
+                continue;
+            }
+            $header = $this->getAddressId($address, $actualShippings);
+            if (is_null($header)) {
+                $this->addVerificationMessage(
+                    'Shipping Address is wrong for one order. [must be : ' . implode(',', $address) . ']');
+            }
+            $orderHeaders[] = $header;
+        }
+        //Verify selected Billing address for orders
+        if (is_null($this->getAddressId($billing, $this->defineAddresses()))) {
+            $this->addVerificationMessage(
+                'Billing Address is wrong for orders. [must be : ' . implode(',', $billing) . ']');
+        }
+        //Verify selected Payment Method for orders
+        $actualPayment = trim($this->getText($this->_getControlXpath('pageelement', 'payment_method')));
+        if ($actualPayment !== $expectedPayment) {
+            $this->addVerificationMessage(
+                'Payment Method is wrong. [' . $actualPayment . ' selected, but must be : ' . $expectedPayment . ']');
+        }
+        $this->assertEmptyVerificationErrors();
+        //Get Shipping Addresses Data
+        $ordersData = array();
+        foreach ($orderHeaders as $header) {
+            $this->addParameter('addressHeader', $header);
+            $id = strtolower(str_replace(' ', '_', preg_replace('/ of [0-9]+$/', '', $header)));
+            $ordersData[$id] = $this->getOrderDataForAddress();
+
+        }
+        if (empty($verifyPrices)) {
+            //Remove Prices
+            $withoutPrices = array();
+            foreach ($ordersData as $k => $addressData) {
+                $shipping = $addressData['shipping'];
+                unset($shipping['price']);
+                $withoutPrices[$k]['shipping'] = $shipping;
+                $products = $addressData['products'];
+                foreach ($products as $key => $product) {
+                    $temp['product_name'] = $product['product_name'];
+                    $temp['product_qty'] = $product['product_qty'];
+                    $withoutPrices[$k]['products'][$key] = $temp;
+                }
+            }
+            //Verify data without Prices
+            $expected = array();
+            foreach ($shippings as $key => $shipping) {
+                $k = str_replace('_data', '', $key);
+                $expected[$k]['shipping'] = $shipping['shipping'];
+                $expected[$k]['products'] = $shipping['products'];
+            }
+            $this->assertEquals($expected, $withoutPrices);
+        } else {
+            $ordersData['grand_total'] = $this->getText($this->_getControlXpath('pageelement', 'grand_total'));
+            $this->assertEquals($verifyPrices, $ordersData);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderDataForAddress()
+    {
+        $addressData = array();
+        //Get order shipping method data
+        $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+        list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
+        list($method, $price) = explode(' ', $methodAndPrice);
+        $addressData['shipping']['shipping_service'] = trim($service);
+        $addressData['shipping']['shipping_method'] = trim($method);
+        $addressData['shipping']['price'] = trim($price);
+        //Get order products data
+        $products = $this->shoppingCartHelper()->getProductInfoInTable();
+        foreach ($products as &$product) {
+            $product['product_qty'] = $product['qty'];
+            unset($product['qty']);
+        }
+        $addressData['products'] = $products;
+        //Get order total data
+        $addressData['total'] = $this->shoppingCartHelper()->getOrderPriceData();
+        return $addressData;
     }
 }

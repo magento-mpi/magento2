@@ -103,10 +103,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         $giftReceipt = (isset($giftOptions['send_gift_receipt'])) ? true : false;
         $printedCard = (isset($giftOptions['add_printed_card'])) ? true : false;
         //Verifying
-        $this->verifyControlAvailability('checkbox', 'send_gift_receipt', $giftReceipt,
-            'send Gift Receipt');
-        $this->verifyControlAvailability('checkbox', 'add_printed_card', $printedCard,
-            'add Printed Card to Order');
+        $this->verifyControlAvailability('checkbox', 'send_gift_receipt', $giftReceipt, 'send Gift Receipt');
+        $this->verifyControlAvailability('checkbox', 'add_printed_card', $printedCard, 'add Printed Card to Order');
         //For Entire Order
         $this->verifyControlAvailability('checkbox', 'gift_option_for_the_entire_order', $forOrder,
             'add gift options to Entire Order');
@@ -144,5 +142,35 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         } elseif (!$availability && $isAvailable) {
             $this->addVerificationMessage('It\'s possible to ' . $message);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderDataForAddress()
+    {
+        $addressData = array();
+        //Get order shipping method data
+        $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+        list($serviceAndMethod, $price) = explode(')', $shipping);
+        list($service, $method) = explode('(', $serviceAndMethod);
+        $addressData['shipping']['shipping_service'] = trim($service);
+        $addressData['shipping']['shipping_method'] = trim($method);
+        $addressData['shipping']['price'] = trim($price);
+        //Get order products data
+        $products = $this->shoppingCartHelper()->getProductInfoInTable();
+        foreach ($products as &$product) {
+            $temp = explode('Gift Wrapping Design :', $product['product_name']);
+            if (count($temp) > 1) {
+                $temp = array_map('trim', $temp);
+                list($product['product_name'], $product['gift_wrapping']) = $temp;
+            }
+            $product['product_qty'] = $product['qty'];
+            unset($product['qty']);
+        }
+        $addressData['products'] = $products;
+        //Get order total data
+        $addressData['total'] = $this->shoppingCartHelper()->getOrderPriceData();
+        return $addressData;
     }
 }

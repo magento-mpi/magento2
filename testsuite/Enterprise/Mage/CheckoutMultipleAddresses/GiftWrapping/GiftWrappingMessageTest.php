@@ -171,6 +171,12 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
                                                             'product_2'             => $testData['simpleDefault'],
                                                             'gift_options_address1' => $forProduct1,
                                                             'gift_options_address2' => $forProduct2));
+        $verifyPrices = $this->loadDataSet('MultipleAddressesCheckout', 'verify_prices_all_gift_options', null,
+            array('product1'         => $testData['simpleDefault'],
+                  'product2'         => $testData['simpleDefault'],
+                  'product1wrapping' => $testData['wrappingDefault'],
+                  'product2wrapping' => $testData['wrappingDefault']));
+        $checkoutData['verify_prices'] = $verifyPrices;
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable'));
@@ -711,6 +717,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
                       'product_2'             => $testData['simpleDefault'],
                       'gift_options_address1' => $reconfigureForProduct1,
                       'gift_options_address2' => $reconfigureForProduct2));
+        $reconfiguredCheckout = $checkoutData;
+        $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
@@ -720,7 +728,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->verifyGiftOptions($checkoutData['shipping_data']);
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
-        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfigureShipping);
+        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
         $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -792,6 +800,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
                       'product_2'             => $testData['simpleDefault'],
                       'gift_options_address1' => $reconfigureForProduct1,
                       'gift_options_address2' => $reconfigureForProduct2));
+        $reconfiguredCheckout = $checkoutData;
+        $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
@@ -804,7 +814,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->verifyGiftOptions($checkoutData['shipping_data']);
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
-        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfigureShipping);
+        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
         $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -858,6 +868,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
                       'product_2'             => $testData['simpleDefault'],
                       'gift_options_address1' => array('add_printed_card' => 'Yes'),
                       'gift_options_address2' => array('add_printed_card' => 'Yes')));
+        $reconfiguredCheckout = $checkoutData;
+        $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_card_enable_yes'));
@@ -866,7 +878,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->verifyGiftOptions($checkoutData['shipping_data']);
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
-        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfigureShipping);
+        $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
         $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');

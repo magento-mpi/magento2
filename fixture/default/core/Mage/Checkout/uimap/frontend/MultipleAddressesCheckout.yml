@@ -364,20 +364,58 @@ checkout_multishipping_review_order:
                 -
                     checkout_progress: *checkoutProgress
                 -
+                    billing_address:
+                        xpath: //div[contains(div/h3,'Billing Address')]
+                        links:
+                            billing_address_change: //a[contains(@href, '/editBilling/')]
+                        pageelements:
+                            billing_method_address: //address
+                -
+                    payment_method:
+                        xpath: //div[contains(div/h3,'Payment Method')]
+                        links:
+                            payment_method_change: //a[contains(@href, '/backtobilling/')]
+                        pageelements:
+                            payment_method: //p
+                            card_data: //table
+                -
+                    shipping_address_info:
+                        xpath: //div[h2='Shipping Information']
+                        pageelements:
+                            shipping_method_address_header: /h3[%number%]
+                            shipping_method_address: //div[contains(@class,'col-narrow')][%number%]//address
+                -
+                    shipping_address:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(div/h4,'Shipping To')]
+                        links:
+                            shipping_address_change: //a[contains(@href, '/editShipping/')]
+                -
+                    shipping_method:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(div/h4,'Shipping Method')]
+                        links:
+                            shipping_method_change: //a[contains(@href, '/backtoshipping/')]
+                        pageelements:
+                            shipping_method: //p
+                -
+                    order_items:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::div[contains(h4,'Items')][1]
+                        links:
+                            edit_items: //a[text()='Edit Items']
+                            open_product: //a[text()='productName']
+                        pageelements:
+                            product_table: //table/tbody
+                            product_table_head: //table/thead
+                            product_line: //table/tbody/tr
+                            price_totals: //table/tfoot
+                -
                     review_order:
                         xpath: //div[div/h1[contains(text(),'Review Order')]]
                         links:
-                            billing_address_change: //a[contains(@href, 'editBilling/')]
-                            payment_method_change: //a[contains(@href, 'backtobilling/')][text()='Change']
-                            shipping_to_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'editShipping/')]
-                            shipping_method_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'backtoshipping/')]
-                            back_to_billing_information: //a[text() = 'Back to Billing Information')]
-                        pageelements:
-                            product_table_head: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
-                            price_totals: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
-                            product_line:  //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr
+                            back_to_billing_information: //a[text() = 'Back to Billing Information']
                         buttons:
                             place_order: //button[span='Place Order']
+                        pageelements:
+                            grand_total: //*[@class='grand-total']//span[@class='price']
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[@id='centinel_authenticate_block']

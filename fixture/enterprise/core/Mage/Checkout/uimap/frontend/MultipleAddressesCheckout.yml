@@ -98,9 +98,24 @@ checkout_multishipping_review_order:
         form:
             fieldsets:
                 -
-                    review_order:
-                        links:
-                            shipping_method_change: //a[contains(@href, 'backtoshipping/')]
+                    billing_address:
+                        xpath: //div[contains(h3,'Billing Address')]
+                -
+                    payment_method:
+                        xpath: //div[contains(h3,'Payment Method')]
+                -
+                    shipping_address:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(h4,'Shipping To')]
+                -
+                    shipping_method:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(h4,'Shipping Method')]
+                -
+                    shipping_address_info:
+                        xpath: //div[h3/@class='section-title']
+                        pageelements:
+                            shipping_method_address_header: "[%number%]/h3"
+                            shipping_method_address: "[%number%]//address"
+        messages: *checkoutMessages
 
 checkout_multishipping_success_order:
     title: Magento Enterprise Edition
