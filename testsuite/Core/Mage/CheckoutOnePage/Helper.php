@@ -58,7 +58,14 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $checkoutData = $this->loadData($checkoutData);
         }
         $this->doOnePageCheckoutSteps($checkoutData);
-        $this->frontOrderReview($checkoutData);
+        return $this->submitOnePageCheckoutOrder();
+    }
+
+    /**
+     * @return string
+     */
+    public function submitOnePageCheckoutOrder()
+    {
         $this->clickButton('place_order', false);
         $this->waitForAjax();
         $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
@@ -104,6 +111,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->frontSelectShippingMethod($shipMethod);
         }
         $this->frontSelectPaymentMethod($payMethod);
+        $this->frontOrderReview($checkoutData);
     }
 
     /**

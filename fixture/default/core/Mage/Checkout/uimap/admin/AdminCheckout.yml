@@ -132,7 +132,7 @@ manage_sales_orders:
 create_order_for_new_customer:
     mca: sales_order_create/
     title: New Order / Orders / Sales / Magento Admin
-    uimap:
+    uimap: &create_order_for_new_customer
         form:
             fieldsets: &newOrderForNewCustomerFieldsets
                 -
@@ -377,6 +377,11 @@ create_order_for_new_customer:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
         messages: *orderMessages
+
+reorder_create_new_order:
+    mca: sales_order_create/reorder/order_id/%id%
+    title: New Order / Orders / Sales / Magento Admin
+    uimap: &create_order_for_new_customer
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
