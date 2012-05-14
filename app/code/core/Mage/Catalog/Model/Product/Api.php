@@ -49,7 +49,6 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         'meta_description',
         'custom_design',
         'custom_layout_update',
-        'options_container',
         'image_label',
         'small_image_label',
         'thumbnail_label',

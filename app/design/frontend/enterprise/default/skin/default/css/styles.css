@@ -1297,7 +1297,6 @@ button.btn-cart span {}
 
 /* Options in product info column */
 .options-container-small { margin:20px 0 0; }
-.options-container-small .product-options-bottom { float:left; }
 .options-container-small .product-pricing { display:none; }
 .options-container-small .price-box { display:none; }
 .options-container-small .add-to-cart { padding:13px 15px 0 0 !important; }

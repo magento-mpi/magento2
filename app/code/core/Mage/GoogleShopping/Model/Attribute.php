@@ -31,7 +31,6 @@ class Mage_GoogleShopping_Model_Attribute extends Mage_Core_Model_Abstract
         'giftcard_amounts',
         'news_from_date',
         'news_to_date',
-        'options_container',
         'price_view',
         'sku_type',
         'use_config_is_redeemable',
