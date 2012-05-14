@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <acl translate="title" module="Mage_User">
+                                <title>Permissions</title>
+                                <sort_order>0</sort_order>
+                                <children>
+                                    <roles translate="title">
+                                        <title>Roles</title>
+                                        <sort_order>10</sort_order>
+                                    </roles>
+                                    <users translate="title">
+                                        <title>Users</title>
+                                        <sort_order>20</sort_order>
+                                    </users>
+                                </children>
+                            </acl>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

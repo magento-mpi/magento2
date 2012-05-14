@@ -62,7 +62,7 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $res = Mage::getModel('Mage_User_Model_Role')->getResourcesList2D();
+                    $res = Mage::getModel('Mage_Admin_Model_Config')->getAclResourceList(true);
                     foreach ($res as $index => $resName) {
                         $row['permission']  = (in_array($resName, $postedResources) ? 'allow' : 'deny');
                         $row['resource_id'] = trim($resName, '/');
