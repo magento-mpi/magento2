@@ -123,7 +123,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('Mage_User_Model_User')->setId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
+        $currentUser = Mage::getModel('Mage_User_Model_User')->setId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
@@ -266,6 +266,6 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/acl/roles');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/acl/roles');
     }
 }

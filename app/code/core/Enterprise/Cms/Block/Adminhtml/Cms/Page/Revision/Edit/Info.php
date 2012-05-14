@@ -100,8 +100,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getAuthor()
     {
         $userId = $this->_page->getUserId();
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId() == $userId) {
-            return Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getUsername();
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
+            return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
 
         $user = Mage::getModel('Mage_User_Model_User')

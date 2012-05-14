@@ -142,7 +142,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid Form Key. Please refresh the page.');
@@ -160,7 +160,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect( Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getStartupPageUrl() );
+                $this->_redirect( Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getStartupPageUrl() );
             }
             return $this;
         }
@@ -189,7 +189,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
         }

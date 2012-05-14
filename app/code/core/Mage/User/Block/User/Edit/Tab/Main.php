@@ -107,7 +107,7 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId() != $model->getUserId()) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',
                 'label' 	=> Mage::helper('Mage_User_Helper_Data')->__('This account is'),

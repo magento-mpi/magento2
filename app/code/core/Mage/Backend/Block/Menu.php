@@ -61,7 +61,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
         $cacheKeyInfo = array(
             'admin_top_nav',
             $this->getActive(),
-            Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId(),
+            Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId(),
             Mage::app()->getLocale()->getLocaleCode()
         );
         // Add additional key parameters if needed
@@ -210,7 +210,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected function _checkAcl($resource)
     {
         try {
-            $res =  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($resource);
+            $res =  Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($resource);
         } catch (Exception $e) {
             return false;
         }

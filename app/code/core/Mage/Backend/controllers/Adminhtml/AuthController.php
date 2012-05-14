@@ -22,7 +22,7 @@ class Mage_Backend_Adminhtml_AuthController extends Mage_Backend_Controller_Acti
      */
     public function indexAction()
     {
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $url = $session->getUser()->getStartupPageUrl();
         if ($session->isFirstPageAfterLogin()) {
             // retain the "first page after login" value in session (before redirect)

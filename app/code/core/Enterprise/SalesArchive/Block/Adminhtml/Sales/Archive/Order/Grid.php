@@ -53,35 +53,35 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
         parent::_prepareMassaction();
         $this->_rssLists = array();
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/cancel')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/actions/cancel')) {
             $this->getMassactionBlock()->addItem('cancel_order', array(
                  'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'),
                  'url'  => $this->getUrl('*/sales_archive/massCancel'),
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/hold')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/actions/hold')) {
             $this->getMassactionBlock()->addItem('hold_order', array(
                  'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Hold'),
                  'url'  => $this->getUrl('*/sales_archive/massHold'),
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/unhold')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/actions/unhold')) {
             $this->getMassactionBlock()->addItem('unhold_order', array(
                  'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Unhold'),
                  'url'  => $this->getUrl('*/sales_archive/massUnhold'),
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/order/actions/unhold')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/actions/unhold')) {
             $this->getMassactionBlock()->addItem('unhold_order', array(
                  'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Unhold'),
                  'url'  => $this->getUrl('*/sales_archive/massUnhold'),
             ));
         }
 
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/archive/order/remove')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/archive/order/remove')) {
             $this->getMassactionBlock()->addItem('remove_order_from_archive', array(
                  'label'=> Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Orders Management'),
                  'url'  => $this->getUrl('*/sales_archive/massRemove'),
@@ -93,7 +93,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
 
     public function getRowUrl($row)
     {
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('sales/archive/orders')) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/archive/orders')) {
             return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
         }
         return false;

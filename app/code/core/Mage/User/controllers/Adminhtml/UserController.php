@@ -128,7 +128,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
     public function deleteAction()
     {
-        $currentUser = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
+        $currentUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
 
         if ($id = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $id ) {
@@ -176,7 +176,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/acl/users');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/acl/users');
     }
 
 }

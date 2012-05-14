@@ -11,6 +11,7 @@
 return array(
     'Mage_Admin_Model_Acl_Role',
     'Mage_Admin_Model_Observer',
+    'Mage_Admin_Model_Session' => array('suggestion' => 'Mage_Backend_Model_Auth_Session'),
     'Mage_Admin_Model_Resource_Acl_Role',
     'Mage_Admin_Model_Resource_Acl_Role_Collection',
     'Mage_Admin_Model_User' => array('suggestion' => 'Mage_User_Model_User'),

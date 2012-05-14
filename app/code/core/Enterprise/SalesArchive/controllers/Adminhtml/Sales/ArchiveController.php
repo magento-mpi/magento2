@@ -310,6 +310,6 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
         }
 
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl);
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($acl);
     }
 }

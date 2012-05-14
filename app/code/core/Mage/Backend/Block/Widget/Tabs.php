@@ -175,7 +175,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
-        } elseif ($activeTabId = Mage::getSingleton('Mage_Admin_Model_Session')->getActiveTabId()) {
+        } elseif ($activeTabId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getActiveTabId()) {
             $this->_setActiveTab($activeTabId);
         }
 

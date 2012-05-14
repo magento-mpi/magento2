@@ -16,7 +16,7 @@
 class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @var Mage_Admin_Model_Session
+     * @var Mage_Backend_Model_Auth_Session
      */
     protected $_session;
 

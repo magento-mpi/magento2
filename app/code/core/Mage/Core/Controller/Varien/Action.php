@@ -1108,7 +1108,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $contentType = 'application/octet-stream',
         $contentLength = null)
     {
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         if ($session->isFirstPageAfterLogin()) {
             $this->_redirect($session->getUser()->getStartupPageUrl());
             return $this;
