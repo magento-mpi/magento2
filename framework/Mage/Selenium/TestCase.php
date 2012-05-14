@@ -549,6 +549,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this->_error;
     }
 
+    /**
+     * @param string $message
+     */
+    public function skipTestWithScreenshot($message)
+    {
+        $name = '';
+        foreach (debug_backtrace() as $line) {
+            if (preg_match('/Test$/', $line['class'])) {
+                $name = time() . '-' . $line['class'] . '-' . $line['function'];
+                break;
+            }
+        }
+        $url = $this->takeScreenshot($name);
+        $this->markTestSkipped($url . $message);
+    }
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -2175,9 +2190,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function clickControl($controlType, $controlName, $willChangePage = true)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-        if (!$this->isVisible($xpath)) {
-            $this->fail('Control "' . $controlName . '" is not present on the page "' . $this->getCurrentPage() . '". '
-                        . 'Type: ' . $controlType . ', xpath: ' . $xpath);
+        if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
+            $this->fail(
+                "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\nProblem with $controlType '$controlName', xpath '$xpath':\n"
+                . 'Control is not present on the page');
         }
         $this->click($xpath);
         if ($willChangePage) {
@@ -2296,7 +2313,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function controlIsVisible($controlType, $controlName)
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
-        if ($this->isVisible($xpath)) {
+        if ($this->isElementPresent($xpath) && $this->isVisible($xpath)) {
             return true;
         }
 
@@ -2548,12 +2565,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         while ($timeout > time() - $iStartTime) {
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
-                    if ($this->isVisible($loc)) {
+                    if ($this->isElementPresent($loc) && $this->isVisible($loc)) {
                         return true;
                     }
                 }
             } else {
-                if ($this->isVisible($locator)) {
+                if ($this->isElementPresent($locator) && $this->isVisible($locator)) {
                     return true;
                 }
             }
@@ -2807,7 +2824,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->click($resetXpath);
         if ($waitAjax) {
-            $this->pleaseWait();
+            $this->waitForAjax();
         } else {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
@@ -2845,7 +2862,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpathTR = "//table[@class='data']//tr";
         foreach ($data as $key => $value) {
-            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and !is_array($value)) {
+            if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
                     $value = "concat('" . str_replace('\'', "',\"'\",'", $value) . "')";
                 } else {
@@ -3185,15 +3202,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $this->_getControlXpath('field', $name);
         }
         $errorMessage =
-            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
             . "Problem with field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             $this->waitForEditable($xpath);
             $this->type($xpath, $value);
             $this->waitForAjax();
         } else {
-            throw new RuntimeException(
-                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
+            throw new RuntimeException($errorMessage . 'Element is not present on the page');
         }
     }
 
@@ -3226,7 +3242,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $this->_getControlXpath('multiselect', $name);
         }
         $errorMessage =
-            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
             . "Problem with multiselect field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
@@ -3257,8 +3273,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException(
-                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
+            throw new RuntimeException($errorMessage . 'Element is not present on the page');
         }
     }
 
@@ -3291,7 +3306,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
         $errorMessage =
-            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
@@ -3307,8 +3322,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException(
-                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
+            throw new RuntimeException($errorMessage . 'Element is not present on the page');
         }
     }
 
@@ -3339,7 +3353,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $this->_getControlXpath('checkbox', $name);
         }
         $errorMessage =
-            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
             . "Problem with checkbox '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
@@ -3359,8 +3373,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException(
-                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
+            throw new RuntimeException($errorMessage . 'Element is not present on the page');
         }
     }
 
@@ -3392,7 +3405,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = $this->_getControlXpath('radiobutton', $name);
         }
         $errorMessage =
-            'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
             . "Problem with radiobutton '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
@@ -3407,8 +3420,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw new RuntimeException($errorMessage . 'Element is not editable');
             }
         } else {
-            throw new RuntimeException(
-                $errorMessage . "Element is not present on '" . $this->getCurrentPage() . "' page");
+            throw new RuntimeException($errorMessage . 'Element is not present on the page');
         }
     }
 
@@ -3575,7 +3587,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
-            //$this->deleteAllVisibleCookies();
+            $this->deleteAllVisibleCookies();
             $this->validatePage('home_page');
         }
 

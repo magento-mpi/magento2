@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Helper class
+ * Helper class Core_Mage_for OnePageCheckout
  *
  * @package     selenium
  * @subpackage  tests
@@ -35,7 +35,6 @@
  */
 class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_Helper
 {
-
     /**
      * Adding gift message(gift wrapping) for entire order of each item
      *
@@ -65,5 +64,26 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
                 }
             }
         }
+    }
+    
+    /**
+     * @return string
+     */
+    public function submitOnePageCheckoutOrder()
+    {
+        $this->clickButton('place_order', false);
+        $this->waitForElement(array($this->_getMessageXpath('success_checkout'),
+                                    $this->_getMessageXpath('general_error'),
+                                    $this->_getMessageXpath('general_validation')));
+        $this->waitForTextNotPresent('Submitting order information.');
+        $this->assertMessageNotPresent('error');
+        $this->waitForTextPresent('Thank you for your purchase!');
+        $this->validatePage('onepage_checkout_success');
+        $xpath = $this->_getControlXpath('link', 'order_number');
+        if ($this->isElementPresent($xpath)) {
+            return $this->getText($xpath);
+        }
+
+        return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
     }
 }

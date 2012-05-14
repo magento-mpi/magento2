@@ -378,7 +378,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $noShipping = $this->_getControlXpath('message', 'no_shipping');
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                 //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
+                $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                 //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
@@ -392,7 +392,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 }
             } else {
                 //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $this->markTestSkipped($service . ': This shipping method is currently not displayed');
+                $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
                 //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
             }
         }

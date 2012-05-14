@@ -58,7 +58,14 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $checkoutData = $this->loadData($checkoutData);
         }
         $this->doOnePageCheckoutSteps($checkoutData);
-        $this->frontOrderReview($checkoutData);
+        return $this->submitOnePageCheckoutOrder();
+    }
+
+    /**
+     * @return string
+     */
+    public function submitOnePageCheckoutOrder()
+    {
         $this->clickButton('place_order', false);
         $this->waitForAjax();
         $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
@@ -106,6 +113,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($payMethod) {
             $this->frontSelectPaymentMethod($payMethod);
         }
+        $this->frontOrderReview($checkoutData);
     }
 
     /**
@@ -215,7 +223,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $noShipping = $this->_getControlXpath('message', 'no_shipping');
                 if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
+                    $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
                 } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                     $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
@@ -229,8 +237,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                     }
                 } else {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped($service . ': This shipping method is currently not display');
-                    //$this->addVerificationMessage($service . ': This shipping method is currently not display');
+                    $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
+                    //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
                 }
             }
 
@@ -308,7 +316,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
             $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
 
-            if (!$this->isVisible($frame)) {
+            if (!$this->isElementPresent($frame) || !$this->isVisible($frame)) {
                 //Skipping test, but not failing
                 $this->markTestSkipped('3D Secure frame is not loaded(maybe wrong card)');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
