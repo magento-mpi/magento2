@@ -182,6 +182,14 @@
             <pbridge_cybersource_soap>
                 <model>enterprise_pbridge/payment_method_cybersource_soap</model>
             </pbridge_cybersource_soap>
+            <dibs>
+                <title>Credit Card (DIBS)</title>
+                <using_pbridge>1</using_pbridge>
+            </dibs>
+            <pbridge_dibs>
+                <model>enterprise_pbridge/payment_method_dibs</model>
+                <active>1</active>
+            </pbridge_dibs>
             <braintree_basic>
                 <model>enterprise_pbridge/payment_method_braintree_basic</model>
                 <title>Braintree</title>
