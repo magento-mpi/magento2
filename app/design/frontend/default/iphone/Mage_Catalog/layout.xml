@@ -179,7 +179,8 @@ Product view
 
                 <block type="Mage_Catalog_Block_Product_List_Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
 
-                <container name="product.options.info.container" label="Product Info Column" htmlTag="div" htmlClass="options-container-small">
+                <container name="product.options.info.container" label="Product Info Column"/>
+                <container name="product.options.after.info.container" label="After Product Info Column">
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml" translate="label">
                         <label>Info Column Options Wrapper</label>
                         <block type="Mage_Core_Block_Template" name="options_js" template="Mage_Catalog::product/view/options/js.phtml"/>
@@ -193,12 +194,11 @@ Product view
                     </block>
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml" translate="label">
                         <label>Bottom Block Options Wrapper</label>
-                        <action method="insert"><element>product.tierprices</element></action>
+                        <block type="Mage_Catalog_Block_Product_View" name="product.tierprices" as="product.tierprices" template="product/view/tierprices.phtml"/>
                         <block type="Mage_Catalog_Block_Product_View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
-                        <action method="append"><element>product.info.addtocart</element></action>
+                        <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="product.info.addtocart" template="product/view/addtocart.phtml"/>
                     </block>
                 </container>
-                <container name="product.options.after.info.container" label="After Product Info Column" htmlTag="div" htmlClass="options-container-big"/>
             </block>
         </reference>
     </catalog_product_view>

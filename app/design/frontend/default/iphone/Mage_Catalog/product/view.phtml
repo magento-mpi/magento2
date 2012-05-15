@@ -53,7 +53,10 @@
                         <?php echo $this->getChildHtml('extra_buttons') ?>
                     <?php else:?>
                         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                            <?php echo $this->getLayout()->renderElement('product.options.info.container') ?>
+                            <?php $infoColumn = $this->getLayout()->renderElement('product.options.info.container'); ?>
+                            <?php if ($infoColumn): ?>
+                                <div class="options-container-small"><?php echo $infoColumn ?></div>
+                            <?php endif; ?>
                         <?php endif;?>
                     <?php endif; ?>
 
@@ -84,7 +87,10 @@
         <div class="product-review"><?php echo $this->getReviewsSummaryHtml($_product, false, true)?></div>
 
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-            <?php echo $this->getLayout()->renderElement('product.options.after.info.container') ?>
+            <?php $afterInfoColumn = $this->getLayout()->renderElement('product.options.after.info.container'); ?>
+            <?php if ($afterInfoColumn): ?>
+                <div class="options-container-big"><?php echo $afterInfoColumn ?></div>
+            <?php endif; ?>
         <?php endif;?>
     </form>
     <?php echo $this->getChildHtml('upsell_products') ?>

@@ -51,8 +51,8 @@
                             <?php echo $this->getChildHtml('addto') ?>
                         </div>
                     <?php else:?>
-                        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                            <?php echo $this->getLayout()->renderElement('product.options.info.container') ?>
+                        <?php if ($_product->isSaleable() && $this->hasOptions() && $infoColumn = $this->getLayout()->renderElement('product.options.info.container')):?>
+                            <div class="options-container-small"><?php echo $infoColumn ?></div>
                         <?php else: ?>
                             <?php echo $this->getChildHtml('addto') ?>
                         <?php endif;?>
@@ -102,7 +102,10 @@
         </div>
         <div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-            <?php echo $this->getLayout()->renderElement('product.options.after.info.container') ?>
+            <?php $afterInfoColumn = $this->getLayout()->renderElement('product.options.after.info.container'); ?>
+            <?php if ($afterInfoColumn): ?>
+                <div class="options-container-big"><?php echo $afterInfoColumn ?></div>
+            <?php endif; ?>
         <?php endif;?>
     </form>
         <?php echo $this->getChildHtml('relatedProducts') ?>
