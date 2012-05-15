@@ -210,6 +210,15 @@
                 <title>Paybox Direct</title>
                 <using_pbridge>1</using_pbridge>
             </paybox_direct>
+            <psigate_basic>
+                <title>Psigate</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+            </psigate_basic>
+            <pbridge_psigate_basic>
+                <model>enterprise_pbridge/payment_method_psigate_basic</model>
+                <active>1</active>
+            </pbridge_psigate_basic>
         </payment>
     </default>
 </config>
