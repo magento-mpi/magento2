@@ -79,6 +79,19 @@ return array(
                 'type'     => 'fragment',
                 'children' => array(),
             ),
+            'checkout_onepage_index' => array(
+                'name' => 'checkout_onepage_index',
+                'label' => 'One Page Checkout',
+                'type' => 'page',
+                'children' => array(
+                    'checkout_onepage_progress' => array(
+                        'name' => 'checkout_onepage_progress',
+                        'label' => 'One Page Checkout Progress',
+                        'type' => 'fragment',
+                        'children' => array()
+                    ),
+                ),
+            ),
         ),
     ),
 );

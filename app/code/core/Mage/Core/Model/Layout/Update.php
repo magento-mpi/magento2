@@ -210,7 +210,8 @@ class Mage_Core_Model_Layout_Update
     }
 
     /**
-     * Retrieve the all parent handles ordered from parent to child.
+     * Retrieve the all parent handles ordered from parent to child. The $isPageTypeOnly parameters controls,
+     * whether only page type parent relation is processed.
      *
      * @param string $handleName
      * @param bool $isPageTypeOnly

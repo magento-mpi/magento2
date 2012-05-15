@@ -51,4 +51,10 @@
     <catalogsearch_ajax_suggest translate="label" type="fragment" owner="default">
         <label>Catalog Quick Search Form Suggestions</label>
     </catalogsearch_ajax_suggest>
+    <checkout_onepage_index translate="label" type="page" parent="default">
+        <label>One Page Checkout</label>
+    </checkout_onepage_index>
+    <checkout_onepage_progress translate="label" type="fragment" owner="checkout_onepage_index">
+        <label>One Page Checkout Progress</label>
+    </checkout_onepage_progress>
 </layouts>
