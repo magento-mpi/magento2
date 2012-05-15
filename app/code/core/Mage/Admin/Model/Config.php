@@ -44,7 +44,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      *
      * @var array
      */
-    protected $_modules = array();
+    protected $_helpers = array();
 
     /**
      * Load config from merged adminhtml.xml files
@@ -52,14 +52,10 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function __construct(array $arguments = array())
     {
-        if (isset($arguments['app'])) {
-            $this->_app = $arguments['app'];
-        }
-        if (isset($arguments['appConfig'])) {
-            $this->_appConfig = $arguments['appConfig'];
-        }
-        if (isset($arguments['modules'])) {
-            $this->_modules= $arguments['modules'];
+        $this->_app = isset($arguments['app']) ? $arguments['app'] : Mage::app();
+        $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
+        if (isset($arguments['helpers'])) {
+            $this->_helpers = $arguments['helpers'];
         }
 
 
@@ -67,36 +63,20 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
         $this->setCacheId('adminhtml_acl_menu_config');
 
         /* @var $adminhtmlConfig Varien_Simplexml_Config */
-        $adminhtmlConfig = $this->_getApp()->loadCache($this->getCacheId());
+        $adminhtmlConfig = $this->_app->loadCache($this->getCacheId());
         if ($adminhtmlConfig) {
             $this->_adminhtmlConfig = new Varien_Simplexml_Config($adminhtmlConfig);
         } else {
             $adminhtmlConfig = new Varien_Simplexml_Config;
             $adminhtmlConfig->loadString('<?xml version="1.0"?><config></config>');
-            $this->_getAppConfig()->loadModulesConfiguration('adminhtml.xml', $adminhtmlConfig);
+            $this->_appConfig->loadModulesConfiguration('adminhtml.xml', $adminhtmlConfig);
             $this->_adminhtmlConfig = $adminhtmlConfig;
 
-            if ($this->_getApp()->useCache('config')) {
-                $this->_getApp()->saveCache($adminhtmlConfig->getXmlString(), $this->getCacheId(),
+            if ($this->_app->useCache('config')) {
+                $this->_app->saveCache($adminhtmlConfig->getXmlString(), $this->getCacheId(),
                     array(Mage_Core_Model_Config::CACHE_TAG));
             }
         }
-    }
-
-    /**
-     * @return Mage_Core_Model_App
-     */
-    protected function _getApp()
-    {
-        return $this->_app ? $this->_app : Mage::app();
-    }
-
-    /**
-     * @return Mage_Core_Model_Config
-     */
-    protected function _getAppConfig()
-    {
-        return $this->_appConfig ? $this->_appConfig : Mage::getConfig();
     }
 
     /**

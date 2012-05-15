@@ -22,20 +22,24 @@ class Mage_Admin_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $config = $this->getMock('Mage_Core_Model_Config', array('loadModulesConfiguration'), array(), '', false);
-        $this->_config = new Mage_Admin_Model_Config(array(
-            'app' => $this->getMock('Mage_Core_Model_App'),
-            'appConfig' => $config
-        ));
-
-        $this->_config->getAdminhtmlConfig()->loadFile(__DIR__ . '/_files/adminhtml.xml');
         $userHelper = $this->getMock("Mage_User_Helper_Data");
         $userHelper->expects($this->any())->method('__')->will($this->returnValue('User_Translation'));
 
         $backendHelper = $this->getMock("Mage_Backend_Helper_Data");
         $backendHelper->expects($this->any())->method('__')->will($this->returnValue('Backend_Translation'));
 
-        $this->_config->addHelper('Mage_User', $userHelper);
-        $this->_config->addHelper('Mage_Backend', $backendHelper);
+        $this->_config = new Mage_Admin_Model_Config(
+            array(
+                'app' => $this->getMock('Mage_Core_Model_App'),
+                'appConfig' => $config,
+                'helpers' => array(
+                    'Mage_User' => $userHelper,
+                    'Mage_Backend' => $backendHelper
+                )
+            )
+        );
+
+        $this->_config->getAdminhtmlConfig()->loadFile(__DIR__ . '/_files/adminhtml.xml');
     }
 
     public function testGetAclResourceTree()
