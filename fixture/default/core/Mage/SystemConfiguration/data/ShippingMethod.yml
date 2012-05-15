@@ -179,10 +179,10 @@ dhl_enable:
             dhl_enabled: Yes
             dhl_gateway_url: HTTPS://eCommerce.airborne.com/ApiLandingTest.asp
             dhl_title: DHL
-            dhl_access_id: MAGEN_2925
-            dhl_password: 503P85QMZ2
+            dhl_access_id: MAGEN_8501
+            dhl_password: QR2GO1U74X
             dhl_account_number: 799909537
-            dhl_shipping_key_int: 54233F2B2C4E5C4B4C5E5A595655304F404F5140475E575A55
+            dhl_shipping_key_int: 54233F2B2C4E5C4B4C5E5A59565530554B405641475D5659
             dhl_shipping_key: %noValue%
             dhl_maximum_package_weight: 150
             dhl_allowed_methods: all
