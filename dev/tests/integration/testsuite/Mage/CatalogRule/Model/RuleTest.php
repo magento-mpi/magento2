@@ -13,7 +13,7 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_CatalogRule_Model_Rule
      */
-    protected $object;
+    protected $_object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -21,7 +21,7 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Mage_CatalogRule_Model_Rule();
+        $this->_object = new Mage_CatalogRule_Model_Rule();
     }
 
     /**
@@ -62,14 +62,15 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
                 'action_amount' => '10.0000',
                 'sub_simple_action' => 'by_percent',
                 'sub_discount_amount' => '90.0000',
+                'action_stop' => '0',
             ),
             array(
                 'action_operator' => 'by_percent',
                 'action_amount' => '50.0000',
                 'sub_simple_action' => '',
                 'sub_discount_amount' => '0.0000',
+                'action_stop' => '0',
             ),
         );
     }
 }
-?>
