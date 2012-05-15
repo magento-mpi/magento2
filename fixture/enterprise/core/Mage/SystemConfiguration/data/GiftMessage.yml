@@ -39,6 +39,14 @@ gift_wrapping_all_enable:
             allow_gift_printered_card: Yes
             default_price_for_printed_card: 18.53
 
+gift_wrapping_enable_order_items:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_wrapping_on_order_level: Yes
+            allow_gift_wrapping_for_order_items: Yes
+
 gift_wrapping_all_enable_on_website:
     configuration_scope: Main Website
     tab_1:

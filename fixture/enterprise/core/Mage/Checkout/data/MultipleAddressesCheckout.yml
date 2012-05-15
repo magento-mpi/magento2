@@ -138,7 +138,6 @@ verify_prices_all_gift_options:
             shipping_method: Fixed
             price: $10.00
         products:
-        products:
             product_1:
                 product_name: %product2%
                 gift_wrapping: %product2wrapping%
@@ -153,3 +152,39 @@ verify_prices_all_gift_options:
             shipping_handling_flat_rate_fixed: $10.00
             subtotal: $25.98
     grand_total: $156.10
+
+verify_prices_gift_wrapping_TL-MAGE-1044:
+    address_1:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+            product_1:
+                product_name: %product1%
+                gift_wrapping: %product1wrapping%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $63.42
+            gift_wrapping_for_items: $15.67
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    address_2:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+            product_1:
+                product_name: %product2%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $35.98
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    grand_total: $99.40

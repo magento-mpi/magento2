@@ -162,6 +162,6 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
             $this->select($fieldXpath, 'label=' . 'regexp:^\s+' . preg_quote($storeView));
         }
         $this->getConfirmation();
-        $this->waitForAjax();
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
 }
