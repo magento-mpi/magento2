@@ -1694,8 +1694,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (end($fallbackOrderHelper) == 'enterprise') {
             $expectedTitle =
                 $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-            $this->assertSame($expectedTitle, $this->getTitle(),
-                'Title for page "' . $this->getCurrentPage() . '" is unexpected.');
+            $this->assertSame($expectedTitle, $this->getTitle(), 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
@@ -3491,6 +3490,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->validatePage('log_in_to_admin');
 
         return $this;
+    }
+
+    /**
+     * Flush Cache Storage
+     */
+    public function flushCache()
+    {
+        $this->admin('cache_storage_management');
+        $this->clickButtonAndConfirm('flush_cache_storage', 'flush_cache_confirmation', false);
+        $this->waitForNewPage();
+        $this->validatePage('cache_storage_management');
+        $this->assertMessagePresent('success');
     }
 
     /**
