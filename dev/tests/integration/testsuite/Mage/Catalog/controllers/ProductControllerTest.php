@@ -70,7 +70,7 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->dispatch('catalog/product/view/id/1');
         $html = $this->getResponse()->getBody();
-        $format = '%Aclass="options-container-big"%Aclass="product-options" id="product-options-wrapper">%A'
+        $format = '%Aclass="product-options" id="product-options-wrapper">%A'
             . '<div class="product-options-bottom">%A<div class="add-to-cart">%A<ul class="add-to-links">%A'
             . 'tier-prices%A';
         $this->assertStringMatchesFormat($format, $html);
