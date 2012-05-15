@@ -335,6 +335,10 @@ return array(
     'useValidateHttpVia' => array('class_scope' => 'Mage_Core_Model_Session_Abstract'),
     'useValidateHttpXForwardedFor' => array('class_scope' => 'Mage_Core_Model_Session_Abstract'),
     'useValidateHttpUserAgent' => array('class_scope' => 'Mage_Core_Model_Session_Abstract'),
+    'updateCofigurableProductOptions' => array(
+        'class_scope' => 'Mage_Weee_Model_Observer',
+        'suggestion' => 'updateConfigurableProductOptions'
+    ),
     'updateTable' => array('class_scope' => 'Mage_Core_Model_Resource_Setup'),
     'urlEscape' => array('suggestion' => 'escapeUrl'),
     'validateDataArray' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
