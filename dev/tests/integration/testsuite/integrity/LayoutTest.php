@@ -19,7 +19,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param string $theme
      * @dataProvider areasAndThemesDataProvider
      */
-    public function testHandleHierarchy($area, $package, $theme)
+    public function testHandlesHierarchy($area, $package, $theme)
     {
         $xml = $this->_composeXml($area, $package, $theme);
 

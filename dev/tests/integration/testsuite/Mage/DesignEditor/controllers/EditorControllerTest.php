@@ -18,14 +18,14 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     }
 
     /**
-     * @param string $item
+     * @param string $handle
      * @param string $expectedMessage
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider pageActionErrorDataProvider
      */
-    public function testPageActionError($item, $expectedMessage)
+    public function testPageActionError($handle, $expectedMessage)
     {
-        $this->getRequest()->setParam('item', $item);
+        $this->getRequest()->setParam('handle', $handle);
         $this->dispatch('design/editor/page');
         $this->assertEquals(503, $this->getResponse()->getHttpResponseCode());
         $this->assertStringMatchesFormat($expectedMessage, $this->getResponse()->getBody());
@@ -37,9 +37,9 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     public function pageActionErrorDataProvider()
     {
         return array(
-            'no item type'      => array('', 'Invalid page item specified.'),
-            'invalid item' => array('1nvalid_item', 'Invalid page item specified.'),
-            'non-existing type' => array('non_existing_type', 'Specified page item doesn\'t exist: %s'),
+            'no handle type'      => array('', 'Invalid page handle specified.'),
+            'invalid handle' => array('1nvalid_handle', 'Invalid page handle specified.'),
+            'non-existing handle' => array('non_existing_handle', 'Specified page handle doesn\'t exist: %s'),
         );
     }
 
@@ -47,24 +47,24 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider pageActionDataProvider
      *
-     * @param string $item
+     * @param string $handle
      * @param string $requiredModule
      * @param bool $isVdeToolbarBug
      */
-    public function testPageAction($item, $requiredModule)
+    public function testPageAction($handle, $requiredModule)
     {
         if (!in_array($requiredModule, Magento_Test_Helper_Factory::getHelper('config')->getEnabledModules())) {
             $this->markTestSkipped("Test requires the module '$requiredModule' to be enabled.");
         }
-        $this->getRequest()->setParam('item', $item);
+        $this->getRequest()->setParam('handle', $handle);
         $this->dispatch('design/editor/page');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
         $this->assertRegExp(
-            '/treeInstance\.select_node\(.*"' . preg_quote($item, '/') . '".*\)/U',
+            '/treeInstance\.select_node\(.*"' . preg_quote($handle, '/') . '".*\)/U',
             $this->getResponse()->getBody(),
-            'Page type control should maintain the selection of the current page item.'
+            'Page type control should maintain the selection of the current page handle.'
         );
     }
 

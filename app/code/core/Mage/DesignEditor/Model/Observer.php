@@ -53,7 +53,7 @@ class Mage_DesignEditor_Model_Observer
         $update = $observer->getEvent()->getLayout()->getUpdate();
         $handles = $update->getHandles();
         $handle = reset($handles);
-        if ($handle && $update->getPageItemType($handle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
+        if ($handle && $update->getPageHandleType($handle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
             $update->addHandle(self::PAGE_HANDLE);
         }
         $update->addHandle(self::TOOLBAR_HANDLE);

@@ -9,8 +9,8 @@
  */
 
 /**
- * Dummy page block
+ * Page block with functionality of a container
  */
-class Mage_DesignEditor_Block_Dummy extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Container extends Mage_Core_Block_Template
 {
 }
