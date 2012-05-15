@@ -2553,7 +2553,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return bool
      */
-    public function waitForElementOrAlert($messageXpath, $timeout = 40)
+    public function waitForElementOrAlert($messageXpath, $timeout = 60)
     {
         $wait = array('alert');
         if (is_array($messageXpath)) {
