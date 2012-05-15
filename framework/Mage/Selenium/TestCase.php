@@ -2545,6 +2545,41 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
+    /**
+     * Waits for the element(alert) to appear
+     *
+     * @param string|array $messageXpath
+     * @param int $timeout
+     *
+     * @return bool
+     */
+    public function waitForElementOrAlert($messageXpath, $timeout = 40)
+    {
+        $wait = array('alert');
+        if (is_array($messageXpath)) {
+            $wait = array_merge($messageXpath, $wait);
+        } else {
+            $wait[] = $messageXpath;
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            foreach ($wait as $condition) {
+                switch ($condition) {
+                    case 'alert':
+                        if ($this->isAlertPresent()) {
+                            return true;
+                        }
+                        break;
+                    default:
+                        if ($this->isElementPresent($condition)) {
+                            return true;
+                        }
+                        break;
+                }
+            }
+        }
+        $this->fail('Timeout after ' . $timeout . 'seconds');
+    }
 
     /**
      * Waits for the element(s) to be visible
