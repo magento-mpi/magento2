@@ -50,28 +50,28 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
     public function pageAction()
     {
         try {
-            $item = $this->getRequest()->getParam('item');
+            $handle = $this->getRequest()->getParam('handle');
 
             // page type format
-            if (!$item || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $item)) {
-                Mage::throwException($this->__('Invalid page item specified.'));
+            if (!$handle || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $handle)) {
+                Mage::throwException($this->__('Invalid page handle specified.'));
             }
 
             // whether such page type exists
-            if (!$this->getLayout()->getUpdate()->pageItemExists($item)) {
-                Mage::throwException($this->__("Specified page item doesn't exist: '{$item}'."));
+            if (!$this->getLayout()->getUpdate()->pageHandleExists($handle)) {
+                Mage::throwException($this->__("Specified page handle doesn't exist: '{$handle}'."));
             }
 
-            $this->_fullActionName = $item;
+            $this->_fullActionName = $handle;
             $this->addPageLayoutHandles();
             $this->loadLayoutUpdates();
             $this->generateLayoutXml();
             Mage::getModel('Mage_DesignEditor_Model_Layout')->sanitizeLayout($this->getLayout()->getNode());
             $this->generateLayoutBlocks();
 
-            $blockPageTypes = $this->getLayout()->getBlock('design_editor_toolbar_page_types');
-            if ($blockPageTypes) {
-                $blockPageTypes->setSelectedItem($item);
+            $blockHierarchy = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
+            if ($blockHierarchy) {
+                $blockHierarchy->setSelectedHandle($handle);
             }
             $blockBreadcrumbs = $this->getLayout()->getBlock('design_editor_toolbar_breadcrumbs');
             if ($blockBreadcrumbs) {

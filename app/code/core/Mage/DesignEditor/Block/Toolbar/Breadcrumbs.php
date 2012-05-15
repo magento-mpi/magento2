@@ -19,7 +19,7 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
      * Result format:
      * array(
      *     array(
-     *         'label' => 'Some Page Type',
+     *         'label' => 'Some Page Handle',
      *         'url'   => http://localhost/index.php/design/editor/page/page_type/some_page_type/',
      *     ),
      *     // ...
@@ -34,8 +34,8 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
         $pageHandles = $this->_getPageHandlesPath();
         foreach ($pageHandles as $pageHandle) {
             $result[] = array(
-                'label' => $this->escapeHtml($layoutUpdate->getPageItemLabel($pageHandle)),
-                'url'   => $this->getUrl('design/editor/page', array('item' => $pageHandle))
+                'label' => $this->escapeHtml($layoutUpdate->getPageHandleLabel($pageHandle)),
+                'url'   => $this->getUrl('design/editor/page', array('handle' => $pageHandle))
             );
         }
         /** @var $blockHead Mage_Page_Block_Html_Head */
@@ -52,7 +52,7 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
     }
 
     /**
-     * Return breadcrumbs path leading to the page type selected
+     * Return breadcrumbs path leading to the page handle selected
      *
      * @return array
      */
@@ -64,15 +64,13 @@ class Mage_DesignEditor_Block_Toolbar_Breadcrumbs extends Mage_Core_Block_Templa
             /** @var $controllerAction Mage_Core_Controller_Varien_Action */
             $controllerAction = Mage::app()->getFrontController()->getAction();
             if ($controllerAction) {
-                $pageHandles = $layoutUpdate->getPageLayoutHandles($controllerAction->getDefaultLayoutHandle());
+                $pageHandles = array($controllerAction->getDefaultLayoutHandle());
             }
         }
         if (count($pageHandles) == 1) {
             $pageHandle = reset($pageHandles);
-            if ($layoutUpdate->getPageItemType($pageHandle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
-                $pageHandles = $layoutUpdate->getPageItemParents($pageHandle);
-                $pageHandles[] = $pageHandle;
-            }
+            $pageHandles = $layoutUpdate->getPageHandleParents($pageHandle, false);
+            $pageHandles[] = $pageHandle;
         }
         return $pageHandles;
     }

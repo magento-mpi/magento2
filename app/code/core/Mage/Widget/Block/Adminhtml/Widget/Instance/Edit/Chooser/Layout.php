@@ -28,7 +28,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
                 'theme'   => $this->getTheme(),
             );
             $pageTypes = array();
-            $pageTypesAll = $this->_getLayoutUpdate($layoutUpdateParams)->getPageTypesHierarchy();
+            $pageTypesAll = $this->_getLayoutUpdate($layoutUpdateParams)->getPageHandlesHierarchy();
             foreach ($pageTypesAll as $pageTypeName => $pageTypeInfo) {
                 $layoutUpdate = $this->_getLayoutUpdate($layoutUpdateParams);
                 $layoutUpdate->addPageHandles(array($pageTypeName));

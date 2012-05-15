@@ -8,20 +8,20 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Mage_DesignEditor_Block_Toolbar_PageType */ ?>
-<div id="vde_page_types_hierarchy" class="vde_toolbar_cell">
+<?php /** @var $this Mage_DesignEditor_Block_Toolbar_HandlesHierarchy */ ?>
+<div id="vde_handles_hierarchy" class="vde_toolbar_cell">
     <div class="vde_toolbar_cell_title">
         <?php echo $this->__('Page:'); ?>
-        <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedItemLabel(); ?></span>
+        <span class="vde_toolbar_cell_value"><?php echo $this->getSelectedHandleLabel(); ?></span>
     </div>
     <div class="vde_toolbar_cell_content">
-        <div id="vde_page_types_tree"><?php echo $this->renderHierarchy(); ?></div>
+        <div id="vde_handles_tree"><?php echo $this->renderHierarchy(); ?></div>
     </div>
 </div>
 <script type="text/javascript">
 (function ($) {
     $(document).ready(function () {
-        var treeElement = $("#vde_page_types_tree");
+        var treeElement = $("#vde_handles_tree");
         treeElement.jstree({
             ui: {
                 select_limit: 1,
@@ -40,13 +40,13 @@
                 window.location = selectedListItem.children('a').attr('href');
             }
         });
-        <?php if ($this->getSelectedItem()) : ?>
+        <?php if ($this->getSelectedHandle()) : ?>
         treeElement.bind('loaded.jstree', function (e, data) {
             var treeInstance = data.inst;
-            treeInstance.select_node($(this).find('li[rel="<?php echo $this->getSelectedItem(); ?>"]'));
+            treeInstance.select_node($(this).find('li[rel="<?php echo $this->getSelectedHandle(); ?>"]'));
         });
         <?php endif; ?>
-        $('#vde_page_types_hierarchy').one('activate_toolbar_cell.vde', function () {
+        $('#vde_handles_hierarchy').one('activate_toolbar_cell.vde', function () {
             /* At the time of applying the scroll bar, the underlying element should be visible */
             treeElement.slimScroll({
                 color: '#cccccc',

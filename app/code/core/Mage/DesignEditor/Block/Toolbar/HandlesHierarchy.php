@@ -9,17 +9,19 @@
  */
 
 /**
- * Page types navigation control
+ * Page handles navigation control
  */
-class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Toolbar_HandlesHierarchy extends Mage_Core_Block_Template
 {
     /**
+     * Page handle currently selected
+     *
      * @var string|bool
      */
-    protected $_selectedItem;
+    protected $_selectedHandle;
 
     /**
-     * Recursively render each level of the page types hierarchy as an HTML list
+     * Recursively render each level of the page handles hierarchy as an HTML list
      *
      * @param array $hierarchy
      * @return string
@@ -35,7 +37,7 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
                 ? ' class="vde_option_fragment"'
                 : '';
             $result .= '<li rel="' . $name . '"' . $class . '>';
-            $result .= '<a href="' . $this->getUrl('design/editor/page', array('item' => $name)) . '">';
+            $result .= '<a href="' . $this->getUrl('design/editor/page', array('handle' => $name)) . '">';
             $result .= $this->escapeHtml($info['label']);
             $result .= '</a>';
             $result .= $this->_renderHierarchy($info['children']);
@@ -46,57 +48,57 @@ class Mage_DesignEditor_Block_Toolbar_PageType extends Mage_Core_Block_Template
     }
 
     /**
-     * Render page types hierarchy as an HTML list
+     * Render page handles hierarchy as an HTML list
      *
      * @return string
      */
     public function renderHierarchy()
     {
-        return $this->_renderHierarchy($this->getLayout()->getUpdate()->getPageTypesHierarchy());
+        return $this->_renderHierarchy($this->getLayout()->getUpdate()->getPageHandlesHierarchy());
     }
 
     /**
-     * Retrieve the name of the currently selected item
+     * Retrieve the name of the currently selected page handle
      *
      * @return string|false
      */
-    public function getSelectedItem()
+    public function getSelectedHandle()
     {
-        if ($this->_selectedItem === null) {
-            $this->_selectedItem = false;
+        if ($this->_selectedHandle === null) {
+            $this->_selectedHandle = false;
             $layoutUpdate = $this->getLayout()->getUpdate();
             $pageHandles = $layoutUpdate->getPageHandles();
             if ($pageHandles) {
-                $this->_selectedItem = end($pageHandles);
+                $this->_selectedHandle = end($pageHandles);
             } else {
                 foreach (array_reverse($layoutUpdate->getHandles()) as $handle) {
-                    if ($layoutUpdate->pageItemExists($handle)) {
-                        $this->_selectedItem = $handle;
+                    if ($layoutUpdate->pageHandleExists($handle)) {
+                        $this->_selectedHandle = $handle;
                         break;
                     }
                 }
             }
         }
-        return $this->_selectedItem;
+        return $this->_selectedHandle;
     }
 
     /**
-     * Retrieve label for the currently selected item
+     * Retrieve label for the currently selected page handle
      *
      * @return string|false
      */
-    public function getSelectedItemLabel()
+    public function getSelectedHandleLabel()
     {
-        return $this->escapeHtml($this->getLayout()->getUpdate()->getPageItemLabel($this->getSelectedItem()));
+        return $this->escapeHtml($this->getLayout()->getUpdate()->getPageHandleLabel($this->getSelectedHandle()));
     }
 
     /**
-     * Set the name of the currently selected page type
+     * Set the name of the currently selected page handle
      *
-     * @param string $name Page type name
+     * @param string $handleName Page handle name
      */
-    public function setSelectedItem($name)
+    public function setSelectedHandle($handleName)
     {
-        $this->_selectedItem = $name;
+        $this->_selectedHandle = $handleName;
     }
 }
