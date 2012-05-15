@@ -132,7 +132,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->reindexInvalidedData();
-        $this->clearInvalidedCache();
+        $this->flushCache();
 
         return array('productNames'       => array('simple'           => $simple['general_name'],
                                                    'virtual'          => $virtual['general_name'],

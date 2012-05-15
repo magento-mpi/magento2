@@ -1698,8 +1698,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (end($fallbackOrderHelper) == 'enterprise') {
             $expectedTitle =
                 $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-            $this->assertSame($expectedTitle, $this->getTitle(),
-                'Title for page "' . $this->getCurrentPage() . '" is unexpected.');
+            $this->assertSame($expectedTitle, $this->getTitle(), 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
@@ -2550,6 +2549,41 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
+    /**
+     * Waits for the element(alert) to appear
+     *
+     * @param string|array $messageXpath
+     * @param int $timeout
+     *
+     * @return bool
+     */
+    public function waitForElementOrAlert($messageXpath, $timeout = 40)
+    {
+        $wait = array('alert');
+        if (is_array($messageXpath)) {
+            $wait = array_merge($messageXpath, $wait);
+        } else {
+            $wait[] = $messageXpath;
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            foreach ($wait as $condition) {
+                switch ($condition) {
+                    case 'alert':
+                        if ($this->isAlertPresent()) {
+                            return true;
+                        }
+                        break;
+                    default:
+                        if ($this->isElementPresent($condition)) {
+                            return true;
+                        }
+                        break;
+                }
+            }
+        }
+        $this->fail('Timeout after ' . $timeout . 'seconds');
+    }
 
     /**
      * Waits for the element(s) to be visible
@@ -3495,6 +3529,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->validatePage('log_in_to_admin');
 
         return $this;
+    }
+
+    /**
+     * Flush Cache Storage
+     */
+    public function flushCache()
+    {
+        $this->admin('cache_storage_management');
+        $this->clickButtonAndConfirm('flush_cache_storage', 'flush_cache_confirmation', false);
+        $this->waitForNewPage();
+        $this->validatePage('cache_storage_management');
+        $this->assertMessagePresent('success');
     }
 
     /**

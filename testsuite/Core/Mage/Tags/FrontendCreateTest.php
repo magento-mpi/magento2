@@ -63,7 +63,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_customer');
         $simple = $this->productHelper()->createSimpleProduct(true);
         $this->reindexInvalidedData();
-        $this->clearInvalidedCache();
+        $this->flushCache();
 
         return array('user'     => array('email'    => $userData['email'],
                                          'password' => $userData['password']),

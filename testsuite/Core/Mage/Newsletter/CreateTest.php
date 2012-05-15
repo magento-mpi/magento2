@@ -59,7 +59,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->reindexInvalidedData();
-        $this->clearInvalidedCache();
+        $this->flushCache();
         return $category['name'];
     }
 

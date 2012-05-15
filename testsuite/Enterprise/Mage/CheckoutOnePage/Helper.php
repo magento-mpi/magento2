@@ -72,12 +72,11 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
     public function submitOnePageCheckoutOrder()
     {
         $this->clickButton('place_order', false);
-        $this->waitForElement(array($this->_getMessageXpath('success_checkout'),
-                                    $this->_getMessageXpath('general_error'),
-                                    $this->_getMessageXpath('general_validation')));
-        $this->waitForTextNotPresent('Submitting order information.');
+        $this->waitForElementOrAlert(array($this->_getMessageXpath('success_checkout'),
+                                           $this->_getMessageXpath('general_error'),
+                                           $this->_getMessageXpath('general_validation')));
+        $this->assertTrue($this->verifyNotPresetAlert(), $this->getMessagesOnPage());
         $this->assertMessageNotPresent('error');
-        $this->waitForTextPresent('Thank you for your purchase!');
         $this->validatePage('onepage_checkout_success');
         $xpath = $this->_getControlXpath('link', 'order_number');
         if ($this->isElementPresent($xpath)) {
