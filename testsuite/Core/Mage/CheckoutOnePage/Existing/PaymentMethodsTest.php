@@ -132,13 +132,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_checkout');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_checkout')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function differentPaymentMethodsWithout3DDataProvider()
@@ -209,13 +203,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_checkout');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_checkout')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function differentPaymentMethodsWith3DDataProvider()

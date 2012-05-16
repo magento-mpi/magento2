@@ -2349,7 +2349,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
-                $this->pleaseWait();
+                $this->waitForAjax();
             }
         }
     }
@@ -2534,13 +2534,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
                     if ($this->isElementPresent($loc)) {
-                        sleep(1);
                         return true;
                     }
                 }
             } else {
                 if ($this->isElementPresent($locator)) {
-                    sleep(1);
                     return true;
                 }
             }
@@ -2557,7 +2555,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return bool
      */
-    public function waitForElementOrAlert($messageXpath, $timeout = 40)
+    public function waitForElementOrAlert($messageXpath, $timeout = 60)
     {
         $wait = array('alert');
         if (is_array($messageXpath)) {
@@ -2580,6 +2578,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         }
                         break;
                 }
+                sleep(1);
             }
         }
         $this->fail('Timeout after ' . $timeout . 'seconds');
@@ -3473,7 +3472,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
-        for ($second = 0; $second < $waitAppear; $second++) {
+        $this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        $this->waitForElementNotPresent(self::$xpathLoadingHolder, $waitDisappear * 1000);
+        /*for ($second = 0; $second < $waitAppear; $second++) {
             if ($this->isElementPresent(self::$xpathLoadingHolder)) {
                 break;
             }
@@ -3485,7 +3486,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 break;
             }
             sleep(1);
-        }
+        }*/
 
         return $this;
     }
@@ -3628,7 +3629,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutCustomer()
     {
-        $this->frontend();
+        if ($this->getArea() !== 'frontend') {
+            $this->frontend();
+        }
         if ($this->controlIsPresent('link', 'log_out')) {
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');

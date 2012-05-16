@@ -432,6 +432,7 @@ checkout_multishipping_review_order:
                         pageelements:
                             incorrect_password: //b[text()='Incorrect, Please try again']
                             verification_successful: //h1[text()='Verification Successful']
+        messages: *checkoutMessages
 
 checkout_multishipping_success_order:
     mca: checkout/multishipping/success/
