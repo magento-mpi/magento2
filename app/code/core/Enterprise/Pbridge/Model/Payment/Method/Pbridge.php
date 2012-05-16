@@ -148,6 +148,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         parent::assignData($data);
         $this->setPbridgeResponse($pbridgeData);
+        Mage::getSingleton('enterprise_pbridge/session')->setToken($this->getPbridgeResponse('token'));
         return $this;
     }
 
@@ -380,11 +381,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             ;
 
             $canRefundMore = $order->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
-            $allRefunds = (float)$amount
-                + (float)$order->getBaseTotalOnlineRefunded()
-                + (float)$order->getBaseTotalOfflineRefunded();
-            $isFullRefund = !$canRefundMore && (0 == (float)$order->getBaseGrandTotal() - $allRefunds);
+            $isFullRefund = !$canRefundMore
+                && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
             $request->setData('is_full_refund', (int)$isFullRefund);
+
+            // whether to close capture transaction
+            $payment->setShouldCloseParentTransaction((int)$isFullRefund);
 
             $api = $this->_getApi()->doRefund($request);
             $this->_importResultToPayment($payment, $api->getResponse());
@@ -444,6 +446,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         $region = Mage::getModel('directory/region')->load($address->getData('region_id'));
         if ($region && $region->getId()) {
             $result['region'] = $region->getCode();
+        } else {
+            $result['region'] = $address->getRegion();
         }
 
         return $result;
