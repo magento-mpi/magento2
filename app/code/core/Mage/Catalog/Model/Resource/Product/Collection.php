@@ -323,22 +323,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Standard resource collection initalization
-     *
-     * @param string $model
-     * @param unknown_type $entityModel
-     * @return Mage_Catalog_Model_Resource_Product_Collection
-     */
-    protected function _init($model, $entityModel)
-    {
-        if ($this->isEnabledFlat()) {
-            $entityModel = 'catalog/product_flat';
-        }
-
-        return parent::_init($model, $entityModel);
-    }
-
-    /**
      * Prepare static entity fields
      *
      * @return Mage_Catalog_Model_Resource_Product_Collection
