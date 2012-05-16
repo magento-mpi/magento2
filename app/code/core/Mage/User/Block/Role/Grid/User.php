@@ -37,14 +37,12 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
             }
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('user_id', array('in'=>$inRoleIds));
-            }
-            else {
-                if($inRoleIds) {
+            } else {
+                if ($inRoleIds) {
                     $this->getCollection()->addFieldToFilter('user_id', array('nin'=>$inRoleIds));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
@@ -108,10 +106,13 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('Mage_User_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_User_Helper_Data')->__('Inactive')),
+            'options'   => array(
+                '1' => Mage::helper('Mage_User_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Mage_User_Helper_Data')->__('Inactive')
+            ),
         ));
 
-       /*
+        /*
         $this->addColumn('grid_actions',
             array(
                 'header'=>Mage::helper('Mage_User_Helper_Data')->__('Actions'),
@@ -143,24 +144,27 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
         if ( $this->getRequest()->getParam('in_role_user') != "" ) {
             return $this->getRequest()->getParam('in_role_user');
         }
-        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
+        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ?
+            $this->getRequest()->getParam('rid') :
+            Mage::registry('RID');
         $users  = Mage::getModel('Mage_User_Model_Role')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
-            if ( $json ) {
-                $jsonUsers = Array();
-                foreach($users as $usrid) $jsonUsers[$usrid] = 0;
+            if ($json) {
+                $jsonUsers = array();
+                foreach ($users as $usrid) {
+                    $jsonUsers[$usrid] = 0;
+                }
                 return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }
         } else {
-            if ( $json ) {
+            if ($json) {
                 return '{}';
             } else {
                 return array();
             }
         }
     }
-
 }
 

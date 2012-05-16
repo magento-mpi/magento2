@@ -72,6 +72,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
         $acl->expects(self::any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        Mage::getSingleton('Mage_Admin_Model_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
     }
 }

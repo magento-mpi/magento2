@@ -356,6 +356,6 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/customer/attributes/customer_attributes');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/customer/attributes/customer_attributes');
     }
 }

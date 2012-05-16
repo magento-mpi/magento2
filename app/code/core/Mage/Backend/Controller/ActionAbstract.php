@@ -142,7 +142,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid Form Key. Please refresh the page.');
@@ -160,7 +160,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect( Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getStartupPageUrl() );
+                $this->_redirect( Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getStartupPageUrl() );
             }
             return $this;
         }
@@ -186,10 +186,135 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         return $this;
     }
 
+    /**
+     * Fire predispatch events, execute extra logic after predispatch
+     *
+     * @return void
+     */
+    protected function _firePreDispatchEvents()
+    {
+        $this->_initAuthentication();
+        parent::_firePreDispatchEvents();
+    }
+
+    /**
+     * Start authentication process
+     *
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
+    protected function _initAuthentication()
+    {
+        /** @var $auth Mage_Backend_Model_Auth */
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+
+        $request = $this->getRequest();
+
+        $requestedActionName = $request->getActionName();
+        $openActions = array(
+            'forgotpassword',
+            'resetpassword',
+            'resetpasswordpost',
+            'logout',
+            'refresh' // captcha refresh
+        );
+        if (in_array($requestedActionName, $openActions)) {
+            $request->setDispatched(true);
+        } else {
+            if ($auth->getUser()) {
+                $auth->getUser()->reload();
+            }
+            if (!$auth->isLoggedIn()) {
+                $isRedirectNeeded = false;
+                if ($request->getPost('login')) {
+                    $this->_performLogin($isRedirectNeeded);
+                }
+                if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
+                    if ($request->getParam('isIframe')) {
+                        $request->setParam('forwarded', true)
+                            ->setControllerName('auth')
+                            ->setActionName('deniedIframe')
+                            ->setDispatched(false);
+                    } else if ($request->getParam('isAjax')) {
+                        $request->setParam('forwarded', true)
+                            ->setControllerName('auth')
+                            ->setActionName('deniedJson')
+                            ->setDispatched(false);
+                    } else {
+                        $request->setParam('forwarded', true)
+                            ->setRouteName('adminhtml')
+                            ->setControllerName('auth')
+                            ->setActionName('login')
+                            ->setDispatched(false);
+                    }
+                }
+            }
+        }
+        $auth->getAuthStorage()->refreshAcl();
+        return $this;
+    }
+
+    /**
+     * Performs login, if user submitted login form
+     *
+     * @param bool $isRedirectNeeded
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
+    protected function _performLogin(&$isRedirectNeeded)
+    {
+        $isRedirectNeeded = false;
+
+        $postLogin  = $this->getRequest()->getPost('login');
+        $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
+        $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
+        $this->getRequest()->setPost('login', null);
+
+        try {
+            Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
+            $this->_redirectIfNeededAfterLogin();
+        } catch (Mage_Backend_Model_Auth_Exception $e) {
+            if (!$this->getRequest()->getParam('messageSent')) {
+                Mage::getSingleton('Mage_Backend_Model_Session')->addError(
+                    Mage::helper('Mage_Backend_Helper_Data')->__('Invalid User Name or Password.')
+                );
+                $this->getRequest()->setParam('messageSent', true);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Checks, whether Magento requires redirection after successful admin login, and redirects user, if needed
+     *
+     * @return bool
+     */
+    protected function _redirectIfNeededAfterLogin()
+    {
+        $requestUri = null;
+
+        /** @var $urlModel Mage_Backend_Model_Url */
+        $urlModel = Mage::getSingleton('Mage_Backend_Model_Url');
+
+        // Checks, whether secret key is required for admin access or request uri is explicitly set
+        if ($urlModel->useSecretKey()) {
+            $requestUri = $urlModel->getUrl('*/*/*', array('_current' => true));
+        } elseif ($this->getRequest()) {
+            $requestUri = $this->getRequest()->getRequestUri();
+        }
+
+        if (!$requestUri) {
+            return false;
+        }
+
+        $this->getResponse()->setRedirect($requestUri);
+        $this->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        return true;
+    }
+
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-        if (!Mage::getSingleton('Mage_Admin_Model_Session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
         }

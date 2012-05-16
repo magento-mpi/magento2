@@ -492,6 +492,57 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
+     * Start session if it is not restricted
+     *
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    protected function _startSession()
+    {
+        if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
+            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
+                && !$this->getRequest()->getParam('nocookie', false);
+            $cookies = Mage::getSingleton('Mage_Core_Model_Cookie')->get();
+            /** @var $session Mage_Core_Model_Session */
+            $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace))->start();
+
+            if (empty($cookies)) {
+                if ($session->getCookieShouldBeReceived()) {
+                    $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+                    $session->unsCookieShouldBeReceived();
+                } else {
+                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()) {
+                        $session->setCookieShouldBeReceived(true);
+                    } elseif ($checkCookie) {
+                        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+                    }
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize area and design
+     *
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    protected function _initDesign()
+    {
+        Mage::app()->loadArea($this->getLayout()->getArea());
+        $areaDesign = $this->_areaDesign ?: Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
+        $design = Mage::getDesign()->setDesignTheme($areaDesign, $this->getLayout()->getArea());
+
+        if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+            if (!$this->_applyUserAgentDesignException($design)) {
+                Mage::getSingleton('Mage_Core_Model_Design')
+                    ->loadChange(Mage::app()->getStore()->getStoreId())
+                    ->changeDesign($design);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Dispatch event before action
      *
      * @return void
@@ -515,38 +566,11 @@ abstract class Mage_Core_Controller_Varien_Action
             return;
         }
 
-        if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
-                && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = Mage::getSingleton('Mage_Core_Model_Cookie')->get();
-            /** @var $session Mage_Core_Model_Session */
-            $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace))->start();
+        // Start session
+        $this->_startSession();
 
-            if (empty($cookies)) {
-                if ($session->getCookieShouldBeReceived()) {
-                    $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                    $session->unsCookieShouldBeReceived();
-                } else {
-                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()) {
-                        $session->setCookieShouldBeReceived(true);
-                    } elseif ($checkCookie) {
-                        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
-                    }
-                }
-            }
-        }
-
-        Mage::app()->loadArea($this->getLayout()->getArea());
-        $areaDesign = $this->_areaDesign ?: Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
-        $design = Mage::getDesign()->setDesignTheme($areaDesign, $this->getLayout()->getArea());
-
-        if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
-            if (!$this->_applyUserAgentDesignException($design)) {
-                Mage::getSingleton('Mage_Core_Model_Design')
-                    ->loadChange(Mage::app()->getStore()->getStoreId())
-                    ->changeDesign($design);
-            }
-        }
+        // Load area and initialize design depend on loaded area
+        $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
             && Mage::getStoreConfig('web/browser_capabilities/cookies')
@@ -559,7 +583,16 @@ abstract class Mage_Core_Controller_Varien_Action
             return;
         }
 
+        $this->_firePreDispatchEvents();
+    }
 
+    /**
+     * Fire predispatch events, execute extra logic after predispatch
+     *
+     * @return void
+     */
+    protected function _firePreDispatchEvents()
+    {
         Mage::dispatchEvent('controller_action_predispatch', array('controller_action' => $this));
         Mage::dispatchEvent('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
             array('controller_action' => $this));
@@ -1108,7 +1141,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $contentType = 'application/octet-stream',
         $contentLength = null)
     {
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         if ($session->isFirstPageAfterLogin()) {
             $this->_redirect($session->getUser()->getStartupPageUrl());
             return $this;

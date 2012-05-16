@@ -29,21 +29,6 @@ class Mage_User_Model_RoleTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_User_Model_Resource_Role_User_Collection', $this->_model->getUsersCollection());
     }
 
-    public function testGetResourcesTree()
-    {
-        $this->assertNotEmpty($this->_model->getResourcesTree());
-    }
-
-    public function testGetResourcesList()
-    {
-        $this->assertNotEmpty($this->_model->getResourcesList());
-    }
-
-    public function testGetResourcesList2D()
-    {
-        $this->assertNotEmpty($this->_model->getResourcesList2D());
-    }
-
     public function testGetRoleUsers()
     {
         $this->assertEmpty($this->_model->getRoleUsers());

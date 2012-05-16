@@ -523,7 +523,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 $aclResource = 'sales/order/actions';
                 break;
         }
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($aclResource);
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($aclResource);
     }
 
     /*

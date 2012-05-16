@@ -49,14 +49,6 @@
     </admin>
     <adminhtml>
         <events>
-            <controller_action_predispatch>
-                <observers>
-                    <auth>
-                        <class>Mage_Adminhtml_Model_Observer</class>
-                        <method>actionPreDispatchAdmin</method>
-                    </auth>
-                </observers>
-            </controller_action_predispatch>
             <core_locale_set_locale>
                 <observers>
                     <bind_locale>

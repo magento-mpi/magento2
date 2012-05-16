@@ -20,7 +20,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Session
      *
-     * @var Mage_Admin_Model_Session
+     * @var Mage_Backend_Model_Auth_Session
      */
     protected $_session;
 
@@ -34,7 +34,7 @@ class Maged_Model_Session extends Maged_Model
         if (class_exists('Mage') && Mage::isInstalled()) {
             // initialize Magento Config
             Mage::app();
-            $this->_session = Mage::getSingleton('Mage_Admin_Model_Session');
+            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         } else {
             session_start();
         }

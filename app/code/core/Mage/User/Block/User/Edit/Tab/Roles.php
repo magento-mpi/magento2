@@ -10,7 +10,7 @@
 
 class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
 {
-     public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->setId('permissionsUserRolesGrid');
@@ -30,14 +30,12 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
             }
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('role_id', array('in'=>$userRoles));
-            }
-            else {
-                if($userRoles) {
+            } else {
+                if ($userRoles) {
                     $this->getCollection()->addFieldToFilter('role_id', array('nin'=>$userRoles));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
@@ -101,7 +99,9 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
 
         if ($json) {
             $jsonRoles = Array();
-            foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
+            foreach ($uRoles as $urid) {
+                $jsonRoles[$urid] = 0;
+            }
             return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;

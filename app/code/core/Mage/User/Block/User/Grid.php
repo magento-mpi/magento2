@@ -70,7 +70,10 @@ class Mage_User_Block_User_Grid extends Mage_Backend_Block_Widget_Grid
             'header'    => Mage::helper('Mage_User_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('Mage_User_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_User_Helper_Data')->__('Inactive')),
+            'options'   => array(
+                '1' => Mage::helper('Mage_User_Helper_Data')->__('Active'),
+                '0' => Mage::helper('Mage_User_Helper_Data')->__('Inactive')
+            ),
         ));
 
         return parent::_prepareColumns();
