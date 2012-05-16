@@ -1,9 +1,21 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_User
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-class Mage_User_Block_Tab_RoleseditTest extends PHPUnit_Framework_TestCase
+/**
+ * @group module:Mage_User
+ */
+class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_User_Block_Tab_Rolesedit
+     * @var Mage_User_Block_Role_Tab_Edit
      */
     protected $_block;
 
@@ -13,7 +25,7 @@ class Mage_User_Block_Tab_RoleseditTest extends PHPUnit_Framework_TestCase
         $roleAdmin->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
 
-        $this->_block = new Mage_User_Block_Tab_Rolesedit();
+        $this->_block = new Mage_User_Block_Role_Tab_Edit();
     }
 
     public function testConstructor()

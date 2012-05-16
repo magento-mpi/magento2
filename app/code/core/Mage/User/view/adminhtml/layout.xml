@@ -28,21 +28,19 @@
     <!-- admin acl roles grid page -->
     <adminhtml_user_role_index>
         <reference name="content">
-            <block type="Mage_User_Block_Roles" name="adminhtml.permission.role.index" template="roles.phtml">
-                <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid" as="grid"/>
-            </block>
+            <block type="Mage_User_Block_Role" name="adminhtml.permission.role.index" />
         </reference>
     </adminhtml_user_role_index>
-
-    <adminhtml_user_role_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_Grid_Role" name="adminhtml.permission.role.grid"/>
-    </adminhtml_user_role_rolegrid>
 
     <!-- admin acl roles edit page -->
     <adminhtml_user_role_editrole>
         <reference name="left">
-            <block type="Mage_User_Block_Editroles" name="adminhtml.permissions.editroles"/>
+            <block type="Mage_User_Block_Role_Edit" name="adminhtml.permissions.editroles"/>
+        </reference>
+
+        <reference name="content">
+            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.roles.users.grid.js" template="Mage_User::role/users_grid_js.phtml"/>
+            <block type="Mage_User_Block_Buttons" name="adminhtml.permission.role.buttons" template="role/info.phtml"/>
         </reference>
     </adminhtml_user_role_editrole>
 
@@ -58,7 +56,7 @@
         </reference>
 
         <reference name="content">
-            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.user.roles.grid.js" template="Mage_User::user_roles_grid_js.phtml"/>
+            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.user.roles.grid.js" template="Mage_User::user/roles_grid_js.phtml"/>
             <block type="Mage_User_Block_User_Edit" name="adminhtml.permission.user.edit"/>
         </reference>
     </adminhtml_user_edit>

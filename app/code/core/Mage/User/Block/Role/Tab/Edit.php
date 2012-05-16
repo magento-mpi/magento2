@@ -15,7 +15,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Block_Tab_Rolesedit extends Mage_Backend_Block_Widget_Form
+class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
@@ -84,7 +84,7 @@ class Mage_User_Block_Tab_Rolesedit extends Mage_Backend_Block_Widget_Form
 
         $this->setSelectedResources($selrids);
 
-        $this->setTemplate('rolesedit.phtml');
+        $this->setTemplate('role/edit.phtml');
     }
 
     /**

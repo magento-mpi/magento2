@@ -70,16 +70,6 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     }
 
     /**
-     * Action for ajax request from grid
-     *
-     */
-    public function roleGridAction()
-    {
-        $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.role.grid')->toHtml());
-    }
-
-    /**
      * Edit role action
      *
      */
@@ -101,17 +91,10 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->getLayout()->getBlock('adminhtml.permission.role.buttons')
+            ->setRoleId($role->getId())
+            ->setRoleInfo($role);
 
-        $this->_addContent(
-            $this->getLayout()->createBlock('Mage_User_Block_Buttons')
-                ->setRoleId($role->getId())
-                ->setRoleInfo($role)
-                ->setTemplate('roleinfo.phtml')
-        );
-        $this->_addJs($this->getLayout()
-            ->createBlock('Mage_Backend_Block_Template')
-            ->setTemplate('role_users_grid_js.phtml')
-        );
         $this->renderLayout();
     }
 

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_User_Block_Editroles extends Mage_Backend_Block_Widget_Tabs
+class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
 {
     public function __construct()
     {
@@ -25,14 +25,14 @@ class Mage_User_Block_Editroles extends Mage_Backend_Block_Widget_Tabs
         $this->addTab(
             'info',
             $this->getLayout()
-                ->createBlock('Mage_User_Block_Tab_Roleinfo')
+                ->createBlock('Mage_User_Block_Role_Tab_Info')
                 ->setRole($role)
                 ->setActive(true)
         );
         $this->addTab(
             'account',
             $this->getLayout()
-                ->createBlock('Mage_User_Block_Tab_Rolesedit', 'adminhtml.permissions.tab.rolesedit')
+                ->createBlock('Mage_User_Block_Role_Tab_Edit', 'adminhtml.permissions.tab.rolesedit')
         );
 
         if ($role->getId()) {
@@ -40,7 +40,7 @@ class Mage_User_Block_Editroles extends Mage_Backend_Block_Widget_Tabs
                 'label'     => Mage::helper('Mage_User_Helper_Data')->__('Role Users'),
                 'title'     => Mage::helper('Mage_User_Helper_Data')->__('Role Users'),
                 'content'   => $this->getLayout()
-                    ->createBlock('Mage_User_Block_Tab_Rolesusers', 'role.users.grid')
+                    ->createBlock('Mage_User_Block_Role_Tab_Users', 'role.users.grid')
                     ->toHtml(),
             ));
         }

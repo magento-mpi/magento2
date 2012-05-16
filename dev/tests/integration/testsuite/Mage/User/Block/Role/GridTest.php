@@ -12,17 +12,17 @@
 /**
  * @group module:Mage_User
  */
-class Mage_User_Block_Grid_RoleTest extends PHPUnit_Framework_TestCase
+class Mage_User_Block_Role_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_User_Block_Grid_Role
+     * @var Mage_User_Block_Role_Grid
      */
     protected $_block;
 
     public function setUp()
     {
         $layout = new Mage_Core_Model_Layout();
-        $this->_block = $layout->createBlock('Mage_User_Block_Grid_Role');
+        $this->_block = $layout->createBlock('Mage_User_Block_Role_Grid');
     }
 
     public function testPreparedCollection()

@@ -11,12 +11,6 @@
 class Mage_User_Block_Buttons extends Mage_Backend_Block_Template
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('userinfo.phtml');
-    }
-
     protected function _prepareLayout()
     {
         $this->setChild('backButton',
