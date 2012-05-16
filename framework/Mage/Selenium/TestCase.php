@@ -2530,13 +2530,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (is_array($locator)) {
                 foreach ($locator as $loc) {
                     if ($this->isElementPresent($loc)) {
-                        sleep(1);
                         return true;
                     }
                 }
             } else {
                 if ($this->isElementPresent($locator)) {
-                    sleep(1);
                     return true;
                 }
             }
@@ -3469,7 +3467,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
-        for ($second = 0; $second < $waitAppear; $second++) {
+        $this->waitForTextPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        $this->waitForTextNotPresent(self::$xpathLoadingHolder, $waitDisappear * 1000);
+        /*for ($second = 0; $second < $waitAppear; $second++) {
             if ($this->isElementPresent(self::$xpathLoadingHolder)) {
                 break;
             }
@@ -3481,7 +3481,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 break;
             }
             sleep(1);
-        }
+        }*/
 
         return $this;
     }
