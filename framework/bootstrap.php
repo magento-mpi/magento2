@@ -45,25 +45,24 @@ $testsConfig = Mage_Selenium_TestConfiguration::initInstance();
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
     $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
-    $installCmd = sprintf(
-        'php -f %s -- --magento-dir=%s',
-        escapeshellarg(SELENIUM_TESTS_BASEDIR . '/framework/install.php'),
-        escapeshellarg($applicationHelper->getBasePath())
-    );
+    $installCmd = sprintf('php -f %s --', escapeshellarg($applicationHelper->getBasePath() . '/dev/shell/install.php'));
     if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
-        passthru("$installCmd --uninstall", $installExitCode);
-        if ($installExitCode !== 0) {
-            exit($installExitCode);
+        passthru("$installCmd --uninstall", $exitCode);
+        if ($exitCode) {
+            exit($exitCode);
         }
-        register_shutdown_function('passthru', "$installCmd --uninstall");
     }
     $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
     $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
-    passthru("$installCmd --config-file=" . escapeshellarg($installConfigFile), $installExitCode);
-    if ($installExitCode !== 0) {
-        exit($installExitCode);
+    $installConfig = require($installConfigFile);
+    foreach ($installConfig as $optionName => $optionValue) {
+        $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
+    }
+    passthru($installCmd, $exitCode);
+    if ($exitCode) {
+        exit($exitCode);
     }
 }
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($testsConfig, $applicationHelper, $installCmd, $installConfigFile, $installExitCode);
+unset($testsConfig, $applicationHelper, $installCmd, $installConfigFile, $installConfig, $installExitCode);

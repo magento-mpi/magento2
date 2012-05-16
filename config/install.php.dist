@@ -26,35 +26,30 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Console installer options
+ * @see Mage_Install_Model_Installer_Console::_installOptions
+ */
 return array(
-    /**
-     * Console installer options
-     * @see Mage_Install_Model_Installer_Console::_getOptions
-     */
-    'installer_options' => array(
-        '--license_agreement_accepted', 'yes',
-        '--locale',                     'en_US',
-        '--timezone',                   'America/Los_Angeles',
-        '--default_currency',           'USD',
-        '--db_host',                    'localhost',
-        '--db_name',                    'magento_functional_tests',
-        '--db_user',                    'root',
-        '--db_pass',                    '',
-        '--url',                        'http://www.localhost.com/magento/',
-        '--secure_base_url',            'http://www.localhost.com/magento/',
-        '--use_secure',                 'no',
-        '--use_secure_admin',           'no',
-        '--use_rewrites',               'no',
-        '--admin_lastname',             'Admin',
-        '--admin_firstname',            'Admin',
-        '--admin_email',                'admin@example.com',
-        '--admin_username',             'admin',
-        '--admin_password',             '123123q', // must be at least of 7 both numeric and alphanumeric characters
-    ),
-    /**
-     * System configuration values to be populated upon the installation completion
-     */
-    'config_data' => array(
-        'admin/security/use_form_key' => '0', // disable secret key usage in the admin URLs
-    ),
+    'license_agreement_accepted' => 'yes',
+    'locale'                     => 'en_US',
+    'timezone'                   => 'America/Los_Angeles',
+    'default_currency'           => 'USD',
+    'db_host'                    => 'localhost',
+    'db_name'                    => 'magento_functional_tests',
+    'db_user'                    => 'root',
+    'db_pass'                    => '',
+    'url'                        => 'http://127.0.0.1/magento/',
+    'secure_base_url'            => 'http://127.0.0.1/magento/',
+    'use_secure'                 => 'no',
+    'use_secure_admin'           => 'no',
+    'use_rewrites'               => 'no',
+    'admin_lastname'             => 'Admin',
+    'admin_firstname'            => 'Admin',
+    'admin_email'                => 'admin@example.com',
+    'admin_username'             => 'admin',
+    'admin_password'             => '123123q',
+    'admin_no_form_key'          => 'yes',
+    /* PayPal has limitation for order number - 20 characters. 10 digits prefix + 8 digits number is good enough */
+    'order_increment_prefix'     => time(),
 );
