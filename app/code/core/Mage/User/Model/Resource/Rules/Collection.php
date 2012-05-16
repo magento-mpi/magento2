@@ -33,9 +33,9 @@ class Mage_User_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource
      * @param int $id
      * @return Mage_User_Model_Resource_Rules_Collection
      */
-    public function getByRoles($id)
+    public function getByRoles($roleId)
     {
-        $this->addFieldToFilter('role_id', (int) $id);
+        $this->addFieldToFilter('role_id', (int) $roleId);
         return $this;
     }
 

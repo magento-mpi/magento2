@@ -32,9 +32,9 @@ class Mage_User_Block_User_Edit extends Mage_Backend_Block_Widget_Form_Container
     public function getHeaderText()
     {
         if (Mage::registry('permissions_user')->getId()) {
-            return Mage::helper('Mage_User_Helper_Data')->__("Edit User '%s'", $this->escapeHtml(Mage::registry('permissions_user')->getUsername()));
-        }
-        else {
+            $username = $this->escapeHtml(Mage::registry('permissions_user')->getUsername());
+            return Mage::helper('Mage_User_Helper_Data')->__("Edit User '%s'", $username);
+        } else {
             return Mage::helper('Mage_User_Helper_Data')->__('New User');
         }
     }

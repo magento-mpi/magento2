@@ -12,7 +12,9 @@
  * implementing now
  *
  */
-class Mage_User_Block_Tab_Roleinfo extends Mage_Backend_Block_Widget_Form implements Mage_Backend_Block_Widget_Tab_Interface
+class Mage_User_Block_Tab_Roleinfo
+    extends Mage_Backend_Block_Widget_Form
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
     public function getTabLabel()
     {
@@ -34,7 +36,8 @@ class Mage_User_Block_Tab_Roleinfo extends Mage_Backend_Block_Widget_Form implem
         return false;
     }
 
-    public function _beforeToHtml() {
+    public function _beforeToHtml()
+    {
         $this->_initForm();
 
         return parent::_beforeToHtml();
@@ -42,11 +45,12 @@ class Mage_User_Block_Tab_Roleinfo extends Mage_Backend_Block_Widget_Form implem
 
     protected function _initForm()
     {
-        $roleId = $this->getRequest()->getParam('rid');
-
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_User_Helper_Data')->__('Role Information')));
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
+            array('legend'=>Mage::helper('Mage_User_Helper_Data')->__('Role Information'))
+        );
 
         $fieldset->addField('role_name', 'text',
             array(

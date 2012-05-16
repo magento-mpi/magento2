@@ -77,7 +77,7 @@ class Mage_User_Model_User
      *
      * @var boolean
      */
-    protected $_hasAvailableResources = true;
+    protected $_hasResources = true;
 
     /**
      * Mail handler
@@ -116,11 +116,11 @@ class Mage_User_Model_User
             'extra'     => serialize($this->getExtra())
         );
 
-        if($this->getId() > 0) {
+        if ($this->getId() > 0) {
             $data['user_id'] = $this->getId();
         }
 
-        if( $this->getUsername() ) {
+        if ( $this->getUsername() ) {
             $data['username'] = $this->getUsername();
         }
 
@@ -257,7 +257,7 @@ class Mage_User_Model_User
     protected function _getMailer()
     {
         if (!$this->_mailer) {
-            $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+            $this->_mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
         }
         return $this->_mailer;
     }
@@ -396,9 +396,9 @@ class Mage_User_Model_User
      */
     public function reload()
     {
-        $id = $this->getId();
+        $userId = $this->getId();
         $this->setId(null);
-        $this->load($id);
+        $this->load($userId);
         return $this;
     }
 
@@ -488,7 +488,7 @@ class Mage_User_Model_User
                 }
             }
         }
-        $this->_hasAvailableResources = false;
+        $this->_hasResources = false;
         return '*/*/denied';
     }
 
@@ -499,7 +499,7 @@ class Mage_User_Model_User
      */
     public function hasAvailableResources()
     {
-        return $this->_hasAvailableResources;
+        return $this->_hasResources;
     }
 
     /**
@@ -548,28 +548,50 @@ class Mage_User_Model_User
         }
 
         if ($this->hasNewPassword()) {
-            if (Mage::helper('Mage_Core_Helper_String')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
-                $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
-            }
-
-            if (!preg_match('/[a-z]/iu', $this->getNewPassword())
-                || !preg_match('/[0-9]/u', $this->getNewPassword())
-            ) {
-                $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password must include both numeric and alphabetic characters.');
-            }
-
-            if ($this->hasPasswordConfirmation() && $this->getNewPassword() != $this->getPasswordConfirmation()) {
-                $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password confirmation must be same as password.');
-            }
+            $errors = array_merge($errors, $this->_validatePassword());
         }
 
         if ($this->userExists()) {
+            // @codingStandardsIgnoreStart
             $errors[] = Mage::helper('Mage_User_Helper_Data')->__('A user with the same user name or email aleady exists.');
+            // @codingStandardsIgnoreEnd
         }
 
         if (empty($errors)) {
             return true;
         }
+        return $errors;
+    }
+
+    /**
+     * Validate user password
+     *
+     * @return array
+     */
+    protected function _validatePassword()
+    {
+        $errors = array();
+
+        if (Mage::helper('Mage_Core_Helper_String')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
+            // @codingStandardsIgnoreStart
+            $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
+            // @codingStandardsIgnoreEnd
+        }
+
+        if (!preg_match('/[a-z]/iu', $this->getNewPassword())
+            || !preg_match('/[0-9]/u', $this->getNewPassword())
+        ) {
+            // @codingStandardsIgnoreStart
+            $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password must include both numeric and alphabetic characters.');
+            // @codingStandardsIgnoreEnd
+        }
+
+        if ($this->hasPasswordConfirmation() && $this->getNewPassword() != $this->getPasswordConfirmation()) {
+            // @codingStandardsIgnoreStart
+            $errors[] = Mage::helper('Mage_User_Helper_Data')->__('Password confirmation must be same as password.');
+            // @codingStandardsIgnoreEnd
+        }
+
         return $errors;
     }
 
@@ -582,11 +604,15 @@ class Mage_User_Model_User
      * @return Mage_User_Model_User
      * @throws Mage_Core_Exception
      */
-    public function changeResetPasswordLinkToken($newResetPasswordLinkToken) {
-        if (!is_string($newResetPasswordLinkToken) || empty($newResetPasswordLinkToken)) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.'));
+    public function changeResetPasswordLinkToken($newToken)
+    {
+        if (!is_string($newToken) || empty($newToken)) {
+            throw Mage::exception(
+                'Mage_Core',
+                Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.')
+            );
         }
-        $this->setRpToken($newResetPasswordLinkToken);
+        $this->setRpToken($newToken);
         $currentDate = Varien_Date::now();
         $this->setRpTokenCreatedAt($currentDate);
 
@@ -600,24 +626,24 @@ class Mage_User_Model_User
      */
     public function isResetPasswordLinkTokenExpired()
     {
-        $resetPasswordLinkToken = $this->getRpToken();
-        $resetPasswordLinkTokenCreatedAt = $this->getRpTokenCreatedAt();
+        $linkToken = $this->getRpToken();
+        $linkTokenCreatedAt = $this->getRpTokenCreatedAt();
 
-        if (empty($resetPasswordLinkToken) || empty($resetPasswordLinkTokenCreatedAt)) {
+        if (empty($linkToken) || empty($linkTokenCreatedAt)) {
             return true;
         }
 
-        $tokenExpirationPeriod = Mage::helper('Mage_User_Helper_Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = Mage::helper('Mage_User_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = Varien_Date::now();
         $currentTimestamp = Varien_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Varien_Date::toTimestamp($resetPasswordLinkTokenCreatedAt);
+        $tokenTimestamp = Varien_Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }
 
         $dayDifference = floor(($currentTimestamp - $tokenTimestamp) / (24 * 60 * 60));
-        if ($dayDifference >= $tokenExpirationPeriod) {
+        if ($dayDifference >= $expirationPeriod) {
             return true;
         }
 

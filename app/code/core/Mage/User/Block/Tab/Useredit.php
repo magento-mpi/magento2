@@ -9,14 +9,16 @@
  */
 class Mage_User_Block_Tab_Useredit extends Mage_Backend_Block_Widget_Form
 {
-
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
         $user = Mage::registry('user_data');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_User_Helper_Data')->__('Account Information')));
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
+            array('legend'=>Mage::helper('Mage_User_Helper_Data')->__('Account Information'))
+        );
 
         $fieldset->addField('username', 'text',
             array(
@@ -70,46 +72,9 @@ class Mage_User_Block_Tab_Useredit extends Mage_Backend_Block_Widget_Form
         );
 
         if ($user->getUserId()) {
-            $fieldset->addField('password', 'password',
-                array(
-                    'name'  => 'new_password',
-                    'label' => Mage::helper('Mage_User_Helper_Data')->__('New Password'),
-                    'id'    => 'new_pass',
-                    'title' => Mage::helper('Mage_User_Helper_Data')->__('New Password'),
-                    'class' => 'input-text validate-password',
-                )
-            );
-
-            $fieldset->addField('confirmation', 'password',
-                array(
-                    'name'  => 'password_confirmation',
-                    'label' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
-                    'id'    => 'confirmation',
-                    'class' => 'input-text validate-cpassword',
-                )
-            );
-        }
-        else {
-           $fieldset->addField('password', 'password',
-                array(
-                    'name'  => 'password',
-                    'label' => Mage::helper('Mage_User_Helper_Data')->__('Password'),
-                    'id'    => 'customer_pass',
-                    'title' => Mage::helper('Mage_User_Helper_Data')->__('Password'),
-                    'class' => 'input-text required-entry validate-password',
-                    'required' => true,
-                )
-            );
-           $fieldset->addField('confirmation', 'password',
-                array(
-                    'name'  => 'password_confirmation',
-                    'label' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
-                    'id'    => 'confirmation',
-                    'title' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
-                    'class' => 'input-text required-entry validate-cpassword',
-                    'required' => true,
-                )
-            );
+            $this->_addRegisteredUserPasswordFields($fieldset);
+        } else {
+            $this->_addNewUserPasswordFields($fieldset);
         }
 
         $fieldset->addField('is_active', 'select',
@@ -144,5 +109,60 @@ class Mage_User_Block_Tab_Useredit extends Mage_Backend_Block_Widget_Form
         $this->setForm($form);
     }
 
+    /**
+     * Add password change fields in registered user edit form
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     */
+    protected function _addRegisteredUserPasswordFields(Varien_Data_Form_Element_Fieldset $fieldset)
+    {
+        $fieldset->addField('password', 'password',
+            array(
+                'name'  => 'new_password',
+                'label' => Mage::helper('Mage_User_Helper_Data')->__('New Password'),
+                'id'    => 'new_pass',
+                'title' => Mage::helper('Mage_User_Helper_Data')->__('New Password'),
+                'class' => 'input-text validate-password',
+            )
+        );
+
+        $fieldset->addField('confirmation', 'password',
+            array(
+                'name'  => 'password_confirmation',
+                'label' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
+                'id'    => 'confirmation',
+                'class' => 'input-text validate-cpassword',
+            )
+        );
+    }
+
+    /**
+     * Add password creation fields in new user form
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     */
+    protected function _addNewUserPasswordFields(Varien_Data_Form_Element_Fieldset $fieldset)
+    {
+        $fieldset->addField('password', 'password',
+            array(
+                'name'  => 'password',
+                'label' => Mage::helper('Mage_User_Helper_Data')->__('Password'),
+                'id'    => 'customer_pass',
+                'title' => Mage::helper('Mage_User_Helper_Data')->__('Password'),
+                'class' => 'input-text required-entry validate-password',
+                'required' => true,
+            )
+        );
+        $fieldset->addField('confirmation', 'password',
+            array(
+                'name'  => 'password_confirmation',
+                'label' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
+                'id'    => 'confirmation',
+                'title' => Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation'),
+                'class' => 'input-text required-entry validate-cpassword',
+                'required' => true,
+            )
+        );
+    }
 }
 

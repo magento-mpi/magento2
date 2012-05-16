@@ -37,16 +37,19 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
                     foreach ($collection as $item) {
                         $user = Mage::getModel('Mage_User_Model_User')->load($item->getId());
                         if ($user->getId()) {
-                            $newResetPasswordLinkToken = Mage::helper('Mage_User_Helper_Data')->generateResetPasswordLinkToken();
-                            $user->changeResetPasswordLinkToken($newResetPasswordLinkToken);
+                            $newPassResetToken = Mage::helper('Mage_User_Helper_Data')
+                                ->generateResetPasswordLinkToken();
+                            $user->changeResetPasswordLinkToken($newPassResetToken);
                             $user->save();
                             $user->sendPasswordResetConfirmationEmail();
                         }
                         break;
                     }
                 }
+                // @codingStandardsIgnoreStart
                 $this->_getSession()
                     ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
+                // @codingStandardsIgnoreEnd
                 $this->_redirect('adminhtml/index/index');
                 return;
             } else {
@@ -66,17 +69,19 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
      */
     public function resetPasswordAction()
     {
-        $resetPasswordLinkToken = (string) $this->getRequest()->getQuery('token');
+        $passwordResetToken = (string) $this->getRequest()->getQuery('token');
         $userId = (int) $this->getRequest()->getQuery('id');
         try {
-            $this->_validateResetPasswordLinkToken($userId, $resetPasswordLinkToken);
+            $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
             $data = array(
                 'userId' => $userId,
-                'resetPasswordLinkToken' => $resetPasswordLinkToken
+                'resetPasswordLinkToken' => $passwordResetToken
             );
             $this->_outTemplate('resetforgottenpassword', $data);
         } catch (Exception $exception) {
-            $this->_getSession()->addError(Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.'));
+            $this->_getSession()->addError(
+                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+            );
             $this->_redirect('*/*/forgotpassword', array('_nosecret' => true));
         }
     }
@@ -88,31 +93,36 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
      */
     public function resetPasswordPostAction()
     {
-        $resetPasswordLinkToken = (string) $this->getRequest()->getQuery('token');
+        $passwordResetToken = (string) $this->getRequest()->getQuery('token');
         $userId = (int) $this->getRequest()->getQuery('id');
         $password = (string) $this->getRequest()->getPost('password');
         $passwordConfirmation = (string) $this->getRequest()->getPost('confirmation');
 
         try {
-            $this->_validateResetPasswordLinkToken($userId, $resetPasswordLinkToken);
+            $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
         } catch (Exception $exception) {
-            $this->_getSession()->addError(Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.'));
+            $this->_getSession()->addError(
+                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+            );
             $this->_redirect('adminhtml/index/index');
             return;
         }
 
         $errorMessages = array();
         if (iconv_strlen($password) <= 0) {
-            array_push($errorMessages, Mage::helper('Mage_User_Helper_Data')->__('New password field cannot be empty.'));
+            array_push(
+                $errorMessages,
+                Mage::helper('Mage_User_Helper_Data')->__('New password field cannot be empty.')
+            );
         }
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
 
         $user->setNewPassword($password);
         $user->setPasswordConfirmation($passwordConfirmation);
-        $validationErrorMessages = $user->validate();
-        if (is_array($validationErrorMessages)) {
-            $errorMessages = array_merge($errorMessages, $validationErrorMessages);
+        $validationErrors = $user->validate();
+        if (is_array($validationErrors)) {
+            $errorMessages = array_merge($errorMessages, $validationErrors);
         }
 
         if (!empty($errorMessages)) {
@@ -121,7 +131,7 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
             }
             $data = array(
                 'userId' => $userId,
-                'resetPasswordLinkToken' => $resetPasswordLinkToken
+                'resetPasswordLinkToken' => $passwordResetToken
             );
             $this->_outTemplate('resetforgottenpassword', $data);
             return;
@@ -133,13 +143,15 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
             $user->setRpTokenCreatedAt(null);
             $user->setPasswordConfirmation(null);
             $user->save();
-            $this->_getSession()->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.'));
+            $this->_getSession()->addSuccess(
+                Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.')
+            );
             $this->_redirect('adminhtml/index/index');
         } catch (Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
             $data = array(
                 'userId' => $userId,
-                'resetPasswordLinkToken' => $resetPasswordLinkToken
+                'resetPasswordLinkToken' => $passwordResetToken
             );
             $this->_outTemplate('resetforgottenpassword', $data);
             return;
@@ -153,26 +165,35 @@ class Mage_User_Adminhtml_IndexController extends Mage_Backend_Controller_Action
      * @param string $resetPasswordLinkToken
      * @throws Mage_Core_Exception
      */
-    protected function _validateResetPasswordLinkToken($userId, $resetPasswordLinkToken)
+    protected function _validateResetPasswordLinkToken($userId, $resetPasswordToken)
     {
         if (!is_int($userId)
-            || !is_string($resetPasswordLinkToken)
-            || empty($resetPasswordLinkToken)
+            || !is_string($resetPasswordToken)
+            || empty($resetPasswordToken)
             || empty($userId)
             || $userId < 0
         ) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.'));
+            throw Mage::exception(
+                'Mage_Core',
+                Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.')
+            );
         }
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
-        if (!$user || !$user->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_User_Helper_Data')->__('Wrong account specified.'));
+        if (!$user->getId()) {
+            throw Mage::exception(
+                'Mage_Core',
+                Mage::helper('Mage_User_Helper_Data')->__('Wrong account specified.')
+            );
         }
 
         $userToken = $user->getRpToken();
-        if (strcmp($userToken, $resetPasswordLinkToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.'));
+        if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
+            throw Mage::exception(
+                'Mage_Core',
+                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+            );
         }
     }
 

@@ -123,20 +123,28 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('Mage_User_Model_User')->setId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
+        $currentUser = Mage::getModel('Mage_User_Model_User')->setId(
+            Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId()
+        );
 
         if (in_array($rid, $currentUser->getRoles()) ) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('Self-assigned roles cannot be deleted.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError(
+                $this->__('Self-assigned roles cannot be deleted.')
+            );
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
         }
 
         try {
-            $role = $this->_initRole()->delete();
+            $this->_initRole()->delete();
 
-            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess($this->__('The role has been deleted.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess(
+                $this->__('The role has been deleted.')
+            );
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError(
+                $this->__('An error occurred while deleting this role.')
+            );
         }
 
         $this->_redirect("*/*/");
@@ -159,8 +167,9 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         $oldRoleUsers = array_keys($oldRoleUsers);
 
         $isAll = $this->getRequest()->getParam('all');
-        if ($isAll)
+        if ($isAll) {
             $resource = array("all");
+        }
 
         $role = $this->_initRole('role_id');
         if (!$role->getId() && $rid) {
@@ -170,7 +179,9 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         }
 
         try {
-            $roleName = Mage::helper('Mage_User_Helper_Data')->stripTags($this->getRequest()->getParam('rolename', false));
+            $roleName = Mage::helper('Mage_User_Helper_Data')->stripTags(
+                $this->getRequest()->getParam('rolename', false)
+            );
 
             $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))
@@ -186,7 +197,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
                 ->setResources($resource)
                 ->saveRel();
 
-            foreach($oldRoleUsers as $oUid) {
+            foreach ($oldRoleUsers as $oUid) {
                 $this->_deleteUserFromRole($oUid, $role->getId());
             }
 
@@ -195,11 +206,15 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess($this->__('The role has been successfully saved.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addSuccess(
+                $this->__('The role has been successfully saved.')
+            );
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Backend_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->addError($this->__('An error occurred while saving this role.'));
+            Mage::getSingleton('Mage_Backend_Model_Session')->addError(
+                $this->__('An error occurred while saving this role.')
+            );
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
@@ -251,7 +266,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
         $user->setRoleId($roleId);
 
-        if( $user->roleUserExists() === true ) {
+        if ($user->roleUserExists() === true ) {
             return false;
         } else {
             $user->save();
