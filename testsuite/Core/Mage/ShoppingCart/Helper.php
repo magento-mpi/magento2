@@ -111,6 +111,25 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                 $xpathValue = $productLine . "[$i]//td[$value]";
                 if ($key == 'qty' && $this->isElementPresent($xpathValue . '/input/@value')) {
                     $productValues['product_' . $i][$key] = $this->getAttribute($xpathValue . '/input/@value');
+                } elseif ($key == 'product_name'
+                          && $this->isElementPresent($xpathValue . "//*[@class='item-options']")
+                ) {
+                    $name = $this->getText($xpathValue . "//*[@class='product-name']");
+                    $productValues['product_' . $i][$key] = trim($name);
+                    //@TODO get product parameters
+                    /*$optionsXpath = $xpathValue . "//*[@class='item-options']";
+                    $countOptions = $this->getXpathCount($optionsXpath . '//dt');
+                    $options = array();
+                    for ($i = 0; $i < $countOptions; $i++) {
+                        $nameXpath = $optionsXpath . '//dt[' . $i . ']';
+                        $valueXpath = $nameXpath . "/following-sibling::dd[1]";
+                        $name = trim($this->getText($nameXpath));
+                        $price = trim($this->getText($valueXpath . '/span'));
+                        $value = str_replace($price, '', trim($this->getText($valueXpath)));
+                        $options[$i]['option_name'] = $name;
+                        $options[$i]['option_price'] = $price;
+                        $options[$i]['option_parameter'] = $value;
+                    }*/
                 } else {
                     $text = $this->getText($xpathValue);
                     if (preg_match('/Excl. Tax/', $text)) {
@@ -130,8 +149,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                         $values = array_map('trim', $values);
                         foreach ($values as $k => $v) {
                             if ($k % 2 != 0 && isset($values[$k - 1])) {
-                                $productValues['product_' . $i][$key . '_'
-                                    . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                                $newKey = $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]));
+                                $productValues['product_' . $i][$newKey] = $v;
                             }
                         }
                     } else {

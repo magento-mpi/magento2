@@ -102,7 +102,7 @@ product_page:
                             custom_option_file: //input[@type='file']
                         checkboxes:
                             custom_option_check_attribute: //input
-                            custom_option_checkbox: //input[@type='checkbox']
+                            custom_option_checkbox: //li[contains(.//label,'%optionTitle%')]//input[@type='checkbox']
                         dropdowns:
                             custom_option_select_attribute: //select
                             custom_option_dropdown: //select
@@ -121,7 +121,7 @@ product_page:
                         multiselects:
                             custom_option_multiselect: //select[@multiple='multiple']
                         radiobuttons:
-                            custom_option_radiobutton: //input[@type='radio']
+                            custom_option_radiobutton: //li[contains(.//label,'%optionTitle%')]//input[@type='radio']
                         pageelements:
                             custom_option_price: //span[@class='price' and normalize-space(text())='%price%']
                             custom_option_select: //option[contains(text(),'%optionTitle% +%optionPrice%')]

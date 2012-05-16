@@ -49,7 +49,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $this->doMultipleCheckoutSteps($checkout);
         //Place Order
-        return $this->placeMultipleCheckoutOrder();
+        return $this->submitMultipleCheckoutSteps();
     }
 
     /**
