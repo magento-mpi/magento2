@@ -76,6 +76,27 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     }
 
     /**
+     * @magentoAppIsolation enabled
+     */
+    public function testNotLoggedLoginActionWithRedirect()
+    {
+        $this->getRequest()->setPost(array(
+            'login' => array(
+                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
+                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
+            )
+        ));
+
+        $this->dispatch('admin/auth/index');
+
+        $response = Mage::app()->getResponse();
+        $code = $response->getHttpResponseCode();
+        $this->assertTrue($code >= 300 && $code < 400);
+
+        $this->assertTrue(Mage::getSingleton('Mage_Backend_Model_Auth')->isLoggedIn());
+    }
+
+    /**
      * @covers Mage_Backend_Adminhtml_AuthController::logoutAction
      */
     public function testLogoutAction()
