@@ -111,7 +111,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     public function deleteSegmentCustomers($segment)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getTable('enterprise_customersegment_event'),
+            $this->getTable('enterprise_customersegment_customer'),
             array('segment_id=?' => $segment->getId())
         );
         return $this;
