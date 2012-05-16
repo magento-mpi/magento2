@@ -112,7 +112,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->waitForElementOrAlert($waitConditions);
         $error = $this->errorMessage();
         $validation = $this->validationMessage();
-        if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
+        if (!$this->checkoutOnePageHelper()->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
             $message = self::messagesToString($this->getMessagesOnPage());
             //@TODO
             //Uncomment and remove workaround for getting fails,
