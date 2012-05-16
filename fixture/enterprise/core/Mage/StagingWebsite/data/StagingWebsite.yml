@@ -32,7 +32,7 @@ staging_website:
         source_website: Main Website
     general_information:
         staging_website_code: %randomize%_test_website_code
-        staging_website_name: (%randomize%) test website name
+        staging_website_name: test website name (%randomize%)
         frontend_restriction: Accessible
         system_configuration: Yes
         catalog_categories: Yes
@@ -98,7 +98,7 @@ create_website_empty_fields:
         source_website: Main Website
     general_information:
         staging_website_code: %randomize%_test_website_code
-        staging_website_name: (%randomize%) test website name
+        staging_website_name: test website name (%randomize%)
         frontend_restriction: Require HTTP Authentication
         http_login: admin
         http_password: 123123q
