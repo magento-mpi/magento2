@@ -377,6 +377,7 @@ create_order_for_new_customer:
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
+            submit_order: //button[span='Submit Order']
         messages: *orderMessages
 
 reorder_create_new_order:

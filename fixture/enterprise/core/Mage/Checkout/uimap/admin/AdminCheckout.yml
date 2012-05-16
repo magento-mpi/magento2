@@ -37,3 +37,24 @@ view_order:
                                     xpath: //div[div/h4[contains(text(),'Gift Options')]]
                                     pageelements:
                                         printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
+
+# 'New Order' page
+create_order_for_new_customer:
+    mca: sales_order_create/
+    title: New Order / Orders / Sales / Magento Admin
+    uimap:
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
+                -
+                    gift_options: &giftMessage
+                        xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                        dropdowns:
+                            gift_wrapping_design: //select[@id='giftwrapping_design_item']
+                -
+                    gift_options_for_order: &giftMessageForOrder
+                        xpath: //div[@class='entry-edit' and contains(.,'Gift Message for the Entire Order')]
+                        dropdowns:
+                            gift_wrapping_design: //select[@id='giftwrapping_design']
+                        checkboxes:
+                            send_gift_receipt: //input[@id='allow-gift-receipt']
+                            add_printed_card: //input[@id='add-printed-card']

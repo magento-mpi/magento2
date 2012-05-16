@@ -257,4 +257,166 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         //Verification
         //TODO: Implement email verification for completing test
     }
+
+    /**
+     * Preconditions
+     *
+     * @return array
+     * @test
+     */
+
+    public function createProducts()
+    {
+        $this->navigate('manage_products');
+        $returnData[] = $simpleData1 = $this->loadDataSet('Product', 'simple_product_visible');
+        $returnData[] = $simpleData2 = $this->loadDataSet('Product', 'simple_product_visible');
+
+        $this->productHelper()->createProduct($simpleData1);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($simpleData2);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return $returnData;
+    }
+
+    /**
+     * <p>Preconditions</p>
+     *
+     * <p>Create Gift Wrapping for tests</p>
+     *
+     * @test
+     * @return array $giftWrappingData
+     */
+    public function preconditionsCreateGiftWrapping()
+    {
+        //Data
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        //Steps
+        $this->navigate('manage_gift_wrapping');
+        $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+
+        return $giftWrappingData;
+    }
+
+   /**
+    * <p>Preconditions:</p>
+    * <p>System -> Sales -> Gift Options (Default scope) -> Switch to "no" following options:</p>
+    * <p>"Allow Gift Messages on Order Level";</p>
+    * <p>"Allow Gift Messages for Order Items";</p>
+    * <p>"Allow Gift Wrapping on Order Level";</p>
+    * <p>"Allow Gift Wrapping for Order Items";</p>
+    * <p>"Allow Gift Receipt";</p>
+    * <p>"Allow Printed Card";</p>
+
+    * <p>System -> Sales -> Gift Options (Website scope) -> Switch to "yes" following options:</p>
+    * <p>"Allow Gift Messages on Order Level";</p>
+    * <p>"Allow Gift Messages for Order Items";</p>
+    * <p>"Allow Gift Wrapping on Order Level";</p>
+    * <p>"Allow Gift Wrapping for Order Items";<p>
+    * <p>"Allow Gift Receipt";</p>
+    * <p>"Allow Printed Card";</p>
+    *
+    * <p>Steps:</p>
+    * <p>1. Log into beckend Sales-> Orders;</p>
+    * <p>2. Push "create New Order";</p>
+    * <p>3. Select any customer from list;</p>
+    * <p>4. Select a Store from list;</p>
+    * <p>5. Add at leadt 2 products uses "Add products" button;</p>
+    * <p>6. Enter Billing and shipping addresses;</p>
+    * <p>7. Choose Shipping and payment Methods;</p>
+    * <p>8. Edit gift masseges for entire order and Items individually;</p>
+    * <p>9. Push "Submit Order" button;</p>
+    * <p>10.Make overview of recently created order and check if all switched in this test case gift options is</p>
+    * <p> saved;</p>
+    *
+    * <p>Expected result:</p>
+    * <p>After step 9: Should appears notification massage "The order has been created."</p>
+    * <p>After step 10: All switched in this test case gift options is saved;</p>
+    *
+    * @TestlinkId TL-MAGE-861
+    * @depends createProducts
+    * @depends preconditionsCreateGiftWrapping
+    * @param $productData
+    * @param $giftWrappingData
+    * @test
+    *
+    */
+    public function giftWrappingBackendWebsite($productData, $giftWrappingData)
+    {
+        //Preconditions
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('gift_options_enable_all_website');
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full',
+            array('gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData[0]['general_sku'];
+        $orderData['products_to_add']['product_2']['filter_sku'] = $productData[1]['general_sku'];
+        $orderData['gift_messages']['individual_item']['product_1']['sku_product'] = $productData[0]['general_sku'];
+        $orderData['gift_messages']['individual_item']['product_2']['sku_product'] = $productData[1]['general_sku'];
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, FALSE);
+        //Verification
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>System -> Sales -> Gift Options (Default scope) -> Switch to "yes" following options:</p>
+     * <p>"Allow Gift Messages on Order Level";</p>
+     * <p>"Allow Gift Messages for Order Items";</p>
+     * <p>"Allow Gift Wrapping on Order Level";</p>
+     * <p>"Allow Gift Wrapping for Order Items";</p>
+     * <p>"Allow Gift Receipt";</p>
+     * <p>"Allow Printed Card";</p>
+
+     * <p>System -> Sales -> Gift Options (Website scope) -> Switch to "no" following options:</p>
+     * <p>"Allow Gift Messages on Order Level";</p>
+     * <p>"Allow Gift Messages for Order Items";</p>
+     * <p>"Allow Gift Wrapping on Order Level";</p>
+     * <p>"Allow Gift Wrapping for Order Items";<p>
+     * <p>"Allow Gift Receipt";</p>
+     * <p>"Allow Printed Card";</p>
+     *
+     * <p>Steps:</p>
+     * <p>1. Log into beckend Sales-> Orders;</p>
+     * <p>2. Push "create New Order";</p>
+     * <p>3. Select any customer from list;</p>
+     * <p>4. Select a Store from list;</p>
+     * <p>5. Add at leadt 2 products uses "Add products" button;</p>
+     *
+     * <p>Expected result:</p>
+     * <p>After step 5: Should not appears "Gift Options" link under the added product;</p>
+     *
+     * @TestlinkId TL-MAGE-872
+     * @depends createProducts
+     * @param $productData
+     * @test
+     *
+     */
+    public function giftWrappingBackendGlobalScope($productData)
+    {
+        //Preconditions
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_options_enable_all_default_config');
+        $this->systemConfigurationHelper()->configure('gift_options_disable_all_website');
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData[0]['general_sku'];
+        $orderData['products_to_add']['product_2']['filter_sku'] = $productData[1]['general_sku'];
+        //Steps
+        $this->navigate('manage_sales_orders');
+
+        $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
+        $this->fillForm($orderData['account_data']);
+        foreach ($orderData['products_to_add'] as $value) {
+            $this->orderHelper()->addProductToOrder($value);
+        }
+        //Verification
+        $this->orderHelper()->verifyGiftOptionsDisabled($orderData);
+    }
 }
