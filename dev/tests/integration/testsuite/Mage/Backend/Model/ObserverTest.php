@@ -26,7 +26,7 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testActionPreDispatchAdminNotLogged()
     {
-        $this->markTestSkipped("Skipped because of obsolete event observers. Logic to initialize of authentication moved into base controller.");
+        $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
         $request = Mage::app()->getRequest();
         $this->assertEmpty($request->getRouteName());
@@ -46,7 +46,7 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testActionPreDispatchAdminLoggedRedirect()
     {
-        $this->markTestSkipped("Skipped because of obsolete event observers. Currently initialize of authentication logic moved into base controller.");
+        $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
@@ -65,7 +65,7 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testActionPreDispatchAdminLoggedNoRedirect()
     {
-        $this->markTestSkipped("Skipped because of obsolete event observers. Currently initialize of authentication logic moved into base controller.");
+        $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
