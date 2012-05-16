@@ -70,7 +70,10 @@ class Mage_Admin_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 'admin' => array('name' => 'Backend_Translation', 'level' => 0)
             )
         );
+    }
 
+    public function testGetAclResourceListShortFormat()
+    {
         $list = $this->_config->getAclResourceList(true);
         $this->assertEquals(
             $list,
