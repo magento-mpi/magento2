@@ -239,71 +239,16 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
-        if (empty($frameWidth) && empty($frameHeight)) {
-            throw new Exception('Invalid image dimensions.');
-        }
-
-        // calculate lacking dimension
-        if (!$this->_keepFrame) {
-            if (null === $frameWidth) {
-                $frameWidth = round($frameHeight * ($this->_imageSrcWidth / $this->_imageSrcHeight));
-            }
-            elseif (null === $frameHeight) {
-                $frameHeight = round($frameWidth * ($this->_imageSrcHeight / $this->_imageSrcWidth));
-            }
-        }
-        else {
-            if (null === $frameWidth) {
-                $frameWidth = $frameHeight;
-            }
-            elseif (null === $frameHeight) {
-                $frameHeight = $frameWidth;
-            }
-        }
-
-        // define coordinates of image inside new frame
-        $srcX = 0;
-        $srcY = 0;
-        $dstX = 0;
-        $dstY = 0;
-        $dstWidth  = $frameWidth;
-        $dstHeight = $frameHeight;
-        if ($this->_keepAspectRatio) {
-            // do not make picture bigger, than it is, if required
-            if ($this->_constrainOnly) {
-                if (($frameWidth >= $this->_imageSrcWidth) && ($frameHeight >= $this->_imageSrcHeight)) {
-                    $dstWidth  = $this->_imageSrcWidth;
-                    $dstHeight = $this->_imageSrcHeight;
-                }
-            }
-            // keep aspect ratio
-            if ($this->_imageSrcWidth / $this->_imageSrcHeight >= $frameWidth / $frameHeight) {
-                $dstHeight = round(($dstWidth / $this->_imageSrcWidth) * $this->_imageSrcHeight);
-            } else {
-                $dstWidth = round(($dstHeight / $this->_imageSrcHeight) * $this->_imageSrcWidth);
-            }
-        }
-        // define position in center (TODO: add positions option)
-        $dstY = round(($frameHeight - $dstHeight) / 2);
-        $dstX = round(($frameWidth - $dstWidth) / 2);
-
-        // get rid of frame (fallback to zero position coordinates)
-        if (!$this->_keepFrame) {
-            $frameWidth  = $dstWidth;
-            $frameHeight = $dstHeight;
-            $dstY = 0;
-            $dstX = 0;
-        }
+        $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
         // create new image
         $isAlpha     = false;
         $isTrueColor = false;
         $this->_getTransparency($this->_imageHandler, $this->_fileType, $isAlpha, $isTrueColor);
         if ($isTrueColor) {
-            $newImage = imagecreatetruecolor($frameWidth, $frameHeight);
-        }
-        else {
-            $newImage = imagecreate($frameWidth, $frameHeight);
+            $newImage = imagecreatetruecolor($dims['dst']['width'], $dims['dst']['height']);
+        } else {
+            $newImage = imagecreate($dims['dst']['width'], $dims['dst']['height']);
         }
 
         // fill new image with required color
@@ -313,9 +258,9 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         imagecopyresampled(
             $newImage,
             $this->_imageHandler,
-            $dstX, $dstY,
-            $srcX, $srcY,
-            $dstWidth, $dstHeight,
+            $dims['dst']['x'], $dims['dst']['y'],
+            $dims['src']['x'], $dims['src']['y'],
+            $dims['dst']['width'], $dims['dst']['height'],
             $this->_imageSrcWidth, $this->_imageSrcHeight
         );
         $this->_imageHandler = $newImage;
@@ -343,7 +288,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
 
     public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
     {
-        list($watermarkSrcWidth, $watermarkSrcHeight, $watermarkFileType, ) = getimagesize($watermarkImage);
+        list($watermarkSrcWidth, $watermarkSrcHeight, $watermarkFileType, ) = $this->_getImageOptions($watermarkImage);
         $this->_getFileAttributes();
         $watermark = call_user_func($this->_getCallback(
             'create',
@@ -354,21 +299,21 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         $merged = false;
 
         if ($this->getWatermarkWidth() &&
-            $this->getWatermarkHeigth() &&
+            $this->getWatermarkHeight() &&
             ($this->getWatermarkPosition() != self::POSITION_STRETCH)
         ) {
-            $newWatermark = imagecreatetruecolor($this->getWatermarkWidth(), $this->getWatermarkHeigth());
+            $newWatermark = imagecreatetruecolor($this->getWatermarkWidth(), $this->getWatermarkHeight());
             imagealphablending($newWatermark, false);
             $col = imagecolorallocate($newWatermark, 255, 255, 255);
             imagecolortransparent($newWatermark, $col);
-            imagefilledrectangle($newWatermark, 0, 0, $this->getWatermarkWidth(), $this->getWatermarkHeigth(), $col);
+            imagefilledrectangle($newWatermark, 0, 0, $this->getWatermarkWidth(), $this->getWatermarkHeight(), $col);
             imagealphablending($newWatermark, true);
             imageSaveAlpha($newWatermark, true);
             imagecopyresampled(
                 $newWatermark,
                 $watermark,
                 0, 0, 0, 0,
-                $this->getWatermarkWidth(), $this->getWatermarkHeigth(),
+                $this->getWatermarkWidth(), $this->getWatermarkHeight(),
                 imagesx($watermark), imagesy($watermark)
             );
             $watermark = $newWatermark;
