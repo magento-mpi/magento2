@@ -384,7 +384,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $allRefunds = (float)$amount
                 + (float)$order->getBaseTotalOnlineRefunded()
                 + (float)$order->getBaseTotalOfflineRefunded();
-            $isFullRefund = !$canRefundMore && (0 == (float)$order->getBaseGrandTotal() - $allRefunds);
+            $isFullRefund = !$canRefundMore && (0.0001 > (float)$order->getBaseGrandTotal() - $allRefunds);
             $request->setData('is_full_refund', (int)$isFullRefund);
 
             // whether to close capture transaction
