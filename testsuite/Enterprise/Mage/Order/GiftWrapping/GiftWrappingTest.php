@@ -41,22 +41,36 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     }
 
     /**
-     * <p>Creating Simple product</p>
+     * <p>Creating 2 simple products</p>
      *
      * @test
-     * @return array $productData
+     * @return array
      */
-    public function preconditionsCreateProduct()
+    public function preconditionsCreateProducts()
     {
-        //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        //Verification
+        $product1 = $this->loadDataSet('Product', 'simple_product_visible');
+        $product2 = $this->loadDataSet('Product', 'simple_product_visible');
+        $this->productHelper()->createProduct($product1);
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $productData;
+        $this->productHelper()->createProduct($product2);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return array($product1, $product2);
+    }
+
+    /**
+     * <p>Create Gift Wrapping for tests</p>
+     *
+     * @test
+     * @return array $giftWrappingData
+     */
+    public function preconditionsCreateGiftWrapping()
+    {
+        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $this->navigate('manage_gift_wrapping');
+        $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
+        $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+        return $giftWrappingData;
     }
 
     /**
@@ -67,13 +81,10 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      */
     public function preconditionsCreateCustomer()
     {
-        //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
-        //Verification
         $this->assertMessagePresent('success', 'success_registration');
         return array('email' => $userData['email'], 'password' => $userData['password']);
     }
@@ -116,7 +127,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * <p>1. Email contains gift options.</p>
      *
      * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateProducts
      * @param array $customerData
      * @param array $productData
      * @return array $orderId
@@ -139,8 +150,8 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
                                 array('email' => $customerData['email'], 'password' => $customerData['password'],
                                 'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
                                 'individual_items' => $indItems),
-                                array('product_1' => $productData['general_name'],
-                                      'validate_name_1' => $productData['general_name'] .
+                                array('product_1' => $productData[0]['general_name'],
+                                      'validate_name_1' => $productData[0]['general_name'] .
                                         ' Gift Wrapping Design : ' . $giftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
@@ -176,7 +187,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      *
      * @depends createOrder
      * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateProducts
      * @param array $orderId
      *
      * @test
@@ -208,7 +219,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      *
      * @depends createOrder
      * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateProducts
      * @param array $orderId
      *
      * @test
@@ -240,7 +251,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      *
      * @depends createOrder
      * @depends preconditionsCreateCustomer
-     * @depends preconditionsCreateProduct
+     * @depends preconditionsCreateProducts
      * @param array $orderId
      *
      * @test
@@ -256,48 +267,6 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $this->clickButton('refund_offline');
         //Verification
         //TODO: Implement email verification for completing test
-    }
-
-    /**
-     * Preconditions
-     *
-     * @return array
-     * @test
-     */
-
-    public function createProducts()
-    {
-        $this->navigate('manage_products');
-        $returnData[] = $simpleData1 = $this->loadDataSet('Product', 'simple_product_visible');
-        $returnData[] = $simpleData2 = $this->loadDataSet('Product', 'simple_product_visible');
-
-        $this->productHelper()->createProduct($simpleData1);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($simpleData2);
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return $returnData;
-    }
-
-    /**
-     * <p>Preconditions</p>
-     *
-     * <p>Create Gift Wrapping for tests</p>
-     *
-     * @test
-     * @return array $giftWrappingData
-     */
-    public function preconditionsCreateGiftWrapping()
-    {
-        //Data
-        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
-        //Steps
-        $this->navigate('manage_gift_wrapping');
-        $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-
-        return $giftWrappingData;
     }
 
    /**
@@ -323,7 +292,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     * <p>2. Push "create New Order";</p>
     * <p>3. Select any customer from list;</p>
     * <p>4. Select a Store from list;</p>
-    * <p>5. Add at leadt 2 products uses "Add products" button;</p>
+    * <p>5. Add at least 2 products uses "Add products" button;</p>
     * <p>6. Enter Billing and shipping addresses;</p>
     * <p>7. Choose Shipping and payment Methods;</p>
     * <p>8. Edit gift masseges for entire order and Items individually;</p>
@@ -336,7 +305,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     * <p>After step 10: All switched in this test case gift options is saved;</p>
     *
     * @TestlinkId TL-MAGE-861
-    * @depends createProducts
+    * @depends preconditionsCreateProducts
     * @depends preconditionsCreateGiftWrapping
     * @param $productData
     * @param $giftWrappingData
@@ -387,13 +356,13 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * <p>2. Push "create New Order";</p>
      * <p>3. Select any customer from list;</p>
      * <p>4. Select a Store from list;</p>
-     * <p>5. Add at leadt 2 products uses "Add products" button;</p>
+     * <p>5. Add at least 2 products uses "Add products" button;</p>
      *
      * <p>Expected result:</p>
      * <p>After step 5: Should not appears "Gift Options" link under the added product;</p>
      *
      * @TestlinkId TL-MAGE-872
-     * @depends createProducts
+     * @depends preconditionsCreateProducts
      * @param $productData
      * @test
      *
