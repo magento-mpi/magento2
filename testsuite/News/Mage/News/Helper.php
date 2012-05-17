@@ -55,6 +55,7 @@ class News_Mage_News_Helper extends Mage_Selenium_TestCase
             $this->fillTab($newsData,'content',false);
         }
         $this->saveForm('save_news');
+                       
     }
 
 }
