@@ -62,8 +62,7 @@ class News_Mage_News_Helper extends Mage_Selenium_TestCase
             $this->fillTab($newsData,'content',false);
         if (array_key_exists ('image_thumbnail', $userData)){
             $this->openTab('image_thumbnail');
-            $this->clickButton('new_image_image');
-            $this->loadData('news_image');
+            $this->fillTab('image_thumbnail',$newsData);
         }
         }
         return $newsData;

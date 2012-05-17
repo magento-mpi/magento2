@@ -147,7 +147,7 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->NewsHelper()->createNews($newsData);
         //Verifying
-        $this->assertMessageNotPresent('success','success_saved_news');
+        $this->assertMessagePresent('success','success_saved_news');
 
         return $newsData;
     }
