@@ -234,7 +234,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Dibs extends Mage_Payment_Model_Me
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
-        $payment->setShouldCloseParentTransaction(false);
+        $payment->setIsTransactionClosed(1);
         return $this;
     }
 
