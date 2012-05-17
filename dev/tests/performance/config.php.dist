@@ -34,6 +34,7 @@ return array(
         'admin_password'             => '123123q', // must be at least of 7 both numeric and alphanumeric characters
     ),
     'scenario_files' => glob(__DIR__ . '/testsuite/*test.jmx'),
+    'fixtures' => glob(__DIR__ . '/testsuite/fixtures/*.php'),
     'scenario_params' => array(
         'host'  => '127.0.0.1',
         'path'  => '/magento/',

@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Catalog
+ * @subpackage  performance_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+function retrieveAttributeSetId()
+{
+    $productResource = Mage::getModel('Mage_Catalog_Model_Product');
+    $entityType = $productResource->getResource()->getEntityType();
+
+    $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        ->setEntityTypeFilter($entityType->getId())
+        ->load();
+
+    foreach ($sets as $setInfo) {
+        return $setInfo->getId();
+    }
+}
+
+$product = new Mage_Catalog_Model_Product();
+$product->setTypeId('simple')
+    ->setId(1)
+    ->setAttributeSetId(retrieveAttributeSetId())
+    ->setWebsiteIds(array(1))
+    ->setName('Product 1')
+    ->setSku('product_1')
+    ->setPrice(10)
+    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->save()
+;
