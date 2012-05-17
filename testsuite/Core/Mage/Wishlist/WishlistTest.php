@@ -231,7 +231,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function addProductsWithoutAdditionalOptionsToWishlistFromProduct($testData)
     {
         //Steps and Verifying
-        $this->customerHelper()->frontLoginCustomerfrontLoginCustomer($testData['user']);
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
         foreach ($testData['productNames'] as $productName) {
             $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName);
             $this->assertMessagePresent('success', 'successfully_added_product');

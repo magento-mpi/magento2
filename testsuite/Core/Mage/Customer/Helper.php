@@ -179,6 +179,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
         }
         $this->clickControl('link', 'log_in');
         $this->fillFieldset($loginData, 'log_in_customer');
-        $this->clickButton('login');
+        $this->clickButton('login', false);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage('customer_account');
     }
 }
