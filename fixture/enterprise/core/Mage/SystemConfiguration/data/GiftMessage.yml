@@ -151,6 +151,8 @@ gift_options_disable_all_website:
     tab_1:
         tab_name: sales_sales
         configuration:
+            allow_gift_messages_on_order_level_use_default: No
+            allow_gift_messages_for_order_items_use_default: No
             allow_gift_wrapping_on_order_level_use_default: No
             allow_gift_wrapping_for_order_items_use_default: No
             allow_gift_receipt_use_default: No

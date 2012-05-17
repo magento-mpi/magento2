@@ -82,21 +82,31 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
                     }
             }
         }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
+     * Verifies that gift options link is not available for items and order.
+     * Fails test if any of the gift options is available.
+     *
      * @param array $orderData
      */
     public function verifyGiftOptionsDisabled($orderData)
     {
-        if(array_key_exists('products_to_add', $orderData)) {
+        if (array_key_exists('products_to_add', $orderData)) {
             foreach ($orderData['products_to_add'] as $options) {
                 if (is_array($options) && isset($options['filter_sku'])) {
                     $this->addParameter('sku', $options['filter_sku']);
-                    $this->assertFalse($this->controlIsPresent('link', 'gift_options'));
+                    if ($this->controlIsPresent('link', 'gift_options')) {
+                        $this->addVerificationMessage('Gift options link is available for product '
+                                . $options['filter_sku']);
+                    }
                 }
             }
         }
-        $this->assertFalse($this->controlIsPresent('fieldset', 'gift_options_for_order'));
+        if ($this->controlIsPresent('fieldset', 'gift_options_for_order')) {
+            $this->addVerificationMessage('Gift options are available for the order');
+        }
+        $this->assertEmptyVerificationErrors();
     }
 }
