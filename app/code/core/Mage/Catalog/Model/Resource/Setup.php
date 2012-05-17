@@ -750,6 +750,17 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'sort_order'                 => 13,
                         'visible'                    => false,
                     ),
+                    'options_container'  => array(
+                        'type'                       => 'varchar',
+                        'label'                      => 'Display Product Options In',
+                        'input'                      => 'select',
+                        'source'                     => 'Mage_Catalog_Model_Entity_Product_Attribute_Design_Options_Container',
+                        'required'                   => false,
+                        'default'                    => 'container2',
+                        'sort_order'                 => 6,
+                        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+                        'group'                      => 'Design',
+                    ),
                     'required_options'   => array(
                         'type'                       => 'static',
                         'input'                      => 'text',
