@@ -32,7 +32,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_hostname>
                         <solr_server_port translate="label">
                             <label>Solr Server Port</label>
@@ -41,7 +41,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_port>
                         <solr_server_username translate="label">
                             <label>Solr Server Username</label>
@@ -50,7 +50,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_username>
                         <solr_server_password translate="label">
                             <label>Solr Server Password</label>
@@ -59,7 +59,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_password>
                         <solr_server_timeout translate="label">
                             <label>Solr Server Timeout</label>
@@ -68,7 +68,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_timeout>
                         <solr_server_path translate="label comment">
                             <label>Solr Server Path</label>
@@ -78,7 +78,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_path>
                         <engine_commit_mode translate="label comment">
                             <label>Indexation Mode</label>
@@ -89,7 +89,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </engine_commit_mode>
                         <solr_test_connect_wizard translate="button_label">
                             <label></label>
@@ -99,7 +99,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_test_connect_wizard>
                         <solr_server_suggestion_enabled translate="label comment">
                             <label>Enable Search Suggestions</label>
@@ -110,7 +110,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_suggestion_enabled>
                         <solr_server_suggestion_count translate="label">
                             <label>Search Suggestions Count</label>
@@ -120,7 +120,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <engine>enterprise_search/engine</engine>
+                                <engine>solr</engine>
                                 <solr_server_suggestion_enabled>1</solr_server_suggestion_enabled>
                             </depends>
                         </solr_server_suggestion_count>
@@ -134,7 +134,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <engine>enterprise_search/engine</engine>
+                                <engine>solr</engine>
                                 <solr_server_suggestion_enabled>1</solr_server_suggestion_enabled>
                             </depends>
                         </solr_server_suggestion_count_results_enabled>
@@ -176,7 +176,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
+                            <depends><engine>solr</engine></depends>
                         </solr_server_use_in_catalog_navigation>
                         <search_type>
                             <depends><engine>catalogsearch/fulltext_engine</engine></depends>
