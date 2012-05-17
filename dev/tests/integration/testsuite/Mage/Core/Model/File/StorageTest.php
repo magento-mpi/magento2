@@ -1,17 +1,19 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Core
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 class Mage_Core_Model_File_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * test for Mage_Core_Model_File_Storage::getScriptConfig()
+     *
      * @magentoConfigFixture current_store system/media_storage_configuration/configuration_update_time 1000
      */
     public function testGetScriptConfig()
