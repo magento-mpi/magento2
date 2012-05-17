@@ -33,6 +33,7 @@ return array(
         __DIR__ . '/testsuite/home_page_test.jmx',
         __DIR__ . '/testsuite/checkout_test.jmx',
     ),
+    'fixtures' => glob(__DIR__ . '/testsuite/fixtures/*.php'),
     'scenario_params' => array(
         'host'  => 'mage2.magentocommerce.com',
         'path'  => '/bamboo-agent/',
