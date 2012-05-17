@@ -95,4 +95,18 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
         return $newsData;
     }
 
+    public function createNewSaveAndContinue()
+    {
+        //Data
+        $newsData = $this->loadDataSet('News', 'generic_news');
+        //Steps
+        $this->NewsHelper()->createNewsandNotSave($newsData);
+        $this->clickButton('save_news_continue');
+        $this->checkCurrentPage('news_new');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_news');
+
+        return $newsData;
+    }
+
 }

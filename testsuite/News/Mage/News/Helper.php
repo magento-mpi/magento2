@@ -42,6 +42,13 @@ class News_Mage_News_Helper extends Mage_Selenium_TestCase
      */
     public function createNews($newsData)
     {
+        $this->createNewsandNotSave($newsData);
+        $this->saveForm('save_news');
+        return $newsData;
+    }
+    
+    public function createNewsandNotSave($newsData)
+    {
         $userData = $this->arrayEmptyClear($newsData);
         $this->clickButton('add_new_news');
         $this->fillTab($newsData,'news_info',false);
@@ -53,8 +60,8 @@ class News_Mage_News_Helper extends Mage_Selenium_TestCase
             $this->openTab('content');
             $this->clickButton('htmleditor',false);
             $this->fillTab($newsData,'content',false);
-        }
-        $this->saveForm('save_news');
+        }        
+        return $newsData;
     }
 
 }
