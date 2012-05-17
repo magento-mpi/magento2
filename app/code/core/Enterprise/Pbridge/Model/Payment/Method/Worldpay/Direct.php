@@ -211,7 +211,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct extends Mage_Payme
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
-        $payment->setShouldCloseParentTransaction(false);
+        $payment->setIsTransactionClosed(1);
         return $this;
     }
 
