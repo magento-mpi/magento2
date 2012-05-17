@@ -122,10 +122,11 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $newsData = $this->loadDataSet('News', 'generic_news');
+        $this->addParameter('id', $this->defineIdFromUrl());
         //Steps
         $this->NewsHelper()->createNewsandNotSave($newsData);
         $this->clickButton('save_news_continue');
-        $this->checkCurrentPage('news_new');
+        $this->checkCurrentPage('news_edit_item');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_news');
 

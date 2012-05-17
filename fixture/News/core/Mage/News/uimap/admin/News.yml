@@ -51,7 +51,7 @@ news:
 news_new:
     mca: news/new    
     title: "New Item / Manage News / News / Magento Admin"
-    uimap:
+    uimap: &newsEdit
         form: 
             tabs:
                 -
@@ -88,3 +88,14 @@ news_new:
             reset: //button[span='Reset']
             save_news: //button[span='Save News Item']        
             save_news_continue: //button[span='Save and Continue Edit']
+        messages:
+            need_сorrect_date: //li[normalize-space(@class)='error-msg' and contains(.,'You need a correct date')]
+news_edit:
+    mca: news/edit
+    title: "New Item / Manage News / News / Magento Admin"
+    uimap: *newsEdit
+
+news_edit_item:
+    mca: news/edit/id/%id%
+    title: "New Item / Manage News / News / Magento Admin"
+    uimap: *newsEdit

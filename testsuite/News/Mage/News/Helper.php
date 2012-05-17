@@ -54,8 +54,7 @@ class News_Mage_News_Helper extends Mage_Selenium_TestCase
         $this->fillTab($newsData,'news_info',false);
         $first = (isset($newsData['news_title'])) ? $newsData['news_title'] : '';
         $last = (isset($newsData['author'])) ? $newsData['author'] : '';
-        $param = $first . ' ' . $last;
-        $this->addParameter('user_title_author', $param);
+
         if (array_key_exists('content', $userData)) {
             $this->openTab('content');
             $this->clickButton('htmleditor',false);
