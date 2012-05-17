@@ -195,7 +195,7 @@ multiple_with_register:
             products:
                 product_1:
                     product_name: %product_1%
-                    product_qty: 2
+                    product_qty: 1
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
@@ -217,7 +217,7 @@ multiple_with_register:
             products:
                 product_1:
                     product_name: %product_2%
-                    product_qty: 2
+                    product_qty: 1
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
@@ -251,7 +251,7 @@ multiple_with_register_virtual:
             products:
                 product_1:
                     product_name: %product_2%
-                    product_qty: 2
+                    product_qty: 1
             gift_options: %gift_options_address2%
     payment_data: *payment_data
 
@@ -265,7 +265,7 @@ multiple_with_register_france:
             products:
                 product_1:
                     product_name: %product_1%
-                    product_qty: 2
+                    product_qty: 1
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
@@ -275,7 +275,7 @@ multiple_with_register_france:
             products:
                 product_1:
                     product_name: %product_2%
-                    product_qty: 2
+                    product_qty: 1
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
@@ -292,7 +292,7 @@ multiple_with_register_france_virtual:
             products:
                 product_1:
                     product_name: %product_1%
-                    product_qty: 2
+                    product_qty: 1
             shipping:
                 shipping_service: Flat Rate
                 shipping_method: Fixed
@@ -301,7 +301,7 @@ multiple_with_register_france_virtual:
             products:
                 product_1:
                     product_name: %product_2%
-                    product_qty: 2
+                    product_qty: 1
             gift_options: %gift_options_address2%
     payment_data: *payment_data
 ################################################################################

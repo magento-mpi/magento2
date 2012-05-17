@@ -184,7 +184,7 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $searchTag = $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag));
         //Setup
         $this->frontend();
-        $this->productHelper()->frontOpenProduct($testData['simple']);
+        $this->productHelper()->frontOpenProduct($testData['simple'], $testData['category']);
         //Steps
         $this->tagsHelper()->frontendAddTag($tag);
         //Verification

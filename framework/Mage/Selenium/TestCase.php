@@ -1291,6 +1291,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $method = strtolower($type) . 'Message';
         $result = $this->$method($message);
         if (!$result['success']) {
+            $location =
+                'Current url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
             if (is_null($message)) {
                 $error = "Failed looking for '" . $type . "' message.\n";
             } else {
@@ -1299,7 +1301,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($result['found']) {
                 $error .= "Found  messages instead:\n" . $result['found'];
             }
-            $this->fail($error);
+            $this->fail($location . $error);
         }
     }
 
@@ -1698,7 +1700,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (end($fallbackOrderHelper) == 'enterprise') {
             $expectedTitle =
                 $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-            $this->assertSame($expectedTitle, $this->getTitle(), 'Title for page "' . $page . '" is unexpected.');
+            $this->assertSame($expectedTitle, $this->getTitle(),
+                'Current url: \'' . $this->getLocation() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
