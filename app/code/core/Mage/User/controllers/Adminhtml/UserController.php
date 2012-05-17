@@ -185,16 +185,15 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         if ($userId) {
             $model->load($userId);
         }
-
         Mage::register('permissions_user', $model);
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.user.rolesgrid')->toHtml());
+        $this->renderLayout();
     }
 
     public function roleGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.user.rolegrid')->toHtml());
+        $this->renderLayout();
     }
 
     protected function _isAllowed()

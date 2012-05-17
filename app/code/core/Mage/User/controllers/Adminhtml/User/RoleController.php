@@ -207,13 +207,11 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
 
     /**
      * Action for ajax request from assigned users grid
-     *
      */
     public function editrolegridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_User_Block_Role_Grid_User')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**

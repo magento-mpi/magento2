@@ -68,7 +68,7 @@ return array(
     'Mage_Adminhtml_Block_Tree',
     'Mage_Adminhtml_Helper_Rss',
     'Mage_Adminhtml_Model_System_Config_Source_Shipping_Allowedmethods',
-    'Mage_Adminhtml_Model_System_Store',
+    'Mage_Adminhtml_Model_System_Store' => array('suggestion' => 'Mage_Core_Model_System_Store'),
     'Mage_Adminhtml_Rss_CatalogController',
     'Mage_Adminhtml_Rss_OrderController',
     'Mage_Bundle_Product_EditController' => array('suggestion' => 'Mage_Bundle_Adminhtml_Bundle_SelectionController'),
