@@ -82,8 +82,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Add address for customer.
-     *
      * PreConditions: Customer is opened.
+     *
      * @param array $addressData
      */
     public function addAddress(array $addressData)
@@ -99,8 +99,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Create customer.
-     *
      * PreConditions: 'Manage Customers' page is opened.
+     *
      * @param array $userData
      * @param array $addressData
      */
@@ -129,8 +129,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Open customer.
-     *
      * PreConditions: 'Manage Customers' page is opened.
+     *
      * @param array $searchData
      */
     public function openCustomer(array $searchData)
@@ -140,8 +140,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Register Customer on Frontend.
-     *
      * PreConditions: 'Login or Create an Account' page is opened.
+     *
      * @param array $registerData
      */
     public function registerCustomer(array $registerData)
@@ -167,9 +167,18 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function frontLoginCustomer(array $loginData)
     {
-        $this->logoutCustomer();
+        $this->frontend();
+        $this->navigate('customer_account', false);
+        $this->validatePage();
+        if ($this->getCurrentPage() == 'customer_account') {
+            $this->clickControl('link', 'log_out', false);
+            $this->waitForTextPresent('You are now logged out');
+            $this->waitForTextNotPresent('You are now logged out');
+            $this->deleteAllVisibleCookies();
+            $this->validatePage('home_page');
+        }
         $this->clickControl('link', 'log_in');
-        $this->fillForm($loginData);
+        $this->fillFieldset($loginData, 'log_in_customer');
         $this->clickButton('login');
     }
 }

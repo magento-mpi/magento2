@@ -1696,7 +1696,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (end($fallbackOrderHelper) == 'enterprise') {
             $expectedTitle =
                 $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-            $this->assertSame($expectedTitle, $this->getTitle(), 'Title for page "' . $page . '" is unexpected.');
+            $this->assertSame($expectedTitle, $this->getTitle(),
+                'Current url: \'' . $this->getLocation() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }

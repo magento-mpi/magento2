@@ -27,6 +27,7 @@
 ---
 customer_account:
     mca: customer/account/
+    click_xpath: //a[contains(@href,'/customer/account/')][text()='My Account']
     title: My Account
     uimap:
         form:
