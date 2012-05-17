@@ -49,7 +49,9 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
             } else {
                 $pixel->setColor($color);
             }
-            $this->_imageHandler->setImageBackgroundColor($color);
+            if ($this->_imageHandler) {
+                $this->_imageHandler->setImageBackgroundColor($color);
+            }
         } else {
             $pixel = $this->_imageHandler->getImageBackgroundColor();
         }

@@ -349,7 +349,8 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 //            if (!$this->_checkMemory()) {
 //                $this->_baseFile = null;
 //            }
-            $this->_processor = new Varien_Image($this->getBaseFile());
+            $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
+            $this->_processor = new Varien_Image($this->getBaseFile(), $adapter);
         }
         $this->_processor->keepAspectRatio($this->_keepAspectRatio);
         $this->_processor->keepFrame($this->_keepFrame);

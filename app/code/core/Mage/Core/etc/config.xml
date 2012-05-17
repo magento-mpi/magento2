@@ -315,6 +315,11 @@
                 </public_files_valid_paths>
             </file>
         </general>
+        <dev>
+            <image>
+                <adapter>GD2</adapter>
+            </image>
+        </dev>
     </default>
     <stores>
         <default>
