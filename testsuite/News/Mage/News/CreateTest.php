@@ -94,5 +94,20 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
 
         return $newsData;
     }
+    public function specialCharactersInRequiredFields()
+    {
+      //Data
+        $specialCharacters = array('news_title'  => $this->generate('string', 32, ':punct:'),
+                                   'author' => $this->generate('string', 32, ':punct:'),
+                                   'publish_date'  => $this->generate('string', 32, ':punct:'),
+                                   'content' => $this->generate('string', 32, ':punct:'),);
+        $newsData = $this->loadDataSet('News', 'generic_news', $specialCharacters);
+        //Steps
+        $this->NewsHelper()->createNews($newsData);
+        //Verifying
+        $this->assertMessagePresent('error', 'need_сorrect_date');
+
+        return $newsData;
+    }
 
 }
