@@ -79,7 +79,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         parent::__construct($data);
         $this->_construct();

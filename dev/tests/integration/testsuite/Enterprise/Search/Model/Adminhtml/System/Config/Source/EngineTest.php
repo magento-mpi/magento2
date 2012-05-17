@@ -29,7 +29,6 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
-            $this->assertTrue(class_exists($option['value']));
         }
     }
 }

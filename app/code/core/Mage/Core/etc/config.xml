@@ -198,6 +198,7 @@
                     <compiled_css_folder>css</compiled_css_folder>
                     <compiled_css_secure_folder>css_secure</compiled_css_secure_folder>
                     <compiled_js_folder>js</compiled_js_folder>
+                    <design_skin_folder>skin</design_skin_folder>
                 </allowed_resources>
             </media_storage_configuration>
         </system>
@@ -314,6 +315,11 @@
                 </public_files_valid_paths>
             </file>
         </general>
+        <dev>
+            <image>
+                <adapter>GD2</adapter>
+            </image>
+        </dev>
     </default>
     <stores>
         <default>

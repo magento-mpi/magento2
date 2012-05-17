@@ -18,12 +18,15 @@
  */
 class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
 {
+    const FULLTEXT = 'mysql_fulltext';
+    const SOLR = 'solr';
+
     public function toOptionArray()
     {
         $engines = array(
-            'Mage_CatalogSearch_Model_Resource_Fulltext_Engine' => Mage::helper('Enterprise_Search_Helper_Data')
+            self::FULLTEXT => Mage::helper('Enterprise_Search_Helper_Data')
                 ->__('MySql Fulltext'),
-            'Enterprise_Search_Model_Resource_Engine' => Mage::helper('Enterprise_Search_Helper_Data')
+            self::SOLR => Mage::helper('Enterprise_Search_Helper_Data')
                 ->__('Solr')
         );
         $options = array();
