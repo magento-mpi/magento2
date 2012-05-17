@@ -75,8 +75,8 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
         $this->markTestIncomplete('MAGETWO-1121 Logical error');
 
         $html = $this->getResponse()->getBody();
-        $format = '%Aclass="product-options" id="product-options-wrapper">%A'
-            . '<div class="product-options-bottom">%A<div class="add-to-cart">%A<ul class="add-to-links">%A';
+        $format = '%Alass="product-options" id="product-options-wrapper">%A'
+            . '<div class="product-options-bottom">%A';
         $this->assertStringMatchesFormat($format, $html);
     }
 
