@@ -12,7 +12,7 @@
 class Enterprise_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_TargetRule_Model_Rulee
+     * @var Enterprise_TargetRule_Model_Rule
      */
     protected $_model;
 
@@ -56,14 +56,7 @@ class Enterprise_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $this->assertEquals(
-            array(
-                'Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) '
-                    . 'in this field, first character should be a letter.'
-            ),
-            $this->_model->validateData($data),
-            'Error for invalid attribute code'
-        );
+        $this->assertCount(1, $this->_model->validateData($data), 'Error for invalid attribute code');
     }
 
     /**
