@@ -40,4 +40,15 @@ search_news:
     news_title: testnews_
     author: John Doe
     publish_date: %currentDate%
-
+    
+    
+#Test Data All fields
+allfields_news:
+    #news_info:
+    news_title: testnews_%randomize%
+    author: John Doe_%randomize%
+    publish_date: %currentDate%
+    #news content
+    content: %randomize%
+    #news image_thumbnail
+    news_image: C:\Users\User\Pictures\summer-plum.jpeg

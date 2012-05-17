@@ -123,5 +123,33 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
 
         return $newsData;
     }
+    /**
+     * <p>Create Admin News (all fields are filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to News.</p>
+     * <p>2.Press "Add New Wes" button.</p>
+     * <p>3.Fill all fields.</p>
+     * <p>4.Press "Save News" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user successfully saved.</p>
+     * <p>Message "The News has been saved." is displayed.</p>
+     *
+     * @return array
+     * @test
+     * @depends navigationTest
+     */
+
+
+    public function withAllFields()
+    {
+        //Data
+        $newsData = $this->loadDataSet('News', 'allfields_news');
+        //Steps
+        $this->NewsHelper()->createNews($newsData);
+        //Verifying
+        $this->assertMessageNotPresent('success','success_saved_news');
+
+        return $newsData;
+    }
 
 }

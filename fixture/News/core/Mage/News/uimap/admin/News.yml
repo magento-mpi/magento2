@@ -77,6 +77,12 @@ news_new:
                                   content: //*[@id='news_content_content']
                                 buttons:
                                   htmleditor: //*[@id='togglenews_content_content']
+                    image_thumbnail:
+                        xpath: //*[@id='page_tabs_image_section']/span
+                        fieldsets:
+                             -
+                                fields:
+                                  news_image: //*[@id='news_image_image']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
