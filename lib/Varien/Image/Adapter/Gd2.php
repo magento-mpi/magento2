@@ -35,9 +35,17 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         $this->_imageHandler = call_user_func($this->_getCallback('create'), $this->_fileName);
     }
 
+    /**
+     * Save image to specific path.
+     * If some folders of path does not exist they will be created
+     *
+     * @throws Exception  if destination path is not writable
+     * @param string $destination
+     * @param string $newName
+     */
     public function save($destination=null, $newName=null)
     {
-        $fileName = ( !isset($destination) ) ? $this->_fileName : $destination;
+        $fileName = !isset($destination) ? $this->_fileName : $destination;
 
         if( isset($destination) && isset($newName) ) {
             $fileName = $destination . "/" . $newName;
@@ -53,11 +61,14 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
 
         $destinationDir = ( isset($destination) ) ? $destination : $this->_fileSrcPath;
 
-        if( !is_writable($destinationDir) ) {
+        if (!is_writable($destinationDir)) {
             try {
                 $io = new Varien_Io_File();
-                $io->mkdir($destination);
+                $result = $io->mkdir($destination);
             } catch (Exception $e) {
+            }
+
+            if (isset($e) || !$result) {
                 throw new Exception("Unable to write file into directory '{$destinationDir}'. Access forbidden.");
             }
         }
@@ -481,5 +492,19 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         ImageColorTransparent($imageHandler, $background);
         imagealphablending($imageHandler, false);
         imagesavealpha($imageHandler, true);
+    }
+
+    /**
+     * Returns the color of the specified pixel
+     *
+     * @param int $x
+     * @param int $y
+     * @return array
+     */
+    public function getColorAt($x, $y)
+    {
+        $rgb = imagecolorat($this->_imageHandler, $x, $y);
+        $rgb = imagecolorsforindex($this->_imageHandler, $rgb);
+        return $rgb;
     }
 }
