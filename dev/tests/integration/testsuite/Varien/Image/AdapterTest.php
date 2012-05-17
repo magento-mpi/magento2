@@ -47,7 +47,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFixtureImageSize()
     {
-        return array(312, 162);
+        return array(311, 162);
     }
 
     /**
@@ -374,5 +374,57 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
                 break;
         }
         return $pixel;
+    }
+
+    /**
+     * Checks crop functionality
+     *
+     * @param string $image
+     * @param int $left
+     * @param int $top
+     * @param int $right
+     * @param int $bottom
+     * @param Varien_Image_Adapter_Abstract $adapter
+     *
+     * @dataProvider cropDataProvider
+     * @depends testCheckDependencies
+     * @depends testOpen
+     */
+    public function testCrop($image, $left, $top, $right, $bottom, $adapter)
+    {
+        $adapter->open($image);
+
+        $expectedSize = array(
+            $adapter->getOriginalWidth()  - $left - $right,
+            $adapter->getOriginalHeight() - $top  - $bottom
+        );
+
+        $adapter->crop($top, $left, $right, $bottom);
+        $adapter->save(__DIR__ . '/_files/' . get_class($adapter) . '.png');
+
+        $newSize = array(
+            $adapter->getOriginalWidth(),
+            $adapter->getOriginalHeight()
+        );
+
+        $this->assertEquals($expectedSize, $newSize);
+    }
+
+    public function cropDataProvider()
+    {
+        return $this->_prepareData(array(
+            array(
+                $this->_getFixture('magento_test.png'),
+                50, 50, 75, 75
+            ),
+            array(
+                $this->_getFixture('magento_test.png'),
+                20, 50, 35, 35
+            ),
+            array(
+                $this->_getFixture('magento_test.png'),
+                0, 0, 0, 0
+            )
+        ));
     }
 }

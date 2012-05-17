@@ -204,11 +204,12 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
      * @param int $left
      * @param int $right
      * @param int $bottom
+     * @return bool
      */
     public function crop($top = 0, $left = 0, $right = 0, $bottom = 0)
     {
-        if( $left == 0 && $top == 0 && $right == 0 && $bottom == 0 ) {
-            return;
+        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0) {
+            return false;
         }
 
         $newWidth  = $this->_imageSrcWidth  - $left - $right;
@@ -216,6 +217,7 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
 
         $this->_imageHandler->cropImage($newWidth, $newHeight, $left, $top);
         $this->refreshImageDimensions();
+        return true;
     }
 
     /**
