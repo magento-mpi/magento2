@@ -149,10 +149,9 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
             array('product_1'        => $simple,
                   'product_2'        => $grouped,
                   'option_product_2' => $productOptions));
-        $checkout['shipping_data'] =
-            $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
-                array('product_1'  => $simple,
-                      'product_2'  => $optionParams));
+        $checkout['shipping_data'] = $this->loadDataSet('MultipleAddressesCheckout', $dateSet . '/shipping_data', null,
+            array('product_1' => $simple,
+                  'product_2' => $optionParams));
         //Steps and Verify
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkout);
         $this->assertMessagePresent('success', 'success_checkout');
