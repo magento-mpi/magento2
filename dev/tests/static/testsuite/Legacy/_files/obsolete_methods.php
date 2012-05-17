@@ -167,7 +167,6 @@ return array(
     'getAllOrderEntityTypeIds' => array('class_scope' => 'Mage_Rss_Model_Resource_Order'),
     'getAnonSuffix',
     'getBaseTaxAmount' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
-    'getBlockAlias' => array('suggestion' => '$layout->getElementAlias($name)'),
     'getCheckoutMehod' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
     'getChild' => array('directory' => 'app', 'suggestion' => 'Mage_Core_Block_Abstract::getChildBlock()'),
     'getChildGroup' => array('suggestion' => 'Mage_Core_Block_Abstract::getGroupChildNames()'),
