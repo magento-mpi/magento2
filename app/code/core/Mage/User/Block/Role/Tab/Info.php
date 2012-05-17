@@ -12,7 +12,7 @@
  * implementing now
  *
  */
-class Mage_User_Block_Tab_Roleinfo
+class Mage_User_Block_Role_Tab_Info
     extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
