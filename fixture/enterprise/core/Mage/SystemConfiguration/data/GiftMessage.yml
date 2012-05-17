@@ -88,7 +88,7 @@ gift_wrapping_all_disable_on_website:
             allow_gift_wrapping_for_order_items: No
             allow_gift_receipt: No
             allow_gift_printered_card: No
-            default_price_for_printed_card: ''
+            default_price_for_printed_card: 0
 
 #*********************************************
 #*      Gift Options Configuration Data      *

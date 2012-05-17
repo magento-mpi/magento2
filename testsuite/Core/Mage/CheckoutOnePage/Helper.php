@@ -58,6 +58,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $checkoutData = $this->loadData($checkoutData);
         }
         $this->doOnePageCheckoutSteps($checkoutData);
+        $this->frontOrderReview($checkoutData);
         return $this->submitOnePageCheckoutOrder();
     }
 
@@ -121,7 +122,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($payMethod) {
             $this->frontSelectPaymentMethod($payMethod);
         }
-        $this->frontOrderReview($checkoutData);
     }
 
     /**

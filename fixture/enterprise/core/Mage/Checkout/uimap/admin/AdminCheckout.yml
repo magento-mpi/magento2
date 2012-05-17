@@ -33,10 +33,17 @@ view_order:
                     information:
                         fieldsets:
                            -
-                                gift_options_for_order:
-                                    xpath: //div[div/h4[contains(text(),'Gift Options')]]
-                                    pageelements:
-                                        printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
+                              gift_options_for_order:
+                                  xpath: //div[div/h4[contains(text(),'Gift Options')]]
+                                  pageelements:
+                                      printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
+                                      order_gift_wrapping_price: //div[@class='gift-wrapping-design']//div[@id='price-box']//span[@class='price']/span
+                                      gift_wrapping: //div[@class='gift-wrapping-form']/span
+                           -
+                              gift_options:
+                                  pageelements:
+                                      item_gift_wrapping_price: //div[@class='gift-wrapping-design']//span[@class='price']//span[@class='price']
+                                      gift_wrapping: //div[@class='gift-wrapping-design']/span
 
 # 'New Order' page
 create_order_for_new_customer:

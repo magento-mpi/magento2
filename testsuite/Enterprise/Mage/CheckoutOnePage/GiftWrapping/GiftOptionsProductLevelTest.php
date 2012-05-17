@@ -222,28 +222,17 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_disable');
         //Data
-        $individualItemsMessage = $this->loadData('gift_message_for_individual_items_one_page');
-        $indItems = array($products[0]['general_name'] => array(
-            'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-            'gift_message' => $individualItemsMessage));
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_no_img_one_page',
-            array ('gift_wrapping_for_items' => '$' . $giftWrappingData['gift_wrapping_price']),
-            array('product_1' => $products[0]['general_name'],
-                   'validate_product_1' => $products[0]['general_name'] . ' Gift Wrapping Design : ' .
-                                           $giftWrappingData['gift_wrapping_design']));
-        $checkoutData['shipping_data']['add_gift_options']['individual_items'] = $indItems;
-        $vrfGiftData = $this->loadDataSet('OnePageCheckout', 'verify_gift_data');
-        $vrfGiftData['individual']['product_1']['sku_product'] = $products[0]['general_sku'];
-        $vrfGiftData['individual']['product_1']['product_gift_message_from'] =
-            $individualItemsMessage['item_gift_message_from'];
-        $vrfGiftData['individual']['product_1']['product_gift_message_to'] =
-            $individualItemsMessage['item_gift_message_to'];
-        $vrfGiftData['individual']['product_1']['product_gift_message'] =
-            $individualItemsMessage['item_gift_message'];
-        $vrfGiftData['individual']['product_1']['product_gift_wrapping_design'] =
-            $giftWrappingData['gift_wrapping_design'];
-        $vrfGiftData['individual']['product_1']['product_gift_wrapping_price'] =
-            $giftWrappingData['gift_wrapping_price'];
+            array ('gift_wrapping_for_items'    => '$' . $giftWrappingData['gift_wrapping_price'],
+                    'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+            array('product_1'                   => $products[0]['general_name'],
+                   'validate_product_1'         => $products[0]['general_name']));
+        $giftMsg = $checkoutData['shipping_data']['add_gift_options']['individual_items']['item_1'];
+        $vrfGiftData = $this->loadDataSet('OnePageCheckout', 'verify_gift_data',
+            array('sku_product'                 => $products[0]['general_sku'],
+                  'from'                        => $giftMsg['gift_message']['item_gift_message_from'],
+                  'to'                          => $giftMsg['gift_message']['item_gift_message_to'],
+                  'message'                     => $giftMsg['gift_message']['item_gift_message']));
         $vrfGiftData = $this->clearDataArray($vrfGiftData);
         //Steps
         $this->updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_yes_wrapping_yes');
@@ -292,7 +281,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
         //Data
-        $checkoutData = $this->loadData('gift_data_general', array('products_to_add/product_1' => $products[0]));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
+            array('product_1' => $products[0]['general_name']));
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
@@ -300,6 +290,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
+        $this->clickControl('link', 'back', false);
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
         //Verification
         if ($this->controlIsPresent('checkbox', 'add_gift_options')) {
             $xpath = $this->_getControlXpath('checkbox', 'add_gift_options');
@@ -341,7 +333,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
         //Data
-        $checkoutData = $this->loadData('gift_data_general', array('products_to_add/product_1' => $products[0]));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
+            array('product_1' => $products[0]['general_name']));
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
@@ -349,7 +342,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->fillForm(array('add_gift_options' => 'Yes'));
+        $this->clickControl('link', 'back', false);
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
+        $this->fillCheckbox('add_gift_options', 'Yes');
         //Verification
         $this->addParameter('productName', $products[0]['general_name']);
         if ($this->controlIsPresent('checkbox', 'gift_option_for_item')) {
@@ -403,7 +398,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
         //Data
-        $checkoutData = $this->loadData('gift_data_general', array('products_to_add/product_1' => $products[0]));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
+            array('product_1' => $products[0]['general_name']));
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
@@ -411,7 +407,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->fillForm(array('add_gift_options' => 'Yes', 'gift_option_for_item' => 'Yes'));
+        $this->clickControl('link', 'back', false);
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
+        $this->fillCheckbox('add_gift_options', 'Yes');
+        $this->fillCheckbox('gift_option_for_item', 'Yes');
         //Verification
         $this->addParameter('productName', $products[0]['general_name']);
         $this->$assert['wrapping']($this->controlIsPresent('dropdown', 'item_gift_wrapping_design'),
@@ -448,7 +447,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>2. Select some simple product and choose Gift Options.</p>
      * <p>3. Set  Allow Gift Wrapping to "No" and Save product.(TL-MAGE-845)</p>
      * <p>3. Set  Allow Gift Message to "No" and Save product.(TL-MAGE-851)</p>
-     * <p>4. In Frontend add two or more products(includung  product from step 2) to the shopping cart and proceed to onepage checkout.</p>
+     * <p>4. In Frontend add two or more products(includung  product from step 2) to the shopping cart and proceed to
+     * onepage checkout.</p>
      * <p>5. Fill all required fields in billing and  shipping address and press continue button.</p>
      * <p>6. Select checkbox "Add gift options".</p>
      * <p>7. Select checkbox "Add gift options for Individual Items".</p>
@@ -472,9 +472,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure($sysSettings);
         //Data
-        $checkoutData = $this->loadData('gift_data_general', array(
-                                                             'products_to_add/product_1' => $products[0],
-                                                             'products_to_add/product_2' => $products[1]));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
+            array('product_1' => $products[0]['general_name'],
+                  'product_2' => $products[1]['general_name']));
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
@@ -483,7 +483,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
-        $this->fillForm(array('add_gift_options' => 'Yes', 'gift_option_for_item' => 'Yes'));
+        $this->clickControl('link', 'back', false);
+        $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
+        $this->fillCheckbox('add_gift_options', 'Yes');
+        $this->fillCheckbox('gift_option_for_item', 'Yes');
         //Verification
         $this->addParameter('productName', $products[0]['general_name']);
         $this->assertFalse($this->controlIsPresent('pageelement', 'item_product_name'),
@@ -516,7 +519,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>2. In backend Go to Catalog-Manage Products.</p>
      * <p>3. Select some simple product and choose Gift Options.</p>
      * <p>4. In  "Price for Gift Wrapping" field a set any price different to above(for example 10).</p>
-     * <p>5. In Frontend add above product and some other product with config gift option to the shopping cart and proceed to checkout.</p>
+     * <p>5. In Frontend add above product and some other product with config gift option to the shopping cart and
+     * proceed to checkout.</p>
      * <p>6. Fill all required fields in billing and  shipping address and press continue button.</p>
      * <p>7. Select checkbox "Add gift options".</p>
      * <p>8. Select checkboxes "Add gift options for the Entire Order" and "Gift Options for Individual Items".</p>
@@ -524,13 +528,15 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>Expected result:</p>
      * <p>Price on Gift Wrapping for item from step 3 is equal to 10<p>
      * <p>Prices on Gift Wrappings for another item and entire order is equal 2.25.<p>
-     * <p>10. Press "Continue" button and  Select Payment Method Check/Money order then press "Continue" button one more.</p>
+     * <p>10. Press "Continue" button and  Select Payment Method Check/Money order then press "Continue" button
+     * one more.</p>
      * <p>Expected result:</p>
      * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
      * <p>11. Press "PLACE ORDER" button.</p>
      * <p>Expected result:</p>
      * <p>New page with message "Your order has been received" is displaying.<p>
-     * <p>In Backend new order is presenting and it containing all and correct information(price, design  etc) about  selecting Gift Wrapping..<p>
+     * <p>In Backend new order is presenting and it containing all and correct information(price, design  etc) about
+     *  selecting Gift Wrapping..<p>
      *
      * @param $products
      * @param $userData
@@ -547,28 +553,28 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_enable');
         //Data
-        $productGiftOptions = $this->loadData('gift_options_custom_wrapping_price');
-        $giftOptions = $this->loadData('gift_message_gift_wrapping', array(
-                                                                     'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $giftOptions['individual_items'] = array($products[0]['general_name'] => array(
-            'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $checkoutData = $this->loadData('gift_wrapping_custom_price', array (
-                                                                      'products_to_add/product_1' => $products[0],
-                                                                      'products_to_add/product_2' => $products[1],
-                                                                      'product_1/product_name' => $products[0]['general_name'] . ' Gift Wrapping Design : ' .
-                                                                                                  $giftWrappingData['gift_wrapping_design'],
-                                                                      'product_2/product_name' => $products[1]['general_name'],
-                                                                      'gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
-                                                                      'gift_wrapping_for_items' => '$' . $productGiftOptions['gift_options_price_for_gift_wrapping']));
-        $checkoutData['shipping_data']['add_gift_options'] = $giftOptions;
-        $vrfGiftData = $this->loadData('verify_gift_data', array(
-                                                           'sku_product' => $products[0]['general_sku'],
-                                                           'product_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                                                           'order_gift_wrapping_price' => '$' . $giftWrappingData['gift_wrapping_price'],
-                                                           'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                                                           'product_gift_wrapping_price' => '$' . $productGiftOptions['gift_options_price_for_gift_wrapping']));
+        $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
+        $vrfGiftWrapping = $this->loadDataSet('OnePageCheckout', 'verify_wrapping_data', null,
+            array('gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
+                  'sku_product_1'             => $products[0]['general_sku'],
+                  'sku_product_2'             => $products[1]['general_sku'],
+                  'price_order'               => '$' . $giftWrappingData['gift_wrapping_price'],
+                  'price_product_1'           => '$' . $productGiftOptions['gift_options_price_for_gift_wrapping'],
+                  'price_product_2'           => '$' . $giftWrappingData['gift_wrapping_price']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price',
+            array('gift_wrapping_for_order'   => '$' . $giftWrappingData['gift_wrapping_price'],
+                  'gift_wrapping_for_items'   => '$' . ($productGiftOptions['gift_options_price_for_gift_wrapping'] +
+                                                 $giftWrappingData['gift_wrapping_price'])),
+            array('product_1'                 => $products[0]['general_name'],
+                  'product_2'                 => $products[1]['general_name'],
+                  'validate_product_1'        => $products[0]['general_name'],
+                  'validate_product_2'        => $products[1]['general_name'],
+                  'gift_wrapping_design'      => $giftWrappingData['gift_wrapping_design']
+
+            ));
         //Steps
         $this->updateProductGiftOptions($products[0]['general_name'], $productGiftOptions);
+        $this->updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_no_wrapping_yes');
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -578,7 +584,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
+        $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
 
     /**
@@ -612,7 +618,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>Expected result:</p>
      * <p>Price on Gift Wrapping for item from step 3 is equal to 20<p>
      * <p>Prices on Gift Wrappings for another item and entire order is equal 2.25.<p>
-     * <p>13. Press "Continue" button and  Select Payment Method Check/Money order then press "Continue" button one more.</p>
+     * <p>13. Press "Continue" button and Select Payment Method Check/Money order then press "Continue" button one more.</p>
      * <p>Expected result:</p>
      * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
      * <p>14. Press "PLACE ORDER" button.	After step 6.</p>
@@ -639,36 +645,27 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
         $this->systemConfigurationHelper()->configure('gift_options_website_price_scope');
         //Data
-        $productGiftOptions = $this->loadData('gift_options_custom_wrapping_price');
-        $productGiftOptionsOnSite = $this->loadData('gift_options_custom_wrapping_price_on_store_view');
-        $giftOptions = $this->loadData('gift_message_gift_wrapping', array(
-                                                                     'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $giftOptions['individual_items'] = array(
-            $products[0]['general_name'] => array(
-                'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
-            $products[1]['general_name'] => array(
-                'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $checkoutData = $this->loadData('gift_wrapping_custom_price_on_site', array (
-                                                                              'products_to_add/product_1' => $products[0],
-                                                                              'products_to_add/product_2' => $products[1],
-                                                                              'product_1/product_name' => $products[0]['general_name'] . ' Gift Wrapping Design : ' .
-                                                                                                          $giftWrappingData['gift_wrapping_design'],
-                                                                              'product_2/product_name' => $products[1]['general_name']. ' Gift Wrapping Design : ' .
-                                                                                                          $giftWrappingData['gift_wrapping_design'],
-                                                                              'gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
-                                                                              'gift_wrapping_for_items' => '$' . ($productGiftOptionsOnSite['gift_options_price_for_gift_wrapping'] +
-                                                                                                                  $giftWrappingData['gift_wrapping_price'])));
-        $checkoutData['shipping_data']['add_gift_options'] = $giftOptions;
-        $vrfGiftData = $this->loadData('verify_gift_data', array(
-                                                           'product_1/sku_product' => $products[0]['general_sku'],
-                                                           'product_1/product_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                                                           'product_1/product_gift_wrapping_price' => '$' .
-                                                                                                      $productGiftOptionsOnSite['gift_options_price_for_gift_wrapping'],
-                                                           'product_2/sku_product' => $products[1]['general_sku'],
-                                                           'product_2/product_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design'],
-                                                           'product_2/product_gift_wrapping_price' => '$' . $giftWrappingData['gift_wrapping_price'],
-                                                           'order_gift_wrapping_price' => '$' . $giftWrappingData['gift_wrapping_price'],
-                                                           'order_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
+        $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
+        $productGiftOptionsSite = $this->loadDataSet('GiftWrapping',
+            'gift_options_custom_wrapping_price_on_store_view');
+        $vrfGiftWrapping = $this->loadDataSet('OnePageCheckout', 'verify_wrapping_data', null,
+            array('gift_wrapping_design'    => $giftWrappingData['gift_wrapping_design'],
+                  'sku_product_1'           => $products[0]['general_sku'],
+                  'sku_product_2'           => $products[1]['general_sku'],
+                  'price_order'             => '$' . $giftWrappingData['gift_wrapping_price'],
+                  'price_product_1'         => '$' . $productGiftOptionsSite['gift_options_price_for_gift_wrapping'],
+                  'price_product_2'         => '$' . $giftWrappingData['gift_wrapping_price']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price_on_site',
+            array('gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
+                  'gift_wrapping_for_items' => '$' . ($productGiftOptionsSite['gift_options_price_for_gift_wrapping'] +
+                                               $giftWrappingData['gift_wrapping_price'])),
+            array('product_1'               => $products[0]['general_name'],
+                  'product_2'               => $products[1]['general_name'],
+                  'validate_product_1'      => $products[0]['general_name'],
+                  'validate_product_2'      => $products[1]['general_name'],
+                  'gift_wrapping_design'    => $giftWrappingData['gift_wrapping_design']
+
+            ));
         //Steps
         $this->updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_yes_wrapping_yes');
         $this->navigate('manage_products');
@@ -685,7 +682,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
                                                 '/Main Website Store/Default Store View');
         $this->getConfirmation();
         $this->waitForPageToLoad();
-        $this->productHelper()->fillTab($productGiftOptionsOnSite, 'gift_options');
+        $this->productHelper()->fillTab($productGiftOptionsSite, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
@@ -700,6 +697,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->navigate('manage_sales_orders');
         $this->addParameter('order_id', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->orderHelper()->verifyGiftMessage($vrfGiftData);
+        $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
 }
