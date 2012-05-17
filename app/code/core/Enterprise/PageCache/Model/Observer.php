@@ -272,14 +272,12 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $event = $observer->getEvent();
-        /** @var $structure Mage_Core_Model_Layout_Structure */
-        $structure = $event->getData('structure');
-        $name = $event->getData('element_name');
-        if (!$structure->isBlock($name)) {
-            return $this;
-        }
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $event->getData('layout');
+        $name = $event->getData('element_name');
+        if (!$layout->isBlock($name)) {
+            return $this;
+        }
         $block = $layout->getBlock($name);
         $transport = $event->getData('transport');
         $placeholder = $this->_config->getBlockPlaceholder($block);

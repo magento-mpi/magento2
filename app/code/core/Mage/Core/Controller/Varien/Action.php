@@ -361,7 +361,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         // generate blocks from xml layout
         Magento_Profiler::start('layout_generate_blocks');
-        $this->getLayout()->generateBlocks();
+        $this->getLayout()->generateElements();
         Magento_Profiler::stop('layout_generate_blocks');
 
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {

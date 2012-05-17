@@ -17,6 +17,7 @@ $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
 $config = require($configFile);
 $installOptions = isset($config['install_options']) ? $config['install_options'] : array();
 $scenarioFiles = $config['scenario_files'];
+$fixtures = $config['fixtures'];
 $reportDir = isset($config['report_dir']) ? $config['report_dir'] : __DIR__ . '/report';
 
 /* Build JMeter command */
@@ -48,9 +49,17 @@ if ($installOptions) {
     }
 }
 
-/* Clean reports */
+/* Init Magento to prepare several things for it */
 require_once __DIR__ . '/../../../app/bootstrap.php';
+Mage::app();
+
+/* Clean reports */
 Varien_Io_File::rmdirRecursive($reportDir);
+
+/* Apply fixtures */
+foreach ($fixtures as $fixture) {
+    require_once $fixture;
+}
 
 /* Execute scenarios and collect failures */
 $failures = array();

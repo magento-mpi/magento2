@@ -19,7 +19,7 @@ class Enterprise_Rma_Block_Adminhtml_Create_OrderTest extends PHPUnit_Framework_
             array(array('area' => 'adminhtml'))
         );
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();
-        $layout->generateXml()->generateBlocks();
+        $layout->generateXml()->generateElements();
         $layout->addOutputElement('rma_create_order');
         Mage::getDesign()->setArea('adminhtml');
         $this->assertContains('<div id="enterprise_rma_rma_create_order_grid">', $layout->getOutput());
