@@ -94,6 +94,11 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
 
         return $newsData;
     }
+
+    /**
+     * @return array
+     * @test
+     */
     public function specialCharactersInRequiredFields()
     {
       //Data
@@ -109,7 +114,10 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
 
         return $newsData;
     }
-
+    /**
+     * @return array
+     * @test
+     */
     public function createNewSaveAndContinue()
     {
         //Data
@@ -138,7 +146,6 @@ class News_Mage_News_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @depends navigationTest
      */
-
 
     public function withAllFields()
     {
