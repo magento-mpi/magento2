@@ -65,7 +65,7 @@
 
             <?php echo $this->getChildHtml('other');?>
             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                <?php echo $this->getLayout()->renderElement('product.options.info.container') ?>
+                <?php echo $this->getChildChildHtml('container1') ?>
             <?php endif;?>
 
         </div>
@@ -76,7 +76,7 @@
 
         <div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-            <?php echo $this->getLayout()->renderElement('product.options.after.info.container') ?>
+            <?php echo $this->getChildChildHtml('container2') ?>
         <?php endif;?>
     </form>
     <script type="text/javascript">
