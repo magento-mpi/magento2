@@ -15,6 +15,42 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     const SECRET_KEY_PARAM_NAME = 'key';
 
     /**
+     * xpath to startup page in configuration
+     */
+    const XML_PATH_STARTUP_PAGE = 'admin/startup/page';
+
+    /**
+     * Authentication session
+     *
+     * @var Mage_Backend_Model_Auth_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Mage_Admin_Model_Config
+     */
+    protected $_adminConfig;
+
+    /**
+     * Startup page url from config
+     * @var string
+     */
+    protected $_startupPageUrl;
+
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+        $this->_adminConfig = isset($data['adminConfig']) ?
+            $data['adminConfig'] :
+            Mage::getSingleton('Mage_Admin_Model_Config');
+
+        $this->_startupPageUrl = isset($data['startupPageUrl']) ?
+            $data['startupPageUrl'] :
+            Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
+    }
+
+
+    /**
      * Retrieve is secure mode for ULR logic
      *
      * @return bool
@@ -151,5 +187,81 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     public function renewSecretUrls()
     {
         Mage::app()->cleanCache(array(Mage_Backend_Block_Menu::CACHE_TAGS));
+    }
+
+    /**
+     * Find admin start page url
+     *
+     * @return string
+     */
+    public function getStartupPageUrl()
+    {
+        $aclResource = 'admin/' . $this->_startupPageUrl;
+        if ($this->_getSession()->isAllowed($aclResource)) {
+            $nodePath = 'menu/' . join('/children/', explode('/', $this->_startupPageUrl)) . '/action';
+            $url = $this->_adminConfig->getAdminhtmlConfig()->getNode($nodePath);
+            if ($url) {
+                return $url;
+            }
+        }
+        return $this->findFirstAvailableMenu();
+    }
+
+    /**
+     * Find first menu item that user is able to access
+     *
+     * @param Mage_Core_Model_Config_Element $parent
+     * @param string $path
+     * @param integer $level
+     * @return string
+     */
+    public function findFirstAvailableMenu($parent = null, $path = '', $level = 0)
+    {
+        if ($parent == null) {
+            $parent = $this->_adminConfig->getAdminhtmlConfig()->getNode('menu');
+        }
+        foreach ($parent->children() as $childName => $child) {
+            $aclResource = 'admin/' . $path . $childName;
+            if ($this->_getSession()->isAllowed($aclResource)) {
+                if (!$child->children) {
+                    return (string)$child->action;
+                } else if ($child->children) {
+                    $action = $this->findFirstAvailableMenu($child->children, $path . $childName . '/', $level + 1);
+                    return $action ? $action : (string)$child->action;
+                }
+            }
+        }
+        $user = $this->_getSession()->getUser();
+        if ($user) {
+            $user->setHasAvailableResources(false);
+        }
+        return '*/*/denied';
+    }
+
+
+
+    /**
+     * Set custom auth session
+     *
+     * @param Mage_Backend_Model_Auth_Session $session
+     * @return Mage_Backend_Model_Url
+     */
+    public function setSession(Mage_Backend_Model_Auth_Session $session)
+    {
+        $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Retrieve auth session
+     *
+     * @return Mage_Backend_Model_Auth_Session
+     */
+    protected function _getSession()
+    {
+        if ($this->_session == null) {
+            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        }
+        return $this->_session;
     }
 }

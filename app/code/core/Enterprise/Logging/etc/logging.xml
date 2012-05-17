@@ -337,13 +337,13 @@
     <admin_login translate="label">
         <label>Admin Sign In</label>
         <actions>
-            <adminhtml_index_forgotpassword>
+            <adminhtml_auth_forgotpassword>
                 <action>forgotpassword</action>
                 <expected_models>
                     <Mage_User_Model_User/>
                 </expected_models>
                 <post_dispatch>postDispatchForgotPassword</post_dispatch>
-            </adminhtml_index_forgotpassword>
+            </adminhtml_auth_forgotpassword>
         </actions>
     </admin_login>
 

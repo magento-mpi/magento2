@@ -22,7 +22,7 @@ interface Mage_Backend_Model_Auth_Credential_StorageInterface
      * Authenticate process.
      *
      * @abstract
-     * @param string$username
+     * @param string $username
      * @param string $password
      */
     public function authenticate($username, $password);
@@ -42,4 +42,20 @@ interface Mage_Backend_Model_Auth_Credential_StorageInterface
      * @abstract
      */
     public function reload();
+
+    /**
+     * Check if user has available resources
+     *
+     * @abstract
+     * @return bool
+     */
+    public function hasAvailableResources();
+
+    /**
+     * Set user has available resources
+     *
+     * @abstract
+     * @param bool $hasResources
+     */
+    public function setHasAvailableResources($hasResources);
 }

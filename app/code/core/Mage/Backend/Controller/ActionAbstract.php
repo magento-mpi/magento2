@@ -160,7 +160,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect( Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getStartupPageUrl() );
+                $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
             }
             return $this;
         }
@@ -270,7 +270,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
 
         try {
             Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
-            $this->_redirectIfNeededAfterLogin();
+            $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
         } catch (Mage_Backend_Model_Auth_Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
                 Mage::getSingleton('Mage_Backend_Model_Session')->addError(
@@ -433,4 +433,24 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->getResponse()->setBody($html);
     }
 
+    /**
+     * Declare headers and content file in response for file download
+     *
+     * @param string $fileName
+     * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
+     *                              that case
+     * @param string $contentType
+     * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
+    protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
+                                                $contentLength = null
+    ) {
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        if ($session->isFirstPageAfterLogin()) {
+            $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
+            return $this;
+        }
+        return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);
+    }
 }

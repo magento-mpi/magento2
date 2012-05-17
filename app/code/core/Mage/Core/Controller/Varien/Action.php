@@ -1141,12 +1141,6 @@ abstract class Mage_Core_Controller_Varien_Action
         $contentType = 'application/octet-stream',
         $contentLength = null)
     {
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        if ($session->isFirstPageAfterLogin()) {
-            $this->_redirect($session->getUser()->getStartupPageUrl());
-            return $this;
-        }
-
         $isFile = false;
         $file   = null;
         if (is_array($content)) {
@@ -1175,6 +1169,9 @@ abstract class Mage_Core_Controller_Varien_Action
                 $this->getResponse()->sendHeaders();
 
                 $ioAdapter = new Varien_Io_File();
+                if (!$ioAdapter->fileExists($file)) {
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File not found'));
+                }
                 $ioAdapter->open(array('path' => $ioAdapter->dirname($file)));
                 $ioAdapter->streamOpen($file, 'r');
                 while ($buffer = $ioAdapter->streamRead()) {

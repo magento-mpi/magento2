@@ -288,41 +288,6 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->hasAssigned2Role($this->_model));
     }
 
-    /**
-     * @magentoDataFixture roleDataFixture
-     * @covers hasAvailableResources
-     */
-    public function testFindFirstAvailableMenu()
-    {
-        $session = $this->getMock("Mage_Backend_Model_Auth_Session");
-        $session->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-
-        $this->_model->setSession($session);
-        $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-        $this->assertNotEquals('*/*/denied', $this->_model->findFirstAvailableMenu());
-        $this->assertTrue($this->_model->hasAvailableResources());
-        $session = $this->getMock("Mage_Backend_Model_Auth_Session");
-        $session->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(false));
-        $this->_model->setSession($session);
-        $this->assertEquals('*/*/denied', $this->_model->findFirstAvailableMenu());
-        $this->assertFalse($this->_model->hasAvailableResources());
-    }
-
-    public function testGetStartupPageUrl()
-    {
-        $session = $this->getMock("Mage_Backend_Model_Auth_Session");
-        $session->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-
-        $this->_model->setSession($session);
-        $this->assertEquals('adminhtml/dashboard', (string) $this->_model->getStartupPageUrl());
-    }
-
     public function testValidateEmptyUserName()
     {
         $errors = $this->_model->validate();
@@ -443,5 +408,14 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
         $this->_model->setRpTokenCreatedAt(Varien_Date::formatDate(time() - 60 * 60 * 24 * 10 - 10));
         $this->assertTrue($this->_model->isResetPasswordLinkTokenExpired());
+    }
+
+    public function testGetSetHasAvailableResources()
+    {
+        $this->_model->setHasAvailableResources(true);
+        $this->assertTrue($this->_model->hasAvailableResources());
+
+        $this->_model->setHasAvailableResources(false);
+        $this->assertFalse($this->_model->hasAvailableResources());
     }
 }

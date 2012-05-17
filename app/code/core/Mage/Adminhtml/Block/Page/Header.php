@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
 
     public function getHomeLink()
     {
-        return $this->getUrl('adminhtml');
+        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 
     public function getUser()

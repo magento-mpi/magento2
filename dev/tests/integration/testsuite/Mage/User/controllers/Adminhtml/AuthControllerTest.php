@@ -10,11 +10,11 @@
  */
 
 /**
- * Test class for Mage_User_Adminhtml_IndexControllerTest.
+ * Test class for Mage_User_Adminhtml_AuthController.
  *
  * @group module:Mage_User
  */
-class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Backend_Model_Auth
@@ -36,49 +36,51 @@ class Mage_User_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * Test form existace
-     * @covers Mage_User_Adminhtml_IndexControllerTest::forgotpasswordAction
+     * Test form existence
+     * @covers Mage_User_Adminhtml_AuthController::forgotpasswordAction
      */
     public function testFormForgotpasswordAction()
     {
-        $this->dispatch('admin/index/forgotpassword');
+        $this->dispatch('admin/auth/forgotpassword');
         $expected = 'Forgot your user name or password?';
         $this->assertContains($expected, $this->getResponse()->getBody());
     }
 
     /**
-     * @covers Mage_User_Adminhtml_IndexControllerTest::forgotpasswordAction
+     * Test redirection to startup page after success password recovering posting
+     *
+     * @covers Mage_User_Adminhtml_AuthController::forgotpasswordAction
      */
     public function testForgotpasswordAction()
     {
         $this->getRequest()->setPost('email', 'test@test.com');
-        $this->dispatch('admin/index/forgotpassword');
-        $this->assertRedirect();
+        $this->dispatch('admin/auth/forgotpassword');
+        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
     }
 
     /**
-     * @covers Mage_User_Adminhtml_IndexControllerTest::resetPasswordAction
-     * @covers Mage_User_Adminhtml_IndexControllerTest::_validateResetPasswordLinkToken
+     * @covers Mage_User_Adminhtml_AuthController::resetPasswordAction
+     * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
      */
     public function testResetPasswordAction()
     {
         $this->_login();
         $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
-        $this->dispatch('admin/index/resetPassword');
+        $this->dispatch('admin/auth/resetPassword');
         $this->assertRedirect();
         $this->_logout();
     }
 
     /**
-     * @covers Mage_User_Adminhtml_IndexControllerTest::resetPasswordPostAction
-     * @covers Mage_User_Adminhtml_IndexControllerTest::_validateResetPasswordLinkToken
+     * @covers Mage_User_Adminhtml_AuthController::resetPasswordPostAction
+     * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
      */
     public function testResetPasswordPostAction()
     {
         $this->_login();
         $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
-        $this->dispatch('admin/index/resetPasswordPost');
-        $this->assertRedirect();
+        $this->dispatch('admin/auth/resetPasswordPost');
+        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
         $this->_logout();
     }
 }

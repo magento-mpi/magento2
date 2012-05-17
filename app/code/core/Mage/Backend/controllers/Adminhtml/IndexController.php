@@ -23,11 +23,6 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
      */
     public function indexAction()
     {
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        if ($session->isLoggedIn()) {
-            $this->_redirect($session->getUser()->getStartupPageUrl());
-        } else {
-            $this->_redirect('adminhtml/auth/index');
-        }
+        $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
     }
 }

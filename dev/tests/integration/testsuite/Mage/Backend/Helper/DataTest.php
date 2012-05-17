@@ -19,6 +19,31 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
+    /**
+     * @var Mage_Backend_Model_Auth
+     */
+    protected $_auth;
+
+
+    /**
+     * Performs user login
+     */
+    protected  function _login()
+    {
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+        $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+    }
+
+    /**
+     * Performs user logout
+     */
+    protected function _logout()
+    {
+        $this->_auth->logout();
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
+    }
+
     protected function setUp()
     {
         parent::setUp();
@@ -87,4 +112,22 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $actual = $this->_helper->prepareFilterString($filterString);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
+     */
+    public function testGetHomePageUrl()
+    {
+        $this->assertStringEndsWith('index.php/admin/', $this->_helper->getHomePageUrl(), 'Incorrect home page URL');
+    }
+
+    public function testGetStartupPageUrl()
+    {
+        $this->_login();
+        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
+        $actual = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl($this->_helper->getStartupPageUrl());
+        $this->assertStringStartsWith($expected, $actual, 'Incorrect startup page URL');
+        $this->_logout();
+    }
+
 }

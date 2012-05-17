@@ -105,4 +105,24 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
     }
+
+    /**
+     * Get backend start page URL
+     *
+     * @return string
+     */
+    public function getHomePageUrl()
+    {
+        return Mage::getModel('Mage_Backend_Model_Url')->getRouteUrl('adminhtml');
+    }
+
+    /**
+     * Find admin start page url
+     *
+     * @return string
+     */
+    public function getStartupPageUrl()
+    {
+        return Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl();
+    }
 }

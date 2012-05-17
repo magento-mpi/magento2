@@ -71,7 +71,19 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
         $this->dispatch('admin/auth/login');
-        $this->assertRedirect();
+        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
+        try {
+            foreach ($this->getResponse()->getHeaders() as $header) {
+                if ($header['name'] == 'Location') {
+                    $this->assertStringStartsWith($expected, $header['value'], 'Incorrect startup page url');
+                    throw new Exception('Correct');
+                }
+            }
+            $this->fail('There is no redirection to startup page');
+        } catch (Exception $e) {
+            $this->assertEquals('Correct', $e->getMessage());
+            $this->assertRedirect();
+        }
         $this->_logout();
     }
 
@@ -87,13 +99,43 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
             )
         ));
 
-        $this->dispatch('admin/auth/index');
+        $this->dispatch('admin/index/index');
 
         $response = Mage::app()->getResponse();
         $code = $response->getHttpResponseCode();
-        $this->assertTrue($code >= 300 && $code < 400);
+        $this->assertTrue($code >= 300 && $code < 400, 'Incorrect response code');
 
         $this->assertTrue(Mage::getSingleton('Mage_Backend_Model_Auth')->isLoggedIn());
+    }
+
+    /**
+     * Check login redirection
+     * @covers Mage_Backend_Controller_ActionAbstract::_performLogin
+     */
+    public function testPerformLogin()
+    {
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+        $postLogin = array('login' => array(
+            'username' => Magento_Test_Bootstrap::ADMIN_NAME,
+            'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+        ));
+        $this->getRequest()->setPost($postLogin);
+
+        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
+        $this->dispatch($expected);
+        try {
+            foreach ($this->getResponse()->getHeaders() as $header) {
+                if ($header['name'] == 'Location') {
+                    $this->assertContains('admin/system_account/index', $header['value'], 'Incorrect page url');
+                    throw new Exception('Correct');
+                }
+            }
+            $this->fail('There is no redirection to specified page');
+        } catch (Exception $e) {
+            $this->assertEquals('Correct', $e->getMessage());
+            $this->assertRedirect();
+        }
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
     }
 
     /**
@@ -103,7 +145,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
         $this->dispatch('admin/auth/logout');
-        $this->assertRedirect();
+        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
     }
 
@@ -115,8 +157,12 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
         $this->dispatch('admin/auth/deniedJson');
-        $expected = '{"ajaxExpired":1,"ajaxRedirect":"http';
-        $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
+        $data = array(
+            'ajaxExpired' => 1,
+            'ajaxRedirect' => Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl(),
+        );
+        $expected = json_encode($data);
+        $this->assertEquals($expected, $this->getResponse()->getBody());
         $this->_logout();
     }
 
@@ -127,9 +173,11 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testDeniedIframeAction()
     {
         $this->_login();
+        $homeUrl = Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
         $this->dispatch('admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
+        $this->assertContains($homeUrl, $this->getResponse()->getBody());
         $this->_logout();
     }
 
@@ -143,7 +191,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testIncorrectLogin($params)
     {
         $this->getRequest()->setPost($params);
-        $this->dispatch('admin/auth/index');
+        $this->dispatch('admin/auth/login');
         $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());
     }
 

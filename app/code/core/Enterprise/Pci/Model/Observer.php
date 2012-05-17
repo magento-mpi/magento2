@@ -246,7 +246,7 @@ class Enterprise_Pci_Model_Observer
             return;
         }
         $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
-            'adminhtml_index_logout');
+            'adminhtml_auth_logout');
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {

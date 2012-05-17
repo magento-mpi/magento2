@@ -202,6 +202,6 @@ class Maged_Model_Session extends Maged_Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml');
+        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 }

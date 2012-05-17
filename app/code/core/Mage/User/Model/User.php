@@ -51,7 +51,6 @@ class Mage_User_Model_User
      */
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'admin/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'admin/emails/forgot_email_identity';
-    const XML_PATH_STARTUP_PAGE             = 'admin/startup/page';
 
     /**
      * Minimum length of admin password
@@ -85,13 +84,6 @@ class Mage_User_Model_User
      * @var  Mage_Core_Model_Email_Template_Mailer
      */
     protected $_mailer;
-
-    /**
-     * Authentication session
-     *
-     * @var Mage_Backend_Model_Auth_Session
-     */
-    protected $_session;
 
     /**
      * Initialize user model
@@ -377,7 +369,7 @@ class Mage_User_Model_User
     /**
      * Login user
      *
-     * @param   string $login
+     * @param   string $username
      * @param   string $password
      * @return  Mage_User_Model_User
      */
@@ -420,7 +412,7 @@ class Mage_User_Model_User
     /**
      * Check if user is assigned to any role
      *
-     * @param int|Mage_Core_Admin_Model_User $user
+     * @param int|Mage_User_Model_User $user
      * @return null|boolean|array
      */
     public function hasAssigned2Role($user)
@@ -437,89 +429,7 @@ class Mage_User_Model_User
     protected function _getEncodedPassword($password)
     {
         return Mage::helper('Mage_Core_Helper_Data')->getHash($password, 2);
-    }
-
-    /**
-     * Set custom auth session
-     *
-     * @param Mage_Backend_Model_Auth_Session $session
-     * @return Mage_User_Model_User
-     */
-    public function setSession(Mage_Backend_Model_Auth_Session $session)
-    {
-        $this->_session = $session;
-        return $this;
-    }
-
-    /**
-     * Retrieve auth session
-     *
-     * @return Mage_Backend_Model_Auth_Session
-     */
-    protected function _getSession()
-    {
-        if ($this->_session == null) {
-            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        }
-        return $this->_session;
-    }
-
-    /**
-     * Find first menu item that user is able to access
-     *
-     * @param Mage_Core_Model_Config_Element $parent
-     * @param string $path
-     * @param integer $level
-     * @return string
-     */
-    public function findFirstAvailableMenu($parent = null, $path = '', $level = 0)
-    {
-        if ($parent == null) {
-            $parent = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode('menu');
-        }
-        foreach ($parent->children() as $childName => $child) {
-            $aclResource = 'admin/' . $path . $childName;
-            if ($this->_getSession()->isAllowed($aclResource)) {
-                if (!$child->children) {
-                    return (string)$child->action;
-                } else if ($child->children) {
-                    $action = $this->findFirstAvailableMenu($child->children, $path . $childName . '/', $level + 1);
-                    return $action ? $action : (string)$child->action;
-                }
-            }
-        }
-        $this->_hasResources = false;
-        return '*/*/denied';
-    }
-
-    /**
-     * Check if user has available resources
-     *
-     * @return bool
-     */
-    public function hasAvailableResources()
-    {
-        return $this->_hasResources;
-    }
-
-    /**
-     * Find admin start page url
-     *
-     * @return string
-     */
-    public function getStartupPageUrl()
-    {
-        $startupPage = Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
-        $aclResource = 'admin/' . $startupPage;
-        if ($this->_getSession()->isAllowed($aclResource)) {
-            $nodePath = 'menu/' . join('/children/', explode('/', $startupPage)) . '/action';
-            $url = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode($nodePath);
-            if ($url) {
-                return $url;
-            }
-        }
-        return $this->findFirstAvailableMenu();
-    }
+    }    
 
     /**
      * Validate user attribute values.
@@ -650,4 +560,25 @@ class Mage_User_Model_User
         return false;
     }
 
+    /**
+     * Check if user has available resources
+     *
+     * @return bool
+     */
+    public function hasAvailableResources()
+    {
+        return $this->_hasResources;
+    }
+
+    /**
+     * Set user has available resources
+     *
+     * @param bool $hasResources
+     * @return Mage_User_Model_User
+     */
+    public function setHasAvailableResources($hasResources)
+    {
+        $this->_hasResources = $hasResources;
+        return $this;
+    }
 }

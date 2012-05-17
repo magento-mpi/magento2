@@ -63,8 +63,8 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUrl()
     {
-        $url = $this->_model->getUrl('adminhtml/index/login');
-        $this->assertContains('admin/index/login/key/', $url);
+        $url = $this->_model->getUrl('adminhtml/auth/login');
+        $this->assertContains('admin/auth/login/key/', $url);
     }
 
     /**
@@ -80,7 +80,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Backend_Model_Url::useSecretKey
      */
-    public function testUseSecretKeyy()
+    public function testUseSecretKey()
     {
         $this->_model->setNoSecret(true);
         $this->assertFalse($this->_model->useSecretKey());
