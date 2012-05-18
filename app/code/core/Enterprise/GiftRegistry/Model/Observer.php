@@ -226,4 +226,48 @@ class Enterprise_GiftRegistry_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Clean up gift registry items that belongs to the product.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function deleteProduct(Varien_Event_Observer $observer)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $observer->getEvent()->getProduct();
+
+        if ($product->getParentId()) {
+            $productId = $product->getParentId();
+        } else {
+            $productId = $product->getId();
+        }
+
+        /** @var $item Enterprise_GiftRegistry_Model_Item */
+        $item = Mage::getModel('Enterprise_GiftRegistry_Model_Item');
+        /** @var $collection Enterprise_GiftRegistry_Model_Resource_Item_Collection */
+        $collection = $item->getCollection()->addProductFilter($productId);
+
+        foreach($collection->getItems() as $item) {
+            $item->delete();
+        }
+
+        /** @var $options Enterprise_GiftRegistry_Model_Item_Option*/
+        $options = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option');
+        $optionCollection = $options->getCollection()->addProductFilter($productId);
+
+        $itemsArray = array();
+        foreach($optionCollection->getItems() as $optionItem) {
+            $itemsArray[$optionItem->getItemId()]  = $optionItem->getItemId();
+        }
+
+        $collection = $item->getCollection()->addItemFilter(array_keys($itemsArray));
+
+        foreach($collection->getItems() as $item) {
+            $item->delete();
+        }
+
+        return $this;
+    }
 }

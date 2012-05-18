@@ -16,6 +16,7 @@ if (!is_writable(TESTS_TEMP_DIR)) {
 
 $includePaths = array(
     get_include_path(),
+    "./framework",
     './testsuite',
     '../../../lib',
     '../../../app/code/core',
