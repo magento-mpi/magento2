@@ -47,14 +47,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO Temporary workaround(should be deleted)
-     */
-    protected function tearDownAfterTest()
-    {
-        $this->navigate('manage_categories', false);
-    }
-
-    /**
      * <p>Creating Subcategory with required fields</p>
      * <p>Steps</p>
      * <p>1. Click "Add Subcategory" button </p>
@@ -70,7 +62,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $categoryData = $this->loadData('sub_category_required');
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
@@ -98,7 +90,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function rootCategoryWithAllFields($rooCat)
     {
         //Data
-        $categoryData = $this->loadData('sub_category_all', array('parent_category'=> $rooCat));
+        $categoryData = $this->loadDataSet('Category', 'sub_category_all', array('parent_category' => $rooCat));
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
@@ -126,7 +118,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $categoryData = $this->loadData('sub_category_required', array($emptyField => '%noValue%'));
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required', array($emptyField => '%noValue%'));
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
@@ -161,9 +153,9 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function withSpecialCharacters($rooCat)
     {
         //Data
-        $categoryData = $this->loadData('sub_category_required',
-                                        array('name'          => $this->generate('string', 32, ':punct:'),
-                                             'parent_category'=> $rooCat));
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required',
+            array('name'            => $this->generate('string', 32, ':punct:'),
+                  'parent_category' => $rooCat));
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
@@ -189,9 +181,9 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function withLongValues($rooCat)
     {
         //Data
-        $categoryData = $this->loadData('sub_category_required',
-                                        array('name'          => $this->generate('string', 255, ':alnum:'),
-                                             'parent_category'=> $rooCat));
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required',
+            array('name'            => $this->generate('string', 255, ':alnum:'),
+                  'parent_category' => $rooCat));
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
@@ -219,7 +211,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     {
         for ($i = 1; $i <= 10; $i++) {
             //Data
-            $categoryData = $this->loadData('sub_category_required', array('parent_category'=> $rooCat));
+            $categoryData = $this->loadDataSet('Category', 'sub_category_required', array('parent_category'=> $rooCat));
             //Steps
             $this->categoryHelper()->createCategory($categoryData);
             //Verifying
@@ -229,5 +221,4 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
             $rooCat .= '/' . $categoryData['name'];
         }
     }
-
 }

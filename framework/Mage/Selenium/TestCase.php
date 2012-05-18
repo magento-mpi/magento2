@@ -680,7 +680,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function defineIdFromTitle($xpath)
     {
-        $urlFromTitleAttribute = $this->getValue($xpath . '/@title');
+        $urlFromTitleAttribute = $this->getAttribute($xpath . '@title');
         if (is_numeric($urlFromTitleAttribute)) {
             return $urlFromTitleAttribute;
         }
