@@ -162,7 +162,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $error = $this->errorMessage();
         $validation = $this->validationMessage();
         if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
-            $this->fail(self::messagesToString($this->getMessagesOnPage()));
+            $messages = self::messagesToString($this->getMessagesOnPage());
+            $this->clearMessages('verification');
+            $this->fail($messages);
         }
         if ($fieldsetName !== 'checkout_method') {
             $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));
