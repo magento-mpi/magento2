@@ -51,14 +51,8 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
     {
         mkdir(self::$_tmpMediaDir, 0444);
         $this->_runOptions['media_dir'] = self::$_tmpMediaDir;
-        if (is_writable(self::$_tmpMediaDir)) {
-            $this->markTestSkipped("Current OS doesn't support setting write-access for folders via mode flags");
-        }
 
-        $this->dispatch('install/index');
-
-        $this->assertEquals(503, $this->getResponse()->getHttpResponseCode());
-        $this->assertContains(self::$_tmpSkinDir, $this->getResponse()->getBody());
+        $this->_testInstallProhibitedWhenNonWritable(self::$_tmpMediaDir);
     }
 
     public function testPreDispatchNonWritableSkin()
@@ -67,7 +61,18 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
         $this->_runOptions['media_dir'] = self::$_tmpMediaDir;
 
         mkdir(self::$_tmpSkinDir, 0444);
-        if (is_writable(self::$_tmpSkinDir)) {
+        $this->_testInstallProhibitedWhenNonWritable(self::$_tmpSkinDir);
+    }
+
+    /**
+     * Tests that when $nonWritableDir folder is read-only, the installation controller prohibits continuing
+     * installation and points to fix issue with skin directory.
+     *
+     * @param string $nonWritableDir
+     */
+    protected function _testInstallProhibitedWhenNonWritable($nonWritableDir)
+    {
+        if (is_writable($nonWritableDir)) {
             $this->markTestSkipped("Current OS doesn't support setting write-access for folders via mode flags");
         }
 
