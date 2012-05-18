@@ -25,12 +25,33 @@
         </container>
     </adminhtml_auth_forgotpassword>
 
+    <adminhtml_auth_resetpassword>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/forgotpassword.phtml">
+                <container name="form.additional.info" label="Form Additional Info"/>
+            </block>
+        </container>
+    </adminhtml_auth_resetpassword>
+
+    <adminhtml_auth_resetpasswordpost>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/forgotpassword.phtml">
+                <container name="form.additional.info" label="Form Additional Info"/>
+            </block>
+        </container>
+    </adminhtml_auth_resetpasswordpost>
+
     <!-- admin acl roles grid page -->
     <adminhtml_user_role_index>
         <reference name="content">
             <block type="Mage_User_Block_Role" name="adminhtml.permission.role.index" />
         </reference>
     </adminhtml_user_role_index>
+
+    <adminhtml_user_role_rolegrid>
+        <remove name="root"/>
+        <block type="Mage_User_Block_Role_Grid" name="adminhtml.permission.role.grid"/>
+    </adminhtml_user_role_rolegrid>
 
     <!-- admin acl roles edit page -->
     <adminhtml_user_role_editrole>
