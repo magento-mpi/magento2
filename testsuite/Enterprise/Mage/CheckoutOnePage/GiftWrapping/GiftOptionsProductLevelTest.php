@@ -37,13 +37,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        //load default application settings
+        //Load default application settings
         $this->_configHelper->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
-        //load default application settings
+        //Load default application settings
         $this->_configHelper->getConfigAreas(true);
     }
 
@@ -52,7 +52,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>Create Staging Website</p>
      *
      * @return array $website
-     *
      * @test
      */
     public function createWebsite()
@@ -101,7 +100,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @depends createWebsite
      * @param array $website
      * @return array $userData
-     *
      * @test
      */
     public function preconditionsCreateCustomerForWebsite($website)
@@ -123,8 +121,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * <p>Create Customer</p>
      *
-     * @test
      * @return array $userData
+     * @test
      */
     public function preconditionsCreateCustomer()
     {
@@ -142,11 +140,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * <p>Create GiftWrapping</p>
      *
-     *
      * @param $website
      * @depends createWebsite
-     * @test
      * @return array $giftWrappingData
+     * @test
      */
     public function preconditionsGiftWrapping($website)
     {
@@ -182,31 +179,31 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-826
      * <p>Gift Options on product level set to Yes. FrontEnd. Case1.</p>
-     * <p>Verify when Allow Gift Wrapping and Gift Messages for Order Items in SysConfig set to “No” , but Gift Wrapping
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in SysConfig set to “No” , but Gift Wrapping
      * and Gift Messages in a product Menu Gift Options set to “Yes” than Gift Wrapping and Gift messages for that
      * product in Frontend on item level are available.</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping for Order Items" and
-     * "Allow Gift Messages for Order Items"is set to "No".</p>
+     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
+     * "Allow Gift Message"s for Order Items"is set to "No".</p>
      * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog-Manage Products.</p>
+     * <p>1. In backend Go to Catalog > Manage Products.</p>
      * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set  Allow Gift Wrapping  and Allow Gift Messages  to "Yes" and save product.</p>
-     * <p>4. In Frontend add above Product to the shopping cart and proceed to onepage checkout</p>
-     * <p>5. Fill all required fields in billing and  shipping address and press continue button. </p>
+     * <p>3. Set "Allow Gift Wrapping"  and "Allow Gift Message"s  to "Yes" and Save the product.</p>
+     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout</p>
+     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button. </p>
      * <p>6. Select checkbox "Add gift options".</p>
      * <p>7. Select checkbox "Add gift options for Individual Items".</p>
      * <p>Expected result:</p>
-     * <p>Item having dropdown"Gift Wrapping Design"  and Gift Messages fields.<p>
-     * <p>8. Choose "Gift Wrapping design"  and fill Gift Messages fields, press "Continue" button.</p>
-     * <p>9. Select Payment Method Check/Money order and press "Continue" button.</p>
+     * <p>Item has dropdown "Gift Wrapping Design" and Gift Messages fields.<p>
+     * <p>8. Choose "Gift Wrapping design" and fill Gift Messages fields, press "Continue" button.</p>
+     * <p>9. Select Payment Method "Check/Money order" and press "Continue" button.</p>
      * <p>Expected result:</p>
      * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
      * <p>10. Press "PLACE ORDER" button.</p>
      * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displaying.
-     * In Backend new order is presenting and it containing all and correct information(price, design, text, names etc)
-     * about  selecting Gift Wrapping and Gift Messages.
+     * <p>New page with message "Your order has been received" is displayed.
+     * In Backend new order is present and contains all and correct information (price, design, text, names, etc.)
+     * about the selected Gift Wrapping and Gift Messages.
      *
      * @param $products
      * @param $userData
@@ -251,22 +248,22 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-827
      * <p>Gift Options on product level set to No. FrontEnd. </p>
-     * <p>Verify When Allow Gift Wrapping and Gift Messages for Order Items in Confyg set to “Yes”, but Gift Wrapping
-     * and Gift Messages in a product Menu Gift Options set to “No” , than Gift Wrapping and Gift Messages for that
-     * product in Frontend on item level is not available.</p>
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Confyg set to “Yes”,
+     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to “No”,
+     * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping on Order Level"  set to "No",</p>
-     * <p>2. "Allow Gift Message on Order Level" set to  "No",</p>
-     * <p>3. "Allow Gift Messages for Order Items" set to "Yes" </p>
-     * <p>4. "Allow Gift Wrapping for Order Items" set to "Yes" </p>
+     * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>
+     * <p>2. "Allow Gift Message" on Order Level" set to "No"</p>
+     * <p>3. "Allow Gift Message"s for Order Items" set to "Yes"</p>
+     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
      * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog-Manage Products</p>
+     * <p>1. In backend Go to Catalog > Manage Products</p>
      * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set  Allow Gift Wrapping and Allow Gift messages to "No",  then Save product.</p>
-     * <p>4. In Frontend add above Product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>3. Set "Allow Gift Wrapping" and "Allow Gift Message"s to "No", then Save the product.</p>
+     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
+     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>Expected result:</p>
-     * <p>"Add gift options" with checkbox is absent on a checkout page when you choose shipping method.<p>
+     * <p>"Add gift options" with checkbox is absent on the checkout page when you choose shipping method.<p>
      *
      * @param $products
      * @param $userData
@@ -302,23 +299,23 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-831
      * <p>Gift Options on product level set to No. FrontEnd</p>
-     * <p>Verify when Allow Gift Wrapping and Gift  Messages for Order Items in Confyg set to “Yes”, but Gift Wrapping
-     * and Gift Messages in a product Menu Gift Options set to “No”,  than Gift Wrapping and Gift Messages for that
-     * product in Frontend on item level is not available.</p>
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Confyg set to “Yes”,
+     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to “No”,
+     * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping on Order Level"  set to "Yes",</p>
-     * <p>2. "Allow Gift Message on Order Level" set to  "Yes",</p>
-     * <p>3. "Allow Gift Messages for Order Items" set to "No" </p>
-     * <p>4. "Allow Gift Wrapping for Order Items" set to "No" </p>
+     * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
+     * <p>2. "Allow Gift Message" on Order Level" set to "Yes"</p>
+     * <p>3. "Allow Gift Message"s for Order Items" set to "No"</p>
+     * <p>4. "Allow Gift Wrapping" for Order Items" set to "No"</p>
      * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog-Manage Products</p>
+     * <p>1. In backend Go to Catalog > Manage Products</p>
      * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set  Allow Gift Wrapping and Allow Gift messages to "No",  then Save product.</p>
-     * <p>4. In Frontend add above Product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>3. Set "Allow Gift Wrapping" and "Allow Gift Message"s to "No", then Save the product.</p>
+     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
+     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>6. Select checkbox "Add gift options".</p>
      * <p>Expected result:</p>
-     * <p>"Add gift options" with checkbox is absent on a checkout page when you choose shipping method.<p>
+     * <p>"Add gift options" with checkbox is absent on the checkout page when you choose shipping method.<p>
      *
      * @param $products
      * @param $userData
@@ -362,24 +359,25 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @TestlinkId TL-MAGE-849
      * <p>Gift Wrapping on product level set to No. FrontEnd. Case3.</p>
      * <p>Gift Messages on product level set to No. FrontEnd. Case4.</p>
-     * <p>Verify When Allow Gift Messages for Order Items in Confyg set to “Yes"and Gift Messages in a product Menu
-     * Gift Options set to “No”, than Gift Messages for that product in Frontend on item level is not available.</p>
+     * <p>Verify that when "Allow Gift Message"s for Order Items in Confyg set to “Yes",
+     * and Gift Messages in a product Menu Gift Options set to “No”,
+     * then Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping on Order Level"  set to "Yes",</p>
-     * <p>2. "Allow Gift Message on Order Level" set to  "Yes",</p>
-     * <p>3. "Allow Gift Messages for Order Items" set to "Yes" </p>
-     * <p>4. "Allow Gift Wrapping for Order Items" set to "Yes" </p>
+     * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
+     * <p>2. "Allow Gift Message" on Order Level" set to "Yes"</p>
+     * <p>3. "Allow Gift Message"s for Order Items" set to "Yes"</p>
+     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
      * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog-Manage Products</p>
+     * <p>1. In backend Go to Catalog > Manage Products</p>
      * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set  Allow Gift Wrapping to "No" and Save product.(TL-MAGE-832)</p>
-     * <p>3. Set  Allow Gift Message to "No" and Save product.(TL-MAGE-849)</p>
-     * <p>4. In Frontend add above Product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>3. Set "Allow Gift Wrapping" to "No" and Save the product. (TL-MAGE-832)</p>
+     * <p>3. Set "Allow Gift Message" to "No" and Save the product. (TL-MAGE-849)</p>
+     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
+     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>6. Select checkbox "Add gift options".</p>
      * <p>7. Select checkbox "Add gift options for Individual Items".</p>
      * <p>Expected result:</p>
-     * <p>Item did not having dropdown "Gift Wrapping Design".<p>
+     * <p>Item does not have "Gift Wrapping Design" dropdown.<p>
      *
      * @param $productGiftOptions
      * @param $assert
@@ -435,21 +433,22 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @TestlinkId TL-MAGE-851
      * <p>Gift Wrapping on product level set to No. FrontEnd. Case5.</p>
      * <p>Gift Messages on product level set to No. FrontEnd. Case6.</p>
-     * <p>Verify When Allow Gift Wrapping for Order Items in Confyg set to “Yes” and Gift Wrapping in a product Menu
-     * Gift Options set to “No” , than Gift Wrapping for that product in Frontend on item level is not available.</p>
+     * <p>Verify that when "Allow Gift Wrapping" for Order Items in Confyg set to “Yes”
+     * and Gift Wrapping in a product Menu Gift Options set to “No”,
+     * then Gift Wrapping for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping on Order Level"  set to "No",</p>
-     * <p>2. "Allow Gift Message on Order Level" set to  "No",</p>
-     * <p>3. "Allow Gift Messages for Order Items" set to "No" </p>
-     * <p>4. "Allow Gift Wrapping for Order Items" set to "Yes" </p>
+     * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>
+     * <p>2. "Allow Gift Message" on Order Level" set to "No"</p>
+     * <p>3. "Allow Gift Message"s for Order Items" set to "No"</p>
+     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
      * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog-Manage Products</p>
+     * <p>1. In backend Go to Catalog > Manage Products</p>
      * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set  Allow Gift Wrapping to "No" and Save product.(TL-MAGE-845)</p>
-     * <p>3. Set  Allow Gift Message to "No" and Save product.(TL-MAGE-851)</p>
-     * <p>4. In Frontend add two or more products(includung  product from step 2) to the shopping cart and proceed to
-     * onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>3. Set "Allow Gift Wrapping" to "No" and Save the product. (TL-MAGE-845)</p>
+     * <p>3. Set "Allow Gift Message" to "No" and Save the product. (TL-MAGE-851)</p>
+     * <p>4. In Frontend add two or more products (includung the product from step 2) to the shopping cart
+     * and proceed to onepage checkout.</p>
+     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>6. Select checkbox "Add gift options".</p>
      * <p>7. Select checkbox "Add gift options for Individual Items".</p>
      * <p>Expected result:</p>
@@ -509,34 +508,35 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-878
      * <p>Managing Price for Gift Wrapping on product level. Frontend. Case1</p>
-     * <p>Verify When Price for Gift Wrapping in a product Menu is different to price setting in Manage Gift Wrapping
-     * Menu, than price for Gift Wrapping for that product in Frontend is equal to first one.</p>
+     * <p>Verify that when Price for Gift Wrapping in a product Menu is different from
+     * price setting in Manage Gift Wrapping Menu,
+     * then price for Gift Wrapping for that product in Frontend is equal to first one.</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping for Order Items" and
-     * "Allow Gift Messages for Order Items"is set to "Yes".</p>
+     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
+     * "Allow Gift Message"s for Order Items"is set to "Yes".</p>
      * <p>Steps:</p>
-     * <p>1. Go to Sales-Gift Wrapping and note price(for example it will be 2.25) for Gift Wrapping in your store.</p>
-     * <p>2. In backend Go to Catalog-Manage Products.</p>
+     * <p>1. Go to Sales > Gift Wrapping and note price (for example 2.25) for Gift Wrapping in your store.</p>
+     * <p>2. In backend Go to Catalog > Manage Products.</p>
      * <p>3. Select some simple product and choose Gift Options.</p>
-     * <p>4. In  "Price for Gift Wrapping" field a set any price different to above(for example 10).</p>
-     * <p>5. In Frontend add above product and some other product with config gift option to the shopping cart and
+     * <p>4. In  "Price for Gift Wrapping" field a set any price different from the above (for example 10).</p>
+     * <p>5. In Frontend add the above product and some other product with config gift option to the shopping cart and
      * proceed to checkout.</p>
-     * <p>6. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>6. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>7. Select checkbox "Add gift options".</p>
      * <p>8. Select checkboxes "Add gift options for the Entire Order" and "Gift Options for Individual Items".</p>
      * <p>9. Select Gift Wrapping Design for entire order and individual items.</p>
      * <p>Expected result:</p>
      * <p>Price on Gift Wrapping for item from step 3 is equal to 10<p>
-     * <p>Prices on Gift Wrappings for another item and entire order is equal 2.25.<p>
-     * <p>10. Press "Continue" button and  Select Payment Method Check/Money order then press "Continue" button
+     * <p>Prices on Gift Wrappings for another item and entire order is equal to 2.25.<p>
+     * <p>10. Press "Continue" button and  Select Payment Method "Check/Money order" then press "Continue" button
      * one more.</p>
      * <p>Expected result:</p>
      * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
      * <p>11. Press "PLACE ORDER" button.</p>
      * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displaying.<p>
-     * <p>In Backend new order is presenting and it containing all and correct information(price, design  etc) about
-     *  selecting Gift Wrapping..<p>
+     * <p>New page with message "Your order has been received" is displayed.<p>
+     * <p>In Backend new order is present and contains all and correct information (price, design, etc.) about
+     * the selected Gift Wrapping.<p>
      *
      * @param $products
      * @param $userData
@@ -590,42 +590,43 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-1041
      * <p>Managing Price for Gift Wrapping on product level for websites view. Frontend. Case2</p>
-     * <p>Verify when Price for Gift Wrapping in a product Menu(for store scope) is different to prices setting in
-     * Manage Gift Wrapping Menu and Product Menu(for dafault values), than price for Gift Wrapping for that product in
-     * Frontend is equal to first one (on selected Website scope).</p>
+     * <p>Verify that when Price for Gift Wrapping in a product Menu (for store scope) is different from
+     * prices setting in Manage Gift Wrapping Menu and Product Menu (for dafault values),
+     * then price for Gift Wrapping for that product in Frontend is equal to first one (on selected Website scope).</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping for Order Items" and
-     * "Allow Gift Messages for Order Items"is set to "Yes".</p>
+     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
+     * "Allow Gift Message"s for Order Items" are set to "Yes".</p>
      * <p>Steps:</p>
-     * <p>1. Go to Sales-Gift Wrapping and note price(for example it will be 2.25) for Gift Wrapping in your store.</p>
-     * <p>2. In backend Go to Catalog-Manage Products.</p>
+     * <p>1. Go to Sales > Gift Wrapping and note price (for example 2.25) for Gift Wrapping in your store.</p>
+     * <p>2. In backend Go to Catalog > Manage Products.</p>
      * <p>3. Select some simple product and choose Gift Options.</p>
-     * <p>4. Notice that dropdown "Choose Store View" must select to  "Default Values". In  "Price for Gift Wrapping"
-     * field a set any price different to above(for example 10). Press "Save and Continue" button. </p>
+     * <p>4. Notice that dropdown "Choose Store View" should display "Default Values".
+     * In "Price for Gift Wrapping" field set any price different from the above (for example 10).
+     * Press "Save and Continue" button. </p>
      * <p>5. Select in dropdown "Choose Store View" your store.</p>
      * <p>6. Press OK in notification window .</p>
      * <p>Expected result:</p>
-     * <p>Field "Price for Gift Wrapping" must disable (vith value 10 in our example) and checkbox "Use Default Value"
+     * <p>Field "Price for Gift Wrapping" is disabled (vith value 10 in our example) and checkbox "Use Default Value"
      * must be selected for one.</p>
-     * <p>7. Unselect checkbox "Use Default Value" for field "Price for Gift Wrapping"  and set field value to
-     * different both above(for example 20). Save product changes.</p>
-     * <p>8. In Frontend add above product and some other product with config gift option to the shopping cart
+     * <p>7. Unselect checkbox "Use Default Value" for field "Price for Gift Wrapping" and set field value to
+     * different from the both values above (for example 20). Save the product changes.</p>
+     * <p>8. In Frontend add the above product and some other product with config gift option to the shopping cart
      * and proceed to checkout.</p>
-     * <p>9. Fill all required fields in billing and  shipping address and press continue button.</p>
+     * <p>9. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>10. Select checkbox "Add gift options".</p>
      * <p>11. Select checkboxes "Add gift options for the Entire Order" and "Gift Options for Individual Items".</p>
      * <p>12. Select Gift Wrapping Design for entire order and individual items.</p>
      * <p>Expected result:</p>
      * <p>Price on Gift Wrapping for item from step 3 is equal to 20<p>
-     * <p>Prices on Gift Wrappings for another item and entire order is equal 2.25.<p>
-     * <p>13. Press "Continue" button and Select Payment Method Check/Money order then press "Continue" button one more.</p>
+     * <p>Prices on Gift Wrappings for another item and entire order are equal to 2.25.<p>
+     * <p>13. Press "Continue" button, select Payment Method "Check/Money order", then press "Continue" again.</p>
      * <p>Expected result:</p>
      * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
      * <p>14. Press "PLACE ORDER" button.	After step 6.</p>
      * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displaying.<p>
-     * <p>In Backend new order is presenting and it containing all and correct information(price, design  etc) about
-     * selecting Gift Wrapping..<p>
+     * <p>New page with message "Your order has been received" is displayed.<p>
+     * <p>In Backend new order is present and contains all and correct information (price, design, etc.) about
+     * the selected Gift Wrapping.<p>
      *
      * @param $products
      * @param $userData
