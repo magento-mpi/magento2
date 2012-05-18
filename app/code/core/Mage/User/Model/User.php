@@ -510,14 +510,14 @@ class Mage_User_Model_User
      *
      * Stores new reset password link token and its creation time
      *
-     * @param string $newResetPasswordLinkToken
+     * @param string $newToken
      * @return Mage_User_Model_User
      * @throws Mage_Core_Exception
      */
     public function changeResetPasswordLinkToken($newToken)
     {
         if (!is_string($newToken) || empty($newToken)) {
-            throw Mage::exception(
+            Mage::throwException(
                 'Mage_Core',
                 Mage::helper('Mage_User_Helper_Data')->__('Invalid password reset token.')
             );

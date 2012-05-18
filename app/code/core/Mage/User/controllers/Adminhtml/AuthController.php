@@ -162,7 +162,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
      * Check if password reset token is valid
      *
      * @param int $userId
-     * @param string $resetPasswordLinkToken
+     * @param string $resetPasswordToken
      * @throws Mage_Core_Exception
      */
     protected function _validateResetPasswordLinkToken($userId, $resetPasswordToken)

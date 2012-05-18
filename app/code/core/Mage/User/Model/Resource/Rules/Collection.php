@@ -30,7 +30,7 @@ class Mage_User_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource
     /**
      * Get rules by role id
      *
-     * @param int $id
+     * @param int $roleId
      * @return Mage_User_Model_Resource_Rules_Collection
      */
     public function getByRoles($roleId)
