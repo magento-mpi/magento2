@@ -58,6 +58,8 @@ billing_new_signedin_req_physical_withshipping_usa: &billing_new_signedin_with_s
 order_gift_wrapping:
     entire_order: &orderGiftWrapping
         order_gift_wrapping_design: %gift_wrapping_design%
+        send_gift_receipt: %yes%
+        order_add_printed_card: %yes%
 
 items_gift_wrapping:
     individual_items:
@@ -120,18 +122,18 @@ verify_gift_data:
 
 verify_wrapping_data:
     entire_order:
-        gift_wrapping: %gift_wrapping_design%
+        order_gift_wrapping_design: %gift_wrapping_design%
         order_gift_wrapping_price: %price_order%
         printed_card_price: %noValue%
     individual:
         product_1:
             sku_product: %sku_product_1%
             item_gift_wrapping_price: %price_product_1%
-            gift_wrapping: %gift_wrapping_design%
+            product_gift_wrapping_design: %gift_wrapping_design%
         product_2:
             sku_product: %sku_product_2%
             item_gift_wrapping_price: %price_product_2%
-            gift_wrapping: %gift_wrapping_design%
+            product_gift_wrapping_design: %gift_wrapping_design%
 
 recount_gift_wrapping_no_img_one_page:
     products_to_add: *product_add

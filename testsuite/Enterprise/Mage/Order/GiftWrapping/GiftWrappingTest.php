@@ -78,9 +78,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $gwData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
-        $this->clickButton('add_gift_wrapping');
-        $this->fillFieldset($gwData, 'gift_wrapping_info');
-        $this->saveForm('save', false);
+        $this->giftWrappingHelper()->createGiftWrapping($gwData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         return $gwData;
@@ -92,4 +90,38 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     /**
      * @TODO Move from MAUTOSEL-259 branch to here
      */
+
+    /**
+     * <p>TL-MAGE-991: Gift Receipt is not allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Receipt" is set to "No"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to Backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product);</p>
+     * <p>4. Look at Gift Options block of create Order page;</p>
+     * <p>Expected result:</p>
+     * <p>5. Checkbox "Send Gift Receipt" should be absent in Gift Options block of Order creation page;</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function createOrderGiftReceiptDisabled($simpleSku)
+    {
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_yes');
+        $this->systemConfigurationHelper()->configure('gift_receipt_disable');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
+        $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
+        //Verification
+        //If product is not added checkbox will be absent
+        $this->addParameter('sku', $simpleSku);
+        $this->assertTrue($this->controlIsPresent('field', 'product_qty'), 'Product is not added');
+        $this->assertFalse($this->controlIsPresent('checkbox', 'send_gift_receipt'), 'Checkbox is present');
+    }
 }

@@ -39,6 +39,8 @@ view_order:
                                       printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
                                       order_gift_wrapping_price: //div[@class='gift-wrapping-design']//div[@id='price-box']//span[@class='price']/span
                                       gift_wrapping: //div[@class='gift-wrapping-form']/span
+                                  checkboxes:
+                                      send_gift_receipt: //input[@id='allow-gift-receipt']
                            -
                               gift_options:
                                   pageelements:
@@ -56,12 +58,12 @@ create_order_for_new_customer:
                     gift_options: &giftMessage
                         xpath: //div[div/h4[contains(text(),'Gift Options for')]]
                         dropdowns:
-                            gift_wrapping_design: //select[@id='giftwrapping_design_item']
+                            product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
                 -
                     gift_options_for_order: &giftMessageForOrder
                         xpath: //div[@class='entry-edit' and contains(.,'Gift Message for the Entire Order')]
                         dropdowns:
-                            gift_wrapping_design: //select[@id='giftwrapping_design']
+                            order_gift_wrapping_design: //select[@id='giftwrapping_design']
                         checkboxes:
                             send_gift_receipt: //input[@id='allow-gift-receipt']
                             add_printed_card: //input[@id='add-printed-card']
