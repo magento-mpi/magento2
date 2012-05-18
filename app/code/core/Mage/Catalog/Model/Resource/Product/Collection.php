@@ -305,12 +305,28 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         if ($this->isEnabledFlat()) {
             $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product_Flat');
-        }
-        else {
+        } else {
             $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product');
         }
         $this->_initTables();
     }
+
+    /**
+     * Standard resource collection initalization
+     *  Need for child classes
+     *
+     * @param string $model
+     * @param string $entityModel
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    protected function _init($model, $entityModel)
+    {
+        if ($this->isEnabledFlat()) {
+            $entityModel = 'Mage_Catalog_Model_Resource_Product_Flat';
+        }
+        return parent::_init($model, $entityModel);
+    }
+
 
     /**
      * Define product website and category product tables
