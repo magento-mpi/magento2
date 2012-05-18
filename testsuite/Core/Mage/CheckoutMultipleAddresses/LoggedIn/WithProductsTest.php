@@ -60,6 +60,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $products = array();
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);

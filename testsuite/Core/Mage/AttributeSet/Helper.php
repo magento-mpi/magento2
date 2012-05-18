@@ -42,7 +42,6 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
      */
     public function createAttributeSet(array $attrSet)
     {
-        $attrSet = $this->arrayEmptyClear($attrSet);
         $groups = (isset($attrSet['new_groups'])) ? $attrSet['new_groups'] : array();
         $associatedAttr = (isset($attrSet['associated_attributes'])) ? $attrSet['associated_attributes'] : array();
 

@@ -46,9 +46,10 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
     public function createStore($data, $name)
     {
         if (is_string($data)) {
-            $data = $this->loadData($data);
+            $elements = explode('/', $data);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $data = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $data = $this->arrayEmptyClear($data);
 
         $this->clickButton('create_' . $name);
         $this->fillForm($data);

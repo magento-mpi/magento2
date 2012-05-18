@@ -55,7 +55,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function frontCreateCheckout($checkoutData)
     {
         if (is_string($checkoutData)) {
-            $checkoutData = $this->loadData($checkoutData);
+            $elements = explode('/', $checkoutData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $checkoutData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->doOnePageCheckoutSteps($checkoutData);
         return $this->submitOnePageCheckoutOrder();
@@ -94,7 +96,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function doOnePageCheckoutSteps($checkoutData)
     {
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $customer = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
@@ -435,7 +436,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->assertOnePageCheckoutTabOpened('order_review');
         $this->frontValidate3dSecure();
 
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
         $shipping = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();

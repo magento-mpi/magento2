@@ -57,6 +57,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      */
     public function preconditionsForTests()
     {
+        $products = array();
         foreach (self::$productTypes as $type) {
             $method = 'create' . ucfirst($type) . 'Product';
             $products[$type] = $this->productHelper()->$method();

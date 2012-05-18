@@ -38,7 +38,6 @@ class Core_Mage_CmsPages_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -52,12 +51,12 @@ class Core_Mage_CmsPages_DeleteTest extends Mage_Selenium_TestCase
      * <p>Page is created and deleted successfully</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3215
+     * @TestlinkId TL-MAGE-3215
      */
     public function deleteCmsPage()
     {
         //Data
-        $pageData = $this->loadData('new_cms_page_req');
+        $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req');
         $search = array('filter_title'   => $pageData['page_information']['page_title'],
                         'filter_url_key' => $pageData['page_information']['url_key']);
         //Steps

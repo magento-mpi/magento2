@@ -43,9 +43,10 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     public function createCmsPage($pageData)
     {
         if (is_string($pageData)) {
-            $pageData = $this->loadData($pageData);
+            $elements = explode('/', $pageData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $pageData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $pageData = $this->arrayEmptyClear($pageData);
 
         $pageInfo = (isset($pageData['page_information'])) ? $pageData['page_information'] : array();
         $content = (isset($pageData['content'])) ? $pageData['content'] : array();
@@ -121,6 +122,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     public function selectOptionItem($optionData)
     {
         $buttonXpath = $this->_getControlXpath('button', 'select_option');
+        $name = '';
         if ($this->isElementPresent($buttonXpath)) {
             $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $this->getText($buttonXpath))), '_');
             $this->click($buttonXpath);
@@ -200,7 +202,6 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function openCmsPage(array $searchPage)
     {
-        $searchPage = $this->arrayEmptyClear($searchPage);
         if (array_key_exists('filter_store_view', $searchPage)
                 && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
             unset($searchPage['filter_store_view']);

@@ -147,11 +147,13 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
                 }
                 if (array_key_exists($dataSetName, $dataSets)) {
                     $this->_testData[$dataSetName] = $dataSets[$dataSetName];
-                    return $this->_testData[$dataSetName];
                 }
             }
         }
-        throw new RuntimeException('DataSet with name "' . $dataSetName
-            . '" is not present in "' . $dataFile . '" file.');
+        if (array_key_exists($dataSetName, $this->_testData)) {
+            return $this->_testData[$dataSetName];
+        }
+        throw new RuntimeException(
+            'DataSet with name "' . $dataSetName . '" is not present in "' . $dataFile . '" file.');
     }
 }
