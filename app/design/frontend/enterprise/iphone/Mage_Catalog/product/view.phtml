@@ -51,7 +51,7 @@
                             <?php endif; ?>
                         </div>
                     <?php else:?>
-                        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getOptionsContainer() == 'container1'):?>
+                        <?php if ($_product->isSaleable() && $this->getOptionsContainer() == 'container1'):?>
                             <div class="options-container-small">
                                 <?php echo $this->getChildChildHtml('container') ?>
                             </div>
