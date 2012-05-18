@@ -30,6 +30,7 @@
         <chmod perm="a+w">
             <dirset dir="${basedir}/app/etc"/>
             <dirset dir="${basedir}/pub/media"/>
+            <fileset dir="${basedir}/pub/media"/>
             <dirset dir="${basedir}/var"/>
         </chmod>
     </target>
