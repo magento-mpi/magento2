@@ -153,7 +153,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
         $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
-        $changeLink = $this->_getControlXpath('link', $fieldsetName . '_change');
         $waitCondition =
             array($setXpath, $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $buttonName = $fieldsetName . '_continue';
@@ -164,7 +163,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
             $this->fail(self::messagesToString($this->getMessagesOnPage()));
         }
-        $this->waitForElement($changeLink);
+        if ($fieldsetName !== 'checkout_method') {
+            $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));
+        }
     }
 
     /**
