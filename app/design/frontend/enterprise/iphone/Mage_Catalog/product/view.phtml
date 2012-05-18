@@ -51,9 +51,9 @@
                             <?php endif; ?>
                         </div>
                     <?php else:?>
-                        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
+                        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getOptionsContainer() == 'container1'):?>
                             <div class="options-container-small">
-                                <?php echo $this->getChildChildHtml('container1') ?>
+                                <?php echo $this->getChildChildHtml('container') ?>
                             </div>
                         <?php endif;?>
                     <?php endif; ?>
@@ -81,9 +81,9 @@
 
         <div class="product-review"><?php echo $this->getReviewsSummaryHtml($_product, false, true)?></div>
 
-        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
+        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getOptionsContainer() == 'container2'):?>
             <div class="options-container-big">
-                <?php echo $this->getChildChildHtml('container2') ?>
+                <?php echo $this->getChildChildHtml('container') ?>
             </div>
         <?php endif;?>
     </form>
