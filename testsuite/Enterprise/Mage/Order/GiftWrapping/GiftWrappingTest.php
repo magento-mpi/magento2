@@ -91,6 +91,57 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @TODO Move from MAUTOSEL-259 branch to here
      */
     /**
+     * <p>TL-MAGE-953: Printed Card is allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Printed Card" is set to "Yes"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to Backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product);</p>
+     * <p>4. Select any shipping method(for example: Free Shipping), any payment method</p>
+     * <p> (for example: Check/Money order), shipping/billing addresses;</p>
+     * <p>5. Look at Gift Options block of create Order page;</p>
+     * <p>6. Check "Add Printed Card" checkbox;</p>
+     * <p>7. Click "Submit Order" button. When Order is placed, look at Gift Options block;</p>
+     * <p>Expected result:</p>
+     * <p>5. Checkbox "Add Printed Card" should be present in Gift Options block of Order creation page;</p>
+     * <p>6. Printed card price must appear belowthe checkbox (for example: Price: $1.00) and it Order Totals block</p>
+     * <p> ("Printed Card: $1.00" for example");</p>
+     * <p>7. Order is placed, Order View page opened. Gift options block should contain "Add Printed Card"</p>
+     * <p> checkbox, and it should be checked. Printed Сard price should be included in Order Totals block</p>
+     * <p> ("Printed Card: $1.00" for example)</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function createOrderPrintedCardAllowed($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku'     => $simpleSku,
+                  'customer_email' => $this->generate('email', 32, 'valid'),
+                  'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+                      array('add_printed_card' => 'Yes'))));
+        //Configuration
+        $this->navigate('system_configuration');
+        $printedCardOptions = $this->loadDataSet('GiftMessage', 'gift_printed_card_enable');
+        $this->systemConfigurationHelper()->configure($printedCardOptions);
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->assertTrue($this->controlIsPresent('checkbox', 'add_printed_card'), 'Printed Card is not added');
+        $this->orderHelper()->verifyPageelement('printed_card_price',
+                    '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+        $this->orderHelper()->verifyPageelement('total_printed_card_price',
+                    '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+        $this->assertEmptyVerificationErrors();
+    }
+
+    /**
      * <p>TL-MAGE-990: Printed Card is not allowed</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Printed Card" is set to "No"</p>

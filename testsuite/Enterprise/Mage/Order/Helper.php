@@ -140,7 +140,7 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         $this->assertEmptyVerificationErrors();
     }
 
-    protected function verifyPageelement($elementName, $expectedValue)
+    public function verifyPageelement($elementName, $expectedValue)
     {
         $resultFlag = true;
         $elementXpath = $this->_getControlXpath('pageelement',$elementName);
