@@ -48,6 +48,48 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     }
 
     /**
+     * Create Simple Product for tests
+     *
+     * @return string
+     * @test
+     */
+    public function createSimpleProduct()
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return $productData['general_sku'];
+    }
+
+    /**
+     * Create Gift Wrapping for tests
+     * @return array $gwData
+     *
+     * @test
+     */
+    public function createGiftWrappingMain()
+    {
+        //Data
+        $gwData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        //Steps
+        $this->navigate('manage_gift_wrapping');
+        $this->clickButton('add_gift_wrapping');
+        $this->fillFieldset($gwData, 'gift_wrapping_info');
+        $this->saveForm('save', false);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+        return $gwData;
+    }
+
+
+
+
+    /**
      * @TODO Move from MAUTOSEL-259 branch to here
      */
 }
