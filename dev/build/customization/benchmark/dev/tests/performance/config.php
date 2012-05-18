@@ -20,7 +20,6 @@ return array(
         'db_pass'                    => '',
         'url'                        => 'http://mage2.magentocommerce.com/bamboo-agent/',
         'secure_base_url'            => 'http://mage2.magentocommerce.com/bamboo-agent/',
-        'skip_url_validation'        => 'yes', // Bug SAASOPS-2806
         'use_secure'                 => 'no',
         'use_secure_admin'           => 'no',
         'use_rewrites'               => 'no',
