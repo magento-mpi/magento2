@@ -880,35 +880,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      * Open product on FrontEnd
      *
      * @param string $productName
-     * @param $categoryPath
      */
-    public function frontOpenProduct($productName, $categoryPath = null)
+    public function frontOpenProduct($productName)
     {
         if (!is_string($productName)) {
             $this->fail('Wrong data to open a product');
         }
         $productUrl = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $productName)), '-');
         $this->addParameter('productUrl', $productUrl);
-
-        if ($categoryPath) {
-            $nodes = explode('/', $categoryPath);
-            if (count($nodes) > 1) {
-                array_shift($nodes);
-            }
-            $nodes = array_reverse($nodes);
-            $categoryName = '';
-            foreach ($nodes as $value) {
-                $categoryName = $categoryName . ' - ' . trim($value);
-            }
-            $this->addParameter('productTitle', $productName . $categoryName);
-        } else {
-            $this->addParameter('productTitle', $productName);
-        }
-        $this->frontend('product_page');
+        $this->frontend('product_page', false);
+        $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);
         $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
         $this->assertEquals($productName, $openedProductName,
-                            "Product with name '$openedProductName' is opened, but should be '$productName'");
+            "Product with name '$openedProductName' is opened, but should be '$productName'");
     }
 
     /**

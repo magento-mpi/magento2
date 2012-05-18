@@ -39,12 +39,11 @@ class Enterprise_Mage_Wishlist_Helper extends Core_Mage_Wishlist_Helper
      * Adds product to wishlist from the product details page.
      *
      * @param string $productName
-     * @param string $categoryPath
      * @param array $options
      */
-    public function frontAddProductToWishlistFromProductPage($productName, $categoryPath = null, $options = array())
+    public function frontAddProductToWishlistFromProductPage($productName, $options = array())
     {
-        $this->productHelper()->frontOpenProduct($productName, $categoryPath);
+        $this->productHelper()->frontOpenProduct($productName);
         if (!empty($options)) {
             $this->productHelper()->frontFillBuyInfo($options);
         }

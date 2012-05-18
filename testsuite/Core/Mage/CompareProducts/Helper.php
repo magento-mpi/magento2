@@ -53,13 +53,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     /**
      * Add product from Product page
      *
-     *
      * @param array $productName  Name of product to be added
-     * @param array $categoryName  Product Category
      */
-    public function frontAddToCompareFromProductPage($productName, $categoryName = null)
+    public function frontAddToCompareFromProductPage($productName)
     {
-        $this->productHelper()->frontOpenProduct($productName, $categoryName);
+        $this->productHelper()->frontOpenProduct($productName);
         $this->clickControl('link', 'add_to_compare');
     }
 
@@ -109,7 +107,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontRemoveProductFromComparePopup($productName)
     {
         $compareProducts = $this->frontGetProductsListComparePopup();
-        if (key_exists($productName, $compareProducts) and count($compareProducts) >= 3) {
+        if (array_key_exists($productName, $compareProducts) and count($compareProducts) >= 3) {
             $this->addParameter('columnIndex', $compareProducts[$productName]);
             $this->clickControl('link', 'remove_item');
             return true;

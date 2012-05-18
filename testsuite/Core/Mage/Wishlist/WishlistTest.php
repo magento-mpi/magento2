@@ -441,7 +441,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         }
         //Steps and Verifying
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName, null, $options);
+        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName, $options);
         $this->assertMessagePresent('success', 'successfully_added_product');
         //Verifying
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
@@ -709,7 +709,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $productName = $testData['withCustomOption'];
         $options = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName, $testData['catName'], $options);
+        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($productName, $options);
         $this->assertMessagePresent('success', 'successfully_added_product');
         //Verifying
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
@@ -740,7 +740,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $options = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');
         //Steps and Verifying
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->productHelper()->frontOpenProduct($productName, $testData['catName']);
+        $this->productHelper()->frontOpenProduct($productName);
         $this->productHelper()->frontAddProductToCart($options);
         $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
             'Product ' . $productName . ' is not in the shopping cart.');

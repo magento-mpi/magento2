@@ -143,7 +143,7 @@ class Enterprise_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Seleni
             $orderDetailsData['validate_prod_data']['product_' . $key]['sku'] = $products['sku'][$key];
             //Steps
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
-            $this->productHelper()->frontOpenProduct($productName, $category);
+            $this->productHelper()->frontOpenProduct($productName);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
         }
