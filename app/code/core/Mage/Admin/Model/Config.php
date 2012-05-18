@@ -180,8 +180,8 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
                     $module = (string)$resource->getAttribute('module');
 
                 }
-                $resource->addAttribute("aclpath", $resourceName);
-                $resource->addAttribute("module_c", $module);
+                $resource->addAttribute('aclpath', $resourceName);
+                $resource->addAttribute('module_c', $module);
             }
         }
 
@@ -200,10 +200,11 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     /**
      * Flatten acl resources tree
      *
-     * @param  Varien_Simplexml_Element $resource
-     * @param  null $parentName
-     * @param  int $level
-     * @param  string $module
+     * @param null|Varien_Simplexml_Element $resource
+     * @param null $parentName
+     * @param int $level
+     * @param string $module
+     * @param bool $shortFormat
      * @return array
      */
     protected function _flattenResourceTree(Varien_Simplexml_Element $resource = null,
