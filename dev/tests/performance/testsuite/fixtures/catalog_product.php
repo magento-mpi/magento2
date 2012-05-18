@@ -9,24 +9,27 @@
  * @license     {license_link}
  */
 
-function retrieveAttributeSetId()
-{
-    $productResource = Mage::getModel('Mage_Catalog_Model_Product');
-    $entityType = $productResource->getResource()->getEntityType();
+// Extract product set id
+$productResource = Mage::getModel('Mage_Catalog_Model_Product');
+$entityType = $productResource->getResource()->getEntityType();
+$sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+    ->setEntityTypeFilter($entityType->getId())
+    ->load();
 
-    $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-        ->setEntityTypeFilter($entityType->getId())
-        ->load();
-
-    foreach ($sets as $setInfo) {
-        return $setInfo->getId();
-    }
+$setId = null;
+foreach ($sets as $setInfo) {
+    $setId = $setInfo->getId();
+    break;
+}
+if (!$setId) {
+    throw new Exception('No attributes sets for product found.');
 }
 
+// Create product and its servants
 $product = new Mage_Catalog_Model_Product();
 $product->setTypeId('simple')
     ->setId(1)
-    ->setAttributeSetId(retrieveAttributeSetId())
+    ->setAttributeSetId($setId)
     ->setWebsiteIds(array(1))
     ->setName('Product 1')
     ->setShortDescription('Product 1 Short Description')

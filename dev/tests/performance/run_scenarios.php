@@ -49,7 +49,7 @@ if ($installOptions) {
     }
 }
 
-/* Init Magento to prepare several things for it */
+/* Magento initialization (for reports removal and fixtures) */
 require_once __DIR__ . '/../../../app/bootstrap.php';
 Mage::app();
 
