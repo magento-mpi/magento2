@@ -101,7 +101,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
             $adapter->checkDependencies();
             $this->assertTrue(true);
         } catch (Exception $e) {
-            $this->fail($e->getMessage());
+            $this->markTestSkipped($e->getMessage());
         }
     }
 
@@ -400,7 +400,6 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
         );
 
         $adapter->crop($top, $left, $right, $bottom);
-        $adapter->save(__DIR__ . '/_files/' . get_class($adapter) . '.png');
 
         $newSize = array(
             $adapter->getOriginalWidth(),
