@@ -320,7 +320,9 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
             ->watermark($watermark);
         $colorAfter  = $adapter->getColorAt($pixel['x'], $pixel['y']);
 
-        $this->assertFalse($this->_compareColors($colorBefore, $colorAfter), join(',', $colorBefore) . ' not equals ' . join(',', $colorAfter));
+        $result  = $this->_compareColors($colorBefore, $colorAfter);
+        $message = join(',', $colorBefore) . ' not equals ' . join(',', $colorAfter);
+        $this->assertFalse($result, $message);
     }
 
     public function imageWatermarkDataProvider()
