@@ -37,6 +37,7 @@ view_order:
                                   xpath: //div[div/h4[contains(text(),'Gift Options')]]
                                   checkboxes:
                                       add_printed_card: //input[@id='add-printed-card']
+                                      send_gift_receipt: //input[@id='allow-gift-receipt' and @checked='checked']
                                   pageelements:
                                       printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
                                       order_gift_wrapping_price: //div[@class='gift-wrapping-design']//div[@id='price-box']//span[@class='price']/span
