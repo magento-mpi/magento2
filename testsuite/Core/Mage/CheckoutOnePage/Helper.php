@@ -153,20 +153,18 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
         $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
+        $changeLink = $this->_getControlXpath('link', $fieldsetName . '_change');
         $waitCondition =
             array($setXpath, $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $buttonName = $fieldsetName . '_continue';
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
-        $this->verifyNotPresetAlert();
-        if (!$this->isElementPresent($setXpath)) {
-            $messages = self::messagesToString($this->getMessagesOnPage());
-            if ($messages != null) {
-                $this->clearMessages('verification');
-                $this->addVerificationMessage($messages);
-            }
+        $error = $this->errorMessage();
+        $validation = $this->validationMessage();
+        if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
+            $this->fail(self::messagesToString($this->getMessagesOnPage()));
         }
-        $this->assertEmptyVerificationErrors();
+        $this->waitForElement($changeLink);
     }
 
     /**
