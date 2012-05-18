@@ -309,7 +309,7 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
      */
     public function checkDependencies()
     {
-        if (!class_exists('Imagick')) {
+        if (!class_exists('Imagick', false)) {
             throw new Exception("Required PHP extension 'Imagick' was not loaded.");
         }
     }
