@@ -91,18 +91,29 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Checks is adapter testable.
+     * Mark test as skipped if not
+     *
+     * @param Varien_Image_Adapter_Abstract $adapter
+     */
+    protected function _isAdapterAvailable($adapter)
+    {
+        try {
+            $adapter->checkDependencies();
+        } catch (Exception $e) {
+            $this->markTestSkipped($e->getMessage());
+        }
+    }
+
+    /**
      * Checks if all dependencies are loaded
+     * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider adaptersDataProvider
      */
     public function testCheckDependencies($adapter)
     {
-        try {
-            $adapter->checkDependencies();
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            $this->markTestSkipped($e->getMessage());
-        }
+        $this->_isAdapterAvailable($adapter);
     }
 
     public function adaptersDataProvider()
@@ -120,11 +131,12 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      * @param string $image
      * @param Varien_Image_Adapter_Abstract $adapter
      *
-     * @dataProvider openDataProvider
      * @depends testCheckDependencies
+     * @dataProvider openDataProvider
      */
     public function testOpen($image, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
         $this->assertEquals($this->_getFixtureImageSize(), array(
             $adapter->getOriginalWidth(),
@@ -152,6 +164,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testSave($image, $tempPath, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
         call_user_func_array(array($adapter, 'save'), $tempPath);
         $tempPath = join('', $tempPath);
@@ -187,6 +200,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testResize($image, $dims, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
         $adapter->resize($dims[0], $dims[1]);
         $this->assertEquals($dims, array(
@@ -219,6 +233,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testRotate($image, $angle, $pixel, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
 
         $size = array(
@@ -309,6 +324,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testWatermark($image, $watermark, $width, $height, $opacity, $position, $colorX, $colorY, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
         $pixel = $this->_prepareColor(array('x' => $colorX, 'y' => $colorY), $position, $adapter);
 
@@ -394,6 +410,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testCrop($image, $left, $top, $right, $bottom, $adapter)
     {
+        $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
 
         $expectedSize = array(
