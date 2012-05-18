@@ -21,7 +21,7 @@ $fixtures = $config['fixtures'];
 $reportDir = isset($config['report_dir']) ? $config['report_dir'] : __DIR__ . '/report';
 
 /* Build JMeter command */
-$jMeterJarFile = isset($_ENV['jmeter_jar_file']) ? $_ENV['jmeter_jar_file'] : 'ApacheJMeter.jar';
+$jMeterJarFile = getenv('jmeter_jar_file') ?: 'ApacheJMeter.jar';
 $jMeterProperties = '';
 foreach ($config['scenario_params'] as $key => $value) {
     $jMeterProperties .= " -J$key=$value";
