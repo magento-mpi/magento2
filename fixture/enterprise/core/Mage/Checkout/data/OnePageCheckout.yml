@@ -59,7 +59,7 @@ order_gift_wrapping:
     entire_order: &orderGiftWrapping
         order_gift_wrapping_design: %gift_wrapping_design%
         send_gift_receipt: %yes%
-        order_add_printed_card: %yes%
+        add_printed_card: %yes%
 
 items_gift_wrapping:
     individual_items:

@@ -90,6 +90,38 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     /**
      * @TODO Move from MAUTOSEL-259 branch to here
      */
+    /**
+     * <p>TL-MAGE-990: Printed Card is not allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Printed Card" is set to "No"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to Backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product);</p>
+     * <p>4. Look at Gift Options block of create Order page;</p>
+     * <p>Expected result:</p>
+     * <p>5. Checkbox "Add Printed Card" should be absent in Gift Options block of Order creation page;</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function createOrderPrintedCardNotAllowed($simpleSku)
+    {
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_printed_card_disable');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
+        $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
+        //Verification
+        //If product is not added 'send_gift_receipt' checkbox will be absent
+        $this->addParameter('sku', $simpleSku);
+        $this->assertTrue($this->controlIsPresent('field', 'product_qty'), 'Product is not added');
+        $this->assertFalse($this->controlIsPresent('checkbox', 'add_printed_card'), 'Checkbox is present');
+    }
 
     /**
      * <p>TL-MAGE-991: Gift Receipt is not allowed</p>
@@ -112,14 +144,13 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_yes');
         $this->systemConfigurationHelper()->configure('gift_receipt_disable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
         $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
         //Verification
-        //If product is not added checkbox will be absent
+        //If product is not added 'send_gift_receipt' checkbox will be absent
         $this->addParameter('sku', $simpleSku);
         $this->assertTrue($this->controlIsPresent('field', 'product_qty'), 'Product is not added');
         $this->assertFalse($this->controlIsPresent('checkbox', 'send_gift_receipt'), 'Checkbox is present');
