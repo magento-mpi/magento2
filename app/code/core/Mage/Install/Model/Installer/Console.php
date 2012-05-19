@@ -329,7 +329,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     public function uninstall()
     {
         if (!Mage::isInstalled()) {
-            return true;
+            return false;
         }
         $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         if ($dbConfig->model != 'mysql4') {

@@ -58,12 +58,15 @@ try {
         var_export($installer->getAvailableInstallOptions());
     } else {
         if (isset($args['uninstall'])) {
-            $installer->uninstall();
-            echo 'Uninstalled successfully' . PHP_EOL;
+            if ($installer->uninstall()) {
+                echo 'Uninstalled successfully' . PHP_EOL;
+            } else if (!$installer->hasErrors()) {
+                echo 'Ignoring attempt to uninstall non-installed application' . PHP_EOL;
+            }
         } else {
             $encryptionKey = $installer->install($args);
             if ($encryptionKey) {
-                echo 'Installed successfully, encryption key: ' . $encryptionKey . PHP_EOL;
+                echo 'Installed successfully using encryption key "' . $encryptionKey . '"' . PHP_EOL;
             }
         }
         if ($installer->hasErrors()) {
