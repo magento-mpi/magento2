@@ -36,7 +36,7 @@ browsers:
          browser: '*googlechrome'
          host: 'localhost'
          port: 4444
-         timeout: 40
+         timeout: 60
     firefox: &firefox
          name: 'Firefox'
          browser: '*chrome'
