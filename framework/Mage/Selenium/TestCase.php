@@ -2522,12 +2522,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Waits for the element to appear
      *
      * @param string|array $locator XPath locator or array of locators
-     * @param int $timeout Timeout period in seconds (by default = 40)
+     * @param int $timeout Timeout period in seconds (by default = null)
      *
      * @return bool
      */
-    public function waitForElement($locator, $timeout = 40)
+    public function waitForElement($locator, $timeout = null)
     {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod/1000;
+        }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
             if (is_array($locator)) {
@@ -2554,8 +2557,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return bool
      */
-    public function waitForElementOrAlert($messageXpath, $timeout = 60)
+    public function waitForElementOrAlert($messageXpath, $timeout = null)
     {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod/1000;
+        }
         $wait = array('alert');
         if (is_array($messageXpath)) {
             $wait = array_merge($messageXpath, $wait);
@@ -2587,12 +2593,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Waits for the element(s) to be visible
      *
      * @param string|array $locator XPath locator or array of locators
-     * @param int $timeout Timeout period in seconds (by default = 40)
+     * @param int $timeout Timeout period in seconds (by default = null)
      *
      * @return bool
      */
-    public function waitForElementVisible($locator, $timeout = 40)
+    public function waitForElementVisible($locator, $timeout = null)
     {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod/1000;
+        }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
             if (is_array($locator)) {
