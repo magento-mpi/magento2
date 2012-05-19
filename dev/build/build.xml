@@ -27,8 +27,9 @@
 
     <!-- setup permissions for the application installation -->
     <target name="prepare-installation">
-        <chmod perm="a+w">
+        <chmod perm="a+rw">
             <dirset dir="${basedir}/app/etc"/>
+            <fileset dir="${basedir}/app/etc"/>
             <dirset dir="${basedir}/pub/media"/>
             <fileset dir="${basedir}/pub/media"/>
             <dirset dir="${basedir}/var"/>

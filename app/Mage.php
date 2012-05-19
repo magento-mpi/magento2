@@ -721,13 +721,9 @@ final class Mage
 
             self::$_isInstalled = false;
 
-            echo "localConfigFile: '$localConfigFile'\n";
             if (is_readable($localConfigFile)) {
-                echo "localConfigFile is readable\n";
                 $localConfig = simplexml_load_file($localConfigFile);
                 date_default_timezone_set('UTC');
-                echo "installationDate: '" . $localConfig->global->install->date . "'\n";
-                echo "strtotime(installationDate): '" . strtotime($localConfig->global->install->date) . "'\n";
                 if (($date = $localConfig->global->install->date) && strtotime($date)) {
                     self::$_isInstalled = true;
                 }
