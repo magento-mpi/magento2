@@ -170,8 +170,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         if (isset($categoryData['name'])) {
             $this->addParameter('elementTitle', $categoryData['name']);
         }
+        $waitCondition = array("//*[@id='category-edit-container']//h3[not(contains(text(),'New'))]",
+                               $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $this->clickButton('save_category', false);
-        $this->waitForAjax();
+        $this->waitForElement($waitCondition);
         $this->validatePage();
     }
 
