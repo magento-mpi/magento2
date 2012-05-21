@@ -179,9 +179,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-826
      * <p>Gift Options on product level set to Yes. FrontEnd. Case1.</p>
-     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in SysConfig set to “No” , but Gift Wrapping
-     * and Gift Messages in a product Menu Gift Options set to “Yes” than Gift Wrapping and Gift messages for that
-     * product in Frontend on item level are available.</p>
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in SysConfig set to "No",
+     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "Yes",
+     * then Gift Wrapping and Gift messages for that product in Frontend on item level are available.</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
      * "Allow Gift Message"s for Order Items"is set to "No".</p>
@@ -248,8 +248,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-827
      * <p>Gift Options on product level set to No. FrontEnd. </p>
-     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Confyg set to “Yes”,
-     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to “No”,
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Config set to "Yes",
+     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
      * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>
@@ -299,8 +299,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * @TestlinkId TL-MAGE-831
      * <p>Gift Options on product level set to No. FrontEnd</p>
-     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Confyg set to “Yes”,
-     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to “No”,
+     * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Config set to "Yes",
+     * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
      * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
@@ -359,8 +359,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @TestlinkId TL-MAGE-849
      * <p>Gift Wrapping on product level set to No. FrontEnd. Case3.</p>
      * <p>Gift Messages on product level set to No. FrontEnd. Case4.</p>
-     * <p>Verify that when "Allow Gift Message"s for Order Items in Confyg set to “Yes",
-     * and Gift Messages in a product Menu Gift Options set to “No”,
+     * <p>Verify that when "Allow Gift Message"s for Order Items in Config set to “Yes",
+     * and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Messages for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
      * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
@@ -433,8 +433,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @TestlinkId TL-MAGE-851
      * <p>Gift Wrapping on product level set to No. FrontEnd. Case5.</p>
      * <p>Gift Messages on product level set to No. FrontEnd. Case6.</p>
-     * <p>Verify that when "Allow Gift Wrapping" for Order Items in Confyg set to “Yes”
-     * and Gift Wrapping in a product Menu Gift Options set to “No”,
+     * <p>Verify that when "Allow Gift Wrapping" for Order Items in Config set to "Yes"
+     * and Gift Wrapping in a product Menu Gift Options set to "No",
      * then Gift Wrapping for that product in Frontend on item level is not available.</p>
      * <p>Preconditions:</p>
      * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>

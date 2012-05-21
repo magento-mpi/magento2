@@ -3100,7 +3100,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
                             $this->addVerificationMessage(
-                                $formFieldName . ": The stored value is not equal to specified: (" . $formField['value']
+                                $formFieldName . ": The stored value is not equal to specified: ('" . $formField['value']
                                 . "' != '" . $val . "')");
                             $resultFlag = false;
                         }
