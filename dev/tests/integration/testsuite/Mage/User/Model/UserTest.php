@@ -385,7 +385,8 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->changeResetPasswordLinkToken('test');
         $date = $this->_model->getRpTokenCreatedAt();
         $this->assertNotNull($date);
-        $this->_model->save()->reload();
+        $this->_model->save();
+        $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->assertEquals('test', $this->_model->getRpToken());
         $this->assertEquals($date, $this->_model->getRpTokenCreatedAt());
     }
@@ -400,8 +401,8 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->assertTrue($this->_model->isResetPasswordLinkTokenExpired());
         $this->_model->changeResetPasswordLinkToken('test');
-        $this->_model->save()->reload();
-
+        $this->_model->save();
+        $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
         $this->_model->setRpTokenCreatedAt(Varien_Date::formatDate(time() - 60 * 60 * 24 * 10 + 10));
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
