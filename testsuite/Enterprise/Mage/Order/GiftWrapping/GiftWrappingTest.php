@@ -84,8 +84,97 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         return $gwData;
     }
 
+    /**
+     * Create additional Gift Wrapping for tests
+     * @return array $gwData
+     *
+     * @test
+     */
+    public function createGiftWrappingAdditional()
+    {
+        //Data
+        $gwData = $this->loadDataSet('GiftWrapping', 'edit_gift_wrapping_without_image');
+        //Steps
+        $this->navigate('manage_gift_wrapping');
+        $this->clickButton('add_gift_wrapping');
+        $this->fillFieldset($gwData, 'gift_wrapping_info');
+        $this->saveForm('save', false);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
+        return $gwData;
+    }
 
+    /**
+     * <p>TL-MAGE-828: Gift Message for entire Order is allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "Yes";</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product);</p>
+     * <p>4. Select any shipping method(for example: Free Shipping), any payment method</p>
+     * <p>(for example: Check/Money order), shipping/billing addresses";</p>
+     * <p>5. Look at Gift Options block of create Order page;</p>
+     * <p>6. Fill the fields related to Gift Message for Entire Order (From/To/Message);</p>
+     * <p>7. Click "Submit Order" button. When Order is placed, look at Gift Options block;</p>
+     * <p>Expected result:</p>
+     * <p>Prompt for entering Gift Message for Entire Order should be present there with From/To/Message fields;</p>
+     * <p>Order is placed, Order View page opened. Gift options block should contain information about Gift Message,</p>
+     * <p>with the same data (From/To/Message), as specified at Step 6;</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function giftMessagePerOrderAllowed($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('website_gift_message_yes_wrapping_no');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
+    }
 
+    /**
+     * <p>TL-MAGE-968:Gift Message for entire Order is not allowed (message-no; wrapping-yes)</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "No"</p>
+     * <p>2. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "Yes"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Look at Gift Options block of create Order page</p>
+     * <p>Expected result:</p>
+     * <p>In "Gift Options" block of Order page Gift Message prompt for entire Order should be absent</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function giftMessagePerOrderDisabled($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('website_gift_message_no_wrapping_yes');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'), 'Cannot find the block');
+    }
 
     /**
      * @TODO Move from MAUTOSEL-259 branch to here
