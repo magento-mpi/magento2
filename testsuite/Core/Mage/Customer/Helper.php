@@ -75,9 +75,35 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
     public function addAddressNumber()
     {
         $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses');
-        $addressCount = $this->getXpathCount($xpath . '//li') + 1;
-        $this->addParameter('address_number', $addressCount);
+        $addressCount = $this->getXpathCount($xpath . '//li');
+        if ($addressCount > 0) {
+            $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$addressCount]@id"));
+            $this->addParameter('address_number', $param + 1);
+        } else {
+            $this->addParameter('address_number', 1);
+        }
         return $addressCount;
+    }
+
+    public function deleteAllAddresses($searchData)
+    {
+        $this->openCustomer($searchData);
+        $this->openTab('addresses');
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
+        $addressCount = $this->getXpathCount($xpath);
+        if ($addressCount > 0) {
+            $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$addressCount]@id"));
+            $this->addParameter('address_number', $param);
+            $this->fillRadiobutton('default_billing_address', 'Yes');
+            $this->fillRadiobutton('default_shipping_address', 'Yes');
+            for ($i = 1; $i <= $addressCount; $i++) {
+                $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$i]@id"));
+                $this->addParameter('address_number', $param);
+                $this->clickControlAndConfirm('button', 'delete_address', 'confirmation_for_delete_address', false);
+            }
+            $this->saveForm('save_customer');
+            $this->assertMessagePresent('success');
+        }
     }
 
     /**
