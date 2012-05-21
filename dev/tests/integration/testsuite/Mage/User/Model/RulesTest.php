@@ -55,7 +55,7 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
     {
         $adapter = $this->_model->getResource()->getReadConnection();
         $ruleSelect = $adapter->select()
-            ->from($adapter->getTableName('admin_rule'));
+            ->from($this->_model->getMainTable());
 
         $rules = $ruleSelect->query()->fetchAll();
         $this->assertEquals(1, count($rules));
@@ -72,7 +72,7 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
     {
         $adapter = $this->_model->getResource()->getReadConnection();
         $ruleSelect = $adapter->select()
-            ->from($adapter->getTableName('admin_rule'));
+            ->from($this->_model->getMainTable());
 
         $resources = array('all');
 
