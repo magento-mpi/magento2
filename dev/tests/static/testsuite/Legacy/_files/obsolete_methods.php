@@ -314,6 +314,8 @@ return array(
     'setJoinFlag' => array('class_scope' => 'Mage_Tag_Model_Resource_Product_Collection'),
     'setJoinFlag' => array('class_scope' => 'Mage_Tag_Model_Resource_Tag_Collection'),
     'setOrderId' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
+    'setWatermarkHeigth' => array('suggestion'  => 'setWatermarkHeight'),
+    'getWatermarkHeigth' => array('suggestion'  => 'getWatermarkHeight'),
     'setParentBlock',
     'setProfile' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
     'setSaveTemplateFlag' => array('class_scope' => 'Mage_Newsletter_Model_Queue'),

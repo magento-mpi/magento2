@@ -379,4 +379,14 @@ abstract class Varien_Image_Adapter_Abstract
     {
         return getimagesize($filePath);
     }
+
+    /**
+     * Return supported image formats
+     *
+     * @return array
+     */
+    public function getSupportedFormats()
+    {
+        return array('gif', 'jpeg', 'jpg', 'png');
+    }
 }

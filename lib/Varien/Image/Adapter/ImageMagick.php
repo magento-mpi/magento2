@@ -9,7 +9,7 @@
  */
 
 
-class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
+class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
 {
     /**
      * Whether image was resized or not
@@ -92,7 +92,7 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
      */
     public function save($destination=null, $newName=null)
     {
-        $fileName = ( !isset($destination) ) ? $this->_fileName : $destination;
+        $fileName = !isset($destination) ? $this->_fileName : $destination;
 
         if (isset($destination) && isset($newName)) {
             $fileName = $destination . DIRECTORY_SEPARATOR . $newName;
@@ -113,8 +113,9 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract
                 $io = new Varien_Io_File();
                 $result = $io->mkdir($destination);
             } catch (Exception $e) {
+                $result = false;
             }
-            if (isset($e) || !$result) {
+            if (!$result) {
                 throw new Exception("Unable to write file into directory '{$destinationDir}'. Access forbidden.");
             }
         }
