@@ -60,11 +60,11 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
         $model = new Mage_Catalog_Model_Product_Type_Configurable;
 
         $attributes = $model->getConfigurableAttributesAsArray($product);
-        $configurableAttribute = $attributes[0];
-        $optionValueId = $configurableAttribute['values'][0]['value_index'];
+        $confAttribute = $attributes[0];
+        $optionValueId = $confAttribute['values'][0]['value_index'];
 
         $buyRequest = new Varien_Object(array(
-            'qty' => 5, 'super_attribute' => array($configurableAttribute['attribute_id'] => $optionValueId)
+            'qty' => 5, 'super_attribute' => array($confAttribute['attribute_id'] => $optionValueId)
         ));
         $item = $this->_giftRegistry->addItem($product->getId(), $buyRequest);
         $items = $this->_giftRegistry->getItemsCollection();
