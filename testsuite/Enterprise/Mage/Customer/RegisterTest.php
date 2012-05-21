@@ -62,8 +62,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('customer_account_register',
-                                    array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -117,12 +116,12 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         //Data
         $password = $this->generate('string', 255, ':alnum:');
-        $userData = $this->loadData('customer_account_register',
-                                    array('first_name'           => $this->generate('string', 255, ':alnum:'),
-                                         'last_name'             => $this->generate('string', 255, ':alnum:'),
-                                         'email'                 => $this->generate('email', 128, 'valid'),
-                                         'password'              => $password,
-                                         'password_confirmation' => $password));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array('first_name'            => $this->generate('string', 255, ':alnum:'),
+                  'last_name'             => $this->generate('string', 255, ':alnum:'),
+                  'email'                 => $this->generate('email', 128, 'valid'),
+                  'password'              => $password,
+                  'password_confirmation' => $password,));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -131,7 +130,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->navigate('edit_account_info');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, null, array('password', 'password_confirmation')),
-                          $this->getParsedMessages());
+            $this->getParsedMessages());
     }
 
     /**
@@ -156,28 +155,25 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($field, $messageCount)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', array($field => '%noValue%'));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', array($field => '%noValue%'));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->addParameter('fieldXpath', $this->_getControlXpath('field', $field));
+        $fieldset = $this->getCurrentUimapPage()->findFieldset('account_info');
+        $xpath = $fieldset->findField($field);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array(
-            array('first_name', 1),
-            array('last_name', 1),
-            array('email', 1),
-            array('password', 2),
-            array('password_confirmation', 1),
-        );
+        return array(array('first_name', 1), array('last_name', 1), array('email', 1), array('password', 2),
+                     array('password_confirmation', 1));
     }
 
     /**
-     * <p>Customer registration. Fill in all required fields by using special characters(except the field "email").</p>
+     * <p> Customer registration. Fill in all required fields by using special characters(except the field "email").</p>
      * <p>Steps:</p>
      * <p>1. Navigate to 'Login or Create an Account' page.</p>
      * <p>2. Click 'Register' button.</p>
@@ -195,12 +191,12 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         //Data
         $password = $this->generate('string', 25, ':punct:');
-        $userData = $this->loadData('customer_account_register',
-                                    array('first_name'           => $this->generate('string', 25, ':punct:'),
-                                         'last_name'             => $this->generate('string', 25, ':punct:'),
-                                         'email'                 => $this->generate('email', 20, 'valid'),
-                                         'password'              => $password,
-                                         'password_confirmation' => $password));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array('first_name'            => $this->generate('string', 25, ':punct:'),
+                  'last_name'             => $this->generate('string', 25, ':punct:'),
+                  'email'                 => $this->generate('email', 20, 'valid'),
+                  'password'              => $password,
+                  'password_confirmation' => $password,));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -229,8 +225,12 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withLongValuesNotValid($fieldName)
     {
         //Data
-        $userData = $this->loadData('customer_account_register',
-                                    array($fieldName => $this->generate('string', 256, ':alnum:')));
+        $type = 'string';
+        if ($fieldName == 'email') {
+            $type = 'email';
+        }
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array($fieldName => $this->generate($type, 256, ':alnum:')));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         $this->navigate('edit_account_info');
@@ -244,35 +244,9 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         return array(
             array('first_name'),
-            array('last_name')
+            array('last_name'),
+            array('email'),
         );
-    }
-
-    /**
-     * <p> Customer registration. Fill in only required fields. Use value that is greater than the allowable.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to 'Login or Create an Account' page.</p>
-     * <p>2. Click 'Register' button.</p>
-     * <p>3. Fill in one field by using value that is greater than the allowable.</p>
-     * <p>4. Fill other required fields by regular data.</p>
-     * <p>5. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not registered.</p>
-     * <p>Error Message is displayed.</p>
-     *
-     * @test
-     * @depends withRequiredFieldsOnly
-     * @TestlinkId TL-MAGE-3243
-     */
-    public function withLongEmailNotValid()
-    {
-        //Data
-        $userData = $this->loadData('customer_account_register',
-                                    array('email' => $this->generate('email', 256, 'valid')));
-        //Steps
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('error', "not_valid_length_email");
     }
 
     /**
@@ -297,7 +271,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withInvalidEmail($invalidEmail)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $invalidEmail);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', $invalidEmail);
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -336,7 +310,7 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withInvalidPassword($invalidPassword, $errorMessage)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $invalidPassword);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', $invalidPassword);
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -346,10 +320,8 @@ class Enterprise_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withInvalidPasswordDataProvider()
     {
         return array(
-            array(array('password'              => 12345,
-                        'password_confirmation' => 12345), 'short_passwords'),
-            array(array('password'              => 1234567,
-                        'password_confirmation' => 12345678), 'passwords_not_match'),
+            array(array('password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),
+            array(array('password' => 1234567, 'password_confirmation' => 12345678), 'passwords_not_match'),
         );
     }
 }

@@ -57,13 +57,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @TestlinkId	TL-MAGE-3245
+     * @TestlinkId TL-MAGE-3245
      */
     public function withRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('customer_account_register',
-                array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -88,7 +87,7 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3239
+     * @TestlinkId TL-MAGE-3239
      */
     public function withEmailThatAlreadyExists(array $userData)
     {
@@ -111,22 +110,18 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3242
+     * @TestlinkId TL-MAGE-3242
      */
     public function withLongValues()
     {
         //Data
         $password = $this->generate('string', 255, ':alnum:');
-        $userData = $this->loadData(
-                'customer_account_register',
-                array(
-                    'first_name'            => $this->generate('string', 255, ':alnum:'),
-                    'last_name'             => $this->generate('string', 255, ':alnum:'),
-                    'email'                 => $this->generate('email', 128, 'valid'),
-                    'password'              => $password,
-                    'password_confirmation' => $password,
-                )
-        );
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array('first_name'            => $this->generate('string', 255, ':alnum:'),
+                  'last_name'             => $this->generate('string', 255, ':alnum:'),
+                  'email'                 => $this->generate('email', 128, 'valid'),
+                  'password'              => $password,
+                  'password_confirmation' => $password,));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -135,7 +130,7 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->navigate('edit_account_info');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, null, array('password', 'password_confirmation')),
-                $this->getParsedMessages());
+            $this->getParsedMessages());
     }
 
     /**
@@ -155,12 +150,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3244
+     * @TestlinkId TL-MAGE-3244
      */
     public function withRequiredFieldsEmpty($field, $messageCount)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', array($field => '%noValue%'));
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', array($field => '%noValue%'));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -173,13 +168,8 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array(
-            array('first_name', 1),
-            array('last_name', 1),
-            array('email', 1),
-            array('password', 2),
-            array('password_confirmation', 1)
-        );
+        return array(array('first_name', 1), array('last_name', 1), array('email', 1), array('password', 2),
+                     array('password_confirmation', 1));
     }
 
     /**
@@ -195,22 +185,18 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3246
+     * @TestlinkId TL-MAGE-3246
      */
     public function withSpecialCharacters()
     {
         //Data
         $password = $this->generate('string', 25, ':punct:');
-        $userData = $this->loadData(
-                'customer_account_register',
-                array(
-                    'first_name'            => $this->generate('string', 25, ':punct:'),
-                    'last_name'             => $this->generate('string', 25, ':punct:'),
-                    'email'                 => $this->generate('email', 20, 'valid'),
-                    'password'              => $password,
-                    'password_confirmation' => $password,
-                )
-        );
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array('first_name'            => $this->generate('string', 25, ':punct:'),
+                  'last_name'             => $this->generate('string', 25, ':punct:'),
+                  'email'                 => $this->generate('email', 20, 'valid'),
+                  'password'              => $password,
+                  'password_confirmation' => $password,));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -229,32 +215,30 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * <p>Customer is not registered.</p>
      * <p>Error Message is displayed.</p>
      *
-     * @param array $longValue
+     * @param string $fieldName
      *
      * @test
      * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3243
+     * @TestlinkId TL-MAGE-3243
      */
-    public function withLongValuesNotValid($longValue)
+    public function withLongValuesNotValid($fieldName)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $longValue);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register',
+            array($fieldName => $this->generate('string', 256, ':alnum:')));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        foreach ($longValue as $key => $value) {
-            $fieldName = $key;
-        }
         $this->assertMessagePresent('error', "not_valid_length_$fieldName");
     }
 
     public function withLongValuesNotValidDataProvider()
     {
         return array(
-            array(array('first_name' => $this->generate('string', 256, ':alnum:'))),
-            array(array('last_name' => $this->generate('string', 256, ':alnum:'))),
-            array(array('email' => $this->generate('email', 256, 'valid'))),
+            array('first_name'),
+            array('last_name'),
+            array('email'),
         );
     }
 
@@ -275,12 +259,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidEmailDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3240
+     * @TestlinkId TL-MAGE-3240
      */
     public function withInvalidEmail($invalidEmail)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $invalidEmail);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', $invalidEmail);
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
@@ -314,12 +298,12 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withInvalidPasswordDataProvider
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3241
+     * @TestlinkId TL-MAGE-3241
      */
     public function withInvalidPassword($invalidPassword, $errorMessage)
     {
         //Data
-        $userData = $this->loadData('customer_account_register', $invalidPassword);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register', $invalidPassword);
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying

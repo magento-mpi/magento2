@@ -43,7 +43,6 @@ class Enterprise_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -57,18 +56,18 @@ class Enterprise_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3237
+     * @TestlinkId TL-MAGE-3237
      */
     public function single()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         //Preconditions
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $param = $userData['first_name'] .' '.$userData['last_name'];
+        $param = $userData['first_name'] . ' ' . $userData['last_name'];
         $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
@@ -88,15 +87,16 @@ class Enterprise_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3238
+     * @TestlinkId TL-MAGE-3238
      */
     public function throughMassAction()
     {
         $customerQty = 2;
         for ($i = 1; $i <= $customerQty; $i++) {
             //Data
-            $userData = $this->loadData('generic_customer_account', null, 'email');
-            ${'searchData' . $i} = $this->loadData('search_customer', array('email' => $userData['email']));
+            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+            ${'searchData' . $i} =
+                $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
             //Steps
             $this->customerHelper()->createCustomer($userData);
             $this->assertMessagePresent('success', 'success_saved_customer');

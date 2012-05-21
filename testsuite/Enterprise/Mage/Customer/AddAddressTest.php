@@ -45,7 +45,6 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->addParameter('id', '0');
         $this->addParameter('customer_first_last_name', self::$_customerTitleParameter);
     }
 
@@ -55,11 +54,11 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @return array
      * @test
      */
-    public function createCustomerTest()
+    public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', null, 'email');
-        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
@@ -84,14 +83,14 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
-     * @TestlinkId	TL-MAGE-3604
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3604
      */
     public function withRequiredFieldsOnly(array $searchData)
     {
         //Data
 
-        $addressData = $this->loadData('generic_address');
+        $addressData = $this->loadDataSet('Customers', 'generic_address');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
@@ -116,20 +115,19 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
+     * @depends preconditionsForTests
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
-     * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
         //Data
         if ($emptyField != 'country') {
-            $addressData = $this->loadData('generic_address', array($emptyField => ''));
+            $addressData = $this->loadDataSet('Customers', 'generic_address', array($emptyField => ''));
         } else {
-            $addressData = $this->loadData('generic_address', array($emptyField => '',
-                                                                   'state'      => '%noValue%'));
+            $addressData = $this->loadDataSet('Customers', 'generic_address', array($emptyField => '',
+                                                                                    'state'     => '%noValue%'));
         }
         //Steps
         $this->customerHelper()->openCustomer($searchData);
@@ -181,30 +179,13 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
-     * @TestlinkId	TL-MAGE-3605
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3605
      */
     public function withSpecialCharactersExceptCountry(array $searchData)
     {
         //Data
-        $specialCharacters = array(
-            'prefix'                => $this->generate('string', 32, ':punct:'),
-            'first_name'            => $this->generate('string', 32, ':punct:'),
-            'middle_name'           => $this->generate('string', 32, ':punct:'),
-            'last_name'             => $this->generate('string', 32, ':punct:'),
-            'suffix'                => $this->generate('string', 32, ':punct:'),
-            'company'               => $this->generate('string', 32, ':punct:'),
-            'street_address_line_1' => $this->generate('string', 32, ':punct:'),
-            'street_address_line_2' => $this->generate('string', 32, ':punct:'),
-            'city'                  => $this->generate('string', 32, ':punct:'),
-            'country'               => 'Ukraine',
-            'state'                 => '%noValue%',
-            'region'                => $this->generate('string', 32, ':punct:'),
-            'zip_code'              => $this->generate('string', 32, ':punct:'),
-            'telephone'             => $this->generate('string', 32, ':punct:'),
-            'fax'                   => $this->generate('string', 32, ':punct:')
-        );
-        $addressData = $this->loadData('generic_address', $specialCharacters);
+        $addressData = $this->loadDataSet('Customers', 'special_char_address');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
@@ -234,30 +215,13 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
-     * @TestlinkId	TL-MAGE-3603
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3603
      */
     public function withLongValuesExceptCountry(array $searchData)
     {
         //Data
-        $longValues = array(
-            'prefix'                => $this->generate('string', 255, ':alnum:'),
-            'first_name'            => $this->generate('string', 255, ':alnum:'),
-            'middle_name'           => $this->generate('string', 255, ':alnum:'),
-            'last_name'             => $this->generate('string', 255, ':alnum:'),
-            'suffix'                => $this->generate('string', 255, ':alnum:'),
-            'company'               => $this->generate('string', 255, ':alnum:'),
-            'street_address_line_1' => $this->generate('string', 255, ':alnum:'),
-            'street_address_line_2' => $this->generate('string', 255, ':alnum:'),
-            'city'                  => $this->generate('string', 255, ':alnum:'),
-            'country'               => 'Ukraine',
-            'state'                 => '%noValue%',
-            'region'                => $this->generate('string', 255, ':alnum:'),
-            'zip_code'              => $this->generate('string', 255, ':alnum:'),
-            'telephone'             => $this->generate('string', 255, ':alnum:'),
-            'fax'                   => $this->generate('string', 255, ':alnum:')
-        );
-        $addressData = $this->loadData('generic_address', $longValues);
+        $addressData = $this->loadDataSet('Customers', 'long_values_address');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
@@ -287,13 +251,13 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
-     * @TestlinkId	TL-MAGE-3601
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3601
      */
     public function withDefaultBillingAddress(array $searchData)
     {
         //Data
-        $addressData = $this->loadData('all_fields_address', array('default_shipping_address' => 'No'));
+        $addressData = $this->loadDataSet('Customers', 'all_fields_address', array('default_shipping_address' => 'No'));
         //Steps
         // 1.Open customer
         $this->customerHelper()->openCustomer($searchData);
@@ -324,12 +288,12 @@ class Enterprise_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @param array $searchData
      *
      * @test
-     * @depends createCustomerTest
-     * @TestlinkId	TL-MAGE-3602
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3602
      */
     public function withDefaultShippingAddress(array $searchData)
     {
-        $addressData = $this->loadData('all_fields_address', array('default_billing_address' => 'No'));
+        $addressData = $this->loadDataSet('Customers', 'all_fields_address', array('default_billing_address' => 'No'));
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
