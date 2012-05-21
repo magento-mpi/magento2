@@ -82,7 +82,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
             $this->_getSession()->addError(
                 Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
             );
-            $this->_redirect('*/*/forgotpassword', array('_nosecret' => true));
+            $this->_redirect('*/auth/forgotpassword', array('_nosecret' => true));
         }
     }
 

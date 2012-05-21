@@ -63,6 +63,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      *
      * @covers Mage_User_Adminhtml_AuthController::resetPasswordAction
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
+     * @magentoDataFixture emptyDataFixture
      */
     public function testResetPasswordRedirectionWithIncorrectTokenAction()
     {
@@ -76,6 +77,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     /**
      * @covers Mage_User_Adminhtml_AuthController::resetPasswordPostAction
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
+     * @magentoDataFixture emptyDataFixture
      */
     public function testResetPasswordPostAction()
     {
@@ -84,5 +86,15 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
         $this->dispatch('admin/auth/resetPasswordPost');
         $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
         $this->_logout();
+    }
+
+    /**
+     * Empty data fixture to provide support of transaction
+     * @static
+     *
+     */
+    public static function emptyDataFixture()
+    {
+
     }
 }
