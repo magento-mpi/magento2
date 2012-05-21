@@ -120,14 +120,4 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringEndsWith('index.php/admin/', $this->_helper->getHomePageUrl(), 'Incorrect home page URL');
     }
-
-    public function testGetStartupPageUrl()
-    {
-        $this->_login();
-        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
-        $actual = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl($this->_helper->getStartupPageUrl());
-        $this->assertStringStartsWith($expected, $actual, 'Incorrect startup page URL');
-        $this->_logout();
-    }
-
 }

@@ -59,10 +59,12 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     }
 
     /**
+     * Test redirection with posting of incorrect token
+     *
      * @covers Mage_User_Adminhtml_AuthController::resetPasswordAction
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
      */
-    public function testResetPasswordAction()
+    public function testResetPasswordRedirectionWithIncorrectTokenAction()
     {
         $this->_login();
         $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);

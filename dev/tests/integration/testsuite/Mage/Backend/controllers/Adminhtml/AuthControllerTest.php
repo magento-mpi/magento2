@@ -70,20 +70,11 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testLoggedLoginAction()
     {
         $this->_login();
+
         $this->dispatch('admin/auth/login');
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
-        try {
-            foreach ($this->getResponse()->getHeaders() as $header) {
-                if ($header['name'] == 'Location') {
-                    $this->assertStringStartsWith($expected, $header['value'], 'Incorrect startup page url');
-                    throw new Exception('Correct');
-                }
-            }
-            $this->fail('There is no redirection to startup page');
-        } catch (Exception $e) {
-            $this->assertEquals('Correct', $e->getMessage());
-            $this->assertRedirect();
-        }
+        $this->assertRedirect($expected, self::MODE_START_WITH);
+
         $this->_logout();
     }
 
@@ -109,43 +100,13 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     }
 
     /**
-     * Check login redirection
-     * @covers Mage_Backend_Controller_ActionAbstract::_performLogin
-     */
-    public function testPerformLogin()
-    {
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
-        $postLogin = array('login' => array(
-            'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
-        ));
-        $this->getRequest()->setPost($postLogin);
-
-        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
-        $this->dispatch($expected);
-        try {
-            foreach ($this->getResponse()->getHeaders() as $header) {
-                if ($header['name'] == 'Location') {
-                    $this->assertContains('admin/system_account/index', $header['value'], 'Incorrect page url');
-                    throw new Exception('Correct');
-                }
-            }
-            $this->fail('There is no redirection to specified page');
-        } catch (Exception $e) {
-            $this->assertEquals('Correct', $e->getMessage());
-            $this->assertRedirect();
-        }
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
-    }
-
-    /**
      * @covers Mage_Backend_Adminhtml_AuthController::logoutAction
      */
     public function testLogoutAction()
     {
         $this->_login();
         $this->dispatch('admin/auth/logout');
-        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl(), self::MODE_EQUALS);
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
     }
 

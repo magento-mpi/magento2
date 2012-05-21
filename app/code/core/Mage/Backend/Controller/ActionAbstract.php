@@ -160,7 +160,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
+                $this->_redirect(Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl());
             }
             return $this;
         }
@@ -225,8 +225,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             }
             if (!$auth->isLoggedIn()) {
                 $isRedirectNeeded = false;
-                if ($request->getPost('login')) {
-                    $this->_performLogin($isRedirectNeeded);
+                if ($request->getPost('login') && $this->_performLogin()) {
+                    $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
                 }
                 if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
                     if ($request->getParam('isIframe')) {
@@ -256,13 +256,11 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     /**
      * Performs login, if user submitted login form
      *
-     * @param bool $isRedirectNeeded
-     * @return Mage_Backend_Controller_ActionAbstract
+     * @return boolean
      */
-    protected function _performLogin(&$isRedirectNeeded)
+    protected function _performLogin()
     {
-        $isRedirectNeeded = false;
-
+        $outputValue = true;
         $postLogin  = $this->getRequest()->getPost('login');
         $username   = isset($postLogin['username']) ? $postLogin['username'] : '';
         $password   = isset($postLogin['password']) ? $postLogin['password'] : '';
@@ -270,17 +268,16 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
 
         try {
             Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
-            $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
         } catch (Mage_Backend_Model_Auth_Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
                 Mage::getSingleton('Mage_Backend_Model_Session')->addError(
                     Mage::helper('Mage_Backend_Helper_Data')->__('Invalid User Name or Password.')
                 );
                 $this->getRequest()->setParam('messageSent', true);
+                $outputValue = false;
             }
         }
-
-        return $this;
+        return $outputValue;
     }
 
     /**
@@ -338,9 +335,9 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     }
 
     /**
-     * Set referer url for redirect in responce
+     * Set referrer url for redirect in response
      *
-     * Is overriden here to set defaultUrl to admin url
+     * Is overridden here to set defaultUrl to admin url
      *
      * @param   string $defaultUrl
      * @return Mage_Backend_Controller_ActionAbstract
@@ -353,7 +350,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     }
 
     /**
-     * Set redirect into responce
+     * Set redirect into response
      *
      * @param   string $path
      * @param   array $arguments
@@ -444,11 +441,11 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @return Mage_Backend_Controller_ActionAbstract
      */
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
-                                                $contentLength = null
+        $contentLength = null
     ) {
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         if ($session->isFirstPageAfterLogin()) {
-            $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
+            $this->_redirect(Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl());
             return $this;
         }
         return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);

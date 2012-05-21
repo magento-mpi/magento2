@@ -22,12 +22,12 @@ class Mage_Backend_Adminhtml_AuthController extends Mage_Backend_Controller_Acti
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
-            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        if ($session->isLoggedIn()) {
             if ($session->isFirstPageAfterLogin()) {
                 $session->setIsFirstPageAfterLogin(true);
             }
-            $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
+            $this->_redirect(Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl());
             return;
         }
 

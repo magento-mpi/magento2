@@ -23,6 +23,6 @@ class Mage_Backend_Adminhtml_IndexController extends Mage_Backend_Controller_Act
      */
     public function indexAction()
     {
-        $this->_redirect(Mage::helper('Mage_Backend_Helper_Data')->getStartupPageUrl());
+        $this->_redirect(Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl());
     }
 }
