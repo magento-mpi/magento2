@@ -34,6 +34,13 @@
  */
 class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+    }
+
     public function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -54,7 +61,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @return array $website
      * @test
      */
-    public function createWebsite()
+    public function preconditionsCreateWebsite()
     {
         //Preconditions
         $this->navigate('system_configuration');
@@ -73,7 +80,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>Creating Simple products</p>
      *
      * @param $website
-     * @depends createWebsite
+     * @depends preconditionsCreateWebsite
      * @test
      * @return array $productData
      */
@@ -97,7 +104,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     /**
      * <p>Create Customer</p>
      *
-     * @depends createWebsite
+     * @depends preconditionsCreateWebsite
      * @param array $website
      * @return array $userData
      * @test
@@ -141,7 +148,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * <p>Create GiftWrapping</p>
      *
      * @param $website
-     * @depends createWebsite
+     * @depends preconditionsCreateWebsite
      * @return array $giftWrappingData
      * @test
      */
@@ -164,7 +171,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @param $productName
      * @param $productGiftSettings
      */
-    public function updateProductGiftOptions($productName, $productGiftSettings)
+    private function _updateProductGiftOptions($productName, $productGiftSettings)
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -232,7 +239,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
                   'message'                     => $giftMsg['gift_message']['item_gift_message']));
         $vrfGiftData = $this->clearDataArray($vrfGiftData);
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_yes_wrapping_yes');
+        $this->_updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_yes_wrapping_yes');
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -283,7 +290,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_no_wrapping_no');
+        $this->_updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_no_wrapping_no');
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
@@ -291,8 +298,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
         //Verification
         if ($this->controlIsPresent('checkbox', 'add_gift_options')) {
-            $xpath = $this->_getControlXpath('checkbox', 'add_gift_options');
-            $this->assertFalse($this->isVisible($xpath), '"Add gift options checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox', 'add_gift_options'),
+                '"Add gift options" checkbox is visible');
         }
     }
 
@@ -335,7 +342,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_no_wrapping_no');
+        $this->_updateProductGiftOptions($products[0]['general_name'], 'gift_options_message_no_wrapping_no');
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
@@ -345,12 +352,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         //Verification
         $this->addParameter('productName', $products[0]['general_name']);
         if ($this->controlIsPresent('checkbox', 'gift_option_for_item')) {
-            $xpath = $this->_getControlXpath('checkbox', 'gift_option_for_item');
-            $this->assertFalse($this->isVisible($xpath), '"Add gift options" for the Item checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox', 'gift_option_for_item'),
+                '"Add gift options" for the Item checkbox is visible');
         }
         if ($this->controlIsPresent('link', 'item_gift_message')) {
-            $xpath = $this->_getControlXpath('link', 'item_gift_message');
-            $this->assertFalse($this->isVisible($xpath), '"Gift Message" link is visible'  );
+            $this->assertFalse($this->controlIsVisible('link', 'item_gift_message'),
+                '"Gift Message" link is visible'  );
         }
     }
 
@@ -391,7 +398,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function giftOptionsOnProductLevelSetToNoCase3Case4($productGiftOptions, $assert, $products, $userData)
     {
         //Preconditions
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
@@ -401,7 +407,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], $productGiftOptions);
+        $this->_updateProductGiftOptions($products[0]['general_name'], $productGiftOptions);
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
@@ -466,7 +472,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
     public function giftOptionsOnProductLevelSetToNoCase5Case6($sysSettings, $productGiftOptions, $products, $userData)
     {
         //Preconditions
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure($sysSettings);
@@ -477,8 +482,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
         unset($checkoutData['shipping_data']);
         unset($checkoutData['payment_data']);
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], $productGiftOptions[0]);
-        $this->updateProductGiftOptions($products[1]['general_name'], $productGiftOptions[1]);
+        $this->_updateProductGiftOptions($products[0]['general_name'], $productGiftOptions[0]);
+        $this->_updateProductGiftOptions($products[1]['general_name'], $productGiftOptions[1]);
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);
@@ -573,8 +578,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
 
             ));
         //Steps
-        $this->updateProductGiftOptions($products[0]['general_name'], $productGiftOptions);
-        $this->updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_no_wrapping_yes');
+        $this->_updateProductGiftOptions($products[0]['general_name'], $productGiftOptions);
+        $this->_updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_no_wrapping_yes');
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -635,7 +640,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
      * @param $giftWrappingData
      * @depends preconditionsCreateProduct
      * @depends preconditionsCreateCustomerForWebsite
-     * @depends createWebsite
+     * @depends preconditionsCreateWebsite
      * @depends preconditionsGiftWrapping
      * @test
      */
@@ -668,7 +673,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftOptionsProductLevelTest e
 
             ));
         //Steps
-        $this->updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_yes_wrapping_yes');
+        $this->_updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_yes_wrapping_yes');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_name' => $products[0]['general_name']));
         $this->chooseOkOnNextConfirmation();
