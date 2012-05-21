@@ -20,8 +20,6 @@ $scenarioFiles = $config['scenario_files'];
 $scenarioParams = $config['scenario_params'];
 $fixtures = $config['fixtures'];
 $reportDir = isset($config['report_dir']) ? $config['report_dir'] : __DIR__ . '/report';
-$dryRunLogFile = $reportDir . '/jmeter_dry_run.log';
-$runLogFile = $reportDir . '/jmeter.log';
 
 /* Validate scenarios existence */
 foreach ($scenarioFiles as $scenarioFile) {
@@ -71,7 +69,7 @@ foreach ($fixtures as $fixture) {
 /* Execute each scenario couple times to populate cache (if any) before measuring performance */
 $scenarioDryRunParams = array_merge($scenarioParams, array('users' => 1, 'loops' => 2));
 foreach ($scenarioFiles as $scenarioFile) {
-    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioDryRunParams, $dryRunLogFile);
+    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioDryRunParams);
     passthru($scenarioCmd, $exitCode);
     if ($exitCode) {
         exit($exitCode);
@@ -82,7 +80,7 @@ foreach ($scenarioFiles as $scenarioFile) {
 $failures = array();
 foreach ($scenarioFiles as $scenarioFile) {
     $scenarioLogFile = $reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
-    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioParams, $runLogFile, $scenarioLogFile);
+    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioParams, $scenarioLogFile);
     passthru($scenarioCmd, $exitCode);
     if ($exitCode) {
         exit($exitCode);
@@ -117,17 +115,11 @@ if ($failures) {
  * @param string $jMeterExecutable
  * @param string $testPlanFile
  * @param array $localProperties
- * @param string|null $runLogFile
  * @param string|null $sampleLogFile
  * @return string
  */
-function buildJMeterCmd(
-    $jMeterExecutable, $testPlanFile, array $localProperties = array(), $runLogFile = null, $sampleLogFile = null
-) {
+function buildJMeterCmd($jMeterExecutable, $testPlanFile, array $localProperties = array(), $sampleLogFile = null) {
     $result = $jMeterExecutable . ' -n -t ' . escapeshellarg($testPlanFile);
-    if ($runLogFile) {
-        $result .= ' -j ' . escapeshellarg($runLogFile);
-    }
     if ($sampleLogFile) {
         $result .= ' -l ' . escapeshellarg($sampleLogFile);
     }
