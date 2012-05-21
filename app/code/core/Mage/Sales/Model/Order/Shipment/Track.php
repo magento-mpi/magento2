@@ -183,7 +183,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      * Retains previous data in the object.
      *
      * @param array $arr
-     * @return Varien_Object
+     * @return Mage_Sales_Model_Order_Shipment_Track
      */
     public function addData(array $arr)
     {

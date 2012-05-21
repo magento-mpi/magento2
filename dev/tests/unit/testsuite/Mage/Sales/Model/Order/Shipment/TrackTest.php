@@ -26,10 +26,9 @@ class Mage_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCa
         $number = 123;
 
         $this->_model->addData(array(
-                'number' => $number,
-                'test' => true
-            )
-        );
+            'number' => $number,
+            'test' => true
+        ));
 
         $this->assertTrue($this->_model->getTest());
         $this->assertEquals($number, $this->_model->getTrackNumber());
