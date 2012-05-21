@@ -65,7 +65,7 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_user_Model_Rules::saveRel
+     * @covers Mage_User_Model_Rules::saveRel
      * @magentoDataFixture emptyFixture
      */
     public function testSetAllowForAllResources()

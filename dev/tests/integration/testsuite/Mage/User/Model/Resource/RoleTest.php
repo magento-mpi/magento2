@@ -1,5 +1,17 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_User
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
+/**
+ * Role resource test
+ */
 class Mage_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
 {
     public function testGetRoleUsers()

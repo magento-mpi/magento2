@@ -1,5 +1,16 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_User
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
+/**
+ * Role user collection test
+ */
 class Mage_User_Model_Resource_Role_User_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
