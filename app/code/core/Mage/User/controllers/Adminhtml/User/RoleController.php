@@ -76,7 +76,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
     public function roleGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.role.grid')->toHtml());
+        $this->renderLayout();
     }
 
     /**

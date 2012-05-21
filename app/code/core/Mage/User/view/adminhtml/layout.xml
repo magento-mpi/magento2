@@ -50,7 +50,7 @@
 
     <adminhtml_user_role_rolegrid>
         <remove name="root"/>
-        <block type="Mage_User_Block_Role_Grid" name="adminhtml.permission.role.grid"/>
+        <block type="Mage_User_Block_Role_Grid" name="adminhtml.permission.role.grid" output="1"/>
     </adminhtml_user_role_rolegrid>
 
     <!-- admin acl roles edit page -->
