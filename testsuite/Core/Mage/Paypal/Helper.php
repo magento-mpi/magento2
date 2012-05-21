@@ -261,7 +261,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalSandboxLogin($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
@@ -282,7 +284,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalSandboxConfigure($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->addParameter('pageTitle', $parameters['page_title']);
         $this->validatePage();
@@ -301,7 +305,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalPayOrder($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if (!$this->isElementPresent($xpath)) {

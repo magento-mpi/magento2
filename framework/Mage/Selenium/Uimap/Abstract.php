@@ -53,6 +53,7 @@
  * @method Mage_Selenium_Uimap_ElementsCollection getAllMultiselects()
  * @method Mage_Selenium_Uimap_ElementsCollection getAllPageelements()
  * @method Mage_Selenium_Uimap_ElementsCollection getAllRadiobuttons()
+ * @method Mage_Selenium_Uimap_ElementsCollection getAllRequired()
  * @method Mage_Selenium_Uimap_ElementsCollection getAllTabs()
  * @method Mage_Selenium_Uimap_ElementsCollection getCheckboxes()
  * @method Mage_Selenium_Uimap_ElementsCollection getButtons()

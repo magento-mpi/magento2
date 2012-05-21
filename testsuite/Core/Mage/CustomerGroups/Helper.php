@@ -43,9 +43,10 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
     public function createCustomerGroup($customerGroupData)
     {
         if (is_string($customerGroupData)) {
-            $customerGroupData = $this->loadData($customerGroupData);
+            $elements = explode('/', $customerGroupData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $customerGroupData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $customerGroupData = $this->arrayEmptyClear($customerGroupData);
         $this->clickButton('add_new_customer_group');
         $this->fillForm($customerGroupData);
         $this->saveForm('save_customer_group');
@@ -59,9 +60,10 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
     public function openCustomerGroup($searchData)
     {
         if (is_string($searchData)) {
-            $searchData = $this->loadData($searchData);
+            $elements = explode('/', $searchData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $searchData = $this->arrayEmptyClear($searchData);
         $xpathTR = $this->search($searchData, 'customer_group_grid');
         $this->assertNotNull($xpathTR, 'Customer Group is not found');
         $cellId = $this->getColumnIdByName('Group Name');

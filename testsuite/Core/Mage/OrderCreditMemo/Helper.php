@@ -43,7 +43,6 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
      */
     public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array())
     {
-        $creditMemoData = $this->arrayEmptyClear($creditMemoData);
         $verify = array();
         $this->addParameter('invoice_id', $this->getParameter('id'));
         $this->clickButton('credit_memo');

@@ -96,7 +96,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      */
     public function createOrder($orderData, $validate = true)
     {
-        $orderData = $this->arrayEmptyClear($orderData);
         $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : null;
         $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : null;
         $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
@@ -165,7 +164,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
         if (is_string($addressData)) {
-            $addressData = $this->loadData($addressData);
+            $elements = explode('/', $addressData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $addressData = $this->loadDataSet($fileName, implode('/', $elements));
         }
 
         if ($addressChoice == 'sameAsBilling') {
@@ -282,6 +283,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $configure = array();
         $additionalData = array();
+        $productSku = '';
         foreach ($productData as $key => $value) {
             if (!preg_match('/^filter_/', $key)) {
                 $additionalData[$key] = $value;
@@ -385,7 +387,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function selectPaymentMethod($paymentMethod, $validate = true)
     {
         if (is_string($paymentMethod)) {
-            $paymentMethod = $this->loadData($paymentMethod);
+            $elements = explode('/', $paymentMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $paymentMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
@@ -459,7 +463,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function selectShippingMethod($shippingMethod, $validate = true)
     {
         if (is_string($shippingMethod)) {
-            $shippingMethod = $this->loadData($shippingMethod);
+            $elements = explode('/', $shippingMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
@@ -511,7 +517,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
         } else {
             if (is_string($customerData)) {
-                $customerData = $this->loadData($customerData);
+                $elements = explode('/', $customerData);
+                $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+                $customerData = $this->loadDataSet($fileName, implode('/', $elements));
             }
             $this->searchAndOpen($customerData, false, 'order_customer_grid');
         }

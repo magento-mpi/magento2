@@ -42,7 +42,6 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
      */
     public function createShipmentAndVerifyProductQty(array $shipmentData = array())
     {
-        $shipmentData = $this->arrayEmptyClear($shipmentData);
         $verify = array();
 
         $this->clickButton('ship');

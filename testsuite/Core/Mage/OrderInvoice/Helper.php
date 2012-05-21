@@ -43,7 +43,6 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
      */
     public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
     {
-        $invoiceData = $this->arrayEmptyClear($invoiceData);
         $verify = array();
         $this->clickButton('invoice');
         foreach ($invoiceData as $options) {
@@ -104,9 +103,10 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
     public function openInvoice($searchData)
     {
         if (is_string($searchData)) {
-            $searchData = $this->loadData($searchData);
+            $elements = explode('/', $searchData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $searchData = $this->arrayEmptyClear($searchData);
         $xpathTR = $this->search($searchData, 'sales_invoice_grid');
         $this->assertNotEquals(null, $xpathTR, 'Invoice is not found');
         $text = $this->getText($xpathTR . '//td[' . $this->getColumnIdByName('Invoice #') . ']');
