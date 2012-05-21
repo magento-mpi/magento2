@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
+class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Adapter classes for test
@@ -79,7 +79,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFixture($type)
     {
-        $dir  = __DIR__ . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
+        $dir  = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
         $data = glob($dir . $type);
 
         if (!empty($data)) {
@@ -215,7 +215,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $dir = Magento_Test_Bootstrap::getTmpDir() . DIRECTORY_SEPARATOR;
+        $dir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . DIRECTORY_SEPARATOR;
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),
@@ -241,11 +241,15 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
-        $adapter->resize($dims[0], $dims[1]);
-        $this->assertEquals($dims, array(
-            $adapter->getOriginalWidth(),
-            $adapter->getOriginalHeight()
-        ));
+        try {
+            $adapter->resize($dims[0], $dims[1]);
+            $this->assertEquals($dims, array(
+                $adapter->getOriginalWidth(),
+                $adapter->getOriginalHeight()
+            ));
+        } catch (Exception $e) {
+            $this->assertTrue(empty($dims[0]) || empty($dims[1]));
+        }
     }
 
     public function resizeDataProvider()
@@ -254,6 +258,10 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
             array(
                 $this->_getFixture('image_adapters_test.png'),
                 array(150, 70)
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                array(0, 70)
             )
         ));
     }
