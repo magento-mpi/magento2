@@ -134,7 +134,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
                 array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('website_gift_message_yes_wrapping_no');
+        $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -167,7 +167,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
                 array('filter_sku' => $simpleSku));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('website_gift_message_no_wrapping_yes');
+        $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -175,6 +175,60 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
         $this->assertTrue($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'), 'Cannot find the block');
     }
+
+    /**
+     * <p>TL-MAGE-834:Gift Wrapping for entire Order is allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "No"</p>
+     * <p>2. At least one Gift Wrapping is created and enabled (for example, with Price $10 and image specified)</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Add any product to Items Ordered list (for example: Simple Product)</p>
+     * <p>4. Select any shipping method (for example: Free Shipping), any payment method</p>
+     * <p>(for example: Check/Money order), shipping/billing addresses</p>
+     * <p>5. Look at Gift Options block of create Order page</p>
+     * <p>6. In Gift Options block with "Gift Wrapping Design" dropdown - select Gift Wrapping (from Preconditions)
+     * <p>7. Click "Submit Order" button. When Order is placed, look at Gift Options block</p>
+     * <p>Expected result:</p>
+     * <p>5. Dropdown for Gift Wrapping selection with title "Gift Wrapping Design" is present on "Gift Options"</p>
+     * <p>block of page;</p>
+     * <p>6. Image and price for selected Gift Wrapping should appear  below dropdown ("Price: $10.00" </p>
+     * <p>in this example) and in Order Totals block ("Gift Wrapping for Order: $10.00" in this example);</p>
+     * <p>7. Order should be placed placed, Order View page should be opened. Order Totals block of page should</p>
+     * <p>contain information about Gift Wrapping for entire Order with price ("Gift Wrapping for Order: $10.00"</p>
+     * <p>in this example) and corresponding image</p>
+     *
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
+     * @param array $simpleSku
+     * @param array $gwData
+     *
+     * @test
+     */
+        public function giftWrappingPerOrderAllowed($simpleSku, $gwData)
+        {
+            //Data
+            $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                    array('filter_sku' => $simpleSku,
+                          'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+                    array('order_gift_wrapping_design' => $gwData['gift_wrapping_design']))));
+            //Configuration
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
+            //Steps
+            $this->navigate('manage_sales_orders');
+            $this->orderHelper()->createOrder($orderData, false);
+            $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
+            $this->assertTrue($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'), 'Cannot find the block');
+            $this->orderHelper()->submitOrder();
+            //Verifying
+            $this->assertMessagePresent('success', 'success_created_order');
+            $this->orderHelper()->verifyGiftOptions($orderData);
+        }
+
+
+
 
     /**
      * @TODO Move from MAUTOSEL-259 branch to here
