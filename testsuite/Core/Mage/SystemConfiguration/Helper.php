@@ -43,9 +43,10 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     public function configure($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $parameters = $this->arrayEmptyClear($parameters);
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');

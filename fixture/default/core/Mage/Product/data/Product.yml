@@ -798,11 +798,11 @@ bundle_product_required: *bundle
 # Product that has all needed fields set to be visible in frontend.
 fixed_bundle_visible:
     product_attribute_set: Default
-    general_name: Bundle(Fixed) Product Visible
+    general_name: Bundle(Fixed) Product Visible(%randomize%)
     general_description: Description for Bundle(Fixed) Product Visible
     general_short_description: Short Description for Bundle(Fixed) Product Product Visible
     general_sku_type: Fixed
-    general_sku: bundle_fixed_visible_sku.req
+    general_sku: bundle_fixed_visible_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.999
     general_status: Enabled
@@ -1042,10 +1042,10 @@ duplicate_dynamic_bundle:
 
 grouped_product_required:
     product_attribute_set: Default
-    general_name: Grouped Product Required
+    general_name: Grouped Product Required(%randomize%)
     general_description: Description for Grouped Product Required
     general_short_description: Short Description for Grouped Product Required
-    general_sku: grouped_sku.req
+    general_sku: grouped_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
     associated_grouped_data: *associatedProductsGroupedData
@@ -1277,10 +1277,10 @@ duplicate_configurable:
 
 downloadable_product_required:
     product_attribute_set: Default
-    general_name: Downloadable Product Required
+    general_name: Downloadable Product Required(%randomize%)
     general_description: Description for Downloadable Product Required
     general_short_description: Short Description for Downloadable Product Required
-    general_sku: downloadable_sku.req
+    general_sku: downloadable_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 99.99

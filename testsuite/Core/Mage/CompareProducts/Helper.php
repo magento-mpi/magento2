@@ -71,12 +71,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontClearAll()
     {
-        if(!$this->controlIsPresent('pageelement', 'compare_block_title')) {
+        if (!$this->controlIsPresent('pageelement', 'compare_block_title')) {
             return false;
         }
-        if($this->controlIsPresent('link', 'compare_clear_all')) {
-            return $this->clickControlAndConfirm('link', 'compare_clear_all',
-                            'confirmation_clear_all_from_compare');
+        if ($this->controlIsPresent('link', 'compare_clear_all')) {
+            return $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
         }
         return true;
     }
@@ -93,7 +92,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('productName', $productName);
         return $this->clickControlAndConfirm('link', 'compare_delete_product',
-                        'confirmation_for_removing_product_from_compare');
+            'confirmation_for_removing_product_from_compare');
     }
 
     /**
@@ -168,12 +167,13 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             if (isset($value['remove'])) {
                 unset($value['remove']);
             }
-            $value['product_name'] = trim(preg_replace('/' . preg_quote($value['product_prices']) . '/', '',
-                            $value['product_name']));
-            $value['product_prices'] = trim(preg_replace('#(add to wishlist)|(add to cart)|(\n)#i', ' ',
-                            $value['product_prices']), " \t\n\r\0\x0B");
+            $value['product_name'] =
+                trim(preg_replace('/' . preg_quote($value['product_prices']) . '/', '', $value['product_name']));
+            $value['product_prices'] =
+                trim(preg_replace('#(add to wishlist)|(add to cart)|(\n)#i', ' ', $value['product_prices']),
+                    " \t\n\r\0\x0B");
             preg_match_all('#([a-z (\.)?]+: ([a-z \.]+: )?)?\$([\d]+(\.|,)[\d]+(\.[\d]+)?)|([\d]+)#i',
-                    $value['product_prices'], $prices);
+                $value['product_prices'], $prices);
             $value['product_prices'] = array_map('trim', $prices[0]);
 
             foreach ($value['product_prices'] as $keyPrice => $price) {
@@ -206,6 +206,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      * Preconditions: Compare Products pop-up is opened and selected
      *
      * @param array $verifyData Array of products info to be checked
+     *
      * @return array Array of  error messages if any
      */
     public function frontVerifyProductDataInComparePopup($verifyData)

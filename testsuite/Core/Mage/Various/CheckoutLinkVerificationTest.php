@@ -52,7 +52,7 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
     public function preconditionForTest()
     {
         //Data
-        $productData = $this->loadData('simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
@@ -87,7 +87,7 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
     public function frontendCheckoutLinkVerification($productName)
     {
         //Data
-        $userData = $this->loadData('customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps for Preconditions
         $this->logoutCustomer();
         $this->navigate('customer_login');
