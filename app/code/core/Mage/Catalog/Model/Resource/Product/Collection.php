@@ -313,7 +313,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
     /**
      * Standard resource collection initalization
-     *  Need for child classes
+     * Needed for child classes
      *
      * @param string $model
      * @param string $entityModel
@@ -327,7 +327,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         return parent::_init($model, $entityModel);
     }
 
-
     /**
      * Define product website and category product tables
      *
@@ -335,7 +334,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected function _initTables()
     {
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog_product_website');
-        $this->_productCategoryTable= $this->getResource()->getTable('catalog_category_product');
+        $this->_productCategoryTable = $this->getResource()->getTable('catalog_category_product');
     }
 
     /**
