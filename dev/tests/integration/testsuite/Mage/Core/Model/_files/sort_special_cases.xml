@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layouts>
+    <before_after>
+        <container name="root" label="Root">
+            <block type="Mage_Core_Block_Text" name="element1" before="element2">
+                <action method="setText"><text>1</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element2" after="element3">
+                <action method="setText"><text>2</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element3" after="-">
+                <action method="setText"><text>3</text></action>
+            </block>
+        </container>
+    </before_after>
+    <before_before>
+        <container name="root" label="Root">
+            <block type="Mage_Core_Block_Text" name="element1" before="element3">
+                <action method="setText"><text>1</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element2" before="element1">
+                <action method="setText"><text>2</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element3" before="element_non_existing">
+                <!-- element_non_existing doesn't exist, so element3 is generated at the end -->
+                <action method="setText"><text>3</text></action>
+            </block>
+        </container>
+    </before_before>
+    <after_after>
+        <container name="root" label="Root">
+            <block type="Mage_Core_Block_Text" name="element1" after="element3">
+                <action method="setText"><text>1</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element2" after="element1">
+                <action method="setText"><text>2</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element3" after="element_non_existing">
+                <action method="setText"><text>3</text></action>
+            </block>
+        </container>
+    </after_after>
+    <after_previous>
+        <container name="root" label="Root">
+            <block type="Mage_Core_Block_Text" name="element1" after="element2">
+                <action method="setText"><text>1</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element2" after="element3">
+                <action method="setText"><text>2</text></action>
+            </block>
+            <block type="Mage_Core_Block_Text" name="element3">
+                <!-- neither "before" or "after" specified, therefore insert before all elements -->
+                <action method="setText"><text>3</text></action>
+            </block>
+        </container>
+    </after_previous>
+</layouts>

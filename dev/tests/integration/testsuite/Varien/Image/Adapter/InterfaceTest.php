@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
+class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Adapter classes for test
@@ -18,7 +18,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     protected $_adapters = array(
         'Varien_Image_Adapter_Gd2',
-        'Varien_Image_Adapter_Imagemagic'
+        'Varien_Image_Adapter_ImageMagick'
     );
 
     /**
@@ -79,15 +79,31 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFixture($type)
     {
-        $dir  = __DIR__ . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
+        $dir  = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
         $data = glob($dir . $type);
 
         if (!empty($data)) {
-            $i = isset($data[1]) ? array_rand($data) : 0;
-            return $data[$i];
+            $index = isset($data[1]) ? array_rand($data) : 0;
+            return $data[$index];
         }
 
         return null;
+    }
+
+    /**
+     * @param string $image
+     * @param Varien_Image_Adapter_Abstract $adapter
+     *
+     * @depends testCheckDependencies
+     * @dataProvider openDataProvider
+     */
+    protected function _checkIsFormatNotSupported($image, $adapter)
+    {
+        $data = pathinfo($image);
+        $supportedTypes = $adapter->getSupportedFormats();
+        $result = $image && file_exists($image)
+            && in_array(strtolower($data['extension']), $supportedTypes);
+        $this->assertFalse($result);
     }
 
     /**
@@ -126,8 +142,6 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks open method
-     *
      * @param string $image
      * @param Varien_Image_Adapter_Abstract $adapter
      *
@@ -137,23 +151,45 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     public function testOpen($image, $adapter)
     {
         $this->_isAdapterAvailable($adapter);
-        $adapter->open($image);
-        $this->assertEquals($this->_getFixtureImageSize(), array(
-            $adapter->getOriginalWidth(),
-            $adapter->getOriginalHeight()
-        ));
+        try  {
+            $adapter->open($image);
+        } catch (Exception $e) {
+            $this->_checkIsFormatNotSupported($image, $adapter);
+        }
     }
 
     public function openDataProvider()
     {
         return $this->_prepareData(array(
-            array($this->_getFixture('magento_test.png'))
+            array($this->_getFixture('image_adapters_test.png')),
+            array($this->_getFixture('image_adapters_test.tiff')),
+            array($this->_getFixture('image_adapters_test.bmp'))
         ));
     }
 
     /**
-     * Checks image saving process
+     * @param string $image
+     * @param Varien_Image_Adapter_Abstract $adapter
      *
+     * @dataProvider openDataProvider
+     * @depends testCheckDependencies
+     * @depends testOpen
+     */
+    public function testImageSize($image, $adapter)
+    {
+        $this->_isAdapterAvailable($adapter);
+        try {
+            $adapter->open($image);
+            $this->assertEquals($this->_getFixtureImageSize(), array(
+                $adapter->getOriginalWidth(),
+                $adapter->getOriginalHeight()
+            ));
+        } catch (Exception $e) {
+            $this->_checkIsFormatNotSupported($image, $adapter);
+        }
+    }
+
+    /**
      * @param string $image
      * @param array $tempPath (dirName, newName)
      * @param Varien_Image_Adapter_Abstract $adapter
@@ -166,30 +202,33 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
-        call_user_func_array(array($adapter, 'save'), $tempPath);
-        $tempPath = join('', $tempPath);
-        $this->assertTrue(file_exists($tempPath));
-        unlink($tempPath);
+        try {
+            call_user_func_array(array($adapter, 'save'), $tempPath);
+            $tempPath = join('', $tempPath);
+            $this->assertTrue(file_exists($tempPath));
+            unlink($tempPath);
+        } catch (Exception $e) {
+            $tempPath = join('', $tempPath);
+            $this->assertFalse(is_dir($tempPath) && is_writable($tempPath));
+        }
     }
 
     public function saveDataProvider()
     {
-        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR;
+        $dir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . DIRECTORY_SEPARATOR;
         return $this->_prepareData(array(
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 array($dir . uniqid('test_image_adapter'))
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 array($dir, uniqid('test_image_adapter'))
             )
         ));
     }
 
     /**
-     * Checks image resizing
-     *
      * @param string $image
      * @param array $dims (width, height)
      * @param Varien_Image_Adapter_Abstract $adapter
@@ -202,26 +241,32 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         $this->_isAdapterAvailable($adapter);
         $adapter->open($image);
-        $adapter->resize($dims[0], $dims[1]);
-        $this->assertEquals($dims, array(
-            $adapter->getOriginalWidth(),
-            $adapter->getOriginalHeight()
-        ));
+        try {
+            $adapter->resize($dims[0], $dims[1]);
+            $this->assertEquals($dims, array(
+                $adapter->getOriginalWidth(),
+                $adapter->getOriginalHeight()
+            ));
+        } catch (Exception $e) {
+            $this->assertTrue(empty($dims[0]) || empty($dims[1]));
+        }
     }
 
     public function resizeDataProvider()
     {
         return $this->_prepareData(array(
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 array(150, 70)
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                array(0, 70)
             )
         ));
     }
 
     /**
-     * Checks image rotation
-     *
      * @param string $image
      * @param int $angle
      * @param array $pixel
@@ -283,22 +328,22 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         return $this->_prepareData(array(
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 45,
                 array('x' => 157, 'y' => 35)
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 48,
                 array('x' => 157, 'y' => 35)
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 90,
                 array('x' => 250, 'y' => 74)
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 180,
                 array('x' => 250, 'y' => 74)
             )
@@ -345,7 +390,7 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         return $this->_prepareData(array(
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 $this->_getFixture('watermark.*'),
                 50,
                 50,
@@ -395,8 +440,6 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks crop functionality
-     *
      * @param string $image
      * @param int $left
      * @param int $top
@@ -432,15 +475,15 @@ class Varien_Image_AdapterTest extends PHPUnit_Framework_TestCase
     {
         return $this->_prepareData(array(
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 50, 50, 75, 75
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 20, 50, 35, 35
             ),
             array(
-                $this->_getFixture('magento_test.png'),
+                $this->_getFixture('image_adapters_test.png'),
                 0, 0, 0, 0
             )
         ));

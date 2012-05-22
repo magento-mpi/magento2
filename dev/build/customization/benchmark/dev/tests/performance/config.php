@@ -18,8 +18,6 @@ return array(
         'db_name'                    => 'bamboo_performance',
         'db_user'                    => 'root',
         'db_pass'                    => '',
-        'url'                        => 'http://mage2.magentocommerce.com/bamboo-agent/',
-        'secure_base_url'            => 'http://mage2.magentocommerce.com/bamboo-agent/',
         'use_secure'                 => 'no',
         'use_secure_admin'           => 'no',
         'use_rewrites'               => 'no',
@@ -29,15 +27,14 @@ return array(
         'admin_username'             => 'admin',
         'admin_password'             => '123123q',
     ),
-    'scenario_files' => array(
-        __DIR__ . '/testsuite/home_page_test.jmx',
-        __DIR__ . '/testsuite/checkout_test.jmx',
-    ),
-    'fixtures' => glob(__DIR__ . '/testsuite/fixtures/*.php'),
+    //'scenarios' => 'testsuite/{home_page,checkout}.jmx', // Bug MAGETWO-1250
+    'scenarios' => 'testsuite/home_page.jmx',
+    'fixtures' => 'testsuite/fixtures/*.php',
     'scenario_params' => array(
         'host'  => 'mage2.magentocommerce.com',
         'path'  => '/bamboo-agent/',
         'users' => 10,
         'loops' => 100,
     ),
+    'report_dir' => 'report',
 );

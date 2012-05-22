@@ -300,7 +300,7 @@ abstract class Varien_Image_Adapter_Abstract
      */
     protected function _adaptResizeValues($frameWidth, $frameHeight)
     {
-        if (empty($frameWidth) && empty($frameHeight)) {
+        if ($frameWidth <= 0 || $frameHeight <= 0) {
             throw new Exception('Invalid image dimensions.');
         }
 
@@ -378,5 +378,15 @@ abstract class Varien_Image_Adapter_Abstract
     protected function _getImageOptions($filePath)
     {
         return getimagesize($filePath);
+    }
+
+    /**
+     * Return supported image formats
+     *
+     * @return array
+     */
+    public function getSupportedFormats()
+    {
+        return array('gif', 'jpeg', 'jpg', 'png');
     }
 }

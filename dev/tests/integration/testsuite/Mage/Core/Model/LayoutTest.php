@@ -311,6 +311,30 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertSame(array('two', 'four', 'three'), $layout->getChildNames('one'));
     }
 
+    /**
+     * @param string $handle
+     * @param string $expectedResult
+     * @dataProvider sortSpecialCasesDataProvider
+     */
+    public function testSortSpecialCases($handle, $expectedResult)
+    {
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/sort_special_cases.xml');
+        $layout->getUpdate()->load($handle);
+        $layout->generateXml()->generateElements();
+        $this->assertEquals($expectedResult, $layout->renderElement('root'));
+    }
+
+    public function sortSpecialCasesDataProvider()
+    {
+        return array(
+            'Before element which is after' => array('before_after', '312'),
+            'Before element which is previous' => array('before_before', '213'),
+            'After element which is after' => array('after_after', '312'),
+            'After element which is previous' => array('after_previous', '321'),
+        );
+    }
+
     public function testGetChildBlocks()
     {
         $this->_layout->addContainer('parent', 'Parent');

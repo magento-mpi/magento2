@@ -324,8 +324,12 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function finish()
     {
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();
+
+        /* Switch application to installed mode */
+        Mage::reset();
         Mage::app()->cleanCache();
 
+        /* Enable all cache types */
         $cacheData = array();
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
             $cacheData[$type] = 1;
