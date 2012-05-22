@@ -18,8 +18,8 @@
  */
 class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
 {
-    const FULLTEXT = 'mysql_fulltext';
-    const SOLR = 'solr';
+    const FULLTEXT = 'Mage_CatalogSearch_Model_Resource_Fulltext_Engine';
+    const SOLR = 'Enterprise_Search_Model_Resource_Engine';
 
     public function toOptionArray()
     {
