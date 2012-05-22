@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -23,12 +22,12 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * UImap factory class
+ * UIMap factory class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -36,9 +35,8 @@
  */
 class Mage_Selenium_Uimap_Factory
 {
-
     /**
-     * Array with allowed element names
+     * Array of allowed element names
      *
      * @var array
      */
@@ -53,7 +51,7 @@ class Mage_Selenium_Uimap_Factory
     }
 
     /**
-     * Performs to create an UIMap object
+     * Creates a UIMap object
      *
      * @param string $elemKey
      * @param string|array $elemValue
@@ -70,25 +68,23 @@ class Mage_Selenium_Uimap_Factory
                 break;
             case 'tabs':
                 $elements = new Mage_Selenium_Uimap_TabsCollection();
-                foreach ($elemValue as $tabArrayKey => &$tabArrayValue) {
+                foreach ($elemValue as &$tabArrayValue) {
                     foreach ($tabArrayValue as $tabKey => &$tabValue) {
-                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey,
-                                        $tabValue);
+                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey, $tabValue);
                     }
                 }
                 break;
             case 'fieldsets':
                 $elements = new Mage_Selenium_Uimap_FieldsetsCollection();
-                foreach ($elemValue as $fieldsetArrayKey => &$fieldsetArrayValue) {
+                foreach ($elemValue as &$fieldsetArrayValue) {
                     foreach ($fieldsetArrayValue as $fieldsetKey => &$fieldsetValue) {
                         $elements[$fieldsetKey] =
-                                new Mage_Selenium_Uimap_Fieldset($fieldsetKey,
-                                        $fieldsetValue);
+                            new Mage_Selenium_Uimap_Fieldset($fieldsetKey, $fieldsetValue);
                     }
                 }
                 break;
             default:
-                if (in_array($elemKey, self::$allowedElementNames)) {
+                if (in_array($elemKey, self::$_allowedElementNames)) {
                     $elements = new Mage_Selenium_Uimap_ElementsCollection($elemKey,
                                     $elemValue);
                 }

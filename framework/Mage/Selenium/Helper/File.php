@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -37,13 +37,12 @@ require_once('SymfonyComponents/YAML/sfYaml.php');
  */
 class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Loads YAML file and returns parsed data
      *
      * @param string $fullFileName Full file name (including path)
      *
-     * @return array|false
+     * @return array|bool
      */
     public function loadYamlFile($fullFileName)
     {
@@ -55,9 +54,9 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Load multiple YAML files and return merged data
+     * Loads multiple YAML files and returns merged data
      *
-     * @param string $globExpr Filenames glob pattern
+     * @param string $globExpr File names glob pattern
      *
      * @return array
      */
@@ -75,5 +74,4 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
         }
         return $data;
     }
-
 }
