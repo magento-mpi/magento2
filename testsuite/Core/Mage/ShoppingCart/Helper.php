@@ -269,9 +269,10 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function frontEstimateShipping($shippingAddress, $shippingMethod, $validate = true)
     {
         if (is_string($shippingAddress)) {
-            $shippingAddress = $this->loadData($shippingAddress);
+            $elements = explode('/', $shippingAddress);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingAddress = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $shippingAddress = $this->arrayEmptyClear($shippingAddress);
         $this->fillForm($shippingAddress);
         $this->clickButton('get_quote');
         $this->chooseShipping($shippingMethod, $validate);
@@ -285,7 +286,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function chooseShipping($shippingMethod)
     {
         if (is_string($shippingMethod)) {
-            $shippingMethod = $this->loadData($shippingMethod);
+            $elements = explode('/', $shippingMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;

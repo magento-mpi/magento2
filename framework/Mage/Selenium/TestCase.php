@@ -550,7 +550,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function skipTestWithScreenshot($message)
     {
-        $name = '';
+        $name = 'Skipped-';
         foreach (debug_backtrace() as $line) {
             if (preg_match('/Test$/', $line['class'])) {
                 $name = time() . '-' . $line['class'] . '-' . $line['function'];
@@ -2651,9 +2651,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->addParameter('tab', $this->getTabAttribute($tabName, 'id'));
         $tabWithAjax = preg_match('/ajax/', $this->getTabAttribute($tabName, 'class'));
         $this->clickControlAndWaitMessage($controlType, $controlName);
-        if ($tabWithAjax) {
-            $this->waitForAjax();
-        }
+        $this->waitForElementNotPresent(self::$xpathLoadingHolder);
     }
 
     /**
@@ -3612,6 +3610,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         }
+    }
+
+    /**
+     *  Reindex All Data
+     */
+    public function reindexAllData()
+    {
+        $this->admin('index_management');
+        $this->clickControl('link', 'select_all', false);
+        $this->fillDropdown('reindex_action', 'Reindex Data');
+        $this->clickButton('submit', false);
+        $this->waitForNewPage();
+        $this->validatePage('index_management');
+        $this->assertMessagePresent('success');
     }
 
     /**
