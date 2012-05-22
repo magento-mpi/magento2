@@ -25,13 +25,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Array_AbstractTest extends P
         );
         $block->expects($this->any())
             ->method('escapeHtml')
-            ->will(
-                $this->returnCallback(
-                    function($data) {
-                        return $data;
-                    }
-                )
-            );
+            ->will($this->returnArgument(0));
         $element = new Varien_Data_Form_Element_Multiselect();
         $element->setValue(array(
             array(
