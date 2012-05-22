@@ -680,7 +680,8 @@ class Enterprise_Mage_CheckoutMultipleAddresses_GiftWrapping_ProductLevelTest ex
                       'gift_wrapping_for_order' => $giftWrappingName));
         $checkoutData =
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                array('email' => $testData['email']),
+                array('email' => $testData['email'],
+                      'product_qty' => 1),
                 array('product_1'             => $product1,
                       'product_2'             => $product2,
                       'gift_options_address1' => $forProduct1,
