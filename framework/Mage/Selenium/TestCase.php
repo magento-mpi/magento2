@@ -550,10 +550,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function skipTestWithScreenshot($message)
     {
-        $name = 'Skipped-';
+        $name = '';
         foreach (debug_backtrace() as $line) {
             if (preg_match('/Test$/', $line['class'])) {
-                $name = time() . '-' . $line['class'] . '-' . $line['function'];
+                $name = 'Skipped-' . time() . '-' . $line['class'] . '-' . $line['function'];
                 break;
             }
         }

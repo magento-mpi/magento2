@@ -70,6 +70,15 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->setCurrentPage($page);
     }
 
+    public function waitForNewPage()
+    {
+        try {
+            parent::waitForNewPage();
+        } catch (Exception $e) {
+            $this->skipTestWithScreenshot($e->getMessage());
+        }
+    }
+
     /**
      * Open paypal tab
      *
@@ -90,7 +99,11 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalDeveloperLogin()
     {
-        $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+        try {
+            $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+        } catch (Exception $e) {
+            $this->skipTestWithScreenshot($e->getMessage());
+        }
         $loginData = array('login_email'     => $this->_configHelper->getDefaultLogin(),
                            'login_password'  => $this->_configHelper->getDefaultPassword());
         $this->validatePage();
