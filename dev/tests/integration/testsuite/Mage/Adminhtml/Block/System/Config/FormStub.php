@@ -31,8 +31,8 @@ class Mage_Adminhtml_Block_System_Config_FormStub extends Mage_Adminhtml_Block_S
      * @return Mage_Adminhtml_Block_System_Config_Form
      */
     public function initFields($fieldset, $group, $section, array $configData = array(), $fieldPrefix = '',
-        $labelPrefix = '')
-    {
+        $labelPrefix = ''
+    ) {
         $this->_configDataStub = $configData;
         parent::initFields($fieldset, $group, $section, $fieldPrefix, $labelPrefix);
         return $this;

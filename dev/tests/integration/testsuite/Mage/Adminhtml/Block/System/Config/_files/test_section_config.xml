@@ -1,4 +1,15 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Enterprise_Rma
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <test_section translate="label" module="Mage_Core">
     <label>Test Section</label>
     <tab>Test</tab>

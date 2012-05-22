@@ -44,28 +44,29 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
         $block->setScope(Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->initFields($fieldset, $group, $section, $configData);
 
-        $fieldsetSelector = 'fieldset';
-        $valueInputSelector = sprintf('input#%s_%s_%s', $section->getName(), $group->getName(), $field->getName());
-        $valueInputDisabledSelector = sprintf('%s[disabled="disabled"]', $valueInputSelector);
-        $useDefaultCheckboxSelector = sprintf('input#%s_%s_%s_inherit.checkbox', $section->getName(), $group->getName(),
+        $selectors = array();
+        $selectors['fieldset'] = 'fieldset';
+        $selectors['value'] = sprintf('input#%s_%s_%s', $section->getName(), $group->getName(), $field->getName());
+        $selectors['valueDisabled'] = sprintf('%s[disabled="disabled"]', $selectors['value']);
+        $selectors['checkbox'] = sprintf('input#%s_%s_%s_inherit.checkbox', $section->getName(), $group->getName(),
             $field->getName());
-        $inheritCheckedCheckboxSelector = sprintf('%s[checked="checked"]', $useDefaultCheckboxSelector);
+        $selectors['checkboxChecked'] = sprintf('%s[checked="checked"]', $selectors['checkbox']);
         $fieldsetHtml = $fieldset->getElementHtml();
 
-        $this->assertSelectCount($fieldsetSelector, true, $fieldsetHtml, 'Fieldset HTML is invalid');
-        $this->assertSelectCount($valueInputSelector, true, $fieldsetHtml, 'Field input not found in fieldset HTML');
-        $this->assertSelectCount($useDefaultCheckboxSelector, true, $fieldsetHtml,
+        $this->assertSelectCount($selectors['fieldset'], true, $fieldsetHtml, 'Fieldset HTML is invalid');
+        $this->assertSelectCount($selectors['value'], true, $fieldsetHtml, 'Field input not found in fieldset HTML');
+        $this->assertSelectCount($selectors['checkbox'], true, $fieldsetHtml,
             '"Use Default" checkbox not found in fieldset HTML');
 
         if ($expectedUseDefault) {
-            $this->assertSelectCount($inheritCheckedCheckboxSelector, true, $fieldsetHtml,
+            $this->assertSelectCount($selectors['checkboxChecked'], true, $fieldsetHtml,
                 '"Use Default" checkbox should be checked');
-            $this->assertSelectCount($valueInputDisabledSelector, true, $fieldsetHtml,
+            $this->assertSelectCount($selectors['valueDisabled'], true, $fieldsetHtml,
                 'Field input should be disabled');
         } else {
-            $this->assertSelectCount($inheritCheckedCheckboxSelector, false, $fieldsetHtml,
+            $this->assertSelectCount($selectors['checkboxChecked'], false, $fieldsetHtml,
                 '"Use Default" checkbox should not be checked');
-            $this->assertSelectCount($valueInputDisabledSelector, false, $fieldsetHtml,
+            $this->assertSelectCount($selectors['valueDisabled'], false, $fieldsetHtml,
                 'Field input should not be disabled');
         }
     }
@@ -75,10 +76,12 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
+        // @codingStandardsIgnoreStart
         $section = new Mage_Core_Model_Config_Element(file_get_contents(__DIR__ . '/_files/test_section_config.xml'));
         $group = $section->groups->test_group;
         $field = $group->fields->test_field;
         $fieldPath = (string)$field->config_path;
+        // @codingStandardsIgnoreEnd
 
         return array(
             array($section, $group, $field, array(), true),
