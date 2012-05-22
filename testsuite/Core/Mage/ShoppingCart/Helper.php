@@ -190,10 +190,14 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function verifyPricesDataOnPage($productData, $orderPriceData)
     {
         if (is_string($productData)) {
-            $productData = $this->loadData($productData);
+            $elements = explode('/', $productData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $productData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         if (is_string($orderPriceData)) {
-            $orderPriceData = $this->loadData($orderPriceData);
+            $elements = explode('/', $orderPriceData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $orderPriceData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         //Get Products data and order prices data
         $actualProductData = $this->getProductInfoInTable();

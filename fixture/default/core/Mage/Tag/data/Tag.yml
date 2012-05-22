@@ -45,13 +45,13 @@ backend_base_tag:
     tag_status: Approved
 
 backend_new_tag:
-    tag_name: tag_name
+    tag_name: tag_name_%randomize%
     tag_status: Approved
     base_popularity: %noValue%
     switch_store: %noValue%
 
 backend_new_tag_with_product:
-    tag_name: tag_name
+    tag_name: tag_name_%randomize%
     tag_status: Approved
     base_popularity: %noValue%
     switch_store: Default Store View

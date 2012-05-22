@@ -179,9 +179,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function fillTagSettings($tagData)
     {
         if (is_string($tagData)) {
-            $tagData = $this->loadData($tagData);
+            $elements = explode('/', $tagData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $tagData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $tagData = $this->arrayEmptyClear($tagData);
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -215,6 +216,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function addTag($tagData)
     {
+        $this->addParameter('storeId', '1');
         $this->clickButton('add_new_tag');
         $this->fillTagSettings($tagData);
         $this->saveForm('save_tag');
@@ -228,9 +230,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function openTag($searchData)
     {
         if (is_string($searchData)) {
-            $searchData = $this->loadData($searchData);
+            $elements = explode('/', $searchData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $searchData = $this->arrayEmptyClear($searchData);
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
@@ -341,7 +344,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {
-        $tagSearchData = $this->arrayEmptyClear($tagSearchData);
         $this->customerHelper()->openCustomer($customerSearchData);
         $this->openTab('product_tags');
         $xpathTR = $this->formSearchXpath($tagSearchData);

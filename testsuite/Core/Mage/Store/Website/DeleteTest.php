@@ -59,16 +59,16 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3491
+     * @TestlinkId TL-MAGE-3491
      */
     public function deleteWithoutStore()
     {
         //Preconditions
-        $websiteData = $this->loadData('generic_website');
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
         //Data
-        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        $deleteWebsiteData = array('website_name' => $websiteData['website_name']);
         //Steps
         $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
@@ -87,19 +87,19 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3492
+     * @TestlinkId TL-MAGE-3492
      */
     public function deleteWithStore()
     {
         //Preconditions
-        $websiteData = $this->loadData('generic_website');
-        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
+        $storeData = $this->loadDataSet('', 'generic_store', array('website' => $websiteData['website_name']));
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
         $this->storeHelper()->createStore($storeData, 'store');
         $this->assertMessagePresent('success', 'success_saved_store');
         //Data
-        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        $deleteWebsiteData = array('website_name' => $websiteData['website_name']);
         //Steps
         $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
@@ -118,22 +118,23 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3493
+     * @TestlinkId TL-MAGE-3493
      */
     public function deleteWithStoreAndStoreView()
     {
         //Preconditions
-        $websiteData = $this->loadData('generic_website');
-        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
-        $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('website' => $websiteData['website_name']));
+        $storeView =
+            $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
         $this->storeHelper()->createStore($storeData, 'store');
         $this->assertMessagePresent('success', 'success_saved_store');
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->storeHelper()->createStore($storeView, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
         //Data
-        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
+        $deleteWebsiteData = array('website_name' => $websiteData['website_name']);
         //Steps
         $this->storeHelper()->deleteStore($deleteWebsiteData);
     }
@@ -152,20 +153,20 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3490
+     * @TestlinkId TL-MAGE-3490
      */
     public function deleteWithAssignedProduct()
     {
         //Preconditions
-        $websiteData = $this->loadData('generic_website');
-        $productData = $this->loadData('simple_product_visible', array('websites' => $websiteData['website_name']), array('general_name', 'general_sku'));
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
+        $productData =
+            $this->loadDataSet('Product', 'simple_product_visible', array('websites' => $websiteData['website_name']));
+        $deleteWebsiteData = array('website_name' => $websiteData['website_name']);
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Data
-        $deleteWebsiteData = array('website_name' =>$websiteData['website_name']);
         //Steps
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStore($deleteWebsiteData);

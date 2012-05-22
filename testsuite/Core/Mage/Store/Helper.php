@@ -65,8 +65,6 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      */
     public function deleteStore(array $storeData)
     {
-        //Delete array keys with value = '%noValue%'
-        $storeData = $this->arrayEmptyClear($storeData);
         //Determination of element name
         $elementName = '';
         foreach ($storeData as $fieldName => $fieldValue) {
