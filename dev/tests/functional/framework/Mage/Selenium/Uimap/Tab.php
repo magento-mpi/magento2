@@ -22,12 +22,12 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tab uimap class
+ * Tab UIMap class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -36,26 +36,26 @@
 class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 {
     /**
-     * Tab Id
+     * Tab ID
      *
      * @var string
      */
-    protected $tabId = '';
+    protected $_tabId = '';
 
     /**
-     * Construct an Uimap_Tab
+     * Construct a Uimap_Tab
      *
      * @param string $tabId Tab's ID
-     * @param array $tabContainer Array of data, which contains in specific tab
+     * @param array $tabContainer Array of data that contains the specific tab
      */
     public function  __construct($tabId, array &$tabContainer)
     {
-        $this->tabId = $tabId;
-        $this->xPath = isset($tabContainer['xpath'])
-                            ? $tabContainer['xpath']
-                            : '';
+        $this->_tabId = $tabId;
+        $this->_xPath = isset($tabContainer['xpath'])
+            ? $tabContainer['xpath']
+            : '';
 
-        $this->parseContainerArray($tabContainer);
+        $this->_parseContainerArray($tabContainer);
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
      */
     public function getTabId()
     {
-        return $this->tabId;
+        return $this->_tabId;
     }
 
     /**
@@ -73,13 +73,28 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
      *
      * @param string $id Fieldset ID
      *
-     * @return string
+     * @return Mage_Selenium_Uimap_Fieldset|null
      */
     public function getFieldset($id)
     {
         return isset($this->_elements['fieldsets'])
-                ? $this->_elements['fieldsets']->getFieldset($id)
-                : null;
+            ? $this->_elements['fieldsets']->getFieldset($id)
+            : null;
     }
 
+    /**
+     * Get Fieldset names in tab
+     * @return array
+     */
+    public function getFieldsetNames()
+    {
+        if (!isset($this->_elements['fieldsets'])) {
+            return array();
+        }
+        $names = array();
+        foreach ($this->_elements['fieldsets'] as $fieldsetName => $content) {
+            $names[] = $fieldsetName;
+        }
+        return $names;
+    }
 }

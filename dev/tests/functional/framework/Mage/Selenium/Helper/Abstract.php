@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -36,23 +36,15 @@
 class Mage_Selenium_Helper_Abstract
 {
     /**
-     * Current test case
-     *
-     * @var Mage_Selenium_TestCase
-     */
-    protected $_testCase = null;
-
-    /**
      * Test configuration object
-     *
-     * @var Mage_Selenium_TestConfiguration
+     * @var Mage_Selenium_TestConfiguration|null
      */
     protected $_config = null;
 
     /**
-     * Constructor, expects global test configuration object
+     * Constructor expects global test configuration object
      *
-     * @param Mage_Selenium_TestConfiguration $config Test configuration
+     * @param Mage_Selenium_TestConfiguration $config
      */
     public function  __construct(Mage_Selenium_TestConfiguration $config)
     {
@@ -61,9 +53,7 @@ class Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Initialize object
-     *
-     * @return Mage_Selenium_AbstractHelper
+     * @return Mage_Selenium_Helper_Abstract
      */
     protected function _init()
     {
@@ -71,16 +61,11 @@ class Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Set current testcase object to allow callbacks
-     *
-     * @param Mage_Selenium_TestCase $testCase Current test case
-     *
-     * @return Mage_Selenium_AbstractHelper
+     * Return config
+     * @return Mage_Selenium_TestConfiguration|null
      */
-    public function setTestCase(Mage_Selenium_TestCase $testCase)
+    public function getConfig()
     {
-        $this->_testCase = $testCase;
-        return $this;
+        return $this->_config;
     }
-
 }
