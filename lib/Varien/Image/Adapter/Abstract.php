@@ -300,7 +300,7 @@ abstract class Varien_Image_Adapter_Abstract
      */
     protected function _adaptResizeValues($frameWidth, $frameHeight)
     {
-        if ($frameWidth <= 0 || $frameHeight <= 0) {
+        if ((empty($frameWidth) && empty($frameHeight))) {
             throw new Exception('Invalid image dimensions.');
         }
 
