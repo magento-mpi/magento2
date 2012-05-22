@@ -16,10 +16,10 @@ $configFile = __DIR__ . '/config.php';
 $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
 $config = require($configFile);
 $installOptions = isset($config['install_options']) ? $config['install_options'] : array();
-$scenarioFiles = $config['scenario_files'];
+$scenarioFiles = glob(__DIR__ . '/' . $config['scenarios'], GLOB_BRACE);
 $scenarioParams = $config['scenario_params'];
-$fixtures = $config['fixtures'];
-$reportDir = isset($config['report_dir']) ? $config['report_dir'] : __DIR__ . '/report';
+$fixtureFiles = glob(__DIR__ . '/' . $config['fixtures'], GLOB_BRACE);
+$reportDir = __DIR__ . '/' . $config['report_dir'];
 
 /* Validate scenarios existence */
 foreach ($scenarioFiles as $scenarioFile) {
@@ -27,6 +27,12 @@ foreach ($scenarioFiles as $scenarioFile) {
         echo "Scenario file '$scenarioFile' does not exist." . PHP_EOL;
         exit(1);
     }
+}
+
+/* Validate scenario params */
+if (empty($scenarioParams['host']) || empty($scenarioParams['path'])) {
+    echo "Scenario parameters must specify 'host' and 'path'." . PHP_EOL;
+    exit(1);
 }
 
 /* Validate JMeter command presence */
@@ -40,6 +46,9 @@ if ($exitCode) {
 
 /* Install application */
 if ($installOptions) {
+    $baseUrl = 'http://' . $scenarioParams['host'] . $scenarioParams['path'];
+    $installOptions['url'] = $baseUrl;
+    $installOptions['secure_base_url'] = $baseUrl;
     $installCmd = sprintf('php -f %s --', escapeshellarg("$baseDir/dev/shell/install.php"));
     passthru("$installCmd --uninstall", $exitCode);
     if ($exitCode) {
@@ -54,16 +63,26 @@ if ($installOptions) {
     }
 }
 
-/* Magento initialization (for reports removal and fixtures) */
+/* Initialize Magento application */
 require_once __DIR__ . '/../../../app/bootstrap.php';
+Mage::app();
 
 /* Clean reports */
 Varien_Io_File::rmdirRecursive($reportDir);
 
 /* Apply fixtures */
-Mage::app();
-foreach ($fixtures as $fixture) {
+foreach ($fixtureFiles as $fixture) {
     require_once $fixture;
+}
+
+/* Run all indexer processes */
+/** @var $indexer Mage_Index_Model_Indexer */
+$indexer = Mage::getModel('Mage_Index_Model_Indexer');
+/** @var $process Mage_Index_Model_Process */
+foreach ($indexer->getProcessesCollection() as $process) {
+    if ($process->getIndexer()->isVisible()) {
+        $process->reindexEverything();
+    }
 }
 
 /* Execute each scenario couple times to populate cache (if any) before measuring performance */
