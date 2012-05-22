@@ -37,9 +37,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
-    }
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));    }
 
     protected function tearDownAfterTest()
     {
@@ -287,12 +286,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Verification
         $this->addParameter('productName', $productData['general_name']);
         if ($this->controlIsPresent('checkbox', 'gift_option_for_' . $entity)) {
-            $xpath = $this->_getControlXpath('checkbox','gift_option_for_' . $entity);
-            $this->assertFalse($this->isVisible($xpath), '"Add gift options for the Entire Order" checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox','gift_option_for_' . $entity),
+                '"Add gift options" checkbox is visible ' . $entity);
         }
         if ($this->controlIsPresent('link', $entity . '_gift_message')) {
-            $xpath = $this->_getControlXpath('link', $entity . '_gift_message');
-            $this->assertFalse($this->isVisible($xpath), '"Gift Message" link is visible' . $entity );
+            $this->assertFalse($this->controlIsVisible('link', $entity . '_gift_message'),
+                '"Gift Message" link is visible' . $entity );
         }
     }
 
@@ -355,8 +354,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Verification
         $this->addParameter('productName', $productData['general_name']);
         if ($this->controlIsPresent('link', $entity . '_gift_message')) {
-            $xpath = $this->_getControlXpath('link', $entity . '_gift_message');
-            $this->assertFalse($this->isVisible($xpath), '"Gift Message" link is visible' . $entity );
+            $this->assertFalse($this->controlIsVisible('link', $entity . '_gift_message'),
+                '"Gift Message" link is visible' . $entity );
         }
     }
 
@@ -603,8 +602,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->fillCheckbox('add_gift_options', 'Yes');
         //Verification
         if ($this->controlIsPresent('checkbox','add_printed_card')) {
-            $xpath = $this->_getControlXpath('checkbox','add_printed_card');
-            $this->assertFalse($this->isVisible($xpath),'"Add Printed card" checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox','add_printed_card'),
+                '"Add Printed card" checkbox is visible');
         }
     }
 
@@ -706,8 +705,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->fillCheckbox('add_gift_options', 'Yes');
         //Verification
         if ($this->controlIsPresent('checkbox','send_gift_receipt')) {
-            $xpath = $this->_getControlXpath('checkbox','send_gift_receipt');
-            $this->assertFalse($this->isVisible($xpath),'"Send Gift Receipt" checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox','send_gift_receipt'),
+                '"Send Gift Receipt" checkbox is visible');
         }
     }
 
@@ -826,6 +825,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         //Steps
         $this->checkoutOnePageHelper()->frontSelectShippingMethod($checkoutData['shipping_data']);
         $this->checkoutOnePageHelper()->frontSelectPaymentMethod($checkoutData['payment_data']);
+        unset($checkoutData['shipping_data']['add_gift_options']);
         $this->checkoutOnePageHelper()->frontOrderReview($checkoutData);
     }
 
@@ -1190,8 +1190,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
         //Verification
         if ($this->controlIsPresent('checkbox', 'add_gift_options')) {
-            $xpath = $this->_getControlXpath('checkbox', 'add_gift_options');
-            $this->assertFalse($this->isVisible($xpath), '"Add gift options" checkbox is visible');
+            $this->assertFalse($this->controlIsVisible('checkbox', 'add_gift_options'),
+                '"Add gift options" checkbox is visible');
         }
     }
 }
