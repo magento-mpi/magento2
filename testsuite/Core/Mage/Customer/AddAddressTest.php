@@ -119,6 +119,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
