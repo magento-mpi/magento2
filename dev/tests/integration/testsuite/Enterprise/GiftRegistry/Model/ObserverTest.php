@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
 
         $cartProduct = $model->prepareForCart($buyRequest, $product);
         $simple = null;
-        foreach($cartProduct as $product) {
+        foreach ($cartProduct as $product) {
             if ($product->getParentId()) {
                 $simple = $product;
             }
