@@ -52,7 +52,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('shipping_disable');

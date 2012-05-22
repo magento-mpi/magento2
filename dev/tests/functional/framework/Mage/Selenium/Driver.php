@@ -22,13 +22,13 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Implementation of the Selenium RC client/server protocol.
- * Extension: logging of all client/server protocol tranactions to the 'selenium-rc-DATE.log' file.
+ * Extension: logging of all client/server protocol transactions to the 'selenium-rc-DATE.log' file.
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -36,121 +36,110 @@
  */
 class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
-
-    /**
-     * If the flag is set true browser connection is not restarted after each test
-     * @var boolean
-     */
-    protected $_contiguousSession = false;
-
     /**
      * Handle to log file
-     * @var Resource
+     * @var null|resource
      */
     protected $_logHandle = null;
 
     /**
-     * Basic constructor of Selenium RC driver
-     * Extension: initialization of log file handle.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $tmpDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp';
-        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
-            throw new Exception("The '$tmpDir' is not a directory or not writable.");
-        }
-        $this->_logHandle = fopen($tmpDir . DIRECTORY_SEPARATOR . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
-    }
-
-    /**
-     * Sets the flag to RESTART/DON'T RESTART of a browser connection after each
-     * test (TRUE - do not restart, FALSE - do restart)
-     *
-     * @param boolean $flag Flag of restarting browser after each test (TRUE - do not restart, FALSE - do restart)
-     *
-     * @return Mage_Selenium_Driver
-     */
-    public function setContiguousSession($flag)
-    {
-        $this->_contiguousSession = $flag;
-        return $this;
-    }
-
-    /**
-     * Starts browser connection
-     *
-     * @return string
-     */
-    public function start()
-    {
-        return parent::start();
-    }
-
-    /**
-     * Stops browser connection
-     * Extension: checking of $_contiguousSession flag (RESTART/NOT RESTART of browser)
+     * Stop browser session
+     * @return mixed
      */
     public function stop()
     {
-        if (!isset($this->sessionId)) {
-            return;
+        $traceFunctionNames = array();
+        foreach (debug_backtrace() as $line) {
+            $traceFunctionNames[] = $line['function'];
         }
-        if ($this->_contiguousSession) {
-            return;
+        if (in_array('__destruct', $traceFunctionNames)) {
+            parent::stop();
+        } elseif (!$this->testCase->frameworkConfig['shareSession'] && !in_array('stopSession', $traceFunctionNames)) {
+            parent::stop();
         }
-        $this->doCommand('testComplete');
-        $this->sessionId = NULL;
     }
 
     /**
      * Sends a command to the Selenium RC server.
      * Extension: transaction logging to opened file stream in view: TIME,REQUEST,RESPONSE or TIME,EXCEPTION
      *
-     * @param  string $command Command for send to Selenium RC server
-     * @param  array $arguments Array of arguments to command
+     * @param string $command Command for send to Selenium RC server
+     * @param array $arguments Array of arguments to command
+     *
      * @return string
+     * @throws Exception
      */
     protected function doCommand($command, array $arguments = array())
     {
-        // Add command logging
         try {
             $response = parent::doCommand($command, $arguments);
+            // Add command logging
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tRequest: " . end($this->commands) . "\n");
-                fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                if ($command == 'captureEntirePageScreenshotToString' || $command == 'getHtmlSource') {
+                    fputs($this->_logHandle, "\tResponse: OK\n\n");
+                } else {
+                    fputs($this->_logHandle, "\tResponse: " . $response . "\n\n");
+                }
                 fflush($this->_logHandle);
             }
-        } catch (PHPUnit_Framework_Exception $e) {
+            return $response;
+        } catch (Exception $e) {
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
-                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n");
+                fputs($this->_logHandle, "\tRequest: " . $command . "\n");
+                fputs($this->_logHandle, "\tException: " . $e->getMessage() . "\n\n");
                 fflush($this->_logHandle);
             }
             throw $e;
         }
-
-        return $response;
     }
 
     /**
-     * Performs to return time to logging (e.g. 15:18:43.244768)
+     * Set log file
      *
-     * @param  string $format A composite format string
-     * @param  mixed  $utimestamp Timestamp (by default = null)
-     * @return string String a formatted date string.
+     * @param $file
      */
-    public static function udate($format, $utimestamp = null)
+    public function setLogHandle($file)
     {
-        if (is_null($utimestamp))
-            $utimestamp = microtime(true);
+        $this->_logHandle = $file;
+    }
 
-        $timestamp = floor($utimestamp);
-        $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+    /**
+     * Get browser settings
+     * @return array
+     */
+    public function getBrowserSettings()
+    {
+        return array(
+            'name'           => $this->name,
+            'browser'        => $this->browser,
+            'host'           => $this->host,
+            'port'           => $this->port,
+            'timeout'        => $this->seleniumTimeout,
+        );
+    }
+
+    /**
+     * Get current time for logging (e.g. 15:18:43.244768)
+     *
+     * @static
+     *
+     * @param string $format A composite format string
+     * @param mixed $uTimeStamp Timestamp (by default = null)
+     *
+     * @return string A formatted date string.
+     */
+    public static function udate($format, $uTimeStamp = null)
+    {
+        if (is_null($uTimeStamp)) {
+            $uTimeStamp = microtime(true);
+        }
+
+        $timestamp = floor($uTimeStamp);
+        $milliseconds = round(($uTimeStamp - $timestamp) * 1000000);
 
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
-
 }

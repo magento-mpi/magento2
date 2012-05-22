@@ -43,14 +43,14 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->addParameter('productUrl', '');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         if ($this->_usertearDown) {
             $this->frontend();
             $this->selectFrontStoreView();
         }
     }
-    
+
     /**
      * <p>Preconditions</p>
      * @test
@@ -172,8 +172,8 @@ class Review_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->reviewHelper()->openReview($searchData);
         //Verification
         $this->reviewHelper()->verifyReviewData($reviewData);
-    }    
-    
+    }
+
     /**
      * <p>Review creating with Logged Customer</p>
      *

@@ -59,7 +59,7 @@ class Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_product_tax_class');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         //Remove Tax rule after test
         if (!is_null($this->_ruleToBeDeleted)) {

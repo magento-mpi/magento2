@@ -39,7 +39,7 @@ class CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage
 
     protected static $useTearDown = false;
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
