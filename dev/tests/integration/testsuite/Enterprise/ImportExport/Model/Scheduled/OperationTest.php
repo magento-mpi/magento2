@@ -68,22 +68,8 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $fileInfo = array('file_format' => 'csv');
 
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
-        $operation = $this->getMock(
-            'Enterprise_ImportExport_Model_Scheduled_Operation',
-            array('getOperationType', 'getEntityType', 'getFileInfo', '_getCurrentTime', '_getHistoryDirPath')
-        );
-        $operation->expects($this->once())
-            ->method('getOperationType')
-            ->will($this->returnValue('export'));
-        $operation->expects($this->once())
-            ->method('getEntityType')
-            ->will($this->returnValue('catalog_product'));
-        $operation->expects($this->once())
-            ->method('_getCurrentTime')
-            ->will($this->returnValue('00-00-00'));
-        $operation->expects($this->once())
-            ->method('_getHistoryDirPath')
-            ->will($this->returnValue('dir/'));
+        $operation = $this->_getMockForGetHistoryFilePath();
+
         $operation->expects($this->once())
             ->method('getFileInfo')
             ->will($this->returnValue($fileInfo));
@@ -99,6 +85,23 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $fileInfo = array('file_name' => 'test.xls');
 
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+        $operation = $this->_getMockForGetHistoryFilePath();
+
+        $operation->expects($this->once())
+            ->method('getFileInfo')
+            ->will($this->returnValue($fileInfo));
+
+        $this->assertEquals('dir/00-00-00_export_catalog_product.xls', $operation->getHistoryFilePath());
+    }
+
+    /**
+     * Mock methods which are used in getHistoryFilePath() method
+     * of Enterprise_ImportExport_Model_Scheduled_Operation object
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getMockForGetHistoryFilePath()
+    {
         $operation = $this->getMock(
             'Enterprise_ImportExport_Model_Scheduled_Operation',
             array('getOperationType', 'getEntityType', 'getFileInfo', '_getCurrentTime', '_getHistoryDirPath')
@@ -115,11 +118,8 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $operation->expects($this->once())
             ->method('_getHistoryDirPath')
             ->will($this->returnValue('dir/'));
-        $operation->expects($this->once())
-            ->method('getFileInfo')
-            ->will($this->returnValue($fileInfo));
 
-        $this->assertEquals('dir/00-00-00_export_catalog_product.xls', $operation->getHistoryFilePath());
+        return $operation;
     }
 
     /**
