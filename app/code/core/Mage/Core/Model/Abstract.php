@@ -137,14 +137,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _getResource()
     {
-        if (!$this->_resource instanceof Mage_Core_Model_Resource_Db_Abstract) {
-            if (empty($this->_resourceName)) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Resource is not set.'));
-            }
-            $this->_resource = Mage::getResourceSingleton($this->_resourceName);
+        if (empty($this->_resourceName)) {
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Resource is not set.'));
         }
 
-        return $this->_resource;
+        return Mage::getResourceSingleton($this->_resourceName);
     }
 
     /**
