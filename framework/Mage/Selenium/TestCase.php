@@ -2647,9 +2647,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function saveAndContinueEdit($controlType, $controlName)
     {
         $tabUimap = $this->_getActiveTabUimap();
-        $name = $tabUimap->getTabId();
-        $this->addParameter('tab', $this->getTabAttribute($name, 'id'));
+        $tabName = $tabUimap->getTabId();
+        $this->addParameter('tab', $this->getTabAttribute($tabName, 'id'));
+        $tabWithAjax = preg_match('/ajax/', $this->getTabAttribute($tabName, 'class'));
         $this->clickControlAndWaitMessage($controlType, $controlName);
+        if ($tabWithAjax) {
+            $this->waitForAjax();
+        }
     }
 
     /**
