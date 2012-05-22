@@ -37,13 +37,13 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        //load default application settings
+        //Load default application settings
         $this->_configHelper->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
-        //load default application settings
+        //Load default application settings
         $this->_configHelper->getConfigAreas(true);
     }
 
@@ -52,7 +52,6 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Create Staging Website</p>
      *
      * @return array $website
-     *
      * @test
      */
     public function createWebsite()
@@ -74,8 +73,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * <p>Creating Simple product</p>
      *
-     * @test
      * @return array $productData
+     * @test
      */
     public function preconditionsCreateProduct()
     {
@@ -161,8 +160,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * <p>Create GiftWrapping without image</p>
      *
-     * @test
      * @return array $giftWrappingData
+     * @test
      */
     public function preconditionsGiftWrapping()
     {
@@ -184,25 +183,25 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-850
      * <p>Gift Message for entire Order is allowed</p>
-     * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "Yes",customer in process of
-     * OnePageCheckout have ability to add Gift Message to entire Order, prompt for which should be present on
-     * Shipping Method step, after checking the appropriate checkbox</p>
+     * <p>Verify that when "Allow Gift Messages on Order Level" setting is set to "Yes",
+     * customer has an ability to add Gift Message to entire Order during OnePageCheckout,
+     * prompt for which should be present on Shipping Method step after checking the appropriate checkbox</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "Yes"</p>
+     * <p>1. In system configuration "Allow Gift Messages on Order Level" setting is set to "Yes"</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select shipping/billing addresses and shipping method</p>
-     * <p>4. Check the "Add gift options" checkbox, then check the "Add Gift Options for Entire Order" checkbox</p>
+     * <p>4. Check "Add gift options" checkbox, then check "Add Gift Options for Entire Order" checkbox</p>
      * <p>Expected result:</p>
      * <p>Link "Gift Message" should be present</p>
      * <p>5. Click on "Gift Message" link</p>
      * <p>Expected result:</p>
      * <p>Prompt for entering Gift Message for Entire Order should appear with From/To/Message fields</p>
-     * <p>6. Fill the fields, related to Gift Message for Entire Order (From/To/Message), click on "Continue" button</p>
-     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * <p>6. Fill the fields related to Gift Message for Entire Order (From/To/Message), click "Continue" button</p>
+     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click "Continue"
      * button</p>
-     * <p>8. On Order Review step click on "Place Order" button</p>
+     * <p>8. On Order Review step click "Place Order" button</p>
      * <p>9. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
      * <p>Gift Options block of Order page should contain information about Gift Message, with the same data
@@ -242,20 +241,20 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * @TestlinkId TL-MAGE-905
      * <p>Gift Message for entire Order is not allowed (message-no; wrapping-no)</p>
      * <p>Gift Message for Individual Items is not allowed (message-no; wrapping-no)</p>
-     * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "No",customer in process of
-     * OnePageCheckout not able to add Gift Message to entire Order</p>
+     * <p>Verify that when "Allow Gift Messages on Order Level" setting is set to "No",
+     * customer is not able to add Gift Message to entire Order during OnePageCheckout</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "No"</p>
+     * <p>1. In system configuration "Allow Gift Messages on Order Level" setting is set to "No"</p>
      * <p>2. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "No"</p>
-     * <p>3. In system configuration setting "Allow Printed Card" is set to "Yes"</p>
+     * <p>3. In system configuration "Allow Printed Card" setting is set to "Yes"</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select any address in billing information and press button "Continue"</p>
      * <p>4. Select any address in shipping information and press button "Continue"</p>
-     * <p>5. Check the "Add gift options" checkbox</p>
+     * <p>5. Check "Add gift options" checkbox</p>
      * <p>Expected result:</p>
-     * <p>"Add gift options for the Entire Order" checkbox and "Gift Message" link respectively  should not be visible<p>
+     * <p>"Add gift options for the Entire Order" checkbox and "Gift Message" link respectively should not be visible<p>
      *
      * @param $productData
      * @param $userData
@@ -310,17 +309,17 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * @TestlinkId TL-MAGE-906
      * <p>Gift Message for entire Order is not allowed (message-no; wrapping-yes)</p>
      * <p>Gift Message for Individual Items is not allowed (message-no; wrapping-yes)</p>
-     * <p>Verify that when setting "Allow Gift Messages on Order Level" is set to "No",customer in process of
-     * OnePageCheckout not able to add Gift Message to entire Order</p>
+     * <p>Verify that when "Allow Gift Messages on Order Level" setting is set to "No",
+     * customer is not able to add Gift Message to entire Order during OnePageCheckout</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "No"</p>
+     * <p>1. In system configuration "Allow Gift Messages on Order Level" setting is set to "No"</p>
      * <p>2. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "Yes"</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select any address in billing information and press button "Continue"</p>
      * <p>4. Select any address in shipping information and press button "Continue"</p>
-     * <p>5. Check the "Add gift options" checkbox</p>
+     * <p>5. Check "Add gift options" checkbox</p>
      * <p>6. Check "Add gift options for the Entire Order" checkbox</p>
      * <p>Expected result:</p>
      * <p>"Gift Message" link  should not be visible<p>
@@ -372,25 +371,25 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-900
      * <p>Gift Message for Individual Items is allowed</p>
-     * <p>Verify that when setting "Allow Gift Messages for Order Items" is set to "Yes",customer in process of
-     * OnePageCheckout have ability to add Gift Message to Individual Items, prompt for which should be present on
-     * Shipping Method step, after checking the appropriate checkbox</p>
+     * <p>Verify that when "Allow Gift Messages for Order Items" setting is set to "Yes",
+     * customer has an ability to add Gift Message to Individual Items during OnePageCheckout,
+     * prompt for which should be present on Shipping Method step after checking the appropriate checkbox</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Messages for Order Items" is set to "Yes"</p>
+     * <p>1. In system configuration "Allow Gift Messages for Order Items" setting is set to "Yes"</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select shipping/billing addresses and shipping method</p>
-     * <p>4. Check the "Add gift options" checkbox</p>
-     * <p>5. Check the "Add gift options for Individual Items" checkbox</p>
+     * <p>4. Check "Add gift options" checkbox</p>
+     * <p>5. Check "Add gift options for Individual Items" checkbox</p>
      * <p>6. Click on "Gift Message" link</p>
      * <p>Expected result:</p>
      * <p>Prompt for entering Gift Message for  Individual Items should be present there with From/To/Message fields</p>
-     * <p>7. Full fill fields, related to Gift Message forIndividual Items (From/To/Message), click on "Continue"
+     * <p>7. Full fill fields, related to Gift Message forIndividual Items (From/To/Message), click "Continue"
      * button</p>
-     * <p>8. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * <p>8. On Payment Method step select any payment method (for example, "Check/Money order"), click "Continue"
      * button</p>
-     * <p>9. On Order Review step click on "Place Order" button</p>
+     * <p>9. On Order Review step click "Place Order" button</p>
      * <p>10. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
      * <p>Gift Options block of Order page should contain information about Gift Message, with the same
@@ -439,9 +438,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Gift Wrapping image displaying for Entire Order gift options (image is not specified)</p>
      * <p>Gift Wrapping image displaying for Individual Items gift options (image is not specified)</p>
      * <p>Test Case TL-MAGE-842: Enabling Gift Wrapping (OnePageCheckout)</p>
-     * <p>Verify that when setting "Allow Gift Wrapping on Order Level" is set to "Yes", customer in process of
-     * OnePageCheckout have ability to select Gift Wrapping  (with not specified picture which will not be displayed)
-     * for entire Order using dropdown "Gift Wrapping Design" on Payment Method step of checkout</p>
+     * <p>Verify that when setting "Allow Gift Wrapping on Order Level" is set to "Yes",
+     * customer has ability to select Gift Wrapping (with not specified picture which will not be displayed)
+     * for entire Order using dropdown "Gift Wrapping Design" on Payment Method step of OnePageCheckout</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "Yes"</p>
      * <p>2. Al least one Gift Wrapping is created and enabled (for example, with Price $10 and image for it is not
@@ -451,7 +450,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select any address in billing information and press button "Continue"</p>
      * <p>4. Select any address in shipping information and press button "Continue"</p>
-     * <p>5. Check the "Add gift options" checkbox</p>
+     * <p>5. Check "Add gift options" checkbox</p>
      * <p>6. Check "Add gift options for the Entire Order" checkbox</p>
      * <p>7. Select Gift Wrapping Design from "Gift Wrapping Design" dropdown</p>
      * <p>Expected result:</p>
@@ -506,24 +505,24 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-924
      * <p>Printed Card is allowed </p>
-     * <p>Verify that when setting "Allow Printed Card" is set to "Yes",customer in process of OnePageCheckout
+     * <p>Verify that when "Allow Printed Card" setting is set to "Yes",customer in process of OnePageCheckout
      * have ability to add Printed Card to Order after checking the appropriate checkbox</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Printed Card" is set to "Yes"</p>
+     * <p>1. In system configuration "Allow Printed Card" setting is set to "Yes"</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select shipping/billing addresses and shipping method</p>
-     * <p>4. Check the "Add gift options" checkbox, then check the "Add Gift Options for Entire Order" checkbox</p>
+     * <p>4. Check "Add gift options" checkbox, then check "Add Gift Options for Entire Order" checkbox</p>
      * <p>Expected result:</p>
      * <p>"Add Printed Card" checkbox should appears</p>
-     * <p>5. Check the "Add Printed card" checkbox</p>
+     * <p>5. Check "Add Printed card" checkbox</p>
      * <p>Expected result:</p>
      * <p>Printed card price must appears (for example: Price: $5.00)</p>
      * <p>6.Click on "Continue" button</p>
-     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click on "Continue"
+     * <p>7. On Payment Method step select any payment method (for example, "Check/Money order"), click "Continue"
      * button</p>
-     * <p>8. On Order Review step click on "Place Order" button</p>
+     * <p>8. On Order Review step click "Place Order" button</p>
      * <p>9. Open newly created Order page in backend</p>
      * <p>Expected result:</p>
      * <p>Gift Options block of Order page should contain information about Printed card, with the same price,
@@ -565,18 +564,18 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-998
      * <p>Printed Card ia not allowed</p>
-     * <p>Verify that when setting "Allow Printed Card" is set to "No",customer in process of OnePageCheckout not able
-     * to add Printed Card to Order</p>
+     * <p>Verify that when "Allow Printed Card" setting is set to "No",
+     * customer is not able to add Printed Card to Order during OnePageCheckout.</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Printed Card" is set to "No"</p>
-     * <p>2. In system configuration setting "Allow Gift Receipt" is set to "Yes".</p>
+     * <p>1. In system configuration "Allow Printed Card" setting is set to "No"</p>
+     * <p>2. In system configuration "Allow Gift Receipt" setting is set to "Yes".</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select shipping/billing addresses and shipping method</p>
-     * <p>4. Check the "Add gift options" checkbox</p>
+     * <p>4. Check "Add gift options" checkbox</p>
      * <p>Expected result:</p>
-     * <p>"Add Printed card" checkbox should not appears<p>
+     * <p>"Add Printed card" checkbox does not appear<p>
      *
      * @param $productData
      * @param $userData
@@ -612,8 +611,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-996
      * <p>Gift Receipt is allowed</p>
-     * <p>Verify that when setting "Allow Gift Receipt" is set to "Yes", customer in process of OnePageCheckout have
-     * ability to enable this option to each order.</p>
+     * <p>Verify that when "Allow Gift Receipt" setting is set to "Yes",
+     * customer has an ability to enable this option to each order during OnePageCheckout.</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Gift Receipt" is set to "Yes".</p>
      * <p>2. At least one product is created.</p>
@@ -623,12 +622,12 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Add any product to shopping cart.</p>
      * <p>3. Click button Proceed to checkout.</p>
      * <p>4. Select shipping/billing addresses and shipping method. </p>
-     * <p>5. Check the "Add gift options" checkbox. </p>
-     * <p>6. Check the "Send Gift Receipt" checkbox.</p>
-     * <p>7. Click button Continue.</p>
-     * <p>8. Select Payment method (Check/Money order).</p>
-     * <p>9. Click button Continue.</p>
-     * <p>10. On Order Review step click on "Place Order" button.</p>
+     * <p>5. Check "Add gift options" checkbox. </p>
+     * <p>6. Check "Send Gift Receipt" checkbox.</p>
+     * <p>7. Click button "Continue".</p>
+     * <p>8. Select Payment method ("Check/Money order").</p>
+     * <p>9. Click button "Continue".</p>
+     * <p>10. On Order Review step click "Place Order" button.</p>
      * <p>11. Open newly created Order page in backend.</p>
      * <p>Expected result:</p>
      * <p>Gift Options block of Order page should contain checked checkbox for Gift Receipt<p>
@@ -665,11 +664,11 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-997
      * <p>Gift Receipt is not allowed</p>
-     * <p>Verify that when setting "Allow Gift Receipt" is set to "No", customer in process of OnePageCheckout have not
-     * able to enable this option to each order.</p>
+     * <p>Verify that when "Allow Gift Receipt" setting is set to "No",
+     * customer is not able to enable this option to each order during OnePageCheckout.</p>
      * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Receipt" is set to "No".</p>
-     * <p>2. In system configuration setting "Allow Printed Card" is set to "Yes".</p>
+     * <p>1. In system configuration "Allow Gift Receipt" setting is set to "No".</p>
+     * <p>2. In system configuration "Allow Printed Card" setting is set to "Yes".</p>
      * <p>3. At least one product is created.</p>
      * <p>4. At least one Customer is created.</p>
      * <p>Steps:</p>
@@ -677,9 +676,9 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Add any product to shopping cart.</p>
      * <p>3. Click button Proceed to checkout.</p>
      * <p>4. Select shipping/billing addresses and shipping method. </p>
-     * <p>5. Check the "Add gift options" checkbox.</p>
+     * <p>5. Check "Add gift options" checkbox.</p>
      * <p>Expected result:</p>
-     * <p>"Send Gift Receipt" checkbox should not be displayed under each "Add gift options" checkbox.<p>
+     * <p>"Send Gift Receipt" checkbox should not be displayed under any "Add gift options" checkbox.<p>
      *
      * @param $productData
      * @param $userData
@@ -717,11 +716,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * @TestlinkId TL-MAGE-918
      * <p>Recounting Gift Options (Entire Order)</p>
      * <p>Recounting Gift Options (Individual Item)</p>
-     * <p>Need to verify, that customer in process of OnePageCheckout can change configuration of Gift Options more than
-     * one time, and Gift Options prices/Grand Total on Order Review step will be recounted accordingly to these
-     * changes.</p>
+     * <p>Verify that customer can change configuration of Gift Options more than one time during OnePageCheckout,
+     * and Gift Options prices/Grand Total on Order Review step will be recounted according to these changes.</p>
      * <p>Preconditions:</p>
-     * <p>1. At least two Gift Wrapping is created with different prices.</p>
+     * <p>1. At least two Gift Wrapping are created with different prices.</p>
      * <p>2. At least one product is created.</p>
      * <p>3. At least one Customer is created.</p>
      * <p>Steps:</p>
@@ -729,29 +727,29 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Add any product to shopping cart.</p>
      * <p>3. Click button Proceed to checkout.</p>
      * <p>4. Select shipping/billing addresses and shipping method. </p>
-     * <p>5. Mark  the "Add gift options" checkbox.</p>
-     * <p>6. Mark Add gift options for the Entire Order checkbox.</p>
+     * <p>5. Mark "Add gift options" checkbox.</p>
+     * <p>6. Mark "Add gift options" for the Entire Order checkbox.</p>
      * <p>7. Select any Gift Wrapping on the Gift Options for the Entire Order block.</p>
-     * <p>8. Click button Continue.</p>
-     * <p>9. Select Payment method (Check/Money order).</p>
-     * <p>10. Click button Continue.</p>
+     * <p>8. Click button "Continue".</p>
+     * <p>9. Select Payment method ("Check/Money order").</p>
+     * <p>10. Click button "Continue".</p>
      * <p>Expected result:</p>
-     * <p>Price for Gift Wrapping is added to Grand Total, and appears in a Order Review step, total amounts is
-     * correctly recounted<p>
-     * <p>11. Turn back to Shipping method step and changes selection of Gift Wrapping Design to another
-     * Gift Wrapping (with different from first price).</p>
-     * <p>12. Click button Continue.</p>
-     * <p>13. Select Payment method (Check/Money order).</p>
-     * <p>14. Click button Continue.</p>
+     * <p>Price for Gift Wrapping is added to Grand Total, and appears in Order Review step, total amounts are
+     * correctly recounted.<p>
+     * <p>11. Return back to the Shipping Method step and change Gift Wrapping Design to another
+     * gift wrapping (with a price different from the first one).</p>
+     * <p>12. Click button "Continue".</p>
+     * <p>13. Select Payment method ("Check/Money order").</p>
+     * <p>14. Click button "Continue".</p>
      * <p>Expected result:</p>
-     * <p>Price for old Gift Wrapping replaced to new Gift Wrapping price, added to Grand Total, and appears in a
-     * Order Review step, total amounts is correctly recounted.<p>
-     * <p>15. Turn back to Shipping method step and changes selection of Gift Wrapping Design to none.</p>
-     * <p>16. Click button Continue.</p>
-     * <p>17. Select Payment method (Check/Money order).</p>
-     * <p>18. Click button Continue.</p>
+     * <p>Price for the old Gift Wrapping is changed to new Gift Wrapping price, added to Grand Total, and appears in
+     * Order Review step, total amounts are correctly recounted.<p>
+     * <p>15. Return back to Shipping method step and change selection of Gift Wrapping Design to None.</p>
+     * <p>16. Click button "Continue".</p>
+     * <p>17. Select Payment method ("Check/Money order").</p>
+     * <p>18. Click button "Continue".</p>
      * <p>Expected result:</p>
-     * <p>Grand Total is recounted, Gift Wrapping Price disappears from a Order Review step, Total amounts is correctly
+     * <p>Grand Total is recounted, Gift Wrapping Price disappears from Order Review step, Total amounts is correctly
      * recounted.<p>
      *
      * @param $entity
@@ -843,9 +841,8 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-920
      * <p>Recounting Gift Options (Printed Card to Order)</p>
-     * <p>Need to verify, that customer in process of OnePageCheckout can change configuration of Gift Options
-     * (Printed Card) more than one time, and Printed Card prices/Grand Total on Order Review step will be recounted
-     * accordingly to these changes.</p>
+     * <p>Verify that customer can change Printed Card configuration more than one time during OnePageCheckout,
+     * and Printed Card prices/Grand Total on Order Review step are recounted according to these changes.</p>
      * <p>Preconditions:</p>
      * <p>1. Allow Printed Card > Yes (System > Configuration > Sales > Gift Options).</p>
      * <p>2. At least one product is created.</p>
@@ -853,23 +850,23 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Steps:</p>
      * <p>1. Log in to frontend</p>
      * <p>2. Add any product to shopping cart.</p>
-     * <p>3. Click button Proceed to checkout.</p>
+     * <p>3. Click button "Proceed to checkout'.</p>
      * <p>4. Select shipping/billing addresses and shipping method. </p>
-     * <p>5. Mark  the "Add gift options" checkbox.</p>
-     * <p>6. Mark Add Printed Card checkbox. </p>
-     * <p>7. Click button Continue.</p>
-     * <p>8. Select Payment method (Check/Money order).</p>
-     * <p>9. Click button Continue.</p>
+     * <p>5. Mark "Add gift options" checkbox.</p>
+     * <p>6. Mark "Add Printed Card" checkbox. </p>
+     * <p>7. Click button "Continue".</p>
+     * <p>8. Select Payment method ("Check/Money order").</p>
+     * <p>9. Click button "Continue".</p>
      * <p>Expected result:</p>
-     * <p>Grand Total is recounted, Printed Card price disappears from a Order Review step,
-     * Total amounts is correctly recounted.<p>
-     * <p>10. Turn back to Shipping method step and deselects Add Printed Card checkbox.</p>
-     * <p>11. Click button Continue.</p>
-     * <p>12. Select Payment method (Check/Money order).</p>
-     * <p>13. Click button Continue.</p>
+     * <p>Grand Total is recounted, Printed Card price disappears from Order Review step,
+     * Total amounts are correctly recounted.<p>
+     * <p>10. Return back to Shipping method step and unselect "Add Printed Card" checkbox.</p>
+     * <p>11. Click button "Continue".</p>
+     * <p>12. Select Payment method ("Check/Money order").</p>
+     * <p>13. Click button "Continue".</p>
      * <p>Expected result:</p>
-     * <p>Grand Total is recounted, Printed Card price disappears from a Order Review step,
-     * Total amounts is correctly recounted.<p>
+     * <p>Grand Total is recounted, Printed Card price disappears from Order Review step,
+     * Total amounts are correctly recounted.<p>
      *
      * @param $productData
      * @param $userData
@@ -917,11 +914,11 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>2. Add any product to a Cart and proceed to checkout</p>
      * <p>3. Select any address in billing information and press button "Continue"</p>
      * <p>4. Select any address in shipping information and press button "Continue"</p>
-     * <p>5. Check the "Add gift options" checkbox</p>
+     * <p>5. Check "Add gift options" checkbox</p>
      * <p>6. Check "Add gift options for the Entire Order" checkbox</p>
      * <p>Expected result:</p>
      * <p>"Gift Wrapping Design" dropdown should not be visible<p>
-     * <p>7. Check "Add gift Options for Order Item" checkbox and observe drop-down list;</p>
+     * <p>7. Check "Add gift Options for Order Item" checkbox;</p>
      * <p>Expected result:</p>
      * <p>"Gift Wrapping Design" dropdown should not be visible<p>
      *
@@ -981,7 +978,7 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>3. Click on "Checkout" button;</p>
      * <p>4. Select any address in billing information and press button "Continue"</p>
      * <p>5. Select any address in shipping information and press button "Continue"</p>
-     * <p>6. Check the "Add gift options" checkbox</p>
+     * <p>6. Check "Add gift options" checkbox</p>
      * <p>7. Check "Add gift options for the Entire Order" checkbox</p>
      * <p>8. Proceed to billing information page;</p>
      * <p>9. Select payment method "Check/Money Order";</p>
@@ -1042,10 +1039,10 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>Test Case: Possibility to adding Gift attributes to Order during the process of OnePageCheckout</p>
      * <p>Check If possible to add Gift Attributes to Order during the process of
      * OnePageCheckout (at Default Website) when all "gift settings" in default scope is set to 'yes" and in the website
-     * scope all of this settings set to "no"</p>
+     * scope all of this settings set to ""No"</p>
      * <p>Preconditions:</p>
-     * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch to "yes" all options;</p>
-     * <p>2. System -> Sales -> Gift Options (Website scope) -> Switch to "no" all options;</p>
+     * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch to "Yes" all options;</p>
+     * <p>2. System -> Sales -> Gift Options (Website scope) -> Switch to ""No" all options;</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend of Default website</p>
      * <p>2. Browse site and buy at least 2 products</p>
@@ -1055,18 +1052,18 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
      * <p>6. Select any shipping method in shipping method tab</p>
      * <p>7. Check "Add gift options" checkbox</p>
      * <p>8. Check "Add gift options for the Entire Order" checkbox</p>
-     * <p>9. Choose gift wrappin design ang fill gift message fields which appers when we press "gift message" link</p>
+     * <p>9. Choose gift wrappin design ang fill gift message fields which appear when we press "gift message" link</p>
      * <p>10. Check "Add gift options for Individual Items" checkbox</p>
-     * <p>11. Choose gift wrappin design ang fill gift message fields which appers when we press "gift message" link</p>
+     * <p>11. Choose gift wrappin design ang fill gift message fields which appear when we press "gift message" link</p>
      * <p>12. Check "Send Gift Receipt" checkbox</p>
      * <p>13. Check "Add Printed Card" checkbox </p>
      * <p>14. Press button "Continue"</p>
      * <p>15. Select any payment method in payment information and press button "Continue"</p>
      * <p>16. Push button "Place order" in "order information" tab</p>
      * <p>17. Log into backend and go to Sales->Order</p>
-     * <p>18. Choose recently created order and check if all switched in this test case gift options is saved</p>
+     * <p>18. Choose recently created order and check if all switched in this test case gift options are saved</p>
      * <p>Expected Results:</p>
-     * <p>All switched in this test case gift options is saved;</p>
+     * <p>All switched in this test case gift options are saved;</p>
      *
      * @depends preconditionsCreateCustomer
      * @depends preconditionsCreateProduct
@@ -1135,15 +1132,15 @@ class Enterprise_Mage_CheckoutOnePage_GiftWrapping_GiftWrappingMessageTest exten
     /**
      * @TestlinkId TL-MAGE-869
      * <p>Test Case: Possibility to adding Gift attributes to Order during the process of OnePageCheckout - Global</p>
-     * <p>Check If possible to add Gift Attributes to Order during the process of
-     * OnePageCheckout (at Default Website) when all "gift settings" in default scope is set to 'yes" and in the website
-     * scope all of this settings set to "no"</p>
+     * <p>Verify that it's possible to add Gift Attributes to Order during OnePageCheckout (at Default Website)
+     * when all "gift settings" in default scope are set to "Yes"
+     * and in the website scope all these settings are set to "No"</p>
      * <p>Preconditions:</p>
-     * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch to "yes" all options;</p>
-     * <p>2. System -> Sales -> Gift Options (Website scope) -> Switch to "no" all options;</p>
+     * <p>1. System -> Sales -> Gift Options (Default scope) -> Switch all options to "Yes";</p>
+     * <p>2. System -> Sales -> Gift Options (Website scope) -> Switch all options to "No";</p>
      * <p>Steps:</p>
      * <p>1. Log in to frontend to newly created website</p>
-     * <p>2. Browse site and buy at least 2 products</p>
+     * <p>2. Browse site and add 2 products to the shopping cart</p>
      * <p>3. Push "Proceed to checkout" in the shopping cart</p>
      * <p>4. Select any address in billing information and press button "Continue"</p>
      * <p>5. Select any address in shipping information and press button "Continue"</p>
