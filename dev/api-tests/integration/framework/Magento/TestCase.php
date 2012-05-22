@@ -331,7 +331,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
 
         /** @var $config Mage_Adminhtml_Model_Config_Data */
-        $config = Mage::getModel('adminhtml/config_data');
+        $config = Mage::getModel('Mage_Adminhtml_Model_Config_Data');
         $data[$group]['fields'][$node]['value'] = $value;
         $config->setSection($section)
                 ->setGroups($data)
@@ -375,7 +375,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     {
         if (null === self::$_defaultAdmin) {
             /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('admin/user');
+            $user = Mage::getModel('Mage_Admin_Model_User');
             $user->login(TESTS_ADMIN_USERNAME, TESTS_ADMIN_PASSWORD);
             if (!$user->getId()) {
                 throw new Magento_Test_Exception('Admin user not found. Check credentials from config file.');

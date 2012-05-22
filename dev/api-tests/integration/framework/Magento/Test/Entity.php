@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Class that implements CRUP tests for Mage_Core_Model_Abstract based objects
+ */
 class Magento_Test_Entity
 {
     /**
@@ -64,10 +67,6 @@ class Magento_Test_Entity
 
     protected function _testUpdate()
     {
-        //isObjectNew flag is set to false to prevent incorrect behavior of observers (_afterSave, etc.)
-        //if they are using isObjectNew flag in their logic.
-        $this->_model->isObjectNew(false);
-
         foreach ($this->_updateData as $key => $value) {
             $this->_model->setDataUsingMethod($key, $value);
         }
@@ -76,17 +75,19 @@ class Magento_Test_Entity
         $model = $this->_getEmptyModel();
         $model->load($this->_model->getId());
         foreach ($this->_updateData as $key => $value) {
-            PHPUnit_Framework_Assert::assertEquals($value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error');
+            PHPUnit_Framework_Assert::assertEquals(
+                $value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error'
+            );
         }
     }
 
     protected function _testDelete()
     {
-        $id = $this->_model->getId();
+        $modelId = $this->_model->getId();
         $this->_model->delete();
 
         $model = $this->_getEmptyModel();
-        $model->load($id);
+        $model->load($modelId);
         PHPUnit_Framework_Assert::assertEmpty($model->getId(), 'CRUD Delete error');
     }
 }

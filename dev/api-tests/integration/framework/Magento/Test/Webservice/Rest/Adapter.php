@@ -83,7 +83,7 @@ class Magento_Test_Webservice_Rest_Adapter
      */
     protected function _createToken($consumerId, $userType, $userId)
     {
-        $this->_token = Mage::getModel('oauth/token');
+        $this->_token = Mage::getModel('Mage_Oauth_Model_Token');
 
         $this->_token->createRequestToken($consumerId, TESTS_WEBSERVICE_URL)
             ->authorize($userId, $userType)
@@ -99,7 +99,7 @@ class Magento_Test_Webservice_Rest_Adapter
      */
     protected function _loadToken($userType)
     {
-        $this->_consumer = Mage::getModel('oauth/consumer')
+        $this->_consumer = Mage::getModel('Mage_Oauth_Model_Consumer')
             ->load(TESTS_OAUTH_CONSUMER, 'key');
 
         if ($userType == 'customer') {
@@ -114,7 +114,7 @@ class Magento_Test_Webservice_Rest_Adapter
             }
         } elseif ($userType == 'admin') {
             /** @var $admin Mage_Admin_Model_User */
-            $admin = Mage::getModel('admin/user')->loadByUsername(TESTS_ADMIN_USERNAME);
+            $admin = Mage::getModel('Mage_Admin_Model_User')->loadByUsername(TESTS_ADMIN_USERNAME);
             $userId = $admin->getId();
             if (!$userId) {
                 throw new Exception('Test Admin not found.');
@@ -123,7 +123,7 @@ class Magento_Test_Webservice_Rest_Adapter
             throw new Exception("Invalid user type '{$userType}'.");
         }
         /** @var $tokenResource Mage_Oauth_Model_Resource_Token_Collection */
-        $tokenResource = Mage::getResourceModel('oauth/token_collection');
+        $tokenResource = Mage::getResourceModel('Mage_Oauth_Model_Resource_Token_Collection');
 
         $tokenResource->addFilterByConsumerId($this->_consumer->getId())->addFilterByType('access');
 

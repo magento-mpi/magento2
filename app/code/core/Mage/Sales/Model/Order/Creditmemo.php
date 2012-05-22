@@ -602,7 +602,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         $this->setData('base_adjustment_positive', $amount);
 
         $amount = $this->getStore()->roundPrice(
-            $amount*$this->getOrder()->getStoreToOrderRate()
+            $amount*$this->getOrder()->getBaseToOrderRate()
         );
         $this->setData('adjustment_positive', $amount);
         return $this;
@@ -620,7 +620,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         $this->setData('base_adjustment_negative', $amount);
 
         $amount = $this->getStore()->roundPrice(
-            $amount*$this->getOrder()->getStoreToOrderRate()
+            $amount*$this->getOrder()->getBaseToOrderRate()
         );
         $this->setData('adjustment_negative', $amount);
         return $this;

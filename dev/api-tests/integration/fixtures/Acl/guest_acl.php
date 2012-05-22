@@ -12,7 +12,7 @@
 if (!Magento_Test_Webservice::getFixture('guest_acl_is_prepared')) {
     // Prepare global acl
     /* @var $rule Mage_Api2_Model_Acl_Global_Rule */
-    $rule = Mage::getModel('api2/acl_global_rule');
+    $rule = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule');
     $count = $rule->getCollection()
         ->addFieldToFilter('role_id', array(
             'eq' => Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID))
@@ -28,7 +28,7 @@ if (!Magento_Test_Webservice::getFixture('guest_acl_is_prepared')) {
 
     // Prepare local filters
     /* @var $attribute Mage_Api2_Model_Acl_Filter_Attribute */
-    $attribute = Mage::getModel('api2/acl_filter_attribute');
+    $attribute = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute');
     $count = $attribute->getCollection()
         ->addFieldToFilter('user_type', array(
             'eq' => Mage_Api2_Model_Auth_User_Guest::USER_TYPE))

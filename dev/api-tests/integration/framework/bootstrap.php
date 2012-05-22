@@ -9,9 +9,12 @@
  * @license     {license_link}
  */
 
-require dirname(__FILE__) . '/Magento/Test/Bootstrap.php';
+require __DIR__ . '/Magento/Test/Bootstrap.php';
+require __DIR__ . '/../../../tests/static/testsuite/Utility/Classes.php';
 
-$baseDir = dirname(dirname(__FILE__));
+Utility_Files::init(new Utility_Files(realpath(__DIR__ . '/../../../..')));
+
+$baseDir = dirname(__DIR__);
 
 /*
  * Setup include path for autoload purpose.
@@ -21,45 +24,68 @@ set_include_path(implode(
     PATH_SEPARATOR,
     array(
         "$baseDir/framework",
+        "$baseDir/testsuite",
         get_include_path()
     )
 ));
 
-$testEtcDir = "$baseDir/framework";
-if (defined('TESTS_ETC_DIRECTORY') && TESTS_ETC_DIRECTORY && is_dir(TESTS_ETC_DIRECTORY)) {
-    $testEtcDir = array($testEtcDir, realpath(TESTS_ETC_DIRECTORY));
+if (defined('TESTS_CLEANUP_ACTION') && TESTS_CLEANUP_ACTION) {
+    $cleanupAction = TESTS_CLEANUP_ACTION;
+} else {
+    $cleanupAction = Magento_Test_Bootstrap::CLEANUP_NONE;
+}
+
+if (defined('TESTS_LOCAL_CONFIG_FILE') && TESTS_LOCAL_CONFIG_FILE) {
+    $localXmlFile = "$baseDir/" . TESTS_LOCAL_CONFIG_FILE;
+    if (!is_file($localXmlFile) && substr($localXmlFile, -5) != '.dist') {
+        $localXmlFile .= '.dist';
+    }
+} else {
+    $localXmlFile = "$baseDir/etc/local-mysql.xml";
+}
+
+if (defined('TESTS_GLOBAL_CONFIG_FILES') && TESTS_GLOBAL_CONFIG_FILES) {
+    $globalEtcFiles = TESTS_GLOBAL_CONFIG_FILES;
+} else {
+    $globalEtcFiles = "../../../app/etc/*.xml";
+}
+$globalEtcFiles .= ';etc/integration-tests-config.xml';
+
+if (defined('TESTS_MODULE_CONFIG_FILES') && TESTS_MODULE_CONFIG_FILES) {
+    $moduleEtcFiles = TESTS_MODULE_CONFIG_FILES;
+} else {
+    $moduleEtcFiles = "../../../app/etc/modules/*.xml";
+}
+
+$developerMode = false;
+if (defined('TESTS_MAGENTO_DEVELOPER_MODE') && TESTS_MAGENTO_DEVELOPER_MODE == 'enabled') {
+    $developerMode = true;
 }
 
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
-    (defined('TESTS_DB_VENDOR') ? TESTS_DB_VENDOR : 'mysql'),
     realpath("$baseDir/../../../"),
-    $testEtcDir,
-    "$baseDir/tmp"
+    $localXmlFile,
+    $globalEtcFiles,
+    $moduleEtcFiles,
+    "$baseDir/tmp",
+    $cleanupAction,
+    $developerMode
 ));
-if (defined('TESTS_SHUTDOWN_METHOD') && TESTS_SHUTDOWN_METHOD) {
-    Magento_Test_Bootstrap::getInstance()->setShutdownAction(TESTS_SHUTDOWN_METHOD);
-}
 
 /* Enable profiler if necessary */
 if (defined('TESTS_PROFILER_FILE') && TESTS_PROFILER_FILE) {
-    Magento_Test_Profiler::registerOutput(
-        new Magento_Test_Profiler_Output_Csvfile($baseDir . TESTS_PROFILER_FILE)
+    Magento_Profiler::registerOutput(
+        new Magento_Profiler_Output_Csvfile($baseDir . DIRECTORY_SEPARATOR . TESTS_PROFILER_FILE)
     );
 }
 
 /* Enable profiler with bamboo friendly output format */
 if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METRICS_FILE')) {
-    Magento_Test_Profiler::registerOutput(new Magento_Test_Profiler_Output_Bamboo(
-        $baseDir . TESTS_BAMBOO_PROFILER_FILE,
-        require($baseDir . TESTS_BAMBOO_PROFILER_METRICS_FILE)
+    Magento_Profiler::registerOutput(new Magento_Test_Profiler_OutputBamboo(
+        $baseDir . DIRECTORY_SEPARATOR . TESTS_BAMBOO_PROFILER_FILE,
+        require($baseDir . DIRECTORY_SEPARATOR . TESTS_BAMBOO_PROFILER_METRICS_FILE)
     ));
 }
-
-/**
- * Define enable show content on get invalid response
- */
-!defined('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE') &&
-    define('TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE', '1');
 
 /* Activate custom annotations in doc comments */
 /*
@@ -71,4 +97,4 @@ Magento_Test_Listener::registerObserver('Magento_Test_Listener_Annotation_Fixtur
 Magento_Test_Listener::registerObserver('Magento_Test_Listener_Annotation_Config');
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($baseDir);
+unset($baseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles);

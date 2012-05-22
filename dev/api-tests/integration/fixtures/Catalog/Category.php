@@ -33,7 +33,7 @@ $category->setData(array(
     'meta_title' => 'Meta title',
     'url_key' => 'url-key' . uniqid(),
 ));
-$parentCategory = Mage::getModel('catalog/category')->load(Mage_Catalog_Model_Category::TREE_ROOT_ID);
+$parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load(Mage_Catalog_Model_Category::TREE_ROOT_ID);
 $category->setPath($parentCategory->getPath());
 $category->setStoreId(0);
 return $category;

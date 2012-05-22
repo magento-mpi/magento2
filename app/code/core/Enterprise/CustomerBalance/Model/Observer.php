@@ -438,7 +438,7 @@ class Enterprise_CustomerBalance_Model_Observer
                     $creditmemo->setBsCustomerBalTotalRefunded($amount);
 
                     $amount = $creditmemo->getStore()->roundPrice(
-                        $amount*$creditmemo->getOrder()->getStoreToOrderRate()
+                        $amount*$creditmemo->getOrder()->getBaseToOrderRate()
                     );
                     $creditmemo->setCustomerBalTotalRefunded($amount);
                     //setting flag to make actual refund to customer balance after creditmemo save

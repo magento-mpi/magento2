@@ -39,11 +39,11 @@ abstract class Mage_Api2_Model_Renderer
         $adapterPath = null;
         foreach ($acceptTypes as $type) {
             foreach ($adapters as $item) {
-                $itemType = $item->type;
+                $itemType = (string) $item->type;
                 if ($type == $itemType
                     || $type == current(explode('/', $itemType)) . '/*' || $type == '*/*'
                 ) {
-                    $adapterPath = $item->model;
+                    $adapterPath = (string) $item->model;
                     break 2;
                 }
             }

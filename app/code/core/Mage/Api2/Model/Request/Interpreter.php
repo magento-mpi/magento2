@@ -36,9 +36,9 @@ abstract class Mage_Api2_Model_Request_Interpreter
 
         $adapterModel = null;
         foreach ($adapters as $item) {
-            $itemType = $item->type;
+            $itemType = (string) $item->type;
             if ($itemType == $type) {
-                $adapterModel = $item->model;
+                $adapterModel = (string) $item->model;
                 break;
             }
         }

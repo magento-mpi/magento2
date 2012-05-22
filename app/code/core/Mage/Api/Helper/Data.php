@@ -234,4 +234,63 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
     }
+
+    /**
+     * Parse filters and format them to be applicable for collection filtration
+     *
+     * @param null|object|array $filters
+     * @param array $fieldsMap Map of field names in format: array('field_name_in_filter' => 'field_name_in_db')
+     * @return array
+     */
+    public function parseFilters($filters, $fieldsMap = null)
+    {
+        // if filters are used in SOAP they must be represented in array format to be used for collection filtration
+        if (is_object($filters)) {
+            $parsedFilters = array();
+            // parse simple filter
+            if (isset($filters->filter) && is_array($filters->filter)) {
+                foreach ($filters->filter as $field => $value) {
+                    if (is_object($value) && isset($value->key) && isset($value->value)) {
+                        $parsedFilters[$value->key] = $value->value;
+                    } else {
+                        $parsedFilters[$field] = $value;
+                    }
+                }
+            }
+            // parse complex filter
+            if (isset($filters->complex_filter) && is_array($filters->complex_filter)) {
+                foreach ($filters->complex_filter as $field => $value) {
+                    if (is_object($value) && isset($value->key) && isset($value->value)) {
+                        $conditionOperator = $value->key;
+                        $conditionValue = $value->value;
+                        if (is_object($conditionValue) && isset($conditionValue->key)
+                            && isset($conditionValue->value)
+                        ) {
+                            $parsedFilters[$conditionOperator] = array($conditionValue->key => $conditionValue->value);
+                        } elseif (is_array($conditionValue)) {
+                            $parsedFilters[$field] = array($conditionOperator => $conditionValue);
+                        } else {
+                            $parsedFilters[$conditionOperator] = $conditionValue;
+                        }
+                    }
+                }
+            }
+            $filters = $parsedFilters;
+        }
+        // make sure that method result is always array
+        if (!is_array($filters)) {
+            $filters = array();
+        }
+        // apply fields mapping
+        if (isset($fieldsMap) && is_array($fieldsMap)) {
+            foreach ($filters as $field => $value) {
+                if (isset($fieldsMap[$field])) {
+                    unset($filters[$field]);
+                    $field = $fieldsMap[$field];
+                    $filters[$field] = $value;
+                }
+            }
+        }
+        return $filters;
+    }
 } // Class Mage_Api_Helper_Data End

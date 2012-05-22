@@ -10,7 +10,7 @@
  */
 
 /** @var $history Mage_Sales_Model_Order_Status_History */
-$history = Mage::getModel('sales/order_status_history');
+$history = Mage::getModel('Mage_Sales_Model_Order_Status_History');
 $history->setData(array(
     'comment'     => 'Test comment',
     'status'      => 'pending',

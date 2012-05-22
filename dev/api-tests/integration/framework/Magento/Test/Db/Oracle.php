@@ -26,13 +26,13 @@ class Magento_Test_Db_Oracle extends Magento_Test_Db_DbAbstract
      * @param string $user
      * @param string $password
      * @param string $schema
-     * @param string $dumpFile
-     * @throws Exception on invalid "schema" format
+     * @param string $varPath
+     * @throws Magento_Exception on invalid "schema" format
      */
     public function __construct($host, $user, $password, $schema, $varPath)
     {
         if (!preg_match('/^[^\/]+\/[^\/]+$/', $schema)) {
-            throw new Exception('Oracle DB schema must be specified in the following format: "<host>/<SID>".');
+            throw new Magento_Exception('Oracle DB schema must be specified in the following format: "<host>/<SID>".');
         }
         // the original host is ignored, but instead taken from schema notation
         list($host, $sid) = explode('/', $schema);

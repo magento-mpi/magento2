@@ -19,62 +19,40 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
 {
 
     /**
-     * Initialize attributes' mapping
+     * Initialize attributes mapping
      */
     public function __construct()
     {
-        $this->_attributesMap['creditmemo'] = array(
-            'creditmemo_id' => 'entity_id'
-        );
-        $this->_attributesMap['creditmemo_item'] = array(
-            'item_id'    => 'entity_id'
-        );
-        $this->_attributesMap['creditmemo_comment'] = array(
-            'comment_id' => 'entity_id'
+        $this->_attributesMap = array(
+            'creditmemo' => array('creditmemo_id' => 'entity_id'),
+            'creditmemo_item' => array('item_id' => 'entity_id'),
+            'creditmemo_comment' => array('comment_id' => 'entity_id')
         );
     }
 
     /**
-     * Retrieve credit memos by filters
+     * Retrieve credit memos list. Filtration could be applied
      *
-     * @param array|null $filter
+     * @param null|object|array $filters
      * @return array
      */
     public function items($filters = null)
     {
-        $filter = $this->_prepareListFilter($filters);
+        $creditmemos = array();
+        /** @var $apiHelper Mage_Api_Helper_Data */
+        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['creditmemo']);
+        /** @var $creditmemoModel Mage_Sales_Model_Order_Creditmemo */
+        $creditmemoModel = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
         try {
-            $result = array();
-            /** @var $creditmemoModel Mage_Sales_Model_Order_Creditmemo */
-            $creditmemoModel = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
-            // map field name entity_id to creditmemo_id
-            foreach ($creditmemoModel->getFilteredCollectionItems($filter) as $creditmemo) {
-                $result[] = $this->_getAttributes($creditmemo, 'creditmemo');
+            $creditMemoCollection = $creditmemoModel->getFilteredCollectionItems($filters);
+            foreach ($creditMemoCollection as $creditmemo) {
+                $creditmemos[] = $this->_getAttributes($creditmemo, 'creditmemo');
             }
         } catch (Exception $e) {
             $this->_fault('invalid_filter', $e->getMessage());
         }
-        return $result;
-    }
-
-    /**
-     * Make filter of appropriate format for list method
-     *
-     * @param array|null $filter
-     * @return array|null
-     */
-    protected function _prepareListFilter($filter = null)
-    {
-        // prepare filter, map field creditmemo_id to entity_id
-        if (is_array($filter)) {
-            foreach ($filter as $field => $value) {
-                if (isset($this->_attributesMap['creditmemo'][$field])) {
-                    $filter[$this->_attributesMap['creditmemo'][$field]] = $value;
-                    unset($filter[$field]);
-                }
-            }
-        }
-        return $filter;
+        return $creditmemos;
     }
 
     /**
@@ -147,7 +125,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
                 $refundToStoreCreditAmount = $creditmemo->getStore()->roundPrice($refundToStoreCreditAmount);
                 $creditmemo->setBaseCustomerBalanceTotalRefunded($refundToStoreCreditAmount);
                 $refundToStoreCreditAmount = $creditmemo->getStore()->roundPrice(
-                    $refundToStoreCreditAmount*$order->getStoreToOrderRate()
+                    $refundToStoreCreditAmount*$order->getBaseToOrderRate()
                 );
                 // this field can be used by customer balance observer
                 $creditmemo->setBsCustomerBalTotalRefunded($refundToStoreCreditAmount);

@@ -56,7 +56,8 @@ abstract class Magento_Test_Db_DbAbstract
      * @param string $user
      * @param string $password
      * @param string $schema
-     * @param string $dumpFile
+     * @param string $varPath
+     * @throws Magento_Exception
      */
     public function __construct($host, $user, $password, $schema, $varPath)
     {
@@ -67,7 +68,9 @@ abstract class Magento_Test_Db_DbAbstract
 
         $this->_varPath = $varPath;
         if (!is_dir($this->_varPath) || !is_writable($this->_varPath)) {
-            throw new Exception(sprintf('The specified "%s" is not a directory or not writable.', $this->_varPath));
+            throw new Magento_Exception(
+                sprintf('The specified "%s" is not a directory or not writable.', $this->_varPath)
+            );
         }
     }
 
@@ -109,9 +112,10 @@ abstract class Magento_Test_Db_DbAbstract
      * Utility method that is used in children classes
      *
      * @param string $command
+     * @param array $output
      * @return boolean
      */
-    protected function _exec($command)
+    protected function _exec($command, &$output = null)
     {
         exec($command, $output, $return);
         return 0 == $return;

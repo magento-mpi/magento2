@@ -1,0 +1,32 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <create>
+        <status>1</status>
+        <is_redeemable>1</is_redeemable>
+        <website_id>1</website_id>
+        <balance>53</balance>
+        <date_expires>2022-05-12</date_expires>
+    </create>
+    <update>
+        <balance>100</balance>
+    </update>
+    <invalid_create>
+        <status>invalid_status</status>
+        <website_id>1</website_id>
+        <balance>-1</balance>
+        <is_redeemable>1</is_redeemable>
+    </invalid_create>
+    <invalid_info>
+        <giftcard_id>-1</giftcard_id>
+    </invalid_info>
+</root>

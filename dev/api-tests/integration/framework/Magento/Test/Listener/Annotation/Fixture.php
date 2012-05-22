@@ -94,20 +94,18 @@ class Magento_Test_Listener_Annotation_Fixture
      */
     protected function _isSingleConnection()
     {
-        $readAdapter  = Mage::getSingleton('core/resource')->getConnection('read');
-        $writeAdapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $readAdapter  = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('read');
+        $writeAdapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         return ($readAdapter === $writeAdapter);
     }
 
     /**
      * Start transaction
-     *
-     * @throws Exception
      */
     protected function _startTransaction()
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
-        $adapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
 
         //TODO: validate
         $transactionLevel = $adapter->getTransactionLevel();
@@ -130,7 +128,7 @@ class Magento_Test_Listener_Annotation_Fixture
     protected function _rollbackTransaction()
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
-        $adapter = Mage::getSingleton('core/resource')->getConnection('write');
+        $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
 
         if(!defined('TESTS_FIXTURE_TRANSACTION') || TESTS_FIXTURE_TRANSACTION == 'on'){
             $adapter->rollBack();
@@ -156,6 +154,7 @@ class Magento_Test_Listener_Annotation_Fixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
+     * @throws Magento_Exception
      */
     protected function _applyFixtures(array $fixtures)
     {
@@ -165,17 +164,17 @@ class Magento_Test_Listener_Annotation_Fixture
         /* Start transaction before applying first fixture to be able to revert them all further */
         if (empty($this->_appliedFixtures)) {
             if (!$this->_isSingleConnection()) {
-                throw new Exception('Transaction fixtures with 2 connections are not implemented yet.');
+                throw new Magento_Exception('Transaction fixtures with 2 connections are not implemented yet.');
             }
             $this->_startTransaction();
         }
         /* Execute fixture scripts */
         foreach ($fixtures as $fixture) {
             if (strpos($fixture, '\\') !== false) {
-                throw new Exception('The "\" symbol is not allowed for fixture definition.');
+                throw new Magento_Exception('The "\" symbol is not allowed for fixture definition.');
             }
             $fixtureMethod = array(get_class($this->_listener->getCurrentTest()), $fixture);
-            $fixtureScript = realpath(dirname(__FILE__) . '/../../../../../tests') . DIRECTORY_SEPARATOR . $fixture;
+            $fixtureScript = realpath(dirname(__FILE__) . '/../../../../../testsuite') . DIRECTORY_SEPARATOR . $fixture;
             /* Skip already applied fixtures */
             if (in_array($fixtureMethod, $this->_appliedFixtures, true)
                 || in_array($fixtureScript, $this->_appliedFixtures, true)
@@ -201,6 +200,24 @@ class Magento_Test_Listener_Annotation_Fixture
             return;
         }
         $this->_rollbackTransaction();
+        foreach ($this->_appliedFixtures as $fixture) {
+            if (is_callable($fixture)) {
+                $fixture[1] .= 'Rollback';
+                if (is_callable($fixture)) {
+                    $this->_applyOneFixture($fixture);
+                }
+            } else {
+                $fileInfo = pathinfo($fixture);
+                $extension = '';
+                if (isset($fileInfo['extension'])) {
+                    $extension = '.' . $fileInfo['extension'];
+                }
+                $rollbackFile = $fileInfo['dirname'] . '/' . $fileInfo['filename'] . '_rollback' . $extension;
+                if (file_exists($rollbackFile)) {
+                    $this->_applyOneFixture($rollbackFile);
+                }
+            }
+        }
         $this->_appliedFixtures = array();
     }
 }
