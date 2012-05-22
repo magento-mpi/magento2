@@ -79,6 +79,12 @@ Default layout, loads most of the pages
         <reference name="product.info">
             <block type="Mage_Checkout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"></block>
         </reference>
+        <reference name="product.info.addtocart">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
+        <reference name="product.info.addtocart.additional">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
     </checkout_cart_configure>
 
 <!--
