@@ -89,7 +89,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
          * Validate license agreement acceptance
          */
         if (!$this->_getFlagValue($options['license_agreement_accepted'])) {
-            $this->addError('ERROR: You have to accept Magento license agreement terms and conditions to continue installation.');
+            $this->addError(
+                'ERROR: You have to accept Magento license agreement terms and conditions to continue installation.'
+            );
             return false;
         }
 
@@ -234,7 +236,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             /**
              * Install configuration
              */
-            $installer->installConfig($this->_getDataModel()->getConfigData()); // TODO fix wizard and simplify this everywhere
+            // TODO fix wizard and simplify this everywhere
+            $installer->installConfig($this->_getDataModel()->getConfigData());
 
             if ($this->hasErrors()) {
                 return false;
@@ -271,7 +274,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
              * Prepare encryption key and validate it
              */
             $encryptionKey = empty($options['encryption_key'])
-                ? md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10))
+                ? $this->generateEncryptionKey()
                 : $options['encryption_key'];
             $this->_getDataModel()->setEncryptionKey($encryptionKey);
             $installer->validateEncryptionKey($encryptionKey);
@@ -319,6 +322,20 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             $this->addError('ERROR: ' . $e->getMessage());
             return false;
         }
+    }
+
+    /**
+     * Generate pseudorandom encryption key
+     *
+     * @param Mage_Core_Helper_Data $helper
+     * @return string
+     */
+    public function generateEncryptionKey($helper = null)
+    {
+        if ($helper === null) {
+            $helper = Mage::helper('Mage_Core_Helper_Data');
+        }
+        return md5($helper->getRandomString(10));
     }
 
     /**
