@@ -96,9 +96,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $gwData = $this->loadDataSet('GiftWrapping', 'edit_gift_wrapping_without_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
-        $this->clickButton('add_gift_wrapping');
-        $this->fillFieldset($gwData, 'gift_wrapping_info');
-        $this->saveForm('save', false);
+        $this->giftWrappingHelper()->createGiftWrapping($gwData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         return $gwData;

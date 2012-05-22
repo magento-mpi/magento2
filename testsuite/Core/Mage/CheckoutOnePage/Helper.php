@@ -497,7 +497,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('productName', $productData['product_name']);
                     $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);
                     if (!$this->controlIsPresent('pageelement', 'product_gift_wrapping')) {
-                        $this->addVerificationMessage('Gift Wrapping is absent for ' . $productData['product_name']);
+                        $this->addVerificationMessage('Gift Wrapping ' . $productData['item_gift_wrapping_design'] .
+                                                      ' is absent for '. $productData['product_name']);
                     }
                 }
             }
