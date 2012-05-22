@@ -59,7 +59,7 @@ class Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_tax_rule');
     }
 
-    protected function tearDownAfterTestClass()
+    protected function tearDownAfterTest()
     {
         //Remove Tax rule after test
         if (!is_null($this->_ruleToBeDeleted)) {

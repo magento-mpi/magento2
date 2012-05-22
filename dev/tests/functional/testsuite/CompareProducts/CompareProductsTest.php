@@ -58,7 +58,7 @@ class CompareProducts_CompareProductsTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-    protected function tearDownAfterTestClass()
+    protected function tearDownAfterTest()
     {
         $this->compareProductsHelper()->frontCloseComparePopup();
         if ($this->_useTearDown) {

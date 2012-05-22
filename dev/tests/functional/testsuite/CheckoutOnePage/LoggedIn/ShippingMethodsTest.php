@@ -53,7 +53,7 @@ class CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Selenium_TestCas
         $this->addParameter('id', '');
     }
 
-    protected function tearDownAfterTestClass()
+    protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
