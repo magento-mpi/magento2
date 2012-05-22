@@ -246,6 +246,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function getOptionsContainer()
     {
-        return $this->getProduct()->getData('options_container') == 'container1' ? 'container1' : 'container2';
+        return $this->getProduct()->getOptionsContainer() == 'container1' ? 'container1' : 'container2';
     }
 }

@@ -53,7 +53,7 @@
                     <?php else:?>
                         <?php if ($_product->isSaleable() && $this->getOptionsContainer() == 'container1'):?>
                             <div class="options-container-small">
-                                <?php echo $this->getChildChildHtml('container') ?>
+                                <?php echo $this->getChildChildHtml('options_container') ?>
                             </div>
                         <?php endif;?>
                     <?php endif; ?>
@@ -83,7 +83,7 @@
 
         <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getOptionsContainer() == 'container2'):?>
             <div class="options-container-big">
-                <?php echo $this->getChildChildHtml('container') ?>
+                <?php echo $this->getChildChildHtml('options_container') ?>
             </div>
         <?php endif;?>
     </form>
