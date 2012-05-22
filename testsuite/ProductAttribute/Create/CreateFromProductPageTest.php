@@ -55,7 +55,7 @@ class ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_Te
         $this->addParameter('id', 0);
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         $windowQty = $this->getAllWindowNames();
         if (count($windowQty) > 1 && end($windowQty) != 'null') {

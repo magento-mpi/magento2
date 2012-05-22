@@ -45,7 +45,7 @@ class CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_
         $this->addParameter('id', '');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         if (!empty(self::$useTearDown)) {
             $this->loginAdminUser();

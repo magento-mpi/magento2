@@ -36,10 +36,4 @@
  */
 class Mage_Selenium_Exception extends PHPUnit_Framework_Exception
 {
-    /**
-     * List of specific exception codes
-     */
-    const ERR_NO_ELEMENT =          1; // No element on page
-    const ERR_NOT_EDITABLE =        2; // Element is not editable (i.e. disabled, readonly, non-input and so on)
-    const ERR_WRONG_ELEMENT_TYPE =  3; // The type of the provided element is not expected
 }

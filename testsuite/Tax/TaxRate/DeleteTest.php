@@ -59,7 +59,7 @@ class Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_tax_zones_and_rates');
     }
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         //Remove Tax rule after test
         if (!is_null($this->_ruleToBeDeleted)) {

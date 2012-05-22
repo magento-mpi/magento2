@@ -39,7 +39,7 @@ class CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
 
     protected static $useTearDown = false;
 
-    protected function tearDown()
+    protected function tearDownAfterTestClass()
     {
         $this->shoppingCartHelper()->frontClearShoppingCart();
         if (self::$useTearDown) {

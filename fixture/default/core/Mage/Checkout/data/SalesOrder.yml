@@ -1113,7 +1113,7 @@ order_newcustmoer_savedcc_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *savedCCVisa
     shipping_data: *flatRate
@@ -1131,7 +1131,7 @@ order_newcustmoer_paypaldirectuk_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectUkMastercard
     shipping_data: *flatRate
@@ -1149,7 +1149,7 @@ order_newcustmoer_paypaldirect_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *paypalDirectMastercard
     shipping_data: *flatRate
@@ -1167,7 +1167,7 @@ order_newcustmoer_payflowpro_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *payfloProVisa
     shipping_data: *flatRate
@@ -1185,7 +1185,7 @@ order_newcustmoer_authorizenet_flatrate:
         product_2: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReq
+    billing_addr_data: *billingReqUsa
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *authorizeNetVisa
     shipping_data: *flatRate
