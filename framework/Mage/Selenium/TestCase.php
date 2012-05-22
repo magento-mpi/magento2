@@ -3618,12 +3618,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function reindexAllData()
     {
         $this->admin('index_management');
-        $this->clickControl('link', 'select_all', false);
-        $this->fillDropdown('reindex_action', 'Reindex Data');
-        $this->clickButton('submit', false);
-        $this->waitForNewPage();
-        $this->validatePage('index_management');
-        $this->assertMessagePresent('success');
+        $cellId = $this->getColumnIdByName('Index');
+        $xpath = $this->_getControlXpath('pageelement', 'index_line');
+        $qtyIndexes = $this->getXpathCount($xpath);
+        for ($i = 1; $i <= $qtyIndexes; $i++) {
+            $name = trim($this->getText($xpath . "[$i]/td[$cellId]"));
+            $this->addParameter('indexName', $name);
+            $this->clickControl('link', 'reindex_index', false);
+            $this->waitForNewPage();
+            $this->validatePage('index_management');
+            $this->assertMessagePresent('success', 'success_reindex');
+        }
     }
 
     /**
