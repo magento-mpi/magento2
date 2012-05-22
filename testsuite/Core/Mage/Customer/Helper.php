@@ -69,20 +69,14 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Defining and adding %address_number% for customer Uimap.
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     * @return int
+     * PreConditions: Customer is opened on 'Addresses' tab. New address form for filling is added
      */
     public function addAddressNumber()
     {
         $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses');
         $addressCount = $this->getXpathCount($xpath . '//li');
-        if ($addressCount > 0) {
-            $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$addressCount]@id"));
-            $this->addParameter('address_number', $param + 1);
-        } else {
-            $this->addParameter('address_number', 1);
-        }
-        return $addressCount;
+        $param = preg_replace('/(\D)+/', '', $this->getAttribute($xpath . "//li[$addressCount]@id"));
+        $this->addParameter('address_number', $param);
     }
 
     public function deleteAllAddresses($searchData)
@@ -116,11 +110,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
     {
         //Open 'Addresses' tab
         $this->openTab('addresses');
-        $this->addAddressNumber();
         $this->clickButton('add_new_address', false);
-        $this->waitForAjax();
+        $this->addAddressNumber();
+        $this->waitForElement($this->_getControlXpath('fieldset', 'edit_address'));
         //Fill in 'Customer's Address' tab
-        $this->fillForm($addressData, 'addresses');
+        $this->fillTab($addressData, 'addresses');
     }
 
     /**

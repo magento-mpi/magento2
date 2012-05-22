@@ -35,13 +35,15 @@
  */
 class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Make sure that customer is not logged in, and navigate to homepage</p>
-     */
     protected function assertPreConditions()
     {
-        $this->logoutCustomer();
+        $this->frontend();
         $this->frontend('customer_login');
+    }
+
+    public function tearDownAfterTest()
+    {
+        $this->logoutCustomer();
     }
 
     /**
@@ -168,8 +170,13 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array(array('first_name', 1), array('last_name', 1), array('email', 1), array('password', 2),
-                     array('password_confirmation', 1));
+        return array(
+            array('first_name', 1),
+            array('last_name', 1),
+            array('email', 1),
+            array('password', 2),
+            array('password_confirmation', 1)
+        );
     }
 
     /**
