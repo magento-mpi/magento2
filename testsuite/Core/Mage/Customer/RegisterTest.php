@@ -246,7 +246,6 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
         return array(
             array('first_name'),
             array('last_name'),
-            array('email'),
         );
     }
 

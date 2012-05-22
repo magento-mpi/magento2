@@ -118,8 +118,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3604
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
@@ -159,82 +157,10 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
             array('street_address_line_1'),
             array('city'),
             array('country'),
-            array('state'), // Fails because of MAGE-1424 // Should be required only if country='United States'
+            //array('state'), //Fails because of MAGE-1424 // Should be required only if country='United States'
             array('zip_code'),
             array('telephone')
         );
-    }
-
-    /**
-     * <p>Add address for customer. Fill in all fields by using special characters(except the field "country").</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed.</p>
-     *
-     * @param array $searchData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3605
-     */
-    public function withSpecialCharactersExceptCountry(array $searchData)
-    {
-        //Data
-        $addressData = $this->loadDataSet('Customers', 'special_char_address');
-        //Steps
-        $this->customerHelper()->openCustomer($searchData);
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying #–1
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
-        $this->customerHelper()->openCustomer($searchData);
-        $this->openTab('addresses');
-        //Verifying #–2 - Check saved values
-        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
-        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
-    }
-
-    /**
-     * <p>Add address for customer. Fill in only required field. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed. Length of fields are 255 characters.</p>
-     *
-     * @param array $searchData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3603
-     */
-    public function withLongValuesExceptCountry(array $searchData)
-    {
-        //Data
-        $addressData = $this->loadDataSet('Customers', 'long_values_address');
-        //Steps
-        $this->customerHelper()->openCustomer($searchData);
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying #–1
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
-        $this->customerHelper()->openCustomer($searchData);
-        $this->openTab('addresses');
-        //Verifying #–2 - Check saved values
-        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
-        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
     /**
@@ -300,6 +226,78 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //Steps
+        $this->customerHelper()->openCustomer($searchData);
+        $this->openTab('addresses');
+        //Verifying #–2 - Check saved values
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
+        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
+    }
+
+    /**
+     * <p>Add address for customer. Fill in all fields by using special characters(except the field "country").</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed.</p>
+     *
+     * @param array $searchData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3605
+     */
+    public function withSpecialCharactersExceptCountry(array $searchData)
+    {
+        //Data
+        $addressData = $this->loadDataSet('Customers', 'special_char_address');
+        //Steps
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
+        $this->saveForm('save_customer');
+        //Verifying #–1
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //Steps
+        $this->customerHelper()->openCustomer($searchData);
+        $this->openTab('addresses');
+        //Verifying #–2 - Check saved values
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
+        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
+    }
+
+    /**
+     * <p>Add address for customer. Fill in only required field. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed. Length of fields are 255 characters.</p>
+     *
+     * @param array $searchData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3603
+     */
+    public function withLongValuesExceptCountry(array $searchData)
+    {
+        //Data
+        $addressData = $this->loadDataSet('Customers', 'long_values_address');
+        //Steps
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
+        $this->saveForm('save_customer');
+        //Verifying #–1
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
