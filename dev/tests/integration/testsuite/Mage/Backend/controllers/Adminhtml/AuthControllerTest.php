@@ -175,14 +175,14 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
         self::$_newUser = new Mage_User_Model_User;
         self::$_newUser->setFirstname('admin_role')
             ->setUsername('test2')
-            ->setPassword('123123q')
+            ->setPassword(Magento_Test_Bootstrap::ADMIN_PASSWORD)
             ->setIsActive(1)
             ->save();
 
         self::$_newUser = new Mage_User_Model_User;
         self::$_newUser->setFirstname('admin_role')
             ->setUsername('test3')
-            ->setPassword('123123q')
+            ->setPassword(Magento_Test_Bootstrap::ADMIN_PASSWORD)
             ->setIsActive(0)
             ->setRoleId(1)
             ->save();
@@ -195,7 +195,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
                 array(
                     'login' => array(
                         'username' => 'test1',
-                        'password' => '123123q',
+                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -203,7 +203,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
                 array(
                     'login' => array(
                         'username' => 'test2',
-                        'password' => '123123q',
+                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -211,7 +211,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
                 array(
                     'login' => array(
                         'username' => 'test3',
-                        'password' => '123123q',
+                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),

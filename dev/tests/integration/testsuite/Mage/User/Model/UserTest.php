@@ -45,7 +45,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->setFirstname("John")
             ->setLastname("Doe")
             ->setUsername('user2')
-            ->setPassword('123123q')
+            ->setPassword(Magento_Test_Bootstrap::ADMIN_PASSWORD)
             ->setEmail('user@magento.com');
 
         $crud = new Magento_Test_Entity($this->_model, array('firstname' => '_New_name_'));
