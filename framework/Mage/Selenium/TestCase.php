@@ -3657,9 +3657,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $notLoaded = false;
             } catch (RuntimeException $e) {
-                /*if ($this->isElementPresent("//xhtml:title")) {
-                    throw new RuntimeException($this->getText("//xhtml:title"));
-                }*/
+                if ($this->isElementPresent("//*[@id='errorPageContainer']")) {
+                    $error = 'Problem loading page. ';
+                    if ($this->isElementPresent("//*[@id='errorTitleText']")) {
+                        $error .= $this->getText("//*[@id='errorTitleText']") . '. ';
+                    }
+                    if ($this->isElementPresent("//*[@id='errorShortDescText']")) {
+                        $error .= $this->getText("//*[@id='errorTitleText']");
+                    }
+                    throw new RuntimeException($error);
+                }
                 if ($retries == 10) {
                     throw new RuntimeException('Timed out after ' . ($this->_browserTimeoutPeriod * 10) . 'ms');
                 }
