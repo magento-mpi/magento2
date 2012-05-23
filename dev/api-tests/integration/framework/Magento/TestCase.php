@@ -18,6 +18,14 @@
  */
 class Magento_TestCase extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Auto tear down options in setFixture
+     */
+    const AUTO_TEAR_DOWN_DISABLED = 0;
+    const AUTO_TEAR_DOWN = 1;
+    const AUTO_TEAR_DOWN_AFTER_CLASS = 2;
+    /**#@-*/
+
     /**
      * Application cache model
      *
@@ -34,6 +42,12 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     protected $_modelsToDelete = array();
 
+    /**
+     * Namespace for fixtures is different for each test case class
+     *
+     * @var string
+     */
+    protected static $_fixturesNamespace;
 
     /**
      * Fixtures registry
@@ -41,6 +55,20 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_fixtures = array();
+
+    /**
+     * Fixtures to be deleted in tear down registry
+     *
+     * @var array
+     */
+    protected static $_tearDownFixtures = array();
+
+    /**
+     * Fixtures to be deleted in tear down after class registry
+     *
+     * @var array
+     */
+    protected static $_tearDownAfterClassFixtures = array();
 
     /**
      * Default admin user model
@@ -64,6 +92,15 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     protected $_origConfigValues = array();
 
     /**
+     * Set fixtures namespace value
+     */
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::_setFixtureNamespace();
+    }
+
+    /**
      * Run garbage collector for cleaning memory
      *
      * @return void
@@ -75,10 +112,51 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
             gc_collect_cycles();
         }
 
+        $fixtureNamespace = self::_getFixtureNamespace();
+        if (count(self::$_tearDownAfterClassFixtures[$fixtureNamespace])) {
+            self::_deleteFixtures(self::$_tearDownAfterClassFixtures[$fixtureNamespace]);
+        }
+
         //ever disable secure area on class down
         self::enableSecureArea(false);
-
+        self::_unsetFixtureNamespace();
         parent::tearDownAfterClass();
+    }
+
+    /**
+     * Set fixtures namespace
+     * @thorws Magento_Test_Exception
+     */
+    protected static function _setFixtureNamespace()
+    {
+        if (!is_null(self::$_fixturesNamespace)) {
+            throw new Magento_Test_Exception('Fixture namespace is already set.');
+        }
+        self::$_fixturesNamespace = uniqid();
+    }
+
+    /**
+     * Unset fixtures namespace
+     */
+    protected static function _unsetFixtureNamespace()
+    {
+        $fixturesNamespace = self::_getFixtureNamespace();
+        unset(self::$_fixtures[$fixturesNamespace]);
+        self::$_fixturesNamespace = null;
+    }
+
+    /**
+     * Get fixtures namespace
+     * @throws Magento_Test_Exception
+     * @return string
+     */
+    protected static function _getFixtureNamespace()
+    {
+        $fixtureNamespace = self::$_fixturesNamespace;
+        if (is_null($fixtureNamespace)) {
+            throw new Magento_Test_Exception('Fixture namespace must be set.');
+        }
+        return $fixtureNamespace;
     }
 
     /**
@@ -264,6 +342,10 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        $fixtureNamespace = self::_getFixtureNamespace();
+        if (count(self::$_tearDownFixtures[$fixtureNamespace])) {
+            self::_deleteFixtures(self::$_tearDownFixtures[$fixtureNamespace]);
+        }
         $this->_callModelsDelete();
         $this->_restoreAppConfig();
         parent::tearDown();
@@ -410,11 +492,28 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      *
      * @param string $key
      * @param mixed $fixture
+     * @param int $tearDown
      * @return void
      */
-    public static function setFixture($key, $fixture)
+    public static function setFixture($key, $fixture, $tearDown = self::AUTO_TEAR_DOWN)
     {
-        self::$_fixtures[$key] = $fixture;
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (!isset(self::$_fixtures[$fixturesNamespace])) {
+            self::$_fixtures[$fixturesNamespace] = array();
+        }
+        self::$_fixtures[$fixturesNamespace][$key] = $fixture;
+        if ($tearDown == self::AUTO_TEAR_DOWN) {
+            if (!isset(self::$_tearDownFixtures[$fixturesNamespace])) {
+                self::$_tearDownFixtures[$fixturesNamespace] = array();
+            }
+            self::$_tearDownFixtures[$fixturesNamespace][] = $key;
+        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+            if (!isset(self::$_tearDownAfterClassFixtures[$fixturesNamespace])) {
+                self::$_tearDownAfterClassFixtures[$fixturesNamespace] = array();
+            }
+            self::$_tearDownAfterClassFixtures[$fixturesNamespace][] = $key;
+        }
+
     }
 
     /**
@@ -425,10 +524,23 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     public static function getFixture($key)
     {
-        if (array_key_exists($key, self::$_fixtures)) {
-            return self::$_fixtures[$key];
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
+            return self::$_fixtures[$fixturesNamespace][$key];
         }
         return null;
+    }
+
+    /**
+     * Delete array of fixtures
+     *
+     * @param array $fixtures
+     */
+    protected static function _deleteFixtures($fixtures)
+    {
+        foreach ($fixtures as $fixture) {
+            self::deleteFixture($fixture, true);
+        }
     }
 
     /**
@@ -440,9 +552,10 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      */
     public static function deleteFixture($key, $secure = false)
     {
-        if (array_key_exists($key, self::$_fixtures)) {
-            self::callModelDelete(self::$_fixtures[$key], $secure);
-            unset(self::$_fixtures[$key]);
+        $fixturesNamespace = self::_getFixtureNamespace();
+        if (array_key_exists($key, self::$_fixtures[$fixturesNamespace])) {
+            self::callModelDelete(self::$_fixtures[$fixturesNamespace][$key], $secure);
+            unset(self::$_fixtures[$fixturesNamespace][$key]);
         }
     }
 }

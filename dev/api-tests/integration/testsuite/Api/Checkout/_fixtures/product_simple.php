@@ -30,4 +30,4 @@ $product->setTypeId('simple')
         )
     )
     ->save();
-Magento_Test_Webservice::setFixture('product_simple', $product);
+Magento_Test_Webservice::setFixture('product_simple', $product, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

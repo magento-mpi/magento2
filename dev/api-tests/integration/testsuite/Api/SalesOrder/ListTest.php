@@ -73,5 +73,6 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
         self::deleteFixture('quote2', true);
         self::deleteFixture('product_virtual', true);
         self::deleteFixture('customer', true);
+        parent::tearDownAfterClass();
     }
 }

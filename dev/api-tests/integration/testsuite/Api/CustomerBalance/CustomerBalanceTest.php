@@ -126,5 +126,6 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
         self::$customerWithoutBalance = null;
 
         Mage::unregister('isSecureArea');
+        parent::tearDownAfterClass();
     }
 }

@@ -31,4 +31,4 @@ $product->setTypeId('virtual')
         )
     );
     $product->save();
-Magento_Test_Webservice::setFixture('product_virtual', $product);
+Magento_Test_Webservice::setFixture('product_virtual', $product, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

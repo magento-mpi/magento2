@@ -101,143 +101,143 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => $creditMemoIncrementId));
     }
 
-//    /**
-//     * Test Exception when refund amount greater than available to refund amount
-//     *
-//     * @expectedException DEFAULT_EXCEPTION
-//     * @magentoDataFixture Api/SalesOrder/_fixtures/invoice.php
-//     * @magentoAppIsolation enabled
-//     */
-//    public function testNegativeRefundException()
-//    {
-//        /** @var $order Mage_Sales_Model_Order */
-//        $order = self::getFixture('order');
-//        $overRefundAmount = $order->getGrandTotal() + 10;
-//
-//        $this->call('order_creditmemo.create', array(
-//            'creditmemoIncrementId' => $order->getIncrementId(),
-//            'creditmemoData' => array(
-//                'adjustment_positive' => $overRefundAmount
-//            )
-//        ));
-//    }
-//
-//    /**
-//     * Test filtered list empty if filter contains incorrect order id
-//     */
-//    public function testListEmptyFilter()
-//    {
-//        $filter = array('order_id' => 'invalid-id');
-//        if (self::$_ws instanceof Magento_Test_Webservice_SoapV2) {
-//            $filter = array(
-//                'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
-//            );
-//        }
-//
-//        $creditmemoList = $this->call('order_creditmemo.list', array('filters' => $filter));
-//        $this->assertEquals(0, count($creditmemoList));
-//    }
-//
-//    /**
-//     * Test Exception on invalid creditmemo create data
-//     *
-//     * @expectedException DEFAULT_EXCEPTION
-//     */
-//    public function testCreateInvalidOrderException()
-//    {
-//        $this->call('order_creditmemo.create', array(
-//            'creditmemoIncrementId' => 'invalid-id',
-//            'creditmemoData' => array()
-//        ));
-//    }
-//
-//    /**
-//     * Test Exception on invalid credit memo while adding comment
-//     *
-//     * @expectedException DEFAULT_EXCEPTION
-//     */
-//    public function testAddCommentInvalidOrderException()
-//    {
-//        $this->call('order_creditmemo.addComment', array(
-//            'creditmemoIncrementId' => 'invalid-id',
-//            'comment' => 'Comment'
-//        ));
-//    }
-//
-//    /**
-//     * Test Exception on invalid credit memo while getting info
-//     *
-//     * @expectedException DEFAULT_EXCEPTION
-//     */
-//    public function testInfoInvalidOrderException()
-//    {
-//        $this->call('order_creditmemo.info', array('creditmemoIncrementId' => 'invalid-id'));
-//    }
-//
-//    /**
-//     * Test exception on invalid credit memo cancel
-//     *
-//     * @expectedException DEFAULT_EXCEPTION
-//     */
-//    public function testCancelInvalidIdException()
-//    {
-//        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => 'invalid-id'));
-//    }
-//
-//    /**
-//     * Test credit memo create API call results
-//     *
-//     * @magentoDataFixture Api/SalesOrder/_fixtures/invoice.php
-//     * @magentoAppIsolation enabled
-//     */
-//    public function testAutoIncrementType()
-//    {
-//        // Set creditmemo increment id prefix
-//        $website = Mage::app()->getWebsite();
-//        $storeId = $website->getDefaultStore()->getId();
-//        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('creditmemo');
-//        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
-//            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
-//        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
-//        self::setFixture('orig_creditmemo_increment_data', array(
-//            'prefix' => $prefix,
-//            'increment_last_id' => $entityStoreModel->getIncrementLastId()
-//        ));
-//        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
-//        $entityStoreModel->setStoreId($storeId);
-//        $entityStoreModel->setIncrementPrefix('01');
-//        $entityStoreModel->save();
-//        self::setFixture('entity_store_model', $entityStoreModel);
-//
-//        $order = self::getFixture('order2');
-//
-//        $orderItems = $order->getAllItems();
-//        $qtys = array();
-//
-//        /** @var $orderItem Mage_Sales_Model_Order_Item */
-//        foreach ($orderItems as $orderItem) {
-//            $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
-//        }
-//        $adjustmentPositive = 2;
-//        $adjustmentNegative = 1;
-//        $data = array(
-//            'qtys'                => $qtys,
-//            'adjustment_positive' => $adjustmentPositive,
-//            'adjustment_negative' => $adjustmentNegative
-//        );
-//        $orderIncrementalId = $order->getIncrementId();
-//
-//        //Test create
-//        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
-//            'creditmemoIncrementId' => $orderIncrementalId,
-//            'creditmemoData' => $data
-//        ));
-//        self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
-//
-//        $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
-//        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
-//            'Increment Id returned by API is not correct');
-//    }
+    /**
+     * Test Exception when refund amount greater than available to refund amount
+     *
+     * @expectedException DEFAULT_EXCEPTION
+     * @magentoDataFixture Api/SalesOrder/_fixtures/invoice.php
+     * @magentoAppIsolation enabled
+     */
+    public function testNegativeRefundException()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = self::getFixture('order');
+        $overRefundAmount = $order->getGrandTotal() + 10;
+
+        $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => $order->getIncrementId(),
+            'creditmemoData' => array(
+                'adjustment_positive' => $overRefundAmount
+            )
+        ));
+    }
+
+    /**
+     * Test filtered list empty if filter contains incorrect order id
+     */
+    public function testListEmptyFilter()
+    {
+        $filter = array('order_id' => 'invalid-id');
+        if (self::$_ws instanceof Magento_Test_Webservice_SoapV2) {
+            $filter = array(
+                'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
+            );
+        }
+
+        $creditmemoList = $this->call('order_creditmemo.list', array('filters' => $filter));
+        $this->assertEquals(0, count($creditmemoList));
+    }
+
+    /**
+     * Test Exception on invalid creditmemo create data
+     *
+     * @expectedException DEFAULT_EXCEPTION
+     */
+    public function testCreateInvalidOrderException()
+    {
+        $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => 'invalid-id',
+            'creditmemoData' => array()
+        ));
+    }
+
+    /**
+     * Test Exception on invalid credit memo while adding comment
+     *
+     * @expectedException DEFAULT_EXCEPTION
+     */
+    public function testAddCommentInvalidOrderException()
+    {
+        $this->call('order_creditmemo.addComment', array(
+            'creditmemoIncrementId' => 'invalid-id',
+            'comment' => 'Comment'
+        ));
+    }
+
+    /**
+     * Test Exception on invalid credit memo while getting info
+     *
+     * @expectedException DEFAULT_EXCEPTION
+     */
+    public function testInfoInvalidOrderException()
+    {
+        $this->call('order_creditmemo.info', array('creditmemoIncrementId' => 'invalid-id'));
+    }
+
+    /**
+     * Test exception on invalid credit memo cancel
+     *
+     * @expectedException DEFAULT_EXCEPTION
+     */
+    public function testCancelInvalidIdException()
+    {
+        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => 'invalid-id'));
+    }
+
+    /**
+     * Test credit memo create API call results
+     *
+     * @magentoDataFixture Api/SalesOrder/_fixtures/invoice.php
+     * @magentoAppIsolation enabled
+     */
+    public function testAutoIncrementType()
+    {
+        // Set creditmemo increment id prefix
+        $website = Mage::app()->getWebsite();
+        $storeId = $website->getDefaultStore()->getId();
+        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('creditmemo');
+        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
+            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
+        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
+        self::setFixture('orig_creditmemo_increment_data', array(
+            'prefix' => $prefix,
+            'increment_last_id' => $entityStoreModel->getIncrementLastId()
+        ));
+        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
+        $entityStoreModel->setStoreId($storeId);
+        $entityStoreModel->setIncrementPrefix('01');
+        $entityStoreModel->save();
+        self::setFixture('entity_store_model', $entityStoreModel);
+
+        $order = self::getFixture('order2');
+
+        $orderItems = $order->getAllItems();
+        $qtys = array();
+
+        /** @var $orderItem Mage_Sales_Model_Order_Item */
+        foreach ($orderItems as $orderItem) {
+            $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
+        }
+        $adjustmentPositive = 2;
+        $adjustmentNegative = 1;
+        $data = array(
+            'qtys'                => $qtys,
+            'adjustment_positive' => $adjustmentPositive,
+            'adjustment_negative' => $adjustmentNegative
+        );
+        $orderIncrementalId = $order->getIncrementId();
+
+        //Test create
+        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
+            'creditmemoIncrementId' => $orderIncrementalId,
+            'creditmemoData' => $data
+        ));
+        self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
+
+        $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
+        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
+            'Increment Id returned by API is not correct');
+    }
 
     /**
      * Test order creditmemo list. With filters

@@ -16,4 +16,5 @@ $giftcardAccount = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
 $giftcardAccount->setData($accountCreateData);
 $giftcardAccount->save();
 
-Magento_Test_Webservice::setFixture('giftcard_account', $giftcardAccount);
+Magento_Test_Webservice::setFixture('giftcard_account', $giftcardAccount,
+    Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

@@ -33,4 +33,4 @@ $product->setTypeId('simple')
     ->save();
 // to make stock item visible from created product it should be reloaded
 $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
-Magento_Test_Webservice::setFixture('product_simple', $product);
+Magento_Test_Webservice::setFixture('product_simple', $product, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

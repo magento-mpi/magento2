@@ -245,5 +245,6 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         self::$product = null;
 
         Mage::unregister('isSecureArea');
+        parent::tearDownAfterClass();
     }
 }

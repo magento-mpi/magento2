@@ -84,7 +84,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $product->load($product->getId());
 
         // retrieve saved image
-        $attributes  = $product->getTypeInstance()->getSetAttributes($product);
+        $attributes  = $product->getTypeInstance(true)->getSetAttributes($product);
         $imageParams = $attributes['media_gallery']->getBackend()->getImage($product, $imagePath);
 
         $this->assertInternalType('array', $imageParams, 'Image not found');

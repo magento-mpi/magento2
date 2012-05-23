@@ -7,14 +7,7 @@
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Test API login method
  *
- */
-/**
- * @magentoDataFixture Api/Checkout/_fixtures/order2.php
  */
 class Api_Checkout_CartTest extends Magento_Test_Webservice
 {
@@ -103,13 +96,12 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
                 ->save();
         }
+        Magento_Test_Webservice::deleteFixture('customer', true);
         parent::tearDown();
     }
 
     /**
      * Test for product add to shopping cart
-     *
-     * @return void
      */
     public function testProductAddToCart()
     {
@@ -125,8 +117,6 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
     /**
      * Test for product with custom options add to shopping cart
-     *
-     * @return void
      */
     public function testProductWithCustomOptionsAddToCart()
     {
@@ -191,8 +181,6 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
     /**
      * Test for product list from shopping cart API method
-     *
-     * @return void
      */
     public function testCartProductList()
     {
@@ -218,8 +206,6 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
     /**
      * Test coupon code applying
-     *
-     * @return void
      */
     public function testCartCouponAdd()
     {
@@ -257,7 +243,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test for product list from shopping cart API method
      *
-     * @return void
+     * @magentoDataFixture Api/Checkout/_fixtures/order.php
      */
     public function testCreateOrder()
     {
@@ -287,5 +273,145 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
         $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $orderIncrementId,
             'Increment Id returned by API is not correct');
+    }
+
+    /**
+     * Test order creation with payment method
+     *
+     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     */
+    public function testCreateOrderWithPayment()
+    {
+        $quote = self::getFixture('quote');
+        $paymentMethod = array(
+            'method' => 'ccsave',
+            'cc_owner' => 'user',
+            'cc_type' => 'VI',
+            'cc_exp_month' => 5,
+            'cc_exp_year' => 2016,
+            'cc_number' => '4584728193062819',
+            'cc_cid' => '000',
+        );
+
+        $orderIncrementId = $this->call('cart.orderWithPayment', array(
+            'quoteId' => $quote->getId(),
+            'store' => null,
+            'agreements' => null,
+            'paymentData' => $paymentMethod
+        ));
+
+        $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
+        /** @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $this->assertEquals('ccsave', $order->getPayment()->getMethod());
+    }
+
+    /**
+     * Test order creation with not available payment method
+     *
+     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     */
+    public function testCreateOrderWithNotAvailablePayment()
+    {
+        $quote = self::getFixture('quote');
+        $paymentMethod = array(
+            'method' => 'paypal_direct',
+            'cc_owner' => 'user',
+            'cc_type' => 'VI',
+            'cc_exp_month' => 5,
+            'cc_exp_year' => 2016,
+            'cc_number' => '4584728193062819',
+            'cc_cid' => '000',
+        );
+
+        $errorCode = 1075;
+        $errorMessage = 'The requested Payment Method is not available.';
+        try {
+            $this->call('cart.orderWithPayment', array(
+                'quoteId' => $quote->getId(),
+                'store' => null,
+                'agreements' => null,
+                'paymentData' => $paymentMethod
+            ));
+            $this->fail('Expected error exception was not raised.');
+        } catch (SoapFault $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
+        } catch (Zend_XmlRpc_Client_FaultException $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
+        }
+
+    }
+
+    /**
+     * Test order creation with payment method data empty
+     *
+     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     */
+    public function testCreateOrderWithEmptyPaymentData()
+    {
+        $quote = self::getFixture('quote');
+        $errorCode = 1071;
+        $errorMessage = 'Payment method data is empty.';
+        try {
+            $this->call('cart.orderWithPayment', array(
+                'quoteId' => $quote->getId(),
+                'store' => null,
+                'agreements' => null,
+                'paymentData' => array()
+            ));
+            $this->fail('Expected error exception was not raised.');
+        } catch (SoapFault $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
+        } catch (Zend_XmlRpc_Client_FaultException $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
+        }
+    }
+
+    /**
+     * Test order creation with invalid payment method data
+     *
+     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     */
+    public function testCreateOrderWithInvalidPaymentData()
+    {
+        $quote = self::getFixture('quote');
+        $paymentMethod = array(
+            'method' => 'ccsave',
+            'cc_owner' => 'user',
+            'cc_type' => 'VI',
+            'cc_exp_month' => 5,
+            'cc_exp_year' => 2010,
+            'cc_number' => '4584728193062819',
+            'cc_cid' => '000',
+        );
+        $errorCode = 1075;
+        $errorMessage = 'Incorrect credit card expiration date.';
+        try {
+            $this->call('cart.orderWithPayment', array(
+                'quoteId' => $quote->getId(),
+                'store' => null,
+                'agreements' => null,
+                'paymentData' => $paymentMethod
+            ));
+            $this->fail('Expected error exception was not raised.');
+        } catch (SoapFault $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
+        } catch (Zend_XmlRpc_Client_FaultException $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
+        }
+    }
+
+    /**
+     * Assert that error code and message equals expected
+     *
+     * @param int $expectedCode
+     * @param string $expectedMessage
+     * @param int $actualCode
+     * @param string $actualMessage
+     */
+    protected function _assertError($expectedCode, $expectedMessage, $actualCode, $actualMessage)
+    {
+        $this->assertEquals($expectedCode, $actualCode);
+        $this->assertEquals($expectedMessage, $actualMessage);
     }
 }

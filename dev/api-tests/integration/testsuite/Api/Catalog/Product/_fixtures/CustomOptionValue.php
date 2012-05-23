@@ -18,7 +18,7 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = new Mage_Catalog_Model_Product();
 $product->setData($productData)->save();
-Magento_Test_Webservice::setFixture('productData', $product);
+Magento_Test_Webservice::setFixture('productData', $product, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 $customOptionApi = Mage::getModel('Mage_Catalog_Model_Product_Option_Api');
 $data = Magento_Test_Webservice::simpleXMLToArray($fixture->fixtureCustomOption);

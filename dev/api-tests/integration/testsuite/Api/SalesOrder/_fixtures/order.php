@@ -31,7 +31,7 @@ $quote->setStoreId(1)
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_Webservice::setFixture('quote', $quote);
+Magento_Test_Webservice::setFixture('quote', $quote, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -40,7 +40,7 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_Webservice::setFixture('order', $order);
+Magento_Test_Webservice::setFixture('order', $order, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 //Create order
 $quote2 = new Mage_Sales_Model_Quote();
@@ -54,7 +54,7 @@ $quote2->setStoreId(1)
 
 $quote2->collectTotals();
 $quote2->save();
-Magento_Test_Webservice::setFixture('quote2', $quote2);
+Magento_Test_Webservice::setFixture('quote2', $quote2, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 $quoteService2 = new Mage_Sales_Model_Service_Quote($quote2);
 //Set payment method to check/money order
@@ -62,4 +62,4 @@ $quoteService2->getQuote()->getPayment()->setMethod('checkmo');
 $order2 = $quoteService2->submitOrder();
 $order2->place();
 $order2->save();
-Magento_Test_Webservice::setFixture('order2', $order2);
+Magento_Test_Webservice::setFixture('order2', $order2, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
