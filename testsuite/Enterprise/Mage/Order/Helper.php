@@ -45,8 +45,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         if (array_key_exists('entire_order', $giftOptions)) {
             $this->fillFieldset($giftOptions['entire_order'], 'gift_options_for_order');
         }
-        if (array_key_exists('individual_item', $giftOptions)) {
-            foreach ($giftOptions['individual_item'] as $options) {
+        if (array_key_exists('individual', $giftOptions)) {
+            foreach ($giftOptions['individual'] as $options) {
                     if (is_array($options) && isset($options['sku_product'])) {
                         $this->addParameter('sku', $options['sku_product']);
                         $this->clickControl('link', 'gift_options', FALSE);
@@ -70,8 +70,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         if (array_key_exists('entire_order', $giftOptions['gift_messages'])) {
             $this->verifyForm($giftOptions['gift_messages']['entire_order']);
         }
-        if (array_key_exists('individual_item', $giftOptions['gift_messages'])) {
-            foreach ($giftOptions['gift_messages']['individual_item'] as $options) {
+        if (array_key_exists('individual', $giftOptions['gift_messages'])) {
+            foreach ($giftOptions['gift_messages']['individual'] as $options) {
                     if (is_array($options) && isset($options['sku_product'])) {
                         $this->addParameter('sku', $options['sku_product']);
                         $this->clickControl('link', 'gift_options', FALSE);

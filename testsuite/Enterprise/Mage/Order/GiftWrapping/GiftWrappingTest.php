@@ -88,7 +88,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * Create additional Gift Wrapping for tests
      * @return array $gwData
      *
-     * @test
+     * @ test
      */
     public function createGiftWrappingAdditional()
     {
@@ -123,7 +123,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function giftMessagePerOrderAllowed($simpleSku)
     {
@@ -156,7 +156,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function giftMessagePerOrderDisabled($simpleSku)
     {
@@ -202,7 +202,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @param array $simpleSku
      * @param array $gwData
      *
-     * @test
+     * @ test
      */
         public function giftWrappingPerOrderAllowed($simpleSku, $gwData)
         {
@@ -224,6 +224,119 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
             $this->assertMessagePresent('success', 'success_created_order');
             $this->orderHelper()->verifyGiftOptions($orderData);
         }
+
+    /**
+     * <p>TL-MAGE-984: Gift Wrapping for entire Order is not allowed (wrapping-no; messages-yes)</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "Yes"</p>
+     * <p>2. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "No"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Look at Gift Options block of create Order page</p>
+     * <p>Expected result:</p>
+     * <p>In "Gift Options" block of Order page dropdown "Gift Wrapping Design" should be absent</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @ test
+     */
+    public function giftWrappingPerOrderDisabled($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku, 'gift_messages'   => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),'Cannot find the block');
+    }
+
+    /**
+     * <p>TL-MAGE-966: Gift Options for entire Order is not allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Level" is set to "No"</p>
+     * <p>2. In system configuration setting "Allow Gift Wrapping on Order Level" is set to "No"</p>
+     * <p>3. In system configuration setting "Allow Printed Card" is set to "No"</p>
+     * <p>4. In system configuration setting "Allow Gift Receipt" is set to "No"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Look at Gift Options block of create Order page</p>
+     * <p>Expected result:</p>
+     * <p>"Gift Options" block should be absent on create Order Page</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @ test
+     */
+    public function giftOptionsPerOrderDisabled($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_disable');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'),'Cannot find the block');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),'Cannot find the block');
+    }
+
+    /**
+     * <p>TL-MAGE-933: Gift Message for Individual Item is allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages for Order Items" is set to "Yes"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: Simple Product)</p>
+     * <p>4. Select any shipping method (for example: Free Shipping), any payment method</p>
+     * <p>(for example: Check/Money order), shipping/billing addresses</p>
+     * <p>5. Click "Gift Options" link below product in a Items Ordered grid</p>
+     * <p>6. In the opened AJAX-popup fill the fields related to Gift Message for Order Item (To/From/Message),</p>
+     * <p> then click "OK" button;</p>
+     * <p>7. When popup is closed, click "Gift Options" link for this product again, look at Gift Message fields;</p>
+     * <p>8. Click "Cancel" in AJAX-popup;</p>
+     * <p>9. Click "Submit Order" button</p>
+     * <p>10. When Order is placed, click at Gift Options link below product name in Items Ordered grid</p>
+     * <p> of View order page</p>
+     * <p>Expected result:</p>
+     * <p>7. All data entered in fields(To/From/Message) related to Gift Message in the previous step should be stored</p>
+     * <p>10. AJAX-popup appears. Data in fields related to Gift Message for Order Item(To/From/Message) should be</p>
+     * <p> present (the same, as enetered when Order was placed)</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     * @test
+     */
+    public function giftMessageForIndividualItemAllowed($simpleSku)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_individual',
+                array('sku_product' => $simpleSku))));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->verifyGiftOptions($orderData);
+        $this->orderHelper()->submitOrder();
+        //Verifying
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
+
 
 
 
@@ -252,7 +365,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function createOrderGiftReceiptAllowed($simpleSku)
     {
@@ -298,7 +411,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function createOrderPrintedCardAllowed($simpleSku)
     {
@@ -340,7 +453,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function createOrderPrintedCardNotAllowed($simpleSku)
     {
@@ -373,7 +486,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @test
+     * @ test
      */
     public function createOrderGiftReceiptDisabled($simpleSku)
     {

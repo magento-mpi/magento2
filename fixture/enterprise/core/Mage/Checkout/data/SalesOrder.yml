@@ -74,7 +74,7 @@ order_gift_options_full:
             gift_wrapping_design: %noValue%
             send_gift_receipt: Yes
             add_printed_card: Yes
-        individual_item:
+        individual:
             product_1:
                 sku_product: %product1%
                 from: from_%randomize%

@@ -375,8 +375,8 @@ create_order_for_new_customer:
                             to_order_level: //input[contains(@name, '[recipient]')]
                             message_order_level: //textarea[contains(@name, '[message]')]
                         pageelements:
-                            order_gift_message_block: //div[@class='giftmessage-order-create box-left']
-                            order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping']
+                            order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
+                            order_gift_wrapping_block: //div[(@id='orderCreateGiftWrapping') and contains(.,'Gift Wrapping for the Entire Order')]
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
