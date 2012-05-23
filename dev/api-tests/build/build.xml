@@ -134,6 +134,7 @@
         <copy file="${file.tests.integration.local-mysql.xml.dist}" tofile="${file.tests.integration.local-mysql.xml}" failonerror="true"/>
 
         <replace file="${file.tests.integration.local-mysql.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
+        <replace file="${file.tests.integration.local-mysql.xml}" token="root" value="${mysql.username}"/>
 
         <copy file="${file.tests.integration.config.dist}" tofile="${file.tests.integration.config}" failonerror="true"/>
 
