@@ -76,7 +76,7 @@
         </chmod>
     </target>
 
-    <target name="runTests" depends="backupDB,setupTests,runUnitTests,restoreDB"/>
+    <target name="runTests" depends="backupDB,setupTests,runIntegrationTests,restoreDB"/>
 <!--    <target name="runTests" depends="backupDB,setupTests,runUnitTests,runIntegrationTests,restoreDB"/>-->
 
     <target name="backupDB">
@@ -178,7 +178,8 @@
         </exec>
     </target>
 
-    <target name="runIntegrationTests" depends="runIntegrationTestsSimple,runIntegrationTestsSoap,runIntegrationTestsSoapV2,runIntegrationTestsXmlRpc,runIntegrationTestsSoapV2WSI,runIntegrationTestsRest"/>
+    <target name="runIntegrationTests" depends="runIntegrationTestsSimple"/>
+<!--    <target name="runIntegrationTests" depends="runIntegrationTestsSimple,runIntegrationTestsSoap,runIntegrationTestsSoapV2,runIntegrationTestsXmlRpc,runIntegrationTestsSoapV2WSI,runIntegrationTestsRest"/>-->
 
     <target name="runIntegrationTestsSimple">
         <antcall target="prepareMagentoForTests"/>
