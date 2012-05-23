@@ -137,6 +137,74 @@
         </exec>
     </target>
 
+    <!-- deploy and run functional tests -->
+    <target name="functional_tests_with_deploy" description="Deploy Magento">
+        <fail unless="env.build_customization_dir" message="Bamboo variable 'customization_dir' must be defined" />
+        <!-- Functional tests params -->
+        <fail unless="env.deploy_directory" message="Bamboo variable 'deploy_directory' must be defined on your agent"/>
+        <fail unless="env.mysql_host" message="Bamboo variable 'mysql_host' must be defined on your agent"/>
+        <fail unless="env.mysql_name" message="Bamboo variable 'mysql_name' must be defined on your agent"/>
+        <fail unless="env.mysql_user" message="Bamboo variable 'mysql_user' must be defined on your agent"/>
+        <fail unless="env.mysql_password" message="Bamboo variable 'mysql_password' must be defined on your agent"/>
+        <fail unless="env.http_host" message="Bamboo variable 'http_host' must be defined on your agent (e.g. http://myhost.com/mypath/)"/>
+        <fail unless="env.https_host" message="Bamboo variable 'https_host' must be defined on your agent (e.g. https://myhost.com/mypath/)"/>
+
+        <fail unless="env.selenium_host" message="Bamboo variable 'selenium_host' must be defined on your agent"/>
+        <fail unless="env.selenium_port" message="Bamboo variable 'selenium_port' must be defined on your agent"/>
+        <fail unless="env.testsuite" message="Bamboo variable 'testsuite' must be defined on your agent (mage, enterprise)"/>
+
+        <property name="dir.build_directory" location="${env.deploy_directory}/${build.key}"/>
+
+        <copy todir="${dir.build_directory}" failonerror="true">
+            <fileset dir="${basedir}"/>
+        </copy>
+
+        <copy todir="${dir.build_directory}" failonerror="true">
+            <fileset dir="${basedir}/${env.build_customization_dir}"/>
+        </copy>
+
+        <chmod perm="a+w">
+            <dirset dir="${dir.build_directory}/app/etc"/>
+            <dirset dir="${dir.build_directory}/pub/media"/>
+            <fileset dir="${dir.build_directory}/pub/media"/>
+            <dirset dir="${dir.build_directory}/var"/>
+        </chmod>
+
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--db_host',.*?'.*?'"
+                       replace="'--db_host',                    '${env.mysql_host}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--db_name',.*?'.*?'"
+                       replace="'--db_name',                    '${env.mysql_name}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--db_user',.*?'.*?'"
+                       replace="'--db_user',                    '${env.mysql_user}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--db_pass',.*?'.*?'"
+                       replace="'--db_pass',                    '${env.mysql_password}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--url',.*?'.*?'"
+                       replace="'--url',                    '${env.http_host}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                       match="'--secure_base_url',.*?'.*?'"
+                       replace="'--secure_base_url',                    '${env.https_host}'"/>
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                       match="(admin:.*?url:.*?)'.*?'"
+                       replace="\1'${env.https_host}admin'"
+                       flags="g" />
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                       match="(frontend:.*?url:.*?)'.*?'"
+                       replace="\1'${env.http_host}'"
+                       flags="g" />
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                       match="host:.*?'.*?'"
+                       replace="host: '${env.selenium_host}'" />
+        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                       match="port:.*?\d+"
+                       replace="port: ${env.selenium_port}" />
+        <!--exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/-->
+    </target>
+
     <!-- Community Edition source code population to the public repository -->
     <target name="publish_ce">
         <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
