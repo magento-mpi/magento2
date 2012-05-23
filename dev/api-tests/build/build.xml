@@ -57,10 +57,10 @@
         <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
         <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
 
-        <exec executable="ln" failonerror="true">
+<!--        <exec executable="ln" failonerror="true">
             <arg line="-s ${dir.magento}"/>
             <arg line="${dir.www}"/>
-        </exec>
+        </exec>-->
         <mkdir dir="${dir.magento.var.cache}"/>
         <chmod perm="777">
             <fileset dir="${dir.magento.media}"/>
