@@ -1,8 +1,8 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: magento_apia
+-- Host: localhost    Database: alex_borisenko_bamboo_api
 -- ------------------------------------------------------
--- Server version	5.0.77
+-- Server version	5.0.95
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,15 +20,15 @@
 --
 
 DROP TABLE IF EXISTS `admin_assert`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin_assert` (
   `assert_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Assert ID',
   `assert_type` varchar(20) default NULL COMMENT 'Assert Type',
   `assert_data` text COMMENT 'Assert Data',
   PRIMARY KEY  (`assert_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Admin Assert Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `admin_assert`
@@ -44,8 +44,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `admin_role`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin_role` (
   `role_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Role ID',
   `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent Role ID',
@@ -61,7 +61,7 @@ CREATE TABLE `admin_role` (
   KEY `IDX_ADMIN_ROLE_PARENT_ID_SORT_ORDER` (`parent_id`,`sort_order`),
   KEY `IDX_ADMIN_ROLE_TREE_LEVEL` (`tree_level`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Admin Role Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `admin_role`
@@ -78,8 +78,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `admin_rule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin_rule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule ID',
   `role_id` int(10) unsigned NOT NULL default '0' COMMENT 'Role ID',
@@ -93,7 +93,7 @@ CREATE TABLE `admin_rule` (
   KEY `IDX_ADMIN_RULE_ROLE_ID_RESOURCE_ID` (`role_id`,`resource_id`),
   CONSTRAINT `FK_ADMIN_RULE_ROLE_ID_ADMIN_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin Rule Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `admin_rule`
@@ -110,8 +110,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `admin_user`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin_user` (
   `user_id` int(10) unsigned NOT NULL auto_increment COMMENT 'User ID',
   `firstname` varchar(32) default NULL COMMENT 'User First Name',
@@ -134,7 +134,7 @@ CREATE TABLE `admin_user` (
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `admin_user`
@@ -142,7 +142,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `admin_user` WRITE;
 /*!40000 ALTER TABLE `admin_user` DISABLE KEYS */;
-INSERT INTO `admin_user` VALUES (1,'admin','admin','admin@example.com','admin','5fdfc43b61483b697bae897e9ac2f9d2a3c0ae2d50f4524b09ec9556dd1be51e:2p','2012-02-17 12:41:00','2012-01-30 15:32:55','2012-02-17 10:41:00',4,0,1,'N;',NULL,NULL,0,NULL,NULL);
+INSERT INTO `admin_user` VALUES (1,'admin','admin','admin@test.com','admin','c90ec647986c1bf24476708d4753bd70b7bb54c49db6f4fa213d67a95062ddcd:wK','2012-05-23 16:01:36','2012-05-23 13:01:22','2012-05-23 13:01:36',1,0,1,'N;',NULL,NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `admin_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,8 +151,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `adminnotification_inbox`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `adminnotification_inbox` (
   `notification_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Notification id',
   `severity` smallint(5) unsigned NOT NULL default '0' COMMENT 'Problem type',
@@ -166,8 +166,8 @@ CREATE TABLE `adminnotification_inbox` (
   KEY `IDX_ADMINNOTIFICATION_INBOX_SEVERITY` (`severity`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_READ` (`is_read`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `adminnotification_inbox`
@@ -175,7 +175,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `adminnotification_inbox` WRITE;
 /*!40000 ALTER TABLE `adminnotification_inbox` DISABLE KEYS */;
-INSERT INTO `adminnotification_inbox` VALUES (1,4,'2012-01-20 19:16:24','Magento\'s Imagine eCommerce Conference 2012 – Registration Now Open!','Registration for the 2012 Imagine eCommerce Conference is officially OPEN! With an expected attendance of over 1000 Magento enthusiasts, this year’s exclusive event is taking place in Las Vegas, April 23rd – 25th at the luxurious M Resort. Join us for an unforgettable experience!','http://www.magentocommerce.com/blog/comments/registration-for-imagine-ecommerce-2012-is-live/',0,0);
 /*!40000 ALTER TABLE `adminnotification_inbox` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,8 +183,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api2_acl_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api2_acl_attribute` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `user_type` varchar(20) NOT NULL COMMENT 'Type of user',
@@ -193,10 +192,10 @@ CREATE TABLE `api2_acl_attribute` (
   `operation` varchar(20) NOT NULL COMMENT 'Operation',
   `allowed_attributes` text COMMENT 'Allowed attributes',
   PRIMARY KEY  (`entity_id`),
-  UNIQUE KEY `IDX_API2_ACL_ATTRIBUTE_USER_TYPE_RESOURCE_ID_OPERATION` (`user_type`,`resource_id`,`operation`),
+  UNIQUE KEY `UNQ_API2_ACL_ATTRIBUTE_USER_TYPE_RESOURCE_ID_OPERATION` (`user_type`,`resource_id`,`operation`),
   KEY `IDX_API2_ACL_ATTRIBUTE_USER_TYPE` (`user_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Attributes';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api2 Filter ACL Attributes';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api2_acl_attribute`
@@ -213,8 +212,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api2_acl_role`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api2_acl_role` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Created At',
@@ -224,7 +223,7 @@ CREATE TABLE `api2_acl_role` (
   KEY `IDX_API2_ACL_ROLE_CREATED_AT` (`created_at`),
   KEY `IDX_API2_ACL_ROLE_UPDATED_AT` (`updated_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Roles';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api2_acl_role`
@@ -232,7 +231,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `api2_acl_role` WRITE;
 /*!40000 ALTER TABLE `api2_acl_role` DISABLE KEYS */;
-INSERT INTO `api2_acl_role` VALUES (1,'2012-02-16 08:27:06',NULL,'guest'),(2,'2012-02-16 08:27:34',NULL,'customer'),(3,'2012-02-16 08:27:47','2012-02-17 10:42:19','admin');
+INSERT INTO `api2_acl_role` VALUES (1,'2012-05-23 15:45:17',NULL,'Guest'),(2,'2012-05-23 15:45:17',NULL,'Customer'),(3,'2012-05-23 13:04:29','2012-05-23 13:05:18','Admin');
 /*!40000 ALTER TABLE `api2_acl_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,20 +240,18 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api2_acl_rule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api2_acl_rule` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `role_id` int(10) unsigned NOT NULL COMMENT 'Role ID',
-  `resource_id` varchar(255) NOT NULL COMMENT 'Permission ID',
+  `resource_id` varchar(255) NOT NULL COMMENT 'Resource ID',
   `privilege` varchar(20) default NULL COMMENT 'ACL Privilege',
-  `allowed_attributes` text COMMENT 'Allowed Attributes',
   PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_API2_ACL_RULE_ROLE_ID_RESOURCE_ID_PRIVILEGE` (`role_id`,`resource_id`,`privilege`),
-  KEY `FK_API2_ACL_RULE_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` (`role_id`),
   CONSTRAINT `FK_API2_ACL_RULE_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `api2_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Rules';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Rules';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api2_acl_rule`
@@ -262,7 +259,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `api2_acl_rule` WRITE;
 /*!40000 ALTER TABLE `api2_acl_rule` DISABLE KEYS */;
-INSERT INTO `api2_acl_rule` VALUES (1,1,'all',NULL,NULL),(2,2,'all',NULL,NULL),(4,3,'all',NULL,NULL);
+INSERT INTO `api2_acl_rule` VALUES (4,1,'all',NULL),(3,2,'all',NULL),(5,3,'all',NULL);
 /*!40000 ALTER TABLE `api2_acl_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,18 +268,17 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api2_acl_user`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api2_acl_user` (
   `admin_id` int(10) unsigned NOT NULL COMMENT 'Admin ID',
   `role_id` int(10) unsigned NOT NULL COMMENT 'Role ID',
   UNIQUE KEY `UNQ_API2_ACL_USER_ADMIN_ID` (`admin_id`),
-  KEY `FK_API2_ACL_USER_ADMIN_ID_ADMIN_USER_USER_ID` (`admin_id`),
   KEY `FK_API2_ACL_USER_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` (`role_id`),
   CONSTRAINT `FK_API2_ACL_USER_ADMIN_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`admin_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_API2_ACL_USER_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `api2_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Users';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api2_acl_user`
@@ -299,15 +295,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api_assert`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_assert` (
   `assert_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Assert id',
   `assert_type` varchar(20) default NULL COMMENT 'Assert type',
   `assert_data` text COMMENT 'Assert additional data',
   PRIMARY KEY  (`assert_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Asserts';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api_assert`
@@ -323,8 +319,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api_role`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_role` (
   `role_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Role id',
   `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent role id',
@@ -336,8 +332,8 @@ CREATE TABLE `api_role` (
   PRIMARY KEY  (`role_id`),
   KEY `IDX_API_ROLE_PARENT_ID_SORT_ORDER` (`parent_id`,`sort_order`),
   KEY `IDX_API_ROLE_TREE_LEVEL` (`tree_level`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api ACL Roles';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Api ACL Roles';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api_role`
@@ -345,7 +341,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `api_role` WRITE;
 /*!40000 ALTER TABLE `api_role` DISABLE KEYS */;
-INSERT INTO `api_role` VALUES (1,0,1,0,'G',0,'full'),(3,1,1,0,'U',1,'admin');
+INSERT INTO `api_role` VALUES (1,0,1,0,'G',0,'full'),(2,1,1,0,'U',1,'api');
 /*!40000 ALTER TABLE `api_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,8 +350,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api_rule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_rule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Api rule Id',
   `role_id` int(10) unsigned NOT NULL default '0' COMMENT 'Api role Id',
@@ -368,8 +364,8 @@ CREATE TABLE `api_rule` (
   KEY `IDX_API_RULE_RESOURCE_ID_ROLE_ID` (`resource_id`,`role_id`),
   KEY `IDX_API_RULE_ROLE_ID_RESOURCE_ID` (`role_id`,`resource_id`),
   CONSTRAINT `FK_API_RULE_ROLE_ID_API_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `api_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='Api ACL Rules';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8 COMMENT='Api ACL Rules';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api_rule`
@@ -377,7 +373,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `api_rule` WRITE;
 /*!40000 ALTER TABLE `api_rule` DISABLE KEYS */;
-INSERT INTO `api_rule` VALUES (1,1,'core',NULL,0,'G','deny'),(2,1,'core/store',NULL,0,'G','deny'),(3,1,'core/store/info',NULL,0,'G','deny'),(4,1,'core/store/list',NULL,0,'G','deny'),(5,1,'directory',NULL,0,'G','deny'),(6,1,'directory/country',NULL,0,'G','deny'),(7,1,'directory/region',NULL,0,'G','deny'),(8,1,'customer',NULL,0,'G','deny'),(9,1,'customer/create',NULL,0,'G','deny'),(10,1,'customer/update',NULL,0,'G','deny'),(11,1,'customer/delete',NULL,0,'G','deny'),(12,1,'customer/info',NULL,0,'G','deny'),(13,1,'customer/address',NULL,0,'G','deny'),(14,1,'customer/address/create',NULL,0,'G','deny'),(15,1,'customer/address/update',NULL,0,'G','deny'),(16,1,'customer/address/delete',NULL,0,'G','deny'),(17,1,'customer/address/info',NULL,0,'G','deny'),(18,1,'catalog',NULL,0,'G','deny'),(19,1,'catalog/category',NULL,0,'G','deny'),(20,1,'catalog/category/create',NULL,0,'G','deny'),(21,1,'catalog/category/update',NULL,0,'G','deny'),(22,1,'catalog/category/move',NULL,0,'G','deny'),(23,1,'catalog/category/delete',NULL,0,'G','deny'),(24,1,'catalog/category/tree',NULL,0,'G','deny'),(25,1,'catalog/category/info',NULL,0,'G','deny'),(26,1,'catalog/category/attributes',NULL,0,'G','deny'),(27,1,'catalog/category/product',NULL,0,'G','deny'),(28,1,'catalog/category/product/assign',NULL,0,'G','deny'),(29,1,'catalog/category/product/update',NULL,0,'G','deny'),(30,1,'catalog/category/product/remove',NULL,0,'G','deny'),(31,1,'catalog/product',NULL,0,'G','deny'),(32,1,'catalog/product/create',NULL,0,'G','deny'),(33,1,'catalog/product/update',NULL,0,'G','deny'),(34,1,'catalog/product/delete',NULL,0,'G','deny'),(35,1,'catalog/product/update_tier_price',NULL,0,'G','deny'),(36,1,'catalog/product/info',NULL,0,'G','deny'),(37,1,'catalog/product/listOfAdditionalAttributes',NULL,0,'G','deny'),(38,1,'catalog/product/attributes',NULL,0,'G','deny'),(39,1,'catalog/product/attribute',NULL,0,'G','deny'),(40,1,'catalog/product/attribute/read',NULL,0,'G','deny'),(41,1,'catalog/product/attribute/write',NULL,0,'G','deny'),(42,1,'catalog/product/attribute/types',NULL,0,'G','deny'),(43,1,'catalog/product/attribute/create',NULL,0,'G','deny'),(44,1,'catalog/product/attribute/update',NULL,0,'G','deny'),(45,1,'catalog/product/attribute/remove',NULL,0,'G','deny'),(46,1,'catalog/product/attribute/info',NULL,0,'G','deny'),(47,1,'catalog/product/attribute/option',NULL,0,'G','deny'),(48,1,'catalog/product/attribute/option/add',NULL,0,'G','deny'),(49,1,'catalog/product/attribute/option/remove',NULL,0,'G','deny'),(50,1,'catalog/product/attribute/set',NULL,0,'G','deny'),(51,1,'catalog/product/attribute/set/list',NULL,0,'G','deny'),(52,1,'catalog/product/attribute/set/create',NULL,0,'G','deny'),(53,1,'catalog/product/attribute/set/remove',NULL,0,'G','deny'),(54,1,'catalog/product/attribute/set/attribute_add',NULL,0,'G','deny'),(55,1,'catalog/product/attribute/set/attribute_remove',NULL,0,'G','deny'),(56,1,'catalog/product/attribute/set/group_add',NULL,0,'G','deny'),(57,1,'catalog/product/attribute/set/group_rename',NULL,0,'G','deny'),(58,1,'catalog/product/attribute/set/group_remove',NULL,0,'G','deny'),(59,1,'catalog/product/link',NULL,0,'G','deny'),(60,1,'catalog/product/link/assign',NULL,0,'G','deny'),(61,1,'catalog/product/link/update',NULL,0,'G','deny'),(62,1,'catalog/product/link/remove',NULL,0,'G','deny'),(63,1,'catalog/product/media',NULL,0,'G','deny'),(64,1,'catalog/product/media/create',NULL,0,'G','deny'),(65,1,'catalog/product/media/update',NULL,0,'G','deny'),(66,1,'catalog/product/media/remove',NULL,0,'G','deny'),(67,1,'catalog/product/option',NULL,0,'G','deny'),(68,1,'catalog/product/option/add',NULL,0,'G','deny'),(69,1,'catalog/product/option/update',NULL,0,'G','deny'),(70,1,'catalog/product/option/types',NULL,0,'G','deny'),(71,1,'catalog/product/option/info',NULL,0,'G','deny'),(72,1,'catalog/product/option/list',NULL,0,'G','deny'),(73,1,'catalog/product/option/remove',NULL,0,'G','deny'),(74,1,'catalog/product/option/value',NULL,0,'G','deny'),(75,1,'catalog/product/option/value/list',NULL,0,'G','deny'),(76,1,'catalog/product/option/value/info',NULL,0,'G','deny'),(77,1,'catalog/product/option/value/add',NULL,0,'G','deny'),(78,1,'catalog/product/option/value/update',NULL,0,'G','deny'),(79,1,'catalog/product/option/value/remove',NULL,0,'G','deny'),(80,1,'catalog/product/tag',NULL,0,'G','deny'),(81,1,'catalog/product/tag/list',NULL,0,'G','deny'),(82,1,'catalog/product/tag/info',NULL,0,'G','deny'),(83,1,'catalog/product/tag/add',NULL,0,'G','deny'),(84,1,'catalog/product/tag/update',NULL,0,'G','deny'),(85,1,'catalog/product/tag/remove',NULL,0,'G','deny'),(86,1,'catalog/product/downloadable_link',NULL,0,'G','deny'),(87,1,'catalog/product/downloadable_link/add',NULL,0,'G','deny'),(88,1,'catalog/product/downloadable_link/list',NULL,0,'G','deny'),(89,1,'catalog/product/downloadable_link/remove',NULL,0,'G','deny'),(90,1,'sales',NULL,0,'G','deny'),(91,1,'sales/order',NULL,0,'G','deny'),(92,1,'sales/order/change',NULL,0,'G','deny'),(93,1,'sales/order/info',NULL,0,'G','deny'),(94,1,'sales/order/shipment',NULL,0,'G','deny'),(95,1,'sales/order/shipment/create',NULL,0,'G','deny'),(96,1,'sales/order/shipment/comment',NULL,0,'G','deny'),(97,1,'sales/order/shipment/track',NULL,0,'G','deny'),(98,1,'sales/order/shipment/info',NULL,0,'G','deny'),(99,1,'sales/order/invoice',NULL,0,'G','deny'),(100,1,'sales/order/invoice/create',NULL,0,'G','deny'),(101,1,'sales/order/invoice/comment',NULL,0,'G','deny'),(102,1,'sales/order/invoice/capture',NULL,0,'G','deny'),(103,1,'sales/order/invoice/void',NULL,0,'G','deny'),(104,1,'sales/order/invoice/cancel',NULL,0,'G','deny'),(105,1,'sales/order/invoice/info',NULL,0,'G','deny'),(106,1,'sales/order/creditmemo',NULL,0,'G','deny'),(107,1,'sales/order/creditmemo/create',NULL,0,'G','deny'),(108,1,'sales/order/creditmemo/comment',NULL,0,'G','deny'),(109,1,'sales/order/creditmemo/cancel',NULL,0,'G','deny'),(110,1,'sales/order/creditmemo/info',NULL,0,'G','deny'),(111,1,'sales/order/creditmemo/list',NULL,0,'G','deny'),(112,1,'cataloginventory',NULL,0,'G','deny'),(113,1,'cataloginventory/update',NULL,0,'G','deny'),(114,1,'cataloginventory/info',NULL,0,'G','deny'),(115,1,'cart',NULL,0,'G','deny'),(116,1,'cart/create',NULL,0,'G','deny'),(117,1,'cart/order',NULL,0,'G','deny'),(118,1,'cart/info',NULL,0,'G','deny'),(119,1,'cart/totals',NULL,0,'G','deny'),(120,1,'cart/license',NULL,0,'G','deny'),(121,1,'cart/product',NULL,0,'G','deny'),(122,1,'cart/product/add',NULL,0,'G','deny'),(123,1,'cart/product/update',NULL,0,'G','deny'),(124,1,'cart/product/remove',NULL,0,'G','deny'),(125,1,'cart/product/list',NULL,0,'G','deny'),(126,1,'cart/product/moveToCustomerQuote',NULL,0,'G','deny'),(127,1,'cart/customer',NULL,0,'G','deny'),(128,1,'cart/customer/set',NULL,0,'G','deny'),(129,1,'cart/customer/addresses',NULL,0,'G','deny'),(130,1,'cart/shipping',NULL,0,'G','deny'),(131,1,'cart/shipping/method',NULL,0,'G','deny'),(132,1,'cart/shipping/list',NULL,0,'G','deny'),(133,1,'cart/payment',NULL,0,'G','deny'),(134,1,'cart/payment/method',NULL,0,'G','deny'),(135,1,'cart/payment/list',NULL,0,'G','deny'),(136,1,'cart/coupon',NULL,0,'G','deny'),(137,1,'cart/coupon/add',NULL,0,'G','deny'),(138,1,'cart/coupon/remove',NULL,0,'G','deny'),(139,1,'giftmessage',NULL,0,'G','deny'),(140,1,'giftmessage/set',NULL,0,'G','deny'),(141,1,'all',NULL,0,'G','allow');
+INSERT INTO `api_rule` VALUES (1,1,'core',NULL,0,'G','deny'),(2,1,'core/store',NULL,0,'G','deny'),(3,1,'core/store/info',NULL,0,'G','deny'),(4,1,'core/store/list',NULL,0,'G','deny'),(5,1,'core/magento',NULL,0,'G','deny'),(6,1,'core/magento/info',NULL,0,'G','deny'),(7,1,'directory',NULL,0,'G','deny'),(8,1,'directory/country',NULL,0,'G','deny'),(9,1,'directory/region',NULL,0,'G','deny'),(10,1,'customer',NULL,0,'G','deny'),(11,1,'customer/create',NULL,0,'G','deny'),(12,1,'customer/update',NULL,0,'G','deny'),(13,1,'customer/delete',NULL,0,'G','deny'),(14,1,'customer/info',NULL,0,'G','deny'),(15,1,'customer/address',NULL,0,'G','deny'),(16,1,'customer/address/create',NULL,0,'G','deny'),(17,1,'customer/address/update',NULL,0,'G','deny'),(18,1,'customer/address/delete',NULL,0,'G','deny'),(19,1,'customer/address/info',NULL,0,'G','deny'),(20,1,'catalog',NULL,0,'G','deny'),(21,1,'catalog/category',NULL,0,'G','deny'),(22,1,'catalog/category/create',NULL,0,'G','deny'),(23,1,'catalog/category/update',NULL,0,'G','deny'),(24,1,'catalog/category/move',NULL,0,'G','deny'),(25,1,'catalog/category/delete',NULL,0,'G','deny'),(26,1,'catalog/category/tree',NULL,0,'G','deny'),(27,1,'catalog/category/info',NULL,0,'G','deny'),(28,1,'catalog/category/product',NULL,0,'G','deny'),(29,1,'catalog/category/product/assign',NULL,0,'G','deny'),(30,1,'catalog/category/product/update',NULL,0,'G','deny'),(31,1,'catalog/category/product/remove',NULL,0,'G','deny'),(32,1,'catalog/product',NULL,0,'G','deny'),(33,1,'catalog/product/create',NULL,0,'G','deny'),(34,1,'catalog/product/update',NULL,0,'G','deny'),(35,1,'catalog/product/delete',NULL,0,'G','deny'),(36,1,'catalog/product/update_tier_price',NULL,0,'G','deny'),(37,1,'catalog/product/info',NULL,0,'G','deny'),(38,1,'catalog/product/attribute',NULL,0,'G','deny'),(39,1,'catalog/product/attribute/read',NULL,0,'G','deny'),(40,1,'catalog/product/attribute/write',NULL,0,'G','deny'),(41,1,'catalog/product/link',NULL,0,'G','deny'),(42,1,'catalog/product/link/assign',NULL,0,'G','deny'),(43,1,'catalog/product/link/update',NULL,0,'G','deny'),(44,1,'catalog/product/link/remove',NULL,0,'G','deny'),(45,1,'catalog/product/media',NULL,0,'G','deny'),(46,1,'catalog/product/media/create',NULL,0,'G','deny'),(47,1,'catalog/product/media/update',NULL,0,'G','deny'),(48,1,'catalog/product/media/remove',NULL,0,'G','deny'),(49,1,'catalog/product/tag',NULL,0,'G','deny'),(50,1,'catalog/product/tag/list',NULL,0,'G','deny'),(51,1,'catalog/product/tag/info',NULL,0,'G','deny'),(52,1,'catalog/product/tag/add',NULL,0,'G','deny'),(53,1,'catalog/product/tag/update',NULL,0,'G','deny'),(54,1,'catalog/product/tag/remove',NULL,0,'G','deny'),(55,1,'catalog/product/downloadable_link',NULL,0,'G','deny'),(56,1,'catalog/product/downloadable_link/add',NULL,0,'G','deny'),(57,1,'catalog/product/downloadable_link/list',NULL,0,'G','deny'),(58,1,'catalog/product/downloadable_link/remove',NULL,0,'G','deny'),(59,1,'sales',NULL,0,'G','deny'),(60,1,'sales/order',NULL,0,'G','deny'),(61,1,'sales/order/change',NULL,0,'G','deny'),(62,1,'sales/order/info',NULL,0,'G','deny'),(63,1,'sales/order/shipment',NULL,0,'G','deny'),(64,1,'sales/order/shipment/create',NULL,0,'G','deny'),(65,1,'sales/order/shipment/comment',NULL,0,'G','deny'),(66,1,'sales/order/shipment/track',NULL,0,'G','deny'),(67,1,'sales/order/shipment/info',NULL,0,'G','deny'),(68,1,'sales/order/shipment/send',NULL,0,'G','deny'),(69,1,'sales/order/invoice',NULL,0,'G','deny'),(70,1,'sales/order/invoice/create',NULL,0,'G','deny'),(71,1,'sales/order/invoice/comment',NULL,0,'G','deny'),(72,1,'sales/order/invoice/capture',NULL,0,'G','deny'),(73,1,'sales/order/invoice/void',NULL,0,'G','deny'),(74,1,'sales/order/invoice/cancel',NULL,0,'G','deny'),(75,1,'sales/order/invoice/info',NULL,0,'G','deny'),(76,1,'sales/order/creditmemo',NULL,0,'G','deny'),(77,1,'sales/order/creditmemo/create',NULL,0,'G','deny'),(78,1,'sales/order/creditmemo/comment',NULL,0,'G','deny'),(79,1,'sales/order/creditmemo/cancel',NULL,0,'G','deny'),(80,1,'sales/order/creditmemo/info',NULL,0,'G','deny'),(81,1,'sales/order/creditmemo/list',NULL,0,'G','deny'),(82,1,'cataloginventory',NULL,0,'G','deny'),(83,1,'cataloginventory/update',NULL,0,'G','deny'),(84,1,'cataloginventory/info',NULL,0,'G','deny'),(85,1,'cart',NULL,0,'G','deny'),(86,1,'cart/create',NULL,0,'G','deny'),(87,1,'cart/order',NULL,0,'G','deny'),(88,1,'cart/info',NULL,0,'G','deny'),(89,1,'cart/totals',NULL,0,'G','deny'),(90,1,'cart/license',NULL,0,'G','deny'),(91,1,'cart/product',NULL,0,'G','deny'),(92,1,'cart/product/add',NULL,0,'G','deny'),(93,1,'cart/product/update',NULL,0,'G','deny'),(94,1,'cart/product/remove',NULL,0,'G','deny'),(95,1,'cart/product/list',NULL,0,'G','deny'),(96,1,'cart/product/moveToCustomerQuote',NULL,0,'G','deny'),(97,1,'cart/customer',NULL,0,'G','deny'),(98,1,'cart/customer/set',NULL,0,'G','deny'),(99,1,'cart/customer/addresses',NULL,0,'G','deny'),(100,1,'cart/shipping',NULL,0,'G','deny'),(101,1,'cart/shipping/method',NULL,0,'G','deny'),(102,1,'cart/shipping/list',NULL,0,'G','deny'),(103,1,'cart/payment',NULL,0,'G','deny'),(104,1,'cart/payment/method',NULL,0,'G','deny'),(105,1,'cart/payment/list',NULL,0,'G','deny'),(106,1,'cart/coupon',NULL,0,'G','deny'),(107,1,'cart/coupon/add',NULL,0,'G','deny'),(108,1,'cart/coupon/remove',NULL,0,'G','deny'),(109,1,'cart/storecredit',NULL,0,'G','deny'),(110,1,'cart/storecredit/set',NULL,0,'G','deny'),(111,1,'cart/storecredit/remove',NULL,0,'G','deny'),(112,1,'giftmessage',NULL,0,'G','deny'),(113,1,'giftmessage/set',NULL,0,'G','deny'),(114,1,'all',NULL,0,'G','allow');
 /*!40000 ALTER TABLE `api_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,8 +382,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api_session`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_session` (
   `user_id` int(10) unsigned NOT NULL COMMENT 'User id',
   `logdate` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Login date',
@@ -396,7 +392,7 @@ CREATE TABLE `api_session` (
   KEY `IDX_API_SESSION_SESSID` (`sessid`),
   CONSTRAINT `FK_API_SESSION_USER_ID_API_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `api_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Sessions';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api_session`
@@ -412,8 +408,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `api_user`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_user` (
   `user_id` int(10) unsigned NOT NULL auto_increment COMMENT 'User id',
   `firstname` varchar(32) default NULL COMMENT 'First name',
@@ -428,7 +424,7 @@ CREATE TABLE `api_user` (
   `is_active` smallint(6) NOT NULL default '1' COMMENT 'Account status',
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Api Users';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `api_user`
@@ -436,7 +432,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `api_user` WRITE;
 /*!40000 ALTER TABLE `api_user` DISABLE KEYS */;
-INSERT INTO `api_user` VALUES (1,'admin','admin','api_user@example.com','api','46181b4a78df2538830c0439ec3f879e5f89cc16a83a209c9edc6f6b6d139cc1:Gm','2012-01-30 17:33:12','2012-01-30 15:33:12',0,0,1);
+INSERT INTO `api_user` VALUES (1,'api','api','api@example.com','api','34da9398332339c1acbe98dc842f18b6900d7336bae0c93a76d42a1b51275587:vR','2012-05-23 13:04:07','2012-05-23 13:04:07',0,0,1);
 /*!40000 ALTER TABLE `api_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,8 +441,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `captcha_log`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `captcha_log` (
   `type` varchar(32) NOT NULL COMMENT 'Type',
   `value` varchar(32) NOT NULL COMMENT 'Value',
@@ -454,7 +450,7 @@ CREATE TABLE `captcha_log` (
   `updated_at` timestamp NULL default NULL COMMENT 'Update Time',
   PRIMARY KEY  (`type`,`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Count Login Attempts';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `captcha_log`
@@ -470,15 +466,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_anc_categs_index_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_anc_categs_index_idx` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `path` varchar(255) default NULL COMMENT 'Path',
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_IDX_CATEGORY_ID` (`category_id`),
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_IDX_PATH_CATEGORY_ID` (`path`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_anc_categs_index_idx`
@@ -494,15 +490,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_anc_categs_index_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_anc_categs_index_tmp` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `path` varchar(255) default NULL COMMENT 'Path',
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_TMP_CATEGORY_ID` (`category_id`),
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_TMP_PATH_CATEGORY_ID` (`path`,`category_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_anc_categs_index_tmp`
@@ -518,15 +514,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_anc_products_index_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_anc_products_index_idx` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
   `position` int(10) unsigned default NULL COMMENT 'Position',
   KEY `IDX_CAT_CTGR_ANC_PRDS_IDX_IDX_CTGR_ID_PRD_ID_POSITION` (`category_id`,`product_id`,`position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_anc_products_index_idx`
@@ -542,15 +538,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_anc_products_index_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_anc_products_index_tmp` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
   `position` int(10) unsigned default NULL COMMENT 'Position',
   KEY `IDX_CAT_CTGR_ANC_PRDS_IDX_TMP_CTGR_ID_PRD_ID_POSITION` (`category_id`,`product_id`,`position`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_anc_products_index_tmp`
@@ -566,8 +562,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -583,7 +579,7 @@ CREATE TABLE `catalog_category_entity` (
   KEY `IDX_CATALOG_CATEGORY_ENTITY_LEVEL` (`level`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_PATH_ENTITY_ID` (`path`,`entity_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity`
@@ -591,7 +587,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `catalog_category_entity` WRITE;
 /*!40000 ALTER TABLE `catalog_category_entity` DISABLE KEYS */;
-INSERT INTO `catalog_category_entity` VALUES (1,3,0,0,'2012-01-23 14:37:47','2012-01-23 14:37:47','1',0,0,1),(2,3,3,1,'2012-01-23 14:37:47','2012-01-23 14:37:47','1/2',1,1,0);
+INSERT INTO `catalog_category_entity` VALUES (1,3,0,0,'2012-05-23 12:45:26','2012-05-23 12:45:26','1',0,0,1),(2,3,3,1,'2012-05-23 12:45:26','2012-05-23 12:45:26','1/2',1,1,0);
 /*!40000 ALTER TABLE `catalog_category_entity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -600,8 +596,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity_datetime`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -618,7 +614,7 @@ CREATE TABLE `catalog_category_entity_datetime` (
   CONSTRAINT `FK_CAT_CTGR_ENTT_DTIME_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Datetime Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity_datetime`
@@ -634,8 +630,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity_decimal` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -652,7 +648,7 @@ CREATE TABLE `catalog_category_entity_decimal` (
   CONSTRAINT `FK_CAT_CTGR_ENTT_DEC_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Decimal Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity_decimal`
@@ -668,8 +664,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity_int` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -686,7 +682,7 @@ CREATE TABLE `catalog_category_entity_int` (
   CONSTRAINT `FK_CAT_CTGR_ENTT_INT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Integer Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity_int`
@@ -703,8 +699,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity_text`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity_text` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -721,7 +717,7 @@ CREATE TABLE `catalog_category_entity_text` (
   CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Text Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity_text`
@@ -738,8 +734,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_entity_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_entity_varchar` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -756,7 +752,7 @@ CREATE TABLE `catalog_category_entity_varchar` (
   CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Varchar Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_entity_varchar`
@@ -769,75 +765,12 @@ INSERT INTO `catalog_category_entity_varchar` VALUES (1,3,41,0,1,'Root Catalog')
 UNLOCK TABLES;
 
 --
--- Table structure for table `catalog_category_flat_store_1`
---
-
-DROP TABLE IF EXISTS `catalog_category_flat_store_1`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `catalog_category_flat_store_1` (
-  `entity_id` int(10) unsigned NOT NULL COMMENT 'entity_id',
-  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'parent_id',
-  `created_at` timestamp NULL default NULL COMMENT 'created_at',
-  `updated_at` timestamp NULL default NULL COMMENT 'updated_at',
-  `path` varchar(255) NOT NULL default '' COMMENT 'path',
-  `position` int(11) NOT NULL COMMENT 'position',
-  `level` int(11) NOT NULL default '0' COMMENT 'level',
-  `children_count` int(11) NOT NULL COMMENT 'children_count',
-  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
-  `all_children` text COMMENT 'All Children',
-  `available_sort_by` text COMMENT 'Available Product Listing Sort By',
-  `children` text COMMENT 'Children',
-  `custom_apply_to_products` int(11) default NULL COMMENT 'Apply To Products',
-  `custom_design` varchar(255) default NULL COMMENT 'Custom Design',
-  `custom_design_from` datetime default NULL COMMENT 'Active From',
-  `custom_design_to` datetime default NULL COMMENT 'Active To',
-  `custom_layout_update` text COMMENT 'Custom Layout Update',
-  `custom_use_parent_settings` int(11) default NULL COMMENT 'Use Parent Category Settings',
-  `default_sort_by` varchar(255) default NULL COMMENT 'Default Product Listing Sort By',
-  `description` text COMMENT 'Description',
-  `display_mode` varchar(255) default NULL COMMENT 'Display Mode',
-  `filter_price_range` int(11) default NULL COMMENT 'Layered Navigation Price Step',
-  `image` varchar(255) default NULL COMMENT 'Image',
-  `include_in_menu` int(11) default NULL COMMENT 'Include in Navigation Menu',
-  `is_active` int(11) default NULL COMMENT 'Is Active',
-  `is_anchor` int(11) default NULL COMMENT 'Is Anchor',
-  `landing_page` int(11) default NULL COMMENT 'CMS Block',
-  `meta_description` text COMMENT 'Meta Description',
-  `meta_keywords` text COMMENT 'Meta Keywords',
-  `meta_title` varchar(255) default NULL COMMENT 'Page Title',
-  `name` varchar(255) default NULL COMMENT 'Name',
-  `page_layout` varchar(255) default NULL COMMENT 'Page Layout',
-  `path_in_store` text COMMENT 'Path In Store',
-  `thumbnail` varchar(255) default NULL COMMENT 'Thumbnail Image',
-  `url_key` varchar(255) default NULL COMMENT 'URL Key',
-  `url_path` varchar(255) default NULL COMMENT 'Url Path',
-  PRIMARY KEY  (`entity_id`),
-  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID` (`store_id`),
-  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_PATH` (`path`),
-  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_LEVEL` (`level`),
-  CONSTRAINT `FK_CAT_CTGR_FLAT_STORE_1_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Flat (Store 1)';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `catalog_category_flat_store_1`
---
-
-LOCK TABLES `catalog_category_flat_store_1` WRITE;
-/*!40000 ALTER TABLE `catalog_category_flat_store_1` DISABLE KEYS */;
-INSERT INTO `catalog_category_flat_store_1` VALUES (1,0,'2012-01-23 14:37:47','2012-01-23 14:37:47','1',0,0,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,'Root Catalog',NULL,NULL,NULL,NULL,NULL),(2,1,'2012-01-23 14:37:47','2012-01-23 14:37:47','1/2',1,1,0,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL,NULL,NULL,'Default Category',NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `catalog_category_flat_store_1` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `catalog_category_product`
 --
 
 DROP TABLE IF EXISTS `catalog_category_product`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -847,7 +780,7 @@ CREATE TABLE `catalog_category_product` (
   CONSTRAINT `FK_CAT_CTGR_PRD_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_CTGR_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Category Linkage Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product`
@@ -863,8 +796,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_product_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product_index` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -879,7 +812,7 @@ CREATE TABLE `catalog_category_product_index` (
   CONSTRAINT `FK_CAT_CTGR_PRD_IDX_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_CTGR_PRD_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Index';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product_index`
@@ -895,14 +828,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_product_index_enbl_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product_index_enbl_idx` (
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
   `visibility` int(10) unsigned NOT NULL default '0' COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_ENBL_IDX_PRD_ID_VISIBILITY` (`product_id`,`visibility`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product_index_enbl_idx`
@@ -918,14 +851,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_product_index_enbl_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product_index_enbl_tmp` (
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
   `visibility` int(10) unsigned NOT NULL default '0' COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_ENBL_TMP_PRD_ID_VISIBILITY` (`product_id`,`visibility`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product_index_enbl_tmp`
@@ -941,8 +874,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_product_index_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product_index_idx` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -952,7 +885,7 @@ CREATE TABLE `catalog_category_product_index_idx` (
   `visibility` smallint(5) unsigned NOT NULL COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_IDX_PRD_ID_CTGR_ID_STORE_ID` (`product_id`,`category_id`,`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product_index_idx`
@@ -968,8 +901,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_category_product_index_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_category_product_index_tmp` (
   `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -979,7 +912,7 @@ CREATE TABLE `catalog_category_product_index_tmp` (
   `visibility` smallint(5) unsigned NOT NULL COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_TMP_PRD_ID_CTGR_ID_STORE_ID` (`product_id`,`category_id`,`store_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_category_product_index_tmp`
@@ -995,8 +928,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_compare_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_compare_item` (
   `catalog_compare_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Compare Item ID',
   `visitor_id` int(10) unsigned NOT NULL default '0' COMMENT 'Visitor ID',
@@ -1013,7 +946,7 @@ CREATE TABLE `catalog_compare_item` (
   CONSTRAINT `FK_CAT_CMP_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_COMPARE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Compare Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_compare_item`
@@ -1029,8 +962,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_eav_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_eav_attribute` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `frontend_input_renderer` varchar(255) default NULL COMMENT 'Frontend Input Renderer',
@@ -1057,7 +990,7 @@ CREATE TABLE `catalog_eav_attribute` (
   KEY `IDX_CATALOG_EAV_ATTRIBUTE_USED_IN_PRODUCT_LISTING` (`used_in_product_listing`),
   CONSTRAINT `FK_CATALOG_EAV_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog EAV Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_eav_attribute`
@@ -1065,7 +998,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `catalog_eav_attribute` WRITE;
 /*!40000 ALTER TABLE `catalog_eav_attribute` DISABLE KEYS */;
-INSERT INTO `catalog_eav_attribute` VALUES (41,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(42,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(43,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(44,NULL,0,1,0,0,0,0,1,0,0,0,0,1,NULL,0,0,1,0,1),(45,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(46,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(47,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(48,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(49,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(50,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(51,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(52,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(53,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(54,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(55,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(56,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(57,NULL,0,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(58,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(59,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(60,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(61,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(62,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(63,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(64,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(65,'adminhtml/catalog_category_helper_sortby_available',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(66,'adminhtml/catalog_category_helper_sortby_default',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(67,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(68,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(69,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(70,'adminhtml/catalog_category_helper_pricestep',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(71,NULL,0,1,1,0,0,0,0,0,0,1,1,1,NULL,1,0,0,0,1),(72,NULL,0,1,1,0,1,0,1,0,0,0,0,1,NULL,1,0,1,0,1),(73,NULL,0,1,1,0,1,0,1,0,0,1,0,1,NULL,1,0,1,0,1),(74,NULL,1,1,1,0,1,0,0,0,0,0,0,1,NULL,1,0,0,0,1),(75,NULL,2,1,1,1,0,0,0,0,0,1,1,1,'simple,configurable,virtual,bundle,downloadable',1,0,0,0,1),(76,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(77,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(78,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(79,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'virtual,downloadable',0,0,0,0,1),(80,NULL,1,1,0,0,0,0,0,0,0,0,0,1,'simple,bundle,giftcard',0,0,0,0,1),(81,NULL,1,1,1,1,1,0,0,0,0,0,0,1,'simple',1,0,0,0,1),(82,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(83,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(84,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(85,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(86,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(87,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(88,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(89,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(90,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(91,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(92,NULL,1,1,1,1,1,0,0,0,0,0,0,1,'simple',1,0,0,0,1),(93,NULL,2,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(94,NULL,2,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(95,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(96,NULL,2,1,1,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(97,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(98,NULL,0,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(99,NULL,0,0,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(100,NULL,1,1,0,0,0,0,0,0,0,0,0,0,'simple,virtual',0,0,0,0,1),(101,NULL,1,1,0,0,0,0,0,0,0,0,0,0,'simple,virtual',0,0,0,0,1),(102,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(103,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(104,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(105,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(106,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(107,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(108,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(109,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(110,NULL,1,0,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(111,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(112,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(113,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(114,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(115,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(116,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(117,NULL,2,1,0,0,0,0,0,0,0,0,0,0,'simple,configurable,bundle,grouped',0,0,0,0,1),(118,'adminhtml/catalog_product_helper_form_msrp_enabled',2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(119,'adminhtml/catalog_product_helper_form_msrp_price',2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(120,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(121,NULL,1,1,0,0,0,0,0,0,0,0,0,0,NULL,0,0,0,0,1),(122,NULL,2,1,1,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,downloadable,bundle',1,0,0,0,1),(123,'giftmessage/adminhtml_product_helper_form_config',1,1,0,0,0,0,0,0,0,0,0,0,NULL,0,0,0,0,1),(124,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(125,NULL,1,0,0,0,0,0,0,0,0,0,0,0,'bundle',0,0,0,0,1),(126,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(127,NULL,1,1,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(128,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(129,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'downloadable',0,0,0,0,1),(130,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'downloadable',0,0,0,0,1),(131,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'downloadable',0,0,0,0,1),(132,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'downloadable',0,0,0,0,1),(133,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(134,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(135,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(136,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(137,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(138,NULL,1,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(139,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(140,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(141,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(142,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(143,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(144,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(145,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(146,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(147,'enterprise_giftwrapping/adminhtml_product_helper_form_config',0,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,bundle,giftcard',0,0,0,0,1),(148,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,bundle,giftcard',0,0,0,0,1),(151,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(152,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(153,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(154,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1);
+INSERT INTO `catalog_eav_attribute` VALUES (41,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(42,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(43,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(44,NULL,0,1,0,0,0,0,1,0,0,0,0,1,NULL,0,0,1,0,1),(45,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(46,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(47,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(48,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(49,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(50,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(51,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(52,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(53,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(54,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(55,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(56,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(57,NULL,0,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(58,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(59,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(60,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(61,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(62,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(63,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(64,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(65,'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(66,'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Default',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(67,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(68,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(69,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(70,'Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep',0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(71,NULL,0,1,1,0,0,0,0,0,0,1,1,1,NULL,1,0,0,0,1),(72,NULL,0,1,1,0,1,0,1,0,0,0,0,1,NULL,1,0,1,0,1),(73,NULL,0,1,1,0,1,0,1,0,0,1,0,1,NULL,1,0,1,0,1),(74,NULL,1,1,1,0,1,0,0,0,0,0,0,1,NULL,1,0,0,0,1),(75,NULL,2,1,1,1,0,0,0,0,0,1,1,1,'simple,configurable,virtual,bundle,downloadable',1,0,0,0,1),(76,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(77,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(78,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(79,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'virtual,downloadable',0,0,0,0,1),(80,NULL,1,1,0,0,0,0,0,0,0,0,0,1,'simple,giftcard,bundle',0,0,0,0,1),(81,NULL,1,1,1,1,1,0,0,0,0,0,0,1,'simple',1,0,0,0,1),(82,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(83,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(84,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(85,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(86,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(87,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(88,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(89,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(90,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(91,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(92,NULL,1,1,1,1,1,0,0,0,0,0,0,1,'simple',1,0,0,0,1),(93,NULL,2,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(94,NULL,2,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(95,NULL,1,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(96,NULL,2,1,1,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(97,NULL,0,1,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(98,NULL,0,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(99,NULL,0,0,0,0,0,0,0,0,0,0,0,1,'simple,configurable,virtual,bundle,downloadable',0,0,0,0,1),(100,NULL,1,1,0,0,0,0,0,0,0,0,0,0,'simple,virtual',0,0,0,0,1),(101,NULL,1,1,0,0,0,0,0,0,0,0,0,0,'simple,virtual',0,0,0,0,1),(102,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(103,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(104,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(105,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(106,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(107,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(108,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(109,NULL,1,0,0,0,0,0,0,0,0,1,0,1,NULL,0,0,0,0,1),(110,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(111,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(112,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(113,NULL,0,0,0,0,0,0,0,0,0,1,0,0,NULL,0,0,0,0,1),(114,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(115,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(116,NULL,2,1,0,0,0,0,0,0,0,0,0,0,'simple,configurable,bundle,grouped',0,0,0,0,1),(117,'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled',2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(118,'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Price',2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(119,NULL,2,1,0,0,0,0,0,0,0,1,0,1,'simple,bundle,configurable,virtual,downloadable',0,0,0,0,1),(120,NULL,1,1,0,0,0,0,0,0,0,0,0,0,NULL,0,0,0,0,1),(121,NULL,2,1,1,0,0,0,0,0,0,1,0,1,'simple,configurable,virtual,downloadable,bundle',1,0,0,0,1),(122,'Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',1,1,0,0,0,0,0,0,0,0,0,0,NULL,0,0,0,0,1),(123,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(124,NULL,1,0,0,0,0,0,0,0,0,0,0,0,'bundle',0,0,0,0,1),(125,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(126,NULL,1,1,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(127,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'bundle',0,0,0,0,1),(128,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'downloadable',0,0,0,0,1),(129,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'downloadable',0,0,0,0,1),(130,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'downloadable',0,0,0,0,1),(131,NULL,1,0,0,0,0,0,0,0,0,1,0,0,'downloadable',0,0,0,0,1),(132,NULL,0,1,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(133,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(134,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(135,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(136,NULL,2,1,0,0,0,0,0,0,0,1,0,0,'giftcard',0,0,0,0,1),(137,NULL,1,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(138,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(139,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(140,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(141,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(142,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(143,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(144,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(145,NULL,0,0,0,0,0,0,0,0,0,0,0,0,'giftcard',0,0,0,0,1),(146,'Enterprise_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config',0,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,bundle,giftcard',0,0,0,0,1),(147,NULL,2,1,0,0,0,0,0,0,0,0,0,1,'simple,configurable,bundle,giftcard',0,0,0,0,1),(162,'Enterprise_Rma_Block_Adminhtml_Product_Renderer',2,1,0,0,0,0,0,0,0,0,0,0,'simple,configurable,grouped,bundle',0,0,0,0,1),(163,NULL,2,0,0,0,0,0,0,0,0,0,0,0,'simple,configurable,grouped,bundle',0,0,0,0,1),(169,'Enterprise_Rma_Block_Adminhtml_Product_Renderer',2,1,0,0,0,0,0,0,0,0,0,0,'simple,configurable,bundle',0,0,0,0,1),(170,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(171,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(172,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1),(173,NULL,1,0,0,0,0,0,0,0,0,0,0,1,NULL,0,0,0,0,1);
 /*!40000 ALTER TABLE `catalog_eav_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1074,8 +1007,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -1086,7 +1019,7 @@ CREATE TABLE `catalog_product_bundle_option` (
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_OPTION_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_OPT_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_option`
@@ -1102,8 +1035,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_option_value`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_option_value` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value Id',
   `option_id` int(10) unsigned NOT NULL COMMENT 'Option Id',
@@ -1113,7 +1046,7 @@ CREATE TABLE `catalog_product_bundle_option_value` (
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_BUNDLE_OPTION_VALUE_OPTION_ID_STORE_ID` (`option_id`,`store_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_OPT_VAL_OPT_ID_CAT_PRD_BNDL_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_bundle_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option Value';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_option_value`
@@ -1129,8 +1062,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_price_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_price_index` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -1144,7 +1077,7 @@ CREATE TABLE `catalog_product_bundle_price_index` (
   CONSTRAINT `FK_CAT_PRD_BNDL_PRICE_IDX_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_BNDL_PRICE_IDX_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Price Index';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_price_index`
@@ -1160,8 +1093,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_selection`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_selection` (
   `selection_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Selection Id',
   `option_id` int(10) unsigned NOT NULL COMMENT 'Option Id',
@@ -1179,7 +1112,7 @@ CREATE TABLE `catalog_product_bundle_selection` (
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_OPT_ID_CAT_PRD_BNDL_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_bundle_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_selection`
@@ -1195,8 +1128,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_selection_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_selection_price` (
   `selection_id` int(10) unsigned NOT NULL COMMENT 'Selection Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -1207,7 +1140,7 @@ CREATE TABLE `catalog_product_bundle_selection_price` (
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DCF37523AA05D770A70AA4ED7C2616E4` FOREIGN KEY (`selection_id`) REFERENCES `catalog_product_bundle_selection` (`selection_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection Price';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_selection_price`
@@ -1223,8 +1156,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_bundle_stock_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_bundle_stock_index` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -1233,7 +1166,7 @@ CREATE TABLE `catalog_product_bundle_stock_index` (
   `stock_status` smallint(6) default '0' COMMENT 'Stock Status',
   PRIMARY KEY  (`entity_id`,`website_id`,`stock_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Stock Index';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_bundle_stock_index`
@@ -1249,8 +1182,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_enabled_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_enabled_index` (
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
@@ -1260,7 +1193,7 @@ CREATE TABLE `catalog_product_enabled_index` (
   CONSTRAINT `FK_CAT_PRD_ENABLED_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENABLED_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Visibility Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_enabled_index`
@@ -1276,8 +1209,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1295,7 +1228,7 @@ CREATE TABLE `catalog_product_entity` (
   CONSTRAINT `FK_CAT_PRD_ENTT_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity`
@@ -1311,8 +1244,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_datetime`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1329,7 +1262,7 @@ CREATE TABLE `catalog_product_entity_datetime` (
   CONSTRAINT `FK_CAT_PRD_ENTT_DTIME_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Datetime Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_datetime`
@@ -1345,8 +1278,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_decimal` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1363,7 +1296,7 @@ CREATE TABLE `catalog_product_entity_decimal` (
   CONSTRAINT `FK_CAT_PRD_ENTT_DEC_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_decimal`
@@ -1379,8 +1312,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_gallery`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_gallery` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1398,7 +1331,7 @@ CREATE TABLE `catalog_product_entity_gallery` (
   CONSTRAINT `FK_CAT_PRD_ENTT_GLR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_GALLERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Gallery Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_gallery`
@@ -1414,8 +1347,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_group_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_group_price` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
@@ -1432,7 +1365,7 @@ CREATE TABLE `catalog_product_entity_group_price` (
   CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_group_price`
@@ -1448,8 +1381,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_int` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1466,7 +1399,7 @@ CREATE TABLE `catalog_product_entity_int` (
   CONSTRAINT `FK_CAT_PRD_ENTT_INT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_int`
@@ -1482,8 +1415,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_media_gallery`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_media_gallery` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
@@ -1495,7 +1428,7 @@ CREATE TABLE `catalog_product_entity_media_gallery` (
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_media_gallery`
@@ -1511,8 +1444,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_media_gallery_value`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_media_gallery_value` (
   `value_id` int(10) unsigned NOT NULL default '0' COMMENT 'Value ID',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
@@ -1524,7 +1457,7 @@ CREATE TABLE `catalog_product_entity_media_gallery_value` (
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_VAL_ID_CAT_PRD_ENTT_MDA_GLR_VAL_ID` FOREIGN KEY (`value_id`) REFERENCES `catalog_product_entity_media_gallery` (`value_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Value Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_media_gallery_value`
@@ -1540,8 +1473,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_text`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_text` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1558,7 +1491,7 @@ CREATE TABLE `catalog_product_entity_text` (
   CONSTRAINT `FK_CAT_PRD_ENTT_TEXT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_text`
@@ -1574,8 +1507,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_tier_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_tier_price` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
@@ -1593,7 +1526,7 @@ CREATE TABLE `catalog_product_entity_tier_price` (
   CONSTRAINT `FK_CAT_PRD_ENTT_TIER_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_TIER_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_tier_price`
@@ -1609,8 +1542,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_entity_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_entity_varchar` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
   `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
@@ -1627,7 +1560,7 @@ CREATE TABLE `catalog_product_entity_varchar` (
   CONSTRAINT `FK_CAT_PRD_ENTT_VCHR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_entity_varchar`
@@ -1639,80 +1572,12 @@ LOCK TABLES `catalog_product_entity_varchar` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `catalog_product_flat_1`
---
-
-DROP TABLE IF EXISTS `catalog_product_flat_1`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `catalog_product_flat_1` (
-  `entity_id` int(10) unsigned NOT NULL COMMENT 'entity_id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'attribute_set_id',
-  `type_id` varchar(32) NOT NULL default 'simple' COMMENT 'type_id',
-  `cost` decimal(12,4) default NULL COMMENT 'cost',
-  `created_at` timestamp NULL default NULL COMMENT 'created_at',
-  `enable_googlecheckout` smallint(6) default NULL COMMENT 'enable_googlecheckout',
-  `gift_message_available` smallint(6) default NULL COMMENT 'gift_message_available',
-  `has_options` smallint(6) NOT NULL default '0' COMMENT 'has_options',
-  `image_label` varchar(255) default NULL COMMENT 'image_label',
-  `is_recurring` smallint(6) default NULL COMMENT 'is_recurring',
-  `links_exist` int(11) default NULL COMMENT 'links_exist',
-  `links_purchased_separately` int(11) default NULL COMMENT 'links_purchased_separately',
-  `links_title` varchar(255) default NULL COMMENT 'links_title',
-  `msrp` decimal(12,4) default NULL COMMENT 'msrp',
-  `msrp_display_actual_price_type` varchar(255) default NULL COMMENT 'msrp_display_actual_price_type',
-  `msrp_enabled` smallint(6) default NULL COMMENT 'msrp_enabled',
-  `name` varchar(255) default NULL COMMENT 'name',
-  `news_from_date` datetime default NULL COMMENT 'news_from_date',
-  `news_to_date` datetime default NULL COMMENT 'news_to_date',
-  `price` decimal(12,4) default NULL COMMENT 'price',
-  `price_type` int(11) default NULL COMMENT 'price_type',
-  `price_view` int(11) default NULL COMMENT 'price_view',
-  `recurring_profile` text COMMENT 'recurring_profile',
-  `required_options` smallint(5) unsigned NOT NULL default '0' COMMENT 'required_options',
-  `shipment_type` int(11) default NULL COMMENT 'shipment_type',
-  `short_description` text COMMENT 'short_description',
-  `sku` varchar(64) default NULL COMMENT 'sku',
-  `sku_type` int(11) default NULL COMMENT 'sku_type',
-  `small_image` varchar(255) default NULL COMMENT 'small_image',
-  `small_image_label` varchar(255) default NULL COMMENT 'small_image_label',
-  `special_from_date` datetime default NULL COMMENT 'special_from_date',
-  `special_price` decimal(12,4) default NULL COMMENT 'special_price',
-  `special_to_date` datetime default NULL COMMENT 'special_to_date',
-  `tax_class_id` int(10) unsigned default NULL COMMENT 'tax_class_id',
-  `thumbnail` varchar(255) default NULL COMMENT 'thumbnail',
-  `thumbnail_label` varchar(255) default NULL COMMENT 'thumbnail_label',
-  `updated_at` timestamp NULL default NULL COMMENT 'updated_at',
-  `url_key` varchar(255) default NULL COMMENT 'url_key',
-  `url_path` varchar(255) default NULL COMMENT 'url_path',
-  `visibility` smallint(5) unsigned default NULL COMMENT 'visibility',
-  `weight` decimal(12,4) default NULL COMMENT 'weight',
-  `weight_type` int(11) default NULL COMMENT 'weight_type',
-  PRIMARY KEY  (`entity_id`),
-  KEY `IDX_CATALOG_PRODUCT_FLAT_1_TYPE_ID` (`type_id`),
-  KEY `IDX_CATALOG_PRODUCT_FLAT_1_ATTRIBUTE_SET_ID` (`attribute_set_id`),
-  KEY `IDX_CATALOG_PRODUCT_FLAT_1_NAME` (`name`),
-  KEY `IDX_CATALOG_PRODUCT_FLAT_1_PRICE` (`price`),
-  CONSTRAINT `FK_CAT_PRD_FLAT_1_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Flat (Store 1)';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `catalog_product_flat_1`
---
-
-LOCK TABLES `catalog_product_flat_1` WRITE;
-/*!40000 ALTER TABLE `catalog_product_flat_1` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_flat_1` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `catalog_product_index_eav`
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1727,7 +1592,7 @@ CREATE TABLE `catalog_product_index_eav` (
   CONSTRAINT `FK_CAT_PRD_IDX_EAV_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_INDEX_EAV_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav`
@@ -1743,8 +1608,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav_decimal` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1759,7 +1624,7 @@ CREATE TABLE `catalog_product_index_eav_decimal` (
   CONSTRAINT `FK_CAT_PRD_IDX_EAV_DEC_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_IDX_EAV_DEC_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav_decimal`
@@ -1775,8 +1640,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav_decimal_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1788,7 +1653,7 @@ CREATE TABLE `catalog_product_index_eav_decimal_idx` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav_decimal_idx`
@@ -1804,8 +1669,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav_decimal_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1817,7 +1682,7 @@ CREATE TABLE `catalog_product_index_eav_decimal_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_VALUE` (`value`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav_decimal_tmp`
@@ -1833,8 +1698,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1846,7 +1711,7 @@ CREATE TABLE `catalog_product_index_eav_idx` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav_idx`
@@ -1862,8 +1727,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_eav_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_eav_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
@@ -1875,7 +1740,7 @@ CREATE TABLE `catalog_product_index_eav_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_VALUE` (`value`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_eav_tmp`
@@ -1891,8 +1756,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_group_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_group_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -1905,7 +1770,7 @@ CREATE TABLE `catalog_product_index_group_price` (
   CONSTRAINT `FK_CAT_PRD_IDX_GROUP_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_IDX_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_group_price`
@@ -1921,8 +1786,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -1938,11 +1803,12 @@ CREATE TABLE `catalog_product_index_price` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_MIN_PRICE` (`min_price`),
+  KEY `IDX_CAT_PRD_IDX_PRICE_WS_ID_CSTR_GROUP_ID_MIN_PRICE` (`website_id`,`customer_group_id`,`min_price`),
   CONSTRAINT `FK_CAT_PRD_IDX_PRICE_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_IDX_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_IDX_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price`
@@ -1958,8 +1824,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -1979,7 +1845,7 @@ CREATE TABLE `catalog_product_index_price_bundle_idx` (
   `group_price_percent` decimal(12,4) default NULL COMMENT 'Group Price Percent',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Idx';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_idx`
@@ -1995,8 +1861,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_opt_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -2011,7 +1877,7 @@ CREATE TABLE `catalog_product_index_price_bundle_opt_idx` (
   `alt_group_price` decimal(12,4) default NULL COMMENT 'Alt Group Price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Idx';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_opt_idx`
@@ -2027,8 +1893,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_opt_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -2043,7 +1909,7 @@ CREATE TABLE `catalog_product_index_price_bundle_opt_tmp` (
   `alt_group_price` decimal(12,4) default NULL COMMENT 'Alt Group Price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Tmp';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_opt_tmp`
@@ -2059,8 +1925,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_sel_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_sel_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -2074,7 +1940,7 @@ CREATE TABLE `catalog_product_index_price_bundle_sel_idx` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Idx';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_sel_idx`
@@ -2090,8 +1956,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_sel_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_sel_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -2105,7 +1971,7 @@ CREATE TABLE `catalog_product_index_price_bundle_sel_tmp` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Tmp';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_sel_tmp`
@@ -2121,8 +1987,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_bundle_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -2142,7 +2008,7 @@ CREATE TABLE `catalog_product_index_price_bundle_tmp` (
   `group_price_percent` decimal(12,4) default NULL COMMENT 'Group Price Percent',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Tmp';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_bundle_tmp`
@@ -2158,8 +2024,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_agr_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_cfg_opt_agr_idx` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
@@ -2170,7 +2036,7 @@ CREATE TABLE `catalog_product_index_price_cfg_opt_agr_idx` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Index ';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_cfg_opt_agr_idx`
@@ -2186,8 +2052,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_agr_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_cfg_opt_agr_tmp` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
@@ -2198,7 +2064,7 @@ CREATE TABLE `catalog_product_index_price_cfg_opt_agr_tmp` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Temp T';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_cfg_opt_agr_tmp`
@@ -2214,8 +2080,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_cfg_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2226,7 +2092,7 @@ CREATE TABLE `catalog_product_index_price_cfg_opt_idx` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_cfg_opt_idx`
@@ -2242,8 +2108,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_cfg_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2254,7 +2120,7 @@ CREATE TABLE `catalog_product_index_price_cfg_opt_tmp` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_cfg_opt_tmp`
@@ -2270,8 +2136,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_downlod_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_downlod_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2280,7 +2146,7 @@ CREATE TABLE `catalog_product_index_price_downlod_idx` (
   `max_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Maximum price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Indexer Table for price of downloadable products';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_downlod_idx`
@@ -2296,8 +2162,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_downlod_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_downlod_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2306,7 +2172,7 @@ CREATE TABLE `catalog_product_index_price_downlod_tmp` (
   `max_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Maximum price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Temporary Indexer Table for price of downloadable products';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_downlod_tmp`
@@ -2322,8 +2188,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_final_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_final_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2339,7 +2205,7 @@ CREATE TABLE `catalog_product_index_price_final_idx` (
   `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_final_idx`
@@ -2355,8 +2221,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_final_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_final_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2372,7 +2238,7 @@ CREATE TABLE `catalog_product_index_price_final_tmp` (
   `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_final_tmp`
@@ -2388,8 +2254,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2406,7 +2272,7 @@ CREATE TABLE `catalog_product_index_price_idx` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_IDX_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_IDX_MIN_PRICE` (`min_price`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_idx`
@@ -2422,8 +2288,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_agr_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_opt_agr_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2435,7 +2301,7 @@ CREATE TABLE `catalog_product_index_price_opt_agr_idx` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_opt_agr_idx`
@@ -2451,8 +2317,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_agr_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_opt_agr_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2464,7 +2330,7 @@ CREATE TABLE `catalog_product_index_price_opt_agr_tmp` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_opt_agr_tmp`
@@ -2480,8 +2346,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2492,7 +2358,7 @@ CREATE TABLE `catalog_product_index_price_opt_idx` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_opt_idx`
@@ -2508,8 +2374,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2520,7 +2386,7 @@ CREATE TABLE `catalog_product_index_price_opt_tmp` (
   `group_price` decimal(12,4) default NULL COMMENT 'Group price',
   PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_opt_tmp`
@@ -2536,8 +2402,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_price_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_price_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2554,7 +2420,7 @@ CREATE TABLE `catalog_product_index_price_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE` (`min_price`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Temp Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_price_tmp`
@@ -2570,8 +2436,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_tier_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_tier_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
@@ -2584,7 +2450,7 @@ CREATE TABLE `catalog_product_index_tier_price` (
   CONSTRAINT `FK_CAT_PRD_IDX_TIER_PRICE_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_IDX_TIER_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_tier_price`
@@ -2600,8 +2466,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_index_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_index_website` (
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
   `website_date` date default NULL COMMENT 'Website Date',
@@ -2610,7 +2476,7 @@ CREATE TABLE `catalog_product_index_website` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_WEBSITE_WEBSITE_DATE` (`website_date`),
   CONSTRAINT `FK_CAT_PRD_IDX_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Website Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_index_website`
@@ -2618,7 +2484,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `catalog_product_index_website` WRITE;
 /*!40000 ALTER TABLE `catalog_product_index_website` DISABLE KEYS */;
-INSERT INTO `catalog_product_index_website` VALUES (1,'2012-01-23',1);
 /*!40000 ALTER TABLE `catalog_product_index_website` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2627,8 +2492,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link` (
   `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -2643,7 +2508,7 @@ CREATE TABLE `catalog_product_link` (
   CONSTRAINT `FK_CAT_PRD_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_LNK_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Product Linkage Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link`
@@ -2659,8 +2524,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link_attribute` (
   `product_link_attribute_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Product Link Attribute ID',
   `link_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Link Type ID',
@@ -2670,7 +2535,7 @@ CREATE TABLE `catalog_product_link_attribute` (
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_LINK_TYPE_ID` (`link_type_id`),
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link_attribute`
@@ -2687,8 +2552,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link_attribute_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link_attribute_decimal` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `product_link_attribute_id` smallint(5) unsigned default NULL COMMENT 'Product Link Attribute ID',
@@ -2701,7 +2566,7 @@ CREATE TABLE `catalog_product_link_attribute_decimal` (
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_DEC_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_AB2EFA9A14F7BCF1D5400056203D14B6` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Decimal Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link_attribute_decimal`
@@ -2717,8 +2582,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link_attribute_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link_attribute_int` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `product_link_attribute_id` smallint(5) unsigned default NULL COMMENT 'Product Link Attribute ID',
@@ -2731,7 +2596,7 @@ CREATE TABLE `catalog_product_link_attribute_int` (
   CONSTRAINT `FK_D6D878F8BA2A4282F8DDED7E6E3DE35C` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_INT_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Integer Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link_attribute_int`
@@ -2747,8 +2612,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link_attribute_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link_attribute_varchar` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `product_link_attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Product Link Attribute ID',
@@ -2761,7 +2626,7 @@ CREATE TABLE `catalog_product_link_attribute_varchar` (
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_VCHR_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DEE9C4DA61CFCC01DFCF50F0D79CEA51` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Varchar Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link_attribute_varchar`
@@ -2777,14 +2642,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_link_type`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_link_type` (
   `link_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Link Type ID',
   `code` varchar(32) default NULL COMMENT 'Code',
   PRIMARY KEY  (`link_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Type Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_link_type`
@@ -2801,8 +2666,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -2818,7 +2683,7 @@ CREATE TABLE `catalog_product_option` (
   KEY `IDX_CATALOG_PRODUCT_OPTION_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_PRD_OPT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option`
@@ -2834,8 +2699,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option_price` (
   `option_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Price ID',
   `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
@@ -2849,7 +2714,7 @@ CREATE TABLE `catalog_product_option_price` (
   CONSTRAINT `FK_CAT_PRD_OPT_PRICE_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Price Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option_price`
@@ -2865,8 +2730,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option_title` (
   `option_title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Title ID',
   `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
@@ -2879,7 +2744,7 @@ CREATE TABLE `catalog_product_option_title` (
   CONSTRAINT `FK_CAT_PRD_OPT_TTL_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Title Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option_title`
@@ -2895,8 +2760,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option_type_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option_type_price` (
   `option_type_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type Price ID',
   `option_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Type ID',
@@ -2910,7 +2775,7 @@ CREATE TABLE `catalog_product_option_type_price` (
   CONSTRAINT `FK_B523E3378E8602F376CC415825576B7F` FOREIGN KEY (`option_type_id`) REFERENCES `catalog_product_option_type_value` (`option_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Price Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option_type_price`
@@ -2926,8 +2791,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option_type_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option_type_title` (
   `option_type_title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type Title ID',
   `option_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Type ID',
@@ -2940,7 +2805,7 @@ CREATE TABLE `catalog_product_option_type_title` (
   CONSTRAINT `FK_C085B9CF2C2A302E8043FDEA1937D6A2` FOREIGN KEY (`option_type_id`) REFERENCES `catalog_product_option_type_value` (`option_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_TTL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Title Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option_type_title`
@@ -2956,8 +2821,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_option_type_value`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_option_type_value` (
   `option_type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type ID',
   `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
@@ -2967,7 +2832,7 @@ CREATE TABLE `catalog_product_option_type_value` (
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_VALUE_OPTION_ID` (`option_id`),
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_VAL_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Value Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_option_type_value`
@@ -2983,8 +2848,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_relation`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_relation` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
@@ -2993,7 +2858,7 @@ CREATE TABLE `catalog_product_relation` (
   CONSTRAINT `FK_CAT_PRD_RELATION_CHILD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`child_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_RELATION_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Relation Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_relation`
@@ -3009,8 +2874,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_super_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_super_attribute` (
   `product_super_attribute_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product Super Attribute ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -3021,7 +2886,7 @@ CREATE TABLE `catalog_product_super_attribute` (
   KEY `IDX_CATALOG_PRODUCT_SUPER_ATTRIBUTE_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_PRD_SPR_ATTR_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_super_attribute`
@@ -3037,8 +2902,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_super_attribute_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_super_attribute_label` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `product_super_attribute_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Super Attribute ID',
@@ -3052,7 +2917,7 @@ CREATE TABLE `catalog_product_super_attribute_label` (
   CONSTRAINT `FK_309442281DF7784210ED82B2CC51E5D5` FOREIGN KEY (`product_super_attribute_id`) REFERENCES `catalog_product_super_attribute` (`product_super_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_SPR_ATTR_LBL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Label Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_super_attribute_label`
@@ -3068,8 +2933,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_super_attribute_pricing`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_super_attribute_pricing` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
   `product_super_attribute_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Super Attribute ID',
@@ -3084,7 +2949,7 @@ CREATE TABLE `catalog_product_super_attribute_pricing` (
   CONSTRAINT `FK_CAT_PRD_SPR_ATTR_PRICING_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CDE8813117106CFAA3AD209358F66332` FOREIGN KEY (`product_super_attribute_id`) REFERENCES `catalog_product_super_attribute` (`product_super_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Pricing Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_super_attribute_pricing`
@@ -3100,8 +2965,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_super_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_super_link` (
   `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -3113,7 +2978,7 @@ CREATE TABLE `catalog_product_super_link` (
   CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_SPR_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Link Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_super_link`
@@ -3129,8 +2994,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalog_product_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalog_product_website` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
@@ -3139,7 +3004,7 @@ CREATE TABLE `catalog_product_website` (
   CONSTRAINT `FK_CATALOG_PRODUCT_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_WS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Website Linkage Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalog_product_website`
@@ -3155,14 +3020,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cataloginventory_stock`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cataloginventory_stock` (
   `stock_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Stock Id',
   `stock_name` varchar(255) default NULL COMMENT 'Stock Name',
   PRIMARY KEY  (`stock_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cataloginventory_stock`
@@ -3179,8 +3044,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cataloginventory_stock_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cataloginventory_stock_item` (
   `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
@@ -3214,7 +3079,7 @@ CREATE TABLE `cataloginventory_stock_item` (
   CONSTRAINT `FK_CATINV_STOCK_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATINV_STOCK_ITEM_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cataloginventory_stock_item`
@@ -3230,8 +3095,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cataloginventory_stock_status`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cataloginventory_stock_status` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -3245,7 +3110,7 @@ CREATE TABLE `cataloginventory_stock_status` (
   CONSTRAINT `FK_CATINV_STOCK_STS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATINV_STOCK_STS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cataloginventory_stock_status`
@@ -3261,8 +3126,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cataloginventory_stock_status_idx`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cataloginventory_stock_status_idx` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -3273,7 +3138,7 @@ CREATE TABLE `cataloginventory_stock_status_idx` (
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_STOCK_ID` (`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_WEBSITE_ID` (`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Idx';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cataloginventory_stock_status_idx`
@@ -3289,8 +3154,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cataloginventory_stock_status_tmp`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cataloginventory_stock_status_tmp` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -3301,7 +3166,7 @@ CREATE TABLE `cataloginventory_stock_status_tmp` (
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_STOCK_ID` (`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_WEBSITE_ID` (`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Tmp';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cataloginventory_stock_status_tmp`
@@ -3317,8 +3182,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -3338,7 +3203,7 @@ CREATE TABLE `catalogrule` (
   PRIMARY KEY  (`rule_id`),
   KEY `IDX_CATALOGRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule`
@@ -3354,13 +3219,13 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_affected_product`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_affected_product` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   PRIMARY KEY  (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Affected Product';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_affected_product`
@@ -3376,8 +3241,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_customer_group`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_customer_group` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -3387,7 +3252,7 @@ CREATE TABLE `catalogrule_customer_group` (
   CONSTRAINT `FK_CATALOGRULE_CUSTOMER_GROUP_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Customer Groups Relations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_customer_group`
@@ -3403,8 +3268,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_group_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_group_website` (
   `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
   `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group Id',
@@ -3417,7 +3282,7 @@ CREATE TABLE `catalogrule_group_website` (
   CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Group Website';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_group_website`
@@ -3433,8 +3298,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_product`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_product` (
   `rule_product_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Product Id',
   `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
@@ -3447,6 +3312,8 @@ CREATE TABLE `catalogrule_product` (
   `action_stop` smallint(6) NOT NULL default '0' COMMENT 'Action Stop',
   `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `sub_simple_action` varchar(32) default NULL COMMENT 'Simple Action For Subitems',
+  `sub_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount For Subitems',
   PRIMARY KEY  (`rule_product_id`),
   UNIQUE KEY `EAA51B56FF092A0DCB795D1CEF812B7B` (`rule_id`,`from_time`,`to_time`,`website_id`,`customer_group_id`,`product_id`,`sort_order`),
   KEY `IDX_CATALOGRULE_PRODUCT_RULE_ID` (`rule_id`),
@@ -3455,12 +3322,12 @@ CREATE TABLE `catalogrule_product` (
   KEY `IDX_CATALOGRULE_PRODUCT_FROM_TIME` (`from_time`),
   KEY `IDX_CATALOGRULE_PRODUCT_TO_TIME` (`to_time`),
   KEY `IDX_CATALOGRULE_PRODUCT_PRODUCT_ID` (`product_id`),
-  CONSTRAINT `FK_CATRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CATRULE_PRD_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGRULE_PRODUCT_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CATALOGRULE_PRODUCT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_CATALOGRULE_PRODUCT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CATRULE_PRD_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CATRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_product`
@@ -3476,8 +3343,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_product_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_product_price` (
   `rule_product_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Product PriceId',
   `rule_date` date NOT NULL COMMENT 'Rule Date',
@@ -3496,7 +3363,7 @@ CREATE TABLE `catalogrule_product_price` (
   CONSTRAINT `FK_CATRULE_PRD_PRICE_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product Price';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_product_price`
@@ -3512,8 +3379,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogrule_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogrule_website` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -3523,7 +3390,7 @@ CREATE TABLE `catalogrule_website` (
   CONSTRAINT `FK_CATALOGRULE_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Websites Relations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogrule_website`
@@ -3539,8 +3406,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogsearch_fulltext`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogsearch_fulltext` (
   `fulltext_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
@@ -3550,7 +3417,7 @@ CREATE TABLE `catalogsearch_fulltext` (
   UNIQUE KEY `UNQ_CATALOGSEARCH_FULLTEXT_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
   FULLTEXT KEY `FTI_CATALOGSEARCH_FULLTEXT_DATA_INDEX` (`data_index`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogsearch_fulltext`
@@ -3566,8 +3433,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogsearch_query`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogsearch_query` (
   `query_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Query ID',
   `query_text` varchar(255) default NULL COMMENT 'Query text',
@@ -3588,7 +3455,7 @@ CREATE TABLE `catalogsearch_query` (
   KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT_STORE_ID_NUM_RESULTS` (`query_text`,`store_id`,`num_results`),
   CONSTRAINT `FK_CATALOGSEARCH_QUERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search query table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogsearch_query`
@@ -3604,8 +3471,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogsearch_recommendations`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogsearch_recommendations` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `query_id` int(10) unsigned NOT NULL default '0' COMMENT 'Query Id',
@@ -3616,7 +3483,7 @@ CREATE TABLE `catalogsearch_recommendations` (
   CONSTRAINT `FK_CATSRCH_RECOMMENDATIONS_QR_ID_CATSRCH_QR_QR_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATSRCH_RECOMMENDATIONS_RELATION_ID_CATSRCH_QR_QR_ID` FOREIGN KEY (`relation_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Search Recommendations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogsearch_recommendations`
@@ -3632,8 +3499,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `catalogsearch_result`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `catalogsearch_result` (
   `query_id` int(10) unsigned NOT NULL COMMENT 'Query ID',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
@@ -3644,7 +3511,7 @@ CREATE TABLE `catalogsearch_result` (
   CONSTRAINT `FK_CATALOGSEARCH_RESULT_QUERY_ID_CATALOGSEARCH_QUERY_QUERY_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATSRCH_RESULT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `catalogsearch_result`
@@ -3660,8 +3527,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `checkout_agreement`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `checkout_agreement` (
   `agreement_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Agreement Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -3672,7 +3539,7 @@ CREATE TABLE `checkout_agreement` (
   `is_html` smallint(6) NOT NULL default '0' COMMENT 'Is Html',
   PRIMARY KEY  (`agreement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `checkout_agreement`
@@ -3688,8 +3555,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `checkout_agreement_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `checkout_agreement_store` (
   `agreement_id` int(10) unsigned NOT NULL COMMENT 'Agreement Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -3698,7 +3565,7 @@ CREATE TABLE `checkout_agreement_store` (
   CONSTRAINT `FK_CHKT_AGRT_STORE_AGRT_ID_CHKT_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `checkout_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CHECKOUT_AGREEMENT_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement Store';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `checkout_agreement_store`
@@ -3710,38 +3577,12 @@ LOCK TABLES `checkout_agreement_store` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `chronopay_api_debug`
---
-
-DROP TABLE IF EXISTS `chronopay_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `chronopay_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `chronopay_api_debug`
---
-
-LOCK TABLES `chronopay_api_debug` WRITE;
-/*!40000 ALTER TABLE `chronopay_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chronopay_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cms_block`
 --
 
 DROP TABLE IF EXISTS `cms_block`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_block` (
   `block_id` smallint(6) NOT NULL auto_increment COMMENT 'Block ID',
   `title` varchar(255) NOT NULL COMMENT 'Block Title',
@@ -3752,7 +3593,7 @@ CREATE TABLE `cms_block` (
   `is_active` smallint(6) NOT NULL default '1' COMMENT 'Is Block Active',
   PRIMARY KEY  (`block_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='CMS Block Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cms_block`
@@ -3760,7 +3601,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `cms_block` WRITE;
 /*!40000 ALTER TABLE `cms_block` DISABLE KEYS */;
-INSERT INTO `cms_block` VALUES (1,'Footer Links','footer_links','<ul>\r\n<li><a href=\"{{store direct_url=\"about-magento-demo-store\"}}\">About Us</a></li>\r\n<li class=\"last\"><a href=\"{{store direct_url=\"customer-service\"}}\">Customer Service</a></li>\r\n</ul>','2012-01-23 14:37:46','2012-01-23 14:37:46',1),(2,'Catalog Events Lister','catalog_events_lister','{{block type=\"enterprise_catalogevent/event_lister\" name=\"catalog.event.lister\" template=\"catalogevent/lister.phtml\"}}','2012-01-30 10:41:51','2012-01-30 10:41:51',1),(3,'Flaunt yourself','flaunt_yourself','<img src=\"{{skin url=\"images/callouts/home/flaunt_yourself.jpg\"}}\" alt=\"Flaunt yourself\" />','2012-01-30 10:41:52','2012-01-30 10:41:52',1),(4,'Link to Private Sales Site','link_privatesales','<a href=\"{{store direct_url=\"privatesales/\"}}\"><img src=\"{{skin url=\"images/callouts/home/link_private_sales.gif\"}}\" alt=\"Private Sales Exclusive Store\" /></a>','2012-01-30 10:41:52','2012-01-30 10:41:52',1),(5,'Link to Gift Cards Category','link_giftcards','<a href=\"{{store direct_url=\"gift-cards\"}}\"><img src=\"{{skin url=\"images/callouts/home/link_gift_cards.gif\"}}\" alt=\"Gift Cards\" /></a>','2012-01-30 10:41:52','2012-01-30 10:41:52',1),(6,'Link to Apparel -> Women -> Handbags Category','link_apparel_women_handbags','<a href=\"{{store direct_url=\"apparel/women/handbags\"}}\"><img style=\"margin-bottom:7px;\" src=\"{{skin url=\"images/callouts/home/link_handbags.jpg\"}}\" alt=\"Handbags\" /></a>','2012-01-30 10:41:52','2012-01-30 10:41:52',1);
+INSERT INTO `cms_block` VALUES (1,'Footer Links','footer_links','<ul>\r\n<li><a href=\"{{store direct_url=\"about-magento-demo-store\"}}\">About Us</a></li>\r\n<li><a href=\"{{store direct_url=\"customer-service\"}}\">Customer Service</a></li>\r\n<li class=\"last privacy\"><a href=\"{{store direct_url=\"privacy-policy-cookie-restriction-mode\"}}\">Privacy Policy</a></li>\r\n</ul>','2012-05-23 12:45:26','2012-05-23 12:45:26',1),(2,'Catalog Events Lister','catalog_events_lister','{{block type=\"Enterprise_CatalogEvent_Block_Event_Lister\" name=\"catalog.event.lister\" template=\"catalogevent/lister.phtml\"}}','2012-05-23 12:45:26','2012-05-23 12:45:26',1),(3,'Flaunt yourself','flaunt_yourself','<img src=\"{{skin url=\"images/callouts/home/flaunt_yourself.jpg\"}}\" alt=\"Flaunt yourself\" />','2012-05-23 12:45:26','2012-05-23 12:45:26',1),(4,'Link to Private Sales Site','link_privatesales','<a href=\"{{store direct_url=\"privatesales/\"}}\"><img src=\"{{skin url=\"images/callouts/home/link_private_sales.gif\"}}\" alt=\"Private Sales Exclusive Store\" /></a>','2012-05-23 12:45:26','2012-05-23 12:45:26',1),(5,'Link to Gift Cards Category','link_giftcards','<a href=\"{{store direct_url=\"gift-cards\"}}\"><img src=\"{{skin url=\"images/callouts/home/link_gift_cards.gif\"}}\" alt=\"Gift Cards\" /></a>','2012-05-23 12:45:26','2012-05-23 12:45:26',1),(6,'Link to Apparel -> Women -> Handbags Category','link_apparel_women_handbags','<a href=\"{{store direct_url=\"apparel/women/handbags\"}}\"><img style=\"margin-bottom:7px;\" src=\"{{skin url=\"images/callouts/home/link_handbags.jpg\"}}\" alt=\"Handbags\" /></a>','2012-05-23 12:45:26','2012-05-23 12:45:26',1);
 /*!40000 ALTER TABLE `cms_block` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3769,8 +3610,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cms_block_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_block_store` (
   `block_id` smallint(6) NOT NULL COMMENT 'Block ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
@@ -3779,7 +3620,7 @@ CREATE TABLE `cms_block_store` (
   CONSTRAINT `FK_CMS_BLOCK_STORE_BLOCK_ID_CMS_BLOCK_BLOCK_ID` FOREIGN KEY (`block_id`) REFERENCES `cms_block` (`block_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CMS_BLOCK_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Block To Store Linkage Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cms_block_store`
@@ -3796,8 +3637,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cms_page`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_page` (
   `page_id` smallint(6) NOT NULL auto_increment COMMENT 'Page ID',
   `title` varchar(255) default NULL COMMENT 'Page Title',
@@ -3822,8 +3663,8 @@ CREATE TABLE `cms_page` (
   `under_version_control` smallint(5) unsigned NOT NULL default '0' COMMENT 'Under Version Control Flag',
   PRIMARY KEY  (`page_id`),
   KEY `IDX_CMS_PAGE_IDENTIFIER` (`identifier`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='CMS Page Table';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='CMS Page Table';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cms_page`
@@ -3831,7 +3672,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `cms_page` WRITE;
 /*!40000 ALTER TABLE `cms_page` DISABLE KEYS */;
-INSERT INTO `cms_page` VALUES (1,'404 Not Found 1','two_columns_right','Page keywords','Page description','no-route',NULL,'<div class=\"page-head-alt\"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div>\n<div>\n    <ul class=\"disc\">\n        <li>If you typed the URL directly, please make sure the spelling is correct.</li>\n        <li>If you clicked on a link to get here, we must have moved the content.<br/>Please try our store search box above to search for an item.</li>\n        <li>If you are not sure how you got here, <a href=\"#\" onclick=\"history.go(-1);\">go back</a> to the previous page</a> or return to our <a href=\"{{store url=\"\"}}\">store homepage</a>.</li>\n    </ul>\n</div>\n\n<!-- <div class=\"page-title\"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li><a href=\"#\" onclick=\"history.go(-1); return false;\">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href=\"{{store url=\"\"}}\">Store Home</a> <span class=\"separator\">|</span> <a href=\"{{store url=\"customer/account\"}}\">My Account</a></li></ul></dd></dl>\r\n -->','2012-01-23 14:37:46','2012-01-23 14:37:46',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(2,'Home page','one_column',NULL,NULL,'home',NULL,'<div class=\"col2-set\">\n<div class=\"col-1\">\n{{widget type=\"cms/widget_block\" template=\"cms/widget/static_block/default.phtml\" block_id=\"3\"}}\n</div>\n<div class=\"col-2\">\n{{widget type=\"cms/widget_block\" template=\"cms/widget/static_block/default.phtml\" block_id=\"4\"}}\n{{widget type=\"cms/widget_block\" template=\"cms/widget/static_block/default.phtml\" block_id=\"5\"}}\n{{widget type=\"cms/widget_block\" template=\"cms/widget/static_block/default.phtml\" block_id=\"6\"}}\n</div>\n</div>\n    \n\n\n\n<div style=\"display:none\"><!-- your previous content backup comes below -->\n\n\n <div class=\"page-title\"><h2>Home Page</h2></div>\r\n\n\n\n</div>','2012-01-23 14:37:46','2012-01-23 14:37:47',1,0,'<!--<reference name=\"content\">\n        <block type=\"catalog/product_new\" name=\"home.catalog.product.new\" alias=\"product_new\" template=\"catalog/product/new.phtml\" after=\"cms_page\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"reports/product_viewed\" name=\"home.reports.product.viewed\" alias=\"product_viewed\" template=\"reports/home_product_viewed.phtml\" after=\"product_new\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"reports/product_compared\" name=\"home.reports.product.compared\" template=\"reports/home_product_compared.phtml\" after=\"product_viewed\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name=\"right\">\n        <action method=\"unsetChild\"><alias>right.reports.product.viewed</alias></action>\n        <action method=\"unsetChild\"><alias>right.reports.product.compared</alias></action>\n    </reference>-->',NULL,NULL,NULL,NULL,NULL,0,1,0),(3,'About Us','two_columns_right',NULL,NULL,'about-magento-demo-store',NULL,'<div class=\"page-title\">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class=\"col3-set\">\r\n<div class=\"col-1\"><p><a href=\"http://www.varien.com/\"><img src=\"{{skin url=\'images/media/about_us_img.jpg\'}}\" title=\"Varien\" alt=\"Varien\" /></a></p><p style=\"line-height:1.2em;\"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style=\"color:#888; font:1.2em/1.4em georgia, serif;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class=\"col-2\">\r\n<p><strong style=\"color:#de036f;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class=\"col-3\">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style=\"color:#de036f;\">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class=\"divider\"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style=\"line-height:1.2em;\"><strong style=\"font:italic 2em Georgia, serif;\">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>','2012-01-23 14:37:46','2012-01-23 14:37:46',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(4,'Customer Service','three_columns',NULL,NULL,'customer-service',NULL,'<div class=\"page-title\">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class=\"disc\">\r\n<li><a href=\"#answer1\">Shipping &amp; Delivery</a></li>\r\n<li><a href=\"#answer2\">Privacy &amp; Security</a></li>\r\n<li><a href=\"#answer3\">Returns &amp; Replacements</a></li>\r\n<li><a href=\"#answer4\">Ordering</a></li>\r\n<li><a href=\"#answer5\">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href=\"#answer6\">Viewing Orders</a></li>\r\n<li><a href=\"#answer7\">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id=\"answer1\">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer2\">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer3\">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer4\">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer5\">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer6\">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer7\">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>','2012-01-23 14:37:46','2012-01-23 14:37:46',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(5,'Enable Cookies','one_column',NULL,NULL,'enable-cookies',NULL,'<div class=\"std\">\r\n    <ul class=\"messages\">\r\n        <li class=\"notice-msg\">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class=\"page-title\">\r\n        <h1><a name=\"top\"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class=\"subtitle\">Enabling Cookies</h2>\r\n    <ul class=\"disc\">\r\n        <li><a href=\"#ie7\">Internet Explorer 7.x</a></li>\r\n        <li><a href=\"#ie6\">Internet Explorer 6.x</a></li>\r\n        <li><a href=\"#firefox\">Mozilla/Firefox</a></li>\r\n        <li><a href=\"#opera\">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name=\"ie7\"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-3.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-4.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-5.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-6.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"ie6\"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie6-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie6-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"firefox\"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/firefox.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"opera\"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/opera.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n</div>\r\n','2012-01-23 14:37:46','2012-01-23 14:37:46',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(6,'503 Service Unavailable',NULL,NULL,NULL,'service-unavailable',NULL,'<div class=\"page-title\"><h1>We\'re Offline...</h1></div>\n<p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>','2012-01-30 10:41:51','2012-01-30 10:41:51',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(7,'Welcome to our Exclusive Online Store',NULL,NULL,NULL,'private-sales',NULL,'<div class=\"private-sales-index\">\n<div class=\"box\">\n<div class=\"content\">\n<h1>Welcome to our Exclusive Online Store</h1>\n<p>If you are a registered member, please <a href=\"{{store url=\"customer/account/login\"}}\">log in here</a>.</p>\n<p class=\"description\">Magento is the leading hub for exclusive specialty items for all your home, apparel and entertainment needs!</p>\n</div>\n</div>\n</div>','2012-01-30 10:41:51','2012-01-30 10:41:51',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(8,'Reward Points','one_column',NULL,NULL,'reward-points','Reward Points','<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>\n\n<h2>Benefits of Reward Points for Registered Customers</h2>\n<p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>\n\n<h2>Earning Reward Points</h2>\n<p>Rewards can currently be earned for the following actions:</p>\n<ul>\n<li>Making purchases — every time you make a purchase you earn points based on the price of products purchased and these points are added to your Reward Points balance.</li>\n<li>Registering on the site.</li>\n<li>Subscribing to a newsletter for the first time.</li>\n<li>Sending Invitations — Earn points by inviting your friends to join the site.</li>\n<li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>\n<li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>\n<li>Review Submission — Earn points for submitting product reviews.</li>\n<li>New Tag Submission — Earn points for adding tags to products.</li>\n</ul>\n\n<h2>Reward Points Exchange Rates</h2>\n<p>The value of reward points is determined by an exchange rate of both currency spent on products to points, and an exchange rate of points earned to currency for spending on future purchases.</p>\n\n<h2>Redeeming Reward Points</h2>\n<p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>\n<p><img src=\"{{skin url=\"images/reward_points/payment.gif\"}}\" alt=\"Payment Information\" /></p>\n\n<h2>Reward Points Minimums and Maximums</h2>\n<p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>\n<p>Reward points may also be capped at the maximum value of points which can be accrued. If this option is selected you will need to redeem your accrued points before you are able to earn more points.</p>\n\n<h2>Managing My Reward Points</h2>\n<p>You have the ability to view and manage your points through your <a href=\"{{store url=\"customer/account\"}}\">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>\n<p><img src=\"{{skin url=\"images/reward_points/my_account.gif\"}}\" alt=\"My Account\" /></p>\n\n<h2>Reward Points Expiration</h2>\n<p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>\n<p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href=\"{{store url=\"reward/customer/info\"}}\">Reward Points section</a> of the My Account area.</p>\n','2012-01-30 10:41:52','2012-01-30 10:41:52',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0);
+INSERT INTO `cms_page` VALUES (1,'404 Not Found 1','two_columns_right','Page keywords','Page description','no-route',NULL,'<div class=\"page-head-alt\"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div>\n<div>\n    <ul class=\"disc\">\n        <li>If you typed the URL directly, please make sure the spelling is correct.</li>\n        <li>If you clicked on a link to get here, we must have moved the content.<br/>Please try our store search box above to search for an item.</li>\n        <li>If you are not sure how you got here, <a href=\"#\" onclick=\"history.go(-1);\">go back</a> to the previous page</a> or return to our <a href=\"{{store url=\"\"}}\">store homepage</a>.</li>\n    </ul>\n</div>\n\n<!-- <div class=\"page-title\"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li><a href=\"#\" onclick=\"history.go(-1); return false;\">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href=\"{{store url=\"\"}}\">Store Home</a> <span class=\"separator\">|</span> <a href=\"{{store url=\"customer/account\"}}\">My Account</a></li></ul></dd></dl>\r\n -->','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(2,'Home page','one_column',NULL,NULL,'home',NULL,'<div class=\"col2-set\">\n<div class=\"col-1\">\n{{widget type=\"Mage_Cms_Block_Widget_Block\" template=\"Mage_Cms::widget/static_block/default.phtml\" block_id=\"3\"}}\n</div>\n<div class=\"col-2\">\n{{widget type=\"Mage_Cms_Block_Widget_Block\" template=\"Mage_Cms::widget/static_block/default.phtml\" block_id=\"4\"}}\n{{widget type=\"Mage_Cms_Block_Widget_Block\" template=\"Mage_Cms::widget/static_block/default.phtml\" block_id=\"5\"}}\n{{widget type=\"Mage_Cms_Block_Widget_Block\" template=\"Mage_Cms::widget/static_block/default.phtml\" block_id=\"6\"}}\n</div>\n</div>\n    \n\n\n\n<div style=\"display:none\"><!-- your previous content backup comes below -->\n\n\n <div class=\"page-title\"><h2>Home Page</h2></div>\r\n\n\n\n</div>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,'<!--<reference name=\"content\">\n        <block type=\"Mage_Catalog_Block_Product_New\" name=\"home.catalog.product.new\" alias=\"product_new\" template=\"product/new.phtml\" after=\"cms_page\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"Mage_Reports_Block_Product_Viewed\" name=\"home.reports.product.viewed\" alias=\"product_viewed\" template=\"home_product_viewed.phtml\" after=\"product_new\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"Mage_Reports_Block_Product_Compared\" name=\"home.reports.product.compared\" template=\"home_product_compared.phtml\" after=\"product_viewed\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name=\"right\">\n        <action method=\"unsetChild\"><alias>right.reports.product.viewed</alias></action>\n        <action method=\"unsetChild\"><alias>right.reports.product.compared</alias></action>\n    </reference>-->',NULL,NULL,NULL,NULL,NULL,0,1,0),(3,'About Us','two_columns_right',NULL,NULL,'about-magento-demo-store',NULL,'<div class=\"page-title\">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class=\"col3-set\">\r\n<div class=\"col-1\"><p><a href=\"http://www.magento.com/\"><img src=\"{{skin url=\'Mage_Cms::images/about_us_img.jpg\'}}\" title=\"Varien\" alt=\"Varien\" /></a></p><p style=\"line-height:1.2em;\"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style=\"color:#888; font:1.2em/1.4em georgia, serif;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class=\"col-2\">\r\n<p><strong style=\"color:#de036f;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class=\"col-3\">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style=\"color:#de036f;\">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class=\"divider\"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style=\"line-height:1.2em;\"><strong style=\"font:italic 2em Georgia, serif;\">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(4,'Customer Service','three_columns',NULL,NULL,'customer-service',NULL,'<div class=\"page-title\">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class=\"disc\">\r\n<li><a href=\"#answer1\">Shipping &amp; Delivery</a></li>\r\n<li><a href=\"#answer2\">Privacy &amp; Security</a></li>\r\n<li><a href=\"#answer3\">Returns &amp; Replacements</a></li>\r\n<li><a href=\"#answer4\">Ordering</a></li>\r\n<li><a href=\"#answer5\">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href=\"#answer6\">Viewing Orders</a></li>\r\n<li><a href=\"#answer7\">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id=\"answer1\">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer2\">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer3\">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer4\">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer5\">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer6\">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer7\">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(5,'Enable Cookies','one_column',NULL,NULL,'enable-cookies',NULL,'<div class=\"std\">\r\n    <ul class=\"messages\">\r\n        <li class=\"notice-msg\">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class=\"page-title\">\r\n        <h1><a name=\"top\"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class=\"subtitle\">Enabling Cookies</h2>\r\n    <ul class=\"disc\">\r\n        <li><a href=\"#ie7\">Internet Explorer 7.x</a></li>\r\n        <li><a href=\"#ie6\">Internet Explorer 6.x</a></li>\r\n        <li><a href=\"#firefox\">Mozilla/Firefox</a></li>\r\n        <li><a href=\"#opera\">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name=\"ie7\"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-3.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-4.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-5.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-6.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"ie6\"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie6-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie6-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"firefox\"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/firefox.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"opera\"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/opera.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n</div>\r\n','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(6,'Privacy Policy','one_column',NULL,NULL,'privacy-policy-cookie-restriction-mode','Privacy Policy','<p style=\"color: #ff0000; font-weight: bold; font-size: 13px\">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path=\"general/store_information/name\"}} uses and protects any information\n    that you give {{config path=\"general/store_information/name\"}} when you use this website.\n    {{config path=\"general/store_information/name\"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path=\"general/store_information/name\"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href=\"#list\">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path=\"trans_email/ident_general/email\"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path=\"general/store_information/address\"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name=\"list\"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class=\"data-table\">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(7,'503 Service Unavailable','one_column',NULL,NULL,'service-unavailable',NULL,'<div class=\"page-title\"><h1>We\'re Offline...</h1></div>\n<p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(8,'Welcome to our Exclusive Online Store','one_column',NULL,NULL,'private-sales',NULL,'<div class=\"private-sales-index\">\n<div class=\"box\">\n<div class=\"content\">\n<h1>Welcome to our Exclusive Online Store</h1>\n<p>If you are a registered member, please <a href=\"{{store url=\"customer/account/login\"}}\">log in here</a>.</p>\n<p class=\"description\">Magento is the leading hub for exclusive specialty items for all your home, apparel and entertainment needs!</p>\n</div>\n</div>\n</div>','2012-05-23 12:45:26','2012-05-23 12:45:26',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0),(9,'Reward Points','one_column',NULL,NULL,'reward-points','Reward Points','<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>\n\n<h2>Benefits of Reward Points for Registered Customers</h2>\n<p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>\n\n<h2>Earning Reward Points</h2>\n<p>Rewards can currently be earned for the following actions:</p>\n<ul>\n<li>Making purchases — every time you make a purchase you earn points based on the price of products purchased and these points are added to your Reward Points balance.</li>\n<li>Registering on the site.</li>\n<li>Subscribing to a newsletter for the first time.</li>\n<li>Sending Invitations — Earn points by inviting your friends to join the site.</li>\n<li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>\n<li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>\n<li>Review Submission — Earn points for submitting product reviews.</li>\n<li>New Tag Submission — Earn points for adding tags to products.</li>\n</ul>\n\n<h2>Reward Points Exchange Rates</h2>\n<p>The value of reward points is determined by an exchange rate of both currency spent on products to points, and an exchange rate of points earned to currency for spending on future purchases.</p>\n\n<h2>Redeeming Reward Points</h2>\n<p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>\n<p><img src=\"{{skin url=\"images/reward_points/payment.gif\"}}\" alt=\"Payment Information\" /></p>\n<p><img src=\"{{skin url=\"Enterprise_Reward::images/payment.gif\"}}\" alt=\"Payment Information\" /></p>\n\n<h2>Reward Points Minimums and Maximums</h2>\n<p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>\n<p>Reward points may also be capped at the maximum value of points which can be accrued. If this option is selected you will need to redeem your accrued points before you are able to earn more points.</p>\n\n<h2>Managing My Reward Points</h2>\n<p>You have the ability to view and manage your points through your <a href=\"{{store url=\"customer/account\"}}\">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>\n<p><img src=\"{{skin url=\"Enterprise_Reward::images/my_account.gif\"}}\" alt=\"My Account\" /></p>\n\n<h2>Reward Points Expiration</h2>\n<p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>\n<p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href=\"{{store url=\"reward/customer/info\"}}\">Reward Points section</a> of the My Account area.</p>\n','2012-05-23 12:45:27','2012-05-23 12:45:27',1,0,NULL,NULL,NULL,NULL,NULL,NULL,0,1,0);
 /*!40000 ALTER TABLE `cms_page` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3840,8 +3681,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cms_page_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cms_page_store` (
   `page_id` smallint(6) NOT NULL COMMENT 'Page ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
@@ -3850,7 +3691,7 @@ CREATE TABLE `cms_page_store` (
   CONSTRAINT `FK_CMS_PAGE_STORE_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CMS_PAGE_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Page To Store Linkage Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cms_page_store`
@@ -3858,7 +3699,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `cms_page_store` WRITE;
 /*!40000 ALTER TABLE `cms_page_store` DISABLE KEYS */;
-INSERT INTO `cms_page_store` VALUES (1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0);
+INSERT INTO `cms_page_store` VALUES (1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0);
 /*!40000 ALTER TABLE `cms_page_store` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3867,8 +3708,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_cache`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_cache` (
   `id` varchar(200) NOT NULL COMMENT 'Cache Id',
   `data` mediumblob COMMENT 'Cache Data',
@@ -3878,7 +3719,7 @@ CREATE TABLE `core_cache` (
   PRIMARY KEY  (`id`),
   KEY `IDX_CORE_CACHE_EXPIRE_TIME` (`expire_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Caches';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_cache`
@@ -3894,14 +3735,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_cache_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_cache_option` (
   `code` varchar(32) NOT NULL COMMENT 'Code',
   `value` smallint(6) default NULL COMMENT 'Value',
   PRIMARY KEY  (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cache Options';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_cache_option`
@@ -3909,7 +3750,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `core_cache_option` WRITE;
 /*!40000 ALTER TABLE `core_cache_option` DISABLE KEYS */;
-INSERT INTO `core_cache_option` VALUES ('block_html',1),('collections',1),('config',1),('config_api',1),('config_api2',1),('eav',1),('layout',1),('translate',1);
+INSERT INTO `core_cache_option` VALUES ('block_html',1),('collections',1),('config',1),('config_api',1),('config_api2',1),('eav',1),('full_page',1),('layout',1),('translate',1);
 /*!40000 ALTER TABLE `core_cache_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3918,15 +3759,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_cache_tag`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_cache_tag` (
   `tag` varchar(100) NOT NULL COMMENT 'Tag',
   `cache_id` varchar(200) NOT NULL COMMENT 'Cache Id',
   PRIMARY KEY  (`tag`,`cache_id`),
   KEY `IDX_CORE_CACHE_TAG_CACHE_ID` (`cache_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Caches';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_cache_tag`
@@ -3942,8 +3783,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_config_data`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_config_data` (
   `config_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Config Id',
   `scope` varchar(8) NOT NULL default 'default' COMMENT 'Config Scope',
@@ -3952,8 +3793,8 @@ CREATE TABLE `core_config_data` (
   `value` text COMMENT 'Config Value',
   PRIMARY KEY  (`config_id`),
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='Config Data';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Config Data';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_config_data`
@@ -3961,7 +3802,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `core_config_data` WRITE;
 /*!40000 ALTER TABLE `core_config_data` DISABLE KEYS */;
-INSERT INTO `core_config_data` VALUES (1,'default',0,'catalog/category/root_id','2'),(2,'default',0,'web/seo/use_rewrites','1'),(3,'default',0,'admin/dashboard/enable_charts','1'),(4,'default',0,'web/unsecure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(5,'default',0,'web/secure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(6,'default',0,'general/locale/code','en_US'),(7,'default',0,'general/locale/timezone','America/Los_Angeles'),(8,'default',0,'currency/options/base','USD'),(9,'default',0,'currency/options/default','USD'),(10,'default',0,'currency/options/allow','USD'),(11,'default',0,'admin/emails/forgot_email_template','admin_emails_forgot_email_template'),(12,'default',0,'admin/emails/forgot_email_identity','general'),(13,'default',0,'admin/emails/password_reset_link_expiration_period','1'),(14,'default',0,'admin/startup/page','dashboard'),(15,'default',0,'admin/url/use_custom','0'),(16,'default',0,'admin/url/use_custom_path','0'),(17,'default',0,'admin/security/use_form_key','0'),(18,'default',0,'admin/security/use_case_sensitive_login','0'),(19,'default',0,'admin/security/session_cookie_lifetime',NULL),(20,'default',0,'admin/captcha/enable','0');
+INSERT INTO `core_config_data` VALUES (1,'default',0,'general/region/display_all','1'),(2,'default',0,'general/region/state_required','AT,CA,CH,DE,EE,ES,FI,FR,LT,LV,RO,US'),(3,'default',0,'catalog/category/root_id','2'),(4,'default',0,'web/seo/use_rewrites','1'),(5,'default',0,'admin/dashboard/enable_charts','1'),(6,'default',0,'web/unsecure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(7,'default',0,'web/secure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(8,'default',0,'general/locale/code','en_US'),(9,'default',0,'general/locale/timezone','America/Los_Angeles'),(10,'default',0,'currency/options/base','USD'),(11,'default',0,'currency/options/default','USD'),(12,'default',0,'currency/options/allow','USD');
 /*!40000 ALTER TABLE `core_config_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3970,8 +3811,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_email_template`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_email_template` (
   `template_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Template Id',
   `template_code` varchar(150) NOT NULL COMMENT 'Template Name',
@@ -3990,7 +3831,7 @@ CREATE TABLE `core_email_template` (
   KEY `IDX_CORE_EMAIL_TEMPLATE_ADDED_AT` (`added_at`),
   KEY `IDX_CORE_EMAIL_TEMPLATE_MODIFIED_AT` (`modified_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Email Templates';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_email_template`
@@ -4006,8 +3847,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_flag`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_flag` (
   `flag_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Flag Id',
   `flag_code` varchar(255) NOT NULL COMMENT 'Flag Code',
@@ -4016,8 +3857,8 @@ CREATE TABLE `core_flag` (
   `last_update` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date of Last Flag Update',
   PRIMARY KEY  (`flag_id`),
   KEY `IDX_CORE_FLAG_LAST_UPDATE` (`last_update`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Flag';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Flag';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_flag`
@@ -4025,7 +3866,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `core_flag` WRITE;
 /*!40000 ALTER TABLE `core_flag` DISABLE KEYS */;
-INSERT INTO `core_flag` VALUES (1,'admin_notification_survey',0,'a:1:{s:13:\"survey_viewed\";b:1;}','2012-01-23 14:40:57'),(2,'catalog_product_flat',0,'a:1:{s:8:\"is_built\";b:1;}','2012-01-23 14:45:05');
+INSERT INTO `core_flag` VALUES (1,'admin_notification_survey',0,'a:1:{s:13:\"survey_viewed\";b:1;}','2012-05-23 13:01:22');
 /*!40000 ALTER TABLE `core_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4034,8 +3875,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_layout_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_layout_link` (
   `layout_link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -4049,7 +3890,7 @@ CREATE TABLE `core_layout_link` (
   CONSTRAINT `FK_CORE_LAYOUT_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_LYT_LNK_LYT_UPDATE_ID_CORE_LYT_UPDATE_LYT_UPDATE_ID` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Link';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_layout_link`
@@ -4066,8 +3907,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_layout_update`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_layout_update` (
   `layout_update_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Layout Update Id',
   `handle` varchar(255) default NULL COMMENT 'Handle',
@@ -4076,7 +3917,7 @@ CREATE TABLE `core_layout_update` (
   PRIMARY KEY  (`layout_update_id`),
   KEY `IDX_CORE_LAYOUT_UPDATE_HANDLE` (`handle`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_layout_update`
@@ -4084,7 +3925,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `core_layout_update` WRITE;
 /*!40000 ALTER TABLE `core_layout_update` DISABLE KEYS */;
-INSERT INTO `core_layout_update` VALUES (1,'cms_index_index','<reference name=\"top.container\"><block type=\"enterprise_banner/widget_banner\" name=\"c2fadd334d9b7a019c8c61933a357327\" template=\"banner/widget/block.phtml\"><action method=\"setData\"><name>display_mode</name><value>fixed</value></action><action method=\"setData\"><name>banner_ids</name><value>1</value></action><action method=\"setData\"><name>unique_id</name><value>00b195146dbeded3345630c5eea86363</value></action></block></reference>',0),(2,'cms_index_index','<reference name=\"footer.before\"><block type=\"enterprise_banner/widget_banner\" name=\"7501823c0205422e97ba3918d53bd89e\" template=\"banner/widget/block.phtml\"><action method=\"setData\"><name>display_mode</name><value>fixed</value></action><action method=\"setData\"><name>banner_ids</name><value>2</value></action><action method=\"setData\"><name>unique_id</name><value>1fdb7d06967ab2f5c97d599c129bd37a</value></action></block></reference>',1);
+INSERT INTO `core_layout_update` VALUES (1,'cms_index_index','<reference name=\"top.container\"><block type=\"Enterprise_Banner_Block_Widget_Banner\" name=\"35e50049057981e9234a34ebd3392b05\" template=\"widget/block.phtml\"><action method=\"setData\"><name>display_mode</name><value>fixed</value></action><action method=\"setData\"><name>banner_ids</name><value>1</value></action><action method=\"setData\"><name>unique_id</name><value>99558143e32d6fb9f9aad9d9fcfb9b11</value></action></block></reference>',0),(2,'cms_index_index','<reference name=\"footer.before\"><block type=\"Enterprise_Banner_Block_Widget_Banner\" name=\"6f5e0aa7b16b14c02143924c66d4fc43\" template=\"widget/block.phtml\"><action method=\"setData\"><name>display_mode</name><value>fixed</value></action><action method=\"setData\"><name>banner_ids</name><value>2</value></action><action method=\"setData\"><name>unique_id</name><value>33a05c9b70021c4b41f2e6beca6841e9</value></action></block></reference>',1);
 /*!40000 ALTER TABLE `core_layout_update` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4093,15 +3934,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_resource`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_resource` (
   `code` varchar(50) NOT NULL COMMENT 'Resource Code',
   `version` varchar(50) default NULL COMMENT 'Resource Version',
   `data_version` varchar(50) default NULL COMMENT 'Data Version',
   PRIMARY KEY  (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resources';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_resource`
@@ -4109,7 +3950,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `core_resource` WRITE;
 /*!40000 ALTER TABLE `core_resource` DISABLE KEYS */;
-INSERT INTO `core_resource` VALUES ('adminnotification_setup','1.6.0.0','1.6.0.0'),('admin_setup','1.6.1.0','1.6.1.0'),('amazonpayments_setup','1.6.0.0','1.6.0.0'),('api2_setup','1.0.0.5','1.0.0.5'),('api_setup','1.6.0.0','1.6.0.0'),('backup_setup','1.6.0.0','1.6.0.0'),('bundle_setup','1.6.0.0.1','1.6.0.0.1'),('captcha_setup','1.7.0.0.0','1.7.0.0.0'),('catalogindex_setup','1.6.0.0','1.6.0.0'),('cataloginventory_setup','1.6.0.0.2','1.6.0.0.2'),('catalogrule_setup','1.6.0.2','1.6.0.2'),('catalogsearch_setup','1.6.0.0','1.6.0.0'),('catalog_setup','1.6.0.0.11','1.6.0.0.11'),('checkout_setup','1.6.0.0','1.6.0.0'),('chronopay_setup','0.1.0','0.1.0'),('cms_setup','1.6.0.0','1.6.0.0'),('compiler_setup','1.6.0.0','1.6.0.0'),('contacts_setup','1.6.0.0','1.6.0.0'),('core_setup','1.6.0.2','1.6.0.2'),('cron_setup','1.6.0.0','1.6.0.0'),('customer_setup','1.6.2.0.1','1.6.2.0.1'),('cybermut_setup','0.1.0','0.1.0'),('cybersource_setup','1.6.0.0','1.6.0.0'),('dataflow_setup','1.6.0.0','1.6.0.0'),('directory_setup','1.6.0.0','1.6.0.0'),('downloadable_setup','1.6.0.0.2','1.6.0.0.2'),('eav_setup','1.6.0.0','1.6.0.0'),('enterprise_admingws_setup','1.11.0.0','1.11.0.0'),('enterprise_banner_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogevent_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogpermissions_setup','1.11.0.0','1.11.0.0'),('enterprise_cms_setup','1.11.0.3','1.11.0.3'),('enterprise_customerbalance_setup','1.11.0.0','1.11.0.0'),('enterprise_customersegment_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_customer_setup','1.11.0.0','1.11.0.0'),('enterprise_enterprise_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcardaccount_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcard_setup','1.11.0.0','1.11.0.0'),('enterprise_giftregistry_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_giftwrapping_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_invitation_setup','1.11.0.0','1.11.0.0'),('enterprise_logging_setup','1.11.0.0','1.11.0.0'),('enterprise_pagecache_setup','1.11.0.0','1.11.0.0'),('enterprise_pci_setup','1.11.0.0','1.11.0.0'),('enterprise_reminder_setup','1.11.0.1','1.11.0.1'),('enterprise_reward_setup','1.11.0.0','1.11.0.0'),('enterprise_salesarchive_setup','1.11.0.0','1.11.0.0'),('enterprise_search_setup','1.11.0.0','1.11.0.0'),('enterprise_staging_setup','1.11.0.0.2','1.11.0.0.2'),('enterprise_targetrule_setup','1.12.0.0.0','1.12.0.0.0'),('enterprise_websiterestriction_setup','1.11.0.0','1.11.0.0'),('eway_setup','0.1.0','0.1.0'),('flo2cash_setup','0.1.1','0.1.1'),('giftmessage_setup','1.6.0.0','1.6.0.0'),('googlecheckout_setup','1.6.0.1','1.6.0.1'),('googleoptimizer_setup','1.6.0.0','1.6.0.0'),('ideal_setup','0.1.0','0.1.0'),('importexport_setup','1.6.0.2','1.6.0.2'),('index_setup','1.6.0.0','1.6.0.0'),('log_setup','1.6.0.0','1.6.0.0'),('moneybookers_setup','1.6.0.0','1.6.0.0'),('newsletter_setup','1.6.0.1','1.6.0.1'),('oauth_setup','1.0.0.8','1.0.0.8'),('ogone_setup','1.6.0.0','1.6.0.0'),('paybox_setup','0.1.3','0.1.3'),('paygate_setup','1.6.0.0','1.6.0.0'),('payment_setup','1.6.0.0','1.6.0.0'),('paypaluk_setup','1.6.0.0','1.6.0.0'),('paypal_setup','1.6.0.2','1.6.0.2'),('persistent_setup','1.0.0.0','1.0.0.0'),('poll_setup','1.6.0.0','1.6.0.0'),('productalert_setup','1.6.0.0','1.6.0.0'),('protx_setup','0.1.0','0.1.0'),('rating_setup','1.6.0.0','1.6.0.0'),('reports_setup','1.6.0.0.1','1.6.0.0.1'),('review_setup','1.6.0.0','1.6.0.0'),('salesrule_setup','1.6.0.3','1.6.0.3'),('sales_setup','1.6.0.7','1.6.0.7'),('sendfriend_setup','1.6.0.0','1.6.0.0'),('shipping_setup','1.6.0.0','1.6.0.0'),('sitemap_setup','1.6.0.0','1.6.0.0'),('social_facebook_setup','1.6.0.1','1.6.0.1'),('strikeiron_setup','0.9.1','0.9.1'),('tag_setup','1.6.0.0','1.6.0.0'),('tax_setup','1.6.0.4','1.6.0.4'),('usa_setup','1.6.0.1','1.6.0.1'),('weee_setup','1.6.0.0','1.6.0.0'),('widget_setup','1.6.0.0','1.6.0.0'),('wishlist_setup','1.6.0.0','1.6.0.0'),('xmlconnect_setup','1.6.0.0','1.6.0.0');
+INSERT INTO `core_resource` VALUES ('adminnotification_setup','1.6.0.0','1.6.0.0'),('admin_setup','1.6.1.0','1.6.1.0'),('api2_setup','1.0.0.0','1.0.0.0'),('api_setup','1.6.0.0','1.6.0.0'),('backup_setup','1.6.0.0','1.6.0.0'),('bundle_setup','1.6.0.0.1','1.6.0.0.1'),('captcha_setup','1.7.0.0.0','1.7.0.0.0'),('cataloginventory_setup','1.6.0.0.2','1.6.0.0.2'),('catalogrule_setup','1.6.0.3','1.6.0.3'),('catalogsearch_setup','1.6.0.0','1.6.0.0'),('catalog_setup','1.6.0.0.16','1.6.0.0.16'),('checkout_setup','1.6.0.0','1.6.0.0'),('cms_setup','1.6.0.0.1','1.6.0.0.1'),('contacts_setup','1.6.0.0','1.6.0.0'),('core_setup','1.6.0.3','1.6.0.3'),('cron_setup','1.6.0.0','1.6.0.0'),('customer_setup','1.6.2.0.1','1.6.2.0.1'),('dataflow_setup','1.6.0.0','1.6.0.0'),('directory_setup','1.6.0.1','1.6.0.1'),('downloadable_setup','1.6.0.0.2','1.6.0.0.2'),('eav_setup','1.6.0.0','1.6.0.0'),('enterprise_admingws_setup','1.11.0.0','1.11.0.0'),('enterprise_banner_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogevent_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogpermissions_setup','1.11.0.0','1.11.0.0'),('enterprise_cms_setup','1.11.0.3','1.11.0.3'),('enterprise_customerbalance_setup','1.11.0.0','1.11.0.0'),('enterprise_customersegment_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_customer_setup','1.11.0.0','1.11.0.0'),('enterprise_enterprise_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcardaccount_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcard_setup','1.11.0.0','1.11.0.0'),('enterprise_giftregistry_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_giftwrapping_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_invitation_setup','1.11.0.0','1.11.0.0'),('enterprise_logging_setup','1.11.0.0','1.11.0.0'),('enterprise_pagecache_setup','1.11.0.0','1.11.0.0'),('enterprise_pci_setup','1.11.0.0','1.11.0.0'),('enterprise_reminder_setup','1.11.0.1','1.11.0.1'),('enterprise_reward_setup','1.11.0.1','1.11.0.1'),('enterprise_rma_setup','1.11.0.8','1.11.0.8'),('enterprise_salesarchive_setup','1.11.0.0','1.11.0.0'),('enterprise_search_setup','1.11.0.0','1.11.0.0'),('enterprise_staging_setup','1.11.0.0.2','1.11.0.0.2'),('enterprise_targetrule_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_websiterestriction_setup','1.11.0.0.1','1.11.0.0.1'),('giftmessage_setup','1.6.0.0','1.6.0.0'),('googlecheckout_setup','1.6.0.1','1.6.0.1'),('googleoptimizer_setup','1.6.0.0','1.6.0.0'),('googleshopping_setup','1.6.0.0.1','1.6.0.0.1'),('importexport_setup','1.6.0.2','1.6.0.2'),('index_setup','1.6.0.0','1.6.0.0'),('log_setup','1.6.0.0','1.6.0.0'),('moneybookers_setup','1.6.0.0','1.6.0.0'),('newsletter_setup','1.6.0.1','1.6.0.1'),('oauth_setup','1.0.0.0','1.0.0.0'),('ogone_setup','1.6.0.0','1.6.0.0'),('paygate_setup','1.6.0.0','1.6.0.0'),('payment_setup','1.6.0.0','1.6.0.0'),('paypaluk_setup','1.6.0.0','1.6.0.0'),('paypal_setup','1.6.0.2','1.6.0.2'),('persistent_setup','1.0.0.0','1.0.0.0'),('poll_setup','1.6.0.0','1.6.0.0'),('productalert_setup','1.6.0.0','1.6.0.0'),('rating_setup','1.6.0.0','1.6.0.0'),('reports_setup','1.6.0.0.1','1.6.0.0.1'),('review_setup','1.6.0.0','1.6.0.0'),('salesrule_setup','1.6.0.3','1.6.0.3'),('sales_setup','1.6.0.8','1.6.0.8'),('sendfriend_setup','1.6.0.0','1.6.0.0'),('shipping_setup','1.6.0.0','1.6.0.0'),('sitemap_setup','1.6.0.0','1.6.0.0'),('social_facebook_setup','1.6.0.1','1.6.0.1'),('tag_setup','1.6.0.0','1.6.0.0'),('tax_setup','1.6.0.3','1.6.0.3'),('usa_setup','1.6.0.1','1.6.0.1'),('weee_setup','1.6.0.0','1.6.0.0'),('widget_setup','1.6.0.0','1.6.0.0'),('wishlist_setup','1.6.0.0','1.6.0.0'),('xmlconnect_setup','1.6.0.0','1.6.0.0');
 /*!40000 ALTER TABLE `core_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4118,15 +3959,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_session`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_session` (
   `session_id` varchar(255) NOT NULL COMMENT 'Session Id',
   `session_expires` int(10) unsigned NOT NULL default '0' COMMENT 'Date of Session Expiration',
   `session_data` mediumblob NOT NULL COMMENT 'Session Data',
   PRIMARY KEY  (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Database Sessions Storage';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_session`
@@ -4142,8 +3983,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_store` (
   `store_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Store Id',
   `code` varchar(32) default NULL COMMENT 'Code',
@@ -4160,7 +4001,7 @@ CREATE TABLE `core_store` (
   CONSTRAINT `FK_CORE_STORE_GROUP_ID_CORE_STORE_GROUP_GROUP_ID` FOREIGN KEY (`group_id`) REFERENCES `core_store_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_STORE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Stores';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_store`
@@ -4177,8 +4018,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_store_group`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_store_group` (
   `group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Group Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -4190,7 +4031,7 @@ CREATE TABLE `core_store_group` (
   KEY `IDX_CORE_STORE_GROUP_DEFAULT_STORE_ID` (`default_store_id`),
   CONSTRAINT `FK_CORE_STORE_GROUP_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Store Groups';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_store_group`
@@ -4207,20 +4048,21 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_translate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_translate` (
   `key_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Key Id of Translation',
   `string` varchar(255) NOT NULL default 'Translate String' COMMENT 'Translation String',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
   `translate` varchar(255) default NULL COMMENT 'Translate',
   `locale` varchar(20) NOT NULL default 'en_US' COMMENT 'Locale',
+  `crc_string` bigint(20) NOT NULL default '1591228201' COMMENT 'Translation String CRC32 Hash',
   PRIMARY KEY  (`key_id`),
-  UNIQUE KEY `UNQ_CORE_TRANSLATE_STORE_ID_LOCALE_STRING` (`store_id`,`locale`,`string`),
+  UNIQUE KEY `UNQ_CORE_TRANSLATE_STORE_ID_LOCALE_CRC_STRING_STRING` (`store_id`,`locale`,`crc_string`,`string`),
   KEY `IDX_CORE_TRANSLATE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CORE_TRANSLATE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Translations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_translate`
@@ -4236,8 +4078,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_url_rewrite`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_url_rewrite` (
   `url_rewrite_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rewrite Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -4261,7 +4103,7 @@ CREATE TABLE `core_url_rewrite` (
   CONSTRAINT `FK_CORE_URL_REWRITE_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_URL_REWRITE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Url Rewrites';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_url_rewrite`
@@ -4277,8 +4119,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_variable`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_variable` (
   `variable_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Variable Id',
   `code` varchar(255) default NULL COMMENT 'Variable Code',
@@ -4286,7 +4128,7 @@ CREATE TABLE `core_variable` (
   PRIMARY KEY  (`variable_id`),
   UNIQUE KEY `UNQ_CORE_VARIABLE_CODE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variables';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_variable`
@@ -4302,8 +4144,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_variable_value`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_variable_value` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Variable Value Id',
   `variable_id` int(10) unsigned NOT NULL default '0' COMMENT 'Variable Id',
@@ -4317,7 +4159,7 @@ CREATE TABLE `core_variable_value` (
   CONSTRAINT `FK_CORE_VARIABLE_VALUE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_VARIABLE_VALUE_VARIABLE_ID_CORE_VARIABLE_VARIABLE_ID` FOREIGN KEY (`variable_id`) REFERENCES `core_variable` (`variable_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variable Value';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_variable_value`
@@ -4333,8 +4175,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `core_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `core_website` (
   `website_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Website Id',
   `code` varchar(32) default NULL COMMENT 'Code',
@@ -4351,7 +4193,7 @@ CREATE TABLE `core_website` (
   KEY `IDX_CORE_WEBSITE_SORT_ORDER` (`sort_order`),
   KEY `IDX_CORE_WEBSITE_DEFAULT_GROUP_ID` (`default_group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Websites';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `core_website`
@@ -4368,8 +4210,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `coupon_aggregated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon_aggregated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
@@ -4390,7 +4232,7 @@ CREATE TABLE `coupon_aggregated` (
   KEY `IDX_COUPON_AGGREGATED_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `coupon_aggregated`
@@ -4406,8 +4248,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `coupon_aggregated_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon_aggregated_order` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
@@ -4425,7 +4267,7 @@ CREATE TABLE `coupon_aggregated_order` (
   KEY `IDX_COUPON_AGGREGATED_ORDER_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `coupon_aggregated_order`
@@ -4441,8 +4283,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `coupon_aggregated_updated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon_aggregated_updated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
@@ -4463,7 +4305,7 @@ CREATE TABLE `coupon_aggregated_updated` (
   KEY `IDX_COUPON_AGGREGATED_UPDATED_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Updated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `coupon_aggregated_updated`
@@ -4479,8 +4321,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `cron_schedule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cron_schedule` (
   `schedule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Schedule Id',
   `job_code` varchar(255) NOT NULL default '0' COMMENT 'Job Code',
@@ -4494,7 +4336,7 @@ CREATE TABLE `cron_schedule` (
   KEY `IDX_CRON_SCHEDULE_JOB_CODE` (`job_code`),
   KEY `IDX_CRON_SCHEDULE_SCHEDULED_AT_STATUS` (`scheduled_at`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cron Schedule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `cron_schedule`
@@ -4510,8 +4352,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4525,7 +4367,7 @@ CREATE TABLE `customer_address_entity` (
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_CUSTOMER_ADDRESS_ENTITY_PARENT_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity`
@@ -4541,14 +4383,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity_datetime`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
-  `value` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Value',
+  `value` datetime default NULL COMMENT 'Value',
   PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
@@ -4559,7 +4401,7 @@ CREATE TABLE `customer_address_entity_datetime` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DTIME_ENTT_ID_CSTR_ADDR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_address_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Datetime';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity_datetime`
@@ -4575,8 +4417,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity_decimal` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4593,7 +4435,7 @@ CREATE TABLE `customer_address_entity_decimal` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DEC_ENTT_ID_CSTR_ADDR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_address_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Decimal';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity_decimal`
@@ -4609,8 +4451,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity_int` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4627,7 +4469,7 @@ CREATE TABLE `customer_address_entity_int` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_INT_ENTT_ID_CSTR_ADDR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_address_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ADDR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Int';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity_int`
@@ -4643,8 +4485,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity_text`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity_text` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4660,7 +4502,7 @@ CREATE TABLE `customer_address_entity_text` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_TEXT_ENTT_ID_CSTR_ADDR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_address_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ADDR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Text';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity_text`
@@ -4676,8 +4518,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_address_entity_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_address_entity_varchar` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4694,7 +4536,7 @@ CREATE TABLE `customer_address_entity_varchar` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_VCHR_ENTT_ID_CSTR_ADDR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_address_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ADDR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Varchar';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_address_entity_varchar`
@@ -4710,8 +4552,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_eav_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_eav_attribute` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
   `is_visible` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Visible',
@@ -4725,7 +4567,7 @@ CREATE TABLE `customer_eav_attribute` (
   PRIMARY KEY  (`attribute_id`),
   CONSTRAINT `FK_CSTR_EAV_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_eav_attribute`
@@ -4733,7 +4575,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `customer_eav_attribute` WRITE;
 /*!40000 ALTER TABLE `customer_eav_attribute` DISABLE KEYS */;
-INSERT INTO `customer_eav_attribute` VALUES (1,1,NULL,0,NULL,1,10,NULL,0),(2,0,NULL,0,NULL,1,0,NULL,0),(3,1,NULL,0,NULL,1,20,NULL,0),(4,0,NULL,0,NULL,0,30,NULL,0),(5,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,40,NULL,1),(6,0,NULL,0,NULL,0,50,NULL,0),(7,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,60,NULL,1),(8,0,NULL,0,NULL,0,70,NULL,0),(9,1,NULL,0,'a:1:{s:16:\"input_validation\";s:5:\"email\";}',1,80,NULL,1),(10,1,NULL,0,NULL,1,25,NULL,1),(11,0,'date',0,'a:1:{s:16:\"input_validation\";s:4:\"date\";}',0,90,NULL,1),(12,0,NULL,0,NULL,1,0,NULL,0),(13,0,NULL,0,NULL,1,0,NULL,1),(14,0,NULL,0,NULL,1,0,NULL,1),(15,0,NULL,0,'a:1:{s:15:\"max_text_length\";i:255;}',0,100,NULL,0),(16,0,NULL,0,NULL,1,0,NULL,0),(17,0,NULL,0,NULL,0,0,NULL,1),(18,0,NULL,0,'a:0:{}',0,110,NULL,1),(19,0,NULL,0,NULL,0,10,NULL,0),(20,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,20,NULL,1),(21,0,NULL,0,NULL,0,30,NULL,0),(22,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,40,NULL,1),(23,0,NULL,0,NULL,0,50,NULL,0),(24,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,60,NULL,1),(25,1,NULL,2,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,70,NULL,1),(26,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,80,NULL,1),(27,1,NULL,0,NULL,1,90,NULL,1),(28,1,NULL,0,NULL,1,100,NULL,0),(29,1,NULL,0,NULL,1,100,NULL,1),(30,1,NULL,0,'a:0:{}',1,110,'customer/attribute_data_postcode',1),(31,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,120,NULL,1),(32,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,130,NULL,0),(33,0,NULL,0,NULL,1,0,NULL,0),(34,0,NULL,0,'a:1:{s:16:\"input_validation\";s:4:\"date\";}',1,0,NULL,0),(35,1,NULL,0,NULL,1,28,NULL,0),(36,1,NULL,0,NULL,1,140,NULL,0),(37,0,NULL,0,NULL,1,0,NULL,0),(38,0,NULL,0,NULL,1,0,NULL,0),(39,0,NULL,0,NULL,1,0,NULL,0),(40,0,NULL,0,NULL,1,0,NULL,0),(149,0,NULL,1,NULL,0,0,NULL,0),(150,0,NULL,1,NULL,0,0,NULL,0);
+INSERT INTO `customer_eav_attribute` VALUES (1,1,NULL,0,NULL,1,10,NULL,0),(2,0,NULL,0,NULL,1,0,NULL,0),(3,1,NULL,0,NULL,1,20,NULL,0),(4,0,NULL,0,NULL,0,30,NULL,0),(5,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,40,NULL,1),(6,0,NULL,0,NULL,0,50,NULL,0),(7,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,60,NULL,1),(8,0,NULL,0,NULL,0,70,NULL,0),(9,1,NULL,0,'a:1:{s:16:\"input_validation\";s:5:\"email\";}',1,80,NULL,1),(10,1,NULL,0,NULL,1,25,NULL,1),(11,0,'date',0,'a:1:{s:16:\"input_validation\";s:4:\"date\";}',0,90,NULL,1),(12,0,NULL,0,NULL,1,0,NULL,0),(13,0,NULL,0,NULL,1,0,NULL,1),(14,0,NULL,0,NULL,1,0,NULL,1),(15,0,NULL,0,'a:1:{s:15:\"max_text_length\";i:255;}',0,100,NULL,0),(16,0,NULL,0,NULL,1,0,NULL,0),(17,0,NULL,0,NULL,0,0,NULL,1),(18,0,NULL,0,'a:0:{}',0,110,NULL,1),(19,0,NULL,0,NULL,0,10,NULL,0),(20,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,20,NULL,1),(21,0,NULL,0,NULL,0,30,NULL,0),(22,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,40,NULL,1),(23,0,NULL,0,NULL,0,50,NULL,0),(24,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,60,NULL,1),(25,1,NULL,2,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,70,NULL,1),(26,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,80,NULL,1),(27,1,NULL,0,NULL,1,90,NULL,1),(28,1,NULL,0,NULL,1,100,NULL,0),(29,1,NULL,0,NULL,1,100,NULL,1),(30,1,NULL,0,'a:0:{}',1,110,'Mage_Customer_Model_Attribute_Data_Postcode',1),(31,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,120,NULL,1),(32,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,130,NULL,0),(33,0,NULL,0,NULL,1,0,NULL,0),(34,0,NULL,0,'a:1:{s:16:\"input_validation\";s:4:\"date\";}',1,0,NULL,0),(35,1,NULL,0,NULL,1,28,NULL,0),(36,1,NULL,0,NULL,1,140,NULL,0),(37,0,NULL,0,NULL,1,0,NULL,0),(38,0,NULL,0,NULL,1,0,NULL,0),(39,0,NULL,0,NULL,1,0,NULL,0),(40,0,NULL,0,NULL,1,0,NULL,0),(148,0,NULL,1,NULL,0,0,NULL,0),(149,0,NULL,1,NULL,0,0,NULL,0);
 /*!40000 ALTER TABLE `customer_eav_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4742,8 +4584,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_eav_attribute_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_eav_attribute_website` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -4756,7 +4598,7 @@ CREATE TABLE `customer_eav_attribute_website` (
   CONSTRAINT `FK_CSTR_EAV_ATTR_WS_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_EAV_ATTR_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute Website';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_eav_attribute_website`
@@ -4772,8 +4614,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4786,7 +4628,7 @@ CREATE TABLE `customer_entity` (
   `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
   `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
   `is_active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Active',
-  `disable_auto_group_change` smallint(5) unsigned NOT NULL default '0' COMMENT 'Disable automatic group change',
+  `disable_auto_group_change` smallint(5) unsigned NOT NULL default '0' COMMENT 'Disable automatic group change based on VAT ID',
   PRIMARY KEY  (`entity_id`),
   KEY `IDX_CUSTOMER_ENTITY_STORE_ID` (`store_id`),
   KEY `IDX_CUSTOMER_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
@@ -4795,7 +4637,7 @@ CREATE TABLE `customer_entity` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ENTITY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Customer Entity';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity`
@@ -4803,7 +4645,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `customer_entity` WRITE;
 /*!40000 ALTER TABLE `customer_entity` DISABLE KEYS */;
-INSERT INTO `customer_entity` VALUES (1,1,0,1,'customer@example.com',1,NULL,0,'2012-01-23 14:48:04','2012-01-23 14:48:04',1,0);
+INSERT INTO `customer_entity` VALUES (1,1,0,1,'customer@example.com',1,NULL,0,'2012-05-23 13:02:25','2012-05-23 13:02:25',1,0);
 /*!40000 ALTER TABLE `customer_entity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4812,14 +4654,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity_datetime`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
-  `value` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Value',
+  `value` datetime default NULL COMMENT 'Value',
   PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
@@ -4830,7 +4672,7 @@ CREATE TABLE `customer_entity_datetime` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_DATETIME_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Datetime';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity_datetime`
@@ -4846,8 +4688,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity_decimal` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4864,7 +4706,7 @@ CREATE TABLE `customer_entity_decimal` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_DECIMAL_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Decimal';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity_decimal`
@@ -4880,8 +4722,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity_int` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4897,8 +4739,8 @@ CREATE TABLE `customer_entity_int` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_INT_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ENTITY_INT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Int';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Customer Entity Int';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity_int`
@@ -4906,6 +4748,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `customer_entity_int` WRITE;
 /*!40000 ALTER TABLE `customer_entity_int` DISABLE KEYS */;
+INSERT INTO `customer_entity_int` VALUES (1,1,148,1,1),(2,1,149,1,1);
 /*!40000 ALTER TABLE `customer_entity_int` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4914,8 +4757,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity_text`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity_text` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4931,7 +4774,7 @@ CREATE TABLE `customer_entity_text` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_TEXT_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Text';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity_text`
@@ -4947,8 +4790,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_entity_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_entity_varchar` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -4965,7 +4808,7 @@ CREATE TABLE `customer_entity_varchar` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Customer Entity Varchar';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_entity_varchar`
@@ -4973,7 +4816,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `customer_entity_varchar` WRITE;
 /*!40000 ALTER TABLE `customer_entity_varchar` DISABLE KEYS */;
-INSERT INTO `customer_entity_varchar` VALUES (1,1,4,1,NULL),(2,1,5,1,'test'),(3,1,6,1,NULL),(4,1,7,1,'test'),(5,1,8,1,NULL),(6,1,15,1,NULL),(7,1,12,1,'be1a9cb6706e500dc27ca92d2cb7a25d:y8'),(8,1,3,1,'Admin');
+INSERT INTO `customer_entity_varchar` VALUES (1,1,4,1,NULL),(2,1,5,1,'customer'),(3,1,6,1,NULL),(4,1,7,1,'customer'),(5,1,8,1,NULL),(6,1,15,1,NULL),(7,1,12,1,'8c3258fbda13f60a751604245dbbd203a1850c88e5da85759892913e42100233:4U'),(8,1,3,1,'Admin');
 /*!40000 ALTER TABLE `customer_entity_varchar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4982,8 +4825,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_form_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_form_attribute` (
   `form_code` varchar(32) NOT NULL COMMENT 'Form Code',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
@@ -4991,7 +4834,7 @@ CREATE TABLE `customer_form_attribute` (
   KEY `IDX_CUSTOMER_FORM_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_CSTR_FORM_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Form Attribute';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_form_attribute`
@@ -5008,15 +4851,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `customer_group`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_group` (
   `customer_group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Customer Group Id',
   `customer_group_code` varchar(32) NOT NULL COMMENT 'Customer Group Code',
   `tax_class_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tax Class Id',
   PRIMARY KEY  (`customer_group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Customer Group';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer_group`
@@ -5029,38 +4872,12 @@ INSERT INTO `customer_group` VALUES (0,'NOT LOGGED IN',3),(1,'General',3),(2,'Wh
 UNLOCK TABLES;
 
 --
--- Table structure for table `cybermut_api_debug`
---
-
-DROP TABLE IF EXISTS `cybermut_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `cybermut_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `cybermut_api_debug`
---
-
-LOCK TABLES `cybermut_api_debug` WRITE;
-/*!40000 ALTER TABLE `cybermut_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cybermut_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `dataflow_batch`
 --
 
 DROP TABLE IF EXISTS `dataflow_batch`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_batch` (
   `batch_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Batch Id',
   `profile_id` int(10) unsigned NOT NULL default '0' COMMENT 'Profile ID',
@@ -5075,7 +4892,7 @@ CREATE TABLE `dataflow_batch` (
   CONSTRAINT `FK_DATAFLOW_BATCH_PROFILE_ID_DATAFLOW_PROFILE_PROFILE_ID` FOREIGN KEY (`profile_id`) REFERENCES `dataflow_profile` (`profile_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_DATAFLOW_BATCH_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Dataflow Batch';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_batch`
@@ -5091,8 +4908,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_batch_export`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_batch_export` (
   `batch_export_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Batch Export Id',
   `batch_id` int(10) unsigned NOT NULL default '0' COMMENT 'Batch Id',
@@ -5102,7 +4919,7 @@ CREATE TABLE `dataflow_batch_export` (
   KEY `IDX_DATAFLOW_BATCH_EXPORT_BATCH_ID` (`batch_id`),
   CONSTRAINT `FK_DATAFLOW_BATCH_EXPORT_BATCH_ID_DATAFLOW_BATCH_BATCH_ID` FOREIGN KEY (`batch_id`) REFERENCES `dataflow_batch` (`batch_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Dataflow Batch Export';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_batch_export`
@@ -5118,8 +4935,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_batch_import`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_batch_import` (
   `batch_import_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Batch Import Id',
   `batch_id` int(10) unsigned NOT NULL default '0' COMMENT 'Batch Id',
@@ -5129,7 +4946,7 @@ CREATE TABLE `dataflow_batch_import` (
   KEY `IDX_DATAFLOW_BATCH_IMPORT_BATCH_ID` (`batch_id`),
   CONSTRAINT `FK_DATAFLOW_BATCH_IMPORT_BATCH_ID_DATAFLOW_BATCH_BATCH_ID` FOREIGN KEY (`batch_id`) REFERENCES `dataflow_batch` (`batch_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Dataflow Batch Import';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_batch_import`
@@ -5145,8 +4962,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_import_data`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_import_data` (
   `import_id` int(11) NOT NULL auto_increment COMMENT 'Import Id',
   `session_id` int(11) default NULL COMMENT 'Session Id',
@@ -5157,7 +4974,7 @@ CREATE TABLE `dataflow_import_data` (
   KEY `IDX_DATAFLOW_IMPORT_DATA_SESSION_ID` (`session_id`),
   CONSTRAINT `FK_DATAFLOW_IMPORT_DATA_SESSION_ID_DATAFLOW_SESSION_SESSION_ID` FOREIGN KEY (`session_id`) REFERENCES `dataflow_session` (`session_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Dataflow Import Data';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_import_data`
@@ -5173,8 +4990,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_profile`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_profile` (
   `profile_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Profile Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -5188,7 +5005,7 @@ CREATE TABLE `dataflow_profile` (
   `data_transfer` varchar(11) default NULL COMMENT 'Data Transfer',
   PRIMARY KEY  (`profile_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Dataflow Profile';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_profile`
@@ -5196,7 +5013,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `dataflow_profile` WRITE;
 /*!40000 ALTER TABLE `dataflow_profile` DISABLE KEYS */;
-INSERT INTO `dataflow_profile` VALUES (1,'Export All Products','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"catalog/convert_adapter_product\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"catalog/convert_parser_product\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_mapper_column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_parser_csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_adapter_io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_all_products.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:23:\"export_all_products.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','product',0,'file'),(2,'Export Product Stocks','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"catalog/convert_adapter_product\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"catalog/convert_parser_product\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_mapper_column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_parser_csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_adapter_io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_all_products.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:25:\"export_product_stocks.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:4:\"true\";s:7:\"product\";a:2:{s:2:\"db\";a:4:{i:1;s:5:\"store\";i:2;s:3:\"sku\";i:3;s:3:\"qty\";i:4;s:11:\"is_in_stock\";}s:4:\"file\";a:4:{i:1;s:5:\"store\";i:2;s:3:\"sku\";i:3;s:3:\"qty\";i:4;s:11:\"is_in_stock\";}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','product',0,'file'),(3,'Import All Products','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"dataflow/convert_parser_csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">catalog/convert_adapter_product</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:23:\"export_all_products.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','product',0,'interactive'),(4,'Import Product Stocks','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"dataflow/convert_parser_csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">catalog/convert_adapter_product</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:18:\"export_product.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','product',0,'interactive'),(5,'Export Customers','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"customer/convert_adapter_customer\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"filter/adressType\"><![CDATA[default_billing]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"customer/convert_parser_customer\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_mapper_column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_parser_csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"dataflow/convert_adapter_io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_customers.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:20:\"export_customers.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','customer',0,'file'),(6,'Import Customers','2012-01-23 14:37:46','2012-01-23 14:37:46','<action type=\"dataflow/convert_parser_csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">customer/convert_adapter_customer</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:19:\"export_customer.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','customer',0,'interactive');
+INSERT INTO `dataflow_profile` VALUES (1,'Export All Products','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Catalog_Model_Convert_Adapter_Product\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Catalog_Model_Convert_Parser_Product\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Mapper_Column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Adapter_Io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_all_products.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:23:\"export_all_products.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','product',0,'file'),(2,'Export Product Stocks','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Catalog_Model_Convert_Adapter_Product\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Catalog_Model_Convert_Parser_Product\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Mapper_Column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Adapter_Io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_all_products.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:25:\"export_product_stocks.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:4:\"true\";s:7:\"product\";a:2:{s:2:\"db\";a:4:{i:1;s:5:\"store\";i:2;s:3:\"sku\";i:3;s:3:\"qty\";i:4;s:11:\"is_in_stock\";}s:4:\"file\";a:4:{i:1;s:5:\"store\";i:2;s:3:\"sku\";i:3;s:3:\"qty\";i:4;s:11:\"is_in_stock\";}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','product',0,'file'),(3,'Import All Products','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">Mage_Catalog_Model_Convert_Adapter_Product</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:23:\"export_all_products.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','product',0,'interactive'),(4,'Import Product Stocks','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">Mage_Catalog_Model_Convert_Adapter_Product</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:18:\"export_product.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','product',0,'interactive'),(5,'Export Customers','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Customer_Model_Convert_Adapter_Customer\" method=\"load\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"filter/adressType\"><![CDATA[default_billing]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Customer_Model_Convert_Parser_Customer\" method=\"unparse\">\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Mapper_Column\" method=\"map\">\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"unparse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n</action>\\r\\n\\r\\n<action type=\"Mage_Dataflow_Model_Convert_Adapter_Io\" method=\"save\">\\r\\n    <var name=\"type\">file</var>\\r\\n    <var name=\"path\">var/export</var>\\r\\n    <var name=\"filename\"><![CDATA[export_customers.csv]]></var>\\r\\n</action>\\r\\n\\r\\n','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:20:\"export_customers.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','export','customer',0,'file'),(6,'Import Customers','2012-05-23 12:45:25','2012-05-23 12:45:25','<action type=\"Mage_Dataflow_Model_Convert_Parser_Csv\" method=\"parse\">\\r\\n    <var name=\"delimiter\"><![CDATA[,]]></var>\\r\\n    <var name=\"enclose\"><![CDATA[\"]]></var>\\r\\n    <var name=\"fieldnames\">true</var>\\r\\n    <var name=\"store\"><![CDATA[0]]></var>\\r\\n    <var name=\"adapter\">Mage_Customer_Model_Convert_Adapter_Customer</var>\\r\\n    <var name=\"method\">parse</var>\\r\\n</action>','a:5:{s:4:\"file\";a:7:{s:4:\"type\";s:4:\"file\";s:8:\"filename\";s:19:\"export_customer.csv\";s:4:\"path\";s:10:\"var/export\";s:4:\"host\";s:0:\"\";s:4:\"user\";s:0:\"\";s:8:\"password\";s:0:\"\";s:7:\"passive\";s:0:\"\";}s:5:\"parse\";a:5:{s:4:\"type\";s:3:\"csv\";s:12:\"single_sheet\";s:0:\"\";s:9:\"delimiter\";s:1:\",\";s:7:\"enclose\";s:1:\"\"\";s:10:\"fieldnames\";s:4:\"true\";}s:3:\"map\";a:3:{s:14:\"only_specified\";s:0:\"\";s:7:\"product\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}s:8:\"customer\";a:2:{s:2:\"db\";a:0:{}s:4:\"file\";a:0:{}}}s:7:\"product\";a:1:{s:6:\"filter\";a:8:{s:4:\"name\";s:0:\"\";s:3:\"sku\";s:0:\"\";s:4:\"type\";s:1:\"0\";s:13:\"attribute_set\";s:0:\"\";s:5:\"price\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:3:\"qty\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}s:10:\"visibility\";s:1:\"0\";s:6:\"status\";s:1:\"0\";}}s:8:\"customer\";a:1:{s:6:\"filter\";a:10:{s:9:\"firstname\";s:0:\"\";s:8:\"lastname\";s:0:\"\";s:5:\"email\";s:0:\"\";s:5:\"group\";s:1:\"0\";s:10:\"adressType\";s:15:\"default_billing\";s:9:\"telephone\";s:0:\"\";s:8:\"postcode\";s:0:\"\";s:7:\"country\";s:0:\"\";s:6:\"region\";s:0:\"\";s:10:\"created_at\";a:2:{s:4:\"from\";s:0:\"\";s:2:\"to\";s:0:\"\";}}}}','import','customer',0,'interactive');
 /*!40000 ALTER TABLE `dataflow_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5205,8 +5022,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_profile_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_profile_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `profile_id` int(10) unsigned NOT NULL default '0' COMMENT 'Profile Id',
@@ -5217,7 +5034,7 @@ CREATE TABLE `dataflow_profile_history` (
   KEY `IDX_DATAFLOW_PROFILE_HISTORY_PROFILE_ID` (`profile_id`),
   CONSTRAINT `FK_AEA06B0C500063D3CE6EA671AE776645` FOREIGN KEY (`profile_id`) REFERENCES `dataflow_profile` (`profile_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Dataflow Profile History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_profile_history`
@@ -5225,7 +5042,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `dataflow_profile_history` WRITE;
 /*!40000 ALTER TABLE `dataflow_profile_history` DISABLE KEYS */;
-INSERT INTO `dataflow_profile_history` VALUES (1,1,'create',0,'2012-01-23 14:37:46'),(2,2,'create',0,'2012-01-23 14:37:46'),(3,3,'create',0,'2012-01-23 14:37:46'),(4,4,'create',0,'2012-01-23 14:37:46'),(5,5,'create',0,'2012-01-23 14:37:46'),(6,6,'create',0,'2012-01-23 14:37:46');
+INSERT INTO `dataflow_profile_history` VALUES (1,1,'create',0,'2012-05-23 12:45:25'),(2,2,'create',0,'2012-05-23 12:45:25'),(3,3,'create',0,'2012-05-23 12:45:25'),(4,4,'create',0,'2012-05-23 12:45:25'),(5,5,'create',0,'2012-05-23 12:45:25'),(6,6,'create',0,'2012-05-23 12:45:25');
 /*!40000 ALTER TABLE `dataflow_profile_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5234,8 +5051,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `dataflow_session`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dataflow_session` (
   `session_id` int(11) NOT NULL auto_increment COMMENT 'Session Id',
   `user_id` int(11) NOT NULL COMMENT 'User Id',
@@ -5246,7 +5063,7 @@ CREATE TABLE `dataflow_session` (
   `comment` varchar(255) default NULL COMMENT 'Comment',
   PRIMARY KEY  (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Dataflow Session';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dataflow_session`
@@ -5262,8 +5079,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `design_change`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `design_change` (
   `design_change_id` int(11) NOT NULL auto_increment COMMENT 'Design Change Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -5274,7 +5091,7 @@ CREATE TABLE `design_change` (
   KEY `IDX_DESIGN_CHANGE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_DESIGN_CHANGE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Changes';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `design_change`
@@ -5290,15 +5107,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `directory_country`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directory_country` (
   `country_id` varchar(2) NOT NULL default '' COMMENT 'Country Id in ISO-2',
   `iso2_code` varchar(2) default NULL COMMENT 'Country ISO-2 format',
   `iso3_code` varchar(3) default NULL COMMENT 'Country ISO-3',
   PRIMARY KEY  (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `directory_country`
@@ -5315,8 +5132,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `directory_country_format`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directory_country_format` (
   `country_format_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Country Format Id',
   `country_id` varchar(2) default NULL COMMENT 'Country Id in ISO-2',
@@ -5325,7 +5142,7 @@ CREATE TABLE `directory_country_format` (
   PRIMARY KEY  (`country_format_id`),
   UNIQUE KEY `UNQ_DIRECTORY_COUNTRY_FORMAT_COUNTRY_ID_TYPE` (`country_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Format';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `directory_country_format`
@@ -5341,8 +5158,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `directory_country_region`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directory_country_region` (
   `region_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Region Id',
   `country_id` varchar(4) NOT NULL default '0' COMMENT 'Country Id in ISO-2',
@@ -5351,7 +5168,7 @@ CREATE TABLE `directory_country_region` (
   PRIMARY KEY  (`region_id`),
   KEY `IDX_DIRECTORY_COUNTRY_REGION_COUNTRY_ID` (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=485 DEFAULT CHARSET=utf8 COMMENT='Directory Country Region';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `directory_country_region`
@@ -5368,8 +5185,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `directory_country_region_name`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directory_country_region_name` (
   `locale` varchar(8) NOT NULL default '' COMMENT 'Locale',
   `region_id` int(10) unsigned NOT NULL default '0' COMMENT 'Region Id',
@@ -5378,7 +5195,7 @@ CREATE TABLE `directory_country_region_name` (
   KEY `IDX_DIRECTORY_COUNTRY_REGION_NAME_REGION_ID` (`region_id`),
   CONSTRAINT `FK_D7CFDEB379F775328EB6F62695E2B3E1` FOREIGN KEY (`region_id`) REFERENCES `directory_country_region` (`region_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Region Name';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `directory_country_region_name`
@@ -5395,8 +5212,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `directory_currency_rate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `directory_currency_rate` (
   `currency_from` varchar(3) NOT NULL default '' COMMENT 'Currency Code Convert From',
   `currency_to` varchar(3) NOT NULL default '' COMMENT 'Currency Code Convert To',
@@ -5404,7 +5221,7 @@ CREATE TABLE `directory_currency_rate` (
   PRIMARY KEY  (`currency_from`,`currency_to`),
   KEY `IDX_DIRECTORY_CURRENCY_RATE_CURRENCY_TO` (`currency_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Currency Rate';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `directory_currency_rate`
@@ -5421,8 +5238,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_link` (
   `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -5440,7 +5257,7 @@ CREATE TABLE `downloadable_link` (
   KEY `IDX_DOWNLOADABLE_LINK_PRODUCT_ID_SORT_ORDER` (`product_id`,`sort_order`),
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_link`
@@ -5456,8 +5273,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_link_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_link_price` (
   `price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Price ID',
   `link_id` int(10) unsigned NOT NULL default '0' COMMENT 'Link ID',
@@ -5469,7 +5286,7 @@ CREATE TABLE `downloadable_link_price` (
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_LINK_ID_DOWNLOADABLE_LINK_LINK_ID` FOREIGN KEY (`link_id`) REFERENCES `downloadable_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Price Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_link_price`
@@ -5485,8 +5302,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_link_purchased`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_link_purchased` (
   `purchased_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Purchased ID',
   `order_id` int(10) unsigned default '0' COMMENT 'Order ID',
@@ -5505,7 +5322,7 @@ CREATE TABLE `downloadable_link_purchased` (
   CONSTRAINT `FK_DL_LNK_PURCHASED_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_DL_LNK_PURCHASED_ORDER_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_link_purchased`
@@ -5521,8 +5338,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_link_purchased_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_link_purchased_item` (
   `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item ID',
   `purchased_id` int(10) unsigned NOT NULL default '0' COMMENT 'Purchased ID',
@@ -5547,7 +5364,7 @@ CREATE TABLE `downloadable_link_purchased_item` (
   CONSTRAINT `FK_46CC8E252307CE62F00A8F1887512A39` FOREIGN KEY (`purchased_id`) REFERENCES `downloadable_link_purchased` (`purchased_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_B219BF25756700DEE44550B21220ECCE` FOREIGN KEY (`order_item_id`) REFERENCES `sales_flat_order_item` (`item_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Item Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_link_purchased_item`
@@ -5563,8 +5380,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_link_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_link_title` (
   `title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Title ID',
   `link_id` int(10) unsigned NOT NULL default '0' COMMENT 'Link ID',
@@ -5577,7 +5394,7 @@ CREATE TABLE `downloadable_link_title` (
   CONSTRAINT `FK_DOWNLOADABLE_LINK_TITLE_LINK_ID_DOWNLOADABLE_LINK_LINK_ID` FOREIGN KEY (`link_id`) REFERENCES `downloadable_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DOWNLOADABLE_LINK_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Link Title Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_link_title`
@@ -5593,8 +5410,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_sample`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_sample` (
   `sample_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Sample ID',
   `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
@@ -5606,7 +5423,7 @@ CREATE TABLE `downloadable_sample` (
   KEY `IDX_DOWNLOADABLE_SAMPLE_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_DL_SAMPLE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_sample`
@@ -5622,8 +5439,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `downloadable_sample_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloadable_sample_title` (
   `title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Title ID',
   `sample_id` int(10) unsigned NOT NULL default '0' COMMENT 'Sample ID',
@@ -5636,7 +5453,7 @@ CREATE TABLE `downloadable_sample_title` (
   CONSTRAINT `FK_DL_SAMPLE_TTL_SAMPLE_ID_DL_SAMPLE_SAMPLE_ID` FOREIGN KEY (`sample_id`) REFERENCES `downloadable_sample` (`sample_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DOWNLOADABLE_SAMPLE_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Title Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `downloadable_sample_title`
@@ -5652,8 +5469,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute` (
   `attribute_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -5676,8 +5493,8 @@ CREATE TABLE `eav_attribute` (
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_ENTITY_TYPE_ID_ATTRIBUTE_CODE` (`entity_type_id`,`attribute_code`),
   KEY `IDX_EAV_ATTRIBUTE_ENTITY_TYPE_ID` (`entity_type_id`),
   CONSTRAINT `FK_EAV_ATTRIBUTE_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute`
@@ -5685,7 +5502,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_attribute` WRITE;
 /*!40000 ALTER TABLE `eav_attribute` DISABLE KEYS */;
-INSERT INTO `eav_attribute` VALUES (1,1,'website_id',NULL,'customer/customer_attribute_backend_website','static',NULL,NULL,'select','Associate to Website',NULL,'customer/customer_attribute_source_website',1,0,NULL,0,NULL),(2,1,'store_id',NULL,'customer/customer_attribute_backend_store','static',NULL,NULL,'select','Create In',NULL,'customer/customer_attribute_source_store',1,0,NULL,0,NULL),(3,1,'created_in',NULL,NULL,'varchar',NULL,NULL,'text','Created From',NULL,NULL,0,0,NULL,0,NULL),(4,1,'prefix',NULL,NULL,'varchar',NULL,NULL,'text','Prefix',NULL,NULL,0,0,NULL,0,NULL),(5,1,'firstname',NULL,NULL,'varchar',NULL,NULL,'text','First Name',NULL,NULL,1,0,NULL,0,NULL),(6,1,'middlename',NULL,NULL,'varchar',NULL,NULL,'text','Middle Name/Initial',NULL,NULL,0,0,NULL,0,NULL),(7,1,'lastname',NULL,NULL,'varchar',NULL,NULL,'text','Last Name',NULL,NULL,1,0,NULL,0,NULL),(8,1,'suffix',NULL,NULL,'varchar',NULL,NULL,'text','Suffix',NULL,NULL,0,0,NULL,0,NULL),(9,1,'email',NULL,NULL,'static',NULL,NULL,'text','Email',NULL,NULL,1,0,NULL,0,NULL),(10,1,'group_id',NULL,NULL,'static',NULL,NULL,'select','Group',NULL,'customer/customer_attribute_source_group',1,0,NULL,0,NULL),(11,1,'dob',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,'eav/entity_attribute_frontend_datetime','date','Date Of Birth',NULL,NULL,0,0,NULL,0,NULL),(12,1,'password_hash',NULL,'customer/customer_attribute_backend_password','varchar',NULL,NULL,'hidden',NULL,NULL,NULL,0,0,NULL,0,NULL),(13,1,'default_billing',NULL,'customer/customer_attribute_backend_billing','int',NULL,NULL,'text','Default Billing Address',NULL,NULL,0,0,NULL,0,NULL),(14,1,'default_shipping',NULL,'customer/customer_attribute_backend_shipping','int',NULL,NULL,'text','Default Shipping Address',NULL,NULL,0,0,NULL,0,NULL),(15,1,'taxvat',NULL,NULL,'varchar',NULL,NULL,'text','Tax/VAT Number',NULL,NULL,0,0,NULL,0,NULL),(16,1,'confirmation',NULL,NULL,'varchar',NULL,NULL,'text','Is Confirmed',NULL,NULL,0,0,NULL,0,NULL),(17,1,'created_at',NULL,NULL,'static',NULL,NULL,'date','Created At',NULL,NULL,0,0,NULL,0,NULL),(18,1,'gender',NULL,NULL,'int',NULL,NULL,'select','Gender',NULL,'eav/entity_attribute_source_table',0,0,NULL,0,NULL),(19,2,'prefix',NULL,NULL,'varchar',NULL,NULL,'text','Prefix',NULL,NULL,0,0,NULL,0,NULL),(20,2,'firstname',NULL,NULL,'varchar',NULL,NULL,'text','First Name',NULL,NULL,1,0,NULL,0,NULL),(21,2,'middlename',NULL,NULL,'varchar',NULL,NULL,'text','Middle Name/Initial',NULL,NULL,0,0,NULL,0,NULL),(22,2,'lastname',NULL,NULL,'varchar',NULL,NULL,'text','Last Name',NULL,NULL,1,0,NULL,0,NULL),(23,2,'suffix',NULL,NULL,'varchar',NULL,NULL,'text','Suffix',NULL,NULL,0,0,NULL,0,NULL),(24,2,'company',NULL,NULL,'varchar',NULL,NULL,'text','Company',NULL,NULL,0,0,NULL,0,NULL),(25,2,'street',NULL,'customer/entity_address_attribute_backend_street','text',NULL,NULL,'multiline','Street Address',NULL,NULL,1,0,NULL,0,NULL),(26,2,'city',NULL,NULL,'varchar',NULL,NULL,'text','City',NULL,NULL,1,0,NULL,0,NULL),(27,2,'country_id',NULL,NULL,'varchar',NULL,NULL,'select','Country',NULL,'customer/entity_address_attribute_source_country',1,0,NULL,0,NULL),(28,2,'region',NULL,'customer/entity_address_attribute_backend_region','varchar',NULL,NULL,'text','State/Province',NULL,NULL,0,0,NULL,0,NULL),(29,2,'region_id',NULL,NULL,'int',NULL,NULL,'hidden','State/Province',NULL,'customer/entity_address_attribute_source_region',0,0,NULL,0,NULL),(30,2,'postcode',NULL,NULL,'varchar',NULL,NULL,'text','Zip/Postal Code',NULL,NULL,1,0,NULL,0,NULL),(31,2,'telephone',NULL,NULL,'varchar',NULL,NULL,'text','Telephone',NULL,NULL,1,0,NULL,0,NULL),(32,2,'fax',NULL,NULL,'varchar',NULL,NULL,'text','Fax',NULL,NULL,0,0,NULL,0,NULL),(33,1,'rp_token',NULL,NULL,'varchar',NULL,NULL,'hidden',NULL,NULL,NULL,0,0,NULL,0,NULL),(34,1,'rp_token_created_at',NULL,NULL,'datetime',NULL,NULL,'date',NULL,NULL,NULL,0,0,NULL,0,NULL),(35,1,'disable_auto_group_change',NULL,'customer/attribute_backend_data_boolean','static',NULL,NULL,'boolean','Disable automatic group change',NULL,NULL,0,0,NULL,0,NULL),(36,2,'vat_id',NULL,NULL,'varchar',NULL,NULL,'text','VAT number',NULL,NULL,0,0,NULL,0,NULL),(37,2,'vat_is_valid',NULL,NULL,'int',NULL,NULL,'text','VAT number validity',NULL,NULL,0,0,NULL,0,NULL),(38,2,'vat_request_id',NULL,NULL,'varchar',NULL,NULL,'text','VAT number validation request ID',NULL,NULL,0,0,NULL,0,NULL),(39,2,'vat_request_date',NULL,NULL,'varchar',NULL,NULL,'text','VAT number validation request date',NULL,NULL,0,0,NULL,0,NULL),(40,2,'vat_request_success',NULL,NULL,'int',NULL,NULL,'text','VAT number validation request success',NULL,NULL,0,0,NULL,0,NULL),(41,3,'name',NULL,NULL,'varchar',NULL,NULL,'text','Name',NULL,NULL,1,0,NULL,0,NULL),(42,3,'is_active',NULL,NULL,'int',NULL,NULL,'select','Is Active',NULL,'eav/entity_attribute_source_boolean',1,0,NULL,0,NULL),(43,3,'url_key',NULL,'catalog/category_attribute_backend_urlkey','varchar',NULL,NULL,'text','URL Key',NULL,NULL,0,0,NULL,0,NULL),(44,3,'description',NULL,NULL,'text',NULL,NULL,'textarea','Description',NULL,NULL,0,0,NULL,0,NULL),(45,3,'image',NULL,'catalog/category_attribute_backend_image','varchar',NULL,NULL,'image','Image',NULL,NULL,0,0,NULL,0,NULL),(46,3,'meta_title',NULL,NULL,'varchar',NULL,NULL,'text','Page Title',NULL,NULL,0,0,NULL,0,NULL),(47,3,'meta_keywords',NULL,NULL,'text',NULL,NULL,'textarea','Meta Keywords',NULL,NULL,0,0,NULL,0,NULL),(48,3,'meta_description',NULL,NULL,'text',NULL,NULL,'textarea','Meta Description',NULL,NULL,0,0,NULL,0,NULL),(49,3,'display_mode',NULL,NULL,'varchar',NULL,NULL,'select','Display Mode',NULL,'catalog/category_attribute_source_mode',0,0,NULL,0,NULL),(50,3,'landing_page',NULL,NULL,'int',NULL,NULL,'select','CMS Block',NULL,'catalog/category_attribute_source_page',0,0,NULL,0,NULL),(51,3,'is_anchor',NULL,NULL,'int',NULL,NULL,'select','Is Anchor',NULL,'eav/entity_attribute_source_boolean',0,0,NULL,0,NULL),(52,3,'path',NULL,NULL,'static',NULL,NULL,'text','Path',NULL,NULL,0,0,NULL,0,NULL),(53,3,'position',NULL,NULL,'static',NULL,NULL,'text','Position',NULL,NULL,0,0,NULL,0,NULL),(54,3,'all_children',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(55,3,'path_in_store',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(56,3,'children',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(57,3,'url_path',NULL,NULL,'varchar',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(58,3,'custom_design',NULL,NULL,'varchar',NULL,NULL,'select','Custom Design',NULL,'core/design_source_design',0,0,NULL,0,NULL),(59,3,'custom_design_from',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Active From',NULL,NULL,0,0,NULL,0,NULL),(60,3,'custom_design_to',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Active To',NULL,NULL,0,0,NULL,0,NULL),(61,3,'page_layout',NULL,NULL,'varchar',NULL,NULL,'select','Page Layout',NULL,'catalog/category_attribute_source_layout',0,0,NULL,0,NULL),(62,3,'custom_layout_update',NULL,'catalog/attribute_backend_customlayoutupdate','text',NULL,NULL,'textarea','Custom Layout Update',NULL,NULL,0,0,NULL,0,NULL),(63,3,'level',NULL,NULL,'static',NULL,NULL,'text','Level',NULL,NULL,0,0,NULL,0,NULL),(64,3,'children_count',NULL,NULL,'static',NULL,NULL,'text','Children Count',NULL,NULL,0,0,NULL,0,NULL),(65,3,'available_sort_by',NULL,'catalog/category_attribute_backend_sortby','text',NULL,NULL,'multiselect','Available Product Listing Sort By',NULL,'catalog/category_attribute_source_sortby',1,0,NULL,0,NULL),(66,3,'default_sort_by',NULL,'catalog/category_attribute_backend_sortby','varchar',NULL,NULL,'select','Default Product Listing Sort By',NULL,'catalog/category_attribute_source_sortby',1,0,NULL,0,NULL),(67,3,'include_in_menu',NULL,NULL,'int',NULL,NULL,'select','Include in Navigation Menu',NULL,'eav/entity_attribute_source_boolean',1,0,'1',0,NULL),(68,3,'custom_use_parent_settings',NULL,NULL,'int',NULL,NULL,'select','Use Parent Category Settings',NULL,'eav/entity_attribute_source_boolean',0,0,NULL,0,NULL),(69,3,'custom_apply_to_products',NULL,NULL,'int',NULL,NULL,'select','Apply To Products',NULL,'eav/entity_attribute_source_boolean',0,0,NULL,0,NULL),(70,3,'filter_price_range',NULL,NULL,'int',NULL,NULL,'text','Layered Navigation Price Step',NULL,NULL,0,0,NULL,0,NULL),(71,4,'name',NULL,NULL,'varchar',NULL,NULL,'text','Name',NULL,NULL,1,0,NULL,0,NULL),(72,4,'description',NULL,NULL,'text',NULL,NULL,'textarea','Description',NULL,NULL,1,0,NULL,0,NULL),(73,4,'short_description',NULL,NULL,'text',NULL,NULL,'textarea','Short Description',NULL,NULL,1,0,NULL,0,NULL),(74,4,'sku',NULL,'catalog/product_attribute_backend_sku','static',NULL,NULL,'text','SKU',NULL,NULL,1,0,NULL,1,NULL),(75,4,'price',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Price',NULL,NULL,1,0,NULL,0,NULL),(76,4,'special_price',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Special Price',NULL,NULL,0,0,NULL,0,NULL),(77,4,'special_from_date',NULL,'catalog/product_attribute_backend_startdate','datetime',NULL,NULL,'date','Special Price From Date',NULL,NULL,0,0,NULL,0,NULL),(78,4,'special_to_date',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Special Price To Date',NULL,NULL,0,0,NULL,0,NULL),(79,4,'cost',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Cost',NULL,NULL,0,1,NULL,0,NULL),(80,4,'weight',NULL,NULL,'decimal',NULL,NULL,'weight','Weight',NULL,NULL,1,0,NULL,0,NULL),(81,4,'manufacturer',NULL,NULL,'int',NULL,NULL,'select','Manufacturer',NULL,NULL,0,1,NULL,0,NULL),(82,4,'meta_title',NULL,NULL,'varchar',NULL,NULL,'text','Meta Title',NULL,NULL,0,0,NULL,0,NULL),(83,4,'meta_keyword',NULL,NULL,'text',NULL,NULL,'textarea','Meta Keywords',NULL,NULL,0,0,NULL,0,NULL),(84,4,'meta_description',NULL,NULL,'varchar',NULL,NULL,'textarea','Meta Description',NULL,NULL,0,0,NULL,0,'Maximum 255 chars'),(85,4,'image',NULL,NULL,'varchar',NULL,'catalog/product_attribute_frontend_image','media_image','Base Image',NULL,NULL,0,0,NULL,0,NULL),(86,4,'small_image',NULL,NULL,'varchar',NULL,'catalog/product_attribute_frontend_image','media_image','Small Image',NULL,NULL,0,0,NULL,0,NULL),(87,4,'thumbnail',NULL,NULL,'varchar',NULL,'catalog/product_attribute_frontend_image','media_image','Thumbnail',NULL,NULL,0,0,NULL,0,NULL),(88,4,'media_gallery',NULL,'catalog/product_attribute_backend_media','varchar',NULL,NULL,'gallery','Media Gallery',NULL,NULL,0,0,NULL,0,NULL),(89,4,'old_id',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(90,4,'group_price',NULL,'catalog/product_attribute_backend_groupprice','decimal',NULL,NULL,'text','Group Price',NULL,NULL,0,0,NULL,0,NULL),(91,4,'tier_price',NULL,'catalog/product_attribute_backend_tierprice','decimal',NULL,NULL,'text','Tier Price',NULL,NULL,0,0,NULL,0,NULL),(92,4,'color',NULL,NULL,'int',NULL,NULL,'select','Color',NULL,NULL,0,1,NULL,0,NULL),(93,4,'news_from_date',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Set Product as New from Date',NULL,NULL,0,0,NULL,0,NULL),(94,4,'news_to_date',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Set Product as New to Date',NULL,NULL,0,0,NULL,0,NULL),(95,4,'gallery',NULL,NULL,'varchar',NULL,NULL,'gallery','Image Gallery',NULL,NULL,0,0,NULL,0,NULL),(96,4,'status',NULL,NULL,'int',NULL,NULL,'select','Status',NULL,'catalog/product_status',1,0,NULL,0,NULL),(97,4,'url_key',NULL,'catalog/product_attribute_backend_urlkey','varchar',NULL,NULL,'text','URL Key',NULL,NULL,0,0,NULL,0,NULL),(98,4,'url_path',NULL,NULL,'varchar',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(99,4,'minimal_price',NULL,NULL,'decimal',NULL,NULL,'price','Minimal Price',NULL,NULL,0,0,NULL,0,NULL),(100,4,'is_recurring',NULL,NULL,'int',NULL,NULL,'select','Enable Recurring Profile',NULL,'eav/entity_attribute_source_boolean',0,0,NULL,0,'Products with recurring profile participate in catalog as nominal items.'),(101,4,'recurring_profile',NULL,'catalog/product_attribute_backend_recurring','text',NULL,NULL,'text','Recurring Payment Profile',NULL,NULL,0,0,NULL,0,NULL),(102,4,'visibility',NULL,NULL,'int',NULL,NULL,'select','Visibility',NULL,'catalog/product_visibility',1,0,'4',0,NULL),(103,4,'custom_design',NULL,NULL,'varchar',NULL,NULL,'select','Custom Design',NULL,'core/design_source_design',0,0,NULL,0,NULL),(104,4,'custom_design_from',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Active From',NULL,NULL,0,0,NULL,0,NULL),(105,4,'custom_design_to',NULL,'eav/entity_attribute_backend_datetime','datetime',NULL,NULL,'date','Active To',NULL,NULL,0,0,NULL,0,NULL),(106,4,'custom_layout_update',NULL,'catalog/attribute_backend_customlayoutupdate','text',NULL,NULL,'textarea','Custom Layout Update',NULL,NULL,0,0,NULL,0,NULL),(107,4,'page_layout',NULL,NULL,'varchar',NULL,NULL,'select','Page Layout',NULL,'catalog/product_attribute_source_layout',0,0,NULL,0,NULL),(108,4,'category_ids',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(109,4,'options_container',NULL,NULL,'varchar',NULL,NULL,'select','Display Product Options In',NULL,'catalog/entity_product_attribute_design_options_container',0,0,'container2',0,NULL),(110,4,'required_options',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(111,4,'has_options',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(112,4,'image_label',NULL,NULL,'varchar',NULL,NULL,'text','Image Label',NULL,NULL,0,0,NULL,0,NULL),(113,4,'small_image_label',NULL,NULL,'varchar',NULL,NULL,'text','Small Image Label',NULL,NULL,0,0,NULL,0,NULL),(114,4,'thumbnail_label',NULL,NULL,'varchar',NULL,NULL,'text','Thumbnail Label',NULL,NULL,0,0,NULL,0,NULL),(115,4,'created_at',NULL,'eav/entity_attribute_backend_time_created','static',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(116,4,'updated_at',NULL,'eav/entity_attribute_backend_time_updated','static',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(117,4,'country_of_manufacture',NULL,NULL,'varchar',NULL,NULL,'select','Country of Manufacture',NULL,'catalog/product_attribute_source_countryofmanufacture',0,0,NULL,0,NULL),(118,4,'msrp_enabled',NULL,'catalog/product_attribute_backend_msrp','varchar',NULL,NULL,'select','Apply MAP',NULL,'catalog/product_attribute_source_msrp_type_enabled',0,0,'2',0,NULL),(119,4,'msrp_display_actual_price_type',NULL,'catalog/product_attribute_backend_boolean','varchar',NULL,NULL,'select','Display Actual Price',NULL,'catalog/product_attribute_source_msrp_type_price',0,0,'4',0,NULL),(120,4,'msrp',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Manufacturer\'s Suggested Retail Price',NULL,NULL,0,0,NULL,0,NULL),(121,4,'enable_googlecheckout',NULL,NULL,'int',NULL,NULL,'select','Is Product Available for Purchase with Google Checkout',NULL,'eav/entity_attribute_source_boolean',0,0,'1',0,NULL),(122,4,'tax_class_id',NULL,NULL,'int',NULL,NULL,'select','Tax Class',NULL,'tax/class_source_product',1,0,NULL,0,NULL),(123,4,'gift_message_available',NULL,'catalog/product_attribute_backend_boolean','varchar',NULL,NULL,'select','Allow Gift Message',NULL,'eav/entity_attribute_source_boolean',0,0,NULL,0,NULL),(124,4,'price_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(125,4,'sku_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(126,4,'weight_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(127,4,'price_view',NULL,NULL,'int',NULL,NULL,'select','Price View',NULL,'bundle/product_attribute_source_price_view',1,0,NULL,0,NULL),(128,4,'shipment_type',NULL,NULL,'int',NULL,NULL,NULL,'Shipment',NULL,NULL,1,0,NULL,0,NULL),(129,4,'links_purchased_separately',NULL,NULL,'int',NULL,NULL,NULL,'Links can be purchased separately',NULL,NULL,1,0,NULL,0,NULL),(130,4,'samples_title',NULL,NULL,'varchar',NULL,NULL,NULL,'Samples title',NULL,NULL,1,0,NULL,0,NULL),(131,4,'links_title',NULL,NULL,'varchar',NULL,NULL,NULL,'Links title',NULL,NULL,1,0,NULL,0,NULL),(132,4,'links_exist',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0',0,NULL),(133,3,'thumbnail',NULL,'catalog/category_attribute_backend_image','varchar',NULL,NULL,'image','Thumbnail Image',NULL,NULL,0,0,NULL,0,NULL),(134,4,'giftcard_amounts',NULL,'enterprise_giftcard/attribute_backend_giftcard_amount','decimal',NULL,NULL,'price','Amounts',NULL,NULL,0,0,NULL,0,NULL),(135,4,'allow_open_amount',NULL,NULL,'int',NULL,NULL,'select','Allow Open Amount',NULL,'enterprise_giftcard/source_open',1,0,NULL,0,NULL),(136,4,'open_amount_min',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Open Amount Min Value',NULL,NULL,0,0,NULL,0,NULL),(137,4,'open_amount_max',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Open Amount Max Value',NULL,NULL,0,0,NULL,0,NULL),(138,4,'giftcard_type',NULL,NULL,'int',NULL,NULL,'select','Card Type',NULL,'enterprise_giftcard/source_type',1,0,NULL,0,NULL),(139,4,'is_redeemable',NULL,NULL,'int',NULL,NULL,'text','Is Redeemable',NULL,NULL,0,0,NULL,0,NULL),(140,4,'use_config_is_redeemable',NULL,NULL,'int',NULL,NULL,'text','Use Config Is Redeemable',NULL,NULL,0,0,NULL,0,NULL),(141,4,'lifetime',NULL,NULL,'int',NULL,NULL,'text','Lifetime',NULL,NULL,0,0,NULL,0,NULL),(142,4,'use_config_lifetime',NULL,NULL,'int',NULL,NULL,'text','Use Config Lifetime',NULL,NULL,0,0,NULL,0,NULL),(143,4,'email_template',NULL,NULL,'varchar',NULL,NULL,'text','Email Template',NULL,NULL,0,0,NULL,0,NULL),(144,4,'use_config_email_template',NULL,NULL,'int',NULL,NULL,'text','Use Config Email Template',NULL,NULL,0,0,NULL,0,NULL),(145,4,'allow_message',NULL,NULL,'int',NULL,NULL,'text','Allow Message',NULL,NULL,0,0,NULL,0,NULL),(146,4,'use_config_allow_message',NULL,NULL,'int',NULL,NULL,'text','Use Config Allow Message',NULL,NULL,0,0,NULL,0,NULL),(147,4,'gift_wrapping_available',NULL,'catalog/product_attribute_backend_boolean','varchar',NULL,NULL,'select','Allow Gift Wrapping','hidden-for-virtual','eav/entity_attribute_source_boolean',0,0,NULL,0,NULL),(148,4,'gift_wrapping_price',NULL,'catalog/product_attribute_backend_price','decimal',NULL,NULL,'price','Price for Gift Wrapping','hidden-for-virtual',NULL,0,0,NULL,0,NULL),(149,1,'reward_update_notification',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(150,1,'reward_warning_notification',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(151,4,'related_tgtr_position_limit',NULL,'enterprise_targetrule/catalog_product_attribute_backend_rule','int',NULL,NULL,'text','Related Target Rule Rule Based Positions',NULL,NULL,0,0,NULL,0,NULL),(152,4,'related_tgtr_position_behavior',NULL,'enterprise_targetrule/catalog_product_attribute_backend_rule','int',NULL,NULL,'text','Related Target Rule Position Behavior',NULL,NULL,0,0,NULL,0,NULL),(153,4,'upsell_tgtr_position_limit',NULL,'enterprise_targetrule/catalog_product_attribute_backend_rule','int',NULL,NULL,'text','Upsell Target Rule Rule Based Positions',NULL,NULL,0,0,NULL,0,NULL),(154,4,'upsell_tgtr_position_behavior',NULL,'enterprise_targetrule/catalog_product_attribute_backend_rule','int',NULL,NULL,'text','Upsell Target Rule Position Behavior',NULL,NULL,0,0,NULL,0,NULL);
+INSERT INTO `eav_attribute` VALUES (1,1,'website_id',NULL,'Mage_Customer_Model_Customer_Attribute_Backend_Website','static',NULL,NULL,'select','Associate to Website',NULL,'Mage_Customer_Model_Customer_Attribute_Source_Website',1,0,NULL,0,NULL),(2,1,'store_id',NULL,'Mage_Customer_Model_Customer_Attribute_Backend_Store','static',NULL,NULL,'select','Create In',NULL,'Mage_Customer_Model_Customer_Attribute_Source_Store',1,0,NULL,0,NULL),(3,1,'created_in',NULL,NULL,'varchar',NULL,NULL,'text','Created From',NULL,NULL,0,0,NULL,0,NULL),(4,1,'prefix',NULL,NULL,'varchar',NULL,NULL,'text','Prefix',NULL,NULL,0,0,NULL,0,NULL),(5,1,'firstname',NULL,NULL,'varchar',NULL,NULL,'text','First Name',NULL,NULL,1,0,NULL,0,NULL),(6,1,'middlename',NULL,NULL,'varchar',NULL,NULL,'text','Middle Name/Initial',NULL,NULL,0,0,NULL,0,NULL),(7,1,'lastname',NULL,NULL,'varchar',NULL,NULL,'text','Last Name',NULL,NULL,1,0,NULL,0,NULL),(8,1,'suffix',NULL,NULL,'varchar',NULL,NULL,'text','Suffix',NULL,NULL,0,0,NULL,0,NULL),(9,1,'email',NULL,NULL,'static',NULL,NULL,'text','Email',NULL,NULL,1,0,NULL,0,NULL),(10,1,'group_id',NULL,NULL,'static',NULL,NULL,'select','Group',NULL,'Mage_Customer_Model_Customer_Attribute_Source_Group',1,0,NULL,0,NULL),(11,1,'dob',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,'Mage_Eav_Model_Entity_Attribute_Frontend_Datetime','date','Date Of Birth',NULL,NULL,0,0,NULL,0,NULL),(12,1,'password_hash',NULL,'Mage_Customer_Model_Customer_Attribute_Backend_Password','varchar',NULL,NULL,'hidden',NULL,NULL,NULL,0,0,NULL,0,NULL),(13,1,'default_billing',NULL,'Mage_Customer_Model_Customer_Attribute_Backend_Billing','int',NULL,NULL,'text','Default Billing Address',NULL,NULL,0,0,NULL,0,NULL),(14,1,'default_shipping',NULL,'Mage_Customer_Model_Customer_Attribute_Backend_Shipping','int',NULL,NULL,'text','Default Shipping Address',NULL,NULL,0,0,NULL,0,NULL),(15,1,'taxvat',NULL,NULL,'varchar',NULL,NULL,'text','Tax/VAT Number',NULL,NULL,0,0,NULL,0,NULL),(16,1,'confirmation',NULL,NULL,'varchar',NULL,NULL,'text','Is Confirmed',NULL,NULL,0,0,NULL,0,NULL),(17,1,'created_at',NULL,NULL,'static',NULL,NULL,'date','Created At',NULL,NULL,0,0,NULL,0,NULL),(18,1,'gender',NULL,NULL,'int',NULL,NULL,'select','Gender',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Table',0,0,NULL,0,NULL),(19,2,'prefix',NULL,NULL,'varchar',NULL,NULL,'text','Prefix',NULL,NULL,0,0,NULL,0,NULL),(20,2,'firstname',NULL,NULL,'varchar',NULL,NULL,'text','First Name',NULL,NULL,1,0,NULL,0,NULL),(21,2,'middlename',NULL,NULL,'varchar',NULL,NULL,'text','Middle Name/Initial',NULL,NULL,0,0,NULL,0,NULL),(22,2,'lastname',NULL,NULL,'varchar',NULL,NULL,'text','Last Name',NULL,NULL,1,0,NULL,0,NULL),(23,2,'suffix',NULL,NULL,'varchar',NULL,NULL,'text','Suffix',NULL,NULL,0,0,NULL,0,NULL),(24,2,'company',NULL,NULL,'varchar',NULL,NULL,'text','Company',NULL,NULL,0,0,NULL,0,NULL),(25,2,'street',NULL,'Mage_Customer_Model_Resource_Address_Attribute_Backend_Street','text',NULL,NULL,'multiline','Street Address',NULL,NULL,1,0,NULL,0,NULL),(26,2,'city',NULL,NULL,'varchar',NULL,NULL,'text','City',NULL,NULL,1,0,NULL,0,NULL),(27,2,'country_id',NULL,NULL,'varchar',NULL,NULL,'select','Country',NULL,'Mage_Customer_Model_Resource_Address_Attribute_Source_Country',1,0,NULL,0,NULL),(28,2,'region',NULL,'Mage_Customer_Model_Resource_Address_Attribute_Backend_Region','varchar',NULL,NULL,'text','State/Province',NULL,NULL,0,0,NULL,0,NULL),(29,2,'region_id',NULL,NULL,'int',NULL,NULL,'hidden','State/Province',NULL,'Mage_Customer_Model_Resource_Address_Attribute_Source_Region',0,0,NULL,0,NULL),(30,2,'postcode',NULL,NULL,'varchar',NULL,NULL,'text','Zip/Postal Code',NULL,NULL,1,0,NULL,0,NULL),(31,2,'telephone',NULL,NULL,'varchar',NULL,NULL,'text','Telephone',NULL,NULL,1,0,NULL,0,NULL),(32,2,'fax',NULL,NULL,'varchar',NULL,NULL,'text','Fax',NULL,NULL,0,0,NULL,0,NULL),(33,1,'rp_token',NULL,NULL,'varchar',NULL,NULL,'hidden',NULL,NULL,NULL,0,0,NULL,0,NULL),(34,1,'rp_token_created_at',NULL,NULL,'datetime',NULL,NULL,'date',NULL,NULL,NULL,0,0,NULL,0,NULL),(35,1,'disable_auto_group_change',NULL,'Mage_Customer_Model_Attribute_Backend_Data_Boolean','static',NULL,NULL,'boolean','Disable Automatic Group Change Based on VAT ID',NULL,NULL,0,0,NULL,0,NULL),(36,2,'vat_id',NULL,NULL,'varchar',NULL,NULL,'text','VAT number',NULL,NULL,0,0,NULL,0,NULL),(37,2,'vat_is_valid',NULL,NULL,'int',NULL,NULL,'text','VAT number validity',NULL,NULL,0,0,NULL,0,NULL),(38,2,'vat_request_id',NULL,NULL,'varchar',NULL,NULL,'text','VAT number validation request ID',NULL,NULL,0,0,NULL,0,NULL),(39,2,'vat_request_date',NULL,NULL,'varchar',NULL,NULL,'text','VAT number validation request date',NULL,NULL,0,0,NULL,0,NULL),(40,2,'vat_request_success',NULL,NULL,'int',NULL,NULL,'text','VAT number validation request success',NULL,NULL,0,0,NULL,0,NULL),(41,3,'name',NULL,NULL,'varchar',NULL,NULL,'text','Name',NULL,NULL,1,0,NULL,0,NULL),(42,3,'is_active',NULL,NULL,'int',NULL,NULL,'select','Is Active',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',1,0,NULL,0,NULL),(43,3,'url_key',NULL,'Mage_Catalog_Model_Category_Attribute_Backend_Urlkey','varchar',NULL,NULL,'text','URL Key',NULL,NULL,0,0,NULL,0,NULL),(44,3,'description',NULL,NULL,'text',NULL,NULL,'textarea','Description',NULL,NULL,0,0,NULL,0,NULL),(45,3,'image',NULL,'Mage_Catalog_Model_Category_Attribute_Backend_Image','varchar',NULL,NULL,'image','Image',NULL,NULL,0,0,NULL,0,NULL),(46,3,'meta_title',NULL,NULL,'varchar',NULL,NULL,'text','Page Title',NULL,NULL,0,0,NULL,0,NULL),(47,3,'meta_keywords',NULL,NULL,'text',NULL,NULL,'textarea','Meta Keywords',NULL,NULL,0,0,NULL,0,NULL),(48,3,'meta_description',NULL,NULL,'text',NULL,NULL,'textarea','Meta Description',NULL,NULL,0,0,NULL,0,NULL),(49,3,'display_mode',NULL,NULL,'varchar',NULL,NULL,'select','Display Mode',NULL,'Mage_Catalog_Model_Category_Attribute_Source_Mode',0,0,NULL,0,NULL),(50,3,'landing_page',NULL,NULL,'int',NULL,NULL,'select','CMS Block',NULL,'Mage_Catalog_Model_Category_Attribute_Source_Page',0,0,NULL,0,NULL),(51,3,'is_anchor',NULL,NULL,'int',NULL,NULL,'select','Is Anchor',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,NULL),(52,3,'path',NULL,NULL,'static',NULL,NULL,'text','Path',NULL,NULL,0,0,NULL,0,NULL),(53,3,'position',NULL,NULL,'static',NULL,NULL,'text','Position',NULL,NULL,0,0,NULL,0,NULL),(54,3,'all_children',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(55,3,'path_in_store',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(56,3,'children',NULL,NULL,'text',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(57,3,'url_path',NULL,NULL,'varchar',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(58,3,'custom_design',NULL,NULL,'varchar',NULL,NULL,'select','Custom Design',NULL,'Mage_Core_Model_Design_Source_Design',0,0,NULL,0,NULL),(59,3,'custom_design_from',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,NULL,'date','Active From',NULL,NULL,0,0,NULL,0,NULL),(60,3,'custom_design_to',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,NULL,'date','Active To',NULL,NULL,0,0,NULL,0,NULL),(61,3,'page_layout',NULL,NULL,'varchar',NULL,NULL,'select','Page Layout',NULL,'Mage_Catalog_Model_Category_Attribute_Source_Layout',0,0,NULL,0,NULL),(62,3,'custom_layout_update',NULL,'Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate','text',NULL,NULL,'textarea','Custom Layout Update',NULL,NULL,0,0,NULL,0,NULL),(63,3,'level',NULL,NULL,'static',NULL,NULL,'text','Level',NULL,NULL,0,0,NULL,0,NULL),(64,3,'children_count',NULL,NULL,'static',NULL,NULL,'text','Children Count',NULL,NULL,0,0,NULL,0,NULL),(65,3,'available_sort_by',NULL,'Mage_Catalog_Model_Category_Attribute_Backend_Sortby','text',NULL,NULL,'multiselect','Available Product Listing Sort By',NULL,'Mage_Catalog_Model_Category_Attribute_Source_Sortby',1,0,NULL,0,NULL),(66,3,'default_sort_by',NULL,'Mage_Catalog_Model_Category_Attribute_Backend_Sortby','varchar',NULL,NULL,'select','Default Product Listing Sort By',NULL,'Mage_Catalog_Model_Category_Attribute_Source_Sortby',1,0,NULL,0,NULL),(67,3,'include_in_menu',NULL,NULL,'int',NULL,NULL,'select','Include in Navigation Menu',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',1,0,'1',0,NULL),(68,3,'custom_use_parent_settings',NULL,NULL,'int',NULL,NULL,'select','Use Parent Category Settings',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,NULL),(69,3,'custom_apply_to_products',NULL,NULL,'int',NULL,NULL,'select','Apply To Products',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,NULL),(70,3,'filter_price_range',NULL,NULL,'decimal',NULL,NULL,'text','Layered Navigation Price Step',NULL,NULL,0,0,NULL,0,NULL),(71,4,'name',NULL,NULL,'varchar',NULL,NULL,'text','Name',NULL,NULL,1,0,NULL,0,NULL),(72,4,'description',NULL,NULL,'text',NULL,NULL,'textarea','Description',NULL,NULL,1,0,NULL,0,NULL),(73,4,'short_description',NULL,NULL,'text',NULL,NULL,'textarea','Short Description',NULL,NULL,1,0,NULL,0,NULL),(74,4,'sku',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Sku','static',NULL,NULL,'text','SKU',NULL,NULL,1,0,NULL,1,NULL),(75,4,'price',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Price',NULL,NULL,1,0,NULL,0,NULL),(76,4,'special_price',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Special Price',NULL,NULL,0,0,NULL,0,NULL),(77,4,'special_from_date',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Startdate','datetime',NULL,NULL,'date','Special Price From Date',NULL,NULL,0,0,NULL,0,NULL),(78,4,'special_to_date',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,NULL,'date','Special Price To Date',NULL,NULL,0,0,NULL,0,NULL),(79,4,'cost',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Cost',NULL,NULL,0,1,NULL,0,NULL),(80,4,'weight',NULL,NULL,'decimal',NULL,NULL,'weight','Weight',NULL,NULL,1,0,NULL,0,NULL),(81,4,'manufacturer',NULL,NULL,'int',NULL,NULL,'select','Manufacturer',NULL,NULL,0,1,NULL,0,NULL),(82,4,'meta_title',NULL,NULL,'varchar',NULL,NULL,'text','Meta Title',NULL,NULL,0,0,NULL,0,NULL),(83,4,'meta_keyword',NULL,NULL,'text',NULL,NULL,'textarea','Meta Keywords',NULL,NULL,0,0,NULL,0,NULL),(84,4,'meta_description',NULL,NULL,'varchar',NULL,NULL,'textarea','Meta Description',NULL,NULL,0,0,NULL,0,'Maximum 255 chars'),(85,4,'image',NULL,NULL,'varchar',NULL,'Mage_Catalog_Model_Product_Attribute_Frontend_Image','media_image','Base Image',NULL,NULL,0,0,NULL,0,NULL),(86,4,'small_image',NULL,NULL,'varchar',NULL,'Mage_Catalog_Model_Product_Attribute_Frontend_Image','media_image','Small Image',NULL,NULL,0,0,NULL,0,NULL),(87,4,'thumbnail',NULL,NULL,'varchar',NULL,'Mage_Catalog_Model_Product_Attribute_Frontend_Image','media_image','Thumbnail',NULL,NULL,0,0,NULL,0,NULL),(88,4,'media_gallery',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Media','varchar',NULL,NULL,'gallery','Media Gallery',NULL,NULL,0,0,NULL,0,NULL),(89,4,'old_id',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(90,4,'group_price',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Groupprice','decimal',NULL,NULL,'text','Group Price',NULL,NULL,0,0,NULL,0,NULL),(91,4,'tier_price',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Tierprice','decimal',NULL,NULL,'text','Tier Price',NULL,NULL,0,0,NULL,0,NULL),(92,4,'color',NULL,NULL,'int',NULL,NULL,'select','Color',NULL,NULL,0,1,NULL,0,NULL),(93,4,'news_from_date',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Startdate','datetime',NULL,NULL,'date','Set Product as New from Date',NULL,NULL,0,0,NULL,0,NULL),(94,4,'news_to_date',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,NULL,'date','Set Product as New to Date',NULL,NULL,0,0,NULL,0,NULL),(95,4,'gallery',NULL,NULL,'varchar',NULL,NULL,'gallery','Image Gallery',NULL,NULL,0,0,NULL,0,NULL),(96,4,'status',NULL,NULL,'int',NULL,NULL,'select','Status',NULL,'Mage_Catalog_Model_Product_Status',1,0,NULL,0,NULL),(97,4,'url_key',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Urlkey','varchar',NULL,NULL,'text','URL Key',NULL,NULL,0,0,NULL,0,NULL),(98,4,'url_path',NULL,NULL,'varchar',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(99,4,'minimal_price',NULL,NULL,'decimal',NULL,NULL,'price','Minimal Price',NULL,NULL,0,0,NULL,0,NULL),(100,4,'is_recurring',NULL,NULL,'int',NULL,NULL,'select','Enable Recurring Profile',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,'Products with recurring profile participate in catalog as nominal items.'),(101,4,'recurring_profile',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Recurring','text',NULL,NULL,'text','Recurring Payment Profile',NULL,NULL,0,0,NULL,0,NULL),(102,4,'visibility',NULL,NULL,'int',NULL,NULL,'select','Visibility',NULL,'Mage_Catalog_Model_Product_Visibility',1,0,'4',0,NULL),(103,4,'custom_design',NULL,NULL,'varchar',NULL,NULL,'select','Custom Design',NULL,'Mage_Core_Model_Design_Source_Design',0,0,NULL,0,NULL),(104,4,'custom_design_from',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Startdate','datetime',NULL,NULL,'date','Active From',NULL,NULL,0,0,NULL,0,NULL),(105,4,'custom_design_to',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Datetime','datetime',NULL,NULL,'date','Active To',NULL,NULL,0,0,NULL,0,NULL),(106,4,'custom_layout_update',NULL,'Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate','text',NULL,NULL,'textarea','Custom Layout Update',NULL,NULL,0,0,NULL,0,NULL),(107,4,'page_layout',NULL,NULL,'varchar',NULL,NULL,'select','Page Layout',NULL,'Mage_Catalog_Model_Product_Attribute_Source_Layout',0,0,NULL,0,NULL),(108,4,'category_ids',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(109,4,'required_options',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(110,4,'has_options',NULL,NULL,'static',NULL,NULL,'text',NULL,NULL,NULL,0,0,NULL,0,NULL),(111,4,'image_label',NULL,NULL,'varchar',NULL,NULL,'text','Image Label',NULL,NULL,0,0,NULL,0,NULL),(112,4,'small_image_label',NULL,NULL,'varchar',NULL,NULL,'text','Small Image Label',NULL,NULL,0,0,NULL,0,NULL),(113,4,'thumbnail_label',NULL,NULL,'varchar',NULL,NULL,'text','Thumbnail Label',NULL,NULL,0,0,NULL,0,NULL),(114,4,'created_at',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Time_Created','static',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(115,4,'updated_at',NULL,'Mage_Eav_Model_Entity_Attribute_Backend_Time_Updated','static',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(116,4,'country_of_manufacture',NULL,NULL,'varchar',NULL,NULL,'select','Country of Manufacture',NULL,'Mage_Catalog_Model_Product_Attribute_Source_Countryofmanufacture',0,0,NULL,0,NULL),(117,4,'msrp_enabled',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Msrp','varchar',NULL,NULL,'select','Apply MAP',NULL,'Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled',0,0,'2',0,NULL),(118,4,'msrp_display_actual_price_type',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Boolean','varchar',NULL,NULL,'select','Display Actual Price',NULL,'Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price',0,0,'4',0,NULL),(119,4,'msrp',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Manufacturer\'s Suggested Retail Price',NULL,NULL,0,0,NULL,0,NULL),(120,4,'enable_googlecheckout',NULL,NULL,'int',NULL,NULL,'select','Is Product Available for Purchase with Google Checkout',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,'1',0,NULL),(121,4,'tax_class_id',NULL,NULL,'int',NULL,NULL,'select','Tax Class',NULL,'Mage_Tax_Model_Class_Source_Product',1,0,NULL,0,NULL),(122,4,'gift_message_available',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Boolean','varchar',NULL,NULL,'select','Allow Gift Message',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,NULL),(123,4,'price_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(124,4,'sku_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(125,4,'weight_type',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,0,NULL),(126,4,'price_view',NULL,NULL,'int',NULL,NULL,'select','Price View',NULL,'Mage_Bundle_Model_Product_Attribute_Source_Price_View',1,0,NULL,0,NULL),(127,4,'shipment_type',NULL,NULL,'int',NULL,NULL,NULL,'Shipment',NULL,NULL,1,0,NULL,0,NULL),(128,4,'links_purchased_separately',NULL,NULL,'int',NULL,NULL,NULL,'Links can be purchased separately',NULL,NULL,1,0,NULL,0,NULL),(129,4,'samples_title',NULL,NULL,'varchar',NULL,NULL,NULL,'Samples title',NULL,NULL,1,0,NULL,0,NULL),(130,4,'links_title',NULL,NULL,'varchar',NULL,NULL,NULL,'Links title',NULL,NULL,1,0,NULL,0,NULL),(131,4,'links_exist',NULL,NULL,'int',NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0',0,NULL),(132,3,'thumbnail',NULL,'Mage_Catalog_Model_Category_Attribute_Backend_Image','varchar',NULL,NULL,'image','Thumbnail Image',NULL,NULL,0,0,NULL,0,NULL),(133,4,'giftcard_amounts',NULL,'Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount','decimal',NULL,NULL,'price','Amounts',NULL,NULL,0,0,NULL,0,NULL),(134,4,'allow_open_amount',NULL,NULL,'int',NULL,NULL,'select','Allow Open Amount',NULL,'Enterprise_GiftCard_Model_Source_Open',1,0,NULL,0,NULL),(135,4,'open_amount_min',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Open Amount Min Value',NULL,NULL,0,0,NULL,0,NULL),(136,4,'open_amount_max',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Open Amount Max Value',NULL,NULL,0,0,NULL,0,NULL),(137,4,'giftcard_type',NULL,NULL,'int',NULL,NULL,'select','Card Type',NULL,'Enterprise_GiftCard_Model_Source_Type',1,0,NULL,0,NULL),(138,4,'is_redeemable',NULL,NULL,'int',NULL,NULL,'text','Is Redeemable',NULL,NULL,0,0,NULL,0,NULL),(139,4,'use_config_is_redeemable',NULL,NULL,'int',NULL,NULL,'text','Use Config Is Redeemable',NULL,NULL,0,0,NULL,0,NULL),(140,4,'lifetime',NULL,NULL,'int',NULL,NULL,'text','Lifetime',NULL,NULL,0,0,NULL,0,NULL),(141,4,'use_config_lifetime',NULL,NULL,'int',NULL,NULL,'text','Use Config Lifetime',NULL,NULL,0,0,NULL,0,NULL),(142,4,'email_template',NULL,NULL,'varchar',NULL,NULL,'text','Email Template',NULL,NULL,0,0,NULL,0,NULL),(143,4,'use_config_email_template',NULL,NULL,'int',NULL,NULL,'text','Use Config Email Template',NULL,NULL,0,0,NULL,0,NULL),(144,4,'allow_message',NULL,NULL,'int',NULL,NULL,'text','Allow Message',NULL,NULL,0,0,NULL,0,NULL),(145,4,'use_config_allow_message',NULL,NULL,'int',NULL,NULL,'text','Use Config Allow Message',NULL,NULL,0,0,NULL,0,NULL),(146,4,'gift_wrapping_available',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Boolean','varchar',NULL,NULL,'select','Allow Gift Wrapping','hidden-for-virtual','Mage_Eav_Model_Entity_Attribute_Source_Boolean',0,0,NULL,0,NULL),(147,4,'gift_wrapping_price',NULL,'Mage_Catalog_Model_Product_Attribute_Backend_Price','decimal',NULL,NULL,'price','Price for Gift Wrapping','hidden-for-virtual',NULL,0,0,NULL,0,NULL),(148,1,'reward_update_notification',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(149,1,'reward_warning_notification',NULL,NULL,'int',NULL,NULL,'text',NULL,NULL,NULL,1,0,NULL,0,NULL),(150,9,'rma_entity_id',NULL,NULL,'static',NULL,NULL,'text','RMA Id',NULL,NULL,1,0,NULL,0,NULL),(151,9,'order_item_id',NULL,NULL,'static',NULL,NULL,'text','Order Item Id',NULL,NULL,1,0,NULL,0,NULL),(152,9,'qty_requested',NULL,NULL,'static',NULL,NULL,'text','Qty of requested for RMA items',NULL,NULL,1,0,NULL,0,NULL),(153,9,'qty_authorized',NULL,NULL,'static',NULL,NULL,'text','Qty of authorized items',NULL,NULL,1,0,NULL,0,NULL),(154,9,'qty_approved',NULL,NULL,'static',NULL,NULL,'text','Qty of requested for RMA items',NULL,NULL,1,0,NULL,0,NULL),(155,9,'status',NULL,NULL,'static',NULL,NULL,'select','Status',NULL,'Enterprise_Rma_Model_Item_Attribute_Source_Status',1,0,NULL,0,NULL),(156,9,'product_name',NULL,NULL,'static',NULL,NULL,'text','Product Name',NULL,NULL,1,0,NULL,0,NULL),(157,9,'product_sku',NULL,NULL,'static',NULL,NULL,'text','Product SKU',NULL,NULL,1,0,NULL,0,NULL),(158,9,'resolution',NULL,NULL,'int',NULL,NULL,'select','Resolution',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Table',1,0,NULL,0,NULL),(159,9,'condition',NULL,NULL,'int',NULL,NULL,'select','Item Condition',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Table',1,0,NULL,0,NULL),(160,9,'reason',NULL,NULL,'int',NULL,NULL,'select','Reason to Return',NULL,'Mage_Eav_Model_Entity_Attribute_Source_Table',1,0,NULL,0,NULL),(161,9,'reason_other',NULL,NULL,'varchar',NULL,NULL,'text','Other',NULL,NULL,1,0,NULL,0,NULL),(164,9,'qty_returned',NULL,NULL,'static',NULL,NULL,'text','Qty of returned items',NULL,NULL,1,0,NULL,0,NULL),(165,9,'product_admin_name',NULL,NULL,'static',NULL,NULL,'text','Product Name For Backend',NULL,NULL,1,0,NULL,0,NULL),(166,9,'product_admin_sku',NULL,NULL,'static',NULL,NULL,'text','Product Sku For Backend',NULL,NULL,1,0,NULL,0,NULL),(167,9,'product_options',NULL,NULL,'static',NULL,NULL,'text','Product Options',NULL,NULL,1,0,NULL,0,NULL),(168,9,'is_qty_decimal',NULL,NULL,'static',NULL,NULL,'text','Is item quantity decimal',NULL,NULL,1,0,NULL,0,NULL),(169,4,'is_returnable',NULL,NULL,'varchar',NULL,NULL,'select','Enable RMA',NULL,'Enterprise_Rma_Model_Product_Source',0,0,'2',0,NULL),(170,4,'related_tgtr_position_limit',NULL,'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule','int',NULL,NULL,'text','Related Target Rule Rule Based Positions',NULL,NULL,0,0,NULL,0,NULL),(171,4,'related_tgtr_position_behavior',NULL,'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule','int',NULL,NULL,'text','Related Target Rule Position Behavior',NULL,NULL,0,0,NULL,0,NULL),(172,4,'upsell_tgtr_position_limit',NULL,'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule','int',NULL,NULL,'text','Upsell Target Rule Rule Based Positions',NULL,NULL,0,0,NULL,0,NULL),(173,4,'upsell_tgtr_position_behavior',NULL,'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule','int',NULL,NULL,'text','Upsell Target Rule Position Behavior',NULL,NULL,0,0,NULL,0,NULL);
 /*!40000 ALTER TABLE `eav_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5694,8 +5511,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute_group`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute_group` (
   `attribute_group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Group Id',
   `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
@@ -5706,8 +5523,8 @@ CREATE TABLE `eav_attribute_group` (
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_ATTRIBUTE_GROUP_NAME` (`attribute_set_id`,`attribute_group_name`),
   KEY `IDX_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_SORT_ORDER` (`attribute_set_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_GROUP_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute_group`
@@ -5715,7 +5532,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_attribute_group` WRITE;
 /*!40000 ALTER TABLE `eav_attribute_group` DISABLE KEYS */;
-INSERT INTO `eav_attribute_group` VALUES (1,1,'General',1,1),(2,2,'General',1,1),(3,3,'General',10,1),(4,3,'General Information',2,0),(5,3,'Display Settings',20,0),(6,3,'Custom Design',30,0),(7,4,'General',1,1),(8,4,'Prices',2,0),(9,4,'Meta Information',3,0),(10,4,'Images',4,0),(11,4,'Recurring Profile',5,0),(12,4,'Design',6,0),(13,5,'General',1,1),(14,6,'General',1,1),(15,7,'General',1,1),(16,8,'General',1,1),(17,4,'Gift Options',7,0);
+INSERT INTO `eav_attribute_group` VALUES (1,1,'General',1,1),(2,2,'General',1,1),(3,3,'General',10,1),(4,3,'General Information',2,0),(5,3,'Display Settings',20,0),(6,3,'Custom Design',30,0),(7,4,'General',1,1),(8,4,'Prices',2,0),(9,4,'Meta Information',3,0),(10,4,'Images',4,0),(11,4,'Recurring Profile',5,0),(12,4,'Design',6,0),(13,5,'General',1,1),(14,6,'General',1,1),(15,7,'General',1,1),(16,8,'General',1,1),(17,4,'Gift Options',7,0),(18,9,'General',1,1);
 /*!40000 ALTER TABLE `eav_attribute_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5724,8 +5541,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute_label` (
   `attribute_label_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Attribute Label Id',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
@@ -5738,7 +5555,7 @@ CREATE TABLE `eav_attribute_label` (
   CONSTRAINT `FK_EAV_ATTRIBUTE_LABEL_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ATTRIBUTE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Label';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute_label`
@@ -5754,8 +5571,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
@@ -5763,8 +5580,8 @@ CREATE TABLE `eav_attribute_option` (
   PRIMARY KEY  (`option_id`),
   KEY `IDX_EAV_ATTRIBUTE_OPTION_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute_option`
@@ -5772,7 +5589,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_attribute_option` WRITE;
 /*!40000 ALTER TABLE `eav_attribute_option` DISABLE KEYS */;
-INSERT INTO `eav_attribute_option` VALUES (1,18,0),(2,18,1);
+INSERT INTO `eav_attribute_option` VALUES (1,18,0),(2,18,1),(3,158,0),(4,158,1),(5,158,2),(6,159,0),(7,159,1),(8,159,2),(9,160,0),(10,160,1),(11,160,2);
 /*!40000 ALTER TABLE `eav_attribute_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5781,8 +5598,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute_option_value`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute_option_value` (
   `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value Id',
   `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
@@ -5793,8 +5610,8 @@ CREATE TABLE `eav_attribute_option_value` (
   KEY `IDX_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_ATTR_OPT_VAL_OPT_ID_EAV_ATTR_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `eav_attribute_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option Value';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option Value';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute_option_value`
@@ -5802,7 +5619,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_attribute_option_value` WRITE;
 /*!40000 ALTER TABLE `eav_attribute_option_value` DISABLE KEYS */;
-INSERT INTO `eav_attribute_option_value` VALUES (1,1,0,'Male'),(2,2,0,'Female');
+INSERT INTO `eav_attribute_option_value` VALUES (1,1,0,'Male'),(2,2,0,'Female'),(3,3,0,'Exchange'),(4,4,0,'Refund'),(5,5,0,'Store Credit'),(6,6,0,'Unopened'),(7,7,0,'Opened'),(8,8,0,'Damaged'),(9,9,0,'Wrong Color'),(10,10,0,'Wrong Size'),(11,11,0,'Out of Service');
 /*!40000 ALTER TABLE `eav_attribute_option_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5811,8 +5628,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_attribute_set`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_attribute_set` (
   `attribute_set_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Set Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -5822,8 +5639,8 @@ CREATE TABLE `eav_attribute_set` (
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_ATTRIBUTE_SET_NAME` (`entity_type_id`,`attribute_set_name`),
   KEY `IDX_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_SORT_ORDER` (`entity_type_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_SET_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Set';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Set';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_attribute_set`
@@ -5831,7 +5648,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_attribute_set` WRITE;
 /*!40000 ALTER TABLE `eav_attribute_set` DISABLE KEYS */;
-INSERT INTO `eav_attribute_set` VALUES (1,1,'Default',1),(2,2,'Default',1),(3,3,'Default',1),(4,4,'Default',1),(5,5,'Default',1),(6,6,'Default',1),(7,7,'Default',1),(8,8,'Default',1);
+INSERT INTO `eav_attribute_set` VALUES (1,1,'Default',1),(2,2,'Default',1),(3,3,'Default',1),(4,4,'Default',1),(5,5,'Default',1),(6,6,'Default',1),(7,7,'Default',1),(8,8,'Default',1),(9,9,'Default',1);
 /*!40000 ALTER TABLE `eav_attribute_set` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5840,8 +5657,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -5858,7 +5675,7 @@ CREATE TABLE `eav_entity` (
   CONSTRAINT `FK_EAV_ENTITY_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity`
@@ -5874,8 +5691,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_attribute` (
   `entity_attribute_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Attribute Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -5890,8 +5707,8 @@ CREATE TABLE `eav_entity_attribute` (
   KEY `IDX_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTT_ATTR_ATTR_GROUP_ID_EAV_ATTR_GROUP_ATTR_GROUP_ID` FOREIGN KEY (`attribute_group_id`) REFERENCES `eav_attribute_group` (`attribute_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_attribute`
@@ -5899,7 +5716,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_entity_attribute` WRITE;
 /*!40000 ALTER TABLE `eav_entity_attribute` DISABLE KEYS */;
-INSERT INTO `eav_entity_attribute` VALUES (1,1,1,1,1,10),(2,1,1,1,2,0),(3,1,1,1,3,20),(4,1,1,1,4,30),(5,1,1,1,5,40),(6,1,1,1,6,50),(7,1,1,1,7,60),(8,1,1,1,8,70),(9,1,1,1,9,80),(10,1,1,1,10,25),(11,1,1,1,11,90),(12,1,1,1,12,0),(13,1,1,1,13,0),(14,1,1,1,14,0),(15,1,1,1,15,100),(16,1,1,1,16,0),(17,1,1,1,17,86),(18,1,1,1,18,110),(19,2,2,2,19,10),(20,2,2,2,20,20),(21,2,2,2,21,30),(22,2,2,2,22,40),(23,2,2,2,23,50),(24,2,2,2,24,60),(25,2,2,2,25,70),(26,2,2,2,26,80),(27,2,2,2,27,90),(28,2,2,2,28,100),(29,2,2,2,29,100),(30,2,2,2,30,110),(31,2,2,2,31,120),(32,2,2,2,32,130),(33,1,1,1,33,111),(34,1,1,1,34,112),(35,1,1,1,35,28),(36,2,2,2,36,140),(37,2,2,2,37,132),(38,2,2,2,38,133),(39,2,2,2,39,134),(40,2,2,2,40,135),(41,3,3,4,41,1),(42,3,3,4,42,2),(43,3,3,4,43,3),(44,3,3,4,44,4),(45,3,3,4,45,5),(46,3,3,4,46,6),(47,3,3,4,47,7),(48,3,3,4,48,8),(49,3,3,5,49,10),(50,3,3,5,50,20),(51,3,3,5,51,30),(52,3,3,4,52,12),(53,3,3,4,53,13),(54,3,3,4,54,14),(55,3,3,4,55,15),(56,3,3,4,56,16),(57,3,3,4,57,17),(58,3,3,6,58,10),(59,3,3,6,59,30),(60,3,3,6,60,40),(61,3,3,6,61,50),(62,3,3,6,62,60),(63,3,3,4,63,24),(64,3,3,4,64,25),(65,3,3,5,65,40),(66,3,3,5,66,50),(67,3,3,4,67,10),(68,3,3,6,68,5),(69,3,3,6,69,6),(70,3,3,5,70,51),(71,4,4,7,71,1),(72,4,4,7,72,2),(73,4,4,7,73,3),(74,4,4,7,74,4),(75,4,4,8,75,1),(76,4,4,8,76,2),(77,4,4,8,77,3),(78,4,4,8,78,4),(79,4,4,8,79,5),(80,4,4,7,80,5),(81,4,4,9,82,1),(82,4,4,9,83,2),(83,4,4,9,84,3),(84,4,4,10,85,1),(85,4,4,10,86,2),(86,4,4,10,87,3),(87,4,4,10,88,4),(88,4,4,7,89,6),(89,4,4,8,90,5),(90,4,4,8,91,6),(91,4,4,7,93,7),(92,4,4,7,94,8),(93,4,4,10,95,5),(94,4,4,7,96,9),(95,4,4,7,97,10),(96,4,4,7,98,11),(97,4,4,8,99,7),(98,4,4,11,100,1),(99,4,4,11,101,2),(100,4,4,7,102,12),(101,4,4,12,103,1),(102,4,4,12,104,2),(103,4,4,12,105,3),(104,4,4,12,106,4),(105,4,4,12,107,5),(106,4,4,7,108,13),(107,4,4,12,109,6),(108,4,4,7,110,14),(109,4,4,7,111,15),(110,4,4,7,112,16),(111,4,4,7,113,17),(112,4,4,7,114,18),(113,4,4,7,115,19),(114,4,4,7,116,20),(115,4,4,7,117,21),(116,4,4,8,118,8),(117,4,4,8,119,9),(118,4,4,8,120,10),(119,4,4,8,121,11),(120,4,4,8,122,12),(121,4,4,17,123,1),(122,4,4,7,124,22),(123,4,4,7,125,23),(124,4,4,7,126,24),(125,4,4,8,127,13),(126,4,4,7,128,25),(127,4,4,7,129,26),(128,4,4,7,130,27),(129,4,4,7,131,28),(130,4,4,7,132,29),(131,3,3,4,133,4),(132,4,4,8,134,-5),(133,4,4,8,135,-4),(134,4,4,8,136,-3),(135,4,4,8,137,-2),(136,4,4,8,138,14),(137,4,4,8,139,15),(138,4,4,8,140,16),(139,4,4,8,141,17),(140,4,4,8,142,18),(141,4,4,8,143,19),(142,4,4,8,144,20),(143,4,4,8,145,21),(144,4,4,8,146,22),(145,4,4,17,147,2),(146,4,4,17,148,3),(147,1,1,1,149,113),(148,1,1,1,150,114),(149,4,4,7,151,30),(150,4,4,7,152,31),(151,4,4,7,153,32),(152,4,4,7,154,33);
+INSERT INTO `eav_entity_attribute` VALUES (1,1,1,1,1,10),(2,1,1,1,2,20),(3,1,1,1,3,20),(4,1,1,1,4,30),(5,1,1,1,5,40),(6,1,1,1,6,50),(7,1,1,1,7,60),(8,1,1,1,8,70),(9,1,1,1,9,80),(10,1,1,1,10,25),(11,1,1,1,11,90),(12,1,1,1,12,81),(13,1,1,1,13,82),(14,1,1,1,14,83),(15,1,1,1,15,100),(16,1,1,1,16,85),(17,1,1,1,17,86),(18,1,1,1,18,110),(19,2,2,2,19,10),(20,2,2,2,20,20),(21,2,2,2,21,30),(22,2,2,2,22,40),(23,2,2,2,23,50),(24,2,2,2,24,60),(25,2,2,2,25,70),(26,2,2,2,26,80),(27,2,2,2,27,90),(28,2,2,2,28,100),(29,2,2,2,29,100),(30,2,2,2,30,110),(31,2,2,2,31,120),(32,2,2,2,32,130),(33,1,1,1,33,111),(34,1,1,1,34,112),(35,1,1,1,35,28),(36,2,2,2,36,140),(37,2,2,2,37,132),(38,2,2,2,38,133),(39,2,2,2,39,134),(40,2,2,2,40,135),(41,3,3,4,41,1),(42,3,3,4,42,2),(43,3,3,4,43,3),(44,3,3,4,44,4),(45,3,3,4,45,5),(46,3,3,4,46,6),(47,3,3,4,47,7),(48,3,3,4,48,8),(49,3,3,5,49,10),(50,3,3,5,50,20),(51,3,3,5,51,30),(52,3,3,4,52,12),(53,3,3,4,53,13),(54,3,3,4,54,14),(55,3,3,4,55,15),(56,3,3,4,56,16),(57,3,3,4,57,17),(58,3,3,6,58,10),(59,3,3,6,59,30),(60,3,3,6,60,40),(61,3,3,6,61,50),(62,3,3,6,62,60),(63,3,3,4,63,24),(64,3,3,4,64,25),(65,3,3,5,65,40),(66,3,3,5,66,50),(67,3,3,4,67,10),(68,3,3,6,68,5),(69,3,3,6,69,6),(70,3,3,5,70,51),(71,4,4,7,71,1),(72,4,4,7,72,2),(73,4,4,7,73,3),(74,4,4,7,74,4),(75,4,4,8,75,1),(76,4,4,8,76,3),(77,4,4,8,77,4),(78,4,4,8,78,5),(79,4,4,8,79,6),(80,4,4,7,80,5),(81,4,4,9,82,1),(82,4,4,9,83,2),(83,4,4,9,84,3),(84,4,4,10,85,1),(85,4,4,10,86,2),(86,4,4,10,87,3),(87,4,4,10,88,4),(88,4,4,7,89,6),(89,4,4,8,90,2),(90,4,4,8,91,7),(91,4,4,7,93,7),(92,4,4,7,94,8),(93,4,4,10,95,5),(94,4,4,7,96,9),(95,4,4,7,97,10),(96,4,4,7,98,11),(97,4,4,8,99,8),(98,4,4,11,100,1),(99,4,4,11,101,2),(100,4,4,7,102,12),(101,4,4,12,103,1),(102,4,4,12,104,2),(103,4,4,12,105,3),(104,4,4,12,106,4),(105,4,4,12,107,5),(106,4,4,7,108,13),(107,4,4,7,109,14),(108,4,4,7,110,15),(109,4,4,7,111,16),(110,4,4,7,112,17),(111,4,4,7,113,18),(112,4,4,7,114,19),(113,4,4,7,115,20),(114,4,4,7,116,21),(115,4,4,8,117,9),(116,4,4,8,118,10),(117,4,4,8,119,11),(118,4,4,8,120,12),(119,4,4,8,121,13),(120,4,4,17,122,1),(121,4,4,7,123,22),(122,4,4,7,124,23),(123,4,4,7,125,24),(124,4,4,8,126,14),(125,4,4,7,127,25),(126,4,4,7,128,26),(127,4,4,7,129,27),(128,4,4,7,130,28),(129,4,4,7,131,29),(130,3,3,4,132,4),(131,4,4,8,133,-5),(132,4,4,8,134,-4),(133,4,4,8,135,-3),(134,4,4,8,136,-2),(135,4,4,8,137,15),(136,4,4,8,138,16),(137,4,4,8,139,17),(138,4,4,8,140,18),(139,4,4,8,141,19),(140,4,4,8,142,20),(141,4,4,8,143,21),(142,4,4,8,144,22),(143,4,4,8,145,23),(144,4,4,17,146,2),(145,4,4,17,147,3),(146,1,1,1,148,114),(147,1,1,1,149,115),(148,9,9,18,150,10),(149,9,9,18,151,20),(150,9,9,18,152,30),(151,9,9,18,153,40),(152,9,9,18,154,50),(153,9,9,18,155,60),(154,9,9,18,156,70),(155,9,9,18,157,80),(156,9,9,18,158,90),(157,9,9,18,159,100),(158,9,9,18,160,110),(159,9,9,18,161,120),(160,4,4,7,162,30),(161,4,4,7,163,31),(162,9,9,18,164,45),(163,9,9,18,165,46),(164,9,9,18,166,47),(165,9,9,18,167,48),(166,9,9,18,168,15),(167,4,4,7,169,32),(168,4,4,7,170,33),(169,4,4,7,171,34),(170,4,4,7,172,35),(171,4,4,7,173,36);
 /*!40000 ALTER TABLE `eav_entity_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5908,15 +5725,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_datetime`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
   `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
-  `value` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Attribute Value',
+  `value` datetime default NULL COMMENT 'Attribute Value',
   PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
@@ -5929,7 +5746,7 @@ CREATE TABLE `eav_entity_datetime` (
   CONSTRAINT `FK_EAV_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_datetime`
@@ -5945,8 +5762,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_decimal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_decimal` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -5966,7 +5783,7 @@ CREATE TABLE `eav_entity_decimal` (
   CONSTRAINT `FK_EAV_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_decimal`
@@ -5982,8 +5799,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_int`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_int` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -6003,7 +5820,7 @@ CREATE TABLE `eav_entity_int` (
   CONSTRAINT `FK_EAV_ENTITY_INT_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_int`
@@ -6019,8 +5836,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_store` (
   `entity_store_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Store Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -6033,7 +5850,7 @@ CREATE TABLE `eav_entity_store` (
   CONSTRAINT `FK_EAV_ENTT_STORE_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Store';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_store`
@@ -6049,8 +5866,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_text`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_text` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -6068,7 +5885,7 @@ CREATE TABLE `eav_entity_text` (
   CONSTRAINT `FK_EAV_ENTITY_TEXT_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_text`
@@ -6084,8 +5901,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_type`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_type` (
   `entity_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Entity Type Id',
   `entity_type_code` varchar(50) NOT NULL COMMENT 'Entity Type Code',
@@ -6105,8 +5922,8 @@ CREATE TABLE `eav_entity_type` (
   `entity_attribute_collection` varchar(255) default NULL COMMENT 'Entity Attribute Collection',
   PRIMARY KEY  (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_TYPE_ENTITY_TYPE_CODE` (`entity_type_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_type`
@@ -6114,7 +5931,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `eav_entity_type` WRITE;
 /*!40000 ALTER TABLE `eav_entity_type` DISABLE KEYS */;
-INSERT INTO `eav_entity_type` VALUES (1,'customer','customer/customer','customer/attribute','customer/entity',NULL,NULL,1,'default',1,'eav/entity_increment_numeric',0,8,'0','customer/eav_attribute','customer/attribute_collection'),(2,'customer_address','customer/address','customer/attribute','customer/address_entity',NULL,NULL,1,'default',2,NULL,0,8,'0','customer/eav_attribute','customer/address_attribute_collection'),(3,'catalog_category','catalog/category','catalog/resource_eav_attribute','catalog/category',NULL,NULL,1,'default',3,NULL,0,8,'0','catalog/eav_attribute','catalog/category_attribute_collection'),(4,'catalog_product','catalog/product','catalog/resource_eav_attribute','catalog/product',NULL,NULL,1,'default',4,NULL,0,8,'0','catalog/eav_attribute','catalog/product_attribute_collection'),(5,'order','sales/order',NULL,'sales/order',NULL,NULL,1,'default',0,'eav/entity_increment_numeric',1,8,'0',NULL,NULL),(6,'invoice','sales/order_invoice',NULL,'sales/invoice',NULL,NULL,1,'default',0,'eav/entity_increment_numeric',1,8,'0',NULL,NULL),(7,'creditmemo','sales/order_creditmemo',NULL,'sales/creditmemo',NULL,NULL,1,'default',0,'eav/entity_increment_numeric',1,8,'0',NULL,NULL),(8,'shipment','sales/order_shipment',NULL,'sales/shipment',NULL,NULL,1,'default',0,'eav/entity_increment_numeric',1,8,'0',NULL,NULL);
+INSERT INTO `eav_entity_type` VALUES (1,'customer','Mage_Customer_Model_Resource_Customer','Mage_Customer_Model_Attribute','customer_entity',NULL,NULL,1,'default',1,'Mage_Eav_Model_Entity_Increment_Numeric',0,8,'0','customer_eav_attribute','Mage_Customer_Model_Resource_Attribute_Collection'),(2,'customer_address','Mage_Customer_Model_Resource_Address','Mage_Customer_Model_Attribute','customer_address_entity',NULL,NULL,1,'default',2,NULL,0,8,'0','customer_eav_attribute','Mage_Customer_Model_Resource_Address_Attribute_Collection'),(3,'catalog_category','Mage_Catalog_Model_Resource_Category','Mage_Catalog_Model_Resource_Eav_Attribute','catalog_category_entity',NULL,NULL,1,'default',3,NULL,0,8,'0','catalog_eav_attribute','Mage_Catalog_Model_Resource_Category_Attribute_Collection'),(4,'catalog_product','Mage_Catalog_Model_Resource_Product','Mage_Catalog_Model_Resource_Eav_Attribute','catalog_product_entity',NULL,NULL,1,'default',4,NULL,0,8,'0','catalog_eav_attribute','Mage_Catalog_Model_Resource_Product_Attribute_Collection'),(5,'order','Mage_Sales_Model_Resource_Order',NULL,'sales_flat_order',NULL,NULL,1,'default',0,'Mage_Eav_Model_Entity_Increment_Numeric',1,8,'0',NULL,NULL),(6,'invoice','Mage_Sales_Model_Resource_Order_Invoice',NULL,'sales_flat_invoice',NULL,NULL,1,'default',0,'Mage_Eav_Model_Entity_Increment_Numeric',1,8,'0',NULL,NULL),(7,'creditmemo','Mage_Sales_Model_Resource_Order_Creditmemo',NULL,'sales_flat_creditmemo',NULL,NULL,1,'default',0,'Mage_Eav_Model_Entity_Increment_Numeric',1,8,'0',NULL,NULL),(8,'shipment','Mage_Sales_Model_Resource_Order_Shipment',NULL,'sales_flat_shipment',NULL,NULL,1,'default',0,'Mage_Eav_Model_Entity_Increment_Numeric',1,8,'0',NULL,NULL),(9,'rma_item','Enterprise_Rma_Model_Resource_Item','Enterprise_Rma_Model_Item_Attribute','enterprise_rma_item_entity',NULL,NULL,1,'default',9,'Mage_Eav_Model_Entity_Increment_Numeric',1,8,'0','enterprise_rma_item_eav_attribute',NULL);
 /*!40000 ALTER TABLE `eav_entity_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6123,8 +5940,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_entity_varchar`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_entity_varchar` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
@@ -6144,7 +5961,7 @@ CREATE TABLE `eav_entity_varchar` (
   CONSTRAINT `FK_EAV_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_entity_varchar`
@@ -6160,8 +5977,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_form_element`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_form_element` (
   `element_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Element Id',
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
@@ -6177,7 +5994,7 @@ CREATE TABLE `eav_form_element` (
   CONSTRAINT `FK_EAV_FORM_ELEMENT_FIELDSET_ID_EAV_FORM_FIELDSET_FIELDSET_ID` FOREIGN KEY (`fieldset_id`) REFERENCES `eav_form_fieldset` (`fieldset_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_FORM_ELEMENT_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='Eav Form Element';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_form_element`
@@ -6194,8 +6011,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_form_fieldset`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_form_fieldset` (
   `fieldset_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Fieldset Id',
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
@@ -6206,7 +6023,7 @@ CREATE TABLE `eav_form_fieldset` (
   KEY `IDX_EAV_FORM_FIELDSET_TYPE_ID` (`type_id`),
   CONSTRAINT `FK_EAV_FORM_FIELDSET_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_form_fieldset`
@@ -6223,8 +6040,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_form_fieldset_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_form_fieldset_label` (
   `fieldset_id` smallint(5) unsigned NOT NULL COMMENT 'Fieldset Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -6235,7 +6052,7 @@ CREATE TABLE `eav_form_fieldset_label` (
   CONSTRAINT `FK_EAV_FORM_FSET_LBL_FSET_ID_EAV_FORM_FSET_FSET_ID` FOREIGN KEY (`fieldset_id`) REFERENCES `eav_form_fieldset` (`fieldset_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_FORM_FIELDSET_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset Label';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_form_fieldset_label`
@@ -6252,8 +6069,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_form_type`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_form_type` (
   `type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Type Id',
   `code` varchar(64) NOT NULL COMMENT 'Code',
@@ -6266,7 +6083,7 @@ CREATE TABLE `eav_form_type` (
   KEY `IDX_EAV_FORM_TYPE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_FORM_TYPE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Eav Form Type';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_form_type`
@@ -6283,8 +6100,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `eav_form_type_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eav_form_type_entity` (
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
   `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type Id',
@@ -6293,7 +6110,7 @@ CREATE TABLE `eav_form_type_entity` (
   CONSTRAINT `FK_EAV_FORM_TYPE_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_FORM_TYPE_ENTITY_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Type Entity';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `eav_form_type_entity`
@@ -6310,8 +6127,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_admin_passwords`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_admin_passwords` (
   `password_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Password Id',
   `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'User Id',
@@ -6322,7 +6139,7 @@ CREATE TABLE `enterprise_admin_passwords` (
   KEY `IDX_ENTERPRISE_ADMIN_PASSWORDS_USER_ID` (`user_id`),
   CONSTRAINT `FK_ENTERPRISE_ADMIN_PASSWORDS_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Admin Passwords';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_admin_passwords`
@@ -6338,8 +6155,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_banner`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_banner` (
   `banner_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Banner Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -6347,7 +6164,7 @@ CREATE TABLE `enterprise_banner` (
   `types` varchar(255) default NULL COMMENT 'Types',
   PRIMARY KEY  (`banner_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_banner`
@@ -6364,8 +6181,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_banner_catalogrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_banner_catalogrule` (
   `banner_id` int(10) unsigned NOT NULL COMMENT 'Banner Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
@@ -6375,7 +6192,7 @@ CREATE TABLE `enterprise_banner_catalogrule` (
   CONSTRAINT `FK_ENT_BANNER_CATRULE_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_BANNER_CATALOGRULE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Catalogrule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_banner_catalogrule`
@@ -6391,8 +6208,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_banner_content`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_banner_content` (
   `banner_id` int(10) unsigned NOT NULL default '0' COMMENT 'Banner Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -6403,7 +6220,7 @@ CREATE TABLE `enterprise_banner_content` (
   CONSTRAINT `FK_ENT_BANNER_CONTENT_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_BANNER_CONTENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Content';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_banner_content`
@@ -6420,8 +6237,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_banner_customersegment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_banner_customersegment` (
   `banner_id` int(10) unsigned NOT NULL default '0' COMMENT 'Banner Id',
   `segment_id` int(10) unsigned NOT NULL default '0' COMMENT 'Segment Id',
@@ -6431,7 +6248,7 @@ CREATE TABLE `enterprise_banner_customersegment` (
   CONSTRAINT `FK_ENT_BANNER_CSTRSEGMENT_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_1AD1C6488568AC0D2E337469CDDEB530` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Customersegment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_banner_customersegment`
@@ -6447,8 +6264,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_banner_salesrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_banner_salesrule` (
   `banner_id` int(10) unsigned NOT NULL COMMENT 'Banner Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
@@ -6458,7 +6275,7 @@ CREATE TABLE `enterprise_banner_salesrule` (
   CONSTRAINT `FK_ENT_BANNER_SALESRULE_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_BANNER_SALESRULE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Salesrule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_banner_salesrule`
@@ -6474,8 +6291,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_catalogevent_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_catalogevent_event` (
   `event_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Event Id',
   `category_id` int(10) unsigned default NULL COMMENT 'Category Id',
@@ -6488,7 +6305,7 @@ CREATE TABLE `enterprise_catalogevent_event` (
   KEY `IDX_ENTERPRISE_CATALOGEVENT_EVENT_DATE_START_DATE_END` (`date_start`,`date_end`),
   CONSTRAINT `FK_ENT_CATEVENT_EVENT_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Catalogevent Event';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_catalogevent_event`
@@ -6504,8 +6321,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_catalogevent_event_image`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_catalogevent_event_image` (
   `event_id` int(10) unsigned NOT NULL COMMENT 'Event Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -6515,7 +6332,7 @@ CREATE TABLE `enterprise_catalogevent_event_image` (
   CONSTRAINT `FK_ENT_CATEVENT_EVENT_IMAGE_EVENT_ID_ENT_CATEVENT_EVENT_EVENT_ID` FOREIGN KEY (`event_id`) REFERENCES `enterprise_catalogevent_event` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CATEVENT_EVENT_IMAGE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Catalogevent Event Image';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_catalogevent_event_image`
@@ -6531,8 +6348,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_catalogpermissions`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_catalogpermissions` (
   `permission_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Permission Id',
   `category_id` int(10) unsigned NOT NULL COMMENT 'Category Id',
@@ -6549,7 +6366,7 @@ CREATE TABLE `enterprise_catalogpermissions` (
   CONSTRAINT `FK_ENT_CATPERMISSIONS_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CATPERMISSIONS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Catalogpermissions';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_catalogpermissions`
@@ -6565,8 +6382,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_catalogpermissions_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_catalogpermissions_index` (
   `category_id` int(10) unsigned NOT NULL COMMENT 'Category Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -6581,7 +6398,7 @@ CREATE TABLE `enterprise_catalogpermissions_index` (
   CONSTRAINT `FK_ENT_CATPERMISSIONS_IDX_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CATPERMISSIONS_IDX_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Catalogpermissions Index';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_catalogpermissions_index`
@@ -6597,8 +6414,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_catalogpermissions_index_product`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_catalogpermissions_index_product` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -6617,7 +6434,7 @@ CREATE TABLE `enterprise_catalogpermissions_index_product` (
   CONSTRAINT `FK_B81C98D7F77B2F5AC24B119FDD7E4AD5` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CATPERMISSIONS_IDX_PRD_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Catalogpermissions Index Product';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_catalogpermissions_index_product`
@@ -6633,8 +6450,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_hierarchy_lock`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_hierarchy_lock` (
   `lock_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Lock Id',
   `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
@@ -6643,7 +6460,7 @@ CREATE TABLE `enterprise_cms_hierarchy_lock` (
   `started_at` int(10) unsigned NOT NULL COMMENT 'Started At',
   PRIMARY KEY  (`lock_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Lock';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_hierarchy_lock`
@@ -6659,8 +6476,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_hierarchy_metadata`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_hierarchy_metadata` (
   `node_id` int(10) unsigned NOT NULL COMMENT 'Node Id',
   `meta_first_last` smallint(6) NOT NULL default '0' COMMENT 'Meta First Last',
@@ -6683,7 +6500,7 @@ CREATE TABLE `enterprise_cms_hierarchy_metadata` (
   PRIMARY KEY  (`node_id`),
   CONSTRAINT `FK_8F850C837B70ECACFEC564B6646F543D` FOREIGN KEY (`node_id`) REFERENCES `enterprise_cms_hierarchy_node` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Metadata';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_hierarchy_metadata`
@@ -6699,8 +6516,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_hierarchy_node`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_hierarchy_node` (
   `node_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Node Id',
   `parent_node_id` int(10) unsigned default NULL COMMENT 'Parent Node Id',
@@ -6720,7 +6537,7 @@ CREATE TABLE `enterprise_cms_hierarchy_node` (
   CONSTRAINT `FK_0B6F0C9336A69EBB4BDF876393501698` FOREIGN KEY (`parent_node_id`) REFERENCES `enterprise_cms_hierarchy_node` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Node';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_hierarchy_node`
@@ -6736,8 +6553,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_increment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_increment` (
   `increment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Increment Id',
   `increment_type` int(11) NOT NULL COMMENT 'Increment Type',
@@ -6746,8 +6563,8 @@ CREATE TABLE `enterprise_cms_increment` (
   `last_id` int(10) unsigned NOT NULL COMMENT 'Last Id',
   PRIMARY KEY  (`increment_id`),
   UNIQUE KEY `4A5098DD889508EF1CC3092A90A57706` (`increment_type`,`increment_node`,`increment_level`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Increment';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Increment';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_increment`
@@ -6755,7 +6572,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `enterprise_cms_increment` WRITE;
 /*!40000 ALTER TABLE `enterprise_cms_increment` DISABLE KEYS */;
-INSERT INTO `enterprise_cms_increment` VALUES (1,0,1,0,1),(2,0,1,1,1),(3,0,2,0,1),(4,0,2,1,1),(5,0,3,0,1),(6,0,3,1,1),(7,0,4,0,1),(8,0,4,1,1),(9,0,5,0,1),(10,0,5,1,1),(11,0,6,0,1),(12,0,6,1,1),(13,0,7,0,1),(14,0,7,1,1);
+INSERT INTO `enterprise_cms_increment` VALUES (1,0,1,0,1),(2,0,1,1,1),(3,0,2,0,1),(4,0,2,1,1),(5,0,3,0,1),(6,0,3,1,1),(7,0,4,0,1),(8,0,4,1,1),(9,0,5,0,1),(10,0,5,1,1),(11,0,6,0,1),(12,0,6,1,1),(13,0,7,0,1),(14,0,7,1,1),(15,0,8,0,1),(16,0,8,1,1);
 /*!40000 ALTER TABLE `enterprise_cms_increment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6764,8 +6581,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_page_revision`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_page_revision` (
   `revision_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Revision Id',
   `version_id` int(10) unsigned NOT NULL COMMENT 'Version Id',
@@ -6792,8 +6609,8 @@ CREATE TABLE `enterprise_cms_page_revision` (
   CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_REVISION_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_REVISION_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_80D5A1E2CFBC07783152959C1A944632` FOREIGN KEY (`version_id`) REFERENCES `enterprise_cms_page_version` (`version_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Revision';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Revision';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_page_revision`
@@ -6801,7 +6618,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `enterprise_cms_page_revision` WRITE;
 /*!40000 ALTER TABLE `enterprise_cms_page_revision` DISABLE KEYS */;
-INSERT INTO `enterprise_cms_page_revision` VALUES (1,1,1,'two_columns_right','Page keywords','Page description',NULL,'<div class=\"page-title\"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li><a href=\"#\" onclick=\"history.go(-1); return false;\">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href=\"{{store url=\"\"}}\">Store Home</a> <span class=\"separator\">|</span> <a href=\"{{store url=\"customer/account\"}}\">My Account</a></li></ul></dd></dl>\r\n','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(2,2,2,'two_columns_right',NULL,NULL,NULL,'<div class=\"page-title\"><h2>Home Page</h2></div>\r\n','2012-01-30 10:41:51','<!--<reference name=\"content\">\n        <block type=\"catalog/product_new\" name=\"home.catalog.product.new\" alias=\"product_new\" template=\"catalog/product/new.phtml\" after=\"cms_page\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"reports/product_viewed\" name=\"home.reports.product.viewed\" alias=\"product_viewed\" template=\"reports/home_product_viewed.phtml\" after=\"product_new\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"reports/product_compared\" name=\"home.reports.product.compared\" template=\"reports/home_product_compared.phtml\" after=\"product_viewed\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>bundle/catalog_product_price</block>\n                <template>bundle/catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name=\"right\">\n        <action method=\"unsetChild\"><alias>right.reports.product.viewed</alias></action>\n        <action method=\"unsetChild\"><alias>right.reports.product.compared</alias></action>\n    </reference>-->',NULL,NULL,NULL,NULL,NULL,NULL,1),(3,3,3,'two_columns_right',NULL,NULL,NULL,'<div class=\"page-title\">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class=\"col3-set\">\r\n<div class=\"col-1\"><p><a href=\"http://www.varien.com/\"><img src=\"{{skin url=\'images/media/about_us_img.jpg\'}}\" title=\"Varien\" alt=\"Varien\" /></a></p><p style=\"line-height:1.2em;\"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style=\"color:#888; font:1.2em/1.4em georgia, serif;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class=\"col-2\">\r\n<p><strong style=\"color:#de036f;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class=\"col-3\">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style=\"color:#de036f;\">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class=\"divider\"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style=\"line-height:1.2em;\"><strong style=\"font:italic 2em Georgia, serif;\">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(4,4,4,'three_columns',NULL,NULL,NULL,'<div class=\"page-title\">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class=\"disc\">\r\n<li><a href=\"#answer1\">Shipping &amp; Delivery</a></li>\r\n<li><a href=\"#answer2\">Privacy &amp; Security</a></li>\r\n<li><a href=\"#answer3\">Returns &amp; Replacements</a></li>\r\n<li><a href=\"#answer4\">Ordering</a></li>\r\n<li><a href=\"#answer5\">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href=\"#answer6\">Viewing Orders</a></li>\r\n<li><a href=\"#answer7\">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id=\"answer1\">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer2\">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer3\">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer4\">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer5\">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer6\">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer7\">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(5,5,5,'one_column',NULL,NULL,NULL,'<div class=\"std\">\r\n    <ul class=\"messages\">\r\n        <li class=\"notice-msg\">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class=\"page-title\">\r\n        <h1><a name=\"top\"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class=\"subtitle\">Enabling Cookies</h2>\r\n    <ul class=\"disc\">\r\n        <li><a href=\"#ie7\">Internet Explorer 7.x</a></li>\r\n        <li><a href=\"#ie6\">Internet Explorer 6.x</a></li>\r\n        <li><a href=\"#firefox\">Mozilla/Firefox</a></li>\r\n        <li><a href=\"#opera\">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name=\"ie7\"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-3.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-4.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-5.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie7-6.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"ie6\"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie6-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"images/cookies/ie6-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"firefox\"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/firefox.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"opera\"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"images/cookies/opera.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n</div>\r\n','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(6,6,6,NULL,NULL,NULL,NULL,'<div class=\"page-title\"><h1>We\'re Offline...</h1></div>\n<p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(7,7,7,NULL,NULL,NULL,NULL,'<div class=\"private-sales-index\">\n<div class=\"box\">\n<div class=\"content\">\n<h1>Welcome to our Exclusive Online Store</h1>\n<p>If you are a registered member, please <a href=\"{{store url=\"customer/account/login\"}}\">log in here</a>.</p>\n<p class=\"description\">Magento is the leading hub for exclusive specialty items for all your home, apparel and entertainment needs!</p>\n</div>\n</div>\n</div>','2012-01-30 10:41:51',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1);
+INSERT INTO `enterprise_cms_page_revision` VALUES (1,1,1,'two_columns_right','Page keywords','Page description',NULL,'<div class=\"page-title\"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class=\"disc\">\r\n<li><a href=\"#\" onclick=\"history.go(-1); return false;\">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href=\"{{store url=\"\"}}\">Store Home</a> <span class=\"separator\">|</span> <a href=\"{{store url=\"customer/account\"}}\">My Account</a></li></ul></dd></dl>\r\n','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(2,2,2,'two_columns_right',NULL,NULL,NULL,'<div class=\"page-title\"><h2>Home Page</h2></div>\r\n','2012-05-23 12:45:26','<!--<reference name=\"content\">\n        <block type=\"Mage_Catalog_Block_Product_New\" name=\"home.catalog.product.new\" alias=\"product_new\" template=\"product/new.phtml\" after=\"cms_page\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"Mage_Reports_Block_Product_Viewed\" name=\"home.reports.product.viewed\" alias=\"product_viewed\" template=\"home_product_viewed.phtml\" after=\"product_new\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type=\"Mage_Reports_Block_Product_Compared\" name=\"home.reports.product.compared\" template=\"home_product_compared.phtml\" after=\"product_viewed\">\n            <action method=\"addPriceBlockType\">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name=\"right\">\n        <action method=\"unsetChild\"><alias>right.reports.product.viewed</alias></action>\n        <action method=\"unsetChild\"><alias>right.reports.product.compared</alias></action>\n    </reference>-->',NULL,NULL,NULL,NULL,NULL,NULL,1),(3,3,3,'two_columns_right',NULL,NULL,NULL,'<div class=\"page-title\">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class=\"col3-set\">\r\n<div class=\"col-1\"><p><a href=\"http://www.magento.com/\"><img src=\"{{skin url=\'Mage_Cms::images/about_us_img.jpg\'}}\" title=\"Varien\" alt=\"Varien\" /></a></p><p style=\"line-height:1.2em;\"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style=\"color:#888; font:1.2em/1.4em georgia, serif;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class=\"col-2\">\r\n<p><strong style=\"color:#de036f;\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class=\"col-3\">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style=\"color:#de036f;\">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class=\"divider\"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style=\"line-height:1.2em;\"><strong style=\"font:italic 2em Georgia, serif;\">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(4,4,4,'three_columns',NULL,NULL,NULL,'<div class=\"page-title\">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class=\"disc\">\r\n<li><a href=\"#answer1\">Shipping &amp; Delivery</a></li>\r\n<li><a href=\"#answer2\">Privacy &amp; Security</a></li>\r\n<li><a href=\"#answer3\">Returns &amp; Replacements</a></li>\r\n<li><a href=\"#answer4\">Ordering</a></li>\r\n<li><a href=\"#answer5\">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href=\"#answer6\">Viewing Orders</a></li>\r\n<li><a href=\"#answer7\">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id=\"answer1\">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer2\">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer3\">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer4\">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer5\">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer6\">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id=\"answer7\">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(5,5,5,'one_column',NULL,NULL,NULL,'<div class=\"std\">\r\n    <ul class=\"messages\">\r\n        <li class=\"notice-msg\">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class=\"page-title\">\r\n        <h1><a name=\"top\"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class=\"subtitle\">Enabling Cookies</h2>\r\n    <ul class=\"disc\">\r\n        <li><a href=\"#ie7\">Internet Explorer 7.x</a></li>\r\n        <li><a href=\"#ie6\">Internet Explorer 6.x</a></li>\r\n        <li><a href=\"#firefox\">Mozilla/Firefox</a></li>\r\n        <li><a href=\"#opera\">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name=\"ie7\"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-3.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-4.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-5.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie7-6.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"ie6\"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie6-1.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/ie6-2.gif\"}}\" alt=\"\" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"firefox\"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/firefox.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n    <h3><a name=\"opera\"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src=\"{{skin url=\"Mage_Cms::images/cookies/opera.png\"}}\" alt=\"\" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class=\"a-top\"><a href=\"#top\">Back to Top</a></p>\r\n</div>\r\n','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(6,6,6,'one_column',NULL,NULL,NULL,'<p style=\"color: #ff0000; font-weight: bold; font-size: 13px\">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path=\"general/store_information/name\"}} uses and protects any information\n    that you give {{config path=\"general/store_information/name\"}} when you use this website.\n    {{config path=\"general/store_information/name\"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path=\"general/store_information/name\"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href=\"#list\">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path=\"trans_email/ident_general/email\"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path=\"general/store_information/address\"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name=\"list\"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class=\"data-table\">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(7,7,7,'one_column',NULL,NULL,NULL,'<div class=\"page-title\"><h1>We\'re Offline...</h1></div>\n<p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(8,8,8,'one_column',NULL,NULL,NULL,'<div class=\"private-sales-index\">\n<div class=\"box\">\n<div class=\"content\">\n<h1>Welcome to our Exclusive Online Store</h1>\n<p>If you are a registered member, please <a href=\"{{store url=\"customer/account/login\"}}\">log in here</a>.</p>\n<p class=\"description\">Magento is the leading hub for exclusive specialty items for all your home, apparel and entertainment needs!</p>\n</div>\n</div>\n</div>','2012-05-23 12:45:26',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `enterprise_cms_page_revision` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6810,8 +6627,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_cms_page_version`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_cms_page_version` (
   `version_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Version Id',
   `label` varchar(255) default NULL COMMENT 'Label',
@@ -6827,8 +6644,8 @@ CREATE TABLE `enterprise_cms_page_version` (
   KEY `IDX_ENTERPRISE_CMS_PAGE_VERSION_VERSION_NUMBER` (`version_number`),
   CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_VERSION_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_VERSION_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Version';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Version';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_cms_page_version`
@@ -6836,7 +6653,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `enterprise_cms_page_version` WRITE;
 /*!40000 ALTER TABLE `enterprise_cms_page_version` DISABLE KEYS */;
-INSERT INTO `enterprise_cms_page_version` VALUES (1,'404 Not Found 1','public',1,NULL,1,1,'2012-01-30 10:41:51'),(2,'Home page','public',2,NULL,1,1,'2012-01-30 10:41:51'),(3,'About Us','public',3,NULL,1,1,'2012-01-30 10:41:51'),(4,'Customer Service','public',4,NULL,1,1,'2012-01-30 10:41:51'),(5,'Enable Cookies','public',5,NULL,1,1,'2012-01-30 10:41:51'),(6,'503 Service Unavailable','public',6,NULL,1,1,'2012-01-30 10:41:51'),(7,'Welcome to our Exclusive Online Store','public',7,NULL,1,1,'2012-01-30 10:41:51');
+INSERT INTO `enterprise_cms_page_version` VALUES (1,'404 Not Found 1','public',1,NULL,1,1,'2012-05-23 12:45:26'),(2,'Home page','public',2,NULL,1,1,'2012-05-23 12:45:26'),(3,'About Us','public',3,NULL,1,1,'2012-05-23 12:45:26'),(4,'Customer Service','public',4,NULL,1,1,'2012-05-23 12:45:26'),(5,'Enable Cookies','public',5,NULL,1,1,'2012-05-23 12:45:26'),(6,'Privacy Policy','public',6,NULL,1,1,'2012-05-23 12:45:26'),(7,'503 Service Unavailable','public',7,NULL,1,1,'2012-05-23 12:45:26'),(8,'Welcome to our Exclusive Online Store','public',8,NULL,1,1,'2012-05-23 12:45:26');
 /*!40000 ALTER TABLE `enterprise_cms_page_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6845,14 +6662,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customer_sales_flat_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customer_sales_flat_order` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   PRIMARY KEY  (`entity_id`),
   CONSTRAINT `FK_ENT_CSTR_SALES_FLAT_ORDER_ENTT_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customer_sales_flat_order`
@@ -6868,14 +6685,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customer_sales_flat_order_address`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customer_sales_flat_order_address` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   PRIMARY KEY  (`entity_id`),
   CONSTRAINT `FK_4E069350A68E00D76DC1B8722A94EFA4` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order_address` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order Address';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customer_sales_flat_order_address`
@@ -6891,14 +6708,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customer_sales_flat_quote`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customer_sales_flat_quote` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   PRIMARY KEY  (`entity_id`),
   CONSTRAINT `FK_ENT_CSTR_SALES_FLAT_QUOTE_ENTT_ID_SALES_FLAT_QUOTE_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customer_sales_flat_quote`
@@ -6914,14 +6731,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customer_sales_flat_quote_address`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customer_sales_flat_quote_address` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   PRIMARY KEY  (`entity_id`),
   CONSTRAINT `FK_E152BECD370CBCC294EEFDD7035E9C9F` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote Address';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customer_sales_flat_quote_address`
@@ -6937,8 +6754,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customerbalance`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customerbalance` (
   `balance_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Balance Id',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
@@ -6951,7 +6768,7 @@ CREATE TABLE `enterprise_customerbalance` (
   CONSTRAINT `FK_ENTERPRISE_CUSTOMERBALANCE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CSTRBALANCE_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customerbalance`
@@ -6967,8 +6784,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customerbalance_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customerbalance_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `balance_id` int(10) unsigned NOT NULL default '0' COMMENT 'Balance Id',
@@ -6982,7 +6799,7 @@ CREATE TABLE `enterprise_customerbalance_history` (
   KEY `IDX_ENTERPRISE_CUSTOMERBALANCE_HISTORY_BALANCE_ID` (`balance_id`),
   CONSTRAINT `FK_ENT_CSTRBALANCE_HISTORY_BALANCE_ID_ENT_CSTRBALANCE_BALANCE_ID` FOREIGN KEY (`balance_id`) REFERENCES `enterprise_customerbalance` (`balance_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customerbalance_history`
@@ -6998,8 +6815,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customersegment_customer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customersegment_customer` (
   `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
   `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
@@ -7014,7 +6831,7 @@ CREATE TABLE `enterprise_customersegment_customer` (
   CONSTRAINT `FK_ENT_CSTRSEGMENT_CSTR_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_52E0985884BDC49D4116415806CAC638` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Customer';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customersegment_customer`
@@ -7030,8 +6847,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customersegment_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customersegment_event` (
   `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
   `event` varchar(255) default NULL COMMENT 'Event',
@@ -7039,7 +6856,7 @@ CREATE TABLE `enterprise_customersegment_event` (
   KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_EVENT_SEGMENT_ID` (`segment_id`),
   CONSTRAINT `FK_CDDCB176ADBEFB49CC4C44F284806949` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Event';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customersegment_event`
@@ -7055,8 +6872,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customersegment_segment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customersegment_segment` (
   `segment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Segment Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -7068,7 +6885,7 @@ CREATE TABLE `enterprise_customersegment_segment` (
   `apply_to` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer types to which this segment applies',
   PRIMARY KEY  (`segment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Segment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customersegment_segment`
@@ -7084,8 +6901,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_customersegment_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_customersegment_website` (
   `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -7094,7 +6911,7 @@ CREATE TABLE `enterprise_customersegment_website` (
   CONSTRAINT `FK_F8A41CD74CED6BAAA9051010654A97E4` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_CSTRSEGMENT_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Website';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_customersegment_website`
@@ -7110,8 +6927,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftcard_amount`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftcard_amount` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -7127,7 +6944,7 @@ CREATE TABLE `enterprise_giftcard_amount` (
   CONSTRAINT `FK_ENTERPRISE_GIFTCARD_AMOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTCARD_AMOUNT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcard Amount';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftcard_amount`
@@ -7143,8 +6960,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftcardaccount`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftcardaccount` (
   `giftcardaccount_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Giftcardaccount Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
@@ -7159,7 +6976,7 @@ CREATE TABLE `enterprise_giftcardaccount` (
   KEY `IDX_ENTERPRISE_GIFTCARDACCOUNT_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_ENTERPRISE_GIFTCARDACCOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftcardaccount`
@@ -7175,8 +6992,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftcardaccount_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftcardaccount_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `giftcardaccount_id` int(10) unsigned NOT NULL default '0' COMMENT 'Giftcardaccount Id',
@@ -7189,7 +7006,7 @@ CREATE TABLE `enterprise_giftcardaccount_history` (
   KEY `IDX_ENTERPRISE_GIFTCARDACCOUNT_HISTORY_GIFTCARDACCOUNT_ID` (`giftcardaccount_id`),
   CONSTRAINT `FK_3B8BD605F9D0B548E5EEDF7ADFC30A5D` FOREIGN KEY (`giftcardaccount_id`) REFERENCES `enterprise_giftcardaccount` (`giftcardaccount_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftcardaccount_history`
@@ -7205,14 +7022,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftcardaccount_pool`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftcardaccount_pool` (
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `status` smallint(6) NOT NULL default '0' COMMENT 'Status',
   PRIMARY KEY  (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount Pool';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftcardaccount_pool`
@@ -7228,8 +7045,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_data`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_data` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `event_date` date default NULL COMMENT 'Event Date',
@@ -7240,7 +7057,7 @@ CREATE TABLE `enterprise_giftregistry_data` (
   PRIMARY KEY  (`entity_id`),
   CONSTRAINT `FK_ENT_GIFTREGISTRY_DATA_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Data Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_data`
@@ -7256,8 +7073,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_entity` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
@@ -7279,7 +7096,7 @@ CREATE TABLE `enterprise_giftregistry_entity` (
   CONSTRAINT `FK_ENT_GIFTREGISTRY_ENTT_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTREGISTRY_ENTT_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Entity Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_entity`
@@ -7295,8 +7112,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_item` (
   `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
@@ -7312,7 +7129,7 @@ CREATE TABLE `enterprise_giftregistry_item` (
   CONSTRAINT `FK_ENT_GIFTREGISTRY_ITEM_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTREGISTRY_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_item`
@@ -7328,8 +7145,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_item_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_item_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `item_id` int(10) unsigned NOT NULL COMMENT 'Item Id',
@@ -7340,7 +7157,7 @@ CREATE TABLE `enterprise_giftregistry_item_option` (
   KEY `FK_51E3E032B5F0C7B1DE70D7090034C6EE` (`item_id`),
   CONSTRAINT `FK_51E3E032B5F0C7B1DE70D7090034C6EE` FOREIGN KEY (`item_id`) REFERENCES `enterprise_giftregistry_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Option Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_item_option`
@@ -7356,8 +7173,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_label` (
   `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
   `attribute_code` varchar(32) NOT NULL COMMENT 'Attribute Code',
@@ -7370,7 +7187,7 @@ CREATE TABLE `enterprise_giftregistry_label` (
   CONSTRAINT `FK_ENT_GIFTREGISTRY_LBL_TYPE_ID_ENT_GIFTREGISTRY_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `enterprise_giftregistry_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_GIFTREGISTRY_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Label Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_label`
@@ -7386,8 +7203,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_person`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_person` (
   `person_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Person Id',
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
@@ -7400,7 +7217,7 @@ CREATE TABLE `enterprise_giftregistry_person` (
   KEY `IDX_ENTERPRISE_GIFTREGISTRY_PERSON_ENTITY_ID` (`entity_id`),
   CONSTRAINT `FK_ENT_GIFTREGISTRY_PERSON_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Person Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_person`
@@ -7416,15 +7233,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_type`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_type` (
   `type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Type Id',
   `code` varchar(15) default NULL COMMENT 'Code',
   `meta_xml` blob COMMENT 'Meta Xml',
   PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Type Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_type`
@@ -7441,8 +7258,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftregistry_type_info`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftregistry_type_info` (
   `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -7454,7 +7271,7 @@ CREATE TABLE `enterprise_giftregistry_type_info` (
   CONSTRAINT `FK_44F735AC54D0D431054C3CB51729B68D` FOREIGN KEY (`type_id`) REFERENCES `enterprise_giftregistry_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTREGISTRY_TYPE_INFO_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Info Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftregistry_type_info`
@@ -7471,8 +7288,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftwrapping`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftwrapping` (
   `wrapping_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Wrapping Id',
   `status` smallint(5) unsigned NOT NULL COMMENT 'Status',
@@ -7481,7 +7298,7 @@ CREATE TABLE `enterprise_giftwrapping` (
   PRIMARY KEY  (`wrapping_id`),
   KEY `IDX_ENTERPRISE_GIFTWRAPPING_STATUS` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Wrapping Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftwrapping`
@@ -7497,8 +7314,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftwrapping_store_attributes`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftwrapping_store_attributes` (
   `wrapping_id` int(10) unsigned NOT NULL COMMENT 'Wrapping Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -7508,7 +7325,7 @@ CREATE TABLE `enterprise_giftwrapping_store_attributes` (
   CONSTRAINT `FK_F2BAE7139D2EF2B414A40C1BD040E1BA` FOREIGN KEY (`wrapping_id`) REFERENCES `enterprise_giftwrapping` (`wrapping_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTWRAPPING_STORE_ATTRS_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Wrapping Attribute Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftwrapping_store_attributes`
@@ -7524,8 +7341,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_giftwrapping_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_giftwrapping_website` (
   `wrapping_id` int(10) unsigned NOT NULL COMMENT 'Wrapping Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -7534,7 +7351,7 @@ CREATE TABLE `enterprise_giftwrapping_website` (
   CONSTRAINT `FK_ENT_GIFTWRAPPING_WS_WRAPPING_ID_ENT_GIFTWRAPPING_WRAPPING_ID` FOREIGN KEY (`wrapping_id`) REFERENCES `enterprise_giftwrapping` (`wrapping_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_GIFTWRAPPING_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Wrapping Website Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_giftwrapping_website`
@@ -7550,8 +7367,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_invitation`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_invitation` (
   `invitation_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Invitation Id',
   `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
@@ -7574,7 +7391,7 @@ CREATE TABLE `enterprise_invitation` (
   CONSTRAINT `FK_ENTERPRISE_INVITATION_REFERRAL_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`referral_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_INVITATION_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Invitation';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_invitation`
@@ -7590,8 +7407,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_invitation_status_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_invitation_status_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `invitation_id` int(10) unsigned NOT NULL COMMENT 'Invitation Id',
@@ -7601,7 +7418,7 @@ CREATE TABLE `enterprise_invitation_status_history` (
   KEY `IDX_ENTERPRISE_INVITATION_STATUS_HISTORY_INVITATION_ID` (`invitation_id`),
   CONSTRAINT `FK_EEBAD815A06638012905AC6A1207F894` FOREIGN KEY (`invitation_id`) REFERENCES `enterprise_invitation` (`invitation_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Invitation Status History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_invitation_status_history`
@@ -7617,8 +7434,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_invitation_track`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_invitation_track` (
   `track_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Track Id',
   `inviter_id` int(10) unsigned NOT NULL default '0' COMMENT 'Inviter Id',
@@ -7629,7 +7446,7 @@ CREATE TABLE `enterprise_invitation_track` (
   CONSTRAINT `FK_ENT_INVITATION_TRACK_INVITER_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`inviter_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_INVITATION_TRACK_REFERRAL_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`referral_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Invitation Track';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_invitation_track`
@@ -7645,8 +7462,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_logging_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_logging_event` (
   `log_id` int(11) NOT NULL auto_increment COMMENT 'Log Id',
   `ip` bigint(20) NOT NULL default '0' COMMENT 'Ip address',
@@ -7664,8 +7481,8 @@ CREATE TABLE `enterprise_logging_event` (
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER_ID` (`user_id`),
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER` (`user`),
   CONSTRAINT `FK_ENTERPRISE_LOGGING_EVENT_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_logging_event`
@@ -7673,7 +7490,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `enterprise_logging_event` WRITE;
 /*!40000 ALTER TABLE `enterprise_logging_event` DISABLE KEYS */;
-INSERT INTO `enterprise_logging_event` VALUES (1,3232251007,0,'admin_login','2012-01-30 15:32:55','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(2,3232251007,0,'api_users','2012-01-30 15:33:03','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(3,3232251007,0,'api_users','2012-01-30 15:33:12','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(4,3232251007,0,'api_users','2012-01-30 15:33:12','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(5,3232250997,0,'admin_login','2012-02-09 08:42:08','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(6,3232250997,0,'cache_management','2012-02-16 14:40:12','save','a:1:{s:7:\"general\";s:25:\"Cache types: collections \";}','success','admin',1,'adminhtml_cache_massEnable',NULL),(7,3232250997,0,'admin_login','2012-02-17 10:41:01','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(8,3232250997,0,'cache_management','2012-02-17 10:41:40','save','a:1:{s:7:\"general\";s:25:\"Cache types: collections \";}','success','admin',1,'adminhtml_cache_massEnable',NULL);
+INSERT INTO `enterprise_logging_event` VALUES (1,3232250997,0,'admin_login','2012-05-23 13:01:36','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(2,3232250997,0,'customer','2012-05-23 13:02:25','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_customer_save',NULL),(3,3232250997,0,'api_roles','2012-05-23 13:03:06','view','a:1:{s:7:\"general\";s:0:\"\";}','success','admin',1,'adminhtml_api_role_editrole',NULL),(4,3232250997,0,'api_roles','2012-05-23 13:03:21','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_role_saverole',NULL),(5,3232250997,0,'api_users','2012-05-23 13:04:07','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(6,3232250997,0,'api_users','2012-05-23 13:04:07','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL);
 /*!40000 ALTER TABLE `enterprise_logging_event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7682,8 +7499,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_logging_event_changes`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_logging_event_changes` (
   `id` int(11) NOT NULL auto_increment COMMENT 'Enterprise logging id',
   `source_name` varchar(150) default NULL COMMENT 'Logged Source Name',
@@ -7694,8 +7511,8 @@ CREATE TABLE `enterprise_logging_event_changes` (
   PRIMARY KEY  (`id`),
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_CHANGES_EVENT_ID` (`event_id`),
   CONSTRAINT `FK_ENT_LOGGING_EVENT_CHANGES_EVENT_ID_ENT_LOGGING_EVENT_LOG_ID` FOREIGN KEY (`event_id`) REFERENCES `enterprise_logging_event` (`log_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event Changes';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event Changes';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_logging_event_changes`
@@ -7703,7 +7520,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `enterprise_logging_event_changes` WRITE;
 /*!40000 ALTER TABLE `enterprise_logging_event_changes` DISABLE KEYS */;
-INSERT INTO `enterprise_logging_event_changes` VALUES (1,'Mage_Api_Model_User',3,1,'a:1:{s:8:\"modified\";s:19:\"2012-01-23 16:47:24\";}','a:1:{s:8:\"modified\";s:19:\"2012-01-30 17:33:12\";}');
+INSERT INTO `enterprise_logging_event_changes` VALUES (1,'Mage_Customer_Model_Customer',2,1,'a:1:{s:13:\"__was_created\";b:1;}','a:24:{s:14:\"entity_type_id\";s:1:\"1\";s:10:\"website_id\";s:1:\"1\";s:8:\"group_id\";s:1:\"1\";s:25:\"disable_auto_group_change\";s:1:\"0\";s:6:\"prefix\";s:0:\"\";s:9:\"firstname\";s:8:\"customer\";s:10:\"middlename\";s:0:\"\";s:8:\"lastname\";s:8:\"customer\";s:6:\"suffix\";s:0:\"\";s:5:\"email\";s:20:\"customer@example.com\";s:3:\"dob\";N;s:6:\"taxvat\";s:0:\"\";s:6:\"gender\";s:0:\"\";s:13:\"is_subscribed\";b:0;s:15:\"force_confirmed\";b:1;s:26:\"reward_update_notification\";i:1;s:27:\"reward_warning_notification\";i:1;s:8:\"store_id\";s:1:\"0\";s:9:\"parent_id\";i:0;s:10:\"created_at\";s:19:\"2012-05-23 16:02:25\";s:10:\"created_in\";s:5:\"Admin\";s:15:\"dob_is_formated\";b:1;s:12:\"confirmation\";N;s:9:\"entity_id\";s:1:\"1\";}'),(2,'Mage_Api_Model_Roles',4,1,'a:1:{s:13:\"__was_created\";b:1;}','a:6:{s:4:\"name\";s:4:\"full\";s:3:\"pid\";b:0;s:9:\"role_type\";s:1:\"G\";s:10:\"tree_level\";i:1;s:9:\"role_name\";s:4:\"full\";s:7:\"role_id\";s:1:\"1\";}'),(3,'Mage_Api_Model_User',5,1,'a:1:{s:13:\"__was_created\";b:1;}','a:8:{s:9:\"firstname\";s:3:\"api\";s:8:\"lastname\";s:3:\"api\";s:5:\"email\";s:15:\"api@example.com\";s:8:\"modified\";s:19:\"2012-05-23 16:04:07\";s:8:\"username\";s:3:\"api\";s:9:\"is_active\";i:1;s:7:\"created\";s:19:\"2012-05-23 16:04:07\";s:7:\"user_id\";s:1:\"1\";}');
 /*!40000 ALTER TABLE `enterprise_logging_event_changes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7712,8 +7529,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reminder_rule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reminder_rule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -7731,7 +7548,7 @@ CREATE TABLE `enterprise_reminder_rule` (
   KEY `IDX_ENTERPRISE_REMINDER_RULE_SALESRULE_ID` (`salesrule_id`),
   CONSTRAINT `FK_ENTERPRISE_REMINDER_RULE_SALESRULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`salesrule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reminder Rule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reminder_rule`
@@ -7747,8 +7564,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reminder_rule_coupon`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reminder_rule_coupon` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `coupon_id` int(10) unsigned default NULL COMMENT 'Coupon Id',
@@ -7760,7 +7577,7 @@ CREATE TABLE `enterprise_reminder_rule_coupon` (
   KEY `IDX_ENTERPRISE_REMINDER_RULE_COUPON_RULE_ID` (`rule_id`),
   CONSTRAINT `FK_ENT_REMINDER_RULE_COUPON_RULE_ID_ENT_REMINDER_RULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_reminder_rule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reminder Rule Coupon';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reminder_rule_coupon`
@@ -7776,8 +7593,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reminder_rule_log`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reminder_rule_log` (
   `log_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Log Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
@@ -7788,7 +7605,7 @@ CREATE TABLE `enterprise_reminder_rule_log` (
   KEY `IDX_ENTERPRISE_REMINDER_RULE_LOG_CUSTOMER_ID` (`customer_id`),
   CONSTRAINT `FK_ENT_REMINDER_RULE_LOG_RULE_ID_ENT_REMINDER_RULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_reminder_rule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reminder Rule Log';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reminder_rule_log`
@@ -7804,8 +7621,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reminder_rule_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reminder_rule_website` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -7814,7 +7631,7 @@ CREATE TABLE `enterprise_reminder_rule_website` (
   CONSTRAINT `FK_ENT_REMINDER_RULE_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_REMINDER_RULE_WS_RULE_ID_ENT_REMINDER_RULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_reminder_rule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reminder Rule Website';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reminder_rule_website`
@@ -7830,8 +7647,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reminder_template`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reminder_template` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `store_id` smallint(6) NOT NULL COMMENT 'Store Id',
@@ -7844,7 +7661,7 @@ CREATE TABLE `enterprise_reminder_template` (
   CONSTRAINT `FK_02CDE70765DAB3A092EF92F9F7404A39` FOREIGN KEY (`template_id`) REFERENCES `core_email_template` (`template_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_REMINDER_TEMPLATE_RULE_ID_ENT_REMINDER_RULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_reminder_rule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reminder Template';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reminder_template`
@@ -7860,8 +7677,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reward`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reward` (
   `reward_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Reward Id',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
@@ -7873,7 +7690,7 @@ CREATE TABLE `enterprise_reward` (
   KEY `IDX_ENTERPRISE_REWARD_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_ENTERPRISE_REWARD_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reward`
@@ -7889,8 +7706,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reward_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reward_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `reward_id` int(10) unsigned NOT NULL default '0' COMMENT 'Reward Id',
@@ -7906,7 +7723,7 @@ CREATE TABLE `enterprise_reward_history` (
   `base_currency_code` varchar(5) NOT NULL COMMENT 'Base Currency Code',
   `additional_data` text NOT NULL COMMENT 'Additional Data',
   `comment` text COMMENT 'Comment',
-  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `expired_at_static` timestamp NULL default NULL COMMENT 'Expired At Static',
   `expired_at_dynamic` timestamp NULL default NULL COMMENT 'Expired At Dynamic',
   `is_expired` smallint(6) NOT NULL default '0' COMMENT 'Is Expired',
@@ -7916,11 +7733,11 @@ CREATE TABLE `enterprise_reward_history` (
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_REWARD_ID` (`reward_id`),
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID` (`website_id`),
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_STORE_ID` (`store_id`),
-  CONSTRAINT `FK_ENT_REWARD_HISTORY_REWARD_ID_ENT_REWARD_REWARD_ID` FOREIGN KEY (`reward_id`) REFERENCES `enterprise_reward` (`reward_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_REWARD_HISTORY_REWARD_ID_ENT_REWARD_REWARD_ID` FOREIGN KEY (`reward_id`) REFERENCES `enterprise_reward` (`reward_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reward_history`
@@ -7936,8 +7753,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reward_rate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reward_rate` (
   `rate_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rate Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -7951,7 +7768,7 @@ CREATE TABLE `enterprise_reward_rate` (
   KEY `IDX_ENTERPRISE_REWARD_RATE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   CONSTRAINT `FK_ENTERPRISE_REWARD_RATE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Rate';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reward_rate`
@@ -7967,15 +7784,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_reward_salesrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_reward_salesrule` (
   `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
   `points_delta` int(10) unsigned NOT NULL default '0' COMMENT 'Points Delta',
   UNIQUE KEY `UNQ_ENTERPRISE_REWARD_SALESRULE_RULE_ID` (`rule_id`),
   CONSTRAINT `FK_ENTERPRISE_REWARD_SALESRULE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Reward Salesrule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_reward_salesrule`
@@ -7987,12 +7804,457 @@ LOCK TABLES `enterprise_reward_salesrule` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `enterprise_rma`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma` (
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'RMA Id',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `is_active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Active',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `date_requested` timestamp NULL default CURRENT_TIMESTAMP COMMENT 'RMA Requested At',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `customer_custom_email` varchar(255) default NULL COMMENT 'Customer Custom Email',
+  `protect_code` varchar(255) default NULL COMMENT 'Protect Code',
+  PRIMARY KEY  (`entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_STATUS` (`status`),
+  KEY `IDX_ENTERPRISE_RMA_IS_ACTIVE` (`is_active`),
+  KEY `IDX_ENTERPRISE_RMA_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_RMA_DATE_REQUESTED` (`date_requested`),
+  KEY `IDX_ENTERPRISE_RMA_ORDER_ID` (`order_id`),
+  KEY `IDX_ENTERPRISE_RMA_ORDER_INCREMENT_ID` (`order_increment_id`),
+  KEY `IDX_ENTERPRISE_RMA_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_RMA_CUSTOMER_ID` (`customer_id`),
+  CONSTRAINT `FK_ENTERPRISE_RMA_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_RMA_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA LIst';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma`
+--
+
+LOCK TABLES `enterprise_rma` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_grid`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_grid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_grid` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'RMA Id',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `date_requested` timestamp NULL default CURRENT_TIMESTAMP COMMENT 'RMA Requested At',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `order_date` timestamp NULL default NULL COMMENT 'Order Created At',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `customer_name` varchar(255) default NULL COMMENT 'Customer Billing Name',
+  PRIMARY KEY  (`entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_STATUS` (`status`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_DATE_REQUESTED` (`date_requested`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_ORDER_ID` (`order_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_ORDER_INCREMENT_ID` (`order_increment_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_ORDER_DATE` (`order_date`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_CUSTOMER_ID` (`customer_id`),
+  KEY `IDX_ENTERPRISE_RMA_GRID_CUSTOMER_NAME` (`customer_name`),
+  CONSTRAINT `FK_ENTERPRISE_RMA_GRID_ENTITY_ID_ENTERPRISE_RMA_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Grid';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_grid`
+--
+
+LOCK TABLES `enterprise_rma_grid` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_grid` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_grid` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_eav_attribute`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_eav_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_eav_attribute` (
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  `is_visible` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Visible',
+  `input_filter` varchar(255) default NULL COMMENT 'Input Filter',
+  `multiline_count` smallint(5) unsigned NOT NULL default '1' COMMENT 'Multiline Count',
+  `validate_rules` text COMMENT 'Validate Rules',
+  `is_system` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is System',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  `data_model` varchar(255) default NULL COMMENT 'Data Model',
+  PRIMARY KEY  (`attribute_id`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_EAV_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item EAV Attribute';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_eav_attribute`
+--
+
+LOCK TABLES `enterprise_rma_item_eav_attribute` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_eav_attribute` DISABLE KEYS */;
+INSERT INTO `enterprise_rma_item_eav_attribute` VALUES (150,0,NULL,0,NULL,1,10,NULL),(151,0,NULL,0,NULL,1,20,NULL),(152,0,NULL,0,NULL,1,30,NULL),(153,0,NULL,0,NULL,1,40,NULL),(154,0,NULL,0,NULL,1,50,NULL),(155,0,NULL,0,NULL,1,60,NULL),(156,0,NULL,0,NULL,1,70,NULL),(157,0,NULL,0,NULL,1,80,NULL),(158,1,NULL,0,'a:0:{}',0,90,NULL),(159,1,NULL,0,'a:0:{}',0,100,NULL),(160,1,NULL,0,'a:0:{}',0,110,NULL),(161,1,NULL,0,'a:2:{s:15:\"max_text_length\";i:255;s:15:\"min_text_length\";i:1;}',1,120,NULL),(164,0,NULL,0,NULL,1,45,NULL),(165,0,NULL,0,NULL,1,46,NULL),(166,0,NULL,0,NULL,1,47,NULL),(167,0,NULL,0,NULL,1,48,NULL),(168,0,NULL,0,NULL,1,15,NULL);
+/*!40000 ALTER TABLE `enterprise_rma_item_eav_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_eav_attribute_website`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_eav_attribute_website`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_eav_attribute_website` (
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  `is_visible` smallint(5) unsigned default NULL COMMENT 'Is Visible',
+  `is_required` smallint(5) unsigned default NULL COMMENT 'Is Required',
+  `default_value` text COMMENT 'Default Value',
+  `multiline_count` smallint(5) unsigned default NULL COMMENT 'Multiline Count',
+  PRIMARY KEY  (`attribute_id`,`website_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_EAV_ATTRIBUTE_WEBSITE_WEBSITE_ID` (`website_id`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_EAV_ATTR_WS_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_EAV_ATTR_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise RMA Item Eav Attribute Website';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_eav_attribute_website`
+--
+
+LOCK TABLES `enterprise_rma_item_eav_attribute_website` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_eav_attribute_website` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_eav_attribute_website` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity` (
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `rma_entity_id` int(10) unsigned NOT NULL COMMENT 'RMA entity id',
+  `is_qty_decimal` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Qty Decimal',
+  `qty_requested` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty of requested for RMA items',
+  `qty_authorized` decimal(12,4) default NULL COMMENT 'Qty of authorized items',
+  `qty_approved` decimal(12,4) default NULL COMMENT 'Qty of approved items',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `order_item_id` int(10) unsigned NOT NULL COMMENT 'Product Order Item Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_sku` varchar(255) default NULL COMMENT 'Product Sku',
+  `qty_returned` decimal(12,4) default NULL COMMENT 'Qty of returned items',
+  `product_admin_name` varchar(255) default NULL COMMENT 'Product Name For Backend',
+  `product_admin_sku` varchar(255) default NULL COMMENT 'Product Sku For Backend',
+  `product_options` text COMMENT 'Product Options',
+  PRIMARY KEY  (`entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `FK_ENT_RMA_ITEM_ENTT_RMA_ENTT_ID_ENT_RMA_ENTT_ID` (`rma_entity_id`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_RMA_ENTT_ID_ENT_RMA_ENTT_ID` FOREIGN KEY (`rma_entity_id`) REFERENCES `enterprise_rma` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity`
+--
+
+LOCK TABLES `enterprise_rma_item_entity` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity_datetime`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity_datetime`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity_datetime` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` datetime NOT NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_RMA_ITEM_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DATETIME_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENT_RMA_ITEM_ENTT_DTIME_ENTT_ID_ATTR_ID_VAL` (`entity_id`,`attribute_id`,`value`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_DTIME_ENTT_ID_ENT_RMA_ITEM_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma_item_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_72F886050BCF5D3ECBE4BA51E03D7A9D` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity Datetime';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity_datetime`
+--
+
+LOCK TABLES `enterprise_rma_item_entity_datetime` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_datetime` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_datetime` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity_decimal`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity_decimal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity_decimal` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_RMA_ITEM_ENTITY_DECIMAL_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DECIMAL_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_DECIMAL_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENT_RMA_ITEM_ENTT_DEC_ENTT_ID_ATTR_ID_VAL` (`entity_id`,`attribute_id`,`value`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_DEC_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_DEC_ENTT_ID_ENT_RMA_ITEM_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma_item_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity Decimal';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity_decimal`
+--
+
+LOCK TABLES `enterprise_rma_item_entity_decimal` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_decimal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_decimal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity_int`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity_int`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity_int` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` int(11) NOT NULL default '0' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_RMA_ITEM_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_INT_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_INT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_VALUE` (`entity_id`,`attribute_id`,`value`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_INT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_INT_ENTT_ID_ENT_RMA_ITEM_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma_item_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity Int';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity_int`
+--
+
+LOCK TABLES `enterprise_rma_item_entity_int` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_int` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_int` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity_text`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity_text`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity_text` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` text NOT NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_RMA_ITEM_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_TEXT_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_TEXT_ENTT_ID_ENT_RMA_ITEM_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma_item_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_8AF0922B13B497C84B0DD48ED4D9CEA5` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity Text';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity_text`
+--
+
+LOCK TABLES `enterprise_rma_item_entity_text` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_text` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_text` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_entity_varchar`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_entity_varchar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_entity_varchar` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_RMA_ITEM_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_VARCHAR_ENTITY_TYPE_ID` (`entity_type_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENT_RMA_ITEM_ENTT_VCHR_ENTT_ID_ATTR_ID_VAL` (`entity_id`,`attribute_id`,`value`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_RMA_ITEM_ENTT_VCHR_ENTT_ID_ENT_RMA_ITEM_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_rma_item_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_710BA862403A28789171B998A21F7BD4` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Entity Varchar';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_entity_varchar`
+--
+
+LOCK TABLES `enterprise_rma_item_entity_varchar` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_varchar` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_item_entity_varchar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_item_form_attribute`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_item_form_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_item_form_attribute` (
+  `form_code` varchar(32) NOT NULL COMMENT 'Form Code',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  PRIMARY KEY  (`form_code`,`attribute_id`),
+  KEY `IDX_ENTERPRISE_RMA_ITEM_FORM_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
+  CONSTRAINT `FK_ENT_RMA_ITEM_FORM_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA Item Form Attribute';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_item_form_attribute`
+--
+
+LOCK TABLES `enterprise_rma_item_form_attribute` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_item_form_attribute` DISABLE KEYS */;
+INSERT INTO `enterprise_rma_item_form_attribute` VALUES ('default',158),('default',159),('default',160),('default',161);
+/*!40000 ALTER TABLE `enterprise_rma_item_form_attribute` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_shipping_label`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_shipping_label`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_shipping_label` (
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `rma_entity_id` int(10) unsigned NOT NULL COMMENT 'RMA Entity Id',
+  `shipping_label` mediumblob COMMENT 'Shipping Label Content',
+  `packages` text COMMENT 'Packed Products in Packages',
+  `track_number` text COMMENT 'Tracking Number',
+  `carrier_title` varchar(255) default NULL COMMENT 'Carrier Title',
+  `method_title` varchar(255) default NULL COMMENT 'Method Title',
+  `carrier_code` varchar(32) default NULL COMMENT 'Carrier Code',
+  `method_code` varchar(32) default NULL COMMENT 'Method Code',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `is_admin` smallint(6) default NULL COMMENT 'Is this Label Created by Merchant',
+  PRIMARY KEY  (`entity_id`),
+  KEY `FK_ENT_RMA_SHPP_LBL_RMA_ENTT_ID_ENT_RMA_ENTT_ID` (`rma_entity_id`),
+  CONSTRAINT `FK_ENT_RMA_SHPP_LBL_RMA_ENTT_ID_ENT_RMA_ENTT_ID` FOREIGN KEY (`rma_entity_id`) REFERENCES `enterprise_rma` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='List of RMA Shipping Labels';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_shipping_label`
+--
+
+LOCK TABLES `enterprise_rma_shipping_label` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_shipping_label` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_shipping_label` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enterprise_rma_status_history`
+--
+
+DROP TABLE IF EXISTS `enterprise_rma_status_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enterprise_rma_status_history` (
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `rma_entity_id` int(10) unsigned NOT NULL COMMENT 'RMA Entity Id',
+  `is_customer_notified` int(11) default NULL COMMENT 'Is Customer Notified',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
+  `comment` text COMMENT 'Comment',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `created_at` timestamp NULL default CURRENT_TIMESTAMP COMMENT 'Created At',
+  `is_admin` smallint(6) default NULL COMMENT 'Is this Merchant Comment',
+  PRIMARY KEY  (`entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_STATUS_HISTORY_RMA_ENTITY_ID` (`rma_entity_id`),
+  KEY `IDX_ENTERPRISE_RMA_STATUS_HISTORY_CREATED_AT` (`created_at`),
+  CONSTRAINT `FK_ENT_RMA_STS_HISTORY_RMA_ENTT_ID_ENT_RMA_ENTT_ID` FOREIGN KEY (`rma_entity_id`) REFERENCES `enterprise_rma` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='RMA status history enterprise_rma_status_history';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise_rma_status_history`
+--
+
+LOCK TABLES `enterprise_rma_status_history` WRITE;
+/*!40000 ALTER TABLE `enterprise_rma_status_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_rma_status_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `enterprise_sales_creditmemo_grid_archive`
 --
 
 DROP TABLE IF EXISTS `enterprise_sales_creditmemo_grid_archive`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_sales_creditmemo_grid_archive` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -8027,10 +8289,9 @@ CREATE TABLE `enterprise_sales_creditmemo_grid_archive` (
   KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_CREATED_AT` (`created_at`),
   KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
   KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_BILLING_NAME` (`billing_name`),
-  CONSTRAINT `FK_E981D988ACFE987737ED74A659E38DF3` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DB015F1E1FBEAE1450A1BB2A6AC8C9B9` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Creditmemo Grid Archive';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_sales_creditmemo_grid_archive`
@@ -8046,8 +8307,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_sales_invoice_grid_archive`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_sales_invoice_grid_archive` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -8074,10 +8335,10 @@ CREATE TABLE `enterprise_sales_invoice_grid_archive` (
   KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_CREATED_AT` (`created_at`),
   KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
   KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_BILLING_NAME` (`billing_name`),
-  CONSTRAINT `FK_C68E29DC077CF1219AD681CCF9B0D5E4` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENT_SALES_INVOICE_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `FK_ENT_SALES_INVOICE_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_C68E29DC077CF1219AD681CCF9B0D5E4` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Invoice Grid Archive';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_sales_invoice_grid_archive`
@@ -8093,8 +8354,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_sales_order_grid_archive`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_sales_order_grid_archive` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `status` varchar(32) default NULL COMMENT 'Status',
@@ -8125,11 +8386,11 @@ CREATE TABLE `enterprise_sales_order_grid_archive` (
   KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_CREATED_AT` (`created_at`),
   KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_UPDATED_AT` (`updated_at`),
+  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_ENTT_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_ENTT_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Order Grid Archive';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_sales_order_grid_archive`
@@ -8145,8 +8406,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_sales_shipment_grid_archive`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_sales_shipment_grid_archive` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -8168,10 +8429,10 @@ CREATE TABLE `enterprise_sales_shipment_grid_archive` (
   KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_CREATED_AT` (`created_at`),
   KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
   KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_SHIPPING_NAME` (`shipping_name`),
-  CONSTRAINT `FK_60E9F5945D0EE01B1FB92BB6DDE42878` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENT_SALES_SHIPMENT_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `FK_ENT_SALES_SHIPMENT_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_60E9F5945D0EE01B1FB92BB6DDE42878` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Shipment Grid Archive';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_sales_shipment_grid_archive`
@@ -8187,8 +8448,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_staging`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_staging` (
   `staging_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Staging Id',
   `type` varchar(50) default NULL COMMENT 'Type',
@@ -8208,7 +8469,7 @@ CREATE TABLE `enterprise_staging` (
   CONSTRAINT `FK_ENTERPRISE_STAGING_MASTER_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`master_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_STAGING_STAGING_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`staging_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Staging';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_staging`
@@ -8224,8 +8485,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_staging_action`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_staging_action` (
   `action_id` int(11) NOT NULL auto_increment COMMENT 'Action Id',
   `staging_id` int(10) unsigned NOT NULL default '0' COMMENT 'Staging Id',
@@ -8250,7 +8511,7 @@ CREATE TABLE `enterprise_staging_action` (
   CONSTRAINT `FK_ENT_STAGING_ACTION_STAGING_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`staging_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_STAGING_ACTION_MASTER_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`master_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Staging Action';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_staging_action`
@@ -8266,8 +8527,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_staging_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_staging_item` (
   `staging_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Staging Item Id',
   `staging_id` int(10) unsigned default NULL COMMENT 'Staging Id',
@@ -8278,7 +8539,7 @@ CREATE TABLE `enterprise_staging_item` (
   KEY `IDX_ENTERPRISE_STAGING_ITEM_STAGING_ID_SORT_ORDER` (`staging_id`,`sort_order`),
   CONSTRAINT `FK_ENT_STAGING_ITEM_STAGING_ID_ENT_STAGING_STAGING_ID` FOREIGN KEY (`staging_id`) REFERENCES `enterprise_staging` (`staging_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Staging Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_staging_item`
@@ -8294,8 +8555,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_staging_log`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_staging_log` (
   `log_id` int(11) NOT NULL auto_increment COMMENT 'Log Id',
   `staging_id` int(10) unsigned NOT NULL default '0' COMMENT 'Staging Id',
@@ -8323,7 +8584,7 @@ CREATE TABLE `enterprise_staging_log` (
   CONSTRAINT `FK_ENT_STAGING_LOG_MASTER_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`master_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_STAGING_LOG_STAGING_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`staging_website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Staging Log';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_staging_log`
@@ -8339,8 +8600,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_staging_product_unlinked`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_staging_product_unlinked` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -8349,7 +8610,7 @@ CREATE TABLE `enterprise_staging_product_unlinked` (
   CONSTRAINT `FK_ENT_STAGING_PRD_UNLNKED_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_STAGING_PRD_UNLNKED_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Staging Product Unlinked';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_staging_product_unlinked`
@@ -8365,8 +8626,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -8378,15 +8639,17 @@ CREATE TABLE `enterprise_targetrule` (
   `positions_limit` int(11) NOT NULL default '0' COMMENT 'Positions Limit',
   `apply_to` smallint(5) unsigned NOT NULL COMMENT 'Apply To',
   `sort_order` int(11) default NULL COMMENT 'Sort Order',
+  `use_customer_segment` smallint(5) unsigned NOT NULL default '0' COMMENT 'Deprecated after 1.11.2.0',
   `action_select` text COMMENT 'Action Select',
   `action_select_bind` text COMMENT 'Action Select Bind',
   PRIMARY KEY  (`rule_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_IS_ACTIVE` (`is_active`),
   KEY `IDX_ENTERPRISE_TARGETRULE_APPLY_TO` (`apply_to`),
   KEY `IDX_ENTERPRISE_TARGETRULE_SORT_ORDER` (`sort_order`),
+  KEY `IDX_ENTERPRISE_TARGETRULE_USE_CUSTOMER_SEGMENT` (`use_customer_segment`),
   KEY `IDX_ENTERPRISE_TARGETRULE_FROM_DATE_TO_DATE` (`from_date`,`to_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule`
@@ -8402,8 +8665,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_customersegment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_customersegment` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
@@ -8412,7 +8675,7 @@ CREATE TABLE `enterprise_targetrule_customersegment` (
   CONSTRAINT `FK_ENT_TARGETRULE_CSTRSEGMENT_RULE_ID_ENT_TARGETRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_targetrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_3F24241CB17AA24EC0461050E89576BE` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Customersegment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_customersegment`
@@ -8428,15 +8691,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_index` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
   `flag` smallint(5) unsigned NOT NULL default '1' COMMENT 'Flag',
-  `customer_segment_id` smallint(6) NOT NULL default '0' COMMENT 'Use Customer Segment',
+  `customer_segment_id` smallint(6) NOT NULL default '0' COMMENT 'Customer Segment Id',
   PRIMARY KEY  (`entity_id`,`store_id`,`customer_group_id`,`type_id`,`customer_segment_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_STORE_ID` (`store_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -8445,7 +8708,7 @@ CREATE TABLE `enterprise_targetrule_index` (
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Index';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_index`
@@ -8461,14 +8724,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_index_crosssell`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_index_crosssell` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `product_ids` varchar(255) default NULL COMMENT 'CrossSell Product Ids',
-  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Use Customer Segment',
+  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Segment Id',
   PRIMARY KEY  (`entity_id`,`store_id`,`customer_group_id`,`customer_segment_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_CROSSSELL_STORE_ID` (`store_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_CROSSSELL_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -8476,7 +8739,7 @@ CREATE TABLE `enterprise_targetrule_index_crosssell` (
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_CROSSSELL_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_CROSSSELL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Index Crosssell';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_index_crosssell`
@@ -8492,14 +8755,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_index_related`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_index_related` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `product_ids` varchar(255) default NULL COMMENT 'Related Product Ids',
-  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Use Customer Segment',
+  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Segment Id',
   PRIMARY KEY  (`entity_id`,`store_id`,`customer_group_id`,`customer_segment_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_RELATED_STORE_ID` (`store_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_RELATED_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -8507,7 +8770,7 @@ CREATE TABLE `enterprise_targetrule_index_related` (
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_RELATED_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_RELATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Index Related';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_index_related`
@@ -8523,14 +8786,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_index_upsell`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_index_upsell` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `product_ids` varchar(255) default NULL COMMENT 'Upsell Product Ids',
-  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Use Customer Segment',
+  `customer_segment_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Segment Id',
   PRIMARY KEY  (`entity_id`,`store_id`,`customer_group_id`,`customer_segment_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_UPSELL_STORE_ID` (`store_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_INDEX_UPSELL_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -8538,7 +8801,7 @@ CREATE TABLE `enterprise_targetrule_index_upsell` (
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_UPSELL_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_IDX_UPSELL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Index Upsell';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_index_upsell`
@@ -8554,17 +8817,20 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enterprise_targetrule_product`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enterprise_targetrule_product` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY  (`rule_id`,`product_id`),
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Deprecated after 1.11.2.0',
+  PRIMARY KEY  (`rule_id`,`product_id`,`store_id`),
   KEY `IDX_ENTERPRISE_TARGETRULE_PRODUCT_PRODUCT_ID` (`product_id`),
+  KEY `IDX_ENTERPRISE_TARGETRULE_PRODUCT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_ENTERPRISE_TARGETRULE_PRODUCT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENT_TARGETRULE_PRD_RULE_ID_ENT_TARGETRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `enterprise_targetrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Targetrule Product';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `enterprise_targetrule_product`
@@ -8576,65 +8842,12 @@ LOCK TABLES `enterprise_targetrule_product` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `eway_api_debug`
---
-
-DROP TABLE IF EXISTS `eway_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `eway_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `eway_api_debug`
---
-
-LOCK TABLES `eway_api_debug` WRITE;
-/*!40000 ALTER TABLE `eway_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eway_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `flo2cash_api_debug`
---
-
-DROP TABLE IF EXISTS `flo2cash_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `flo2cash_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  `exception` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `flo2cash_api_debug`
---
-
-LOCK TABLES `flo2cash_api_debug` WRITE;
-/*!40000 ALTER TABLE `flo2cash_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `flo2cash_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `gift_message`
 --
 
 DROP TABLE IF EXISTS `gift_message`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gift_message` (
   `gift_message_id` int(10) unsigned NOT NULL auto_increment COMMENT 'GiftMessage Id',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
@@ -8643,7 +8856,7 @@ CREATE TABLE `gift_message` (
   `message` text COMMENT 'Message',
   PRIMARY KEY  (`gift_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Gift Message';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `gift_message`
@@ -8659,15 +8872,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `googlecheckout_notification`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `googlecheckout_notification` (
   `serial_number` varchar(64) NOT NULL COMMENT 'Serial Number',
   `started_at` timestamp NULL default NULL COMMENT 'Started At',
   `status` smallint(5) unsigned NOT NULL default '0' COMMENT 'Status',
   PRIMARY KEY  (`serial_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Checkout Notification Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `googlecheckout_notification`
@@ -8683,8 +8896,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `googleoptimizer_code`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `googleoptimizer_code` (
   `code_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Google optimizer code id',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Optimized entity id product id or catalog id',
@@ -8699,7 +8912,7 @@ CREATE TABLE `googleoptimizer_code` (
   KEY `IDX_GOOGLEOPTIMIZER_CODE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_GOOGLEOPTIMIZER_CODE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Googleoptimizer code';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `googleoptimizer_code`
@@ -8711,29 +8924,91 @@ LOCK TABLES `googleoptimizer_code` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `ideal_api_debug`
+-- Table structure for table `googleshopping_attributes`
 --
 
-DROP TABLE IF EXISTS `ideal_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `ideal_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
+DROP TABLE IF EXISTS `googleshopping_attributes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `googleshopping_attributes` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  `gcontent_attribute` varchar(255) NOT NULL COMMENT 'Google Content Attribute',
+  `type_id` int(10) unsigned NOT NULL COMMENT 'Type Id',
+  PRIMARY KEY  (`id`),
+  KEY `FK_GOOGLESHOPPING_ATTRS_ATTR_ID_EAV_ATTR_ATTR_ID` (`attribute_id`),
+  KEY `FK_GOOGLESHOPPING_ATTRS_TYPE_ID_GOOGLESHOPPING_TYPES_TYPE_ID` (`type_id`),
+  CONSTRAINT `FK_GOOGLESHOPPING_ATTRS_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_GOOGLESHOPPING_ATTRS_TYPE_ID_GOOGLESHOPPING_TYPES_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `googleshopping_types` (`type_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Attributes link Product Attributes';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ideal_api_debug`
+-- Dumping data for table `googleshopping_attributes`
 --
 
-LOCK TABLES `ideal_api_debug` WRITE;
-/*!40000 ALTER TABLE `ideal_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ideal_api_debug` ENABLE KEYS */;
+LOCK TABLES `googleshopping_attributes` WRITE;
+/*!40000 ALTER TABLE `googleshopping_attributes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `googleshopping_attributes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `googleshopping_items`
+--
+
+DROP TABLE IF EXISTS `googleshopping_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `googleshopping_items` (
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  `gcontent_item_id` varchar(255) NOT NULL COMMENT 'Google Content Item Id',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
+  `published` datetime default NULL COMMENT 'Published date',
+  `expires` datetime default NULL COMMENT 'Expires date',
+  PRIMARY KEY  (`item_id`),
+  KEY `IDX_GOOGLESHOPPING_ITEMS_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
+  KEY `FK_GOOGLESHOPPING_ITEMS_STORE_ID_CORE_STORE_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_GOOGLESHOPPING_ITEMS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_GOOGLESHOPPING_ITEMS_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Items Products';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `googleshopping_items`
+--
+
+LOCK TABLES `googleshopping_items` WRITE;
+/*!40000 ALTER TABLE `googleshopping_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `googleshopping_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `googleshopping_types`
+--
+
+DROP TABLE IF EXISTS `googleshopping_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `googleshopping_types` (
+  `type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Type ID',
+  `attribute_set_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Set Id',
+  `target_country` varchar(2) NOT NULL default 'US' COMMENT 'Target country',
+  `category` varchar(40) default NULL COMMENT 'Google product category',
+  PRIMARY KEY  (`type_id`),
+  UNIQUE KEY `UNQ_GOOGLESHOPPING_TYPES_ATTRIBUTE_SET_ID_TARGET_COUNTRY` (`attribute_set_id`,`target_country`),
+  CONSTRAINT `FK_GOOGLESHOPPING_TYPES_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Item Types link Attribute Sets';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `googleshopping_types`
+--
+
+LOCK TABLES `googleshopping_types` WRITE;
+/*!40000 ALTER TABLE `googleshopping_types` DISABLE KEYS */;
+/*!40000 ALTER TABLE `googleshopping_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -8741,8 +9016,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `importexport_importdata`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `importexport_importdata` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `entity` varchar(50) NOT NULL COMMENT 'Entity',
@@ -8750,7 +9025,7 @@ CREATE TABLE `importexport_importdata` (
   `data` longtext COMMENT 'Data',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Import Data Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `importexport_importdata`
@@ -8766,8 +9041,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `index_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `index_event` (
   `event_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Event Id',
   `type` varchar(64) NOT NULL COMMENT 'Type',
@@ -8779,7 +9054,7 @@ CREATE TABLE `index_event` (
   PRIMARY KEY  (`event_id`),
   UNIQUE KEY `UNQ_INDEX_EVENT_TYPE_ENTITY_ENTITY_PK` (`type`,`entity`,`entity_pk`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Index Event';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `index_event`
@@ -8787,7 +9062,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `index_event` WRITE;
 /*!40000 ALTER TABLE `index_event` DISABLE KEYS */;
-INSERT INTO `index_event` VALUES (1,'save','catalog_category',1,'2012-01-23 14:37:47',NULL,'a:5:{s:35:\"cataloginventory_stock_match_result\";b:0;s:34:\"catalog_product_price_match_result\";b:0;s:24:\"catalog_url_match_result\";b:1;s:37:\"catalog_category_product_match_result\";b:1;s:35:\"catalogsearch_fulltext_match_result\";b:1;}'),(2,'save','catalog_category',2,'2012-01-23 14:37:47',NULL,'a:5:{s:35:\"cataloginventory_stock_match_result\";b:0;s:34:\"catalog_product_price_match_result\";b:0;s:24:\"catalog_url_match_result\";b:1;s:37:\"catalog_category_product_match_result\";b:1;s:35:\"catalogsearch_fulltext_match_result\";b:1;}');
+INSERT INTO `index_event` VALUES (1,'save','catalog_category',1,'2012-05-23 12:45:26',NULL,'a:5:{s:35:\"cataloginventory_stock_match_result\";b:0;s:34:\"catalog_product_price_match_result\";b:0;s:24:\"catalog_url_match_result\";b:1;s:37:\"catalog_category_product_match_result\";b:1;s:35:\"catalogsearch_fulltext_match_result\";b:1;}'),(2,'save','catalog_category',2,'2012-05-23 12:45:26',NULL,'a:5:{s:35:\"cataloginventory_stock_match_result\";b:0;s:34:\"catalog_product_price_match_result\";b:0;s:24:\"catalog_url_match_result\";b:1;s:37:\"catalog_category_product_match_result\";b:1;s:35:\"catalogsearch_fulltext_match_result\";b:1;}');
 /*!40000 ALTER TABLE `index_event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8796,8 +9071,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `index_process`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `index_process` (
   `process_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Process Id',
   `indexer_code` varchar(32) NOT NULL COMMENT 'Indexer Code',
@@ -8808,7 +9083,7 @@ CREATE TABLE `index_process` (
   PRIMARY KEY  (`process_id`),
   UNIQUE KEY `UNQ_INDEX_PROCESS_INDEXER_CODE` (`indexer_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Index Process';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `index_process`
@@ -8816,7 +9091,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `index_process` WRITE;
 /*!40000 ALTER TABLE `index_process` DISABLE KEYS */;
-INSERT INTO `index_process` VALUES (1,'catalog_product_attribute','require_reindex','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(2,'catalog_product_price','require_reindex','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(3,'catalog_url','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(4,'catalog_product_flat','require_reindex','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(5,'catalog_category_flat','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(6,'catalog_category_product','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(7,'catalogsearch_fulltext','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(8,'cataloginventory_stock','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(9,'tag_summary','pending','2012-01-23 14:45:05','2012-01-23 14:45:05','real_time'),(10,'catalogpermissions','require_reindex',NULL,NULL,'real_time'),(11,'targetrule','require_reindex',NULL,NULL,'real_time');
+INSERT INTO `index_process` VALUES (1,'catalog_product_attribute','require_reindex',NULL,NULL,'real_time'),(2,'catalog_product_price','require_reindex',NULL,NULL,'real_time'),(3,'catalog_url','require_reindex','2012-05-23 12:45:26','2012-05-23 12:45:26','real_time'),(4,'catalog_product_flat','require_reindex',NULL,NULL,'real_time'),(5,'catalog_category_flat','require_reindex',NULL,NULL,'real_time'),(6,'catalog_category_product','require_reindex','2012-05-23 12:45:26','2012-05-23 12:45:26','real_time'),(7,'catalogsearch_fulltext','require_reindex','2012-05-23 12:45:26','2012-05-23 12:45:26','real_time'),(8,'cataloginventory_stock','require_reindex',NULL,NULL,'real_time'),(9,'tag_summary','require_reindex',NULL,NULL,'real_time'),(10,'catalogpermissions','require_reindex',NULL,NULL,'real_time'),(11,'targetrule','require_reindex',NULL,NULL,'real_time');
 /*!40000 ALTER TABLE `index_process` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8825,8 +9100,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `index_process_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `index_process_event` (
   `process_id` int(10) unsigned NOT NULL COMMENT 'Process Id',
   `event_id` bigint(20) unsigned NOT NULL COMMENT 'Event Id',
@@ -8836,7 +9111,7 @@ CREATE TABLE `index_process_event` (
   CONSTRAINT `FK_INDEX_PROCESS_EVENT_EVENT_ID_INDEX_EVENT_EVENT_ID` FOREIGN KEY (`event_id`) REFERENCES `index_event` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_INDEX_PROCESS_EVENT_PROCESS_ID_INDEX_PROCESS_PROCESS_ID` FOREIGN KEY (`process_id`) REFERENCES `index_process` (`process_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Index Process Event';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `index_process_event`
@@ -8852,8 +9127,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_customer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_customer` (
   `log_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Log ID',
   `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
@@ -8864,7 +9139,7 @@ CREATE TABLE `log_customer` (
   PRIMARY KEY  (`log_id`),
   KEY `IDX_LOG_CUSTOMER_VISITOR_ID` (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Customers Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_customer`
@@ -8880,8 +9155,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_quote`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_quote` (
   `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote ID',
   `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
@@ -8889,7 +9164,7 @@ CREATE TABLE `log_quote` (
   `deleted_at` timestamp NULL default NULL COMMENT 'Deletion Time',
   PRIMARY KEY  (`quote_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Quotes Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_quote`
@@ -8905,8 +9180,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_summary`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_summary` (
   `summary_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Summary ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
@@ -8916,7 +9191,7 @@ CREATE TABLE `log_summary` (
   `add_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date',
   PRIMARY KEY  (`summary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Summary Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_summary`
@@ -8932,8 +9207,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_summary_type`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_summary_type` (
   `type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Type ID',
   `type_code` varchar(64) default NULL COMMENT 'Type Code',
@@ -8941,7 +9216,7 @@ CREATE TABLE `log_summary_type` (
   `period_type` varchar(6) NOT NULL default 'MINUTE' COMMENT 'Period Type',
   PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log Summary Types Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_summary_type`
@@ -8958,8 +9233,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_url`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_url` (
   `url_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'URL ID',
   `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
@@ -8967,7 +9242,7 @@ CREATE TABLE `log_url` (
   PRIMARY KEY  (`url_id`),
   KEY `IDX_LOG_URL_VISITOR_ID` (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log URL Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_url`
@@ -8975,7 +9250,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `log_url` WRITE;
 /*!40000 ALTER TABLE `log_url` DISABLE KEYS */;
-INSERT INTO `log_url` VALUES (1,1,'2012-01-23 14:44:37'),(2,2,'2012-01-27 14:40:37'),(3,2,'2012-01-27 14:40:57'),(4,3,'2012-01-30 10:41:52'),(5,3,'2012-01-30 10:42:02'),(6,3,'2012-01-30 10:42:04'),(7,3,'2012-01-30 10:42:07'),(8,3,'2012-01-30 10:42:07'),(9,3,'2012-01-30 10:42:07'),(10,3,'2012-01-30 10:42:10'),(11,4,'2012-02-09 08:41:59'),(12,5,'2012-02-16 09:20:11'),(13,6,'2012-02-17 10:40:49');
 /*!40000 ALTER TABLE `log_url` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8984,15 +9258,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_url_info`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_url_info` (
   `url_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'URL ID',
   `url` varchar(255) default NULL COMMENT 'URL',
   `referer` varchar(255) default NULL COMMENT 'Referrer',
   PRIMARY KEY  (`url_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_url_info`
@@ -9000,7 +9274,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `log_url_info` WRITE;
 /*!40000 ALTER TABLE `log_url_info` DISABLE KEYS */;
-INSERT INTO `log_url_info` VALUES (1,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/index.php/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/index.php/install/wizard/end/'),(2,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL),(3,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL),(4,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL),(5,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(6,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/'),(7,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/checkout/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/'),(8,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/checkout/onepage/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/'),(9,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/checkout/cart/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/customer/account/login/'),(10,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/','http://dd.varien.com/dev/alex.borisenko/bamboo_api/checkout/cart/'),(11,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL),(12,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL),(13,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/',NULL);
 /*!40000 ALTER TABLE `log_url_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9009,8 +9282,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_visitor`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_visitor` (
   `visitor_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Visitor ID',
   `session_id` varchar(64) default NULL COMMENT 'Session ID',
@@ -9019,8 +9292,8 @@ CREATE TABLE `log_visitor` (
   `last_url_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Last URL ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_visitor`
@@ -9028,7 +9301,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `log_visitor` WRITE;
 /*!40000 ALTER TABLE `log_visitor` DISABLE KEYS */;
-INSERT INTO `log_visitor` VALUES (1,'1oc5am7hpiqrdhhf5l5mr0m2e3','2012-01-23 14:44:36','2012-01-23 14:44:37',1,1),(2,'i9hdiktu43sfs45u8m9ieimsr2','2012-01-27 14:40:36','2012-01-27 14:40:57',3,1),(3,'se3gp9s60g6k2v8b22gdtl2g01','2012-01-30 10:41:52','2012-01-30 10:42:10',10,1),(4,'tn31ep6msatvt3lp99jmcru0f2','2012-02-09 08:41:58','2012-02-09 08:41:59',11,1),(5,'gj9fp0lrq10ekulbe4ij2cb2h0','2012-02-16 09:20:11','2012-02-16 09:20:11',12,1),(6,'ogii1hl7oce54h97dr46mljqp2','2012-02-17 10:40:46','2012-02-17 10:40:49',13,1);
 /*!40000 ALTER TABLE `log_visitor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9037,8 +9309,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_visitor_info`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_visitor_info` (
   `visitor_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Visitor ID',
   `http_referer` varchar(255) default NULL COMMENT 'HTTP Referrer',
@@ -9049,7 +9321,7 @@ CREATE TABLE `log_visitor_info` (
   `remote_addr` bigint(20) default NULL COMMENT 'Remote Address',
   PRIMARY KEY  (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Info Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_visitor_info`
@@ -9057,7 +9329,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `log_visitor_info` WRITE;
 /*!40000 ALTER TABLE `log_visitor_info` DISABLE KEYS */;
-INSERT INTO `log_visitor_info` VALUES (1,'http://dd.varien.com/dev/alex.borisenko/bamboo_api/index.php/install/wizard/end/','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1','windows-1251,utf-8;q=0.7,*;q=0.7','ru,uk;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232251007),(2,NULL,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1','windows-1251,utf-8;q=0.7,*;q=0.7','ru,uk;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232251007),(3,NULL,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1','windows-1251,utf-8;q=0.7,*;q=0.7','ru,uk;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232251007),(4,NULL,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0.1) Gecko/20100101 Firefox/5.0.1','windows-1251,utf-8;q=0.7,*;q=0.7','ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232250997),(5,NULL,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0.1) Gecko/20100101 Firefox/5.0.1','windows-1251,utf-8;q=0.7,*;q=0.7','ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232250997),(6,NULL,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:10.0.1) Gecko/20100101 Firefox/10.0.1',NULL,'ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3',3232236637,3232250997);
 /*!40000 ALTER TABLE `log_visitor_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9066,8 +9337,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `log_visitor_online`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_visitor_online` (
   `visitor_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Visitor ID',
   `visitor_type` varchar(1) NOT NULL COMMENT 'Visitor Type',
@@ -9081,7 +9352,7 @@ CREATE TABLE `log_visitor_online` (
   KEY `IDX_LOG_VISITOR_ONLINE_FIRST_VISIT_AT_LAST_VISIT_AT` (`first_visit_at`,`last_visit_at`),
   KEY `IDX_LOG_VISITOR_ONLINE_CUSTOMER_ID` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Online Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_visitor_online`
@@ -9097,8 +9368,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_problem`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_problem` (
   `problem_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Problem Id',
   `subscriber_id` int(10) unsigned default NULL COMMENT 'Subscriber Id',
@@ -9111,7 +9382,7 @@ CREATE TABLE `newsletter_problem` (
   CONSTRAINT `FK_NEWSLETTER_PROBLEM_QUEUE_ID_NEWSLETTER_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_NLTTR_PROBLEM_SUBSCRIBER_ID_NLTTR_SUBSCRIBER_SUBSCRIBER_ID` FOREIGN KEY (`subscriber_id`) REFERENCES `newsletter_subscriber` (`subscriber_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Problems';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_problem`
@@ -9127,8 +9398,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_queue`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_queue` (
   `queue_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Queue Id',
   `template_id` int(10) unsigned NOT NULL default '0' COMMENT 'Template Id',
@@ -9145,7 +9416,7 @@ CREATE TABLE `newsletter_queue` (
   KEY `IDX_NEWSLETTER_QUEUE_TEMPLATE_ID` (`template_id`),
   CONSTRAINT `FK_NEWSLETTER_QUEUE_TEMPLATE_ID_NEWSLETTER_TEMPLATE_TEMPLATE_ID` FOREIGN KEY (`template_id`) REFERENCES `newsletter_template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_queue`
@@ -9161,8 +9432,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_queue_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_queue_link` (
   `queue_link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Queue Link Id',
   `queue_id` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Id',
@@ -9175,7 +9446,7 @@ CREATE TABLE `newsletter_queue_link` (
   CONSTRAINT `FK_NEWSLETTER_QUEUE_LINK_QUEUE_ID_NEWSLETTER_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_NLTTR_QUEUE_LNK_SUBSCRIBER_ID_NLTTR_SUBSCRIBER_SUBSCRIBER_ID` FOREIGN KEY (`subscriber_id`) REFERENCES `newsletter_subscriber` (`subscriber_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Link';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_queue_link`
@@ -9191,8 +9462,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_queue_store_link`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_queue_store_link` (
   `queue_id` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -9201,7 +9472,7 @@ CREATE TABLE `newsletter_queue_store_link` (
   CONSTRAINT `FK_NLTTR_QUEUE_STORE_LNK_QUEUE_ID_NLTTR_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_NEWSLETTER_QUEUE_STORE_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Store Link';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_queue_store_link`
@@ -9217,8 +9488,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_subscriber`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_subscriber` (
   `subscriber_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Subscriber Id',
   `store_id` smallint(5) unsigned default '0' COMMENT 'Store Id',
@@ -9232,7 +9503,7 @@ CREATE TABLE `newsletter_subscriber` (
   KEY `IDX_NEWSLETTER_SUBSCRIBER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_NEWSLETTER_SUBSCRIBER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Subscriber';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_subscriber`
@@ -9248,8 +9519,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `newsletter_template`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter_template` (
   `template_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Template Id',
   `template_code` varchar(150) default NULL COMMENT 'Template Code',
@@ -9268,7 +9539,7 @@ CREATE TABLE `newsletter_template` (
   KEY `IDX_NEWSLETTER_TEMPLATE_ADDED_AT` (`added_at`),
   KEY `IDX_NEWSLETTER_TEMPLATE_MODIFIED_AT` (`modified_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Template';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `newsletter_template`
@@ -9284,8 +9555,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `oauth_consumer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `oauth_consumer` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Created At',
@@ -9301,7 +9572,7 @@ CREATE TABLE `oauth_consumer` (
   KEY `IDX_OAUTH_CONSUMER_CREATED_AT` (`created_at`),
   KEY `IDX_OAUTH_CONSUMER_UPDATED_AT` (`updated_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='OAuth Consumers';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `oauth_consumer`
@@ -9309,7 +9580,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `oauth_consumer` WRITE;
 /*!40000 ALTER TABLE `oauth_consumer` DISABLE KEYS */;
-INSERT INTO `oauth_consumer` VALUES (1,'2012-02-16 16:39:48','2012-02-16 14:39:47','Test','uue06s6y30q7runh7doxgk3upd934eib','xjycawhj5adt473a85v6dvegri07ld9n',NULL,'');
+INSERT INTO `oauth_consumer` VALUES (1,'2012-05-23 16:06:37','2012-05-23 13:06:37','consumer','g3eamami6rb9ldslznx7gbrlhbfklzmj','pbycylb5cesmqk8nag79l4h8r1ismvk5',NULL,'');
 /*!40000 ALTER TABLE `oauth_consumer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9318,14 +9589,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `oauth_nonce`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `oauth_nonce` (
   `nonce` varchar(32) NOT NULL COMMENT 'Nonce String',
   `timestamp` int(10) unsigned NOT NULL COMMENT 'Nonce Timestamp',
   UNIQUE KEY `UNQ_OAUTH_NONCE_NONCE` (`nonce`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='oauth_nonce';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `oauth_nonce`
@@ -9341,8 +9612,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `oauth_token`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `oauth_token` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `consumer_id` int(10) unsigned NOT NULL COMMENT 'Consumer ID',
@@ -9358,14 +9629,14 @@ CREATE TABLE `oauth_token` (
   `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Token creation timestamp',
   PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_OAUTH_TOKEN_TOKEN` (`token`),
-  KEY `UNQ_OAUTH_TOKEN_CONSUMER_ID` (`consumer_id`),
+  KEY `IDX_OAUTH_TOKEN_CONSUMER_ID` (`consumer_id`),
   KEY `FK_OAUTH_TOKEN_ADMIN_ID_ADMIN_USER_USER_ID` (`admin_id`),
   KEY `FK_OAUTH_TOKEN_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` (`customer_id`),
   CONSTRAINT `FK_OAUTH_TOKEN_ADMIN_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`admin_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_OAUTH_TOKEN_CONSUMER_ID_OAUTH_CONSUMER_ENTITY_ID` FOREIGN KEY (`consumer_id`) REFERENCES `oauth_consumer` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_OAUTH_TOKEN_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='OAuth Tokens';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `oauth_token`
@@ -9377,64 +9648,12 @@ LOCK TABLES `oauth_token` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `paybox_api_debug`
---
-
-DROP TABLE IF EXISTS `paybox_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `paybox_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `real_order_id` varchar(50) NOT NULL default '',
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `paybox_api_debug`
---
-
-LOCK TABLES `paybox_api_debug` WRITE;
-/*!40000 ALTER TABLE `paybox_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paybox_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `paybox_question_number`
---
-
-DROP TABLE IF EXISTS `paybox_question_number`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `paybox_question_number` (
-  `account_id` int(10) unsigned NOT NULL auto_increment,
-  `account_hash` varchar(50) NOT NULL default '',
-  `increment_value` int(10) unsigned NOT NULL default '1',
-  `reset_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `paybox_question_number`
---
-
-LOCK TABLES `paybox_question_number` WRITE;
-/*!40000 ALTER TABLE `paybox_question_number` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paybox_question_number` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `paypal_cert`
 --
 
 DROP TABLE IF EXISTS `paypal_cert`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paypal_cert` (
   `cert_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Cert Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -9444,7 +9663,7 @@ CREATE TABLE `paypal_cert` (
   KEY `IDX_PAYPAL_CERT_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_PAYPAL_CERT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Certificate Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `paypal_cert`
@@ -9460,8 +9679,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `paypal_payment_transaction`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paypal_payment_transaction` (
   `transaction_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `txn_id` varchar(100) default NULL COMMENT 'Txn Id',
@@ -9470,7 +9689,7 @@ CREATE TABLE `paypal_payment_transaction` (
   PRIMARY KEY  (`transaction_id`),
   UNIQUE KEY `UNQ_PAYPAL_PAYMENT_TRANSACTION_TXN_ID` (`txn_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PayPal Payflow Link Payment Transaction';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `paypal_payment_transaction`
@@ -9486,8 +9705,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `paypal_settlement_report`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paypal_settlement_report` (
   `report_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Report Id',
   `report_date` timestamp NULL default NULL COMMENT 'Report Date',
@@ -9497,7 +9716,7 @@ CREATE TABLE `paypal_settlement_report` (
   PRIMARY KEY  (`report_id`),
   UNIQUE KEY `UNQ_PAYPAL_SETTLEMENT_REPORT_REPORT_DATE_ACCOUNT_ID` (`report_date`,`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `paypal_settlement_report`
@@ -9513,8 +9732,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `paypal_settlement_report_row`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paypal_settlement_report_row` (
   `row_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Row Id',
   `report_id` int(10) unsigned NOT NULL COMMENT 'Report Id',
@@ -9538,7 +9757,7 @@ CREATE TABLE `paypal_settlement_report_row` (
   KEY `IDX_PAYPAL_SETTLEMENT_REPORT_ROW_REPORT_ID` (`report_id`),
   CONSTRAINT `FK_E183E488F593E0DE10C6EBFFEBAC9B55` FOREIGN KEY (`report_id`) REFERENCES `paypal_settlement_report` (`report_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Row Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `paypal_settlement_report_row`
@@ -9554,8 +9773,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `persistent_session`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `persistent_session` (
   `persistent_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Session id',
   `key` varchar(50) NOT NULL COMMENT 'Unique cookie key',
@@ -9571,7 +9790,7 @@ CREATE TABLE `persistent_session` (
   CONSTRAINT `FK_PERSISTENT_SESSION_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_PERSISTENT_SESSION_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Persistent Session';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `persistent_session`
@@ -9587,8 +9806,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `poll`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `poll` (
   `poll_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Poll Id',
   `poll_title` varchar(255) default NULL COMMENT 'Poll title',
@@ -9603,7 +9822,7 @@ CREATE TABLE `poll` (
   KEY `IDX_POLL_STORE_ID` (`store_id`),
   CONSTRAINT `FK_POLL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Poll';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `poll`
@@ -9611,7 +9830,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `poll` WRITE;
 /*!40000 ALTER TABLE `poll` DISABLE KEYS */;
-INSERT INTO `poll` VALUES (1,'What is your favorite color',7,0,'2012-01-23 16:37:47',NULL,1,0,NULL);
+INSERT INTO `poll` VALUES (1,'What is your favorite color',7,0,'2012-05-23 15:45:26',NULL,1,0,NULL);
 /*!40000 ALTER TABLE `poll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -9620,8 +9839,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `poll_answer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `poll_answer` (
   `answer_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Answer Id',
   `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
@@ -9632,7 +9851,7 @@ CREATE TABLE `poll_answer` (
   KEY `IDX_POLL_ANSWER_POLL_ID` (`poll_id`),
   CONSTRAINT `FK_POLL_ANSWER_POLL_ID_POLL_POLL_ID` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Poll Answers';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `poll_answer`
@@ -9649,8 +9868,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `poll_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `poll_store` (
   `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
@@ -9659,7 +9878,7 @@ CREATE TABLE `poll_store` (
   CONSTRAINT `FK_POLL_STORE_POLL_ID_POLL_POLL_ID` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_POLL_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Store';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `poll_store`
@@ -9676,8 +9895,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `poll_vote`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `poll_vote` (
   `vote_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Vote Id',
   `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
@@ -9689,7 +9908,7 @@ CREATE TABLE `poll_vote` (
   KEY `IDX_POLL_VOTE_POLL_ANSWER_ID` (`poll_answer_id`),
   CONSTRAINT `FK_POLL_VOTE_POLL_ANSWER_ID_POLL_ANSWER_ANSWER_ID` FOREIGN KEY (`poll_answer_id`) REFERENCES `poll_answer` (`answer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Vote';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `poll_vote`
@@ -9705,8 +9924,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `product_alert_price`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_alert_price` (
   `alert_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product alert price id',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
@@ -9725,7 +9944,7 @@ CREATE TABLE `product_alert_price` (
   CONSTRAINT `FK_PRD_ALERT_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_PRODUCT_ALERT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Price';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `product_alert_price`
@@ -9741,8 +9960,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `product_alert_stock`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_alert_stock` (
   `alert_stock_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product alert stock id',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
@@ -9760,7 +9979,7 @@ CREATE TABLE `product_alert_stock` (
   CONSTRAINT `FK_PRODUCT_ALERT_STOCK_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_PRD_ALERT_STOCK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Stock';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `product_alert_stock`
@@ -9772,39 +9991,12 @@ LOCK TABLES `product_alert_stock` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `protx_api_debug`
---
-
-DROP TABLE IF EXISTS `protx_api_debug`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `protx_api_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `transaction_id` varchar(255) NOT NULL default '',
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `protx_api_debug`
---
-
-LOCK TABLES `protx_api_debug` WRITE;
-/*!40000 ALTER TABLE `protx_api_debug` DISABLE KEYS */;
-/*!40000 ALTER TABLE `protx_api_debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rating`
 --
 
 DROP TABLE IF EXISTS `rating`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
   `rating_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Rating Id',
   `entity_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Id',
@@ -9815,7 +10007,7 @@ CREATE TABLE `rating` (
   KEY `IDX_RATING_ENTITY_ID` (`entity_id`),
   CONSTRAINT `FK_RATING_ENTITY_ID_RATING_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `rating_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Ratings';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating`
@@ -9832,15 +10024,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_entity` (
   `entity_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `entity_code` varchar(64) NOT NULL COMMENT 'Entity Code',
   PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_RATING_ENTITY_ENTITY_CODE` (`entity_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Rating entities';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_entity`
@@ -9857,8 +10049,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rating Option Id',
   `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Id',
@@ -9869,7 +10061,7 @@ CREATE TABLE `rating_option` (
   KEY `IDX_RATING_OPTION_RATING_ID` (`rating_id`),
   CONSTRAINT `FK_RATING_OPTION_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Rating options';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_option`
@@ -9886,8 +10078,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_option_vote`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_option_vote` (
   `vote_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Vote id',
   `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Vote option id',
@@ -9905,7 +10097,7 @@ CREATE TABLE `rating_option_vote` (
   CONSTRAINT `FK_RATING_OPTION_VOTE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_OPTION_VOTE_OPTION_ID_RATING_OPTION_OPTION_ID` FOREIGN KEY (`option_id`) REFERENCES `rating_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating option values';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_option_vote`
@@ -9921,8 +10113,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_option_vote_aggregated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_option_vote_aggregated` (
   `primary_id` int(11) NOT NULL auto_increment COMMENT 'Vote aggregation id',
   `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating id',
@@ -9938,7 +10130,7 @@ CREATE TABLE `rating_option_vote_aggregated` (
   CONSTRAINT `FK_RATING_OPTION_VOTE_AGGREGATED_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_OPTION_VOTE_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating vote aggregated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_option_vote_aggregated`
@@ -9954,8 +10146,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_store` (
   `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
@@ -9964,7 +10156,7 @@ CREATE TABLE `rating_store` (
   CONSTRAINT `FK_RATING_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_STORE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Store';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_store`
@@ -9980,8 +10172,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `rating_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating_title` (
   `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -9991,7 +10183,7 @@ CREATE TABLE `rating_title` (
   CONSTRAINT `FK_RATING_TITLE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Title';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rating_title`
@@ -10007,8 +10199,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `report_compared_product_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `report_compared_product_index` (
   `index_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Index Id',
   `visitor_id` int(10) unsigned default NULL COMMENT 'Visitor Id',
@@ -10026,7 +10218,7 @@ CREATE TABLE `report_compared_product_index` (
   CONSTRAINT `FK_REPORT_CMPD_PRD_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REPORT_COMPARED_PRODUCT_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Compared Product Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `report_compared_product_index`
@@ -10042,8 +10234,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `report_event`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `report_event` (
   `event_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Event Id',
   `logged_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Logged At',
@@ -10061,7 +10253,7 @@ CREATE TABLE `report_event` (
   CONSTRAINT `FK_REPORT_EVENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REPORT_EVENT_EVENT_TYPE_ID_REPORT_EVENT_TYPES_EVENT_TYPE_ID` FOREIGN KEY (`event_type_id`) REFERENCES `report_event_types` (`event_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Event Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `report_event`
@@ -10077,15 +10269,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `report_event_types`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `report_event_types` (
   `event_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Event Type Id',
   `event_name` varchar(64) NOT NULL COMMENT 'Event Name',
   `customer_login` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Login',
   PRIMARY KEY  (`event_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Reports Event Type Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `report_event_types`
@@ -10098,114 +10290,12 @@ INSERT INTO `report_event_types` VALUES (1,'catalog_product_view',0),(2,'sendfri
 UNLOCK TABLES;
 
 --
--- Table structure for table `report_viewed_product_aggregated_daily`
---
-
-DROP TABLE IF EXISTS `report_viewed_product_aggregated_daily`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `report_viewed_product_aggregated_daily` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
-  `period` date default NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
-  `product_name` varchar(255) default NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_DAILY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_DAILY_STORE_ID` (`store_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_DAILY_PRODUCT_ID` (`product_id`),
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Daily';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `report_viewed_product_aggregated_daily`
---
-
-LOCK TABLES `report_viewed_product_aggregated_daily` WRITE;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `report_viewed_product_aggregated_monthly`
---
-
-DROP TABLE IF EXISTS `report_viewed_product_aggregated_monthly`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `report_viewed_product_aggregated_monthly` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
-  `period` date default NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
-  `product_name` varchar(255) default NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_MONTHLY_STORE_ID` (`store_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_MONTHLY_PRODUCT_ID` (`product_id`),
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Monthly';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `report_viewed_product_aggregated_monthly`
---
-
-LOCK TABLES `report_viewed_product_aggregated_monthly` WRITE;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `report_viewed_product_aggregated_yearly`
---
-
-DROP TABLE IF EXISTS `report_viewed_product_aggregated_yearly`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `report_viewed_product_aggregated_yearly` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
-  `period` date default NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
-  `product_name` varchar(255) default NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_YEARLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_YEARLY_STORE_ID` (`store_id`),
-  KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_YEARLY_PRODUCT_ID` (`product_id`),
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Yearly';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `report_viewed_product_aggregated_yearly`
---
-
-LOCK TABLES `report_viewed_product_aggregated_yearly` WRITE;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `report_viewed_product_index`
 --
 
 DROP TABLE IF EXISTS `report_viewed_product_index`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `report_viewed_product_index` (
   `index_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Index Id',
   `visitor_id` int(10) unsigned default NULL COMMENT 'Visitor Id',
@@ -10223,7 +10313,7 @@ CREATE TABLE `report_viewed_product_index` (
   CONSTRAINT `FK_REPORT_VIEWED_PRD_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REPORT_VIEWED_PRODUCT_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Viewed Product Index Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `report_viewed_product_index`
@@ -10235,12 +10325,114 @@ LOCK TABLES `report_viewed_product_index` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reports_viewed_aggregated_daily`
+--
+
+DROP TABLE IF EXISTS `reports_viewed_aggregated_daily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports_viewed_aggregated_daily` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `UNQ_REPORTS_VIEWED_AGGREGATED_DAILY_PERIOD_STORE_ID_PRODUCT_ID` (`period`,`store_id`,`product_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_DAILY_STORE_ID` (`store_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_DAILY_PRODUCT_ID` (`product_id`),
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGREGATED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Daily';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports_viewed_aggregated_daily`
+--
+
+LOCK TABLES `reports_viewed_aggregated_daily` WRITE;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_daily` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_daily` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports_viewed_aggregated_monthly`
+--
+
+DROP TABLE IF EXISTS `reports_viewed_aggregated_monthly`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports_viewed_aggregated_monthly` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `UNQ_REPORTS_VIEWED_AGGREGATED_MONTHLY_PERIOD_STORE_ID_PRODUCT_ID` (`period`,`store_id`,`product_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_MONTHLY_STORE_ID` (`store_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_MONTHLY_PRODUCT_ID` (`product_id`),
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Monthly';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports_viewed_aggregated_monthly`
+--
+
+LOCK TABLES `reports_viewed_aggregated_monthly` WRITE;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_monthly` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_monthly` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports_viewed_aggregated_yearly`
+--
+
+DROP TABLE IF EXISTS `reports_viewed_aggregated_yearly`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports_viewed_aggregated_yearly` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `UNQ_REPORTS_VIEWED_AGGREGATED_YEARLY_PERIOD_STORE_ID_PRODUCT_ID` (`period`,`store_id`,`product_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_YEARLY_STORE_ID` (`store_id`),
+  KEY `IDX_REPORTS_VIEWED_AGGREGATED_YEARLY_PRODUCT_ID` (`product_id`),
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGREGATED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_REPORTS_VIEWED_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Yearly';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports_viewed_aggregated_yearly`
+--
+
+LOCK TABLES `reports_viewed_aggregated_yearly` WRITE;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_yearly` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports_viewed_aggregated_yearly` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `review`
 --
 
 DROP TABLE IF EXISTS `review`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review` (
   `review_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Review id',
   `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Review create date',
@@ -10254,7 +10446,7 @@ CREATE TABLE `review` (
   CONSTRAINT `FK_REVIEW_ENTITY_ID_REVIEW_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `review_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REVIEW_STATUS_ID_REVIEW_STATUS_STATUS_ID` FOREIGN KEY (`status_id`) REFERENCES `review_status` (`status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review base information';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review`
@@ -10270,8 +10462,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `review_detail`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_detail` (
   `detail_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Review detail id',
   `review_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Review id',
@@ -10288,7 +10480,7 @@ CREATE TABLE `review_detail` (
   CONSTRAINT `FK_REVIEW_DETAIL_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REVIEW_DETAIL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review detail information';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review_detail`
@@ -10304,14 +10496,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `review_entity`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_entity` (
   `entity_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Review entity id',
   `entity_code` varchar(32) NOT NULL COMMENT 'Review entity code',
   PRIMARY KEY  (`entity_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review entities';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review_entity`
@@ -10328,8 +10520,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `review_entity_summary`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_entity_summary` (
   `primary_id` bigint(20) NOT NULL auto_increment COMMENT 'Summary review entity id',
   `entity_pk_value` bigint(20) NOT NULL default '0' COMMENT 'Product id',
@@ -10341,7 +10533,7 @@ CREATE TABLE `review_entity_summary` (
   KEY `IDX_REVIEW_ENTITY_SUMMARY_STORE_ID` (`store_id`),
   CONSTRAINT `FK_REVIEW_ENTITY_SUMMARY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review aggregates';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review_entity_summary`
@@ -10357,14 +10549,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `review_status`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_status` (
   `status_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Status id',
   `status_code` varchar(32) NOT NULL COMMENT 'Status code',
   PRIMARY KEY  (`status_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review statuses';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review_status`
@@ -10381,8 +10573,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `review_store`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review_store` (
   `review_id` bigint(20) unsigned NOT NULL COMMENT 'Review Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -10391,7 +10583,7 @@ CREATE TABLE `review_store` (
   CONSTRAINT `FK_REVIEW_STORE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REVIEW_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review Store';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `review_store`
@@ -10407,8 +10599,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_daily`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_bestsellers_aggregated_daily` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -10425,7 +10617,7 @@ CREATE TABLE `sales_bestsellers_aggregated_daily` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Daily';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_bestsellers_aggregated_daily`
@@ -10441,8 +10633,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_monthly`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_bestsellers_aggregated_monthly` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -10459,7 +10651,7 @@ CREATE TABLE `sales_bestsellers_aggregated_monthly` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Monthly';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_bestsellers_aggregated_monthly`
@@ -10475,8 +10667,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_yearly`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_bestsellers_aggregated_yearly` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -10493,7 +10685,7 @@ CREATE TABLE `sales_bestsellers_aggregated_yearly` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Yearly';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_bestsellers_aggregated_yearly`
@@ -10509,8 +10701,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_billing_agreement`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_billing_agreement` (
   `agreement_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Agreement Id',
   `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
@@ -10527,7 +10719,7 @@ CREATE TABLE `sales_billing_agreement` (
   CONSTRAINT `FK_SALES_BILLING_AGREEMENT_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BILLING_AGREEMENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_billing_agreement`
@@ -10543,8 +10735,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_billing_agreement_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_billing_agreement_order` (
   `agreement_id` int(10) unsigned NOT NULL COMMENT 'Agreement Id',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
@@ -10553,7 +10745,7 @@ CREATE TABLE `sales_billing_agreement_order` (
   CONSTRAINT `FK_SALES_BILLING_AGRT_ORDER_AGRT_ID_SALES_BILLING_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `sales_billing_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BILLING_AGRT_ORDER_ORDER_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_billing_agreement_order`
@@ -10569,8 +10761,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_creditmemo`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_creditmemo` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -10619,7 +10811,7 @@ CREATE TABLE `sales_flat_creditmemo` (
   `base_shipping_hidden_tax_amnt` decimal(12,4) default NULL COMMENT 'Base Shipping Hidden Tax Amount',
   `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
   `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
-  `cybersource_token` varchar(255) default NULL COMMENT 'Cybersource Token',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
   `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
   `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
   `bs_customer_bal_total_refunded` decimal(12,4) default NULL COMMENT 'Bs Customer Bal Total Refunded',
@@ -10652,7 +10844,7 @@ CREATE TABLE `sales_flat_creditmemo` (
   CONSTRAINT `FK_SALES_FLAT_CREDITMEMO_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_CREDITMEMO_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_creditmemo`
@@ -10668,8 +10860,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_creditmemo_comment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_creditmemo_comment` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -10682,7 +10874,7 @@ CREATE TABLE `sales_flat_creditmemo_comment` (
   KEY `IDX_SALES_FLAT_CREDITMEMO_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_B0FCB0B5467075BE63D474F2CD5F7804` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Comment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_creditmemo_comment`
@@ -10698,8 +10890,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_creditmemo_grid`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_creditmemo_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -10737,7 +10929,7 @@ CREATE TABLE `sales_flat_creditmemo_grid` (
   CONSTRAINT `FK_78C711B225167A11CC077B03D1C8E1CC` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_CREDITMEMO_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Grid';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_creditmemo_grid`
@@ -10753,8 +10945,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_creditmemo_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_creditmemo_item` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -10793,7 +10985,7 @@ CREATE TABLE `sales_flat_creditmemo_item` (
   KEY `IDX_SALES_FLAT_CREDITMEMO_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_306DAC836C699F0B5E13BE486557AC8A` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_creditmemo_item`
@@ -10809,8 +11001,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_invoice`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_invoice` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -10855,7 +11047,7 @@ CREATE TABLE `sales_flat_invoice` (
   `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
   `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
   `base_total_refunded` decimal(12,4) default NULL COMMENT 'Base Total Refunded',
-  `cybersource_token` varchar(255) default NULL COMMENT 'Cybersource Token',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
   `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
   `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
   `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
@@ -10885,7 +11077,7 @@ CREATE TABLE `sales_flat_invoice` (
   CONSTRAINT `FK_SALES_FLAT_INVOICE_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_INVOICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_invoice`
@@ -10901,8 +11093,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_invoice_comment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_invoice_comment` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -10915,7 +11107,7 @@ CREATE TABLE `sales_flat_invoice_comment` (
   KEY `IDX_SALES_FLAT_INVOICE_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_5C4B36BBE5231A76AB8018B281ED50BC` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Comment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_invoice_comment`
@@ -10931,8 +11123,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_invoice_grid`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_invoice_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -10962,7 +11154,7 @@ CREATE TABLE `sales_flat_invoice_grid` (
   CONSTRAINT `FK_SALES_FLAT_INVOICE_GRID_ENTT_ID_SALES_FLAT_INVOICE_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_INVOICE_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Grid';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_invoice_grid`
@@ -10978,8 +11170,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_invoice_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_invoice_item` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -11018,7 +11210,7 @@ CREATE TABLE `sales_flat_invoice_item` (
   KEY `IDX_SALES_FLAT_INVOICE_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_INVOICE_ITEM_PARENT_ID_SALES_FLAT_INVOICE_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_invoice_item`
@@ -11034,8 +11226,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `state` varchar(32) default NULL COMMENT 'State',
@@ -11251,7 +11443,7 @@ CREATE TABLE `sales_flat_order` (
   CONSTRAINT `FK_SALES_FLAT_ORDER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order`
@@ -11267,8 +11459,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order_address`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order_address` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned default NULL COMMENT 'Parent Id',
@@ -11301,7 +11493,7 @@ CREATE TABLE `sales_flat_order_address` (
   KEY `IDX_SALES_FLAT_ORDER_ADDRESS_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_ADDRESS_PARENT_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Address';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order_address`
@@ -11317,8 +11509,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order_grid`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `status` varchar(32) default NULL COMMENT 'Status',
@@ -11353,7 +11545,7 @@ CREATE TABLE `sales_flat_order_grid` (
   CONSTRAINT `FK_SALES_FLAT_ORDER_GRID_ENTITY_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_ORDER_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Grid';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order_grid`
@@ -11369,8 +11561,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order_item` (
   `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
   `order_id` int(10) unsigned NOT NULL default '0' COMMENT 'Order Id',
@@ -11468,13 +11660,14 @@ CREATE TABLE `sales_flat_order_item` (
   `gw_price_refunded` decimal(12,4) default NULL COMMENT 'Gw Price Refunded',
   `gw_base_tax_amount_refunded` decimal(12,4) default NULL COMMENT 'Gw Base Tax Amount Refunded',
   `gw_tax_amount_refunded` decimal(12,4) default NULL COMMENT 'Gw Tax Amount Refunded',
+  `qty_returned` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty of returned items',
   PRIMARY KEY  (`item_id`),
   KEY `IDX_SALES_FLAT_ORDER_ITEM_ORDER_ID` (`order_id`),
   KEY `IDX_SALES_FLAT_ORDER_ITEM_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_ITEM_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_ORDER_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order_item`
@@ -11490,8 +11683,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order_payment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order_payment` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -11545,20 +11738,13 @@ CREATE TABLE `sales_flat_order_payment` (
   `cc_avs_status` varchar(255) default NULL COMMENT 'Cc Avs Status',
   `cc_number_enc` varchar(255) default NULL COMMENT 'Cc Number Enc',
   `cc_trans_id` varchar(255) default NULL COMMENT 'Cc Trans Id',
-  `paybox_request_number` varchar(255) default NULL COMMENT 'Paybox Request Number',
   `address_status` varchar(255) default NULL COMMENT 'Address Status',
   `additional_information` text COMMENT 'Additional Information',
-  `cybersource_token` varchar(255) default NULL COMMENT 'Cybersource Token',
-  `flo2cash_account_id` varchar(255) default NULL COMMENT 'Flo2cash Account Id',
-  `ideal_issuer_id` varchar(255) default NULL COMMENT 'Ideal Issuer Id',
-  `ideal_issuer_title` varchar(255) default NULL COMMENT 'Ideal Issuer Title',
-  `ideal_transaction_checked` int(11) default NULL COMMENT 'Ideal Transaction Checked',
-  `paybox_question_number` varchar(255) default NULL COMMENT 'Paybox Question Number',
   PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_ORDER_PAYMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_PAYMENT_PARENT_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Payment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order_payment`
@@ -11574,8 +11760,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_order_status_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_order_status_history` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -11590,7 +11776,7 @@ CREATE TABLE `sales_flat_order_status_history` (
   KEY `IDX_SALES_FLAT_ORDER_STATUS_HISTORY_CREATED_AT` (`created_at`),
   CONSTRAINT `FK_CE7C71E74CB74DDACED337CEE6753D5E` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Status History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_order_status_history`
@@ -11606,8 +11792,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -11692,7 +11878,7 @@ CREATE TABLE `sales_flat_quote` (
   KEY `IDX_SALES_FLAT_QUOTE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote`
@@ -11708,8 +11894,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_address`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_address` (
   `address_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Address Id',
   `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
@@ -11802,7 +11988,7 @@ CREATE TABLE `sales_flat_quote_address` (
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_QUOTE_ID` (`quote_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_ADDRESS_QUOTE_ID_SALES_FLAT_QUOTE_ENTITY_ID` FOREIGN KEY (`quote_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_address`
@@ -11818,8 +12004,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_address_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_address_item` (
   `address_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Address Item Id',
   `parent_item_id` int(10) unsigned default NULL COMMENT 'Parent Item Id',
@@ -11874,7 +12060,7 @@ CREATE TABLE `sales_flat_quote_address_item` (
   CONSTRAINT `FK_A345FC758F20C314169CE27DCE53477F` FOREIGN KEY (`parent_item_id`) REFERENCES `sales_flat_quote_address_item` (`address_item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_B521389746C00700D1B2B76EBBE53854` FOREIGN KEY (`quote_address_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_address_item`
@@ -11890,8 +12076,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_item` (
   `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
   `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
@@ -11963,7 +12149,7 @@ CREATE TABLE `sales_flat_quote_item` (
   CONSTRAINT `FK_SALES_FLAT_QUOTE_ITEM_QUOTE_ID_SALES_FLAT_QUOTE_ENTITY_ID` FOREIGN KEY (`quote_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_QUOTE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_item`
@@ -11979,8 +12165,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_item_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_item_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `item_id` int(10) unsigned NOT NULL COMMENT 'Item Id',
@@ -11991,7 +12177,7 @@ CREATE TABLE `sales_flat_quote_item_option` (
   KEY `IDX_SALES_FLAT_QUOTE_ITEM_OPTION_ITEM_ID` (`item_id`),
   CONSTRAINT `FK_5F20E478CA64B6891EA8A9D6C2735739` FOREIGN KEY (`item_id`) REFERENCES `sales_flat_quote_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item Option';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_item_option`
@@ -12007,8 +12193,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_payment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_payment` (
   `payment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Payment Id',
   `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
@@ -12032,14 +12218,11 @@ CREATE TABLE `sales_flat_quote_payment` (
   `paypal_payer_id` varchar(255) default NULL COMMENT 'Paypal Payer Id',
   `paypal_payer_status` varchar(255) default NULL COMMENT 'Paypal Payer Status',
   `paypal_correlation_id` varchar(255) default NULL COMMENT 'Paypal Correlation Id',
-  `cybersource_token` varchar(255) default NULL COMMENT 'Cybersource Token',
-  `ideal_issuer_id` varchar(255) default NULL COMMENT 'Ideal Issuer Id',
-  `ideal_issuer_list` text COMMENT 'Ideal Issuer List',
   PRIMARY KEY  (`payment_id`),
   KEY `IDX_SALES_FLAT_QUOTE_PAYMENT_QUOTE_ID` (`quote_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_PAYMENT_QUOTE_ID_SALES_FLAT_QUOTE_ENTITY_ID` FOREIGN KEY (`quote_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Payment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_payment`
@@ -12055,8 +12238,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_quote_shipping_rate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_quote_shipping_rate` (
   `rate_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rate Id',
   `address_id` int(10) unsigned NOT NULL default '0' COMMENT 'Address Id',
@@ -12074,7 +12257,7 @@ CREATE TABLE `sales_flat_quote_shipping_rate` (
   KEY `IDX_SALES_FLAT_QUOTE_SHIPPING_RATE_ADDRESS_ID` (`address_id`),
   CONSTRAINT `FK_B1F177EFB73D3EDF5322BA64AC48D150` FOREIGN KEY (`address_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Shipping Rate';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_quote_shipping_rate`
@@ -12090,8 +12273,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_shipment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_shipment` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -12118,7 +12301,7 @@ CREATE TABLE `sales_flat_shipment` (
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_shipment`
@@ -12134,8 +12317,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_shipment_comment`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_shipment_comment` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -12148,7 +12331,7 @@ CREATE TABLE `sales_flat_shipment_comment` (
   KEY `IDX_SALES_FLAT_SHIPMENT_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_C2D69CC1FB03D2B2B794B0439F6650CF` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Comment';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_shipment_comment`
@@ -12164,8 +12347,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_shipment_grid`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_shipment_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
@@ -12190,7 +12373,7 @@ CREATE TABLE `sales_flat_shipment_grid` (
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_GRID_ENTT_ID_SALES_FLAT_SHIPMENT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Grid';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_shipment_grid`
@@ -12206,8 +12389,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_shipment_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_shipment_item` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -12225,7 +12408,7 @@ CREATE TABLE `sales_flat_shipment_item` (
   KEY `IDX_SALES_FLAT_SHIPMENT_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_3AECE5007D18F159231B87E8306FC02A` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_shipment_item`
@@ -12241,8 +12424,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_flat_shipment_track`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_flat_shipment_track` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
@@ -12261,7 +12444,7 @@ CREATE TABLE `sales_flat_shipment_track` (
   KEY `IDX_SALES_FLAT_SHIPMENT_TRACK_CREATED_AT` (`created_at`),
   CONSTRAINT `FK_BCD2FA28717D29F37E10A153E6F2F841` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Track';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_flat_shipment_track`
@@ -12277,8 +12460,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_invoiced_aggregated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_invoiced_aggregated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12294,7 +12477,7 @@ CREATE TABLE `sales_invoiced_aggregated` (
   KEY `IDX_SALES_INVOICED_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_INVOICED_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_invoiced_aggregated`
@@ -12310,8 +12493,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_invoiced_aggregated_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_invoiced_aggregated_order` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12327,7 +12510,7 @@ CREATE TABLE `sales_invoiced_aggregated_order` (
   KEY `IDX_SALES_INVOICED_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_INVOICED_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_invoiced_aggregated_order`
@@ -12343,8 +12526,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_aggregated_created`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_aggregated_created` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12371,7 +12554,7 @@ CREATE TABLE `sales_order_aggregated_created` (
   KEY `IDX_SALES_ORDER_AGGREGATED_CREATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_ORDER_AGGREGATED_CREATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Created';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_aggregated_created`
@@ -12387,8 +12570,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_aggregated_updated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_aggregated_updated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12415,7 +12598,7 @@ CREATE TABLE `sales_order_aggregated_updated` (
   KEY `IDX_SALES_ORDER_AGGREGATED_UPDATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_ORDER_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Updated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_aggregated_updated`
@@ -12431,14 +12614,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_status`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_status` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `label` varchar(128) NOT NULL COMMENT 'Label',
   PRIMARY KEY  (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_status`
@@ -12446,7 +12629,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `sales_order_status` WRITE;
 /*!40000 ALTER TABLE `sales_order_status` DISABLE KEYS */;
-INSERT INTO `sales_order_status` VALUES ('canceled','Canceled'),('cancel_ogone','Cancelled Ogone'),('closed','Closed'),('complete','Complete'),('decline_ogone','Declined Ogone'),('fraud','Suspected Fraud'),('holded','On Hold'),('payment_review','Payment Review'),('pending','Pending'),('pending_amazon_asp','Pending Amazon Simple Pay'),('pending_ogone','Pending Ogone'),('pending_payment','Pending Payment'),('pending_paypal','Pending PayPal'),('processed_ogone','Processed Ogone Payment'),('processing','Processing'),('processing_ogone','Processing Ogone Payment'),('waiting_authorozation','Waiting Authorization');
+INSERT INTO `sales_order_status` VALUES ('canceled','Canceled'),('cancel_ogone','Cancelled Ogone'),('closed','Closed'),('complete','Complete'),('decline_ogone','Declined Ogone'),('fraud','Suspected Fraud'),('holded','On Hold'),('payment_review','Payment Review'),('pending','Pending'),('pending_ogone','Pending Ogone'),('pending_payment','Pending Payment'),('pending_paypal','Pending PayPal'),('processed_ogone','Processed Ogone Payment'),('processing','Processing'),('processing_ogone','Processing Ogone Payment'),('waiting_authorozation','Waiting Authorization');
 /*!40000 ALTER TABLE `sales_order_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -12455,8 +12638,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_status_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_status_label` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
@@ -12466,7 +12649,7 @@ CREATE TABLE `sales_order_status_label` (
   CONSTRAINT `FK_SALES_ORDER_STATUS_LABEL_STATUS_SALES_ORDER_STATUS_STATUS` FOREIGN KEY (`status`) REFERENCES `sales_order_status` (`status`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_ORDER_STATUS_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Label Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_status_label`
@@ -12482,8 +12665,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_status_state`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_status_state` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `state` varchar(32) NOT NULL COMMENT 'Label',
@@ -12491,7 +12674,7 @@ CREATE TABLE `sales_order_status_state` (
   PRIMARY KEY  (`status`,`state`),
   CONSTRAINT `FK_SALES_ORDER_STATUS_STATE_STATUS_SALES_ORDER_STATUS_STATUS` FOREIGN KEY (`status`) REFERENCES `sales_order_status` (`status`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_status_state`
@@ -12499,7 +12682,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `sales_order_status_state` WRITE;
 /*!40000 ALTER TABLE `sales_order_status_state` DISABLE KEYS */;
-INSERT INTO `sales_order_status_state` VALUES ('canceled','canceled',1),('closed','closed',1),('complete','complete',1),('fraud','payment_review',0),('holded','holded',1),('payment_review','payment_review',1),('pending','new',1),('pending_amazon_asp','pending_payment',0),('pending_ogone','pending_payment',0),('pending_payment','pending_payment',1),('processed_ogone','processing',0),('processing','processing',1);
+INSERT INTO `sales_order_status_state` VALUES ('canceled','canceled',1),('closed','closed',1),('complete','complete',1),('fraud','payment_review',0),('holded','holded',1),('payment_review','payment_review',1),('pending','new',1),('pending_ogone','pending_payment',0),('pending_payment','pending_payment',1),('processed_ogone','processing',0),('processing','processing',1);
 /*!40000 ALTER TABLE `sales_order_status_state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -12508,8 +12691,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_tax`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_tax` (
   `tax_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tax Id',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
@@ -12526,7 +12709,7 @@ CREATE TABLE `sales_order_tax` (
   PRIMARY KEY  (`tax_id`),
   KEY `IDX_SALES_ORDER_TAX_ORDER_ID_PRIORITY_POSITION` (`order_id`,`priority`,`position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_tax`
@@ -12542,8 +12725,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_order_tax_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_order_tax_item` (
   `tax_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tax Item Id',
   `tax_id` int(10) unsigned NOT NULL COMMENT 'Tax Id',
@@ -12556,7 +12739,7 @@ CREATE TABLE `sales_order_tax_item` (
   CONSTRAINT `FK_SALES_ORDER_TAX_ITEM_ITEM_ID_SALES_FLAT_ORDER_ITEM_ITEM_ID` FOREIGN KEY (`item_id`) REFERENCES `sales_flat_order_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_ORDER_TAX_ITEM_TAX_ID_SALES_ORDER_TAX_TAX_ID` FOREIGN KEY (`tax_id`) REFERENCES `sales_order_tax` (`tax_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Item';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_order_tax_item`
@@ -12572,8 +12755,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_payment_transaction`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_payment_transaction` (
   `transaction_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Transaction Id',
   `parent_id` int(10) unsigned default NULL COMMENT 'Parent Id',
@@ -12594,7 +12777,7 @@ CREATE TABLE `sales_payment_transaction` (
   CONSTRAINT `FK_B99FF1A06402D725EBDB0F3A7ECD47A2` FOREIGN KEY (`parent_id`) REFERENCES `sales_payment_transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DA51A10B2405B64A4DAEF77A64F0DAAD` FOREIGN KEY (`payment_id`) REFERENCES `sales_flat_order_payment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Payment Transaction';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_payment_transaction`
@@ -12610,8 +12793,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_recurring_profile`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_recurring_profile` (
   `profile_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Profile Id',
   `state` varchar(20) NOT NULL COMMENT 'State',
@@ -12653,7 +12836,7 @@ CREATE TABLE `sales_recurring_profile` (
   CONSTRAINT `FK_SALES_RECURRING_PROFILE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_RECURRING_PROFILE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_recurring_profile`
@@ -12669,8 +12852,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_recurring_profile_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_recurring_profile_order` (
   `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link Id',
   `profile_id` int(10) unsigned NOT NULL default '0' COMMENT 'Profile Id',
@@ -12681,7 +12864,7 @@ CREATE TABLE `sales_recurring_profile_order` (
   CONSTRAINT `FK_7FF85741C66DCD37A4FBE3E3255A5A01` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_B8A7A5397B67455786E55461748C59F4` FOREIGN KEY (`profile_id`) REFERENCES `sales_recurring_profile` (`profile_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_recurring_profile_order`
@@ -12697,8 +12880,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_refunded_aggregated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_refunded_aggregated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12713,7 +12896,7 @@ CREATE TABLE `sales_refunded_aggregated` (
   KEY `IDX_SALES_REFUNDED_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_REFUNDED_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_refunded_aggregated`
@@ -12729,8 +12912,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_refunded_aggregated_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_refunded_aggregated_order` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12745,7 +12928,7 @@ CREATE TABLE `sales_refunded_aggregated_order` (
   KEY `IDX_SALES_REFUNDED_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_REFUNDED_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_refunded_aggregated_order`
@@ -12761,8 +12944,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_shipping_aggregated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_shipping_aggregated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12777,7 +12960,7 @@ CREATE TABLE `sales_shipping_aggregated` (
   KEY `IDX_SALES_SHIPPING_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_SHIPPING_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_shipping_aggregated`
@@ -12793,8 +12976,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sales_shipping_aggregated_order`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sales_shipping_aggregated_order` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -12809,7 +12992,7 @@ CREATE TABLE `sales_shipping_aggregated_order` (
   KEY `IDX_SALES_SHIPPING_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_SHIPPING_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated Order';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sales_shipping_aggregated_order`
@@ -12825,8 +13008,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -12855,7 +13038,7 @@ CREATE TABLE `salesrule` (
   PRIMARY KEY  (`rule_id`),
   KEY `IDX_SALESRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule`
@@ -12871,8 +13054,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_coupon`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_coupon` (
   `coupon_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Coupon Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
@@ -12890,7 +13073,7 @@ CREATE TABLE `salesrule_coupon` (
   KEY `IDX_SALESRULE_COUPON_RULE_ID` (`rule_id`),
   CONSTRAINT `FK_SALESRULE_COUPON_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_coupon`
@@ -12906,8 +13089,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_coupon_usage`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_coupon_usage` (
   `coupon_id` int(10) unsigned NOT NULL COMMENT 'Coupon Id',
   `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
@@ -12918,7 +13101,7 @@ CREATE TABLE `salesrule_coupon_usage` (
   CONSTRAINT `FK_SALESRULE_COUPON_USAGE_COUPON_ID_SALESRULE_COUPON_COUPON_ID` FOREIGN KEY (`coupon_id`) REFERENCES `salesrule_coupon` (`coupon_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_COUPON_USAGE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon Usage';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_coupon_usage`
@@ -12934,8 +13117,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_customer`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_customer` (
   `rule_customer_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Customer Id',
   `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
@@ -12947,7 +13130,7 @@ CREATE TABLE `salesrule_customer` (
   CONSTRAINT `FK_SALESRULE_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_CUSTOMER_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Customer';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_customer`
@@ -12963,8 +13146,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_customer_group`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_customer_group` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
@@ -12974,7 +13157,7 @@ CREATE TABLE `salesrule_customer_group` (
   CONSTRAINT `FK_SALESRULE_CUSTOMER_GROUP_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Customer Groups Relations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_customer_group`
@@ -12990,8 +13173,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_label`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_label` (
   `label_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Label Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
@@ -13004,7 +13187,7 @@ CREATE TABLE `salesrule_label` (
   CONSTRAINT `FK_SALESRULE_LABEL_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Label';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_label`
@@ -13020,8 +13203,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_product_attribute`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_product_attribute` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -13036,7 +13219,7 @@ CREATE TABLE `salesrule_product_attribute` (
   CONSTRAINT `FK_SALESRULE_PRODUCT_ATTRIBUTE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_SALESRULE_PRD_ATTR_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Product Attribute';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_product_attribute`
@@ -13052,8 +13235,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `salesrule_website`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salesrule_website` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
@@ -13061,9 +13244,9 @@ CREATE TABLE `salesrule_website` (
   KEY `IDX_SALESRULE_WEBSITE_RULE_ID` (`rule_id`),
   KEY `IDX_SALESRULE_WEBSITE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_SALESRULE_WEBSITE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_SALESRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_SALESRULE_WEBSITE_WEBSITE_ID_CORE/WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Websites Relations';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `salesrule_website`
@@ -13079,8 +13262,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sendfriend_log`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sendfriend_log` (
   `log_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Log ID',
   `ip` bigint(20) unsigned NOT NULL default '0' COMMENT 'Customer IP address',
@@ -13090,7 +13273,7 @@ CREATE TABLE `sendfriend_log` (
   KEY `IDX_SENDFRIEND_LOG_IP` (`ip`),
   KEY `IDX_SENDFRIEND_LOG_TIME` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sendfriend_log`
@@ -13106,8 +13289,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `shipping_tablerate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shipping_tablerate` (
   `pk` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary key',
   `website_id` int(11) NOT NULL default '0' COMMENT 'Website Id',
@@ -13121,7 +13304,7 @@ CREATE TABLE `shipping_tablerate` (
   PRIMARY KEY  (`pk`),
   UNIQUE KEY `D60821CDB2AFACEE1566CFC02D0D4CAA` (`website_id`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipping Tablerate';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `shipping_tablerate`
@@ -13137,8 +13320,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `sitemap`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sitemap` (
   `sitemap_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Sitemap Id',
   `sitemap_type` varchar(32) default NULL COMMENT 'Sitemap Type',
@@ -13150,7 +13333,7 @@ CREATE TABLE `sitemap` (
   KEY `IDX_SITEMAP_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SITEMAP_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Sitemap';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sitemap`
@@ -13166,8 +13349,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `social_facebook_actions`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `social_facebook_actions` (
   `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `facebook_id` varchar(100) NOT NULL COMMENT 'Facebook User Id',
@@ -13176,7 +13359,7 @@ CREATE TABLE `social_facebook_actions` (
   `item_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   PRIMARY KEY  (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Social Facebook Actions';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `social_facebook_actions`
@@ -13188,38 +13371,12 @@ LOCK TABLES `social_facebook_actions` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `strikeiron_tax_rate`
---
-
-DROP TABLE IF EXISTS `strikeiron_tax_rate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `strikeiron_tax_rate` (
-  `tax_rate_id` tinyint(4) NOT NULL auto_increment,
-  `tax_country_id` varchar(6) default NULL,
-  `tax_region_id` mediumint(9) unsigned default NULL,
-  `tax_postcode` varchar(12) default NULL,
-  `rate_value` decimal(12,4) NOT NULL default '0.0000',
-  PRIMARY KEY  (`tax_rate_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Strikeiron tax rates';
-SET character_set_client = @saved_cs_client;
-
---
--- Dumping data for table `strikeiron_tax_rate`
---
-
-LOCK TABLES `strikeiron_tax_rate` WRITE;
-/*!40000 ALTER TABLE `strikeiron_tax_rate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `strikeiron_tax_rate` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tag`
 --
 
 DROP TABLE IF EXISTS `tag`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag` (
   `tag_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tag Id',
   `name` varchar(255) default NULL COMMENT 'Name',
@@ -13232,7 +13389,7 @@ CREATE TABLE `tag` (
   CONSTRAINT `FK_TAG_FIRST_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`first_customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `FK_TAG_FIRST_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`first_store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tag`
@@ -13248,8 +13405,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tag_properties`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_properties` (
   `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -13259,7 +13416,7 @@ CREATE TABLE `tag_properties` (
   CONSTRAINT `FK_TAG_PROPERTIES_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAG_PROPERTIES_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Properties';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tag_properties`
@@ -13275,8 +13432,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tag_relation`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_relation` (
   `tag_relation_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tag Relation Id',
   `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
@@ -13296,7 +13453,7 @@ CREATE TABLE `tag_relation` (
   CONSTRAINT `FK_TAG_RELATION_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAG_RELATION_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Relation';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tag_relation`
@@ -13312,8 +13469,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tag_summary`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_summary` (
   `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
   `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
@@ -13329,7 +13486,7 @@ CREATE TABLE `tag_summary` (
   CONSTRAINT `FK_TAG_SUMMARY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAG_SUMMARY_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Summary';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tag_summary`
@@ -13345,8 +13502,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_calculation`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_calculation` (
   `tax_calculation_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Id',
   `tax_calculation_rate_id` int(11) NOT NULL COMMENT 'Tax Calculation Rate Id',
@@ -13364,7 +13521,7 @@ CREATE TABLE `tax_calculation` (
   CONSTRAINT `FK_TAX_CALC_TAX_CALC_RATE_ID_TAX_CALC_RATE_TAX_CALC_RATE_ID` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAX_CALC_TAX_CALC_RULE_ID_TAX_CALC_RULE_TAX_CALC_RULE_ID` FOREIGN KEY (`tax_calculation_rule_id`) REFERENCES `tax_calculation_rule` (`tax_calculation_rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_calculation`
@@ -13381,8 +13538,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_calculation_rate`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_calculation_rate` (
   `tax_calculation_rate_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rate Id',
   `tax_country_id` varchar(2) NOT NULL COMMENT 'Tax Country Id',
@@ -13391,14 +13548,14 @@ CREATE TABLE `tax_calculation_rate` (
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `rate` decimal(12,4) NOT NULL COMMENT 'Rate',
   `zip_is_range` smallint(6) default NULL COMMENT 'Zip Is Range',
-  `zip_from` varchar(255) default NULL COMMENT 'Zip From',
-  `zip_to` varchar(255) default NULL COMMENT 'Zip To',
+  `zip_from` int(10) unsigned default NULL COMMENT 'Zip From',
+  `zip_to` int(10) unsigned default NULL COMMENT 'Zip To',
   PRIMARY KEY  (`tax_calculation_rate_id`),
   KEY `IDX_TAX_CALC_RATE_TAX_COUNTRY_ID_TAX_REGION_ID_TAX_POSTCODE` (`tax_country_id`,`tax_region_id`,`tax_postcode`),
   KEY `IDX_TAX_CALCULATION_RATE_CODE` (`code`),
   KEY `CA799F1E2CB843495F601E56C84A626D` (`tax_calculation_rate_id`,`tax_country_id`,`tax_region_id`,`zip_is_range`,`tax_postcode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_calculation_rate`
@@ -13415,8 +13572,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_calculation_rate_title`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_calculation_rate_title` (
   `tax_calculation_rate_title_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rate Title Id',
   `tax_calculation_rate_id` int(11) NOT NULL COMMENT 'Tax Calculation Rate Id',
@@ -13429,7 +13586,7 @@ CREATE TABLE `tax_calculation_rate_title` (
   CONSTRAINT `FK_TAX_CALCULATION_RATE_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_37FB965F786AD5897BB3AE90470C42AB` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate Title';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_calculation_rate_title`
@@ -13445,8 +13602,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_calculation_rule`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_calculation_rule` (
   `tax_calculation_rule_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rule Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
@@ -13456,7 +13613,7 @@ CREATE TABLE `tax_calculation_rule` (
   KEY `IDX_TAX_CALC_RULE_PRIORITY_POSITION_TAX_CALC_RULE_ID` (`priority`,`position`,`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALCULATION_RULE_CODE` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rule';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_calculation_rule`
@@ -13473,15 +13630,15 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_class`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_class` (
   `class_id` smallint(6) NOT NULL auto_increment COMMENT 'Class Id',
   `class_name` varchar(255) NOT NULL COMMENT 'Class Name',
   `class_type` varchar(8) NOT NULL default 'CUSTOMER' COMMENT 'Class Type',
   PRIMARY KEY  (`class_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Tax Class';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_class`
@@ -13498,8 +13655,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_order_aggregated_created`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_order_aggregated_created` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -13514,7 +13671,7 @@ CREATE TABLE `tax_order_aggregated_created` (
   KEY `IDX_TAX_ORDER_AGGREGATED_CREATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_TAX_ORDER_AGGREGATED_CREATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregation';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_order_aggregated_created`
@@ -13530,8 +13687,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tax_order_aggregated_updated`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tax_order_aggregated_updated` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date default NULL COMMENT 'Period',
@@ -13546,7 +13703,7 @@ CREATE TABLE `tax_order_aggregated_updated` (
   KEY `IDX_TAX_ORDER_AGGREGATED_UPDATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_TAX_ORDER_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregated Updated';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tax_order_aggregated_updated`
@@ -13562,8 +13719,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `weee_discount`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `weee_discount` (
   `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -13576,7 +13733,7 @@ CREATE TABLE `weee_discount` (
   CONSTRAINT `FK_WEEE_DISCOUNT_ENTITY_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_WEEE_DISCOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Discount';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `weee_discount`
@@ -13592,8 +13749,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `weee_tax`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `weee_tax` (
   `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
   `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
@@ -13613,7 +13770,7 @@ CREATE TABLE `weee_tax` (
   CONSTRAINT `FK_WEEE_TAX_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_WEEE_TAX_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Tax';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `weee_tax`
@@ -13629,8 +13786,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `widget`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `widget` (
   `widget_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Widget Id',
   `widget_code` varchar(255) default NULL COMMENT 'Widget code for template directive',
@@ -13639,7 +13796,7 @@ CREATE TABLE `widget` (
   PRIMARY KEY  (`widget_id`),
   KEY `IDX_WIDGET_WIDGET_CODE` (`widget_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Preconfigured Widgets';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `widget`
@@ -13655,8 +13812,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `widget_instance`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `widget_instance` (
   `instance_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Instance Id',
   `instance_type` varchar(255) default NULL COMMENT 'Instance Type',
@@ -13667,7 +13824,7 @@ CREATE TABLE `widget_instance` (
   `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sort order',
   PRIMARY KEY  (`instance_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instances of Widget for Package Theme';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `widget_instance`
@@ -13675,7 +13832,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `widget_instance` WRITE;
 /*!40000 ALTER TABLE `widget_instance` DISABLE KEYS */;
-INSERT INTO `widget_instance` VALUES (1,'enterprise_banner/widget_banner','enterprise/default','Free Shipping on All Handbags','0','a:5:{s:12:\"display_mode\";s:5:\"fixed\";s:5:\"types\";a:1:{i:0;s:0:\"\";}s:6:\"rotate\";s:0:\"\";s:10:\"banner_ids\";s:1:\"1\";s:9:\"unique_id\";s:32:\"00b195146dbeded3345630c5eea86363\";}',0),(2,'enterprise_banner/widget_banner','enterprise/default','15% off Our New Evening Dresses','0','a:5:{s:12:\"display_mode\";s:5:\"fixed\";s:5:\"types\";a:1:{i:0;s:0:\"\";}s:6:\"rotate\";s:0:\"\";s:10:\"banner_ids\";s:1:\"2\";s:9:\"unique_id\";s:32:\"1fdb7d06967ab2f5c97d599c129bd37a\";}',1);
+INSERT INTO `widget_instance` VALUES (1,'Enterprise_Banner_Block_Widget_Banner','enterprise/default','Free Shipping on All Handbags','0','a:5:{s:12:\"display_mode\";s:5:\"fixed\";s:5:\"types\";a:1:{i:0;s:0:\"\";}s:6:\"rotate\";s:0:\"\";s:10:\"banner_ids\";s:1:\"1\";s:9:\"unique_id\";s:32:\"99558143e32d6fb9f9aad9d9fcfb9b11\";}',0),(2,'Enterprise_Banner_Block_Widget_Banner','enterprise/default','15% off Our New Evening Dresses','0','a:5:{s:12:\"display_mode\";s:5:\"fixed\";s:5:\"types\";a:1:{i:0;s:0:\"\";}s:6:\"rotate\";s:0:\"\";s:10:\"banner_ids\";s:1:\"2\";s:9:\"unique_id\";s:32:\"33a05c9b70021c4b41f2e6beca6841e9\";}',1);
 /*!40000 ALTER TABLE `widget_instance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -13684,14 +13841,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `widget_instance_page`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `widget_instance_page` (
   `page_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Page Id',
   `instance_id` int(10) unsigned NOT NULL default '0' COMMENT 'Instance Id',
   `page_group` varchar(25) default NULL COMMENT 'Block Group Type',
   `layout_handle` varchar(255) default NULL COMMENT 'Layout Handle',
-  `block_reference` varchar(255) default NULL COMMENT 'Block Reference',
+  `block_reference` varchar(255) default NULL COMMENT 'Container',
   `page_for` varchar(25) default NULL COMMENT 'For instance entities',
   `entities` text COMMENT 'Catalog entities (comma separated)',
   `page_template` varchar(255) default NULL COMMENT 'Path to widget template',
@@ -13699,7 +13856,7 @@ CREATE TABLE `widget_instance_page` (
   KEY `IDX_WIDGET_INSTANCE_PAGE_INSTANCE_ID` (`instance_id`),
   CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_INSTANCE_ID_WIDGET_INSTANCE_INSTANCE_ID` FOREIGN KEY (`instance_id`) REFERENCES `widget_instance` (`instance_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instance of Widget on Page';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `widget_instance_page`
@@ -13707,7 +13864,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `widget_instance_page` WRITE;
 /*!40000 ALTER TABLE `widget_instance_page` DISABLE KEYS */;
-INSERT INTO `widget_instance_page` VALUES (1,1,'pages','cms_index_index','top.container','all','','banner/widget/block.phtml'),(2,2,'pages','cms_index_index','footer.before','all','','banner/widget/block.phtml');
+INSERT INTO `widget_instance_page` VALUES (1,1,'pages','cms_index_index','top.container','all','','widget/block.phtml'),(2,2,'pages','cms_index_index','footer.before','all','','widget/block.phtml');
 /*!40000 ALTER TABLE `widget_instance_page` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -13716,8 +13873,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `widget_instance_page_layout`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `widget_instance_page_layout` (
   `page_id` int(10) unsigned NOT NULL default '0' COMMENT 'Page Id',
   `layout_update_id` int(10) unsigned NOT NULL default '0' COMMENT 'Layout Update Id',
@@ -13727,7 +13884,7 @@ CREATE TABLE `widget_instance_page_layout` (
   CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_LYT_PAGE_ID_WIDGET_INSTANCE_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `widget_instance_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_0A5D06DCEC6A6845F50E5FAAC5A1C96D` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Layout updates';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `widget_instance_page_layout`
@@ -13744,8 +13901,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `wishlist`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wishlist` (
   `wishlist_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Wishlist ID',
   `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer ID',
@@ -13757,7 +13914,7 @@ CREATE TABLE `wishlist` (
   KEY `IDX_WISHLIST_SHARED` (`shared`),
   CONSTRAINT `FK_WISHLIST_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist main Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `wishlist`
@@ -13773,8 +13930,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `wishlist_item`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wishlist_item` (
   `wishlist_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Wishlist item ID',
   `wishlist_id` int(10) unsigned NOT NULL default '0' COMMENT 'Wishlist ID',
@@ -13791,7 +13948,7 @@ CREATE TABLE `wishlist_item` (
   CONSTRAINT `FK_WISHLIST_ITEM_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_WISHLIST_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist items';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `wishlist_item`
@@ -13807,8 +13964,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `wishlist_item_option`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wishlist_item_option` (
   `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `wishlist_item_id` int(10) unsigned NOT NULL COMMENT 'Wishlist Item Id',
@@ -13819,7 +13976,7 @@ CREATE TABLE `wishlist_item_option` (
   KEY `FK_A014B30B04B72DD0EAB3EECD779728D6` (`wishlist_item_id`),
   CONSTRAINT `FK_A014B30B04B72DD0EAB3EECD779728D6` FOREIGN KEY (`wishlist_item_id`) REFERENCES `wishlist_item` (`wishlist_item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist Item Option Table';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `wishlist_item_option`
@@ -13835,8 +13992,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `xmlconnect_application`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `xmlconnect_application` (
   `application_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Application Id',
   `name` varchar(255) NOT NULL COMMENT 'Application Name',
@@ -13853,7 +14010,7 @@ CREATE TABLE `xmlconnect_application` (
   KEY `FK_XMLCONNECT_APPLICATION_STORE_ID_CORE_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_XMLCONNECT_APPLICATION_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Xmlconnect Application';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `xmlconnect_application`
@@ -13869,8 +14026,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `xmlconnect_config_data`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `xmlconnect_config_data` (
   `application_id` smallint(5) unsigned NOT NULL COMMENT 'Application Id',
   `category` varchar(60) NOT NULL default 'default' COMMENT 'Category',
@@ -13879,7 +14036,7 @@ CREATE TABLE `xmlconnect_config_data` (
   UNIQUE KEY `UNQ_XMLCONNECT_CONFIG_DATA_APPLICATION_ID_CATEGORY_PATH` (`application_id`,`category`,`path`),
   CONSTRAINT `FK_31EE36D814216200D7C0723145AC510E` FOREIGN KEY (`application_id`) REFERENCES `xmlconnect_application` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Xmlconnect Configuration Data';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `xmlconnect_config_data`
@@ -13895,8 +14052,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `xmlconnect_history`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `xmlconnect_history` (
   `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
   `application_id` smallint(5) unsigned NOT NULL COMMENT 'Application Id',
@@ -13911,7 +14068,7 @@ CREATE TABLE `xmlconnect_history` (
   KEY `FK_8F08B9513373BC19F49EE3EF8340E270` (`application_id`),
   CONSTRAINT `FK_8F08B9513373BC19F49EE3EF8340E270` FOREIGN KEY (`application_id`) REFERENCES `xmlconnect_application` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Xmlconnect History';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `xmlconnect_history`
@@ -13927,8 +14084,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `xmlconnect_notification_template`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `xmlconnect_notification_template` (
   `template_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Template Id',
   `name` varchar(255) NOT NULL COMMENT 'Template Name',
@@ -13942,7 +14099,7 @@ CREATE TABLE `xmlconnect_notification_template` (
   KEY `FK_F9927C7518A907CF5C350942FD296DC3` (`application_id`),
   CONSTRAINT `FK_F9927C7518A907CF5C350942FD296DC3` FOREIGN KEY (`application_id`) REFERENCES `xmlconnect_application` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Xmlconnect Notification Template';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `xmlconnect_notification_template`
@@ -13958,8 +14115,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `xmlconnect_queue`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `xmlconnect_queue` (
   `queue_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Queue Id',
   `create_time` timestamp NULL default NULL COMMENT 'Created At',
@@ -13974,7 +14131,7 @@ CREATE TABLE `xmlconnect_queue` (
   KEY `FK_2019AEC5FC55A516965583447CA26B14` (`template_id`),
   CONSTRAINT `FK_2019AEC5FC55A516965583447CA26B14` FOREIGN KEY (`template_id`) REFERENCES `xmlconnect_notification_template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Xmlconnect Notification Queue';
-SET character_set_client = @saved_cs_client;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `xmlconnect_queue`
@@ -13994,4 +14151,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-02-17 12:44:49
+-- Dump completed on 2012-05-23 19:08:15

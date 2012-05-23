@@ -138,18 +138,18 @@
 
         <copy file="${file.tests.integration.config.dist}" tofile="${file.tests.integration.config}" failonerror="true"/>
 
-        <replace file="${file.tests.integration.config}" token="mydomain.com" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config}" token="mydomain.com" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
-        <replace file="${file.tests.integration.config.soap}" token="api.ll" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config.soap}" token="api.ll" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
-        <replace file="${file.tests.integration.config.soap.v2}" token="api.ll" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config.soap.v2}" token="api.ll" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
-        <replace file="${file.tests.integration.config.soap.wsi}" token="api.ll" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config.soap.wsi}" token="api.ll" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
-        <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
-        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="apia.kpas.varien.com"/>
-        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="uue06s6y30q7runh7doxgk3upd934eib"/>
+        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
+        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="g3eamami6rb9ldslznx7gbrlhbfklzmj"/>
 
         <mkdir dir="${dir.reports}"/>
         <mkdir dir="${dir.tests.unit.tmp}"/>
