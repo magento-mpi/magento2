@@ -880,6 +880,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     break;
             }
         }
+        if (preg_match('/^%next(\w)+%$/', $value)) {
+            $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
+            $param = strtoupper(substr(substr($value, 0, -1), 5));
+            switch (end($fallbackOrderHelper)) {
+                case 'enterprise':
+                    $value = preg_replace('/%next(\w)+%/', date("n/j/Y", strtotime("+1 $param")), $value);
+                    break;
+                default:
+                    $value = preg_replace('/%next(\w)+%/', date("n/j/y", strtotime("+1 $param")), $value);
+                    break;
+            }
+        }
     }
 
     /**
