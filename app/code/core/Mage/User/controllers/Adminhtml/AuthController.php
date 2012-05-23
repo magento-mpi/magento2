@@ -73,16 +73,22 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
         $userId = (int) $this->getRequest()->getQuery('id');
         try {
             $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
-            $data = array(
-                'userId' => $userId,
-                'resetPasswordLinkToken' => $passwordResetToken
-            );
-            $this->_outTemplate('resetforgottenpassword', $data);
+
+            $this->loadLayout();
+
+            $content = $this->getLayout()->getBlock('content');
+            if ($content) {
+                $content->setData('user_id', $userId)
+                    ->setData('reset_password_link_token', $passwordResetToken);
+            }
+
+            $this->renderLayout();
         } catch (Exception $exception) {
             $this->_getSession()->addError(
                 Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
             );
             $this->_redirect('*/auth/forgotpassword', array('_nosecret' => true));
+            return;
         }
     }
 
@@ -129,11 +135,14 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
             foreach ($errorMessages as $errorMessage) {
                 $this->_getSession()->addError($errorMessage);
             }
-            $data = array(
-                'userId' => $userId,
-                'resetPasswordLinkToken' => $passwordResetToken
-            );
-            $this->_outTemplate('resetforgottenpassword', $data);
+
+            $this->_redirect('*/auth/resetpassword', array(
+                '_nosecret' => true,
+                '_query' => array(
+                    'id' => $userId,
+                    'token' => $passwordResetToken
+                )
+            ));
             return;
         }
 
@@ -149,11 +158,14 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
             $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
         } catch (Exception $exception) {
             $this->_getSession()->addError($exception->getMessage());
-            $data = array(
-                'userId' => $userId,
-                'resetPasswordLinkToken' => $passwordResetToken
-            );
-            $this->_outTemplate('resetforgottenpassword', $data);
+
+            $this->_redirect('*/auth/resetpassword', array(
+                '_nosecret' => true,
+                '_query' => array(
+                    'id' => $userId,
+                    'token' => $passwordResetToken
+                )
+            ));
             return;
         }
     }

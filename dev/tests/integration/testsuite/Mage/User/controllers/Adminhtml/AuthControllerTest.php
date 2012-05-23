@@ -59,33 +59,120 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     }
 
     /**
-     * Test redirection with posting of incorrect token
+     * Test reset password action
      *
      * @covers Mage_User_Adminhtml_AuthController::resetPasswordAction
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDataFixture Mage/User/_files/dummy_user.php
      */
-    public function testResetPasswordRedirectionWithIncorrectTokenAction()
+    public function testResetPasswordAction()
     {
-        $this->_login();
-        $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
-        $this->dispatch('admin/auth/resetPassword');
+        $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
+        $resetPasswordToken = null;
+        if ($user->getId()) {
+            $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')
+                ->generateResetPasswordLinkToken();
+            $user->changeResetPasswordLinkToken($resetPasswordToken);
+            $user->save();
+        }
+
+        $this->getRequest()
+            ->setQuery('token', $resetPasswordToken)
+            ->setQuery('id', $user->getId());
+        $this->dispatch('admin/auth/resetpassword');
+
+        $this->assertEquals('adminhtml', $this->getRequest()->getRouteName());
+        $this->assertEquals('auth', $this->getRequest()->getControllerName());
+        $this->assertEquals('resetpassword', $this->getRequest()->getActionName());
+
+        $this->assertContains($resetPasswordToken, $this->getResponse()->getBody());
+    }
+
+    /**
+     * @covers Mage_User_Adminhtml_AuthController::resetPasswordAction
+     * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
+     */
+    public function testResetPasswordActionWithDummyToken()
+    {
+        $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
+        $this->dispatch('admin/auth/resetpassword');
         $this->assertRedirect();
-        $this->_logout();
     }
 
     /**
      * @covers Mage_User_Adminhtml_AuthController::resetPasswordPostAction
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDataFixture Mage/User/_files/dummy_user.php
      */
     public function testResetPasswordPostAction()
     {
-        $this->_login();
-        $this->getRequest()->setParam('token', 'dummy')->setParam('id', 1);
-        $this->dispatch('admin/auth/resetPasswordPost');
+        $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
+        $resetPasswordToken = null;
+        if ($user->getId()) {
+            $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')
+                ->generateResetPasswordLinkToken();
+            $user->changeResetPasswordLinkToken($resetPasswordToken);
+            $user->save();
+        }
+
+        $newDummyPassword = 'new_dummy_password2';
+
+        $this->getRequest()
+            ->setQuery('token', $resetPasswordToken)
+            ->setQuery('id', $user->getId())
+            ->setPost('password', $newDummyPassword)
+            ->setPost('confirmation', $newDummyPassword);
+
+        $this->dispatch('admin/auth/resetpasswordpost');
+
         $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
-        $this->_logout();
+
+        $user = Mage::getModel('Mage_User_Model_User')
+            ->loadByUsername('dummy_username');
+
+        $this->assertTrue(Mage::helper('Mage_Core_Helper_Data')->validateHash($newDummyPassword, $user->getPassword()));
+    }
+
+    /**
+     * @covers Mage_User_Adminhtml_AuthController::resetPasswordPostAction
+     * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
+     * @magentoDataFixture Mage/User/_files/dummy_user.php
+     */
+    public function testResetPaswordPostActionWithDummyToken()
+    {
+        $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
+        $this->dispatch('admin/auth/resetpasswordpost');
+
+        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+    }
+
+    /**
+     * @covers Mage_User_Adminhtml_AuthController::resetPasswordPostAction
+     * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
+     * @magentoDataFixture Mage/User/_files/dummy_user.php
+     */
+    public function testResetPaswordPostActionWithInvalidPassword()
+    {
+        $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
+        $resetPasswordToken = null;
+        if ($user->getId()) {
+            $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')
+                ->generateResetPasswordLinkToken();
+            $user->changeResetPasswordLinkToken($resetPasswordToken);
+            $user->save();
+        }
+
+        $newDummyPassword = 'new_dummy_password2';
+
+        $this->getRequest()
+            ->setQuery('token', $resetPasswordToken)
+            ->setQuery('id', $user->getId())
+            ->setPost('password', $newDummyPassword)
+            ->setPost('confirmation', 'invalid');
+
+        $this->dispatch('admin/auth/resetpasswordpost');
+
+        $this->assertRedirect();
     }
 
     /**
