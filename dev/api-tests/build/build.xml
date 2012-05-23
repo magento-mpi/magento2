@@ -57,8 +57,9 @@
         <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
         <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
 
-        <symlink link="${dir.www}" resource="${dir.magento}" overwrite="true"/>
-
+        <exec executable="ln" failonerror="true">
+            <arg line="-s ${dir.magento} ${dir.www}"/>
+        </exec>
         <mkdir dir="${dir.magento.var.cache}"/>
         <chmod perm="777">
             <fileset dir="${dir.magento.media}"/>
