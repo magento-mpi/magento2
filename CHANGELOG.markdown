@@ -1,11 +1,10 @@
 Update as of 5/23/2012
 ======================
-* Added performance tests
-* Added ImageMagic library
-* Implemented distinguished from Page Types processing of Page Fragment Types. Distinguished Page Fragment Types in Page Types Hierarchy
+* Published performance tests (`dev/tests/performance`)
+* Implemented support of ImageMagick library for processing images
+* Distinguished "Page Fragments" and "Pages" in layout handles declaration
 * Reduced performance drop caused by introducing containers
-* Added verification of class existence in Utility_Files::codePoolClassFileExists()
-* Removed 'colors' option from PHPUnit configuration
+* Implemented Magento_Data_Structure library which is used to handle structure of layout elements
 * Fixed some issues:
   * Fixed error on saving newsletter template
   * Fixed some checkout issues:
@@ -27,6 +26,7 @@ Update as of 5/23/2012
   * Fixed error in Weee module caused broken view pages of configurable products with recurring profile or downloadable/bundle product
   * Fixed error on submitting XML Connect application
   * Fixed broken design when database is used as media storage
+* Other small changes
 
 Update as of 5/09/2012
 ======================
