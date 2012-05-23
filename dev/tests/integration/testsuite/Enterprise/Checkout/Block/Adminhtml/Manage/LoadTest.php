@@ -35,7 +35,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
 
         $parent = $this->_block->getNameInLayout();
         $this->_layout->addBlock('Mage_Core_Block_Text', $blockName1, $parent)->setText($content1);
-        $this->_layout->insertContainer($parent, $containerName);
+        $this->_layout->addContainer($containerName, 'Container', array(), $parent);
         $this->_layout->addBlock('Mage_Core_Block_Text', '', $containerName)->setText($containerContent);
         $this->_layout->addBlock('Mage_Core_Block_Text', $blockName2, $parent)->setText($content2);
 

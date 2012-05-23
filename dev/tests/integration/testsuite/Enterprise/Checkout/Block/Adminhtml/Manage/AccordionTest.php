@@ -39,7 +39,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
 
         // set second child - container
         $containerName = 'container';
-        $this->_layout->insertContainer($parentName, $containerName);
+        $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
         $this->_layout->addBlock('Mage_Core_Block_Text', 'container_block', $containerName)->setText($containerText);
 

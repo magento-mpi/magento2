@@ -21,6 +21,8 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testHandlesHierarchy($area, $package, $theme)
     {
+        $this->markTestIncomplete('MAGETWO-847: Random xpath bug failures at CI builds');
+
         $xml = $this->_composeXml($area, $package, $theme);
 
         $xpath = '/layouts/*[@type or @parent or @owner]';
@@ -31,7 +33,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         foreach ($handles as $node) {
             $error = $this->_validatePageNodeInHierarchy($node, $xml);
             if ($error) {
-                $errors[$node->getName()] = $error;
+                $index = $node->getName();
+                if (!isset($errors[$index])) {
+                    $errors[$index] = array();
+                }
+                $errors[$index][] = $error;
             }
         }
 
@@ -89,7 +95,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 $refName = $owner;
                 break;
             default:
-                return "Unknown handle type: {$type}'";
+                return "Unknown handle type: {$type}";
         }
 
         if ($refName) {

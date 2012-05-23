@@ -22,7 +22,7 @@ class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_Test
         $utility = new Mage_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml');
         $layout->getUpdate()->addHandle('enterprise_reward_customer_info')->load();
-        $layout->generateXml()->generateBlocks();
+        $layout->generateXml()->generateElements();
         $layout->addOutputElement('customer.reward');
 
         $format = '%A<div class="box info-box">%A<table id="reward-history" class="data-table">%A'

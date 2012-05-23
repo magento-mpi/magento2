@@ -29,8 +29,9 @@
     <target name="prepare-installation">
         <chmod perm="a+w">
             <dirset dir="${basedir}/app/etc"/>
-            <dirset dir="${basedir}/pub/media"/>
-            <dirset dir="${basedir}/var"/>
+            <dirset dir="${basedir}/pub/media" excludes="skin/"/>
+            <fileset dir="${basedir}/pub/media" excludes="skin/"/>
+            <dirset dir="${basedir}/var" excludes="*"/>
         </chmod>
     </target>
 
@@ -130,7 +131,7 @@
     </target>
 
     <!-- benchmark tests -->
-    <target name="performance_tests" description="Performance Tests" depends="init,prepare-installation,prepare-ce">
+    <target name="performance_tests" description="Performance Tests" depends="init,prepare-ce,prepare-installation">
         <exec executable="php" failonerror="true">
             <arg value="${basedir}/dev/tests/performance/run_scenarios.php"/>
         </exec>

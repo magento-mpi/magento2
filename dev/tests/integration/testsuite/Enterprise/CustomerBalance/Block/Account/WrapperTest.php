@@ -23,7 +23,7 @@ class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Frame
         $utility = new Mage_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/account_wrapper.xml');
         $layout->getUpdate()->addHandle('enterprise_customerbalance_info_index')->load();
-        $layout->generateXml()->generateBlocks();
+        $layout->generateXml()->generateElements();
         $layout->addOutputElement('customerbalance.wrapper');
         $html = $layout->getOutput();
 

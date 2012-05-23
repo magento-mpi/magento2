@@ -117,8 +117,6 @@ class Mage_DesignEditor_Model_Observer
         }
 
         $event = $observer->getEvent();
-        /** @var $structure Mage_Core_Model_Layout_Structure */
-        $structure = $event->getData('structure');
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $event->getData('layout');
         $elementName = $event->getData('element_name');
@@ -127,15 +125,14 @@ class Mage_DesignEditor_Model_Observer
 
         $block = $layout->getBlock($elementName);
         $isVde = ($block && 0 === strpos(get_class($block), 'Mage_DesignEditor_Block_'));
-        $isDraggable = $structure->isManipulationAllowed($elementName) && !$isVde;
+        $isDraggable = $layout->isManipulationAllowed($elementName) && !$isVde;
         $isContainer = $layout->isContainer($elementName);
 
         if ($isDraggable || $isContainer) {
-            $elementTitle = $isContainer ? $structure->getElementAttribute($elementName, 'label') : $elementName;
             $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
             $this->_wrappingRenderer->setData(array(
                 'element_id'    => $elementId,
-                'element_title' => $elementTitle,
+                'element_title' => $layout->getElementProperty($elementName, 'label') ?: $elementName,
                 'element_html'  => $transport->getData('output'),
                 'is_draggable'  => $isDraggable,
                 'is_container'  => $isContainer,

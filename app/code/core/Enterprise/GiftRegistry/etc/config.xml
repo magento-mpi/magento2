@@ -76,6 +76,14 @@
                     </enterprise_giftregistry>
                 </observers>
             </sales_order_place_after>
+            <catalog_product_delete_after>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
+                        <method>deleteProduct</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </catalog_product_delete_after>
         </events>
     </global>
     <admin>

@@ -399,7 +399,7 @@ final class Mage
     {
         Magento_Profiler::start('EVENT:' . $name);
         $result = self::app()->dispatchEvent($name, $data);
-        Magento_Profiler::stop('DISPATCH EVENT:'.$name);
+        Magento_Profiler::stop('EVENT:'.$name);
         return $result;
     }
 
@@ -672,8 +672,8 @@ final class Mage
      */
     protected static function _setIsInstalled($options = array())
     {
-        if (isset($options['is_installed']) && $options['is_installed']) {
-            self::$_isInstalled = true;
+        if (isset($options['is_installed'])) {
+            self::$_isInstalled = (bool) $options['is_installed'];
         }
     }
 

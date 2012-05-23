@@ -28,14 +28,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
 
     public function testGetAddButtonId()
     {
-        $expected = 'test_id';
-        $addButtonBlock = $this->_layout->addBlock(
-            'Mage_Core_Block_Text',
-            'add_button',
-            $this->_block->getNameInLayout()
-        );
-        $this->assertEmpty($this->_block->getAddButtonId());
-        $addButtonBlock->setId($expected);
+        $block = $this->_block->getChildBlock('add_button');
+        $expected = uniqid();
+        $this->assertNotEquals($expected, $this->_block->getAddButtonId());
+        $block->setId($expected);
         $this->assertEquals($expected, $this->_block->getAddButtonId());
     }
 }
