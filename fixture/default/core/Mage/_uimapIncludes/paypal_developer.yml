@@ -30,3 +30,4 @@ paypal_developer:
             general_validation: "//*[@id='alert_content']/span[@class='details']"
             general_success: "//*[@id='alert_content']/span[@class='message']"
             general_error: "//*[@id='alert_content']/span[@class='error']"
+            failed_account_creation: "//*[@id='alert_content']/span[@class='error'][text()='The account creation process failed, resulting in an incomplete account profile. Please delete this account and start over']"
