@@ -4,7 +4,7 @@
 
 <!--    <property name="dir.checkout.magento" value="${teamcity.build.checkoutDir}/apia"/>-->
 <!--    <property name="dir.checkout.build" value="${teamcity.build.checkoutDir}/build"/>-->
-    <property name="dir.checkout.build.files" value="${basedir}/dev/build/customization"/>
+    <property name="dir.checkout.build.files" value="${basedir}/dev/api-tests/build/customization"/>
     <property name="dir.www" value="/home/alex.borisenko/dev/bamboo_api"/>
 
     <property name="dir.magento" value="${dir.bamboo.builds}"/>
