@@ -77,7 +77,12 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             $this->click($buttonXpath);
             $this->pleaseWait();
         }
-        $this->clickButton($refundButton);
+        $this->clickButton($refundButton, false);
+        $this->waitForNewPage();
+        $this->validatePage();
+        //@TODO
+        //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
+        $this->orderHelper()->verifyPayPalErrors();
         $this->assertMessagePresent('success', 'success_creating_creditmemo');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {
