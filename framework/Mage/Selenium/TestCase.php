@@ -3645,9 +3645,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $notLoaded = false;
             } catch (RuntimeException $e) {
-                if ($this->isElementPresent("//xhtml:title")) {
+                /*if ($this->isElementPresent("//xhtml:title")) {
                     throw new RuntimeException($this->getText("//xhtml:title"));
-                }
+                }*/
                 if ($retries == 10) {
                     throw new RuntimeException('Timed out after ' . ($this->_browserTimeoutPeriod * 10) . 'ms');
                 }
