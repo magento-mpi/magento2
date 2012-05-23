@@ -11,8 +11,11 @@
 /**
  * Block for Urlrewrites grid container
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @method Mage_Adminhtml_Block_Urlrewrite setSelectorBlock(Mage_Adminhtml_Block_Urlrewrite_Selector $value)
+ * @method null|Mage_Adminhtml_Block_Urlrewrite_Selector getSelectorBlock()
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_Container
@@ -45,7 +48,11 @@ class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_C
     {
         $url = $this->getUrl('*/*/edit');
 
-        $selectorBlock = Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Selector');
+        $selectorBlock = $this->getSelectorBlock();
+        if ($selectorBlock === null) {
+            $selectorBlock = Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Selector');
+        }
+
         if ($selectorBlock) {
             $modes = array_keys($selectorBlock->getModes());
             $url .= reset($modes);

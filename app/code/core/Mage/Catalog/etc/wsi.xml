@@ -64,6 +64,7 @@
                     <xsd:element name="meta_description" type="xsd:string" minOccurs="0" />
                     <xsd:element name="custom_design" type="xsd:string" minOccurs="0" />
                     <xsd:element name="custom_layout_update" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="options_container" type="xsd:string" minOccurs="0" />
                     <xsd:element name="additional_attributes" type="typens:associativeArray" minOccurs="0" />
                 </xsd:sequence>
             </xsd:complexType>
@@ -94,6 +95,7 @@
                     <xsd:element name="meta_description" type="xsd:string" minOccurs="0" />
                     <xsd:element name="custom_design" type="xsd:string" minOccurs="0" />
                     <xsd:element name="custom_layout_update" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="options_container" type="xsd:string" minOccurs="0" />
                     <xsd:element name="additional_attributes" type="typens:associativeArray" minOccurs="0" />
                 </xsd:sequence>
             </xsd:complexType>

@@ -136,7 +136,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Mage_Cron_Model_Schedule|Varien_Object $schedule
      * @param bool $forceRun
      * @return bool
      */

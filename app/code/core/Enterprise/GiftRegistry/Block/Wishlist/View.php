@@ -28,7 +28,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
                     $this->_layout->unsetChild('my.account.wrapper', 'customer.wishlist');
                     $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
                 }
-                $this->_layout->insertBlock('my.account.wrapper', $this->getNameInLayout(), 'customer.wishlist');
+                $this->_layout->setChild('my.account.wrapper', $this->getNameInLayout(), 'customer.wishlist');
             }
         }
         return parent::_prepareLayout();

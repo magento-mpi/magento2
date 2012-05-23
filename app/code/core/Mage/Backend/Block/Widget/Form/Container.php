@@ -62,7 +62,9 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
 
     protected function _prepareLayout()
     {
-        if ($this->_blockGroup && $this->_controller && $this->_mode) {
+        if ($this->_blockGroup && $this->_controller && $this->_mode
+            && !$this->_layout->getChildName($this->_nameInLayout, 'form')
+        ) {
             $this->setChild(
                 'form',
                 $this->getLayout()->createBlock($this->_blockGroup

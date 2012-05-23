@@ -35,7 +35,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     public function testViewAction()
     {
         $this->dispatch('catalog/product/view/id/1');
-
         /** @var $currentProduct Mage_Catalog_Model_Product */
         $currentProduct = Mage::registry('current_product');
         $this->assertInstanceOf('Mage_Catalog_Model_Product', $currentProduct);

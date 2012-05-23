@@ -22,6 +22,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CACHE_BETA_TYPES             = 'global/cache/betatypes';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
+    const XML_PATH_IMAGE_ADAPTER                = 'dev/image/adapter';
 
     const CHARS_LOWERS                          = 'abcdefghijklmnopqrstuvwxyz';
     const CHARS_UPPERS                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -774,5 +775,15 @@ XML;
         }
 
         return $remainder;
+    }
+
+    /**
+     * Returns image adapter type
+     *
+     * @return string
+     */
+    public function getImageAdapterType()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_IMAGE_ADAPTER);
     }
 }

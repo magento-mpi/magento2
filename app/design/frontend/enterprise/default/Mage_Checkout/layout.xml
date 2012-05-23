@@ -91,6 +91,12 @@ Default layout, loads most of the pages
         <reference name="product.info">
             <block type="Mage_Checkout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"></block>
         </reference>
+        <reference name="product.info.addtocart">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
+        <reference name="product.info.addtocart.additional">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
     </checkout_cart_configure>
 
 <!--
@@ -242,7 +248,7 @@ Multi address shipping checkout billing information
         <!-- Mage_Checkout -->
         <reference name="content">
             <block type="Mage_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
-                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>Mage_Payment::form/purchaseorder.phtml</template></action>
                 <container name="payment_methods_before" label="Payment Methods Before"/>
                 <container name="payment_methods_after" label="Payment Methods After"/>
 
@@ -336,7 +342,7 @@ One page checkout main layout
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Payment" name="checkout.onepage.payment" as="payment" template="onepage/payment.phtml">
                     <block type="Mage_Checkout_Block_Onepage_Payment_Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml">
-                        <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                        <action method="setMethodFormTemplate"><method>purchaseorder</method><template>Mage_Payment::form/purchaseorder.phtml</template></action>
                     </block>
                     <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.additional" as="additional" />
                     <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" />
@@ -369,7 +375,7 @@ One page checkout payment methods block
         <label>One Page Checkout Choose Payment Method</label>
         <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Mage_Checkout_Block_Onepage_Payment_Methods" name="payment_method" template="onepage/payment/methods.phtml">
-                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>Mage_Payment::form/purchaseorder.phtml</template></action>
                 <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
                 <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods.additional" as="additional" />
             </block>

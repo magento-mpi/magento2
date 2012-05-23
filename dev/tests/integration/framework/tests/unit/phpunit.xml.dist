@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="./framework/bootstrap.php" colors="true">
+<phpunit bootstrap="./framework/bootstrap.php">
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Unit Tests for Integration Tests Framework">
