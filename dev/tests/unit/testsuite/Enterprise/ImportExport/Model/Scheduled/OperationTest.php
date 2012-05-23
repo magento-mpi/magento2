@@ -22,7 +22,14 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     {
         $this->_model = $this->getMock(
             'Enterprise_ImportExport_Model_Scheduled_Operation',
-            array('getOperationType', 'getEntityType', 'getFileInfo', '_getCurrentTime', '_getHistoryDirPath', '_construct')
+            array(
+                'getOperationType',
+                'getEntityType',
+                'getFileInfo',
+                '_getCurrentTime',
+                '_getHistoryDirPath',
+                '_construct'
+            )
         );
         $this->_model->expects($this->once())
             ->method('getOperationType')
