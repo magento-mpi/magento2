@@ -11,6 +11,11 @@
 
 class Mage_Adminhtml_Model_System_Config_Source_Image_Adapter
 {
+    /**
+     * Return hash of image adapter codes and labels
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

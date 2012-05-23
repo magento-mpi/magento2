@@ -12,11 +12,9 @@
 class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
 {
     /**
-     * Whether image was resized or not
-     *
-     * @var bool
+     * The blur factor where > 1 is blurry, < 1 is sharp
      */
-    protected $_resized = false;
+    const BLUR_FACTOR = 0.7;
 
     /**
      * Options Container
@@ -27,6 +25,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         'resolution' => array(
             'x' => 72,
             'y' => 72
+        ),
+        'small_image' => array(
+            'width'  => 300,
+            'height' => 300
+        ),
+        'sharpen' => array(
+            'radius'    => 4,
+            'deviation' => 1
         )
     );
 
@@ -90,35 +96,9 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * @param string $destination
      * @param string $newName
      */
-    public function save($destination=null, $newName=null)
+    public function save($destination = null, $newName = null)
     {
-        $fileName = !isset($destination) ? $this->_fileName : $destination;
-
-        if (isset($destination) && isset($newName)) {
-            $fileName = $destination . DIRECTORY_SEPARATOR . $newName;
-        } elseif (isset($destination) && !isset($newName)) {
-            $info = pathinfo($destination);
-            $fileName = $destination;
-            $destination = $info['dirname'];
-        } elseif (!isset($destination) && isset($newName)) {
-            $fileName = $this->_fileSrcPath . DIRECTORY_SEPARATOR . $newName;
-        } else {
-            $fileName = $this->_fileSrcPath . $this->_fileSrcName;
-        }
-
-        $destinationDir = isset($destination) ? $destination : $this->_fileSrcPath;
-
-        if(!is_writable($destinationDir)) {
-            try {
-                $io = new Varien_Io_File();
-                $result = $io->mkdir($destination);
-            } catch (Exception $e) {
-                $result = false;
-            }
-            if (!$result) {
-                throw new Exception("Unable to write file into directory '{$destinationDir}'. Access forbidden.");
-            }
-        }
+        $fileName = $this->_prepareDestination($destination, $newName);
 
         $this->_applyOptions();
         $this->_imageHandler->stripImage();
@@ -128,14 +108,17 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Apply options to image. Will be usable later when create an option container
      *
-     * @return Varien_Image_Adapter_Imagemagic
+     * @return Varien_Image_Adapter_ImageMagick
      */
     protected function _applyOptions()
     {
         $this->_imageHandler->setImageCompressionQuality($this->quality());
         $this->_imageHandler->setImageCompression(Imagick::COMPRESSION_JPEG);
         $this->_imageHandler->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
-        $this->_imageHandler->setImageResolution($this->_options['resolution']['x'], $this->_options['resolution']['y']);
+        $this->_imageHandler->setImageResolution(
+            $this->_options['resolution']['x'],
+            $this->_options['resolution']['y']
+        );
         if (method_exists($this->_imageHandler, 'optimizeImageLayers')) {
             $this->_imageHandler->optimizeImageLayers();
         }
@@ -169,17 +152,25 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         ) {
             $this->_imageHandler->sampleImage($dims['dst']['width'], $dims['dst']['height']);
         } else {
-            $this->_imageHandler->resizeImage($dims['dst']['width'], $dims['dst']['height'], Imagick::FILTER_LANCZOS, true);
+            $this->_imageHandler->resizeImage(
+                $dims['dst']['width'],
+                $dims['dst']['height'],
+                Imagick::FILTER_LANCZOS,
+                self::BLUR_FACTOR,
+                true
+            );
         }
 
-        if ($this->_imageHandler->getImageWidth() < 300
-            || $this->_imageHandler->getImageHeight() < 300
+        if ($this->_imageHandler->getImageWidth() < $this->_options['small_image']['width']
+            || $this->_imageHandler->getImageHeight() < $this->_options['small_image']['height']
         ) {
-            $this->_imageHandler->sharpenImage(4, 1);
+            $this->_imageHandler->sharpenImage(
+                $this->_options['sharpen']['radius'],
+                $this->_options['sharpen']['deviation']
+            );
         }
 
         $this->refreshImageDimensions();
-        $this->_resized = true;
     }
 
     /**
@@ -189,7 +180,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      */
     public function rotate($angle)
     {
-        # compatibility with GD2 adapter
+        // compatibility with GD2 adapter
         $angle = 360 - $angle;
         $pixel = new ImagickPixel;
         $pixel->setColor("rgb(" . $this->imageBackgroundColor . ")");
@@ -224,6 +215,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Add watermark to image
      *
+     * @throws RuntimeException
      * @param string $imagePath
      * @param int $positionX
      * @param int $positionY
@@ -250,7 +242,6 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 foreach ($pixels as $x => $pixel) {
                     $watermark->paintTransparentImage($pixel, $opacity, 65535);
                 }
-
                 $iterator->syncIterator();
             }
         }
@@ -284,14 +275,24 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 $offsetY = $positionY;
                 while($offsetY <= ($this->_imageSrcHeight + $watermark->getImageHeight())) {
                     while($offsetX <= ($this->_imageSrcWidth + $watermark->getImageWidth())) {
-                        $this->_imageHandler->compositeImage($watermark->getHandler(), Imagick::COMPOSITE_OVER, $offsetX, $offsetY);
+                        $this->_imageHandler->compositeImage(
+                            $watermark,
+                            Imagick::COMPOSITE_OVER,
+                            $offsetX,
+                            $offsetY
+                        );
                         $offsetX += $watermark->getImageWidth();
                     }
                     $offsetX = $positionX;
                     $offsetY += $watermark->getImageHeight();
                 }
             } else {
-                $this->_imageHandler->compositeImage($watermark, Imagick::COMPOSITE_OVER, $positionX, $positionY);
+                $this->_imageHandler->compositeImage(
+                    $watermark,
+                    Imagick::COMPOSITE_OVER,
+                    $positionX,
+                    $positionY
+                );
             }
         } catch (ImagickException $e) {
             throw new RuntimeException('Unable to create watermark.', $e->getCode(), $e);
@@ -300,7 +301,6 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         // merge layers
         $this->_imageHandler->flattenImages();
         $watermark->destroy();
-        $this->refreshImageDimensions();
     }
 
     /**
@@ -337,7 +337,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Destroy stored information about image
      *
-     * @return Varien_Image_Adapter_Imagemagic
+     * @return Varien_Image_Adapter_ImageMagick
      */
     public function destroy()
     {
@@ -350,17 +350,16 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     }
 
     /**
-     * Returns the array of the specified pixel
+     * Returns rgb array of the specified pixel
      *
      * @param int $x
      * @param int $y
-     * @param bool $returnString
-     * @return string|array
+     * @return array
      */
-    public function getColorAt($x, $y, $returnArray = false)
+    public function getColorAt($x, $y)
     {
         $pixel = $this->_imageHandler->getImagePixelColor($x, $y);
 
-        return $returnArray ? $pixel->getColor() : explode(',', $pixel->getColorAsString());
+        return explode(',', $pixel->getColorAsString());
     }
 }

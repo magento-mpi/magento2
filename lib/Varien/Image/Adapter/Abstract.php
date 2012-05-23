@@ -15,9 +15,15 @@
 
 abstract class Varien_Image_Adapter_Abstract
 {
-    public $fileName = null;
+    /**
+     * Background color
+     * @var mixed
+     */
     public $imageBackgroundColor = 0;
 
+    /**
+     * Position constants
+     */
     const POSITION_TOP_LEFT = 'top-left';
     const POSITION_TOP_RIGHT = 'top-right';
     const POSITION_BOTTOM_LEFT = 'bottom-left';
@@ -26,20 +32,21 @@ abstract class Varien_Image_Adapter_Abstract
     const POSITION_TILE = 'tile';
     const POSITION_CENTER = 'center';
 
-    protected $_fileType = null;
-    protected $_fileName = null;
-    protected $_fileMimeType = null;
-    protected $_fileSrcName = null;
-    protected $_fileSrcPath = null;
-    protected $_imageHandler = null;
-    protected $_imageSrcWidth = null;
-    protected $_imageSrcHeight = null;
-    protected $_requiredExtensions = null;
-    protected $_watermarkPosition = null;
-    protected $_watermarkWidth = null;
-    protected $_watermarkHeigth = null;
-    protected $_watermarkImageOpacity = null;
-    protected $_quality = null;
+
+    protected $_fileType;
+    protected $_fileName ;
+    protected $_fileMimeType;
+    protected $_fileSrcName;
+    protected $_fileSrcPath;
+    protected $_imageHandler;
+    protected $_imageSrcWidth;
+    protected $_imageSrcHeight;
+    protected $_requiredExtensions;
+    protected $_watermarkPosition;
+    protected $_watermarkWidth;
+    protected $_watermarkHeigth;
+    protected $_watermarkImageOpacity;
+    protected $_quality;
 
     protected $_keepAspectRatio;
     protected $_keepFrame;
@@ -49,7 +56,7 @@ abstract class Varien_Image_Adapter_Abstract
 
     abstract public function open($fileName);
 
-    abstract public function save($destination=null, $newName=null);
+    abstract public function save($destination = null, $newName = null);
 
     abstract public function display();
 
@@ -57,7 +64,7 @@ abstract class Varien_Image_Adapter_Abstract
 
     abstract public function rotate($angle);
 
-    abstract public function crop($top=0, $left=0, $right=0, $bottom=0);
+    abstract public function crop($top = 0, $left = 0, $right = 0, $bottom = 0);
 
     abstract public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false);
 
@@ -294,13 +301,17 @@ abstract class Varien_Image_Adapter_Abstract
     /**
      * Adapt resize values based on image configuration
      *
+     * @throws Exception
      * @param int $frameWidth
      * @param int $frameHeight
      * @return array
      */
     protected function _adaptResizeValues($frameWidth, $frameHeight)
     {
-        if ((empty($frameWidth) && empty($frameHeight))) {
+        if ($frameWidth !== null && $frameWidth <= 0
+            || $frameHeight !== null && $frameHeight <= 0
+            || empty($frameWidth) && empty($frameHeight)
+        ) {
             throw new Exception('Invalid image dimensions.');
         }
 
@@ -308,15 +319,13 @@ abstract class Varien_Image_Adapter_Abstract
         if (!$this->_keepFrame) {
             if (null === $frameWidth) {
                 $frameWidth = round($frameHeight * ($this->_imageSrcWidth / $this->_imageSrcHeight));
-            }
-            elseif (null === $frameHeight) {
+            } elseif (null === $frameHeight) {
                 $frameHeight = round($frameWidth * ($this->_imageSrcHeight / $this->_imageSrcWidth));
             }
         } else {
             if (null === $frameWidth) {
                 $frameWidth = $frameHeight;
-            }
-            elseif (null === $frameHeight) {
+            } elseif (null === $frameHeight) {
                 $frameHeight = $frameWidth;
             }
         }
@@ -388,5 +397,47 @@ abstract class Varien_Image_Adapter_Abstract
     public function getSupportedFormats()
     {
         return array('gif', 'jpeg', 'jpg', 'png');
+    }
+
+    /**
+     * Create destination folder if not exists and return full file path
+     *
+     * @throws Exception
+     * @param string $destination
+     * @param string $newName
+     * @return string
+     */
+    protected function _prepareDestination($destination = null, $newName = null)
+    {
+        if (isset($destination) && isset($newName)) {
+            $fileName = $destination . DIRECTORY_SEPARATOR . $newName;
+        } elseif (isset($destination) && !isset($newName)) {
+            $info = pathinfo($destination);
+            $fileName = $destination;
+            $destination = $info['dirname'];
+        } elseif (!isset($destination) && isset($newName)) {
+            $fileName = $this->_fileSrcPath . DIRECTORY_SEPARATOR . $newName;
+        } else {
+            $fileName = $this->_fileSrcPath . DIRECTORY_SEPARATOR . $this->_fileSrcName;
+        }
+
+        if (empty($destination)) {
+            $destination = $this->_fileSrcPath;
+        }
+
+        if (!is_writable($destination)) {
+            try {
+                $io = new Varien_Io_File();
+                $result = $io->mkdir($destination);
+            } catch (Exception $e) {
+                $result = false;
+            }
+
+            if (!$result) {
+                throw new Exception('Unable to write file into directory ' . $destination . '. Access forbidden.');
+            }
+        }
+
+        return $fileName;
     }
 }

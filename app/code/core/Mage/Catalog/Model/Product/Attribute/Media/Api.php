@@ -91,6 +91,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
     /**
      * Create new image for product and return image filename
      *
+     * @throws Mage_Api_Exception
      * @param int|string $productId
      * @param array $data
      * @param string|int $store

@@ -73,14 +73,15 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Randomly returns fixtures image
+     * Randomly returns fixtures image path by pattern
      *
+     * @param string $pattern
      * @return string|null
      */
-    protected function _getFixture($type)
+    protected function _getFixture($pattern)
     {
         $dir  = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
-        $data = glob($dir . $type);
+        $data = glob($dir . $pattern);
 
         if (!empty($data)) {
             $index = isset($data[1]) ? array_rand($data) : 0;
@@ -91,19 +92,18 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check is format supported.
+     *
      * @param string $image
      * @param Varien_Image_Adapter_Abstract $adapter
-     *
-     * @depends testCheckDependencies
-     * @dataProvider openDataProvider
+     * @return bool
      */
-    protected function _checkIsFormatNotSupported($image, $adapter)
+    protected function _isFormatSupported($image, $adapter)
     {
         $data = pathinfo($image);
         $supportedTypes = $adapter->getSupportedFormats();
-        $result = $image && file_exists($image)
+        return $image && file_exists($image)
             && in_array(strtolower($data['extension']), $supportedTypes);
-        $this->assertFalse($result);
     }
 
     /**
@@ -154,7 +154,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         try  {
             $adapter->open($image);
         } catch (Exception $e) {
-            $this->_checkIsFormatNotSupported($image, $adapter);
+            $result = $this->_isFormatSupported($image, $adapter);
+            $this->assertFalse($result);
         }
     }
 
@@ -172,7 +173,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider openDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testImageSize($image, $adapter)
@@ -185,7 +185,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 $adapter->getOriginalHeight()
             ));
         } catch (Exception $e) {
-            $this->_checkIsFormatNotSupported($image, $adapter);
+            $result = $this->_isFormatSupported($image, $adapter);
+            $this->assertFalse($result);
         }
     }
 
@@ -195,7 +196,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider saveDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testSave($image, $tempPath, $adapter)
@@ -205,11 +205,10 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         try {
             call_user_func_array(array($adapter, 'save'), $tempPath);
             $tempPath = join('', $tempPath);
-            $this->assertTrue(file_exists($tempPath));
+            $this->assertFileExists($tempPath);
             unlink($tempPath);
         } catch (Exception $e) {
-            $tempPath = join('', $tempPath);
-            $this->assertFalse(is_dir($tempPath) && is_writable($tempPath));
+            $this->assertFalse(is_dir($tempPath[0]) && is_writable($tempPath[0]));
         }
     }
 
@@ -234,7 +233,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider resizeDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testResize($image, $dims, $adapter)
@@ -248,7 +246,10 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 $adapter->getOriginalHeight()
             ));
         } catch (Exception $e) {
-            $this->assertTrue(empty($dims[0]) || empty($dims[1]));
+            $result = $dims[0] !== null && $dims[0] <= 0
+                || $dims[1] !== null && $dims[1] <= 0
+                || empty($$dims[0]) && empty($$dims[1]);
+            $this->assertTrue($result);
         }
     }
 
@@ -261,7 +262,15 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 $this->_getFixture('image_adapters_test.png'),
-                array(0, 70)
+                array(null, 70)
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                array(100, null)
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                array(null, null)
             )
         ));
     }
@@ -273,7 +282,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider rotateDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testRotate($image, $angle, $pixel, $adapter)
@@ -302,7 +310,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     /**
      * Get pixel coordinates after rotation
      *
-     * @param array $pixel ('x' => 0, 'y' => 0)
+     * @param array $pixel ('x' => ..., 'y' => ...)
      * @param int $angle
      * @param array $oldSize (width, height)
      * @param array $size (width, height)
@@ -364,7 +372,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider imageWatermarkDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testWatermark($image, $watermark, $width, $height, $opacity, $position, $colorX, $colorY, $adapter)
@@ -398,10 +405,39 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
                 10,
                 10
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                $this->_getFixture('watermark.*'),
+                100,
+                70,
+                100,
+                Varien_Image_Adapter_Abstract::POSITION_TOP_LEFT,
+                10,
+                10
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                $this->_getFixture('watermark.*'),
+                100,
+                70,
+                100,
+                Varien_Image_Adapter_Abstract::POSITION_TILE,
+                10,
+                10
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                $this->_getFixture('watermark.*'),
+                100,
+                100,
+                100,
+                Varien_Image_Adapter_Abstract::POSITION_STRETCH,
+                10,
+                10
             )
         ));
     }
-
 
     /**
      * Randomly set colorX and colorY coordinates according image width and height
@@ -415,25 +451,25 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         switch ($position) {
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT:
-                $pixel['x'] = $adapter->getOriginalWidth()  - mt_rand(0, 50);
-                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(0, 50);
+                $pixel['x'] = $adapter->getOriginalWidth()  - mt_rand(1, 49);
+                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(1, 49);
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_LEFT:
-                $pixel['x'] = mt_rand(0, 50);
-                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(0, 50);
+                $pixel['x'] = mt_rand(1, 49);
+                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(1, 49);
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_TOP_LEFT:
-                $pixel['x'] = mt_rand(0, 50);
-                $pixel['y'] = mt_rand(0, 50);
+                $pixel['x'] = mt_rand(1, 49);
+                $pixel['y'] = mt_rand(1, 49);
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_TOP_RIGHT:
-                $pixel['x'] = $adapter->getOriginalWidth() - mt_rand(0, 50);
-                $pixel['y'] = mt_rand(0, 50);
+                $pixel['x'] = $adapter->getOriginalWidth() - mt_rand(0, 49);
+                $pixel['y'] = mt_rand(1, 49);
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_STRETCH:
             case Varien_Image_Adapter_Abstract::POSITION_TILE:
-                $pixel['x'] = mt_rand(0, $adapter->getOriginalWidth());
-                $pixel['y'] = mt_rand(0, $adapter->getOriginalHeight());
+                $pixel['x'] = mt_rand(1, $adapter->getOriginalWidth() - 1);
+                $pixel['y'] = mt_rand(1, $adapter->getOriginalHeight() - 1);
                 break;
         }
         return $pixel;
@@ -448,7 +484,6 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      *
      * @dataProvider cropDataProvider
-     * @depends testCheckDependencies
      * @depends testOpen
      */
     public function testCrop($image, $left, $top, $right, $bottom, $adapter)
