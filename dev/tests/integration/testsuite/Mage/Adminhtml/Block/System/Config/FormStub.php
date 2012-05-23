@@ -10,32 +10,24 @@
  */
 
 /**
- * Stub System config form block for integration test
+ * Stub system config form block for integration test
  */
 class Mage_Adminhtml_Block_System_Config_FormStub extends Mage_Adminhtml_Block_System_Config_Form
 {
     /**
      * @var array
      */
-    protected $_configDataStub;
+    protected $_configDataStub = array();
 
     /**
-     * Init fieldset fields
+     * Sets stub config data
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
-     * @param Varien_Simplexml_Element $group
-     * @param Varien_Simplexml_Element $section
      * @param array $configData
-     * @param string $fieldPrefix
-     * @param string $labelPrefix
-     * @return Mage_Adminhtml_Block_System_Config_Form
+     * @return void
      */
-    public function initFields($fieldset, $group, $section, array $configData = array(), $fieldPrefix = '',
-        $labelPrefix = ''
-    ) {
+    public function setStubConfigData(array $configData = array())
+    {
         $this->_configDataStub = $configData;
-        parent::initFields($fieldset, $group, $section, $fieldPrefix, $labelPrefix);
-        return $this;
     }
 
     /**

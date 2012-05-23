@@ -37,38 +37,36 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
      */
     public function testInitFieldsUseDefaultCheckbox($section, $group, $field, array $configData, $expectedUseDefault)
     {
-        $this->markTestIncomplete('CR MAGETWO-1202: Stub is not properly implemented and fails with strict notice');
-
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
 
         $block = new Mage_Adminhtml_Block_System_Config_FormStub();
         $block->setScope(Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES);
-        $block->initFields($fieldset, $group, $section, $configData);
+        $block->setStubConfigData($configData);
+        $block->initFields($fieldset, $group, $section);
 
-        $selectors = array();
-        $selectors['fieldset'] = 'fieldset';
-        $selectors['value'] = sprintf('input#%s_%s_%s', $section->getName(), $group->getName(), $field->getName());
-        $selectors['valueDisabled'] = sprintf('%s[disabled="disabled"]', $selectors['value']);
-        $selectors['checkbox'] = sprintf('input#%s_%s_%s_inherit.checkbox', $section->getName(), $group->getName(),
+        $fieldsetPath = 'fieldset';
+        $valuePath = sprintf('input#%s_%s_%s', $section->getName(), $group->getName(), $field->getName());
+        $valueDisabledPath = sprintf('%s[disabled="disabled"]', $valuePath);
+        $checkboxPath = sprintf('input#%s_%s_%s_inherit.checkbox', $section->getName(), $group->getName(),
             $field->getName());
-        $selectors['checkboxChecked'] = sprintf('%s[checked="checked"]', $selectors['checkbox']);
+        $checkboxCheckedPath = sprintf('%s[checked="checked"]', $checkboxPath);
         $fieldsetHtml = $fieldset->getElementHtml();
 
-        $this->assertSelectCount($selectors['fieldset'], true, $fieldsetHtml, 'Fieldset HTML is invalid');
-        $this->assertSelectCount($selectors['value'], true, $fieldsetHtml, 'Field input not found in fieldset HTML');
-        $this->assertSelectCount($selectors['checkbox'], true, $fieldsetHtml,
+        $this->assertSelectCount($fieldsetPath, true, $fieldsetHtml, 'Fieldset HTML is invalid');
+        $this->assertSelectCount($valuePath, true, $fieldsetHtml, 'Field input not found in fieldset HTML');
+        $this->assertSelectCount($checkboxPath, true, $fieldsetHtml,
             '"Use Default" checkbox not found in fieldset HTML');
 
         if ($expectedUseDefault) {
-            $this->assertSelectCount($selectors['checkboxChecked'], true, $fieldsetHtml,
+            $this->assertSelectCount($checkboxCheckedPath, true, $fieldsetHtml,
                 '"Use Default" checkbox should be checked');
-            $this->assertSelectCount($selectors['valueDisabled'], true, $fieldsetHtml,
+            $this->assertSelectCount($valueDisabledPath, true, $fieldsetHtml,
                 'Field input should be disabled');
         } else {
-            $this->assertSelectCount($selectors['checkboxChecked'], false, $fieldsetHtml,
+            $this->assertSelectCount($checkboxCheckedPath, false, $fieldsetHtml,
                 '"Use Default" checkbox should not be checked');
-            $this->assertSelectCount($selectors['valueDisabled'], false, $fieldsetHtml,
+            $this->assertSelectCount($valueDisabledPath, false, $fieldsetHtml,
                 'Field input should not be disabled');
         }
     }
@@ -78,12 +76,10 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
-        // @codingStandardsIgnoreStart
         $section = new Mage_Core_Model_Config_Element(file_get_contents(__DIR__ . '/_files/test_section_config.xml'));
-        $group = $section->groups->test_group;
-        $field = $group->fields->test_field;
-        $fieldPath = (string)$field->config_path;
-        // @codingStandardsIgnoreEnd
+        $group = current($section->xpath('groups/test_group'));
+        $field = current($group->xpath('fields/test_field'));
+        $fieldPath = (string)current($field->xpath('config_path'));
 
         return array(
             array($section, $group, $field, array(), true),
