@@ -9,7 +9,7 @@
 
     <property name="dir.magento" value="${dir.bamboo.builds}"/>
     <property name="dir.reports" value="${dir.magento}/report"/>
-    <property name="dir.magento.media" value="${dir.magento}/media"/>
+    <property name="dir.magento.media" value="${dir.magento}/pub/media"/>
     <property name="dir.magento.var" value="${dir.magento}/var"/>
     <property name="dir.magento.var.cache" value="${dir.magento.var}/cache"/>
     <property name="dir.magento.app.etc" value="${dir.magento}/app/etc"/>
