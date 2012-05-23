@@ -149,7 +149,7 @@
         <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
 
         <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="dd.varien.com/dev/alex.borisenko/bamboo_api"/>
-        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="g3eamami6rb9ldslznx7gbrlhbfklzmj"/>
+        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="n4hqk3ajzbrlh2cddcvjv1zenh4s70y1"/>
 
         <mkdir dir="${dir.reports}"/>
         <mkdir dir="${dir.tests.unit.tmp}"/>
