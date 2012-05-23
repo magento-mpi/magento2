@@ -56,7 +56,6 @@
         </copy>-->
         <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
         <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
-        <copy file="${file.magento.flush.php.dist}" tofile="${file.magento.flush.php}"/>
 
         <symlink link="${dir.www}" resource="${dir.magento}" overwrite="true"/>
 
