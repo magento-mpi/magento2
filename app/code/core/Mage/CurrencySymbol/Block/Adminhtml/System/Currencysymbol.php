@@ -15,14 +15,14 @@
  * @package    Mage_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Currencysymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Adminhtml_Block_Widget_Form
+class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Constructor. Initialization required variables for class instance.
      */
     public function __construct()
     {
-        $this->_blockGroup = 'currencysymbol_system';
+        $this->_blockGroup = 'CurrencySymbol_System';
         $this->_controller = 'adminhtml_system_currencysymbol';
         parent::__construct();
     }

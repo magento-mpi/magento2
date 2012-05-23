@@ -12,10 +12,12 @@
 <?php $_product = $this->getProduct(); ?>
 <?php $_id = $_product->getId(); ?>
 <div class="giftcard-form">
-<?php if ($_product->isAvailable()): ?>
-    <p class="availability in-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('In stock') ?></span></p>
-<?php else: ?>
-    <p class="availability out-of-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Out of stock') ?></span></p>
+<?php if ($this->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable()): ?>
+        <p class="availability in-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('In stock') ?></span></p>
+    <?php else: ?>
+        <p class="availability out-of-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Out of stock') ?></span></p>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php echo $this->getChildHtml('product_type_data_extra') ?>

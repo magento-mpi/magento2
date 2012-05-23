@@ -47,6 +47,13 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     protected $_customerId = null;
 
     /**
+     * Default MAP renderer type
+     *
+     * @var string
+     */
+    protected $_mapRenderer = 'msrp_noform';
+
+    /**
      * Retrieve url for adding product to wishlist with params
      *
      * @param Mage_Catalog_Model_Product $product

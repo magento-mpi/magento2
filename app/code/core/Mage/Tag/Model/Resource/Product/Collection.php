@@ -187,7 +187,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     public function setDescOrder($dir = 'DESC')
     {
-        $this->setOrder('relation.tag_relation_id', $dir);
+        $this->setOrder('max_tag_relation_id', $dir);
         return $this;
     }
 
@@ -321,6 +321,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
             ->join(array('relation' => $tagRelationTable), 'relation.product_id = e.entity_id', array(
                 'product_id'    => 'product_id',
                 'item_store_id' => 'store_id',
+                'max_tag_relation_id' => new Zend_Db_Expr('MAX(tag_relation_id)'),
             ))
             ->join(array('t' => $tagTable),
                 't.tag_id = relation.tag_id',
@@ -391,18 +392,28 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
     }
 
     /**
-     * Set attribute order
+     * Treat "order by" items as attributes to sort
      *
-     * @param string $attribute
-     * @param string $dir
      * @return Mage_Tag_Model_Resource_Product_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    protected function _renderOrders()
     {
-        if ($attribute == 'popularity') {
-            $this->getSelect()->order($attribute . ' ' . $dir);
-        } else {
-            parent::setOrder($attribute, $dir);
+        if (!$this->_isOrdersRendered) {
+            parent::_renderOrders();
+
+            $orders = $this->getSelect()
+                ->getPart(Zend_Db_Select::ORDER);
+
+            $appliedOrders = array();
+            foreach ($orders as $order) {
+                $appliedOrders[$order[0]] = true;
+            }
+
+            foreach ($this->_orders as $field => $direction) {
+                if (empty($appliedOrders[$field])) {
+                    $this->_select->order(new Zend_Db_Expr($field . ' ' . $direction));
+                }
+            }
         }
         return $this;
     }

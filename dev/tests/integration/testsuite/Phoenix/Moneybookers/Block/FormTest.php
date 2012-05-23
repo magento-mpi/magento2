@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Phoenix_Moneybookers
- */
 class Phoenix_Moneybookers_Block_FormTest extends PHPUnit_Framework_TestCase
 {
     /**

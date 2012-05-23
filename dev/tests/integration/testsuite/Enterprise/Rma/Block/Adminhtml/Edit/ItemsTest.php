@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Rma
- */
 class Enterprise_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestCase
 {
     /**

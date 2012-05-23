@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Reminder
- */
 class Enterprise_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**

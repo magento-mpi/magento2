@@ -48,7 +48,7 @@ class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
 
     public function testCleanup()
     {
-        $dir = realpath(__DIR__ . '/../../../../../../Magento/Test/Db');
+        $dir = realpath(dirname(__FILE__) . '/../../../../../../Magento/Test/Db');
         $this->_model->expects($this->once())
             ->method('_exec')
             ->with('sqlplus ' . $this->_accessParams . ' @' . escapeshellarg($dir . '/cleanup_database.oracle.sql'));
@@ -68,7 +68,7 @@ class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
 
     public function testRestoreBackup ()
     {
-        $dir = realpath(__DIR__ . '/../../../../../../Magento/Test/Db');
+        $dir = realpath(dirname(__FILE__) . '/../../../../../../Magento/Test/Db');
         $this->_model->expects($this->at(0))
             ->method('_exec')
             ->with('sqlplus ' . $this->_accessParams . ' @' . escapeshellarg($dir . '/cleanup_database.oracle.sql'));

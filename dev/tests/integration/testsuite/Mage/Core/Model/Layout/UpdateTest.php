@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +20,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         /* Point application to predefined layout fixtures */
         Mage::getConfig()->setOptions(array(
-            'design_dir' => dirname(__DIR__) . '/_files/design',
+            'design_dir' => dirname(dirname(__FILE__)) . '/_files/design',
         ));
         Mage::getDesign()->setDesignTheme('test/default/default');
         /* Disable loading and saving layout cache */
@@ -89,55 +86,64 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getPageLayoutHandlesDataProvider
+     * @param string $inputPageHandle
+     * @param bool $isPageTypeOnly
+     * @param array $expectedResult
+     * @dataProvider getPageHandleParentsDataProvider
      */
-    public function testGetPageLayoutHandles($inputPageHandle, $expectedResult)
+    public function testGetPageHandleParents($inputPageHandle, $isPageTypeOnly, $expectedResult)
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
-        $this->assertSame($expectedResult, $model->getPageLayoutHandles($inputPageHandle));
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
+        $this->assertSame($expectedResult, $model->getPageHandleParents($inputPageHandle, $isPageTypeOnly));
     }
 
-    public function getPageLayoutHandlesDataProvider()
+    public function getPageHandleParentsDataProvider()
     {
         return array(
-            'non-existing handle'      => array('non_existing_handle', array()),
-            'non page type handle'     => array('not_a_page_type', array()),
-            'page type with no parent' => array('default', array('default')),
+            'non-existing handle'      => array('non_existing_handle', false, array()),
+            'non page type handle'     => array('not_a_page_type', false, array()),
+            'page type with no parent' => array('default', false, array()),
             'page type with parent'    => array(
-                'catalog_category_default', array('default', 'catalog_category_default')
+                'catalog_category_default', false, array('default')
             ),
             'deeply nested page type'  => array(
-                'catalog_category_layered', array('default', 'catalog_category_default', 'catalog_category_layered')
+                'catalog_category_layered', false, array('default', 'catalog_category_default')
             ),
+            'page fragment is not processed' => array(
+                'checkout_onepage_progress', true, array()
+            ),
+            'page fragment is processed' => array(
+                'checkout_onepage_progress', false, array('default', 'checkout_onepage_index')
+            )
         );
     }
 
-    public function testGetPageTypesHierarchy()
+    public function testGetPageHandlesHierarchy()
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
-        $expected = require(__DIR__ . '/_files/_page_types_hierarchy.php');
-        $actual = $model->getPageTypesHierarchy();
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
+        $expected = require(__DIR__ . '/_files/_handles_hierarchy.php');
+        $actual = $model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
     }
 
     /**
      * Test that, regarding of the current area, page types hierarchy getter retrieves the front-end page types
      */
-    public function testGetPageTypesHierarchyFromBackend()
+    public function testGetPageHandlesHierarchyFromBackend()
     {
         $area = Mage::getDesign()->getArea();
         $this->assertEquals('frontend', $area, 'Test assumes that front-end is the current area.');
 
         /* use new instance to ensure that in-memory caching, if any, won't affect test results */
         $model = new Mage_Core_Model_Layout_Update();
-        $frontendPageTypes = $model->getPageTypesHierarchy();
+        $frontendPageTypes = $model->getPageHandlesHierarchy();
         $this->assertNotEmpty($frontendPageTypes);
 
         Mage::getDesign()->setArea('adminhtml');
         try {
-            $backendPageTypes = $this->_model->getPageTypesHierarchy();
+            $backendPageTypes = $this->_model->getPageHandlesHierarchy();
             $this->assertSame($frontendPageTypes, $backendPageTypes);
         } catch (Exception $e) {
             Mage::getDesign()->setArea($area);
@@ -147,16 +153,16 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider pageTypeExistsDataProvider
+     * @dataProvider pageHandleExistsDataProvider
      */
-    public function testPageTypeExists($inputPageType, $expectedResult)
+    public function testPageHandleExists($inputPageHandle, $expectedResult)
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
-        $this->assertSame($expectedResult, $model->pageTypeExists($inputPageType));
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
+        $this->assertSame($expectedResult, $model->pageHandleExists($inputPageHandle));
     }
 
-    public function pageTypeExistsDataProvider()
+    public function pageHandleExistsDataProvider()
     {
         return array(
             'non-existing handle'  => array('non_existing_handle', false),
@@ -166,42 +172,21 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getPageTypeLabelDataProvider
+     * @dataProvider getPageHandleLabelDataProvider
      */
-    public function testGetPageTypeLabel($inputPageType, $expectedResult)
+    public function testGetPageHandleLabel($inputPageType, $expectedResult)
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
-        $this->assertSame($expectedResult, $model->getPageTypeLabel($inputPageType));
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
+        $this->assertSame($expectedResult, $model->getPageHandleLabel($inputPageType));
     }
 
-    public function getPageTypeLabelDataProvider()
+    public function getPageHandleLabelDataProvider()
     {
         return array(
-            'non-existing handle'  => array('non_existing_handle', false),
-            'non page type handle' => array('not_a_page_type',     false),
+            'non-existing handle'  => array('non_existing_handle', null),
+            'non page type handle' => array('not_a_page_type',     null),
             'existing page type'   => array('default',             'All Pages'),
-        );
-    }
-
-    /**
-     * @dataProvider getPageTypeParentDataProvider
-     */
-    public function testGetPageTypeParent($inputPageType, $expectedResult)
-    {
-        $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
-        $this->assertSame($expectedResult, $model->getPageTypeParent($inputPageType));
-    }
-
-    public function getPageTypeParentDataProvider()
-    {
-        return array(
-            'non-existing handle'      => array('non_existing_handle',      false),
-            'non page type handle'     => array('not_a_page_type',          false),
-            'page type with no parent' => array('default',                  null),
-            'page type with parent'    => array('catalog_category_default', 'default'),
-            'deeply nested page type'  => array('catalog_category_layered', 'catalog_category_default'),
         );
     }
 
@@ -384,7 +369,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     public function testGetContainers()
     {
         $layoutUtility = new Mage_Core_Utility_Layout($this);
-        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_page_types.xml');
+        $model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
         $model->addPageHandles(array('catalog_product_view_type_configurable'));
         $model->load();
         $expected = array(

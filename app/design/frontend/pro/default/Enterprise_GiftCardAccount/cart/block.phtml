@@ -24,11 +24,26 @@
         <div class="input-box"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" /></div>
         <div class="buttons-set">
             <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
-            <button class="button check-gc-status" onclick="new Ajax.Updater('giftcard_balance_lookup', '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>', {onCreate: function() { $('gc-please-wait').show() }, onComplete: function() { $('gc-please-wait').hide() }, parameters : {giftcard_code : $('giftcard_code').value}})" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>"><span><span><?php echo $this->__('Check Gift Card status and balance') ?></span></span></button>
+            <button class="button check-gc-status" onclick="checkGiftCardStatus();" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>"><span><span><?php echo $this->__('Check Gift Card status and balance') ?></span></span></button>
         </div>
         <script type="text/javascript">
         //<![CDATA[
         var giftcardForm = new VarienForm('giftcard-form');
+        function checkGiftCardStatus()
+        {
+            if (giftcardForm.validator && !giftcardForm.validator.validate()) {
+                return false;
+            }
+            new Ajax.Updater(
+                'giftcard_balance_lookup',
+                '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
+                {
+                    onCreate: function() { $('gc-please-wait').show(); },
+                    onComplete: function() { $('gc-please-wait').hide(); },
+                    parameters : {giftcard_code : $('giftcard_code').value}
+                }
+            );
+        }
         //]]>
         </script>
     </div>

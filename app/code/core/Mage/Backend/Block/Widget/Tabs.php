@@ -77,7 +77,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      * Add new tab
      *
      * @param   string $tabId
-     * @param   array|Varien_Object $tab
+     * @param   array|Varien_Object|string $tab
      * @return  Mage_Backend_Block_Widget_Tabs
      */
     public function addTab($tabId, $tab)
@@ -381,3 +381,4 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         return $this;
     }
 }
+

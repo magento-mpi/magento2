@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_PHPUnit
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resource>
+            <connection>
+                <types>
+                    <local>
+                        <class>Mage_PHPUnit_Db_Type_Local</class>
+                        <adapter>Mage_PHPUnit_Db_Adapter</adapter>
+                    </local>
+                </types>
+            </connection>
+        </resource>
+    </global>
+
+    <install>
+        <databases>
+            <local>
+                <type>local</type>
+            </local>
+        </databases>
+    </install>
+</config>

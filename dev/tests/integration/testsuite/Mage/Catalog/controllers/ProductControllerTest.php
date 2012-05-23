@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_Catalog_ProductController.
- *
- * @group module:Mage_Catalog
  */
 class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -72,8 +70,8 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->dispatch('catalog/product/view/id/1');
         $html = $this->getResponse()->getBody();
-        $format = '%Alass="product-options" id="product-options-wrapper">%A'
-            . '<div class="product-options-bottom">%A';
+        $format = '%Aclass="product-options" id="product-options-wrapper">%A'
+            . '<div class="product-options-bottom">%A<div class="add-to-cart">%A<ul class="add-to-links">%A';
         $this->assertStringMatchesFormat($format, $html);
     }
 
@@ -112,6 +110,30 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     public function testGalleryActionNoProduct()
     {
         $this->dispatch('catalog/product/gallery/id/');
+
+        $this->assert404NotFound();
+    }
+
+    /**
+     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     */
+    public function testImageAction()
+    {
+        $this->markTestSkipped("All logic has been cut to avoid possible malicious usage of the method");
+        ob_start();
+        /* Preceding slash in URL is required in this case */
+        $this->dispatch('/catalog/product/image' . $this->_getProductImageFile());
+        $imageContent = ob_get_clean();
+        /**
+         * Check against PNG file signature.
+         * @link http://www.libpng.org/pub/png/spec/1.2/PNG-Rationale.html#R.PNG-file-signature
+         */
+        $this->assertStringStartsWith(sprintf("%cPNG\r\n%c\n", 137, 26), $imageContent);
+    }
+
+    public function testImageActionNoImage()
+    {
+        $this->dispatch('catalog/product/image/');
 
         $this->assert404NotFound();
     }

@@ -172,9 +172,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         }
 
         try {
-            $roleName = Mage::helper('Mage_User_Helper_Data')->stripTags(
-                $this->getRequest()->getParam('rolename', false)
-            );
+            $roleName = $this->getRequest()->getParam('rolename', false);
 
             $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))

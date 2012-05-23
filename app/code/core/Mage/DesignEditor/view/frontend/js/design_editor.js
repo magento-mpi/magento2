@@ -9,47 +9,21 @@
 
 (function ($) {
     /**
-     * Class for managing skin selector control
-     */
-    DesignEditorSkinSelector = function (config) {
-        this._init(config);
-        this._addListener();
-        return this;
-    };
-
-    DesignEditorSkinSelector.prototype._init = function (config) {
-        this._skinControlSelector = '#' + config.selectId;
-        this._backParams = config.backParams;
-        this.changeSkinUrl = config.changeSkinUrl;
-        return this;
-    };
-
-    DesignEditorSkinSelector.prototype._addListener = function () {
-        var thisObj = this;
-        $(this._skinControlSelector).change(
-            function () {thisObj.changeSkin()}
-        );
-        return this;
-    };
-
-    DesignEditorSkinSelector.prototype.changeSkin = function () {
-        var separator = /\?/.test(this.changeSkinUrl) ? '&' : '?';
-
-        var params = {skin: $(this._skinControlSelector).val()};
-        for (var i in this._backParams) {
-            params[i] = this._backParams[i];
-        }
-
-        var url = this.changeSkinUrl + separator + $.param(params);
-
-        window.location.href = url;
-        return this;
-    };
-
-    /**
      * Class for design editor
      */
-    DesignEditor = function () {
+    DesignEditor = function (opts) {
+        /* Children storage for the period, when highlighting is disabled */
+        this._children = {};
+
+        /* Configuration options for design editor */
+        this._options = {};
+
+        var defaultOptions = {'cookie_highlighting_name': 'vde_highlighting'};
+        $.extend(this._options, defaultOptions, opts);
+
+        if (Mage.Cookies.get(this._options['cookie_highlighting_name']) == 'off') {
+            this._processMarkers();
+        }
         this._enableDragDrop();
     };
 
@@ -104,25 +78,71 @@
     };
 
     DesignEditor.prototype._turnHighlightingOn = function () {
+        var thisObj = this;
+        Mage.Cookies.clear(this._options['cookie_highlighting_name']);
         $('.vde_element_wrapper').each(function () {
-            var elem = $(this);
-            var children = $('[vde_parent_element="' + elem.attr('id') + '"]');
-            children.removeAttr('vde_parent_element');
-            elem.show().append(children);
-            elem.children('.vde_element_title').slideDown('fast');
+            $(this)
+                .append(thisObj._getChildren($(this).attr('id')))
+                .show()
+                .children('.vde_element_title').slideDown('fast');
         });
+        this._children = {};
         return this;
     };
 
     DesignEditor.prototype._turnHighlightingOff = function () {
+        var thisObj = this;
+        Mage.Cookies.set(this._options['cookie_highlighting_name'], "off");
         $('.vde_element_wrapper').each(function () {
             var elem = $(this);
             elem.children('.vde_element_title').slideUp('fast', function () {
-                var children = elem.children(':not(.vde_element_title)');
-                children.attr('vde_parent_element', elem.attr('id'));
+                var children = elem.contents(':not(.vde_element_title)');
+                var parentId = elem.attr('id');
+                children.each(function(){
+                    thisObj._storeChild(parentId, this);
+                });
                 elem.after(children).hide();
             });
         });
         return this;
     };
+
+    DesignEditor.prototype._processMarkers = function () {
+        var thisObj = this;
+        var parentsIdsStack = [];
+        var currentParentId;
+        $('*').contents().each(function(){
+            if (this.nodeType == Node.COMMENT_NODE) {
+                if (this.data.substr(0, 9) == 'start_vde') {
+                    currentParentId = this.data.substr(6, this.data.length);
+                    parentsIdsStack.push(currentParentId);
+                    this.parentNode.removeChild(this);
+                } else if (this.data.substr(0, 7) == 'end_vde') {
+                    if (this.data.substr(4, this.data.length) !== currentParentId) {
+                        throw "Could not find closing element for opened '" + currentParentId + "' element";
+                    }
+                    parentsIdsStack.pop();
+                    currentParentId = parentsIdsStack[parentsIdsStack.length - 1];
+                    this.parentNode.removeChild(this);
+                }
+            } else if (currentParentId) {
+                thisObj._storeChild(currentParentId, this);
+            }
+        });
+    };
+
+    DesignEditor.prototype._storeChild = function (parentId, child) {
+        if (!this._children[parentId]) {
+            this._children[parentId] = [];
+        }
+        this._children[parentId].push(child);
+    };
+
+    DesignEditor.prototype._getChildren = function (parentId) {
+        if (!this._children[parentId]) {
+            return [];
+        }
+        return this._children[parentId];
+    };
+
 })(jQuery);

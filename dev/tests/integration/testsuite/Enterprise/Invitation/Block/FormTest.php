@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Invitation
- */
 class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 {
     /**

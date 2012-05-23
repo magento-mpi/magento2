@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Customer_GroupControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testNewAction()

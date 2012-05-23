@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
 {
     /**

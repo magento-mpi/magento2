@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * Geeneric backend controller
+ */
 abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
     /**
@@ -133,9 +135,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     public function preDispatch()
     {
         Mage::app()->setCurrentStore('admin');
-        $this->_areaDesign = (string)Mage::getConfig()->getNode(
-            $this->_currentArea . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
-        ) ?: 'default/default/default'; // always override frontend theme
 
         Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
         parent::preDispatch();

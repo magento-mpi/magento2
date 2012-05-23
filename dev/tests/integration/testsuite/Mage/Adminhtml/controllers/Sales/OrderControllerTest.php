@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testIndexAction()
@@ -38,5 +35,21 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
         $order->load('100000001', 'increment_id');
         $this->dispatch('admin/sales_order/view/order_id/' . $order->getId());
         $this->assertContains('Los Angeles', $this->getResponse()->getBody());
+    }
+
+    /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/Sales/_files/address.php
+     */
+    public function testAddressActionNoVAT()
+    {
+        $address = new Mage_Sales_Model_Order_Address;
+        $address->load('a_unique_firstname', 'firstname');
+        $this->getRequest()->setParam('address_id', $address->getId());
+        $this->dispatch('admin/sales_order/address');
+        $html = $this->getResponse()->getBody();
+        $prohibitedStrings = array('validate-vat', 'validateVat', 'Validate VAT');
+        foreach ($prohibitedStrings as $string) {
+            $this->assertNotContains($string, $html, 'VAT button must not be shown while editing address', true);
+        }
     }
 }

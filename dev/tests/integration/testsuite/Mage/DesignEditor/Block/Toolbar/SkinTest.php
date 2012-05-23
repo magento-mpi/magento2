@@ -11,8 +11,6 @@
 
 /**
  * Test for skin block functioning
- *
- * @group module:Mage_DesignEditor
  */
 class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCase
 {
@@ -61,42 +59,6 @@ class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCas
         $isSelected = $this->_block->isSkinSelected('c/b/a');
         Mage::getDesign()->setDesignTheme($oldTheme);
         $this->assertFalse($isSelected);
-    }
-
-    public function testGetJsonConfigType()
-    {
-        $jsonConfig = $this->_block->getJsonConfig();
-        $origData = json_decode($jsonConfig);
-        $this->assertInstanceOf('StdClass', $origData);
-    }
-
-    /**
-     * @param string $key
-     * @param string $valueType
-     *
-     * @dataProvider getJsonConfigKeysAndValuesDataProvider
-     */
-    public function testGetJsonConfigKeysAndValues($key, $valueType)
-    {
-        $jsonConfig = $this->_block->getJsonConfig();
-        $origData = (array) json_decode($jsonConfig);
-        $this->assertArrayHasKey($key, $origData);
-        if ($origData[$key] instanceof StdClass) {
-            $origData[$key] = (array) $origData[$key];
-        }
-        $this->assertInternalType($valueType, $origData[$key]);
-    }
-
-    /**
-     * @return array
-     */
-    public function getJsonConfigKeysAndValuesDataProvider()
-    {
-        return array(
-            array('selectId', 'string'),
-            array('changeSkinUrl', 'string'),
-            array('backParams', 'array')
-        );
     }
 
     public function testGetSelectHtmlId()

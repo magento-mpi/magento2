@@ -1,0 +1,43 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     performance_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+return array(
+    /**
+     * Console installer options
+     * @see Mage_Install_Model_Installer_Console::_installOptions
+     */
+    'install_options' => array(
+        'license_agreement_accepted' => 'yes',
+        'locale'                     => 'en_US',
+        'timezone'                   => 'America/Los_Angeles',
+        'default_currency'           => 'USD',
+        'db_host'                    => 'localhost',
+        'db_name'                    => 'magento',
+        'db_user'                    => 'root',
+        'db_pass'                    => '',
+        'url'                        => 'http://127.0.0.1/magento/',
+        'secure_base_url'            => 'http://127.0.0.1/magento/',
+        'use_secure'                 => 'no',
+        'use_secure_admin'           => 'no',
+        'use_rewrites'               => 'no',
+        'admin_lastname'             => 'Admin',
+        'admin_firstname'            => 'Admin',
+        'admin_email'                => 'admin@example.com',
+        'admin_username'             => 'admin',
+        'admin_password'             => '123123q', // must be at least of 7 both numeric and alphanumeric characters
+    ),
+    'scenario_files' => glob(__DIR__ . '/testsuite/*test.jmx'),
+    'scenario_params' => array(
+        'host'  => '127.0.0.1',
+        'path'  => '/magento/',
+        'users' => 1,
+        'loops' => 1,
+    ),
+);

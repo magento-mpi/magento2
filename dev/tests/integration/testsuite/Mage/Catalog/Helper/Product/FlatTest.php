@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Catalog
- */
 class Mage_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -35,12 +32,12 @@ class Mage_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_helper->isBuilt());
         $flag = $this->_helper->getFlag();
         try {
-            $flag->setIsBuild(true);
+            $flag->setIsBuilt(true);
             $this->assertTrue($this->_helper->isBuilt());
 
-            $flag->setIsBuild(false);
+            $flag->setIsBuilt(false);
         } catch (Exception $e) {
-            $flag->setIsBuild(false);
+            $flag->setIsBuilt(false);
             throw $e;
         }
     }
@@ -56,20 +53,7 @@ class Mage_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
      */
     public function testIsEnabled()
     {
-        $storeId = Mage::app()->getStore()->getId();
-        try {
-            // true
-            $this->assertFalse($this->_helper->isEnabled());
-
-            // admin in "true" returns "false"
-            Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
-            $this->assertFalse($this->_helper->isEnabled());
-
-            Mage::app()->getStore()->setId($storeId);
-        } catch (Exception $e) {
-            Mage::app()->getStore()->setId($storeId);
-            throw $e;
-        }
+        $this->assertTrue($this->_helper->isEnabled());
     }
 
     public function testIsAddFilterableAttributesDefault()

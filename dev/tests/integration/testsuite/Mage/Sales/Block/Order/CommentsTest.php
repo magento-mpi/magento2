@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Sales
- */
 class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     const SAMPLE_CONFIG_PATH = 'web/unsecure/base_url';

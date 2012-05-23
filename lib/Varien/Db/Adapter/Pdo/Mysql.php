@@ -384,7 +384,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         if (is_string($sql) && $this->getTransactionLevel() > 0) {
             $startSql = strtolower(substr(ltrim($sql), 0, 3));
             if (in_array($startSql, $this->_ddlRoutines)) {
-                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+                trigger_error(Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE, E_USER_ERROR);
             }
         }
     }
@@ -878,7 +878,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
             throw new Zend_Db_Exception(sprintf(
-                'Column "%s" does not exists on table "%s"',
+                'Column "%s" does not exist in table "%s".',
                 $oldColumnName,
                 $tableName
             ));
@@ -918,7 +918,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exist in table "%s".', $columnName, $tableName));
         }
         if (is_array($definition)) {
             $definition = $this->_getColumnDefinition($definition);
@@ -1881,7 +1881,16 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
-     * Insert array to table based on columns definition
+     * Insert array into a table based on columns definition
+     *
+     * $data can be represented as:
+     * - arrays of values ordered according to columns in $columns array
+     *      array(
+     *          array('value1', 'value2'),
+     *          array('value3', 'value4'),
+     *      )
+     * - array of values, if $columns contains only one column
+     *      array('value1', 'value2')
      *
      * @param   string $table
      * @param   array $columns
@@ -2245,6 +2254,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $cDefault = new Zend_Db_Expr('0 ON UPDATE CURRENT_TIMESTAMP');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
                 $cDefault = new Zend_Db_Expr('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+            } else if ($cNullable && !$cDefault) {
+                $cDefault = new Zend_Db_Expr('NULL');
             } else {
                 $cDefault = false;
             }
@@ -3369,23 +3380,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     protected function _prepareInsertData($row, &$bind)
     {
-        if (is_array($row)) {
-            $line = array();
-            foreach ($row as $value) {
-                if ($value instanceof Zend_Db_Expr) {
-                    $line[] = $value->__toString();
-                } else {
-                    $line[] = '?';
-                    $bind[] = $value;
-                }
+        $row = (array)$row;
+        $line = array();
+        foreach ($row as $value) {
+            if ($value instanceof Zend_Db_Expr) {
+                $line[] = $value->__toString();
+            } else {
+                $line[] = '?';
+                $bind[] = $value;
             }
-            $line = implode(', ', $line);
-        } elseif ($row instanceof Zend_Db_Expr) {
-            $line = $row->__toString();
-        } else {
-            $line = '?';
-            $bind[] = $row;
         }
+        $line = implode(', ', $line);
 
         return sprintf('(%s)', $line);
     }

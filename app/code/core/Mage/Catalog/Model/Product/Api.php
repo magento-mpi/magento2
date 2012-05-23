@@ -49,7 +49,6 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         'meta_description',
         'custom_design',
         'custom_layout_update',
-        'options_container',
         'image_label',
         'small_image_label',
         'thumbnail_label',
@@ -171,6 +170,11 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             $product->setStockData(array('use_config_manage_stock' => 0));
         }
 
+        foreach ($product->getMediaAttributes() as $mediaAttribute) {
+            $mediaAttrCode = $mediaAttribute->getAttributeCode();
+            $product->setData($mediaAttrCode, 'no_selection');
+        }
+
         $this->_prepareDataForSave($product, $productData);
 
         try {
@@ -252,7 +256,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 
         foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store
-            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== $product->getStoreId()
+            if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
                 && !$attribute->isScopeGlobal()
             ) {

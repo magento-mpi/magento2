@@ -231,7 +231,7 @@
         </reference>
     </sales_order_creditmemo>
 
-    <sales_guest_view translate="label" parent="default">
+    <sales_guest_view>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -239,7 +239,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_view>
-    <sales_guest_invoice translate="label">
+    <sales_guest_invoice>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -247,7 +247,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_invoice>
-    <sales_guest_shipment translate="label">
+    <sales_guest_shipment>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -255,7 +255,7 @@
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_shipment>
-    <sales_guest_creditmemo translate="label">
+    <sales_guest_creditmemo>
          <reference name="my.account.wrapper">
             <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info" />
         </reference>
@@ -269,30 +269,30 @@
         <block type="Enterprise_Rma_Block_Email_Items" name="enterprise_rma_email_items" template="email/items.phtml" />
     </enterprise_rma_email_rma_items>
 
-    <enterprise_rma_return_addlabel translate="label" type="page" parent="ajax_index">
+    <enterprise_rma_return_addlabel translate="label" type="fragment" owner="enterprise_rma_return_view">
         <label>RMA Return Add Label</label>
-        <reference name="root">
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml" />
-        </reference>
+        </block>
     </enterprise_rma_return_addlabel>
-    <enterprise_rma_return_dellabel translate="label" type="page" parent="ajax_index">
+    <enterprise_rma_return_dellabel translate="label" type="fragment" owner="enterprise_rma_return_view">
         <label>RMA Return Delete Label</label>
-        <reference name="root">
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml" />
-        </reference>
+        </block>
     </enterprise_rma_return_dellabel>
 
-    <enterprise_rma_guest_addlabel translate="label" type="page" parent="ajax_index">
+    <enterprise_rma_guest_addlabel translate="label" type="fragment" owner="enterprise_rma_guest_view">
         <label>RMA Guest Add Label</label>
-        <reference name="root">
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml" />
-        </reference>
+        </block>
     </enterprise_rma_guest_addlabel>
-    <enterprise_rma_guest_dellabel translate="label" type="page" parent="ajax_index">
+    <enterprise_rma_guest_dellabel translate="label" type="fragment" owner="enterprise_rma_guest_view">
         <label>RMA Guest Delete Label</label>
-        <reference name="root">
+        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml" />
-        </reference>
+        </block>
     </enterprise_rma_guest_dellabel>
 
     <enterprise_rma_tracking_popup translate="label" type="page" parent="enterprise_rma_return_view">

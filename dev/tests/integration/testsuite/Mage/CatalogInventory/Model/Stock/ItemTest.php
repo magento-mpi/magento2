@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_CatalogInventory
- */
 class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestCase
 {
     /**

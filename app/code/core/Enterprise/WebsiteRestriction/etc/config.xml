@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_WebsiteRestriction>
-            <version>1.11.0.0</version>
+            <version>1.11.0.0.1</version>
         </Enterprise_WebsiteRestriction>
     </modules>
     <global>
@@ -65,6 +65,7 @@
             <websiterestriction>
                 <full_action_names>
                     <generic>
+                        <captcha_refresh_index/>
                         <customer_account_login/>
                         <customer_account_loginPost/>
                         <customer_account_forgotpassword/>
@@ -73,6 +74,7 @@
                         <customer_account_confirmation/>
                         <customer_account_resetpassword/>
                         <customer_account_resetpasswordpost/>
+                        <core_index_noCookies/>
                         <paypal_ipn_standard/>
                         <paypal_ipn_express/>
                         <paypal_ipn_direct/>

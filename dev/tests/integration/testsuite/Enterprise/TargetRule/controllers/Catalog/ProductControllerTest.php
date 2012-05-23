@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_TargetRule
- */
 class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

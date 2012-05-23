@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_DesignEditor
- */
 class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testPreDispatchSession()
@@ -21,14 +18,14 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     }
 
     /**
-     * @param string $pageType
+     * @param string $handle
      * @param string $expectedMessage
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider pageActionErrorDataProvider
      */
-    public function testPageActionError($pageType, $expectedMessage)
+    public function testPageActionError($handle, $expectedMessage)
     {
-        $this->getRequest()->setParam('page_type', $pageType);
+        $this->getRequest()->setParam('handle', $handle);
         $this->dispatch('design/editor/page');
         $this->assertEquals(503, $this->getResponse()->getHttpResponseCode());
         $this->assertStringMatchesFormat($expectedMessage, $this->getResponse()->getBody());
@@ -40,9 +37,9 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     public function pageActionErrorDataProvider()
     {
         return array(
-            'no page type'      => array('', 'Invalid page type specified.'),
-            'invalid page type' => array('1nvalid_type', 'Invalid page type specified.'),
-            'non-existing type' => array('non_existing_type', 'Specified page type doesn\'t exist: %s'),
+            'no handle type'      => array('', 'Invalid page handle specified.'),
+            'invalid handle' => array('1nvalid_handle', 'Invalid page handle specified.'),
+            'non-existing handle' => array('non_existing_handle', 'Specified page handle doesn\'t exist: %s'),
         );
     }
 
@@ -50,24 +47,24 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider pageActionDataProvider
      *
-     * @param string $pageType
+     * @param string $handle
      * @param string $requiredModule
      * @param bool $isVdeToolbarBug
      */
-    public function testPageAction($pageType, $requiredModule)
+    public function testPageAction($handle, $requiredModule)
     {
         if (!in_array($requiredModule, Magento_Test_Helper_Factory::getHelper('config')->getEnabledModules())) {
             $this->markTestSkipped("Test requires the module '$requiredModule' to be enabled.");
         }
-        $this->getRequest()->setParam('page_type', $pageType);
+        $this->getRequest()->setParam('handle', $handle);
         $this->dispatch('design/editor/page');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
         $this->assertRegExp(
-            '/treeInstance\.select_node\(.*"' . preg_quote($pageType, '/') . '".*\)/U',
+            '/treeInstance\.select_node\(.*"' . preg_quote($handle, '/') . '".*\)/U',
             $this->getResponse()->getBody(),
-            'Page type control should maintain the selection of the current page type.'
+            'Page type control should maintain the selection of the current page handle.'
         );
     }
 

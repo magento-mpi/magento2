@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function catalogEntityAttributeSaveAfter(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function catalogProductStatusUpdate(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function catalogProductWebsiteUpdate(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -135,7 +135,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      * @return Mage_Catalog_Model_Product_Flat_Observer
      */
     public function catalogProductSaveAfter(Varien_Event_Observer $observer) {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -155,7 +155,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function storeAdd(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function storeEdit(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -195,7 +195,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function storeDelete(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -215,7 +215,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function storeGroupSave(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -240,7 +240,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function catalogProductImportAfter(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 
@@ -257,7 +257,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     public function customerGroupSaveAfter(Varien_Event_Observer $observer)
     {
-        if (!$this->_getHelper()->isBuilt()) {
+        if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
 

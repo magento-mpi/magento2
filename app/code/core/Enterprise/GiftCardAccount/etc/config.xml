@@ -39,7 +39,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
-                        <after>grand_total</after>
+                        <after>discount,tax,grand_total,reward,giftwrapping</after>
                         <before>customerbalance</before>
                     </giftcardaccount>
                 </totals>
@@ -322,6 +322,14 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </order_cancel_after>
+            <sales_prepare_amount_expression>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
+                        <method>extendSalesAmountExpression</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </sales_prepare_amount_expression>
         </events>
     </adminhtml>
     <default>

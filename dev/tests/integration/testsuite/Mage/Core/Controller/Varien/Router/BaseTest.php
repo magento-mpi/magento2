@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -92,10 +89,10 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @covers Mage_Core_Controller_Varien_Router_Standard::addModule
-     * @covers Mage_Core_Controller_Varien_Router_Standard::getModuleByFrontName
-     * @covers Mage_Core_Controller_Varien_Router_Standard::getRouteByFrontName
-     * @covers Mage_Core_Controller_Varien_Router_Standard::getFrontNameByRoute
+     * @covers Mage_Core_Controller_Varien_Router_Base::addModule
+     * @covers Mage_Core_Controller_Varien_Router_Base::getModuleByFrontName
+     * @covers Mage_Core_Controller_Varien_Router_Base::getRouteByFrontName
+     * @covers Mage_Core_Controller_Varien_Router_Base::getFrontNameByRoute
      */
     public function testAddModuleAndGetters()
     {
@@ -111,8 +108,8 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @covers Mage_Core_Controller_Varien_Router_Standard::getControllerFileName
-     * @covers Mage_Core_Controller_Varien_Router_Standard::validateControllerFileName
+     * @covers Mage_Core_Controller_Varien_Router_Base::getControllerFileName
+     * @covers Mage_Core_Controller_Varien_Router_Base::validateControllerFileName
      */
     public function testGetControllerFileName()
     {

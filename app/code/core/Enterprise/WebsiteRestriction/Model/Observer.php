@@ -81,20 +81,24 @@ class Enterprise_WebsiteRestriction_Model_Observer
                         }
 
                         // to specified landing page
-                       if (Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LANDING === (int)Mage::getStoreConfig(
-                           Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_REDIRECT
-                       )) {
-                            $allowedActionNames[] = 'cms_page_view';
+                        $restrictionRedirectCode = (int)Mage::getStoreConfig(
+                            Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_REDIRECT
+                        );
+                        if (Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LANDING === $restrictionRedirectCode) {
+                            $cmsPageViewAction = 'cms_page_view';
+                            $allowedActionNames[] = $cmsPageViewAction;
                             $pageIdentifier = Mage::getStoreConfig(
                                 Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE
                             );
-                            if ((!in_array($controller->getFullActionName(), $allowedActionNames))
-                                || $request->getParam('page_id') === $pageIdentifier) {
+                            // Restrict access to CMS pages too
+                            if (!in_array($controller->getFullActionName(), $allowedActionNames)
+                                || ($controller->getFullActionName() === $cmsPageViewAction
+                                    && $request->getAlias('rewrite_request_path') !== $pageIdentifier)
+                            ) {
                                 $redirectUrl = Mage::getUrl('', array('_direct' => $pageIdentifier));
                             }
-                        }
-                        // to login form
-                        elseif (!in_array($controller->getFullActionName(), $allowedActionNames)) {
+                        } elseif (!in_array($controller->getFullActionName(), $allowedActionNames)) {
+                            // to login form
                             $redirectUrl = Mage::getUrl('customer/account/login');
                         }
 
@@ -110,8 +114,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
                             $afterLoginUrl = Mage::getUrl();
                         }
                         Mage::getSingleton('Mage_Core_Model_Session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
-                    }
-                    elseif (Mage::getSingleton('Mage_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
+                    } elseif (Mage::getSingleton('Mage_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
                         $response->setRedirect(
                             Mage::getSingleton('Mage_Core_Model_Session')->getWebsiteRestrictionAfterLoginUrl(true)
                         );

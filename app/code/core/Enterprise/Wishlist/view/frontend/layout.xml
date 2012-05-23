@@ -80,7 +80,7 @@
         <remove name="right"></remove>
         <remove name="left"></remove>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="Enterprise_Wishlist_Block_Info" name="customer.wishlist.info" template="info.phtml" >
@@ -145,7 +145,7 @@
 
     <rss_index_wishlist>
         <block type="Enterprise_Wishlist_Block_Rss" name="rss.wishlist" output="toHtml">
-            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>wishlist/render/item/price_msrp_rss.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>Mage_Wishlist::render/item/price_msrp_rss.phtml</template></action>
         </block>
     </rss_index_wishlist>
 </layout>

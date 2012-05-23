@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getMethod()->getTitle() ?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
     {{pdf_row_separator}}
 <?php echo Mage::helper('Phoenix_Moneybookers_Helper_Data')->__('Moneybookers Transaction ID: %s', $this->escapeHtml($this->getInfo()->getLastTransId())) ?>
     {{pdf_row_separator}}

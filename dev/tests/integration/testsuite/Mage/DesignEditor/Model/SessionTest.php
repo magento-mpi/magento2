@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_DesignEditor
- */
 class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -85,6 +82,28 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isDesignEditorActive());
         $this->_model->deactivateDesignEditor();
         $this->assertFalse($this->_model->isDesignEditorActive());
+    }
+
+    public function testIsHighlightingDisabled()
+    {
+        $this->assertFalse($this->_model->isHighlightingDisabled());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
+        $this->assertTrue($this->_model->isHighlightingDisabled());
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'on');
+        $this->assertFalse($this->_model->isHighlightingDisabled());
+    }
+
+    /**
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @depends testDeactivateDesignEditor
+     * @depends testIsHighlightingDisabled
+     */
+    public function testIsHighlightingDisabledOnDeactivateDesignEditor()
+    {
+        Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
+        $this->assertTrue($this->_model->isHighlightingDisabled());
+        $this->_model->deactivateDesignEditor();
+        $this->assertFalse($this->_model->isHighlightingDisabled());
     }
 
     public function testSetSkin()

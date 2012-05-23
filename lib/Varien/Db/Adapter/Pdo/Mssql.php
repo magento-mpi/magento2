@@ -1340,7 +1340,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
             throw new Zend_Db_Exception(sprintf(
-                'Column "%s" does not exists on table "%s"',
+                'Column "%s" does not exist in table "%s".',
                 $oldColumnName,
                 $tableName
             ));
@@ -1421,7 +1421,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exist in table "%s".', $columnName, $tableName));
         }
 
         $constraint = $this->_getDefaultConstraint($tableName, $columnName);
@@ -2419,7 +2419,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Insert array to table based on columns definition
+     * Insert array into a table based on columns definition
+     *
+     * $data can be represented as:
+     * - arrays of values ordered according to columns in $columns array
+     *      array(
+     *          array('value1', 'value2'),
+     *          array('value3', 'value4'),
+     *      )
+     * - array of values, if $columns contains only one column
+     *      array('value1', 'value2')
      *
      * @param   string $table
      * @param   array $columns  the data array column map
@@ -2441,30 +2450,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $over = array_slice($data, $i);
                 break;
             }
+            $row = (array)$row;
             if ($columnsCount != count($row)) {
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
-            if ($columnsCount == 1) {
-                if ($row instanceof Zend_Db_Expr) {
-                    $line = $row->__toString();
-                } else {
-                    $line = '?';
-                    $bind[] = $row;
+            foreach ($row as $value) {
+                if ($value instanceof Zend_Db_Expr) {
+                    $line[] = $value->__toString();
                 }
-                $vals[] = sprintf('SELECT %s', $line);
-            } else {
-                foreach ($row as $value) {
-                    if ($value instanceof Zend_Db_Expr) {
-                        $line[] = $value->__toString();
-                    }
-                    else {
-                        $line[] = '?';
-                        $bind[] = $value;
-                    }
+                else {
+                    $line[] = '?';
+                    $bind[] = $value;
                 }
-                $vals[] = sprintf('SELECT %s', implode(',', $line));
             }
+            $vals[] = sprintf('SELECT %s', implode(',', $line));
         }
 
         // build the statement
@@ -2581,7 +2581,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (is_string($sql) && $this->getTransactionLevel() > 0) {
             $startSql = strtolower(substr(ltrim($sql), 0, 3));
             if (in_array($startSql, $this->_ddlRoutines)) {
-                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+                trigger_error(Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE, E_USER_ERROR);
             }
         }
     }

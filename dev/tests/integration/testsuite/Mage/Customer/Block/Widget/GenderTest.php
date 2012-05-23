@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Customer
- */
 class Mage_Customer_Block_Widget_GenderTest extends PHPUnit_Framework_TestCase
 {
     /**

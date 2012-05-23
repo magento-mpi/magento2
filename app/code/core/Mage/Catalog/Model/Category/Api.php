@@ -27,6 +27,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      *
      * @param string|int $website
      * @param string|int $store
+     * @param int $categoryId
      * @return array
      */
     public function level($website = null, $store = null, $categoryId = null)
@@ -110,8 +111,8 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     /**
      * Retrieve category tree
      *
-     * @param int $parent
-     * @param string|int $store
+     * @param int|null $parentId
+     * @param string|int|null $store
      * @return array
      */
     public function tree($parentId = null, $store = null)
@@ -168,7 +169,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     }
 
     /**
-     * Initilize and return category model
+     * Initialize and return category model
      *
      * @param int $categoryId
      * @param string|int $store
@@ -224,6 +225,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      *
      * @param int $parentId
      * @param array $categoryData
+     * @param int|string|null $store
      * @return int
      */
     public function create($parentId, $categoryData, $store = null)
@@ -307,8 +309,9 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             }
 
             $category->save();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -355,6 +358,10 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function delete($categoryId)
     {
+        if (Mage_Catalog_Model_Category::TREE_ROOT_ID == $categoryId) {
+            $this->_fault('not_deleted', 'Cannot remove the system category.');
+        }
+
         $category = $this->_initCategory($categoryId);
 
         try {
@@ -367,10 +374,10 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     }
 
     /**
-     * Get prduct Id from sku or from product id
+     * Get product Id from sku or from product id
      *
      * @param int|string $productId
-     * @param  string $identifierType
+     * @param string $identifierType
      * @return int
      */
     protected function _getProductId($productId, $identifierType = null)
@@ -419,13 +426,14 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      * @param int $categoryId
      * @param int $productId
      * @param int $position
+     * @param string|null $identifierType
      * @return boolean
      */
     public function assignProduct($categoryId, $productId, $position = null, $identifierType = null)
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();
-        $productId = $this->_getProductId($productId);
+        $productId = $this->_getProductId($productId, $identifierType);
         $positions[$productId] = $position;
         $category->setPostedProducts($positions);
 
@@ -445,6 +453,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      * @param int $categoryId
      * @param int $productId
      * @param int $position
+     * @param string|null $identifierType
      * @return boolean
      */
     public function updateProduct($categoryId, $productId, $position = null, $identifierType = null)
@@ -472,6 +481,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      *
      * @param int $categoryId
      * @param int $productId
+     * @param string|null $identifierType
      * @return boolean
      */
     public function removeProduct($categoryId, $productId, $identifierType = null)
@@ -495,4 +505,4 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         return true;
     }
 
-} // Class Mage_Catalog_Model_Category_Api End
+}

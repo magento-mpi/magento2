@@ -269,6 +269,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $order = $this->_getOrder();
         $payment = $order->getPayment();
         $payment->setTransactionId($this->getIpnFormData('transaction_id'))
+            ->setCurrencyCode($this->getIpnFormData('mc_currency'))
             ->setPreparedMessage($this->_createIpnComment('', false))
             ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
             ->setShouldCloseParentTransaction(self::AUTH_STATUS_COMPLETED === $this->getIpnFormData('auth_status'))

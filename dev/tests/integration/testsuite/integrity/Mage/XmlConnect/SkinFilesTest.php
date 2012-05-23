@@ -10,7 +10,6 @@
  */
 
 /**
- * @group module:Mage_XmlConnect
  * @group integrity
  */
 class Integrity_Mage_XmlConnect_SkinFilesTest extends PHPUnit_Framework_TestCase

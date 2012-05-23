@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Config_BaseTest extends PHPUnit_Framework_TestCase
 {
     public function testConstruct()

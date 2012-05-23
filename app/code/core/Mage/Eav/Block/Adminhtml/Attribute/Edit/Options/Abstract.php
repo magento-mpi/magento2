@@ -121,6 +121,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
                 ->setPositionOrder('desc', true)
                 ->load();
 
+            $helper = Mage::helper('Mage_Core_Helper_Data');
             foreach ($optionCollection as $option) {
                 $value = array();
                 if (in_array($option->getId(), $defaultValues)) {
@@ -134,12 +135,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
                 $value['sort_order'] = $option->getSortOrder();
                 foreach ($this->getStores() as $store) {
                     $storeValues = $this->getStoreOptionValues($store->getId());
-                    if (isset($storeValues[$option->getId()])) {
-                        $value['store'.$store->getId()] = htmlspecialchars($storeValues[$option->getId()]);
-                    }
-                    else {
-                        $value['store'.$store->getId()] = '';
-                    }
+                    $value['store' . $store->getId()] = isset($storeValues[$option->getId()])
+                        ? $helper->escapeHtml($storeValues[$option->getId()]) : '';
                 }
                 $values[] = new Varien_Object($value);
             }

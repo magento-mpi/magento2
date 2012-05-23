@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Block_Report_Sales_Shipping_GridTest extends PHPUnit_Framework_TestCase
 {
     /**

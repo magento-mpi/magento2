@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**

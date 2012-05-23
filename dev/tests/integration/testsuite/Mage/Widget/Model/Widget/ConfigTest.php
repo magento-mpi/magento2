@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Widget
- */
 class Mage_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**

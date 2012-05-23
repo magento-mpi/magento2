@@ -13,7 +13,6 @@
  * First part of Mage_Core_Model_Config testing:
  * - general behaviour is tested
  *
- * @group module:Mage_Core
  * @see Mage_Core_Model_ConfigFactoryTest
  */
 class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
@@ -306,11 +305,28 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('Admin', $baseUrl);
     }
 
-    public function testShouldUrlBeSecure()
+    /**
+     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes
+     *
+     * @magentoConfigFixture current_store web/secure/use_in_frontend 1
+     */
+    public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
     {
         $model = $this->_createModel(true);
         $this->assertFalse($model->shouldUrlBeSecure('/'));
         $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
+    }
+
+    /**
+     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = No
+     *
+     * @magentoConfigFixture current_store web/secure/use_in_frontend 0
+     */
+    public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
+    {
+        $model = $this->_createModel(true);
+        $this->assertFalse($model->shouldUrlBeSecure('/'));
+        $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
     }
 
     public function testGetTablePrefix()

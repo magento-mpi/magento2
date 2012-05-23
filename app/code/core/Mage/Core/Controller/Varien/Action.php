@@ -34,6 +34,8 @@ abstract class Mage_Core_Controller_Varien_Action
     const PARAM_NAME_BASE64_URL         = 'r64';
     const PARAM_NAME_URL_ENCODED        = 'uenc';
 
+    const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
+
     /**
      * Request object
      *
@@ -111,13 +113,6 @@ abstract class Mage_Core_Controller_Varien_Action
     protected $_removeDefaultTitle = false;
 
     /**
-     * Custom design parameters for current area
-     *
-     * @var string
-     */
-    protected $_areaDesign = null;
-
-    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -151,7 +146,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function hasAction($action)
     {
-        return is_callable(array($this, $this->getActionMethodName($action)));
+        return method_exists($this, $this->getActionMethodName($action));
     }
 
     /**
@@ -289,10 +284,10 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function addActionLayoutHandles()
     {
-        /*
-         * @todo Use addPageLayoutHandles() as soon as page type inheritance declarations are correct
-         */
-        $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
+        $renderInherited = (string) Mage::app()->getConfig()->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
+        if (!$renderInherited || !$this->addPageLayoutHandles()) {
+            $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
+        }
         return $this;
     }
 
@@ -425,8 +420,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         try {
             $actionMethodName = $this->getActionMethodName($action);
-
-            if (!is_callable(array($this, $actionMethodName))) {
+            if (!method_exists($this, $actionMethodName)) {
                 $actionMethodName = 'norouteAction';
             }
 
@@ -509,10 +503,13 @@ abstract class Mage_Core_Controller_Varien_Action
                 if ($session->getCookieShouldBeReceived()) {
                     $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
                     $session->unsCookieShouldBeReceived();
-                } else {
-                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()) {
+                    $session->setSkipSessionIdFlag(true);
+                } elseif ($checkCookie) {
+                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()
+                        && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+                    ) {
                         $session->setCookieShouldBeReceived(true);
-                    } elseif ($checkCookie) {
+                    } else {
                         $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
                     }
                 }
@@ -528,17 +525,10 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _initDesign()
     {
-        Mage::app()->loadArea($this->getLayout()->getArea());
-        $areaDesign = $this->_areaDesign ?: Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
-        $design = Mage::getDesign()->setDesignTheme($areaDesign, $this->getLayout()->getArea());
-
-        if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
-            if (!$this->_applyUserAgentDesignException($design)) {
-                Mage::getSingleton('Mage_Core_Model_Design')
-                    ->loadChange(Mage::app()->getStore()->getStoreId())
-                    ->changeDesign($design);
-            }
-        }
+        $area = Mage::app()->getArea($this->getLayout()->getArea());
+        $area->load();
+        $area->detectDesign($this->getRequest());
+        
         return $this;
     }
 
@@ -598,35 +588,6 @@ abstract class Mage_Core_Controller_Varien_Action
             array('controller_action' => $this));
         Mage::dispatchEvent('controller_action_predispatch_' . $this->getFullActionName(),
             array('controller_action' => $this));
-    }
-
-    /**
-     * Analyze user-agent information to override custom design settings
-     *
-     * @param Mage_Core_Model_Design_Package $design
-     * @return bool
-     */
-    protected function _applyUserAgentDesignException(Mage_Core_Model_Design_Package $design)
-    {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
-            return false;
-        }
-        try {
-            $expressions = Mage::getStoreConfig('design/theme/ua_regexp');
-            if (!$expressions) {
-                return false;
-            }
-            $expressions = unserialize($expressions);
-            foreach ($expressions as $rule) {
-                if (preg_match($rule['regexp'], $_SERVER['HTTP_USER_AGENT'])) {
-                    $design->setDesignTheme($rule['value']);
-                    return true;
-                }
-            }
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-        return false;
     }
 
     /**
@@ -801,7 +762,9 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('Mage_Core_Model_Session', array('name' => $this->_sessionNamespace));
-        if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()) {
+        if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
+            && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+        ) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()
             ));
@@ -884,8 +847,6 @@ abstract class Mage_Core_Controller_Varien_Action
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
             $refererUrl = Mage::helper('Mage_Core_Helper_Data')->urlDecode($url);
         }
-
-        $refererUrl = Mage::helper('Mage_Core_Helper_Data')->escapeUrl($refererUrl);
 
         if (!$this->_isUrlInternal($refererUrl)) {
             $refererUrl = Mage::app()->getStore()->getBaseUrl();

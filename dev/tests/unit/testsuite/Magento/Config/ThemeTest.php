@@ -22,11 +22,11 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testConstructException()
     {
-        new Magento_Config_Theme(glob(__DIR__ . '/_files/packages/*/theme.xml')); // no files will be found
+        new Magento_Config_Theme(array());
     }
 
     public function testGetSchemaFile()
@@ -35,13 +35,13 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $code
+     * @param string $package
      * @param mixed $expected
      * @dataProvider getPackageTitleDataProvider
      */
-    public function testGetPackageTitle($code, $expected)
+    public function testGetPackageTitle($package, $expected)
     {
-        $this->assertSame($expected, self::$_model->getPackageTitle($code));
+        $this->assertSame($expected, self::$_model->getPackageTitle($package));
     }
 
     /**
@@ -51,20 +51,27 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('default', 'Default'),
-            array('test', 'Test'),
-            array('invalid', false),
+            array('test',    'Test'),
         );
     }
 
     /**
-     * @param string $themeCode
-     * @param string $packageCode
+     * @expectedException Magento_Exception
+     */
+    public function testGetPackageTitleException()
+    {
+        self::$_model->getPackageTitle('invalid');
+    }
+
+    /**
+     * @param string $package
+     * @param string $theme
      * @param mixed $expected
      * @dataProvider getThemeTitleDataProvider
      */
-    public function testGetThemeTitle($themeCode, $packageCode, $expected)
+    public function testGetThemeTitle($package, $theme, $expected)
     {
-        $this->assertSame($expected, self::$_model->getThemeTitle($themeCode, $packageCode));
+        $this->assertSame($expected, self::$_model->getThemeTitle($package, $theme));
     }
 
     /**
@@ -74,28 +81,30 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('default', 'default', 'Default'),
-            array('test', 'default', 'Test'),
-            array('invalid', 'invalid', false),
-            array('default', 'invalid', false),
-            array('invalid', 'default', false),
+            array('default', 'test',    'Test'),
         );
     }
 
     /**
-     * @dataProvider getCompatibleVersionsExceptionDataProvider
-     * @expectedException Magento_Exception
+     * @param string $package
+     * @param string $theme
+     * @param mixed $expected
+     * @dataProvider getParentThemeDataProvider
      */
-    public function testGetCompatibleVersionsException($package, $theme)
+    public function testGetParentTheme($package, $theme, $expected)
     {
-        self::$_model->getCompatibleVersions($package, $theme);
+        $this->assertSame($expected, self::$_model->getParentTheme($package, $theme));
     }
 
-    public function getCompatibleVersionsExceptionDataProvider()
+    /**
+     * @return array
+     */
+    public function getParentThemeDataProvider()
     {
         return array(
-            array('test', 'unknown'),
-            array('unknown', 'default'),
-            array('unknown', 'unknown')
+            array('default', 'default', null),
+            array('default', 'test',    'default'),
+            array('default', 'test2',   'test'),
         );
     }
 
@@ -113,5 +122,31 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
             array('test', 'default', array('from' => '2.0.0.0-dev1', 'to' => '*')),
             array('default', 'test', array('from' => '2.0.0.0', 'to' => '*')),
         );
+    }
+
+    /**
+     * @param string $getter
+     * @param string $package
+     * @param string $theme
+     * @dataProvider ensureThemeExistsExceptionDataProvider
+     * @expectedException Magento_Exception
+     */
+    public function testEnsureThemeExistsException($getter, $package, $theme)
+    {
+        self::$_model->$getter($package, $theme);
+    }
+
+    /**
+     * @return array
+     */
+    public function ensureThemeExistsExceptionDataProvider()
+    {
+        $result = array();
+        foreach (array('getThemeTitle', 'getParentTheme', 'getCompatibleVersions') as $getter) {
+            $result[] = array($getter, 'invalid', 'invalid');
+            $result[] = array($getter, 'default', 'invalid');
+            $result[] = array($getter, 'invalid', 'default');
+        }
+        return $result;
     }
 }

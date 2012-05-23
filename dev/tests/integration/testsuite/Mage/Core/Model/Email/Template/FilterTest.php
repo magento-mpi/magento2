@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -24,6 +21,11 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         $this->_model = new Mage_Core_Model_Email_Template_Filter;
     }
 
+    /**
+     * Isolation level has been raised in order to flush themes configuration in-memory cache
+     *
+     * @magentoAppIsolation enabled
+     */
     public function testSkinDirective()
     {
         $url = $this->_model->skinDirective(array(

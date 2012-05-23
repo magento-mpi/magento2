@@ -224,7 +224,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         if (empty($segmentIds)) {
             $select->where('banner_segments.segment_id IS NULL');
         } else {
-            $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $segmentIds);
+            $select->joinLeft(
+                array('customer_segments' => $this->getTable('enterprise_customersegment_segment')),
+                'customer_segments.segment_id = banner_segments.segment_id',
+                array()
+            );
+            $condition = 'banner_segments.segment_id IS NULL OR '
+                . '(banner_segments.segment_id IN (?) AND customer_segments.is_active = 1)';
+            $select->where($condition, $segmentIds);
         }
 
         if ($this->_bannerTypesFilter) {

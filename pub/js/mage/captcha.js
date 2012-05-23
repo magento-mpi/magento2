@@ -35,37 +35,37 @@ Captcha.prototype = {
     }
 };
 
-document.observe('billing-request:completed', function(event){
-    if (window.checkout !== undefined){
+document.observe('billing-request:completed', function(event) {
+    if (typeof window.checkout != 'undefined') {
         if (window.checkout.method == 'guest' && $('guest_checkout')){
-            window.captcha_guest_checkout.refresh()
+            $('guest_checkout').captcha.refresh()
         }
-        if (window.checkout !== undefined && window.checkout.method== 'register' && $('register_during_checkout')){
-            window.captcha_register_during_checkout.refresh()
+        if (window.checkout.method == 'register' && $('register_during_checkout')){
+            $('register_during_checkout').captcha.refresh()
         }
     }
 });
 
 
-document.observe('login:setMethod', function(event){
-    switch(event.memo.method){
-        case 'guest':
-            if ($('register_during_checkout')) {
-                $('captcha-input-box-register_during_checkout').hide();
-                $('captcha-image-box-register_during_checkout').hide();
-                $('captcha-input-box-guest_checkout').show();
-                $('captcha-image-box-guest_checkout').show();
+document.observe('login:setMethod', function(event) {
+    var switchCaptchaElement = function(shown, hidden) {
+        var inputPrefix = 'captcha-input-box-', imagePrefix = 'captcha-image-box-';
+        if ($(inputPrefix + hidden)) {
+            $(inputPrefix + hidden).hide();
+            $(imagePrefix + hidden).hide();
+        }
+        if ($(inputPrefix + shown)) {
+            $(inputPrefix + shown).show();
+            $(imagePrefix + shown).show();
+        }
+    };
 
-            }
+    switch (event.memo.method) {
+        case 'guest':
+            switchCaptchaElement('guest_checkout', 'register_during_checkout');
             break;
         case 'register':
-            if ($('guest_checkout')) {
-                $('captcha-input-box-guest_checkout').hide();
-                $('captcha-image-box-guest_checkout').hide();
-                $('captcha-input-box-register_during_checkout').show();
-                $('captcha-image-box-register_during_checkout').show();
-
-            }
+            switchCaptchaElement('register_during_checkout', 'guest_checkout');
             break;
     }
 });

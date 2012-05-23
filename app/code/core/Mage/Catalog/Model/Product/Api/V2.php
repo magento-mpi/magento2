@@ -166,6 +166,11 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             $product->setStockData($_stockData);
         }
 
+        foreach ($product->getMediaAttributes() as $mediaAttribute) {
+            $mediaAttrCode = $mediaAttribute->getAttributeCode();
+            $product->setData($mediaAttrCode, 'no_selection');
+        }
+
         $this->_prepareDataForSave($product, $productData);
 
         try {
@@ -322,15 +327,18 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
      * @param string $fromDate
      * @param string $toDate
      * @param string|int $store
+     * @param string $identifierType OPTIONAL If 'sku' - search product by SKU, if any except for NULL - search by ID,
+     *                                        otherwise - try to determine identifier type automatically
      * @return boolean
      */
-    public function setSpecialPrice($productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null)
-    {
+    public function setSpecialPrice($productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null,
+        $identifierType = null
+    ) {
         $obj = new stdClass();
         $obj->special_price = $specialPrice;
         $obj->special_from_date = $fromDate;
         $obj->special_to_date = $toDate;
-        return $this->update($productId, $obj, $store);
+        return $this->update($productId, $obj, $store, $identifierType);
     }
 
     /**

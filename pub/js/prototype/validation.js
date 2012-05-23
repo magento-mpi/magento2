@@ -504,6 +504,25 @@ Validation.addAllThese([
                 var test = new Date(v);
                 return Validation.get('IsEmpty').test(v) || !isNaN(test);
             }],
+    ['validate-date-range', 'The From Date value should be less than or equal to the To Date value.', function(v, elm) {
+            var m = /\bdate-range-(\w+)-(\w+)\b/.exec(elm.className);
+            if (!m || m[2] == 'to' || Validation.get('IsEmpty').test(v)) {
+                return true;
+            }
+
+            var currentYear = new Date().getFullYear() + '';
+            var normalizedTime = function(v) {
+                v = v.split(/[.\/]/);
+                if (v[2] && v[2].length < 4) {
+                    v[2] = currentYear.substr(0, v[2].length) + v[2];
+                }
+                return new Date(v.join('/')).getTime();
+            };
+
+            var dependentElements = Element.select(elm.form, '.validate-date-range.date-range-' + m[1] + '-to');
+            return !dependentElements.length || Validation.get('IsEmpty').test(dependentElements[0].value)
+                || normalizedTime(v) <= normalizedTime(dependentElements[0].value);
+        }],
     ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com.', function (v) {
                 //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
                 //return Validation.get('IsEmpty').test(v) || /^[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9][\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9\.]{1,30}[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9]@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i.test(v)
@@ -543,6 +562,16 @@ Validation.addAllThese([
                     pass = $$('.validate-admin-password')[0];
                 }
                 return (pass.value == conf.value);
+            }],
+    ['validate-both-passwords', 'Please make sure your passwords match.', function(v, input) {
+                var dependentInput = $(input.form[input.name == 'password' ? 'confirmation' : 'password']),
+                    isEqualValues  = input.value == dependentInput.value;
+
+                if (isEqualValues && dependentInput.hasClassName('validation-failed')) {
+                    Validation.test(this.className, dependentInput);
+                }
+
+                return dependentInput.value == '' || isEqualValues;
             }],
     ['validate-url', 'Please enter a valid URL. Protocol is required (http://, https:// or ftp://)', function (v) {
                 v = (v || '').replace(/^\s+/, '').replace(/\s+$/, '');
@@ -841,11 +870,11 @@ function parseNumber(v)
 }
 
 /**
- * Hash with credit card types wich can be simply extended in payment modules
+ * Hash with credit card types which can be simply extended in payment modules
  * 0 - regexp for card number
  * 1 - regexp for cvn
  * 2 - check or not credit card number trough Luhn algorithm by
- *     function validateCreditCard wich you can find above in this file
+ *     function validateCreditCard which you can find above in this file
  */
 Validation.creditCartTypes = $H({
 //    'SS': [new RegExp('^((6759[0-9]{12})|(5018|5020|5038|6304|6759|6761|6763[0-9]{12,19})|(49[013][1356][0-9]{12})|(6333[0-9]{12})|(6334[0-4]\d{11})|(633110[0-9]{10})|(564182[0-9]{10}))([0-9]{2,3})?$'), new RegExp('^([0-9]{3}|[0-9]{4})?$'), true],
@@ -855,6 +884,6 @@ Validation.creditCartTypes = $H({
     'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$'), true],
     'AE': [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$'), true],
     'DI': [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$'), true],
-    'JCB': [new RegExp('^(3[0-9]{15}|(2131|1800)[0-9]{11})$'), new RegExp('^[0-9]{4}$'), true],
+    'JCB': [new RegExp('^(3[0-9]{15}|(2131|1800)[0-9]{11})$'), new RegExp('^[0-9]{3,4}$'), true],
     'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false]
 });

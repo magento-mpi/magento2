@@ -298,19 +298,15 @@ class Mage_Paypal_Model_Config
      */
     public function isMethodActive($method)
     {
-        if ($this->isMethodSupportedForCountry($method)
-            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId)
-        ) {
-            return true;
-        }
-        return false;
+        return $this->isMethodSupportedForCountry($method)
+            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId);
     }
 
     /**
      * Check whether method available for checkout or not
      * Logic based on merchant country, methods dependence
      *
-     * @param string $method Method code
+     * @param string|null $methodCode
      * @return bool
      */
     public function isMethodAvailable($methodCode = null)
@@ -441,6 +437,8 @@ class Mage_Paypal_Model_Config
      * Check whether method supported for specified country or not
      * Use $_methodCode and merchant country by default
      *
+     * @param string|null $method
+     * @param string|null $countryCode
      * @return bool
      */
     public function isMethodSupportedForCountry($method = null, $countryCode = null)
@@ -451,11 +449,7 @@ class Mage_Paypal_Model_Config
         if ($countryCode === null) {
             $countryCode = $this->getMerchantCountry();
         }
-        $countryMethods = $this->getCountryMethods($countryCode);
-        if (in_array($method, $countryMethods)) {
-            return true;
-        }
-        return false;
+        return in_array($method, $this->getCountryMethods($countryCode));
     }
 
     /**
@@ -525,7 +519,8 @@ class Mage_Paypal_Model_Config
         if ($countryCode === null) {
             return $countryMethods;
         }
-        return isset($countryMethods[$countryCode]) ? $countryMethods[$countryCode] : $countryMethods['other'];    }
+        return isset($countryMethods[$countryCode]) ? $countryMethods[$countryCode] : $countryMethods['other'];
+    }
 
     /**
      * Get url for dispatching customer to express checkout start
@@ -971,8 +966,8 @@ class Mage_Paypal_Model_Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype')->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'));
-        return $model->toOptionArray();
+        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
     /**
@@ -982,8 +977,8 @@ class Mage_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype')->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'));
-        return $model->toOptionArray();
+        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
     /**
@@ -993,8 +988,8 @@ class Mage_Paypal_Model_Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype')->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'));
-        return $model->toOptionArray();
+        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 
     /**

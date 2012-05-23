@@ -14,12 +14,13 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Rollback extends Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default
+class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Rollback
+    extends Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default
 {
     protected $_websites;
 
     /**
-     * Retrieve target website on wich backup was rollbacked
+     * Retrieve target website on which backup was rollbacked
      * Returns array bc in map there is array of websites so there will no
      * problems in some cases in map will be several websites
      *

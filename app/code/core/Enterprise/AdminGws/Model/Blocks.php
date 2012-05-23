@@ -353,6 +353,30 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove control buttons if user does not have exclusive access to current model
+     *
+     * @param Varien_Event_Observer $observer
+     * @param string $registryKey
+     * @param array $buttons
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    private function _removeButtons($observer, $registryKey, $buttons = array())
+    {
+        /* @var $model Mage_Core_Model_Abstract */
+        $model = Mage::registry($registryKey);
+        if ($model) {
+            $storeIds = $model->getStoreId();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                foreach ($buttons as $buttonName) {
+                    $block->removeButton($buttonName);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Remove control buttons if user does not have exclusive access to current page
      *
      * @param Varien_Event_Observer $observer
@@ -360,17 +384,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeCmsPageButtons($observer)
     {
-        $model = Mage::registry('cms_page');
-        if ($model) {
-            $storeIds = $model->getStoreId();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block = $observer->getEvent()->getBlock();
-                $block->removeButton('save');
-                $block->removeButton('saveandcontinue');
-                $block->removeButton('delete');
-            }
-        }
-
+        $this->_removeButtons($observer, 'cms_page', array('save', 'saveandcontinue', 'delete'));
         return $this;
     }
 
@@ -382,17 +396,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeCmsBlockButtons($observer)
     {
-        $model = Mage::registry('cms_block');
-        if ($model) {
-            $storeIds = $model->getStoreId();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block = $observer->getEvent()->getBlock();
-                $block->removeButton('save');
-                $block->removeButton('saveandcontinue');
-                $block->removeButton('delete');
-            }
-        }
-
+        $this->_removeButtons($observer, 'cms_block', array('save', 'saveandcontinue', 'delete'));
         return $this;
     }
 
@@ -404,16 +408,28 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removePollButtons($observer)
     {
-        $model = Mage::registry('poll_data');
+        $this->_removeButtons($observer, 'poll_data', array('save', 'delete'));
+        return $this;
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current reward rate
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRewardRateButtons($observer)
+    {
+        /* @var $model Enterprise_Reward_Model_Resource_Reward_Rate */
+        $model = Mage::registry('current_reward_rate');
         if ($model) {
-            $storeIds = $model->getStoreIds();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+            if ($model->getId() && !in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
                 $block = $observer->getEvent()->getBlock();
-                $block->removeButton('save');
-                $block->removeButton('delete');
+                foreach (array('save', 'delete') as $buttonName) {
+                    $block->removeButton($buttonName);
+                }
             }
         }
-
         return $this;
     }
 
@@ -662,7 +678,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Removing buttons from revision edit page wich can't be used
+     * Removing buttons from revision edit page which can't be used
      * by users with limited permissions
      *
      * @param Varien_Event_Observer $observer
@@ -1198,7 +1214,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
             $block->removeButton('save_apply');
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$websiteIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
                 $block->removeButton('save');
                 $block->removeButton('save_and_continue_edit');
                 $block->removeButton('run_now');
@@ -1210,6 +1226,46 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         return $this;
     }
 
+    /**
+     * Remove button "Add RMA Attribute" for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaAddAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+        return $this;
+    }
+
+    /**
+     * Remove "Delete Attribute" button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRmaDeleteAttributeButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
+
+    /**
+     * Disable "Delete Attribute Option" Button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableRmaAttributeDeleteOptionButton($observer)
+    {
+        $deleteButton = $observer->getEvent()->getBlock()->getChildBlock('delete_button');
+
+        if ($deleteButton) {
+            $deleteButton->setDisabled(true);
+        }
+
+        return $this;
+    }
 
 
 
@@ -1257,47 +1313,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function removePromoQuoteButtons($observer)
     {
         $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
-    /**
-     * Remove button "Add RMA Attribute" for all GWS limited users
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeRmaAddAttributeButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('add');
-        return $this;
-    }
-
-    /**
-     * Remove "Delete Attribute" button for all GWS limited users
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeRmaDeleteAttributeButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('delete');
-        return $this;
-    }
-
-    /**
-     * Disable "Delete Attribute Option" Button for all GWS limited users
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function disableRmaAttributeDeleteOptionButton($observer)
-    {
-        $deleteButton = $observer->getEvent()->getBlock()->getChildBlock('delete_button');
-
-        if ($deleteButton) {
-            $deleteButton->setDisabled(true);
-        }
-
         return $this;
     }
 }

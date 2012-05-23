@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     selenium unit tests
+ * @subpackage  runner
+ * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="bootstrap.php"
+    colors="true"
+    syntaxCheck="true"
+    verbose="true">
+    <testsuites>
+        <testsuite name="Mage Selenium Unit Tests">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="testdox-html" target="../tmp/unittests.html"/>
+    </logging>
+</phpunit>

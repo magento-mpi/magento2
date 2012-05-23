@@ -12,7 +12,6 @@
 /**
  * Test class for Mage_Catalog_Block_Product_Abstract.
  *
- * @group module:Mage_Catalog
  * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  * @magentoDataFixture Mage/Catalog/_files/product_image.php
  */
@@ -27,11 +26,6 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
      * @var Mage_Catalog_Model_Product
      */
     protected $_product;
-
-    /**
-     * @var string
-     */
-    protected static $_mediaDir;
 
     protected function setUp()
     {

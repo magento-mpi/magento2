@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Cms
- */
 class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -76,7 +73,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testAssign()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
 
         $this->_block->assign(array('varOne' => 'value1', 'varTwo' => 'value2'))
             ->setScriptPath(__DIR__ . DIRECTORY_SEPARATOR . '_files');

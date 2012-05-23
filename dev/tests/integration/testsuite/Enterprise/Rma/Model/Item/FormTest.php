@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Rma
- */
 class Enterprise_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
 {
     /**

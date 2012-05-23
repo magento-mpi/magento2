@@ -42,6 +42,18 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
     );
 
     /**
+     * Whether the indexer should be displayed on process/list page
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('Mage_Catalog_Helper_Category_Flat');
+        return $categoryFlatHelper->isEnabled() || !$categoryFlatHelper->isBuilt();
+    }
+
+    /**
      * Retrieve Indexer name
      *
      * @return string
@@ -81,7 +93,9 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
      */
     public function matchEvent(Mage_Index_Model_Event $event)
     {
-        if (!Mage::helper('Mage_Catalog_Helper_Category_Flat')->isEnabled(true)) {
+        /** @var $categoryFlatHelper Mage_Catalog_Helper_Category_Flat */
+        $categoryFlatHelper = Mage::helper('Mage_Catalog_Helper_Category_Flat');
+        if (!$categoryFlatHelper->isAvailable() || !$categoryFlatHelper->isBuilt()) {
             return false;
         }
 
@@ -197,7 +211,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
         return $this;
     }
 
-/**
+    /**
      * Process event
      *
      * @param Mage_Index_Model_Event $event

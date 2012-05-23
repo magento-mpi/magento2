@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Log
- */
 class Mage_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
 {
     /**

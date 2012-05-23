@@ -109,9 +109,9 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
             'period'            => 't.period',
             'store_id'          => 't.store_id',
             'product_id'        => 't.product_id',
-            'product_name'      => new Zend_Db_expr('MAX(t.product_name)'),
-            'product_price'     => new Zend_Db_expr('MAX(t.product_price)'),
-            'total_qty'         => new Zend_Db_expr('SUM(t.' . $column . ')')
+            'product_name'      => new Zend_Db_Expr('MAX(t.product_name)'),
+            'product_price'     => new Zend_Db_Expr('MAX(t.product_price)'),
+            'total_qty'         => new Zend_Db_Expr('SUM(t.' . $column . ')')
         );
 
         $periodSubSelect->from(array('t' => $mainTable), $cols)

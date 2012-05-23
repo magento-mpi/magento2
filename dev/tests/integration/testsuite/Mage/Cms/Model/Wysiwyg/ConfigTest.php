@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Cms
- */
 class Mage_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**

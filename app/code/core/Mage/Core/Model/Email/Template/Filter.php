@@ -163,7 +163,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         if (isset($blockParameters['output'])) {
             $method = $blockParameters['output'];
         }
-        if (!isset($method) || !is_string($method) || !is_callable(array($block, $method))) {
+        if (!isset($method) || !is_string($method) || !method_exists($block, $method)) {
             $method = 'toHtml';
         }
         return $block->$method();
@@ -454,7 +454,9 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $variable = Mage::getModel('Mage_Core_Model_Variable')
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
-            $mode = $this->getPlainTemplateMode()?Mage_Core_Model_Variable::TYPE_TEXT:Mage_Core_Model_Variable::TYPE_HTML;
+            $mode = $this->getPlainTemplateMode()
+                ? Mage_Core_Model_Variable::TYPE_TEXT
+                : Mage_Core_Model_Variable::TYPE_HTML;
             if ($value = $variable->getValue($mode)) {
                 $customVarValue = $value;
             }

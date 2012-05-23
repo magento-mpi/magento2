@@ -24,7 +24,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Sta
      * @param   Varien_Object $row
      * @return  string
      */
-    protected function _getEditableView(Varien_object $row)
+    protected function _getEditableView(Varien_Object $row)
     {
         $options = $this->getStatusManager()->getAllowedStatuses();
 

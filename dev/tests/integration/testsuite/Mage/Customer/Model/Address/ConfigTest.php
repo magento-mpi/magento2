@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Customer
- */
 class Mage_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**

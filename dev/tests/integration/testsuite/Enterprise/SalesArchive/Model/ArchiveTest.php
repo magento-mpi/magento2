@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_SalesArchive
- */
 class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
 {
     /**

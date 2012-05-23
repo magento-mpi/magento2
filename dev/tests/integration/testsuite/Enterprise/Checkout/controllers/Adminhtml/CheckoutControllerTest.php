@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Checkout
- */
 class Enterprise_Checkout_Adminhtml_CheckoutControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testLoadBlockAction()

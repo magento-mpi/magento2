@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_CatalogEvent
- */
 class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**

@@ -24,10 +24,3 @@ $installer->updateAttribute(
     'frontend_label',
     'URL Key'
 );
-
-$installer->updateAttribute(
-    Mage_Catalog_Model_Product::ENTITY,
-    'options_container',
-    'frontend_label',
-    'Display Product Options In'
-);

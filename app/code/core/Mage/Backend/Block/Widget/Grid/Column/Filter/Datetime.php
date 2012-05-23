@@ -60,7 +60,9 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                 $dateObj = $this->getLocale()->date(null, null, $locale, false);
 
                 //set default timezone for store (admin)
-                $dateObj->setTimezone(Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE));
+                $dateObj->setTimezone(
+                    Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE)
+                );
 
                 //set date with applying timezone of store
                 $dateObj->set(
@@ -96,17 +98,24 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
             $format .= ' ' . $this->getLocale()->getTimeStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         }
 
-        $html = '<div class="range"><div class="range-line date">
-            <span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>
-            <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>
-            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_from_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>
-            </div>';
-        $html.= '<div class="range-line date">
-            <span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>
-            <input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>
-            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle" id="'.$htmlId.'_to_trig" title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>
-            </div></div>';
-        $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]" value="'.$this->getLocale()->getLocaleCode().'"/>';
+        $html = '<div class="range"><div class="range-line date">'
+            . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>'
+            . '<input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from"'
+                . ' value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>'
+            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+                . ' id="'.$htmlId.'_from_trig"'
+                . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>'
+            . '</div>';
+        $html.= '<div class="range-line date">'
+            . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>'
+            . '<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to"'
+                . ' value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>'
+            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+                . ' id="'.$htmlId.'_to_trig"'
+                . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>'
+            . '</div></div>';
+        $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]"'
+            . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$htmlId.'_from",
@@ -139,7 +148,9 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
         if ($this->getColumn()->getFilterTime()) {
             $value = $this->getValue($index);
             if ($value instanceof Zend_Date) {
-                return $value->toString($this->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+                return $value->toString(
+                    $this->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                );
             }
             return $value;
         }

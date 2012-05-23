@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php $_wishlistItem = $this->getWishlistItem(); ?>
+<?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
+<ul class="add-to-links">
+<?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
+    <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-compare"><?php echo $this->__('Update Wishlist') ?></a></li>
+<?php endif; ?>
+</ul>

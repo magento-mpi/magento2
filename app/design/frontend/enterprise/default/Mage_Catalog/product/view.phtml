@@ -13,6 +13,7 @@
  *
  * @see Mage_Catalog_Block_Product_View
  * @see Mage_Review_Block_Product_View
+ * @var $this Mage_Catalog_Block_Product_view
  */
 ?>
 <?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
@@ -39,7 +40,7 @@
                         <?php echo $this->getChildHtml('alert_urls') ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                     </div>
-                    <?php echo $this->getChildHtml('tierprices') ?>
+                    <?php echo ($_product->getCanShowPrice() === false) ? '' : $this->getChildHtml('tierprices'); ?>
                     <?php echo $this->getChildHtml('extrahint') ?>
 
                     <?php if (!$this->hasOptions()):?>
@@ -50,10 +51,8 @@
                             <?php echo $this->getChildHtml('addto') ?>
                         </div>
                     <?php else:?>
-                        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
-                            <div class="options-container-small">
-                                <?php echo $this->getChildChildHtml('container1') ?>
-                            </div>
+                        <?php if ($_product->isSaleable() && $this->hasOptions() && $infoColumn = $this->getLayout()->renderElement('product.options.info.container')):?>
+                            <div class="options-container-small"><?php echo $infoColumn ?></div>
                         <?php else: ?>
                             <?php echo $this->getChildHtml('addto') ?>
                         <?php endif;?>
@@ -102,10 +101,11 @@
             <?php endif; ?>
         </div>
         <div class="clearer"></div>
-        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
-            <div class="options-container-big">
-                <?php echo $this->getChildChildHtml('container2') ?>
-            </div>
+        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+            <?php $afterInfoColumn = $this->getLayout()->renderElement('product.options.after.info.container'); ?>
+            <?php if ($afterInfoColumn): ?>
+                <div class="options-container-big"><?php echo $afterInfoColumn ?></div>
+            <?php endif; ?>
         <?php endif;?>
     </form>
         <?php echo $this->getChildHtml('relatedProducts') ?>
@@ -147,6 +147,13 @@
             delete Validation.methods['required-entry'];
             delete Validation.methods['validate-one-required'];
             delete Validation.methods['validate-one-required-by-name'];
+            // Remove custom datetime validators
+            for (var methodName in Validation.methods) {
+                if (methodName.match(/^validate-datetime-.*/i)) {
+                    delete Validation.methods[methodName];
+                }
+            }
+
             if (this.validator.validate()) {
                 if (url) {
                     this.form.action = url;

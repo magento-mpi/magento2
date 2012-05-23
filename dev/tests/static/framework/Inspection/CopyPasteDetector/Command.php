@@ -75,8 +75,8 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
     /**
      * Runs command and produces report in html format
      *
-     * @param array $whiteList
-     * @param array $blackList
+     * @param array $whiteList Files/directories to be inspected
+     * @param array $blackList Files/directories to be excluded from the inspection
      * @return bool
      */
     public function run(array $whiteList, array $blackList = array())
@@ -108,6 +108,7 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
             escapeshellarg($this->_reportFile),
             escapeshellarg("{$this->_reportFile}.html")
         ));
+        $this->_generateLastRunMessage();
         return ($result !== false);
     }
 }

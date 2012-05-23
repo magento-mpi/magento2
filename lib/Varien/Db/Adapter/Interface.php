@@ -43,6 +43,11 @@ interface Varien_Db_Adapter_Interface
     const INTERVAL_YEAR         = 'YEARS';
 
     /**
+     * Error message for DDL query in transactions
+     */
+    const ERROR_DDL_MESSAGE = 'DDL statements are not allowed in transactions';
+
+    /**
      * Begin new DB transaction for connection
      *
      * @return Varien_Db_Adapter_Pdo_Mysql
@@ -368,7 +373,16 @@ interface Varien_Db_Adapter_Interface
     public function insertMultiple($table, array $data);
 
     /**
-     * Insert array to table based on columns definition
+     * Insert array into a table based on columns definition
+     *
+     * $data can be represented as:
+     * - arrays of values ordered according to columns in $columns array
+     *      array(
+     *          array('value1', 'value2'),
+     *          array('value3', 'value4'),
+     *      )
+     * - array of values, if $columns contains only one column
+     *      array('value1', 'value2')
      *
      * @param   string $table
      * @param   array $columns  the data array column map
@@ -964,4 +978,11 @@ interface Varien_Db_Adapter_Interface
      * @return mixed
      */
     public function decodeVarbinary($value);
+
+    /**
+     * Get adapter transaction level state. Return 0 if all transactions are complete
+     *
+     * @return int
+     */
+    public function getTransactionLevel();
 }

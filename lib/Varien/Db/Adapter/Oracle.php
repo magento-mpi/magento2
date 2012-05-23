@@ -282,7 +282,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (is_string($sql) && $this->getTransactionLevel() > 0) {
             $startSql = strtolower(substr(ltrim($sql), 0, 3));
             if (in_array($startSql, $this->_ddlRoutines)) {
-                throw new Zend_Db_Adapter_Exception('DDL statements are not allowed in transactions');
+                trigger_error(Varien_Db_Adapter_Interface::ERROR_DDL_MESSAGE, E_USER_ERROR);
             }
         }
     }
@@ -1272,7 +1272,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
             throw new Zend_Db_Exception(sprintf(
-                'Column "%s" does not exists on table "%s"',
+                'Column "%s" does not exist in table "%s".',
                 $oldColumnName,
                 $tableName
             ));
@@ -1307,7 +1307,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            $msg = sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName);
+            $msg = sprintf('Column "%s" does not exist in table "%s".', $columnName, $tableName);
             throw new Zend_Db_Adapter_Oracle_Exception($msg);
         }
 
@@ -1489,7 +1489,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if (!$skipColumnExistsCheck) {
                 if (!$this->tableColumnExists($tableName, $field, $schemaName)) {
                     throw new Zend_Db_Adapter_Oracle_Exception(
-                        sprintf('Column "%s" does not exists on table "%s"', $field, $tableName));
+                        sprintf('Column "%s" does not exist in table "%s".', $field, $tableName));
                 }
             }
             $fieldSql[] = $this->quoteIdentifier($field);
@@ -2345,7 +2345,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Insert array to table based on columns definition
+     * Insert array into a table based on columns definition
+     *
+     * $data can be represented as:
+     * - arrays of values ordered according to columns in $columns array
+     *      array(
+     *          array('value1', 'value2'),
+     *          array('value3', 'value4'),
+     *      )
+     * - array of values, if $columns contains only one column
+     *      array('value1', 'value2')
      *
      * @param   string $table
      * @param   array $columns  the data array column map
@@ -2363,55 +2372,35 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $ddlColumnTypeBlob = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB];
         $ddlColumnTypeVarbinary = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY];
         foreach ($data as $row) {
+            $row = (array)$row;
             if ($columnsCount != count($row)) {
                 throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
-            if ($columnsCount == 1) {
-                if ($row instanceof Zend_Db_Expr) {
-                    $line = $row->__toString();
-                } elseif ($row === null) {
-                    $line = 'NULL';
+            foreach ($row as $col=>$value) {
+                if ($value instanceof Zend_Db_Expr) {
+                    $line[] = $value->__toString();
+                } else if (is_null($value)) {
+                    $line[] = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
-                    switch ($ddl[$columns[0]]['DATA_TYPE']) {
-                        case $ddlColumnTypeBlob:
-                        case $ddlColumnTypeVarbinary:
-                            $line = $this->_quoteColumnByDdl($ddl[$columns[0]]['DATA_TYPE'], $key);
-                            break;
-                        default:
-                            $line = $key;
-                            break;
-                    }
-                    $bind[$key] = $row;
-                }
-                $vals[] = $line;
-            } else {
-                foreach ($row as $col=>$value) {
-                    if ($value instanceof Zend_Db_Expr) {
-                        $line[] = $value->__toString();
-                    } else if (is_null($value)) {
-                        $line[] = 'NULL';
+                    if (is_int($col) && isset($columns[$col])) {
+                        $ddlKey = $columns[$col];
                     } else {
-                        $key  = ':vv' . ($inc ++);
-                        if (is_int($col) && isset($columns[$col])) {
-                            $ddlKey = $columns[$col];
-                        } else {
-                            $ddlKey = $col;
-                        }
-                        if (isset($ddl[$ddlKey])
-                            && ($ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeVarbinary
-                            || $ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeBlob)
-                        ) {
-                            $line[] = $this->_quoteColumnByDdl($ddl[$ddlKey]['DATA_TYPE'], $key);
-                        } else {
-                            $line[] = $key;
-                        }
-                        $bind[$key] = $value;
+                        $ddlKey = $col;
                     }
+                    if (isset($ddl[$ddlKey])
+                        && ($ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeVarbinary
+                        || $ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeBlob)
+                    ) {
+                        $line[] = $this->_quoteColumnByDdl($ddl[$ddlKey]['DATA_TYPE'], $key);
+                    } else {
+                        $line[] = $key;
+                    }
+                    $bind[$key] = $value;
                 }
-                $vals[] = implode(', ', $line);
             }
+            $vals[] = implode(', ', $line);
         }
         // build the statement
         $columns = array_map(array($this, 'quoteIdentifier'), $columns);

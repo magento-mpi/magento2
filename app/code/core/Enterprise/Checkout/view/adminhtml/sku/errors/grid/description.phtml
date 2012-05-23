@@ -12,8 +12,7 @@
 <?php $_item = $this->getItem() ?>
 <?php $_product = $this->getProduct() ?>
 <?php $_sku = $this->escapeHtml($_item->getSku()) ?>
-<?php $_id = $_product->getId() ? $_product->getId() : $_sku ?>
-<div id="<?php echo $_product->getId() ? 'id_' . $_id : 'sku_' . $_id ?>" class="sku-failed-item">
+<div id="<?php echo 'sku_' . $_sku ?>" class="sku-failed-item">
     <div class="sku-configure-button"><?php echo $this->getConfigureButtonHtml() ?></div>
     <?php if ($_product->getName()): ?>
         <strong><?php echo $this->escapeHtml($_product->getName()) ?></strong><br/>
@@ -24,8 +23,8 @@
     </div>
 
     <?php if ($_item->getQtyMaxAllowed()): ?>
-        <?php echo $this->__('Only <span id="' . $_sku . '_max_allowed">%s</span> in stock', $_item->getQtyMaxAllowed()) ?>
+        <?php echo $this->__('Only <span id="%s_max_allowed">%s</span> in stock', $_sku, $_item->getQtyMaxAllowed()) ?>
     <?php endif ?>
     <input type="hidden" name="sku" value="<?php echo $_sku ?>"/>
-    <input type="checkbox" name="<?php echo $this->getSourceId() ?>" value="<?php echo $_id ?>" checked="checked" style="display:none"/>
+    <input type="checkbox" name="<?php echo $this->getSourceId() ?>" value="<?php echo $_sku ?>" checked="checked" style="display:none"/>
 </div>

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_CustomerSegment
- */
 class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentControllerTest
     extends Mage_Adminhtml_Utility_Controller
 {

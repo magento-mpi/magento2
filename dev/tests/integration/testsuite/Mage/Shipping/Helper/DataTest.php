@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Shipping
- */
 class Mage_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**

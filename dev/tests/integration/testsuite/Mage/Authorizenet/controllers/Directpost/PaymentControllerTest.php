@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Authorizenet
- */
 class Mage_Authorizenet_Directpost_PaymentControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function testResponseActionValidationFiled()

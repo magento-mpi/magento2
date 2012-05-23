@@ -142,4 +142,58 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             'Multiple-column index must be dropped to not duplicate existing index by indexed columns.'
         );
     }
+
+    /**
+     * @param array $columns
+     * @param array $data
+     * @param array $expected
+     * @dataProvider insertArrayDataProvider
+     */
+    public function testInsertArray(array $columns, array $data, array $expected)
+    {
+        $this->_connection->insertArray($this->_tableName, $columns, $data);
+        $select = $this->_connection->select()
+            ->from($this->_tableName)
+            ->order('column1');
+        $result = $this->_connection->fetchAll($select);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function insertArrayDataProvider()
+    {
+        return array(
+            'one column' => array(
+                array('column1'),
+                array(array(1), array(2)),
+                array(
+                    array('column1' => 1, 'column2' => null),
+                    array('column1' => 2, 'column2' => null),
+                ),
+            ),
+            'one column simple' => array(
+                array('column1'),
+                array(1, 2),
+                array(
+                    array('column1' => 1, 'column2' => null),
+                    array('column1' => 2, 'column2' => null),
+                ),
+            ),
+            'two columns' => array(
+                array('column1', 'column2'),
+                array(array(1, 2), array(3, 4)),
+                array(
+                    array('column1' => 1, 'column2' => 2),
+                    array('column1' => 3, 'column2' => 4),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @expectedException Zend_Db_Exception
+     */
+    public function testInsertArrayTwoColumnsWithSimpleData()
+    {
+        $this->_connection->insertArray($this->_tableName, array('column1', 'column2'), array(1, 2));
+    }
 }

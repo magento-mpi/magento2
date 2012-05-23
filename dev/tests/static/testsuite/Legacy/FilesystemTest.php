@@ -33,6 +33,7 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
             'Eliminated as not needed' => array('pkginfo'),
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
+            'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
         );
     }
 

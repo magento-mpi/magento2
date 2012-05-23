@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     const DATE_TIMEZONE = 'America/Los_Angeles'; // hardcoded in the installation
@@ -70,7 +67,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatDate(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->getTimestamp());
+        $zendDate = new Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::DATETIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short', true)
@@ -85,7 +82,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatTime(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->getTimestamp());
+        $zendDate = new Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short')

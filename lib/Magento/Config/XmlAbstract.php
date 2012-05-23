@@ -15,22 +15,24 @@
 abstract class Magento_Config_XmlAbstract
 {
     /**
-     * @var DOMDocument
+     * Data extracted from the merged configuration files
+     *
+     * @var array
      */
-    protected $_dom = null;
+    protected $_data;
 
     /**
      * Instantiate with the list of files to merge
      *
      * @param array $configFiles
-     * @throws Magento_Exception
+     * @throws InvalidArgumentException
      */
     public function __construct(array $configFiles)
     {
         if (empty($configFiles)) {
-            throw new Magento_Exception('There must be at least one configuration file specified.');
+            throw new InvalidArgumentException('There must be at least one configuration file specified.');
         }
-        $this->_merge($configFiles);
+        $this->_data = $this->_extractData($this->_merge($configFiles));
     }
 
     /**
@@ -41,9 +43,18 @@ abstract class Magento_Config_XmlAbstract
     abstract public function getSchemaFile();
 
     /**
+     * Extract configuration data from the DOM structure
+     *
+     * @param DOMDocument $dom
+     * @return array
+     */
+    abstract protected function _extractData(DOMDocument $dom);
+
+    /**
      * Merge the config XML-files
      *
      * @param array $configFiles
+     * @return DOMDocument
      * @throws Magento_Exception if a non-existing or invalid XML-file passed
      */
     protected function _merge($configFiles)
@@ -63,7 +74,7 @@ abstract class Magento_Config_XmlAbstract
                 throw new Magento_Exception($message);
             }
         }
-        $this->_dom = $domConfig->getDom();
+        return $domConfig->getDom();
     }
 
     /**

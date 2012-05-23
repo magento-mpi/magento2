@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-
-class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Init total model, set total code
@@ -134,7 +133,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
      * Return shopping cart total row items
      *
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount
+     * @return Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {

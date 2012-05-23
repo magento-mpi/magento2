@@ -45,7 +45,7 @@
             <td><?php echo $this->escapeHtml($this->getCarrierTitle($_track->getCarrierCode())) ?></td>
             <td><?php echo $this->escapeHtml($_track->getCarrierTitle()) ?></td>
             <td>
-                <?php if (1 == 2/*$_track->isCustom()*/): ?>
+                <?php if ($_track->isCustom()): ?>
                     <?php echo $this->escapeHtml($_track->getTrackNumber()) ?>
                 <?php else: ?>
                 <a href="#" onclick="popWin('<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($_track) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><?php echo $this->escapeHtml($_track->getTrackNumber()) ?></a>

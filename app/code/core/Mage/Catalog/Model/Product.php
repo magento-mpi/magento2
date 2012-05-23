@@ -13,9 +13,11 @@
  *
  * @method Mage_Catalog_Model_Resource_Product getResource()
  * @method Mage_Catalog_Model_Resource_Product _getResource()
+ * @method Mage_Catalog_Model_Product setHasError(bool $value)
+ * @method null|bool getHasError()
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @category    Mage
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
@@ -1277,7 +1279,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getIsSalable()
     {
         $productType = $this->getTypeInstance();
-        if (is_callable(array($productType, 'getIsSalable'))) {
+        if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }
         if ($this->hasData('is_salable')) {
@@ -1289,7 +1291,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     /**
      * Check is a virtual product
-     * Data helper wraper
+     * Data helper wrapper
      *
      * @return bool
      */
@@ -1820,7 +1822,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $products = $this->_getResource()->getProductsSku($productIds);
         if (count($products)) {
             foreach ($products as $product) {
-                if (empty($product['sku'])) {
+                if (!strlen($product['sku'])) {
                     return false;
                 }
             }

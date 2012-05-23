@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Cms
- */
 class Enterprise_Cms_Model_IncrementTest extends PHPUnit_Framework_TestCase
 {
     /**

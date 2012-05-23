@@ -337,7 +337,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'group'                      => 'Custom Design',
                     ),
                     'filter_price_range' => array(
-                        'type'                       => 'int',
+                        'type'                       => 'decimal',
                         'label'                      => 'Layered Navigation Price Step',
                         'input'                      => 'text',
                         'required'                   => false,
@@ -749,17 +749,6 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'required'                   => false,
                         'sort_order'                 => 13,
                         'visible'                    => false,
-                    ),
-                    'options_container'  => array(
-                        'type'                       => 'varchar',
-                        'label'                      => 'Display Product Options In',
-                        'input'                      => 'select',
-                        'source'                     => 'Mage_Catalog_Model_Entity_Product_Attribute_Design_Options_Container',
-                        'required'                   => false,
-                        'default'                    => 'container2',
-                        'sort_order'                 => 6,
-                        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-                        'group'                      => 'Design',
                     ),
                     'required_options'   => array(
                         'type'                       => 'static',

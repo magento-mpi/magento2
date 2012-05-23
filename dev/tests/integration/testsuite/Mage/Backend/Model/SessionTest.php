@@ -12,7 +12,6 @@
 /**
  * Test class for Mage_Backend_Model_Session.
  *
- * @group module:Mage_Backend
  */
 class Mage_Backend_Model_SessionTest extends PHPUnit_Framework_TestCase
 {

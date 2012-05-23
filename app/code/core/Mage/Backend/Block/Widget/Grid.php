@@ -779,7 +779,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Retrieve grid export types
      *
-     * @return array
+     * @return array|bool
      */
     public function getExportTypes()
     {

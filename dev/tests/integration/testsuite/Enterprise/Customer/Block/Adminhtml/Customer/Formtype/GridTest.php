@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Customer
- */
 class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_GridTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()

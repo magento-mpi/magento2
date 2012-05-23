@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -122,6 +119,49 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'http://localhost/media/',
             $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)
+        );
+    }
+
+    /**
+     * Isolation is enabled, as we pollute config with rewrite values
+     *
+     * @param string $type
+     * @param bool $useCustomEntryPoint
+     * @param bool $useStoreCode
+     * @param string $expected
+     * @dataProvider getBaseUrlForCustomEntryPointDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testGetBaseUrlForCustomEntryPoint($type, $useCustomEntryPoint, $useStoreCode, $expected)
+    {
+        /* config operations require store to be loaded */
+        $this->_model->load('default');
+        $this->_model->setConfig(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, false);
+        $this->_model->setConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $useStoreCode);
+
+        // emulate custom entry point
+        $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
+        if ($useCustomEntryPoint) {
+            Mage::register('custom_entry_point', true);
+        }
+        $actual = $this->_model->getBaseUrl($type);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBaseUrlForCustomEntryPointDataProvider()
+    {
+        return array(
+            array(Mage_Core_Model_Store::URL_TYPE_LINK, false, false, 'http://localhost/custom_entry.php/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LINK, false, true,  'http://localhost/custom_entry.php/default/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LINK, true, false, 'http://localhost/index.php/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LINK, true, true,  'http://localhost/index.php/default/'),
+            array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/custom_entry.php/'),
+            array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/custom_entry.php/'),
+            array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/index.php/'),
+            array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/index.php/'),
         );
     }
 

@@ -18,7 +18,7 @@
 class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Mage_Catalogsearch_Model_Query
+     * @var Mage_CatalogSearch_Model_Query
      */
     protected $_searchQueryModel;
 

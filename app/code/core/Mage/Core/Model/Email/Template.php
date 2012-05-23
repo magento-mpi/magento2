@@ -96,7 +96,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $store = Mage::app()->getStore($store);
         $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
         if ($fileName) {
-            $uploadDir = Mage_Adminhtml_Model_System_Config_Backend_Email_logo::UPLOAD_DIR;
+            $uploadDir = Mage_Adminhtml_Model_System_Config_Backend_Email_Logo::UPLOAD_DIR;
             $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . $fileName;
             if (file_exists($fullFileName)) {
                 return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
@@ -518,7 +518,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         if (!$this->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid transactional email code: "%s"', $templateId));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid transactional email code: %s', $templateId));
         }
 
         if (!is_array($sender)) {

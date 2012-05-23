@@ -285,11 +285,7 @@ class Enterprise_Search_Model_Resource_Collection
     public function addCategoryFilter(Mage_Catalog_Model_Category $category)
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
-
-        Mage::dispatchEvent('catalog_product_collection_apply_limitations_after', array(
-            'collection'    => $this
-        ));
-
+        parent::addCategoryFilter($category);
         return $this;
     }
 
@@ -517,9 +513,7 @@ class Enterprise_Search_Model_Resource_Collection
     public function setVisibility($visibility)
     {
         if (is_array($visibility)) {
-            foreach ($visibility as $visibilityId) {
-                $this->addFqFilter(array('visibility' => $visibilityId));
-            }
+            $this->addFqFilter(array('visibility' => $visibility));
         }
 
         return $this;

@@ -25,7 +25,8 @@ AddBySku.prototype = {
     {
         if (!data) data = {};
         this.lastId = 0;
-        this.configuredIds = [];
+        this.configuredSkus = [];
+        this.configurableItems = {};
         this.dataContainerId = data.dataContainerId;
         this.deleteButtonHtml = data.deleteButtonHtml;
         this.order = order;
@@ -34,6 +35,34 @@ AddBySku.prototype = {
         this.fileFieldName = data.fileFieldName;
         this.fileUploadUrl = data.fileUploadUrl;
         this.fileUploadedParamName = data.fileUploaded;
+
+        // Changing original productConfigure object for SKU items needs
+        productConfigure.skuObject = this;
+        var originConfiguredCheck = productConfigure.itemConfigured;
+        productConfigure.itemConfigured = function (listType, itemId)
+        {
+            if (listType != this.skuObject.listType) {
+                return originConfiguredCheck.apply(this, [listType, itemId]);
+            }
+
+            var indexOfItemId = this.skuObject.configuredSkus.indexOf(itemId);
+            if (indexOfItemId != -1) {
+                if (!originConfiguredCheck.apply(this, [listType, itemId])) {
+                    this.skuObject.configuredSkus.splice(indexOfItemId, 1);
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        };
+        var originRequestConfiguration = productConfigure._requestItemConfiguration;
+        productConfigure._requestItemConfiguration = function (listType, itemId)
+        {
+            if (listType == this.skuObject.listType) {
+                itemId = this.skuObject.configurableItems[itemId];
+            }
+            return originRequestConfiguration.apply(this, [listType, itemId]);
+        };
 
         // abstract admin sales instance
         function adminSalesInstance(addBySkuObject) {
@@ -157,8 +186,8 @@ AddBySku.prototype = {
                     })(['qty', 'sku'], tr, elem.value)
                 }
             });
-            this.order.productConfigureSubmit('errors', area, fieldsPrepare, this.skuInstance.configuredIds);
-            this.skuInstance.configuredIds = [];
+            this.order.productConfigureSubmit('errors', area, fieldsPrepare, this.skuInstance.configuredSkus);
+            this.skuInstance.configuredSkus = [];
         };
         adminOrder.prototype.updateErrorGrid = function(params)
         {
@@ -287,17 +316,20 @@ AddBySku.prototype = {
      *
      * @param id Product ID
      */
-    configure : function (id)
+    configure : function (id, sku)
     {
-        var that = this;
-        var descrElem = $('id_' + id);
-        var qtyElement = Element.select(descrElem.up('tr'), 'input[name="qty"]')[0]
+        var descrElem = $('sku_' + sku);
+        this.qtyElement = Element.select(descrElem.up('tr'), 'input[name="qty"]')[0];
+        if (typeof(this.configurableItems[sku]) == 'undefined') {
+            this.configurableItems[sku] = id;
+        }
+
         // Don't process configured element by addBySku() observer method (it won't be serialized by serialize())
         productConfigure.setConfirmCallback(this.listType, function ()
         {
             // It is vital to push string element, check this line in configure.js:
             // this.itemsFilter[listType].indexOf(itemId) != -1
-            that.configuredIds.push(String(id));
+            productConfigure.skuObject.configuredSkus.push(sku);
             var $notice = Element.select(descrElem, '.notice');
             if ($notice.length) {
                 // Remove message saying product requires configuration
@@ -306,16 +338,17 @@ AddBySku.prototype = {
             var $qty = productConfigure.getCurrentConfirmedQtyElement();
             if ($qty) { // Grouped products do not have this
                 // Synchronize qtys between configure window and grid
-                qtyElement.value = $qty.value;
+                productConfigure.skuObject.qtyElement.value = $qty.value;
             }
         });
-        productConfigure.showItemConfiguration(this.listType, id);
+        productConfigure.showItemConfiguration(this.listType, sku);
         productConfigure.setShowWindowCallback(this.listType, function() {
             // sync qty of grid and qty of popup
-            if (qtyElement.value && !isNaN(qtyElement.value)) {
+            var qty = productConfigure.skuObject.qtyElement.value;
+            if (qty && !isNaN(qty)) {
                 var formCurrentQty = productConfigure.getCurrentFormQtyElement();
                 if (formCurrentQty) {
-                    formCurrentQty.value = qtyElement.value;
+                    formCurrentQty.value = qty;
                 }
             }
         })

@@ -20,6 +20,9 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if(count($this->getMessagesBlock()->getMessages())==0): ?>
 <form action="<?php echo $this->getPostUrl() ?>" method="post">
+<div style="height:20em; border:1px solid #ccc; margin-bottom:8px; padding:5px; background:#fff; overflow: auto; overflow-x:hidden; overflow-y:scroll;">
+<?php echo $this->getLicenseHtml() ?>
+</div>
 
 <script type="text/javascript">
 //<![CDATA[

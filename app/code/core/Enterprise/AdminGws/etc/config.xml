@@ -332,6 +332,7 @@
                     <enterprise_banner_model_resource_banner_collection>addStoreFilter</enterprise_banner_model_resource_banner_collection>
                     <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
                     <enterprise_reward_model_resource_reward_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_collection>
+                    <enterprise_reward_model_resource_reward_rate_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_rate_collection>
                     <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</enterprise_customerBalance_model_resource_balance_history_collection>
                     <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCredits</enterprise_customerBalance_model_resource_balance_history_collection>
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
@@ -371,6 +372,7 @@
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
                     <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
+                    <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
                     <mage_review_model_review>catalogProductReviewSaveBefore</mage_review_model_review>
                     <mage_rating_model_rating>ratingSaveBefore</mage_rating_model_rating>
                 </model_save_before>
@@ -397,6 +399,7 @@
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
                     <mage_review_model_review>catalogProductReviewDeleteBefore</mage_review_model_review>
+                    <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
                 </model_delete_before>
                 <model_load_after>
                     <mage_catalog_model_product>catalogProductLoadAfter</mage_catalog_model_product>
@@ -545,6 +548,7 @@
                     <mage_adminhtml_block_cms_page_edit>removeCmsPageButtons</mage_adminhtml_block_cms_page_edit>
                     <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
                     <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
+                    <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
                     <mage_adminhtml_block_tag_tag_grid>removeTagGridActions</mage_adminhtml_block_tag_tag_grid>
                     <mage_adminhtml_block_tag_edit>removeTagButtons</mage_adminhtml_block_tag_edit>
                     <mage_adminhtml_block_tag_edit_form>disableTagEditFormFields</mage_adminhtml_block_tag_edit_form>

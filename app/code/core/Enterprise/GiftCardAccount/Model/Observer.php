@@ -262,6 +262,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Force Zero Subtotal Checkout if the grand total is completely covered by SC and/or GC
      *
      * @param Varien_Event_Observer $observer
+     * @return void
      */
     public function togglePaymentMethods($observer)
     {
@@ -271,18 +272,15 @@ class Enterprise_GiftCardAccount_Model_Observer
         }
         // check if giftcard applied and then try to use free method
         if (!$quote->getGiftCardAccountApplied()) {
-            return $this;
+            return;
         }
         // disable all payment methods and enable only Zero Subtotal Checkout and Google Checkout
-        if ((0 == $quote->getBaseGrandTotal()) && ((float)$quote->getGiftCardsAmountUsed())) {
-            $result = $observer->getEvent()->getResult();
+        if ($quote->getBaseGrandTotal() == 0 && (float)$quote->getGiftCardsAmountUsed()) {
             $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
-            // Allow customer to place order via googlecheckout even if grandtotal is zero
-            if ('free' === $paymentMethod || 'googlecheckout' === $paymentMethod) {
-                $result->isAvailable = true;
-            } else {
-                $result->isAvailable = false;
-            }
+            $result = $observer->getEvent()->getResult();
+            // allow customer to place order via google checkout even if grand total is zero
+            $result->isAvailable = ($paymentMethod === 'free' || $paymentMethod === 'googlecheckout')
+                && empty($result->isDeniedInConfig);
         }
     }
 
@@ -536,5 +534,31 @@ class Enterprise_GiftCardAccount_Model_Observer
         }
 
         return $this;
+    }
+
+    /**
+     * Extend sales amount expression with gift card refunded value
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function extendSalesAmountExpression(Varien_Event_Observer $observer)
+    {
+        /** @var $expressionTransferObject Varien_Object */
+        $expressionTransferObject = $observer->getEvent()->getExpressionObject();
+        /** @var $adapter Varien_Db_Adapter_Interface */
+        $adapter = $observer->getEvent()->getCollection()->getConnection();
+        $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
+        $arguments = $expressionTransferObject->getArguments();
+        $arguments[] = $adapter->getCheckSql(
+            $adapter->prepareSqlCondition('main_table.base_gift_cards_refunded', array('null' => null)),
+            0,
+            sprintf(
+                'main_table.base_gift_cards_refunded - %s - %s',
+                $adapter->getIfNullSql('main_table.base_tax_refunded', 0),
+                $adapter->getIfNullSql('main_table.base_shipping_refunded', 0)
+            )
+        );
+        $expressionTransferObject->setArguments($arguments);
     }
 }

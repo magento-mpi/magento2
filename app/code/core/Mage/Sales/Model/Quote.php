@@ -514,7 +514,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * retrieve quote shipping address
+     * Retrieve quote shipping address
      *
      * @return Mage_Sales_Model_Quote_Address
      */
@@ -593,11 +593,40 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Leave no more than one billing and one shipping address, fill them with default data
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function removeAllAddresses()
     {
-        foreach ($this->getAddressesCollection() as $address) {
+        $addressByType = array();
+        $addressesCollection = $this->getAddressesCollection();
+
+        // mark all addresses as deleted
+        foreach ($addressesCollection as $address) {
+            $type = $address->getAddressType();
+            if (!isset($addressByType[$type]) || $addressByType[$type]->getId() > $address->getId()) {
+                $addressByType[$type] = $address;
+            }
             $address->isDeleted(true);
         }
+
+        // create new billing and shipping addresses filled with default values, set this data to existing records
+        foreach ($addressByType as $type => $address) {
+            $id = $address->getId();
+            $emptyAddress = $this->_getAddressByType($type);
+            $address->setData($emptyAddress->getData())->setId($id)->isDeleted(false);
+            $emptyAddress->setDeleteImmediately(true);
+        }
+
+        // remove newly created billing and shipping addresses from collection to avoid senseless delete queries
+        foreach ($addressesCollection as $key => $item) {
+            if ($item->getDeleteImmediately()) {
+                $addressesCollection->removeItemByKey($key);
+            }
+        }
+
         return $this;
     }
 
@@ -762,6 +791,36 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Delete quote item. If it does not have identifier then it will be only removed from collection
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function deleteItem(Mage_Sales_Model_Quote_Item $item)
+    {
+        if ($item->getId()) {
+            $this->removeItem($item->getId());
+        } else {
+            $quoteItems = $this->getItemsCollection();
+            $items = array($item);
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                    $items[] = $child;
+                }
+            }
+            foreach ($quoteItems as $key => $quoteItem) {
+                foreach ($items as $item) {
+                    if ($quoteItem->compare($item)) {
+                        $quoteItems->removeItemByKey($key);
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove quote item by item identifier
      *
      * @param   int $itemId
@@ -899,7 +958,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId() && !$item->getId()) {
+            if ($parentItem && $candidate->getParentProductId()) {
                 $item->setParentItem($parentItem);
             }
 

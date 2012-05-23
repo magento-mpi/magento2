@@ -74,7 +74,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     /**
      * Get HTML output for specified address
      *
-     * @param $address Mage_Sales_Model_Quote_Address
+     * @param Mage_Sales_Model_Quote_Address $address
      * @return string
      */
     public function renderAddress($address)
@@ -85,7 +85,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     /**
      * Return carrier name from config, base on carrier code
      *
-     * @param $carrierCode string
+     * @param string $carrierCode
      * @return string
      */
     public function getCarrierName($carrierCode)
@@ -136,7 +136,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
                 );
             }
         }
-        return sprintf($format, $rate->getMethodTitle(), $price, $renderedInclTax);
+        return sprintf($format, $this->escapeHtml($rate->getMethodTitle()), $price, $renderedInclTax);
     }
 
     /**

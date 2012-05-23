@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Widget
- */
 class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -42,8 +39,6 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      * @param string $expectedFile
      * @dataProvider getPlaceholderImageUrlDataProvider
      * @magentoAppIsolation enabled
-     *
-     * @group module:Mage_Catalog
      */
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {

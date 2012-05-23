@@ -59,7 +59,7 @@ class Enterprise_Search_Model_Indexer_Indexer
     public function reindexAll()
     {
         $helper = Mage::helper('Enterprise_Search_Helper_Data');
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+        if ($helper->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
             $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {

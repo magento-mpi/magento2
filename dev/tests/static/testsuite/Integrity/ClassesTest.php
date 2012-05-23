@@ -127,6 +127,45 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $this->_assertClassesExist(array_unique($classes));
     }
 
+    public function testEnterpriseEnabler()
+    {
+        $root = Utility_Files::init()->getPathToSource();
+        $xmlFile = $root . '/app/etc/modules/XEnterprise_Enabler.xml.dist';
+        if (realpath($xmlFile) != $xmlFile) {
+            $this->markTestSkipped($xmlFile . ' is not available.');
+        }
+
+        $xml = simplexml_load_file($xmlFile);
+        $xmlModuleNodes = $xml->xpath('/config/modules');
+        $this->assertEquals(1, count($xmlModuleNodes));
+
+        $modules = array();
+        foreach (reset($xmlModuleNodes) as $moduleName => $node) {
+            $this->assertObjectHasAttribute('active', $node);
+            $modules[$moduleName] = 1;
+        }
+
+        $dirSource = opendir($root . '/app/code/core/Enterprise');
+        $dir = readdir($dirSource);
+        while ($dir) {
+            if ($dir !== '.' && $dir !== '..') {
+                $moduleName = 'Enterprise_' . $dir;
+                $this->assertTrue(
+                    isset($modules[$moduleName]),
+                    $moduleName . ' module not found in ' . $root . '/app/etc/modules/XEnterprise_Enabler.xml.dist'
+                );
+                unset($modules[$moduleName]);
+            }
+            $dir = readdir($dirSource);
+        }
+
+        $this->assertEquals(
+            0,
+            count($modules),
+            implode(', ', array_keys($modules)) . ' module(s) not found in ' . $root . '/app/code/core/Enterprise'
+        );
+    }
+
     /**
      * @return array
      */

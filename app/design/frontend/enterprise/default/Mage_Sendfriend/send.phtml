@@ -34,9 +34,9 @@
         var li_mail = Element.extend(document.createElement("li"));
         li_mail.addClassName('add-row');
         li_mail.addClassName('fields');
-        li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /><\/a><\/p>'
-        li_mail.innerHTML += '<div class="field"><label for="recipients_name'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Name:') ?><\/label><div class="input-box"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" /><\/div><\/div>';
-        li_mail.innerHTML += '<div class="field"><label for="recipients_email'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Email Address:') ?><\/label><div class="input-box"><input name="recipients[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/div><\/div>';
+        li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->jsQuoteEscape($this->__('Remove Email')) ?>" /><\/a><\/p>'
+        li_mail.innerHTML += '<div class="field"><label for="recipients_name'+i+'" class="required"><em>*<\/em> <?php echo $this->jsQuoteEscape($this->__('Name:')) ?><\/label><div class="input-box"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" /><\/div><\/div>';
+        li_mail.innerHTML += '<div class="field"><label for="recipients_email'+i+'" class="required"><em>*<\/em> <?php echo $this->jsQuoteEscape($this->__('Email Address:')) ?><\/label><div class="input-box"><input name="recipients[email][]" value="" title="<?php echo $this->jsQuoteEscape($this->__('Email Address')) ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/div><\/div>';
         i++;
         recipCount++;
         if(recipCount>=maxRecip && maxRecip != 0) {
@@ -107,7 +107,7 @@
                 <?php endif; ?>
             </span>&nbsp;
         </p>
-        <button type="submit" class="button<?php if (!$this->canSend()):?> disabled<?php endif ?>"<?php if (!$this->canSend()):?> disabled="disabled"<?php endif ?>><span><span><?php echo $this->__('Send email') ?></span></span></button>
+        <button type="submit" class="button<?php if (!$this->canSend()):?> disabled<?php endif ?>"<?php if (!$this->canSend()):?> disabled="disabled"<?php endif ?>><span><span><?php echo $this->__('Send Email') ?></span></span></button>
         <?php if (1 < $this->getMaxRecipients()): ?>
             <button type="button" id="add_recipient_button" onclick="add_recipient();" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
         <?php endif; ?>

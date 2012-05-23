@@ -54,15 +54,36 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if ($this->getZipIsRange()) {
-            $zipFrom = (strlen($this->getZipFrom()) > 10) ? substr($this->getZipFrom(), 0, 10) : $this->getZipFrom();
-            $zipTo   = (strlen($this->getZipTo()) > 10) ? substr($this->getZipTo(), 0, 10) : $this->getZipTo();
+        if ($this->getCode() === '' || $this->getTaxCountryId() === '' || $this->getRate() === ''
+            || $this->getZipIsRange() && ($this->getZipFrom() === '' || $this->getZipTo() === '')
+        ) {
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Please fill all required fields with valid information.'));
+        }
 
-            $this->setTaxPostcode("{$zipFrom}-{$zipTo}");
+        if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
+            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent should be a positive number.'));
+        }
+
+        if ($this->getZipIsRange()) {
+            $zipFrom = $this->getZipFrom();
+            $zipTo = $this->getZipTo();
+
+            if (strlen($zipFrom) > 9 || strlen($zipTo) > 9) {
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Maximum zip code length is 9.'));
+            }
+
+            if (!is_numeric($zipFrom) || !is_numeric($zipTo) || $zipFrom < 0 || $zipTo < 0) {
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Zip code should not contain characters other than digits.'));
+            }
+
+            if ($zipFrom > $zipTo) {
+                Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Range To should be equal or greater than Range From.'));
+            }
+
+            $this->setTaxPostcode($zipFrom . '-' . $zipTo);
         } else {
             $taxPostCode = $this->getTaxPostcode();
 
-            // postcode must be not longer than 10 symbols
             if (strlen($taxPostCode) > 10) {
                 $taxPostCode = substr($taxPostCode, 0, 10);
             }

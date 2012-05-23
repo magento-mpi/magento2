@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     default_iphone
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,9 +19,9 @@
     <tr class="<?php echo $_code?>">
         <td>
             <?php if ($_total->getStrong()):?>
-            <strong><?php echo $_total->getLabel()?></strong>
+            <strong><?php echo $this->escapeHtml($_total->getLabel());?></strong>
             <?php else:?>
-            <?php echo $_total->getLabel()?>
+            <?php echo $this->escapeHtml($_total->getLabel());?>
             <?php endif?>
         </td>
         <td>

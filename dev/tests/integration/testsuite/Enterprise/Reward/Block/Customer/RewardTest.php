@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_Reward
- */
 class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCase
 {
     /**

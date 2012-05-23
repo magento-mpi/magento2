@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Social_Facebook
- */
 class Social_Facebook_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

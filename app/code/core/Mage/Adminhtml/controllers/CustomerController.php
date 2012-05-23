@@ -274,7 +274,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/newsletter')) {
+            if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/newsletter')
+                && !$customer->getConfirmation()
+            ) {
                 $customer->setIsSubscribed(isset($data['subscription']));
             }
 

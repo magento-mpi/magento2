@@ -9,10 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Enterprise_GiftRegistry
- * @group module:Mage_Wishlist
- */
 class Enterprise_GiftRegistry_Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

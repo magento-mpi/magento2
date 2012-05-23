@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCase
 {
     /**

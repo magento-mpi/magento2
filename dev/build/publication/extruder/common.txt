@@ -14,7 +14,8 @@ app/etc/modules/Find_Feed.xml
 app/etc/modules/Social_Facebook.xml
 app/etc/modules/XEnterprise_Enabler.xml.dist
 app/etc/modules/Zrdbms.xml
-dev/tests/functional/
+dev/api-tests
+dev/tests/functional
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist
 dev/tests/integration/framework/Magento/Test/Db/cleanup_database.{oracle,mssql}.sql
 dev/tests/integration/framework/Magento/Test/Db/{Mssql,Oracle}.php

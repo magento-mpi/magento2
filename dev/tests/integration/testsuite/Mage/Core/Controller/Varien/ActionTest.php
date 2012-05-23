@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Core
- */
 class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -105,18 +102,73 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $route
+     * @param string $controller
+     * @param string $action
+     * @param array $expected
+     * @param array $nonExpected
+     *
      * @magentoAppIsolation enabled
+     * @dataProvider addActionLayoutHandlesDataProvider
      */
-    public function testAddActionLayoutHandles()
+    public function testAddActionLayoutHandles($route, $controller, $action, $expected, $nonExpected)
     {
         $this->_model->getRequest()
-            ->setRouteName('Test')
-            ->setControllerName('Controller')
-            ->setActionName('Action');
+            ->setRouteName($route)
+            ->setControllerName($controller)
+            ->setActionName($action);
         $this->_model->addActionLayoutHandles();
         $handles = $this->_model->getLayout()->getUpdate()->getHandles();
-        $this->assertContains('test_controller_action', $handles);
-        $this->assertNotContains('STORE_' . Mage::app()->getStore()->getCode(), $handles);
+
+        foreach ($expected as $expectedHandle) {
+            $this->assertContains($expectedHandle, $handles);
+        }
+        foreach ($nonExpected as $nonExpectedHandle) {
+            $this->assertNotContains($nonExpectedHandle, $handles);
+        }
+    }
+
+    public function addActionLayoutHandlesDataProvider()
+    {
+        return array(
+            array('Test', 'Controller', 'Action', array('test_controller_action'),
+                array('STORE_' . Mage::app()->getStore()->getCode())
+            ),
+            array('catalog', 'product', 'gallery', array('catalog_product_gallery'),
+                array('default', 'catalog_product_view')
+            )
+        );
+    }
+
+    /**
+     * @param string $route
+     * @param string $controller
+     * @param string $action
+     * @param array $expected
+     *
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture global/dev/page_type/render_inherited 1
+     * @dataProvider addActionLayoutHandlesInheritedDataProvider
+     */
+    public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
+    {
+        $this->_model->getRequest()
+            ->setRouteName($route)
+            ->setControllerName($controller)
+            ->setActionName($action);
+        $this->_model->addActionLayoutHandles();
+        $handles = $this->_model->getLayout()->getUpdate()->getHandles();
+        foreach ($expected as $expectedHandle) {
+            $this->assertContains($expectedHandle, $handles);
+        }
+    }
+
+    public function addActionLayoutHandlesInheritedDataProvider()
+    {
+        return array(
+            array('test', 'controller', 'action', array('test_controller_action')),
+            array('catalog', 'product', 'gallery', array('default', 'catalog_product_view', 'catalog_product_gallery'))
+        );
     }
 
     /**
@@ -127,13 +179,15 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->_model->getRequest()->setRouteName('test')
             ->setControllerName('controller')
             ->setActionName('action');
-        $this->_model->addPageLayoutHandles(array());
+        $result = $this->_model->addPageLayoutHandles();
+        $this->assertFalse($result);
         $this->assertEmpty($this->_model->getLayout()->getUpdate()->getHandles());
 
         $this->_model->getRequest()->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
-        $this->_model->addPageLayoutHandles(array('type' => 'simple'));
+        $result = $this->_model->addPageLayoutHandles(array('type' => 'simple'));
+        $this->assertTrue($result);
         $handles = $this->_model->getLayout()->getUpdate()->getHandles();
         $this->assertContains('default', $handles);
         $this->assertContains('catalog_product_view', $handles);
@@ -156,6 +210,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatch()
     {
+        if (headers_sent()) {
+            $this->markTestSkipped('Can\' dispatch - headers already sent');
+        }
         $request = new Magento_Test_Request();
         $request->setDispatched();
 

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Cms
- */
 class Mage_Cms_Block_Widget_BlockTest extends PHPUnit_Framework_TestCase
 {
     /**
