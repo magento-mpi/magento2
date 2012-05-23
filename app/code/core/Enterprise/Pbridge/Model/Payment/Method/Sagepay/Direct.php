@@ -57,6 +57,18 @@ class Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct extends Mage_Paymen
     protected $_isInitializeNeeded      = false;
 
     /**
+     * Disable payment method if 3D Secure is enabled
+     * @return bool
+     */
+    public function canUseForMultishipping()
+    {
+        if ($this->_is3DSEnabled()) {
+            return false;
+        }
+        return parent::canUseForMultishipping();
+    }
+
+    /**
      * Form block type for the frontend
      * @var string
      */
