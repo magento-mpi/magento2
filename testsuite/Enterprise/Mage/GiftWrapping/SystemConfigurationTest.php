@@ -180,13 +180,13 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
         $this->systemConfigurationHelper()->configure('gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('gift_options_enable_all_website');
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full',
-            array('gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
             array('product1' => $productData[0]['general_sku'],
-                  'product2' => $productData[1]['general_sku']));
+                  'product2' => $productData[1]['general_sku'],
+                  'giftWrappingDesign' => $giftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, FALSE);
+        $this->orderHelper()->createOrder($orderData);
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');
         $this->orderHelper()->verifyGiftOptions($orderData);

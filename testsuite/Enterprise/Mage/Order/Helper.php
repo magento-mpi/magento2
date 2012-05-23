@@ -47,15 +47,15 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         }
         if (array_key_exists('individual', $giftOptions)) {
             foreach ($giftOptions['individual'] as $options) {
-                    if (is_array($options) && isset($options['sku_product'])) {
-                        $this->addParameter('sku', $options['sku_product']);
-                        $this->clickControl('link', 'gift_options', FALSE);
-                        $this->waitForAjax();
-                        unset($options['sku_product']);
-                        $this->fillFieldset($options, 'gift_options');
-                        $this->clickButton('ok', FALSE);
-                        $this->pleaseWait();
-                    }
+                if (is_array($options) && isset($options['sku_product'])) {
+                    $this->addParameter('sku', $options['sku_product']);
+                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->waitForAjax();
+                    unset($options['sku_product']);
+                    $this->fillFieldset($options, 'gift_options');
+                    $this->clickButton('ok', FALSE);
+                    $this->pleaseWait();
+                }
             }
         }
     }
@@ -72,14 +72,14 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         }
         if (array_key_exists('individual', $giftOptions['gift_messages'])) {
             foreach ($giftOptions['gift_messages']['individual'] as $options) {
-                    if (is_array($options) && isset($options['sku_product'])) {
-                        $this->addParameter('sku', $options['sku_product']);
-                        $this->clickControl('link', 'gift_options', FALSE);
-                        $this->waitForAjax();
-                        $this->verifyForm($options, null, array('sku_product'));
-                        $this->clickButton('ok', FALSE);
-                        $this->pleaseWait();
-                    }
+                if (is_array($options) && isset($options['sku_product'])) {
+                    $this->addParameter('sku', $options['sku_product']);
+                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->waitForAjax();
+                    $this->verifyForm($options, null, array('sku_product'));
+                    $this->clickButton('ok', FALSE);
+                    $this->pleaseWait();
+                }
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -99,13 +99,19 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
                     $this->addParameter('sku', $options['filter_sku']);
                     if ($this->controlIsPresent('link', 'gift_options')) {
                         $this->addVerificationMessage('Gift options link is available for product '
-                                . $options['filter_sku']);
+                                                      . $options['filter_sku']);
                     }
                 }
             }
         }
-        if ($this->controlIsPresent('fieldset', 'gift_options_for_order')) {
-            $this->addVerificationMessage('Gift options are available for the order');
+
+        $fieldSetElements = $this->_findUimapElement('fieldset', 'gift_options_for_order')->getFieldsetElements();
+        foreach($fieldSetElements as $controlType => $elements) {
+            foreach($elements as $element => $elementXpath) {
+                if ($this->controlIsPresent($controlType, $element)) {
+                    $this->addVerificationMessage("Gift options($element) is available for the order");
+                }
+            }
         }
         $this->assertEmptyVerificationErrors();
     }

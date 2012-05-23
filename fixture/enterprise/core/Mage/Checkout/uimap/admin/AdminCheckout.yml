@@ -75,3 +75,21 @@ create_order_for_new_customer:
                             add_printed_card: //input[@id='add-printed-card']
                         pageelements:
                             printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
+
+edit_order:
+    uimap:
+        form:
+            fieldsets:
+               -
+                  gift_options_for_order:
+                      xpath: //div[div/h4[contains(text(),'Gift Options')]]
+                      dropdowns:
+                          order_gift_wrapping_design: //select[@id='giftwrapping_design']
+                      checkboxes:
+                          send_gift_receipt: //input[@id='allow-gift-receipt']
+                          add_printed_card: //input[@id='add-printed-card']
+               -
+                  gift_options:
+                      xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                      dropdowns:
+                          product_gift_wrapping_design: //select[@id='giftwrapping_design_item']

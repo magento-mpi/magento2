@@ -88,7 +88,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * Create additional Gift Wrapping for tests
      * @return array $gwData
      *
-     * @ test
+     * @test
      */
     public function createGiftWrappingAdditional()
     {
@@ -123,13 +123,13 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function giftMessagePerOrderAllowed($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
+            array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
@@ -156,13 +156,13 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function giftMessagePerOrderDisabled($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
@@ -202,28 +202,28 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @param array $simpleSku
      * @param array $gwData
      *
-     * @ test
+     * @test
      */
-        public function giftWrappingPerOrderAllowed($simpleSku, $gwData)
-        {
-            //Data
-            $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                    array('filter_sku' => $simpleSku,
-                          'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
-                    array('order_gift_wrapping_design' => $gwData['gift_wrapping_design']))));
-            //Configuration
-            $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
-            //Steps
-            $this->navigate('manage_sales_orders');
-            $this->orderHelper()->createOrder($orderData, false);
-            $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
-            $this->assertTrue($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'), 'Cannot find the block');
-            $this->orderHelper()->submitOrder();
-            //Verifying
-            $this->assertMessagePresent('success', 'success_created_order');
-            $this->orderHelper()->verifyGiftOptions($orderData);
-        }
+    public function giftWrappingPerOrderAllowed($simpleSku, $gwData)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku,
+                  'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+                      array('order_gift_wrapping_design' => $gwData['gift_wrapping_design']))));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'), 'Cannot find the block');
+        $this->orderHelper()->submitOrder();
+        //Verifying
+        $this->assertMessagePresent('success', 'success_created_order');
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
 
     /**
      * <p>TL-MAGE-984: Gift Wrapping for entire Order is not allowed (wrapping-no; messages-yes)</p>
@@ -240,7 +240,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function giftWrappingPerOrderDisabled($simpleSku)
     {
@@ -274,7 +274,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function giftOptionsPerOrderDisabled($simpleSku)
     {
@@ -345,6 +345,67 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @TODO Move from MAUTOSEL-259 branch to here
      */
     /**
+     * <p>TL-MAGE-923: ReOrder case</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration Gift Wrapping(for entire Order and Items), Gift Messages(for entire Order</p>
+     * <p> and Items), Printed Cards, Gift Receipt is allowed;</p>
+     * <p>2. At least one Gift Wrapping is created and enabled(with price $10, for example);</p>
+     * <p>3. Printed Card price is specified in configuration($1 for this example);</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to Backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list;</p>
+     * <p>4. Fill in all necessary fields (Shipping/billing addresses, Shipping/Payment methods, etc);</p>
+     * <p>5. In Gift Options block - select Gift Wrapping for Entire Order using "Gift Wrapping Design" dropdown;</p>
+     * <p>6. Check "Add Printed Card" checkbox in Gift Options block;</p>
+     * <p>7. Check "Send Gift Receipt" checkbox in Gift Options block;</p>
+     * <p>8. Fill the fields corresponding to Gift Message for Entire Order in Gift Options block;</p>
+     * <p>9. Click "Gift Options" link near product in Items Ordered list;</p>
+     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fullfill fields, corresponding to</p>
+     * <p> Gift Message for Individual Item, click "OK" button in popup;</p>
+     * <p>11. Click "Submit Order" button;</p>
+     * <p>12. When Order is placed, click "Edit" link on Order page;</p>
+     * <p>13. Look at Gift Options block;</p>
+     * <p>14. Click "Gift Options" link near product inItems Ordered Grid;</p>
+     * <p>15. In AJAX-popup look at "Gift Wrapping Design" dropdown, Gift Message for Individual Item;</p>
+     * <p>Expected result:</p>
+     * <p>13. Gift Wrapping for Entire Order which was selected at time when Order is placed should remain in</p>
+     * <p>"Gift Wrapping Design" dropdown ;</p>
+     * <p>13. "Add Printed Card" checkbox in Gift Options block should be checked</p>
+     * <p>13. "Send Gift Receipt" checkbox in Gift Options block should be checked;</p>
+     * <p>13. Gift Message for entire Order fields should be filled with data, entered when Order was placed;</p>
+     * <p>15. Gift Wrapping for Individual Item which was selected at time when Order is placed should remain in</p>
+     * <p>"Gift Wrapping Design" dropdown;</p>
+     * <p>15. Gift Message for Individual Item fields should be filled with data, entered at time, when Order was</p>
+     * <p>placed;</p>
+     *
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
+     * @param array $simpleSku
+     * @param array $gwDataMain
+     *
+     * @test
+     */
+    public function reorderOrderGiftWrappingAllowed($simpleSku, $gwDataMain)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
+            array('product1' => $simpleSku,
+                  'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_options_enable_all_default_config');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_created_order');
+        //Steps
+        $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
+
+    /**
      * <p>TL-MAGE-929: Gift Receipt is allowed</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Gift Receipt" is set to "Yes"</p>
@@ -365,7 +426,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function createOrderGiftReceiptAllowed($simpleSku)
     {
@@ -411,7 +472,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function createOrderPrintedCardAllowed($simpleSku)
     {
@@ -432,9 +493,9 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertTrue($this->controlIsPresent('checkbox', 'add_printed_card'), 'Printed Card is not added');
         $this->orderHelper()->verifyPageelement('printed_card_price',
-                    '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+            '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
         $this->orderHelper()->verifyPageelement('total_printed_card_price',
-                    '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+            '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
         $this->assertEmptyVerificationErrors();
     }
 
@@ -453,7 +514,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function createOrderPrintedCardNotAllowed($simpleSku)
     {
@@ -486,7 +547,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @ test
+     * @test
      */
     public function createOrderGiftReceiptDisabled($simpleSku)
     {

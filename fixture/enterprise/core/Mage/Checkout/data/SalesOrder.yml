@@ -71,7 +71,7 @@ order_gift_options_full:
             from_order_level: from_%randomize%
             to_order_level: to_%randomize%
             message_order_level: message_order_%randomize%
-            gift_wrapping_design: %noValue%
+            order_gift_wrapping_design: %giftWrappingDesign%
             send_gift_receipt: Yes
             add_printed_card: Yes
         individual:
@@ -80,10 +80,10 @@ order_gift_options_full:
                 from: from_%randomize%
                 to: to_%randomize%
                 message: message_%randomize%
-                gift_wrapping_design: %noValue%
+                product_gift_wrapping_design: %giftWrappingDesign%
             product_2:
                 sku_product: %product2%
                 from: from_%randomize%
                 to: to_%randomize%
                 message: message_%randomize%
-                gift_wrapping_design: %noValue%
+                product_gift_wrapping_design: %giftWrappingDesign%
