@@ -12,6 +12,44 @@
 class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
+     * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here
+     *
+     * @var string
+     */
+    protected $_httpXRequestedWith;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            $this->_httpXRequestedWith = $_SERVER['HTTP_X_REQUESTED_WITH'];
+        }
+    }
+
+    protected function tearDown()
+    {
+        if (!is_null($this->_httpXRequestedWith)) {
+            $_SERVER['HTTP_X_REQUESTED_WITH'] = $this->_httpXRequestedWith;
+        }
+
+        parent::tearDown();
+    }
+
+    /**
+     * Get possible entity types
+     *
+     * @return array
+     */
+    public function getEntityTypesDataProvider()
+    {
+        return array(
+            'products'  => array('$entityType' => 'catalog_product'),
+            'customers' => array('$entityType' => 'customer')
+        );
+    }
+
+    /**
      * Get some required fields list to check whether they are present on edit form
      *
      * @return array
@@ -87,5 +125,22 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
         $session = new Mage_Adminhtml_Model_Session();
         $this->assertCount(0, $session->getMessages()->getErrors());
         $this->assertGreaterThan(0, count($session->getMessages()->getItemsByType('success')));
+    }
+
+    /**
+     * Test getFilter action
+     *
+     * @dataProvider getEntityTypesDataProvider
+     *
+     * @param string $entityType
+     */
+    public function testGetFilterAction($entityType)
+    {
+        // Provide X_REQUESTED_WITH header in response to mark next action as ajax
+        $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+        $this->dispatch('admin/scheduled_operation/getFilter/entity/' . $entityType);
+
+        $this->assertContains('<div id="export_filter_grid"', $this->getResponse()->getBody());
     }
 }
