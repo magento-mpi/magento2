@@ -33,7 +33,7 @@ class Mage_XmlConnect_Model_ApplicationTest extends PHPUnit_Framework_TestCase
         $methodName = 'getDefaultSizeUploadDir';
         $helperImage = $this->getMock('Mage_XmlConnect_Helper_Image', array($methodName), array(), '', false);
         $helperImage->expects($this->exactly(2))->method($methodName)->with()
-            ->will($this->returnValue('/pub/media/xmlconnect/custom/320x480'));
+            ->will($this->returnValue($this->_fixDirectorySeparator('/pub/media/xmlconnect/custom/320x480')));
         $model->expects($this->exactly(2))->method('getHelperImage')->with()->will($this->returnValue($helperImage));
 
         $params = $model->prepareSubmitParams(array());
@@ -54,7 +54,7 @@ class Mage_XmlConnect_Model_ApplicationTest extends PHPUnit_Framework_TestCase
                     'logo'                        => 'logo.png',
                     'big_logo'                    => 'big_logo.png',
                 ),
-                'submit_restore' => array(
+                'submit_restore' => array_map(array($this, '_fixDirectorySeparator'), array(
                     'icon'                        => '@/pub/media/xmlconnect/custom/320x480/r_icon.png',
                     'loader_image'                => '@/pub/media/xmlconnect/custom/320x480/r_loader_image.png',
                     'loader_image_i4'             => '@/pub/media/xmlconnect/custom/320x480/r_loader_image_i4.png',
@@ -63,7 +63,7 @@ class Mage_XmlConnect_Model_ApplicationTest extends PHPUnit_Framework_TestCase
                     'ipad_loader_portrait_image'  => '@/pub/media/xmlconnect/custom/320x480/r_ipad_portrait_image.png',
                     'ipad_loader_landscape_image' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_landscape_image.png',
                     'ipad_logo'                   => '@/pub/media/xmlconnect/custom/320x480/r_ipad_logo.png',
-                ),
+                )),
             )
         ));
 
@@ -81,24 +81,39 @@ class Mage_XmlConnect_Model_ApplicationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($params, $model->getSubmitParams());
         $this->assertArrayHasKey('magentoversion', $params);
         unset($params['magentoversion']);
-        $this->assertEquals(array(
-            'key' => 'Application Key',
-            'title' => 'Application Title',
-            'description' => 'Application Description',
-            'email' => 'author@example.com',
-            'price_free' => '1',
-            'country' => 'AR,DE,MG,RU,NEW_COUNTRIES,FR,MK,SA',
-            'copyright' => 'c',
-            'keywords' => 'key, title, author',
-            'name' => 'Application Name',
-            'code' => 'defipa1',
-            'type' => 'ipad',
-            'url' => 'http://localhost/index.php/xmlconnect/configuration/index/app_code/defipa1/',
-            'icon' => '@/pub/media/xmlconnect/custom/320x480/icon.png',
-            'ipad_loader_portrait_image' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_portrait_image.png',
-            'ipad_loader_landscape_image' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_landscape_image.png',
-            'ipad_logo' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_logo.png',
-            'big_logo' => '@/pub/media/xmlconnect/custom/320x480/big_logo.png',
-        ), $params);
+        $this->assertEquals(
+            array(
+                'key' => 'Application Key',
+                'title' => 'Application Title',
+                'description' => 'Application Description',
+                'email' => 'author@example.com',
+                'price_free' => '1',
+                'country' => 'AR,DE,MG,RU,NEW_COUNTRIES,FR,MK,SA',
+                'copyright' => 'c',
+                'keywords' => 'key, title, author',
+                'name' => 'Application Name',
+                'code' => 'defipa1',
+                'type' => 'ipad',
+                'url' => 'http://localhost/index.php/xmlconnect/configuration/index/app_code/defipa1/',
+            ) + array_map(array($this, '_fixDirectorySeparator'), array(
+                'icon' => '@/pub/media/xmlconnect/custom/320x480/icon.png',
+                'ipad_loader_portrait_image' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_portrait_image.png',
+                'ipad_loader_landscape_image' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_landscape_image.png',
+                'ipad_logo' => '@/pub/media/xmlconnect/custom/320x480/r_ipad_logo.png',
+                'big_logo' => '@/pub/media/xmlconnect/custom/320x480/big_logo.png',
+            )),
+            $params
+        );
+    }
+
+    /**
+     * Replace unix-style directory separator with system's one
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _fixDirectorySeparator($path)
+    {
+        return str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
 }
