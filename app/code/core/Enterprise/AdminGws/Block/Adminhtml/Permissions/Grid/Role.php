@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Use
     /**
      * Add allowed websites/stores column
      *
-     * @return Enterprise_Permissions_Block_Permissions_Grid_Role
+     * @return Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role
      */
     protected function _prepareColumns()
     {
