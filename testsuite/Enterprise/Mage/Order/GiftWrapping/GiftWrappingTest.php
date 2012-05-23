@@ -345,7 +345,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * @TODO Move from MAUTOSEL-259 branch to here
      */
     /**
-     * <p>TL-MAGE-923: ReOrder case</p>
+     * <p>TL-MAGE-914: Edit order case</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration Gift Wrapping(for entire Order and Items), Gift Messages(for entire Order</p>
      * <p> and Items), Printed Cards, Gift Receipt is allowed;</p>
@@ -366,18 +366,76 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
      * <p>11. Click "Submit Order" button;</p>
      * <p>12. When Order is placed, click "Edit" link on Order page;</p>
      * <p>13. Look at Gift Options block;</p>
+     * <p>14. Click "Gift Options" link near product in Items Ordered Grid;</p>
+     * <p>15. In AJAX-popup look at "Gift Wrapping Design" dropdown, Gift Message for Individual Item;</p>
+     * <p>Expected result:</p>
+     * <p>Gift Wrapping for Entire Order which was selected at time when Order is placed should remain in</p>
+     * <p>"Gift Wrapping Design" dropdown ;</p>
+     * <p>"Add Printed Card" checkbox in Gift Options block should be checked</p>
+     * <p>"Send Gift Receipt" checkbox in Gift Options block should be checked;</p>
+     * <p>Gift Message for entire Order fields should be filled with data, entered when Order was placed;</p>
+     * <p>Gift Wrapping for Individual Item which was selected at time when Order is placed should remain in</p>
+     * <p>"Gift Wrapping Design" dropdown;</p>
+     * <p>Gift Message for Individual Item fields should be filled with data, entered at time, when Order was</p>
+     * <p>placed;</p>
+     *
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
+     * @param array $simpleSku
+     * @param array $gwDataMain
+     *
+     * @test
+     */
+    public function editOrderGiftWrappingAllowed($simpleSku, $gwDataMain)
+    {
+        //Data
+        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
+            array('product1' => $simpleSku,
+                  'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('gift_options_enable_all_default_config');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_created_order');
+        //Steps
+        $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
+
+    /**
+     * <p>TL-MAGE-923: ReOrder case</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration Gift Wrapping(for entire Order and Items), Gift Messages(for entire Order</p>
+     * <p> and Items), Printed Cards, Gift Receipt is allowed;</p>
+     * <p>2. At least one Gift Wrapping is created and enabled(with price $10, for example);</p>
+     * <p>3. Printed Card price is specified in configuration($1 for this example);</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to Backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list;</p>
+     * <p>4. Fill in all necessary fields (Shipping/billing addresses, Shipping/Payment methods, etc);</p>
+     * <p>5. In Gift Options block - select Gift Wrapping for Entire Order using "Gift Wrapping Design" dropdown;</p>
+     * <p>6. Check "Add Printed Card" checkbox in Gift Options block;</p>
+     * <p>7. Check "Send Gift Receipt" checkbox in Gift Options block;</p>
+     * <p>8. Fill the fields corresponding to Gift Message for Entire Order in Gift Options block;</p>
+     * <p>9. Click "Gift Options" link near product in Items Ordered list;</p>
+     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fullfill fields, corresponding to</p>
+     * <p> Gift Message for Individual Item, click "OK" button in popup;</p>
+     * <p>11. Click "Submit Order" button;</p>
+     * <p>12. When Order is placed, click "Reorder" button on Order page;</p>
+     * <p>13. Look at Gift Options block;</p>
      * <p>14. Click "Gift Options" link near product inItems Ordered Grid;</p>
      * <p>15. In AJAX-popup look at "Gift Wrapping Design" dropdown, Gift Message for Individual Item;</p>
      * <p>Expected result:</p>
-     * <p>13. Gift Wrapping for Entire Order which was selected at time when Order is placed should remain in</p>
-     * <p>"Gift Wrapping Design" dropdown ;</p>
-     * <p>13. "Add Printed Card" checkbox in Gift Options block should be checked</p>
-     * <p>13. "Send Gift Receipt" checkbox in Gift Options block should be checked;</p>
-     * <p>13. Gift Message for entire Order fields should be filled with data, entered when Order was placed;</p>
-     * <p>15. Gift Wrapping for Individual Item which was selected at time when Order is placed should remain in</p>
-     * <p>"Gift Wrapping Design" dropdown;</p>
-     * <p>15. Gift Message for Individual Item fields should be filled with data, entered at time, when Order was</p>
-     * <p>placed;</p>
+     * <p>Gift Wrapping for Entire Order should not be selected in "Gift Wrapping Design" dropdown; </p>
+     * <p>"Add Printed Card" checkbox in Gift Options block should not be checked</p>
+     * <p>"Send Gift Receipt" checkbox in Gift Options block should not be checked</p>
+     * <p>Gift Message for entire Order field should be blank</p>
+     * <p>Gift Wrapping for Individual Item should not be selected in "Gift Wrapping Design" dropdown</p>
+     * <p>Gift Message for Individual Item field should be blank</p>
      *
      * @depends createSimpleProduct
      * @depends createGiftWrappingMain
@@ -401,8 +459,11 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
-        $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
-        $this->orderHelper()->verifyGiftOptions($orderData);
+        $this->clickButton('reorder');
+        //Verification
+        $giftOptions = $this->loadDataSet('SalesOrder', 'reorder_emty_gift_options', null,
+            array('product1' => $simpleSku));
+        $this->orderHelper()->verifyGiftOptions(array('gift_messages' => $giftOptions));
     }
 
     /**

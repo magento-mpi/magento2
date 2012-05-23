@@ -87,3 +87,19 @@ order_gift_options_full:
                 to: to_%randomize%
                 message: message_%randomize%
                 product_gift_wrapping_design: %giftWrappingDesign%
+
+reorder_emty_gift_options:
+    entire_order:
+        from_order_level: billing_Steven billing_Stevenson
+        to_order_level: billing_Steven billing_Stevenson
+        message_order_level:
+        order_gift_wrapping_design: Please select
+        send_gift_receipt: No
+        add_printed_card: No
+    individual:
+        product_1:
+            sku_product: %product1%
+            from: billing_Steven billing_Stevenson
+            to: billing_Steven billing_Stevenson
+            message:
+            product_gift_wrapping_design: Please select
