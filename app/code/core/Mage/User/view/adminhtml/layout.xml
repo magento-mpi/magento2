@@ -27,19 +27,9 @@
 
     <adminhtml_auth_resetpassword>
         <container name="root" label="Root" output="1">
-            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/forgotpassword.phtml">
-                <container name="form.additional.info" label="Form Additional Info"/>
-            </block>
+            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/resetforgottenpassword.phtml"/>
         </container>
     </adminhtml_auth_resetpassword>
-
-    <adminhtml_auth_resetpasswordpost>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Backend_Block_Template" name="content" template="Mage_User::admin/forgotpassword.phtml">
-                <container name="form.additional.info" label="Form Additional Info"/>
-            </block>
-        </container>
-    </adminhtml_auth_resetpasswordpost>
 
     <!-- admin acl roles grid page -->
     <adminhtml_user_role_index>
