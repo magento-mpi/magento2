@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="apia" basedir="../../../">
+    <property name="dir.bamboo.builds" value="${basedir}"/>
+
+<!--    <property name="dir.checkout.magento" value="${teamcity.build.checkoutDir}/apia"/>-->
+<!--    <property name="dir.checkout.build" value="${teamcity.build.checkoutDir}/build"/>-->
+    <property name="dir.checkout.build.files" value="${basedir}/dev/build/customization"/>
+    <property name="dir.www" value="/home/alex.borisenko/dev/bamboo_api"/>
+
+    <property name="dir.magento" value="${dir.bamboo.builds}"/>
+    <property name="dir.reports" value="${dir.magento}/report"/>
+    <property name="dir.magento.media" value="${dir.magento}/media"/>
+    <property name="dir.magento.var" value="${dir.magento}/var"/>
+    <property name="dir.magento.var.cache" value="${dir.magento.var}/cache"/>
+    <property name="dir.magento.app.etc" value="${dir.magento}/app/etc"/>
+    <property name="dir.magento.app.etc.modules" value="${dir.magento}/app/etc/modules"/>
+    <property name="dir.tests" value="${dir.magento}/dev/api-tests"/>
+
+    <property name="file.magento.enterprise_enabler.xml.dist" value="${dir.checkout.build.files}/XEnterprise_Enabler_Full.xml"/>
+    <property name="file.magento.enterprise_enabler.xml" value="${dir.magento.app.etc.modules}/XEnterprise_Enabler_Full.xml"/>
+
+    <property name="file.magento.local.xml.dist" value="${dir.checkout.build.files}/local.xml"/>
+    <property name="file.magento.local.xml" value="${dir.magento.app.etc}/local.xml"/>
+
+    <property name="file.tests.config.php.dist" value="${dir.tests}/config.php.dist"/>
+    <property name="file.tests.config.php" value="${dir.tests}/config.php"/>
+
+    <property name="file.tests.integration.local-mysql.xml.dist"
+              value="${dir.tests}/integration/etc/local-mysql.xml.dist"/>
+    <property name="file.tests.integration.local-mysql.xml"
+              value="${dir.tests}/integration/etc/local-mysql.xml"/>
+
+    <property name="mysql.username" value="alex_borisenko"/>
+    <property name="mysql.password" value=""/>
+    <property name="mysql.dbname" value="alex_borisenko_bamboo_api"/>
+
+    <property name="file.test.dump.sql" value="${dir.checkout.build.files}/magento_apia_tests.sql"/>
+    <property name="file.magento.backup.sql" value="${dir.magento}/magento_apia_backup.sql"/>
+
+
+    <property name="file.tests.integration.config.soap" value="${dir.tests}/integration/phpunit-soap.xml"/>
+    <property name="file.tests.integration.config.soap.v2" value="${dir.tests}/integration/phpunit-soapv2.xml"/>
+    <property name="file.tests.integration.config.soap.wsi" value="${dir.tests}/integration/phpunit-soapv2-wsi.xml"/>
+    <property name="file.tests.integration.config.xmlrpc" value="${dir.tests}/integration/phpunit-xmlrpc.xml"/>
+    <property name="file.tests.integration.config.rest" value="${dir.tests}/integration/phpunit-rest.xml"/>
+
+    <property name="file.tests.integration.config.dist" value="${dir.tests}/integration/phpunit.xml.dist"/>
+    <property name="file.tests.integration.config" value="${dir.tests}/integration/phpunit.xml"/>
+
+
+    <target name="apia-ci" depends="prepareBuild,runTests" description="Deploy APIA project on CI and run tests"/>
+
+    <target name="prepareBuild">
+<!--        <copy todir="${dir.magento}" overwrite="true">
+            <fileset dir="${dir.checkout.magento}"/>
+        </copy>-->
+        <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
+        <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
+        <copy file="${file.magento.flush.php.dist}" tofile="${file.magento.flush.php}"/>
+
+        <symlink link="${dir.www}" resource="${dir.magento}" overwrite="true"/>
+
+        <mkdir dir="${dir.magento.var.cache}"/>
+        <chmod perm="777">
+            <fileset dir="${dir.magento.media}"/>
+            <dirset dir="${dir.magento.media}"/>
+        </chmod>
+        <chmod perm="777">
+            <fileset dir="${dir.magento.var}"/>
+            <dirset dir="${dir.magento.var}"/>
+        </chmod>
+        <chmod perm="777">
+            <fileset dir="${dir.magento.app.etc}"/>
+            <dirset dir="${dir.magento.app.etc}"/>
+        </chmod>
+    </target>
+
+    <target name="runTests" depends="backupDB,setupTests,runUnitTests,restoreDB"/>
+<!--    <target name="runTests" depends="backupDB,setupTests,runUnitTests,runIntegrationTests,restoreDB"/>-->
+
+    <target name="backupDB">
+        <exec executable="mysqldump" failonerror="true" output="${file.magento.backup.sql}">
+            <arg line="-u${mysql.username}"/>
+            <arg line="${mysql.dbname}"/>
+        </exec>
+    </target>
+
+    <target name="restoreDB">
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'drop database if exists ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'create database ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true" input="${file.magento.backup.sql}">
+            <arg line="-u${mysql.username}"/>
+            <arg line="${mysql.dbname}"/>
+        </exec>
+    </target>
+
+    <target name="prepareMagentoForTests">
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'drop database if exists ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'create database ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true" input="${file.test.dump.sql}">
+            <arg line="-u${mysql.username}"/>
+            <arg line="${mysql.dbname}"/>
+        </exec>
+        <delete dir="${dir.magento.var.cache}"/>
+        <mkdir dir="${dir.magento.var.cache}"/>
+        <chmod dir="${dir.magento.var.cache}" perm="777"/>
+    </target>
+
+    <target name="cleanIntegrationCache">
+        <property name="dir.tests.integration.tmp" value="${dir.tests}/integration/tmp"/>
+        <delete dir="${dir.tests.integration.tmp}"/>
+        <mkdir dir="${dir.tests.integration.tmp}"/>
+        <chmod dir="${dir.tests.integration.tmp}" perm="777"/>
+    </target>
+
+    <target name="setupTests">
+        <property name="dir.tests.unit.tmp" value="${dir.tests}/unit/tmp"/>
+        <property name="dir.tests.integration.tmp" value="${dir.tests}/integration/tmp"/>
+
+        <copy file="${file.tests.config.php.dist}" tofile="${file.tests.config.php}" failonerror="true"/>
+        <copy file="${file.tests.integration.local-mysql.xml.dist}" tofile="${file.tests.integration.local-mysql.xml}" failonerror="true"/>
+
+        <replace file="${file.tests.integration.local-mysql.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
+
+        <copy file="${file.tests.integration.config.dist}" tofile="${file.tests.integration.config}" failonerror="true"/>
+
+        <replace file="${file.tests.integration.config}" token="mydomain.com" value="apia.kpas.varien.com"/>
+
+        <replace file="${file.tests.integration.config.soap}" token="api.ll" value="apia.kpas.varien.com"/>
+
+        <replace file="${file.tests.integration.config.soap.v2}" token="api.ll" value="apia.kpas.varien.com"/>
+
+        <replace file="${file.tests.integration.config.soap.wsi}" token="api.ll" value="apia.kpas.varien.com"/>
+
+        <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="apia.kpas.varien.com"/>
+
+        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="apia.kpas.varien.com"/>
+        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="uue06s6y30q7runh7doxgk3upd934eib"/>
+
+        <mkdir dir="${dir.reports}"/>
+        <mkdir dir="${dir.tests.unit.tmp}"/>
+        <mkdir dir="${dir.tests.integration.tmp}"/>
+
+        <chmod dir="${dir.reports}" perm="777"/>
+        <chmod dir="${dir.tests.unit.tmp}" perm="777"/>
+        <chmod dir="${dir.tests.integration.tmp}" perm="777"/>
+    </target>
+
+    <target name="runUnitTests">
+        <antcall target="prepareMagentoForTests"/>
+        <property name="file.reports.unit.junit" value="${dir.reports}/unit-phpunit.xml"/>
+        <property name="file.reports.unit.log" value="${dir.reports}/unit-phpunit.txt"/>
+
+        <copy file="${dir.tests}/unit/phpunit.xml.dist"
+              tofile="${dir.tests}/unit/phpunit.xml"
+              failonerror="true"/>
+        <copy file="${dir.tests}/unit/framework/config.php.dist"
+              tofile="${dir.tests}/unit/framework/config.php"
+              failonerror="true"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/unit/"
+              output="${file.reports.unit.log}">
+            <arg line="--log-junit ${file.reports.unit.junit}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTests" depends="runIntegrationTestsSimple,runIntegrationTestsSoap,runIntegrationTestsSoapV2,runIntegrationTestsXmlRpc,runIntegrationTestsSoapV2WSI,runIntegrationTestsRest"/>
+
+    <target name="runIntegrationTestsSimple">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.simple" value="${dir.reports}/integration-phpunit.xml"/>
+        <property name="file.reports.integration.log.simple" value="${dir.reports}/integration-phpunit.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.simple}">
+            <arg line="--configuration ${file.tests.integration.config}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.simple}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTestsSoap">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.soap" value="${dir.reports}/integration-phpunit-soap.xml"/>
+        <property name="file.reports.integration.log.soap" value="${dir.reports}/integration-phpunit-soap.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.soap}">
+            <arg line="--configuration ${file.tests.integration.config.soap}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.soap}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTestsSoapV2">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.soap.v2" value="${dir.reports}/integration-phpunit-soapv2.xml"/>
+        <property name="file.reports.integration.log.soap.v2" value="${dir.reports}/integration-phpunit-soapv2.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.soap.v2}">
+            <arg line="--configuration ${file.tests.integration.config.soap.v2}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.soap.v2}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTestsXmlRpc">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.xmlrpc" value="${dir.reports}/integration-phpunit-xmlrpc.xml"/>
+        <property name="file.reports.integration.log.xmlrpc" value="${dir.reports}/integration-phpunit-xmlrpc.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.xmlrpc}">
+            <arg line="--configuration ${file.tests.integration.config.xmlrpc}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.xmlrpc}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTestsSoapV2WSI">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.soap.wsi" value="${dir.reports}/integration-phpunit-soapv2-wsi.xml"/>
+        <property name="file.reports.integration.log.soap.wsi" value="${dir.reports}/integration-phpunit-soapv2-wsi.txt"/>
+        <property name="wsi.compliance.query" value="insert into core_config_data value(null,'default',0,'api/config/compliance_wsi',1)"/>
+
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="${mysql.dbname}"/>
+            <arg line='-e"${wsi.compliance.query}"'/>
+        </exec>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.soap.wsi}">
+            <arg line="--configuration ${file.tests.integration.config.soap.wsi}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.soap.wsi}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+
+    <target name="runIntegrationTestsRest">
+        <antcall target="prepareMagentoForTests"/>
+        <antcall target="cleanIntegrationCache"/>
+        <property name="file.reports.integration.junit.rest" value="${dir.reports}/integration-phpunit-rest.xml"/>
+        <property name="file.reports.integration.log.rest" value="${dir.reports}/integration-phpunit-rest.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.rest}">
+            <arg line="--configuration ${file.tests.integration.config.rest}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.rest}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+</project>
