@@ -61,3 +61,7 @@ onepage_checkout:
                             item_gift_wrapping_image: //li[./div[h5='%itemName%']]//div[@class='gift-wrapping-form']//img[not(contains(@class,'no-display'))]
                             item_gift_wrapping_price: //li[./div[h5='%itemName%']]//span[@class='price']
                             item_product_name: //li[./div[h5='%productName%']]
+                -
+                    order_review:
+                        pageelements:
+                            product_gift_wrapping: //table[@id='checkout-review-table']/tbody//td[h3= '%productName%']//dd[contains(text(), '%giftWrapping%')]
