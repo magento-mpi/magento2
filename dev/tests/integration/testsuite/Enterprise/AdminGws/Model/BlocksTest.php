@@ -57,16 +57,15 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     /**
      *  Test if gws block is added into layout when editing role
      *
-     * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
      * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleEditContainsGwsBlock()
     {
         $this->dispatch('admin/user_role/editrole');
 
-        $this->assertEquals(
+        $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws',
-            get_class(Mage::app()->getLayout()->getBlock('adminhtml.permission.role.edit.gws')),
+            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.edit.gws'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not loaded'
         );
 
@@ -82,32 +81,30 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     /**
      *  Test if gws block is added into layout when loading roles
      *
-     * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
      * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleIndexContainsGwsBlock()
     {
         $this->dispatch('admin/user_role/index');
 
-        $this->assertEquals(
+        $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            get_class(Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid')),
+            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
     }
     /**
      *  Test if gws block is added into layout when loading roles in grid
      *
-     * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
      * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleEditRoleGridContainsGwsBlock()
     {
         $this->dispatch('admin/user_role/editrolegrid');
 
-        $this->assertEquals(
+        $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            get_class(Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid')),
+            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
 
