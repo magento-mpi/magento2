@@ -180,6 +180,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
             $dims['dst']['y']
         );
 
+        $newImage->setImageFormat($this->_imageHandler->getImageFormat());
         $this->_imageHandler->clear();
         $this->_imageHandler->destroy();
         $this->_imageHandler = $newImage;
