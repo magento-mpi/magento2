@@ -147,19 +147,19 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     {
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
-        if ($dims['dst']['width'] > $this->_imageHandler->getImageWidth() ||
-            $dims['dst']['height'] > $this->_imageHandler->getImageHeight()
-        ) {
-            $this->_imageHandler->sampleImage($dims['dst']['width'], $dims['dst']['height']);
-        } else {
-            $this->_imageHandler->resizeImage(
-                $dims['dst']['width'],
-                $dims['dst']['height'],
-                Imagick::FILTER_LANCZOS,
-                self::BLUR_FACTOR,
-                true
-            );
-        }
+        $newImage = new Imagick();
+        $newImage->newImage(
+            $dims['frame']['width'],
+            $dims['frame']['height'],
+            $this->_imageHandler->getImageBackgroundColor()
+        );
+
+        $this->_imageHandler->resizeImage(
+            $dims['dst']['width'],
+            $dims['dst']['height'],
+            Imagick::FILTER_CUBIC,
+            self::BLUR_FACTOR
+        );
 
         if ($this->_imageHandler->getImageWidth() < $this->_options['small_image']['width']
             || $this->_imageHandler->getImageHeight() < $this->_options['small_image']['height']
@@ -169,6 +169,17 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 $this->_options['sharpen']['deviation']
             );
         }
+
+        $newImage->compositeImage(
+            $this->_imageHandler,
+            Imagick::COMPOSITE_OVER,
+            $dims['dst']['x'],
+            $dims['dst']['y']
+        );
+
+        $this->_imageHandler->clear();
+        $this->_imageHandler->destroy();
+        $this->_imageHandler = $newImage;
 
         $this->refreshImageDimensions();
     }
@@ -231,13 +242,24 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         $opacity = (float)number_format($opacity / 100, 1);
         $watermark = new Imagick($imagePath);
 
-        $iterator = $watermark->getPixelIterator();
+        if ($this->getWatermarkWidth() &&
+            $this->getWatermarkHeight() &&
+            $this->getWatermarkPosition() != self::POSITION_STRETCH
+        ) {
+            $watermark->resizeImage(
+                $this->getWatermarkWidth(),
+                $this->getWatermarkHeight(),
+                Imagick::FILTER_CUBIC,
+                self::BLUR_FACTOR
+            );
+        }
 
         if (method_exists($watermark, 'setImageOpacity')) {
             // available from imagick 6.2.9
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
+            $iterator = $watermark->getPixelIterator();
             foreach ($iterator as $y => $pixels) {
                 foreach ($pixels as $x => $pixel) {
                     $watermark->paintTransparentImage($pixel, $opacity, 65535);
@@ -300,6 +322,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
 
         // merge layers
         $this->_imageHandler->flattenImages();
+        $watermark->clear();
         $watermark->destroy();
     }
 

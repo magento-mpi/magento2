@@ -374,6 +374,10 @@ abstract class Varien_Image_Adapter_Abstract
                 'y' => $dstY,
                 'width'  => $dstWidth,
                 'height' => $dstHeight
+            ),
+            'frame' => array( // size for new image
+                'width'  => $frameWidth,
+                'height' => $frameHeight
             )
         );
     }
