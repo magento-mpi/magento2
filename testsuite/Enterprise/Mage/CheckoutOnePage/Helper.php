@@ -108,4 +108,24 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
 
         return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
     }
+
+    public function frontOrderReview(array $checkoutData)
+    {
+        parent::frontOrderReview($checkoutData);
+        $itemsGiftWrapping = (isset($checkoutData['shipping_data']['add_gift_options']['individual_items'])) ?
+            $checkoutData['shipping_data']['add_gift_options']['individual_items'] : array();
+
+        if ($itemsGiftWrapping) {
+            foreach($itemsGiftWrapping as $productData) {
+                if (isset($productData['product_name']) && isset($productData['item_gift_wrapping_design'])) {
+                    $this->addParameter('productName', $productData['product_name']);
+                    $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);
+                    if (!$this->controlIsPresent('pageelement', 'product_gift_wrapping')) {
+                        $this->addVerificationMessage('Gift Wrapping ' . $productData['item_gift_wrapping_design'] .
+                                                      ' is absent for '. $productData['product_name']);
+                    }
+                }
+            }
+        }
+    }
 }

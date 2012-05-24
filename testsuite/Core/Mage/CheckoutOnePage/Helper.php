@@ -444,8 +444,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
         $shipping = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();
         $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : array();
-        $itemsGiftWrapping = (isset($checkoutData['shipping_data']['add_gift_options']['individual_items'])) ?
-            $checkoutData['shipping_data']['add_gift_options']['individual_items'] : array();
         $payMethod = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : array();
         $checkProd = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : array();
         $checkTotal = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data'] : array();
@@ -488,19 +486,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
             if (strcmp($expectedMethod, $text) != 0) {
                 $this->addVerificationMessage('Shipping method should be: ' . $expectedMethod . ' but now ' . $text);
-            }
-        }
-
-        if ($itemsGiftWrapping) {
-            foreach($itemsGiftWrapping as $productData) {
-                if (isset($productData['product_name']) && isset($productData['item_gift_wrapping_design'])) {
-                    $this->addParameter('productName', $productData['product_name']);
-                    $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);
-                    if (!$this->controlIsPresent('pageelement', 'product_gift_wrapping')) {
-                        $this->addVerificationMessage('Gift Wrapping ' . $productData['item_gift_wrapping_design'] .
-                                                      ' is absent for '. $productData['product_name']);
-                    }
-                }
             }
         }
 
