@@ -33,7 +33,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
         $this->assertNotEmpty($type->getId());
     }
 
-    public function emptyFixture()
+    public static function emptyFixture()
     {
     }
 }
