@@ -139,12 +139,13 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->waitForNewPage();
         //If get error message after account creation
         $error = $this->errorMessage('failed_account_creation');
-        if ($error['success']) {
+        $error1 = $this->successMessage('success_created_account_without_card');
+        if ($error['success'] || $error1['success']) {
             $delete = $this->getPaypalSandboxAccountInfo($parameters);
             $this->deleteAccount($delete['email']);
             return $this->createPreconfiguredAccount($parameters);
         }
-        $this->assertMessagePresent('success');
+        $this->assertMessagePresent('success', 'success_created_account');
         $this->validatePage('developer_created_test_account_us');
 
         return $this->getPaypalSandboxAccountInfo($parameters);
