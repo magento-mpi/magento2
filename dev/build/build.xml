@@ -209,7 +209,11 @@
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
                  token="{{selenium_port}}"
                  value="${env.selenium_port}"/>
-        
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{selenium_testsuite}}"
+                 value="${env.testsuite}"/>
+
         <!--exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/-->
     </target>
 
