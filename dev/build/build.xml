@@ -214,7 +214,7 @@
                  token="{{selenium_testsuite}}"
                  value="${env.testsuite}"/>
 
-        <!--exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/-->
+        <exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/>
     </target>
 
     <!-- Community Edition source code population to the public repository -->
