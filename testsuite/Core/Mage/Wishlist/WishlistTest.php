@@ -164,7 +164,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     public function guestCannotOpenWishlist()
     {
         //Steps
-        $this->frontend();
+        $this->logoutCustomer();
         $this->clickControl('link', 'my_wishlist');
         //Verify
         $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());

@@ -115,7 +115,7 @@ new_product_attribute:
                                         used_in_product_listing: //select[@id='used_in_product_listing']
                                         used_for_sorting_in_product_listing: //select[@id='used_for_sort_by' and not(@disabled)]
                                     fields:
-                                        position: //input[@id='position']
+                                        position: //input[@id='position'][not(@disabled)]
                 -
                     manage_labels_options:
                         xpath: //a[@id='product_attribute_tabs_labels']/span

@@ -51,6 +51,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
      */
     public function preconditionsForTests()
     {
+        $forLinking = array();
         $linking = $this->productHelper()->createDownloadableProduct();
         foreach (self::$productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';

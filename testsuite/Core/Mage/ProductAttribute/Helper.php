@@ -44,7 +44,15 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function createAttribute($attrData)
     {
         $this->clickButton('add_new_attribute');
+        $position = '';
+        if (isset($attrData['position'])) {
+            $position = $attrData['position'];
+            unset($attrData['position']);
+        }
         $this->fillForm($attrData, 'properties');
+        if ($position) {
+            $this->fillField('position', $position);
+        }
         $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
@@ -221,7 +229,6 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function defineAttributeId(array $searchData)
     {
         $this->navigate('manage_attributes');
-        $searchData = $this->arrayEmptyClear($searchData);
         $attrXpath = $this->search($searchData);
         $this->assertNotEquals(null, $attrXpath);
 

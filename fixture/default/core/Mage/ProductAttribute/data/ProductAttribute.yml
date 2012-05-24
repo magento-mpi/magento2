@@ -310,11 +310,11 @@ product_attribute_mediaimage: &productAttributeMediaimage
 product_attribute_fpt:
 # properties:
     catalog_input_type_for_store_owner: Fixed Product Tax
-    attribute_code: attr_fpt_code
+    attribute_code: attr_fpt_code_%randomize%
     apply_to: %noValue%
     apply_product_types: %noValue%
 # manage_labels_options:
-    admin_title: Fixed_Product_Tax_Admin
+    admin_title: Fixed_Product_Tax_Admin_%randomize%
     store_view_titles:
         Default Store View: Fixed_Product_Tax_Storeview
 

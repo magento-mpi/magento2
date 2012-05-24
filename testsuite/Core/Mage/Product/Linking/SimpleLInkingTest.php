@@ -51,6 +51,7 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
+        $forLinking = array();
         $linking = $this->productHelper()->createSimpleProduct();
         foreach (self::$productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';
