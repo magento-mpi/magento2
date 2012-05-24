@@ -26,22 +26,27 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'));
+if (version_compare(PHPUnit_Runner_Version::id(), '3.6.0', '<')) {
+    throw new RuntimeException('PHPUnit 3.6.0 (or later) is required.');
+}
+define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 define('SELENIUM_TESTS_SCREENSHOTDIR',
-        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshots'));
+realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
+define('SELENIUM_TESTS_LOGS',
+realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
-            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
-            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'), //To allow load tests helper files
-            get_include_path(),
-        )));
+    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
+    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'), //To allow load tests helper files
+    get_include_path(),
+)));
 
 require_once 'Mage/Selenium/Autoloader.php';
 Mage_Selenium_Autoloader::register();
 
 require_once 'functions.php';
 
-$testsConfig = Mage_Selenium_TestConfiguration::initInstance();
+$testsConfig = Mage_Selenium_TestConfiguration::getInstance();
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
     $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
