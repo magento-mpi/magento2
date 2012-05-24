@@ -33,10 +33,7 @@ class Mage_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
         $resource->beginTransaction();
         try {
             /** @var $order Mage_Sales_Model_Order */
-            $order = require __DIR__ . '/../_files/order.php';
-            $this->assertSame($resource, $order->getResource(),
-                'Database integrity compromised: resources of Sales Orders are contaminated with fixture data.'
-            );
+            require __DIR__ . '/../_files/order.php';
             $collection = new Mage_Sales_Model_Resource_Order_Grid_Collection;
             $this->assertEquals(0, $collection->count());
             $resource->rollBack();

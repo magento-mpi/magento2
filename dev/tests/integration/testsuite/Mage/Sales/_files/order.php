@@ -30,4 +30,3 @@ $order->setIncrementId('100000001')
     ->setPayment($payment)
 ;
 $order->save();
-return $order;
