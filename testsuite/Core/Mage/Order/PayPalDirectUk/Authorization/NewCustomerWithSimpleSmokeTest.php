@@ -65,7 +65,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->paypalHelper()->paypalDeveloperLogin();
-        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard, discover, amex');
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
         $cards = array();
         foreach ($accounts as $cardName => $info) {
             $cards[$cardName] = $info['credit_card'];
@@ -127,7 +127,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function orderWithDifferentCreditCardDataProvider()
     {
         return array(
-            array('amex'),
             array('visa')
         );
     }
