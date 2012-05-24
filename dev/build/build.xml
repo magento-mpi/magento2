@@ -153,7 +153,7 @@
         <fail unless="env.selenium_port" message="Bamboo variable 'selenium_port' must be defined on your agent"/>
         <fail unless="env.testsuite" message="Bamboo variable 'testsuite' must be defined on your agent (mage, enterprise)"/>
 
-        <property name="dir.build_directory" location="${env.deploy_directory}/${build.key}"/>
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
 
         <copy todir="${dir.build_directory}" failonerror="true">
             <fileset dir="${basedir}"/>
@@ -170,38 +170,46 @@
             <dirset dir="${dir.build_directory}/var"/>
         </chmod>
 
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--db_host',.*?'.*?'"
-                       replace="'--db_host',                    '${env.mysql_host}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--db_name',.*?'.*?'"
-                       replace="'--db_name',                    '${env.mysql_name}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--db_user',.*?'.*?'"
-                       replace="'--db_user',                    '${env.mysql_user}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--db_pass',.*?'.*?'"
-                       replace="'--db_pass',                    '${env.mysql_password}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--url',.*?'.*?'"
-                       replace="'--url',                    '${env.http_host}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                       match="'--secure_base_url',.*?'.*?'"
-                       replace="'--secure_base_url',                    '${env.https_host}'"/>
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
-                       match="(admin:.*?url:.*?)'.*?'"
-                       replace="\1'${env.https_host}admin'"
-                       flags="g" />
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
-                       match="(frontend:.*?url:.*?)'.*?'"
-                       replace="\1'${env.http_host}'"
-                       flags="g" />
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
-                       match="host:.*?'.*?'"
-                       replace="host: '${env.selenium_host}'" />
-        <replaceregexp file="${dir.build_directory}/dev/tests/functional/config/config.yml"
-                       match="port:.*?\d+"
-                       replace="port: ${env.selenium_port}" />
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--db_host',                    'localhost'"
+                 value="'--db_host',                    '${env.mysql_host}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--db_name',                    'bamboo_functional'"
+                 value="'--db_name',                    '${env.mysql_name}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--db_user',                    'root'"
+                 value="'--db_user',                    '${env.mysql_user}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--db_pass',                    ''"
+                 value="'--db_pass',                    '${env.mysql_password}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--url',                        'http://127.0.0.1/bamboo-functional-tests/'"
+                 value="'--url',                        '${env.http_host}${env.build.key}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="'--secure_base_url',            'https://127.0.0.1/bamboo-functional-tests/'"
+                 value="'--secure_base_url',            '${env.https_host}${env.build.key}'"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{admin_url}}"
+                 value="${env.https_host}${env.build.key}/admin"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{url}}"
+                 value="${env.http_host}${env.build.key}/"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{selenium_host}}"
+                 value="${env.selenium_host}"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{selenium_port}}"
+                 value="${env.selenium_port}"/>
+        
         <!--exec dir="dev/tests/functional" executable="phpunit" failonerror="true"/-->
     </target>
 
