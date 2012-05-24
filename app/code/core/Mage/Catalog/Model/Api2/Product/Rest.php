@@ -84,7 +84,9 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             if (!$category->getId()) {
                 $this->_critical('Category not found.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
-            $collection->addCategoryFilter($category);
+            $collection->addCategoryFilter($category)
+                ->addAttributeToSelect('position')
+                ->addAttributeToSort('position');
         }
     }
 
@@ -121,7 +123,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
-                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                $stockItem = Mage::getModel('Mage_Cataloginventory_Model_Stock_Item');
                 $stockItem->loadByProduct($product);
             }
             $productData['is_in_stock'] = $stockItem->getIsInStock();
@@ -139,6 +141,79 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             unset($productData['tier_price']);
         }
         $product->addData($productData);
+        $this->_addConfigurableAttributes($product);
+        $this->_unsetUnnecessaryDataFromConfigurable($product);
+    }
+
+    /**
+     * Prepare data specific for the configurable product type only
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _addConfigurableAttributes(Mage_Catalog_Model_Product $product)
+    {
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE
+            && $this->getActionType() == self::ACTION_TYPE_ENTITY
+        ) {
+            /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+            $configurableType = $product->getTypeInstance(true);
+            $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
+            $formattedConfigurableAttributes = array();
+            foreach ($configurableAttributes as $configurableAttribute) {
+                // prepare array of the option prices
+                $prices = array();
+                foreach ($configurableAttribute['values'] as $priceItem) {
+                    $optionRegularPrice = $priceItem['is_percent']
+                        ? $product->getPrice() * $priceItem['pricing_value'] / 100
+                        : $priceItem['pricing_value'];
+                    $optionFinalPrice = $priceItem['is_percent']
+                        ? $product->getFinalPrice() * $priceItem['pricing_value'] / 100
+                        : $priceItem['pricing_value'];
+
+                    // apply catalog price rules to the option price
+                    $product->setConfigurablePrice($optionFinalPrice);
+                    Mage::dispatchEvent('catalog_product_type_configurable_price', array('product' => $product));
+                    $optionFinalPrice = $product->getConfigurablePrice();
+
+                    $prices[] = array(
+                        'option_value' => $priceItem['value_index'],
+                        'option_label' => $priceItem['label'],
+                        'regular_price_with_tax' => $this->_applyTaxToPrice($optionRegularPrice),
+                        'regular_price_without_tax' => $this->_applyTaxToPrice($optionRegularPrice, false),
+                        'final_price_with_tax' => $this->_applyTaxToPrice($optionFinalPrice),
+                        'final_price_without_tax' => $this->_applyTaxToPrice($optionFinalPrice, false),
+                    );
+                }
+                // format configurable attribute data
+                $formattedConfigurableAttributes[] = array(
+                    'attribute_code' => $configurableAttribute['attribute_code'],
+                    'frontend_label' => $configurableAttribute['label'],
+                    'position' => $configurableAttribute['position'],
+                    'prices' => $prices,
+                );
+            }
+            $product->setConfigurableAttributes($formattedConfigurableAttributes);
+        }
+    }
+
+    /**
+     * Unset data that must not be present in the configurable product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _unsetUnnecessaryDataFromConfigurable(Mage_Catalog_Model_Product $product)
+    {
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+            $product->unsBuyNowUrl();
+            $product->unsWeight();
+            /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+            $configurableType = $product->getTypeInstance(true);
+            $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
+            foreach ($configurableAttributes as $configurableAttribute) {
+                // exclude current configurable attribute value from the response data
+                $product->unsetData($configurableAttribute['attribute_code']);
+            }
+        }
     }
 
     /**

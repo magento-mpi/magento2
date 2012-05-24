@@ -42,6 +42,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test product categories list
+     *
+     * @resourceOperation product_category::multiget
      */
     public function testList()
     {
@@ -70,6 +72,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test product categories resource list for nonexistent product
+     *
+     * @resourceOperation product_category::multiget
      */
     public function testListWrongProductId()
     {
@@ -91,6 +95,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test product categories list
+     *
+     * @resourceOperation product_category::multiget
      */
     public function testListWithInactiveCategory()
     {
@@ -129,6 +135,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test firbidden delete for product category resource
+     *
+     * @resourceOperation product_category::delete
      */
     public function testDelete()
     {
@@ -138,6 +146,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
 
     /**
      * Test firbidden delete for product category resource
+     *
+     * @resourceOperation product_category::create
      */
     public function testCreate()
     {

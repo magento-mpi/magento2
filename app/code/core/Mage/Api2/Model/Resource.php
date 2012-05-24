@@ -14,14 +14,6 @@
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method string _create() _create(array $filteredData) creation of an entity
- * @method void _multiCreate() _multiCreate(array $filteredData) processing and creation of a collection
- * @method array _retrieve() retrieving an entity
- * @method array _retrieveCollection() retrieving a collection
- * @method void _update() _update(array $filteredData) update of an entity
- * @method void _multiUpdate() _multiUpdate(array $filteredData) update of a collection
- * @method void _delete() deletion of an entity
- * @method void _multidelete() _multidelete(array $requestData) deletion of a collection
  */
 abstract class Mage_Api2_Model_Resource
 {
@@ -184,6 +176,10 @@ abstract class Mage_Api2_Model_Resource
      */
     public function dispatch()
     {
+        if ($this->getUserType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
+            // enable full support of the store-dependent behavior in API for guest and customer
+            Mage::app()->setCurrentStore($this->_getStore()->getCode());
+        }
         switch ($this->getActionType() . $this->getOperation()) {
             /* Create */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_CREATE:
@@ -191,81 +187,58 @@ abstract class Mage_Api2_Model_Resource
                 $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_CREATE:
-                // If no of the methods(multi or single) is implemented, request body is not checked
-                if (!$this->_checkMethodExist('_create') && !$this->_checkMethodExist('_multiCreate')) {
-                    $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-                }
-                // If one of the methods(multi or single) is implemented, request body must not be empty
-                $requestData = $this->getRequest()->getBodyParams();
-                if (empty($requestData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
+                // request data must be checked before the create type identification
+                $requestData = $this->_getRequestData();
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
-                    $this->_errorIfMethodNotExist('_create');
                     $filteredData = $this->getFilter()->in($requestData);
-                    if (empty($filteredData)) {
-                        $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                    }
                     $newItemLocation = $this->_create($filteredData);
-                    $this->getResponse()->setHeader('Location', $newItemLocation);
+                    if (is_string($newItemLocation) && !empty($newItemLocation)) {
+                        $this->getResponse()->setHeader('Location', $newItemLocation);
+                    }
                 } else {
-                    $this->_errorIfMethodNotExist('_multiCreate');
                     $filteredData = $this->getFilter()->collectionIn($requestData);
                     $this->_multiCreate($filteredData);
-                    $this->_render($this->getResponse()->getMessages());
                     $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
+                }
+                if ($this->getResponse()->getMessages()) {
+                    $this->_render(array('messages' => $this->getResponse()->getMessages()));
                 }
                 break;
             /* Retrieve */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
-                $this->_errorIfMethodNotExist('_retrieve');
                 $retrievedData = $this->_retrieve();
                 $filteredData  = $this->getFilter()->out($retrievedData);
                 $this->_render($filteredData);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_RETRIEVE:
-                $this->_errorIfMethodNotExist('_retrieveCollection');
                 $retrievedData = $this->_retrieveCollection();
                 $filteredData  = $this->getFilter()->collectionOut($retrievedData);
                 $this->_render($filteredData);
                 break;
             /* Update */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_UPDATE:
-                $this->_errorIfMethodNotExist('_update');
-                $requestData = $this->getRequest()->getBodyParams();
-                if (empty($requestData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
-                $filteredData = $this->getFilter()->in($requestData);
+                $filteredData = $this->getFilter()->in($this->_getRequestData());
                 if (empty($filteredData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                 }
                 $this->_update($filteredData);
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_UPDATE:
-                $this->_errorIfMethodNotExist('_multiUpdate');
-                $requestData = $this->getRequest()->getBodyParams();
-                if (empty($requestData)) {
+                $filteredData = $this->getFilter()->collectionIn($this->_getRequestData());
+                if (empty($filteredData)) {
                     $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                 }
-                $filteredData = $this->getFilter()->collectionIn($requestData);
                 $this->_multiUpdate($filteredData);
-                $this->_render($this->getResponse()->getMessages());
+                $this->_render(array('messages' => $this->getResponse()->getMessages()));
                 $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
                 break;
             /* Delete */
             case self::ACTION_TYPE_ENTITY . self::OPERATION_DELETE:
-                $this->_errorIfMethodNotExist('_delete');
                 $this->_delete();
                 break;
             case self::ACTION_TYPE_COLLECTION . self::OPERATION_DELETE:
-                $this->_errorIfMethodNotExist('_multiDelete');
-                $requestData = $this->getRequest()->getBodyParams();
-                if (empty($requestData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
-                $this->_multiDelete($requestData);
+                $this->_multiDelete($this->_getRequestData());
                 $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
                 break;
             default:
@@ -275,26 +248,17 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
-     * Trigger error for not-implemented operations
+     * Retrieve request data. Ensure that data is not empty
      *
-     * @param $methodName
+     * @return array
      */
-    protected function _errorIfMethodNotExist($methodName)
+    protected function _getRequestData()
     {
-        if (!$this->_checkMethodExist($methodName)) {
-            $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        $requestData = $this->getRequest()->getBodyParams();
+        if (empty($requestData)) {
+            $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
         }
-    }
-
-    /**
-     * Check method exist
-     *
-     * @param $methodName
-     * @return bool
-     */
-    protected function _checkMethodExist($methodName)
-    {
-        return method_exists($this, $methodName);
+        return $requestData;
     }
 
     /**
@@ -686,6 +650,26 @@ abstract class Mage_Api2_Model_Resource
     }
 
     /**
+     * Fetch validation errors from validator object and set them to rest response
+     *
+     * @throws Mage_Api2_Exception
+     * @param Mage_Api2_Model_Resource_Validator $validator
+     */
+    protected function _processValidationErrors(Mage_Api2_Model_Resource_Validator $validator)
+    {
+        $errors = $validator->getErrors();
+        $errorsCount = count($errors);
+        for ($i = 0; $i < $errorsCount; $i++) {
+            if ($i != $errorsCount - 1) {
+                $this->_error($errors[$i], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            } else {
+                // the last error must be critical to halt script execution
+                $this->_critical($errors[$i], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+
+    /**
      * Add error message
      *
      * @param string $message
@@ -1042,6 +1026,9 @@ abstract class Mage_Api2_Model_Resource
     protected function _getStore()
     {
         $store = $this->getRequest()->getParam('store');
+        if (is_numeric($store)) {
+            $store = (int) $store;
+        }
         try {
             if ($this->getUserType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
                 // customer or guest role
@@ -1049,6 +1036,9 @@ abstract class Mage_Api2_Model_Resource
                     $store = Mage::app()->getDefaultStoreView();
                 } else {
                     $store = Mage::app()->getStore($store);
+                }
+                if (!$store->getIsActive()) {
+                    $this->_critical(self::RESOURCE_NOT_FOUND);
                 }
             } else {
                 // admin role
@@ -1062,5 +1052,84 @@ abstract class Mage_Api2_Model_Resource
             $this->_critical('Requested store is invalid', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
         return $store;
+    }
+
+    /**
+     * Create resource
+     *
+     * @param array $filteredData
+     * @return string Created resource location
+     */
+    protected function _create(array $filteredData)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Create a list of resources
+     *
+     * @param array $filteredData
+     */
+    protected function _multiCreate(array $filteredData)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Retrieve resource data
+     *
+     * @return array
+     */
+    protected function _retrieve()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Retrieve a list of resources
+     *
+     * @return array
+     */
+    protected function _retrieveCollection()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Update resource
+     *
+     * @param array $filteredData
+     */
+    protected function _update(array $filteredData)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Update a list of resources
+     *
+     * @param array $filteredData
+     */
+    protected function _multiUpdate(array $filteredData)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Delete resource
+     */
+    protected function _delete()
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Delete a list of resources
+     *
+     * @param array $filteredData
+     */
+    protected function _multiDelete(array $filteredData)
+    {
+        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 }

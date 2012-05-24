@@ -96,6 +96,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreate()
     {
@@ -105,6 +107,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test retrieve existing customer data
+     *
+     * @resourceOperation customer::get
      */
     public function testRetrieve()
     {
@@ -122,6 +126,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test retrieve another customer
+     *
+     * @resourceOperation customer::get
      */
     public function testRetrieveUnavailableResource()
     {
@@ -131,6 +137,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test update customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdate()
     {
@@ -162,6 +170,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test filter data in update customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdateFilter()
     {
@@ -197,8 +207,9 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Test update customer with empty required fields
      *
-     * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer::update
+     * @param string $attributeCode
      */
     public function testUpdateEmptyRequiredField($attributeCode)
     {
@@ -219,8 +230,9 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Test update customer withous required fields
      *
-     * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer::update
+     * @param string $attributeCode
      */
     public function testUpdateWithoutRequiredField($attributeCode)
     {
@@ -240,7 +252,9 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
+     * (dataSet number depends of number of required attributes)
      *
+     * @dataSetNumber 3
      * @return array
      */
     public function providerRequiredAttributes()
@@ -260,6 +274,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test update another customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdateUnavailableResource()
     {
@@ -269,6 +285,8 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test delete existing customer data
+     *
+     * @resourceOperation customer::delete
      */
     public function testDelete()
     {

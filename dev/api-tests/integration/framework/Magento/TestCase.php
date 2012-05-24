@@ -125,7 +125,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Set fixtures namespace
-     * @thorws Magento_Test_Exception
+     * @throws Magento_Test_Exception
      */
     protected static function _setFixtureNamespace()
     {

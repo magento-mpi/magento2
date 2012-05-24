@@ -44,4 +44,4 @@ for ($i = 0; $i < COUNT_CUSTOMER_ADDRESES_FOR_CURRENT_CUSTOMER; $i++) {
     $addresses[] = $address;
 }
 
-Magento_Test_Webservice::setFixture('addresses', $addresses);
+Magento_Test_Webservice::setFixture('addresses', $addresses, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

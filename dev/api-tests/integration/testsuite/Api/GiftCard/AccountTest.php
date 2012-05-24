@@ -59,7 +59,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
         $this->assertTrue($removeResult);
 
         /** @var $pool Enterprise_GiftCardAccount_Model_Pool */
-        $pool = Mage::getModel('Enterprise_Giftcardaccount_Model_Pool');
+        $pool = Mage::getModel('Enterprise_GiftCardAccount_Model_Pool');
         $pool->setCode(self::getFixture('giftcardaccount_pool_code'));
         $pool->delete();
 

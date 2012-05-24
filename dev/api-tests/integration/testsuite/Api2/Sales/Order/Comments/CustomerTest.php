@@ -71,6 +71,8 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
 
     /**
      * Test create sales order comment
+     *
+     * @resourceOperation order_comment::create
      */
     public function testCreate()
     {
@@ -82,6 +84,7 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
      * Test retrieve sales order comments collection
      *
      * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @resourceOperation order_comment::multiget
      */
     public function testRetrieve()
     {
@@ -101,6 +104,7 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
      * Test retrieve sales order comments collection
      *
      * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @resourceOperation order_comment::multiget
      */
     public function testRetrieveVisibleOnFront()
     {
@@ -121,6 +125,7 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
      * Test retrieve another sales order comments collection
      *
      * @magentoDataFixture Api2/Sales/_fixtures/order.php
+     * @resourceOperation order_comment::multiget
      */
     public function testRetrieveForeignResource()
     {
@@ -132,6 +137,8 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
 
     /**
      * Test update action
+     *
+     * @resourceOperation order_comment::update
      */
     public function testUpdate()
     {
@@ -141,6 +148,8 @@ class Api2_Sales_Order_Comments_CustomerTest extends Magento_Test_Webservice_Res
 
     /**
      * Test delete action
+     *
+     * @resourceOperation order_comment::delete
      */
     public function testDelete()
     {

@@ -29,6 +29,11 @@ class Mage_Api2_Model_Multicall
     protected $_parentResourceId;
 
     /**
+     * @var string
+     */
+    protected $_parentResourceName;
+
+    /**
      * Multicall to subresources of specified resource
      *
      * @param string $parentResourceId
@@ -38,8 +43,9 @@ class Mage_Api2_Model_Multicall
      */
     public function call($parentResourceId, $parentResourceName, Mage_Api2_Model_Request $parentCallRequest)
     {
-        $this->_parentResourceId = $parentResourceId;
-        $this->_parentCallRequest = $parentCallRequest;
+        $this->_parentResourceName = $parentResourceName;
+        $this->_parentResourceId   = $parentResourceId;
+        $this->_parentCallRequest  = $parentCallRequest;
         $subresources = $this->_getDeclaredSubresources($parentResourceName);
         foreach ($subresources as $subresource) {
             $this->_callSubresource($subresource);
@@ -51,32 +57,23 @@ class Mage_Api2_Model_Multicall
     /**
      * Make call to specified subresource with data from request
      *
-     * @param Mage_Core_Model_Config_Element $subresource
+     * @param array $subresource
      * @return Mage_Api2_Model_Multicall
      */
     protected function _callSubresource($subresource)
     {
         $bodyParams = $this->_getRequest()->getBodyParams();
         // check if subresource data exists in request
-        $requestParamName = (string)$subresource->request_param_name;
+        $requestParamName = $subresource['request_param_name'];
         if (!(is_array($bodyParams) && array_key_exists($requestParamName, $bodyParams)
             && is_array($bodyParams[$requestParamName]))
         ) {
             return $this;
         }
         // make internal call
-        $subresourceType = (string)$subresource->type;
         $requestData = $bodyParams[$requestParamName];
-        switch ($subresourceType) {
-            case 'collection':
-                foreach ($requestData as $subresourceData) {
-                    $this->_internalCall($subresource, $subresourceData);
-                }
-                break;
-            case 'instance':
-            default:
-                $this->_internalCall($subresource, $requestData);
-                break;
+        foreach ($requestData as $subresourceData) {
+            $this->_internalCall($subresource, $subresourceData);
         }
         return $this;
     }
@@ -84,7 +81,7 @@ class Mage_Api2_Model_Multicall
     /**
      * Make internal call to specified subresource on with specified data via API2 server
      *
-     * @param Mage_Core_Model_Config_Element $subresource
+     * @param array $subresource
      * @param array $requestData
      * @throws Mage_Api2_Exception
      * @return Mage_Api2_Model_Multicall
@@ -95,13 +92,13 @@ class Mage_Api2_Model_Multicall
             if (!is_array($requestData)) {
                 throw new Mage_Api2_Exception('Invalid data format', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
-            $subresourceIdKey = (string)$subresource->id_param_name;
+            $subresourceIdKey = $subresource['id_param_name'];
             /** @var $server Mage_Api2_Model_Server */
             $server = Mage::getSingleton('Mage_Api2_Model_Server');
 
             // create subresource item before linking it to main resource
             if (!array_key_exists($subresourceIdKey, $requestData)) {
-                $subresourceCreateResourceName = (string)$subresource->create_resource_name;
+                $subresourceCreateResourceName = $subresource['create_resource_name'];
                 $internalRequest = $this->_prepareRequest($subresourceCreateResourceName, $requestData);
                 /** @var $internalCreateResponse Mage_Api2_Model_Response */
                 $internalCreateResponse = Mage::getModel('Mage_Api2_Model_Response');
@@ -115,29 +112,49 @@ class Mage_Api2_Model_Multicall
             }
 
             // link subresource to main resource
-            $subresourceName = (string)$subresource->name;
-            $parentResourceIdFieldName = (string)$subresource->parent_resource_id_field_name;
+            $subresourceName = $subresource['name'];
+            $parentResourceIdFieldName = $subresource['parent_resource_id_field_name'];
             $internalRequest = $this->_prepareRequest($subresourceName, $requestData, $parentResourceIdFieldName);
 
             /** @var $internalResponse Mage_Api2_Model_Response */
             $internalResponse = Mage::getModel('Mage_Api2_Model_Response');
             $server->internalCall($internalRequest, $internalResponse);
+            foreach ($internalResponse->getHeaders() as $header) {
+                if ($header['name'] == 'Location') {
+                    $this->_getResponse()->addMessage('Subresource created.', Mage_Api2_Model_Server::HTTP_OK, array(
+                        'Location' => $header['value']), Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS);
+                }
+            }
         } catch (Exception $e) {
-            // TODO: implement strict mode
-            Mage::logException($e);
-            $this->_getResponse()->setException($e);
-            // TODO: Refactor partial success idintification process
+            if ($subresource['rollback_on_fail'] && isset($createdSubresourceInstanceId)) {
+                $this->_rollbackCreatedSubresource($subresource, $createdSubresourceInstanceId);
+            }
+            $this->_getResponse()->addMessage($subresource['name'] . ': ' . $e->getMessage(), $e->getCode());
             $this->_getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_CREATED);
         }
 
-        if (isset($internalCreateResponse)) {
-            $this->_aggregateResponse($internalCreateResponse);
-        }
-        if (isset($internalResponse)) {
-            $this->_aggregateResponse($internalResponse);
-        }
-
         return $this;
+    }
+
+    /**
+     * Rollback created subresource if linking it to parent resource failed.
+     *
+     * @param array $subresource
+     * @param int $createdSubresourceInstanceId
+     */
+    protected function _rollbackCreatedSubresource($subresource, $createdSubresourceInstanceId)
+    {
+        $rollbackRequest = $this->_prepareDeleteRequest($subresource['create_resource_name'],
+            $subresource['create_resource_id_param'], $createdSubresourceInstanceId);
+        /** @var $rollbackResponse Mage_Api2_Model_Response */
+        $rollbackResponse = Mage::getModel('Mage_Api2_Model_Response');
+        try {
+            /** @var $server Mage_Api2_Model_Server */
+            $server = Mage::getSingleton('Mage_Api2_Model_Server');
+            $server->internalCall($rollbackRequest, $rollbackResponse);
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -150,7 +167,7 @@ class Mage_Api2_Model_Multicall
      */
     protected function _prepareRequest($subresourceName, $data, $parentResourceIdFieldName = null)
     {
-        $subresourceUri = $this->_createSubresourceUri($subresourceName, $parentResourceIdFieldName);
+        $subresourceUri = $this->_createSubresourceUri($data, $subresourceName, $parentResourceIdFieldName);
         /** @var $internalRequest Mage_Api2_Model_Request_Internal */
         $internalRequest = Mage::getModel('Mage_Api2_Model_Request_Internal');
         $internalRequest->setRequestUri($subresourceUri);
@@ -162,23 +179,73 @@ class Mage_Api2_Model_Multicall
     /**
      * Generate subresource uri
      *
+     * @param array $data
      * @param string $subresourceName
      * @param string $parentResourceIdFieldName
      * @return string
      */
-    protected function _createSubresourceUri($subresourceName, $parentResourceIdFieldName = null)
+    protected function _createSubresourceUri($data, $subresourceName, $parentResourceIdFieldName = null)
     {
         /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
         $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
 
         $chain = $apiTypeRoute->chain(
-            new Zend_Controller_Router_Route($this->_getConfig()->getMainRoute($subresourceName))
+            new Zend_Controller_Router_Route($this->_getConfig()->getRouteWithCollectionTypeAction($subresourceName))
         );
         $params = array();
         $params['api_type'] = 'rest';
         if (null !== $parentResourceIdFieldName) {
             $params[$parentResourceIdFieldName] = $this->_parentResourceId;
         }
+        $routeParamsLink = $this->_getConfig()->getSubresourceRouteParamsLink($this->_parentResourceName,
+            $subresourceName);
+        foreach ($routeParamsLink as $routeParam => $requestLink) {
+            if (isset($data[$requestLink])) {
+                $params[$routeParam] = $data[$requestLink];
+            }
+        }
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
+    }
+
+    /**
+     * Prepare internal request for resource delete
+     *
+     * @param string $resourceName
+     * @param string $resourceIdFieldName
+     * @param int $resourceId
+     * @return Mage_Api2_Model_Request_Internal
+     */
+    protected function _prepareDeleteRequest($resourceName, $resourceIdFieldName, $resourceId)
+    {
+        $subresourceDeleteUri = $this->_createResourceDeleteUri($resourceName, $resourceIdFieldName, $resourceId);
+        /** @var $internalRequest Mage_Api2_Model_Request_Internal */
+        $internalRequest = Mage::getModel('Mage_Api2_Model_Request_Internal');
+        $internalRequest->setRequestUri($subresourceDeleteUri);
+        $internalRequest->setMethod('DELETE');
+        return $internalRequest;
+    }
+
+    /**
+     * Generate resource delete uri
+     *
+     * @param string $resourceName
+     * @param string $resourceIdFieldName
+     * @param int $resourceId
+     * @return string
+     */
+    protected function _createResourceDeleteUri($resourceName, $resourceIdFieldName, $resourceId)
+    {
+        /** @var $apiTypeRoute Mage_Api2_Model_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('Mage_Api2_Model_Route_ApiType');
+
+        $chain = $apiTypeRoute->chain(
+            new Zend_Controller_Router_Route($this->_getConfig()->getRouteWithEntityTypeAction($resourceName))
+        );
+        $params = array();
+        $params['api_type'] = 'rest';
+        $params[$resourceIdFieldName] = $resourceId;
         $uri = $chain->assemble($params);
 
         return '/' . $uri;
@@ -223,22 +290,6 @@ class Mage_Api2_Model_Multicall
     protected function _getRequest()
     {
         return $this->_parentCallRequest;
-    }
-
-    /**
-     * Add internal call response to global response
-     *
-     * @param Mage_Api2_Model_Response $response
-     */
-    protected function _aggregateResponse(Mage_Api2_Model_Response $response)
-    {
-        if ($response->isException()) {
-            $errors = $response->getException();
-            // @TODO: add subresource prefix to error messages
-            foreach ($errors as $error) {
-                $this->_getResponse()->setException($error);
-            }
-        }
     }
 
     /**

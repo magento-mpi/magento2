@@ -16,6 +16,6 @@ $ruleFixture = require $fixturesDir . '/CatalogRule/Rule.php';
 
 $rule = clone $ruleFixture;
 $rule->save();
-Mage::getModel('Mage_Catalogrule_Model_Rule')->applyAll();
+Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
 
-Magento_Test_Webservice::setFixture('catalog_price_rule', $rule);
+Magento_Test_Webservice::setFixture('catalog_price_rule', $rule, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

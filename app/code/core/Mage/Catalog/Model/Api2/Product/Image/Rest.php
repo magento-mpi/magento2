@@ -23,18 +23,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
     const GALLERY_ATTRIBUTE_CODE = 'media_gallery';
 
     /**
-     * Allowed MIME types for image
-     *
-     * @var array
-     */
-    protected $_mimeTypes = array(
-        'image/jpg'  => 'jpg',
-        'image/jpeg' => 'jpg',
-        'image/gif'  => 'gif',
-        'image/png'  => 'png'
-    );
-
-    /**
      * Retrieve product image data for customer and guest roles
      *
      * @throws Mage_Api2_Exception
@@ -88,7 +76,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
      */
     protected function _getMediaGallery()
     {
-        $attributes = $this->_getProduct()->getTypeInstance()->getSetAttributes($this->_getProduct());
+        $attributes = $this->_getProduct()->getTypeInstance(true)->getSetAttributes($this->_getProduct());
 
         if (!isset($attributes[self::GALLERY_ATTRIBUTE_CODE])
             || !$attributes[self::GALLERY_ATTRIBUTE_CODE] instanceof Mage_Eav_Model_Entity_Attribute_Abstract
@@ -145,37 +133,6 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
     protected function _getMediaConfig()
     {
         return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
-    }
-
-    /**
-     * Create file name from received data
-     *
-     * @param array $data
-     * @return string
-     */
-    protected function _getFileName($data)
-    {
-        $fileName = 'image';
-        if (isset($data['file_name']) && $data['file_name']) {
-            $fileName = $data['file_name'];
-        }
-        $fileName .= '.' . $this->_getExtensionByMimeType($data['file_mime_type']);
-        return $fileName;
-    }
-
-    /**
-     * Retrieve file extension using MIME type
-     *
-     * @throws Mage_Api2_Exception
-     * @param string $mimeType
-     * @return string
-     */
-    protected function _getExtensionByMimeType($mimeType)
-    {
-        if (!array_key_exists($mimeType, $this->_mimeTypes)) {
-            $this->_critical('Unsuppoted image MIME type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        return $this->_mimeTypes[$mimeType];
     }
 
     /**

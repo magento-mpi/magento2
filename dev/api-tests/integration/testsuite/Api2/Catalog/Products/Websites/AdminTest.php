@@ -47,6 +47,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of retrieve list of asigned websites (GET method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::multiget
      */
     public function testRetrieveAsignedWebsites()
     {
@@ -68,6 +69,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a website assignment to a product (with "Stores Data Copying") (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testAssignWebsiteToProductWithCopyToStores()
     {
@@ -119,6 +121,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a website assignment to an unavailable product (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testWebsiteAssignmentToUnavailableProduct()
     {
@@ -140,6 +143,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test invalid website id in request body (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testInvalidWebsiteIdInRequestBody()
     {
@@ -162,6 +166,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a unavailable website assignment to a product (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testUnavailableWebsiteAssignmentToProduct()
     {
@@ -183,6 +188,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of an attempt to assign a website that is already assigned to the product (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testAssignWebsiteThatIsAlreadyAssignedToProduct()
     {
@@ -213,6 +219,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test invalid store ids in copy to stores data (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testInvalidStoreIdsInCopyToStoresData()
     {
@@ -255,6 +262,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test use unavailable stores in copy to stores data (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testUseUnavailableStoresInCopyToStoresData()
     {
@@ -297,6 +305,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test use invalid stores associations in copy to stores data (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::create
      */
     public function testUseInvalidStoresAssociationsInCopyToStoresData()
     {
@@ -345,6 +354,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a website multi assignment to a product (with copy to stores) (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::multicreate
      */
     public function testMultiAssignWebsiteToProduct()
     {
@@ -373,13 +383,15 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
 
         // Check response body
         $responseData = $restResponse->getBody();
-        $this->assertArrayNotHasKey('error', $responseData['messages']);
-        $this->assertArrayHasKey('success', $responseData);
-        $this->assertEquals(count($websitesNotAssignedToProduct), count($responseData['success']));
-        $this->assertEquals($responseData['success'][0]['message'], 'Resource updated successful.');
-        $this->assertEquals($responseData['success'][0]['code'], Mage_Api2_Model_Server::HTTP_OK);
-        $this->assertEquals($responseData['success'][0]['product_id'], $product->getId());
-        $this->assertEquals($responseData['success'][0]['website_id'], $websitesNotAssignedToProduct[0]->getId());
+        $this->assertArrayHasKey('messages', $responseData);
+        $messages = $responseData['messages'];
+        $this->assertArrayNotHasKey('error', $messages);
+        $this->assertArrayHasKey('success', $messages);
+        $this->assertEquals(count($websitesNotAssignedToProduct), count($messages['success']));
+        $this->assertEquals($messages['success'][0]['message'], 'Resource updated successful.');
+        $this->assertEquals($messages['success'][0]['code'], Mage_Api2_Model_Server::HTTP_OK);
+        $this->assertEquals($messages['success'][0]['product_id'], $product->getId());
+        $this->assertEquals($messages['success'][0]['website_id'], $websitesNotAssignedToProduct[0]->getId());
 
 
         // Check updated data
@@ -414,6 +426,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of the error representation of a website assignment to a product (POST method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::multicreate
      */
     public function testErrorRepresentationOnMultiAssignWebsiteToProduct()
     {
@@ -437,22 +450,25 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
-        $this->assertArrayHasKey('error', $responseData);
-        $this->assertEquals($responseData['error'][0]['message'],
+        $this->assertArrayHasKey('messages', $responseData);
+        $messages = $responseData['messages'];
+        $this->assertArrayHasKey('error', $messages);
+        $this->assertEquals($messages['error'][0]['message'],
             sprintf(
                 'Invalid value for "store_from" for the website with ID #%d.',
                 $websiteNotAssignedToProduct->getId()
             )
         );
-        $this->assertEquals($responseData['error'][0]['code'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        $this->assertEquals($responseData['error'][0]['product_id'], $product->getId());
-        $this->assertEquals($responseData['error'][0]['website_id'], $websiteNotAssignedToProduct->getId());
+        $this->assertEquals($messages['error'][0]['code'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        $this->assertEquals($messages['error'][0]['product_id'], $product->getId());
+        $this->assertEquals($messages['error'][0]['website_id'], $websiteNotAssignedToProduct->getId());
     }
 
     /**
      * Test of a website unassignment from a product (DELETE method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::delete
      */
     public function testWebsiteUnassignmentFromProduct()
     {
@@ -474,6 +490,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a unavailable website unassignment from a product (DELETE method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::delete
      */
     public function testUnavailableWebsiteUnassignmentFromProduct()
     {
@@ -492,6 +509,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of a website unassignment from an unavailable product (DELETE method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::delete
      */
     public function testWebsiteUnassignmentFromUnavailableProduct()
     {
@@ -512,6 +530,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of an attempt to unassign a website that is not assigned to a product (DELETE method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::delete
      */
     public function testUnassignWebsiteThatIsNotAssignedToProduct()
     {
@@ -540,6 +559,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of retrieve an assigned website (GET method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::get
      */
     public function testRetrieveSingleAssignedWebsite()
     {
@@ -557,6 +577,7 @@ class Api2_Catalog_Products_Websites_AdminTest extends Magento_Test_Webservice_R
      * Test of update an assigned website (PUT method)
      *
      * @magentoDataFixture Api2/Catalog/Products/Websites/_fixtures/websites.php
+     * @resourceOperation product_website::update
      */
     public function testUpdateAssignedWebsite()
     {

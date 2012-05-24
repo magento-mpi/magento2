@@ -10,45 +10,19 @@
  */
 
 /**
- * Test product resource
+ * Test simple product resource as admin role
  *
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
-
-class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
+class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_AdminAbstract
 {
-    /**
-     * Delete fixtures
-     */
-    protected function tearDown()
-    {
-        $this->deleteFixture('product_simple', true);
-        $this->deleteFixture('product_simple_all_fields', true);
-        if ($this->getFixture('products')) {
-            foreach ($this->getFixture('products') as $product) {
-                $this->addModelToDelete($product, true);
-            }
-        }
-        parent::tearDown();
-    }
-
-    /**
-     * Delete store fixture
-     */
-    public static function tearDownAfterClass()
-    {
-        self::deleteFixture('store_on_new_website', true);
-        self::deleteFixture('store_group', true);
-        self::deleteFixture('website', true);
-        parent::tearDownAfterClass();
-    }
-
     /**
      * Test successful product get
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @resourceOperation product::get
      */
     public function testGet()
     {
@@ -59,17 +33,14 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getData();
-        foreach ($responseData as $field => $value) {
-            if (!is_array($value)) {
-                $this->assertEquals($originalData[$field], $value);
-            }
-        }
+        $this->_checkSimpleAttributes($originalData, $responseData);
     }
 
     /**
      * Test successful get with filter by attributes
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @resourceOperation product::get
      */
     public function testGetWithAttributeFilter()
     {
@@ -92,6 +63,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test unsuccessful get with invalid product id
+     *
+     * @resourceOperation product::get
      */
     public function testGetWithInvalidId()
     {
@@ -104,6 +77,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
      * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @resourceOperation product::get
      */
     public function testGetFilterByStore()
     {
@@ -121,6 +95,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test with filter by invalid store
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @resourceOperation product::get
      */
     public function testGetFilterByInvalidStore()
     {
@@ -132,10 +107,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test product resource post
+     *
+     * @resourceOperation product::create
      */
     public function testPostSimpleRequiredFieldsOnly()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -155,15 +132,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test product resource post with all fields
      *
      * @param array $productData
-     * @dataProvider dataProviderTestPostSimpleAllFieldsValid()
+     * @dataProvider dataProviderTestPostSimpleAllFieldsValid
+     * @resourceOperation product::create
      */
     public function testPostSimpleAllFieldsValid($productData)
     {
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
+        $productId = $this->_createProductWithApi($productData);
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $this->assertNotNull($product->getId());
@@ -195,13 +169,14 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Data provider for testPostSimpleAllFieldsValid
      *
+     * @dataSetNumber 2
      * @return array
      */
     public function dataProviderTestPostSimpleAllFieldsValid()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
         $productDataSpecialChars = require dirname(__FILE__)
-            . '/../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+            . '/../../_fixtures/Backend/SimpleProductSpecialCharsData.php';
 
         return array(
             array($productDataSpecialChars),
@@ -212,10 +187,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test product resource post with all invalid fields
      * Negative test.
+     *
+     * @resourceOperation product::create
      */
     public function testPostSimpleAllFieldsInvalid()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -261,7 +238,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
             'Invalid "cust_group" value in the "group_price:4" set',
             'Invalid "cust_group" value in the "tier_price:6" set',
-            'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
             'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
@@ -278,86 +254,49 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($positiveNumberAttributes as $attribute) {
             $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
         }
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
      * Test product create resource with invalid qty uses decimals value
      * Negative test.
+     *
+     * @resourceOperation product::create
      */
     public function testPostInvalidQtyUsesDecimals()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInvalidQtyUsesDecimals.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInvalidQtyUsesDecimals.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource data pre-validation error.',
-            'Invalid "is_qty_decimal" value in the "stock_data" set.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "is_qty_decimal" value in the "stock_data" set.');
     }
 
     /**
      * Test product create resource with invalid manage stock value
      * Negative test.
+     *
+     * @resourceOperation product::create
      */
     public function testPostInvalidManageStock()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInvalidManageStock.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInvalidManageStock.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource data pre-validation error.',
-            'Invalid "manage_stock" value in the "stock_data" set.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "manage_stock" value in the "stock_data" set.');
     }
 
     /**
      * Test product create resource with invalid weight value
      * Negative test.
+     *
+     * @resourceOperation product::create
      */
     public function testPostWeightOutOfRange()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource data pre-validation error.',
-            'The "weight" value is not within the specified range.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'The "weight" value is not within the specified range.');
     }
 
     /**
@@ -365,65 +304,70 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @resourceOperation product::create
      */
     public function testPostNotUniqueSku()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
         $productData['sku'] = $product->getSku();
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse,
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique');
     }
 
     /**
      * Test product create resource with empty required fields
      * Negative test.
+     *
+     * @param array $productData
+     * @resourceOperation product::create
+     * @dataProvider dataProvidertestPostEmptyRequiredFields
      */
-    public function testPostEmptyRequiredFields()
+    public function testPostEmptyRequiredFields($productData)
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductEmptyRequired.php';
-
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
         unset($productData['type_id']);
         unset($productData['attribute_set_id']);
+        unset($productData['sku']);
         unset($productData['stock_data']);
         $expectedErrors = array(
-            'Resource data pre-validation error.',
             'Please enter a valid number in the "qty" field in the "stock_data" set.'
         );
         foreach ($productData as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
         }
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
+    }
+
+    /**
+     * Data provider for testPostEmptyRequiredFields
+     *
+     * @dataSetNumber 2
+     * @return array
+     */
+    public function dataProvidertestPostEmptyRequiredFields()
+    {
+        $productDataEmpty = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductEmptyRequired.php';
+        $productDataStringsEmptySpaces = require dirname(__FILE__)
+            . '/../../_fixtures/Backend/SimpleProductEmptySpacesRequired.php';
+
+        return array(
+            array($productDataEmpty),
+            array($productDataStringsEmptySpaces),
+        );
     }
 
     /**
      * Test product resource post using config values in inventory
+     *
+     * @resourceOperation product::create
      */
     public function testPostInventoryUseConfigValues()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductInventoryUseConfig.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInventoryUseConfig.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -446,10 +390,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test product resource post using config values in inventory manage stock field
+     *
+     * @resourceOperation product::create
      */
     public function testPostInventoryManageStockUseConfig()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
 
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
@@ -470,10 +416,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test product resource post when manage_stock set to no and inventory data is sent in request
+     *
+     * @resourceOperation product::create
      */
     public function testPostInventoryManageStockNo()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductManageStockNo.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductManageStockNo.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -493,10 +441,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test product resource post using config values in gift options
+     *
+     * @resourceOperation product::create
      */
     public function testPostGiftOptionsUseConfigValues()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductGiftOptionsUseConfig.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductGiftOptionsUseConfig.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -513,6 +463,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test successful product delete
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     *
+     * @resourceOperation product::delete
      */
     public function testDelete()
     {
@@ -527,6 +479,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test unsuccessful delete with invalid product id
+     *
+     * @resourceOperation product::delete
      */
     public function testDeleteWithInvalidId()
     {
@@ -540,6 +494,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @dataProvider dataProviderTestUpdateGroupPrice
      * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @resourceOperation product::update
      * @param string $priceField
      * @param int $websiteId
      * @param int $priceScope
@@ -580,6 +535,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Data provider for testUpdateGroupPrice
      *
+     * @dataSetNumber 10
      * @return array
      */
     public function dataProviderTestUpdateGroupPrice()
@@ -615,6 +571,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      * @dataProvider dataProviderTestUpdateAttributeWithSource
+     * @resourceOperation product::update
      * @param string $attributeName
      * @param mixed $attributeValue
      * @param int $expectedResponseCode
@@ -636,6 +593,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Prepare attribute values for update casted to different types
      *
+     * @dataSetNumber 13
      * @return array
      */
     public function dataProviderTestUpdateAttributeWithSource()
@@ -664,6 +622,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      * @dataProvider dataProviderTestUpdateGiftOptionsUseConfig
+     * @resourceOperation product::update
      * @param string $attributeName
      * @param int $attributeValue
      * @param bool $useConfig
@@ -687,6 +646,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Data provider for gift options
      *
+     * @dataSetNumber 10
      * @return array
      */
     public function dataProviderTestUpdateGiftOptionsUseConfig()
@@ -714,7 +674,8 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @param array $productDataForUpdate
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
-     * @dataProvider dataProviderTestUpdateSuccessful()
+     * @dataProvider dataProviderTestUpdateSuccessful
+     * @resourceOperation product::update
      */
     public function testUpdateSuccessful($productDataForUpdate)
     {
@@ -740,13 +701,14 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Data provider for testPostSimpleAllFieldsValid
      *
+     * @dataSetNumber 6
      * @return array
      */
     public function dataProviderTestUpdateSuccessful()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
         $productDataSpecialChars = require dirname(__FILE__)
-            . '/../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+            . '/../../_fixtures/Backend/SimpleProductSpecialCharsData.php';
         $productDataZeroValidValuesAsStrings = array(
             'tax_class_id' => '0',
             'sku' => '0',
@@ -855,10 +817,11 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @resourceOperation product::update
      */
     public function testUpdateOnSpecifiedStoreSuccessful()
     {
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         /** @var $product Mage_Catalog_Model_Product */
@@ -903,6 +866,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @resourceOperation product::update
      */
     public function testUpdateNotUniqueSku()
     {
@@ -910,35 +874,25 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $product = $this->getFixture('product_simple');
         /** @var $updateProduct Mage_Catalog_Model_Product */
         $updateProduct = $this->getFixture('product_simple_all_fields');
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
         $productDataForUpdate['sku'] = $product->getSku();
 
         $restResponse = $this->callPut($this->_getResourcePath($updateProduct->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse,
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique');
     }
 
     /**
      * Test update with invalid store
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @resourceOperation product::update
      */
     public function testUpdateWithInvalidStore()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), 'INVALID_STORE'),
             $productDataForUpdate);
@@ -951,32 +905,26 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @resourceOperation product::update
      */
     public function testUpdateEmptyRequiredFields()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductEmptyRequired.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductEmptyRequired.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
+        unset($productDataForUpdate['sku']);
         unset($productDataForUpdate['stock_data']);
         $expectedErrors = array(
-            'Resource data pre-validation error.',
             'Please enter a valid number in the "qty" field in the "stock_data" set.'
         );
         foreach ($productDataForUpdate as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
         }
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
@@ -984,24 +932,16 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @resourceOperation product::update
      */
     public function testUpdateAllFieldsInvalid()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $productDataForUpdate = require dirname(__FILE__)
-            . '/../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+            . '/../../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $errorsPlain = array();
-        foreach ($errors as $error) {
-            $errorsPlain[] = $error['message'];
-        }
-        $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
             'SKU length should be 64 characters maximum.',
@@ -1037,7 +977,6 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
             'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
             'Invalid "cust_group" value in the "group_price:4" set',
             'Invalid "cust_group" value in the "tier_price:6" set',
-            'Resource data pre-validation error.',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
             'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
@@ -1055,11 +994,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         foreach ($positiveNumberAttributes as $attribute) {
             $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
         }
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
@@ -1067,30 +1002,17 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @resourceOperation product::update
      */
     public function testUpdateInvalidManageStock()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $productDataForUpdate = require dirname(__FILE__)
-            . '/../_fixtures/Backend/SimpleProductInvalidManageStock.php';
+            . '/../../_fixtures/Backend/SimpleProductInvalidManageStock.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource data pre-validation error.',
-            'Invalid "manage_stock" value in the "stock_data" set.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "manage_stock" value in the "stock_data" set.');
     }
 
     /**
@@ -1098,65 +1020,24 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Negative test.
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @resourceOperation product::update
      */
     public function testUpdateWeightOutOfRange()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $productDataForUpdate = require dirname(__FILE__)
-            . '/../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
+            . '/../../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource data pre-validation error.',
-            'The "weight" value is not within the specified range.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
-    }
-
-    /**
-     * Check if product data equals expected data
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param array $expectedData
-     */
-    protected function _checkProductData($product, $expectedData)
-    {
-        $this->assertNotNull($product->getId());
-        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
-            'custom_design_from', 'custom_design_to');
-        foreach ($dateAttributes as $attribute) {
-            if (isset($expectedData[$attribute])) {
-                $this->assertEquals(strtotime($expectedData[$attribute]), strtotime($product->getData($attribute)),
-                    $attribute . ' is not equal.');
-            }
-        }
-        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data'));
-        $productAttributes = array_diff_key($expectedData, array_flip($exclude));
-        foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute), $attribute . ' is not equal.');
-        }
-        if (isset($expectedData['stock_data'])) {
-            $stockItem = $product->getStockItem();
-            foreach ($expectedData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute), $attribute . ' is not equal.');
-            }
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'The "weight" value is not within the specified range.');
     }
 
     /**
      * Test successful product collection get
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @resourceOperation product::multiget
      */
     public function testCollectionGet()
     {
@@ -1170,6 +1051,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test successful product collection get with specified store
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()
     {
@@ -1181,7 +1063,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store_on_new_website');
         $firstProduct->setStoreId($store->getId())->load();
-        $productDataForUpdate = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         unset($productDataForUpdate['stock_data']);
@@ -1202,48 +1084,9 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
     }
 
     /**
-     * Perform collection get with data check
-     *
-     * @param array $products
-     * @param array $firstProductExpectedData
-     * @param string $storeCode
-     */
-    protected function _checkProductCollectionGet($products, $firstProductExpectedData, $storeCode = null)
-    {
-        // find all products created after one with id = $firstProductId
-        $requestParams = array(
-            'filter[0][attribute]' => "entity_id",
-            'filter[0][gteq][0]' => $firstProductExpectedData['entity_id'],
-        );
-        $restResponse = $this->callGet($this->_getResourcePath(null, $storeCode), $requestParams);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-        $resultProducts = $restResponse->getBody();
-        $this->assertEquals(count($products), count($resultProducts), "Invalid products number in response");
-
-        $isFirstProductFoundInResponse = false;
-        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
-            'custom_design_from', 'custom_design_to');
-
-        // check only first product data
-        foreach ($resultProducts as $resultProductData) {
-            if ($resultProductData['entity_id'] == $firstProductExpectedData['entity_id']) {
-                $isFirstProductFoundInResponse = true;
-                foreach ($resultProductData as $key => $resultProductValue) {
-                    if (in_array($key, $dateAttributes)) {
-                        $this->assertEquals(strtotime($firstProductExpectedData[$key]), strtotime($resultProductValue),
-                            "'$key' is invalid");
-                    } else {
-                        $this->assertEquals($firstProductExpectedData[$key], $resultProductValue, "'$key' is invalid");
-                    }
-                }
-            }
-        }
-        $this->assertEquals(true, $isFirstProductFoundInResponse,
-            "Product with id={$firstProductExpectedData['entity_id']} was not found in response");
-    }
-
-    /**
      * Test unsuccessful get using invalid store code
+     *
+     * @resourceOperation product::multiget
      */
     public function testCollectionGetFromInvalidStore()
     {
@@ -1253,10 +1096,12 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test product resource post with all fields and check media attributes were saved
+     *
+     * @resourceOperation product::create
      */
     public function testPostMediaAttributesDefaultValue()
     {
-        $productData = require dirname(__FILE__) . '/../_fixtures/Backend/SimpleProductData.php';
+        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
@@ -1274,36 +1119,7 @@ class Api2_Catalog_Products_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 'Attribute "' . $mediaAttrCode . '" has no default value');
             $found = true;
         }
-        $this->assertTrue($found, 'Media attrributes not found');
-    }
-
-    /**
-     * Mark product for removal in tear down
-     *
-     * @param $product
-     */
-    protected function _deleteProductAfterTest($product)
-    {
-        $this->addModelToDelete($product, true);
-    }
-
-    /**
-     * Create path to resource
-     *
-     * @param string $id
-     * @param string $storeId
-     * @return string
-     */
-    protected function _getResourcePath($id = null, $storeId = null)
-    {
-        $path = "products";
-        if (!is_null($id)) {
-            $path .= "/$id";
-        }
-        if (!is_null($storeId)) {
-            $path .= "/store/$storeId";
-        }
-        return $path;
+        $this->assertTrue($found, 'Media attributes not found');
     }
 }
 

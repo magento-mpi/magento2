@@ -49,13 +49,13 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
     }
 
     /**
-     * Add message to responce
+     * Add message to response
      *
      * @param string $message
      * @param string $code
      * @param array $params
      * @param string $type
-     * return Mage_Api2_Model_Response
+     * @return Mage_Api2_Model_Response
      */
     public function addMessage($message, $code, $params = array(), $type = self::MESSAGE_TYPE_ERROR)
     {
@@ -88,7 +88,7 @@ class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
     /**
      * Clear messages
      *
-     * return Mage_Api2_Model_Response
+     * @return Mage_Api2_Model_Response
      */
     public function clearMessages()
     {

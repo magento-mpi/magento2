@@ -45,13 +45,14 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image create
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
      */
     public function testPost()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['full_create'];
         $pathPrefix = '/' . substr($imageData['file_name'], 0, 1) . '/' . substr($imageData['file_name'], 1, 1) . '/';
-        $file = $pathPrefix . $imageData['file_name'] . '.jpg';
+        $file = $pathPrefix . $imageData['file_name'] . '.jpeg';
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -71,6 +72,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image create with empty image file
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
      */
     public function testPostEmptyFileContent()
     {
@@ -87,8 +89,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'The image is not specified',
-            'Resource data pre-validation error.'
+            "'file_content' is not specified."
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -101,6 +102,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image create with invalide image (but valid base64 string)
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
      */
     public function testPostInvalideImage()
     {
@@ -117,7 +119,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'Resource unknown error.'
+            'File content is not an image file.'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -130,6 +132,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image create with invalide base64 string as image file content
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
      */
     public function testPostInvalideBase64()
     {
@@ -146,7 +149,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'The image content must be valid base64 encoded data'
+            'File content must be base64 encoded.'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -159,6 +162,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image create with empty image file
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
      */
     public function testPostInvalideMime()
     {
@@ -175,7 +179,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
-            'Unsuppoted image MIME type'
+            'Unsuppoted file MIME type'
         );
 
         $this->assertEquals(count($expectedErrors), count($errors));
@@ -188,6 +192,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image update
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::update
      */
     public function testPut()
     {
@@ -214,6 +219,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test list images
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::multiget
      */
     public function testList()
     {
@@ -253,6 +259,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image get
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::get
      */
     public function testGet()
     {
@@ -277,6 +284,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image delete
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::delete
      */
     public function testDelete()
     {
@@ -311,13 +319,14 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * types    => array()
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @resourceOperation product_image::create
      */
     public function testPostWithStore()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['full_create'];
         $pathPrefix = '/' . substr($imageData['file_name'], 0, 1) . '/' . substr($imageData['file_name'], 1, 1) . '/';
-        $file = $pathPrefix . $imageData['file_name'] . '.jpg';
+        $file = $pathPrefix . $imageData['file_name'] . '.jpeg';
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -352,6 +361,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image get
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @resourceOperation product_image::get
      */
     public function testGetWithStore()
     {
@@ -396,6 +406,8 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
 
     /**
      * Test image get
+     *
+     * @resourceOperation product_image::multiget
      */
     public function testGetCollectionWithInvalideProduct()
     {
@@ -408,6 +420,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image get
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::get
      */
     public function testGetWithInvalideStore()
     {
@@ -430,9 +443,13 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/new_category_on_new_store.php
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::get
      */
     public function testGetWithNotAssignedStore()
     {
+        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = $imageData['data_set_1'];
+
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
         /* @var $store Mage_Core_Model_Store */
@@ -525,7 +542,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      */
     protected function _getMediaModel($product)
     {
-        $attributes = $product->getTypeInstance()->getSetAttributes($product);
+        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
         $this->assertTrue(isset($attributes['media_gallery']));
         /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
         $gallery = $attributes['media_gallery'];
@@ -608,8 +625,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->assertTrue(array_key_exists('position', $data), '"Position" attribute is not exists in image data');
         $this->assertTrue(array_key_exists('exclude', $data), '"Exclude" attribute is not exists in image data');
         $this->assertTrue(array_key_exists('types', $data), '"Types" attribute is not exists in image data');
-        if (array_key_exists($data['url'])) {
-            $this->assertContains($expectedData['file'], $data['url'], 'Image has wrong "url"');
+        if (array_key_exists('url', $data)) {
+            if (array_key_exists('file', $expectedData)) {
+                $this->assertContains($expectedData['file'], $data['url'], 'Image has wrong "url"');
+            } elseif (array_key_exists('file_name', $expectedData)) {
+                $this->assertContains($expectedData['file_name'], $data['url'], 'Image has wrong "url"');
+            }
         }
         $this->assertEquals($expectedData['label'], $data['label'], 'Image has wrong value of "label" attribute');
         $this->assertEquals((int)$expectedData['position'], (int) $data['position'],

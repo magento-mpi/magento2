@@ -32,6 +32,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
      * Test list images
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::multiget
      */
     public function testList()
     {
@@ -82,6 +83,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
      * Test image get
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::get
      */
     public function testGet()
     {
@@ -98,7 +100,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
         $ioAdapter->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixture);
         $product->addImageToMediaGallery($fileFixture, null, false, false);
 
-        $attributes = $product->getTypeInstance()->getSetAttributes($product);
+        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
         $this->assertTrue(isset($attributes['media_gallery']));
         $gallery = $attributes['media_gallery'];
         /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -151,6 +153,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
      * Test image get for excluded image
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::get
      */
     public function testGetExcluded()
     {

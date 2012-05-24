@@ -25,7 +25,7 @@ if (!Magento_Test_Webservice::getFixture('admin_acl_is_prepared')) {
         /* @var $role Mage_Api2_Model_Acl_Global_Role */
         $role->setRoleName('TestAdminRole' . time())
             ->save();
-        Magento_Test_Webservice::setFixture('role', $role);
+        Magento_Test_Webservice::setFixture('role', $role, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
 
         // Create admin to role relathion
         /* @var $resourceModel Mage_Api2_Model_Resource_Acl_Global_Role */
@@ -49,7 +49,7 @@ if (!Magento_Test_Webservice::getFixture('admin_acl_is_prepared')) {
         $rule->setRoleId($roleId)
             ->setResourceId(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL)
             ->save();
-        Magento_Test_Webservice::setFixture('rule', $rule);
+        Magento_Test_Webservice::setFixture('rule', $rule, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
     }
 
     // Prepare local filters
@@ -65,7 +65,8 @@ if (!Magento_Test_Webservice::getFixture('admin_acl_is_prepared')) {
         $attribute->setUserType(Mage_Api2_Model_Auth_User_Admin::USER_TYPE)
             ->setResourceId(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL)
             ->save();
-        Magento_Test_Webservice::setFixture('attribute', $attribute);
+        Magento_Test_Webservice::setFixture('attribute', $attribute,
+            Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
     }
 
     Magento_Test_Webservice::setFixture('admin_acl_is_prepared', true);

@@ -385,6 +385,19 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve subresource route params links
+     *
+     * @param string $resource
+     * @param string $subresource
+     * @return array
+     */
+    public function getSubresourceRouteParamsLink($resource, $subresource)
+    {
+        $link = $this->getNode('resources/' . $resource . '/subresources/' . $subresource . '/route_params_link');
+        return $link ? $link->asCanonicalArray() : array();
+    }
+
+    /**
      * Get validation config by validator type
      *
      * @param string $resourceType
@@ -429,5 +442,16 @@ class Mage_Api2_Model_Config extends Varien_Simplexml_Config
     public function getRouteWithEntityTypeAction($node)
     {
         return (string)$this->getNode('resources/' . $node . '/routes/route_entity/route');
+    }
+
+    /**
+     * Get route with Mage_Api2_Model_Resource::ACTION_TYPE_COLLETION type
+     *
+     * @param string $node
+     * @return string
+     */
+    public function getRouteWithCollectionTypeAction($node)
+    {
+        return (string)$this->getNode('resources/' . $node . '/routes/route_collection/route');
     }
 }

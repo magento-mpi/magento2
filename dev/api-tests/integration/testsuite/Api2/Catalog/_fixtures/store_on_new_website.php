@@ -18,7 +18,7 @@ if (!Magento_Test_Webservice::getFixture('website')) {
         )
     );
     $website->save();
-    Magento_Test_Webservice::setFixture('website', $website);
+    Magento_Test_Webservice::setFixture('website', $website, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 }
 
 if (!Magento_Test_Webservice::getFixture('store_group')) {
@@ -30,7 +30,8 @@ if (!Magento_Test_Webservice::getFixture('store_group')) {
         'code' => 'store_group_' . uniqid(),
         'root_category_id' => $defaultCategoryId
     ))->save();
-    Magento_Test_Webservice::setFixture('store_group', $storeGroup);
+    Magento_Test_Webservice::setFixture('store_group', $storeGroup,
+        Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 }
 
 if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
@@ -42,6 +43,7 @@ if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
         'is_active' => true,
         'website_id' => Magento_Test_Webservice::getFixture('website')->getId()
     ))->save();
-    Magento_Test_Webservice::setFixture('store_on_new_website', $store);
+    Magento_Test_Webservice::setFixture('store_on_new_website', $store,
+        Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
     Mage::app()->reinitStores();
 }

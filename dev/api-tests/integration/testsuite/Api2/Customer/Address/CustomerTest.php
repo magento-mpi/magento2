@@ -97,6 +97,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @param array $dataForCreate
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddress($dataForCreate)
     {
@@ -132,6 +133,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressMissingRequired($attributeCode)
     {
@@ -157,6 +159,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      *
      * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressEmptyRequired($attributeCode)
     {
@@ -183,6 +186,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testFilteringInCreateCustomerAddress($dataForCreate)
     {
@@ -215,7 +219,9 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
 
     /**
      * Test get customer addresses for customer
+     *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
+     * @resourceOperation customer_address::get
      */
     public function testGetCustomerAddress()
     {
@@ -240,6 +246,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test get customer addresses for customer
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
+     * @resourceOperation customer_address::multiget
      */
     public function testGetCustomerAddresses()
     {
@@ -266,6 +273,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddress($dataForUpdate)
     {
@@ -300,6 +308,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithPartialData($dataForUpdate)
     {
@@ -336,6 +345,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param string $attributeCode
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithEmptyRequiredFields($attributeCode)
     {
@@ -364,6 +374,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * @param $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testFilteringInUpdateCustomerAddress($dataForUpdate)
     {
@@ -394,6 +405,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test delete address
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/add_addresses_to_current_customer.php
+     * @resourceOperation customer_address::delete
      */
     public function testDeleteCustomerAddress()
     {
@@ -411,6 +423,10 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test actions with customer address if customer is not owner
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @resourceOperation customer_address::get
+     * @resourceOperation customer_address::multiget
+     * @resourceOperation customer_address::create
+     * @resourceOperation customer_address::update
      */
     public function testActionsWithCustomerAddressIfCustomerIsNotOwner()
     {
@@ -444,6 +460,10 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
 
     /**
      * Test actions for not existing resources
+     *
+     * @resourceOperation customer_address::multiget
+     * @resourceOperation customer_address::create
+     * @resourceOperation customer_address::update
      */
     public function testActionsForUnavailableResorces()
     {
@@ -467,11 +487,27 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Data provider address data
      * Support for custom eav attributes are not implemented
      *
+     * @dataSetNumber 1
      * @return array
      */
     public function providerAddressData()
     {
         return array(array($this->_getAddressData()));
+    }
+
+    /**
+     * Data provider required attributes (dataSet number depends of number of required attributes)
+     *
+     * @dataSetNumber 7
+     * @return array
+     */
+    public function providerRequiredAttributes()
+    {
+        $output = array();
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            $output[] = array($attributeCode);
+        }
+        return $output;
     }
 
     /**
@@ -501,20 +537,6 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
         }
 
         return $data;
-    }
-
-    /**
-     * Data provider required attributes
-     *
-     * @return array
-     */
-    public function providerRequiredAttributes()
-    {
-        $output = array();
-        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $output[] = array($attributeCode);
-        }
-        return $output;
     }
 
     /**

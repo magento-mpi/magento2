@@ -42,6 +42,8 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
 
     /**
      * Test create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreate()
     {
@@ -51,6 +53,8 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
 
     /**
      * Test retrieve customer collection
+     *
+     * @resourceOperation customer::multiget
      */
     public function testRetrieve()
     {
@@ -75,6 +79,8 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
 
     /**
      * Test update action
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdate()
     {
@@ -84,6 +90,8 @@ class Api2_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Rest_
 
     /**
      * Test delete action
+     *
+     * @resourceOperation customer::delete
      */
     public function testDelete()
     {

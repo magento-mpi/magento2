@@ -114,6 +114,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Test create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreate()
     {
@@ -130,6 +132,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Test filter data in create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreateFilter()
     {
@@ -159,8 +163,9 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
     /**
      * Test create customer with empty required fields
      *
-     * @param string $attributeCode
+     * @resourceOperation customer::create
      * @dataProvider providerRequiredAttributes
+     * @param string $attributeCode
      */
     public function testCreateEmptyRequiredField($attributeCode)
     {
@@ -181,8 +186,9 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
     /**
      * Test create customer withous required fields
      *
-     * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer::create
+     * @param string $attributeCode
      */
     public function testCreateWithoutRequiredField($attributeCode)
     {
@@ -202,7 +208,9 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
+     * (dataSet number depends of number of required attributes)
      *
+     * @dataSetNumber 5
      * @return array
      */
     public function providerRequiredAttributes()
@@ -222,6 +230,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Test retrieve customer collection
+     *
+     * @resourceOperation customer::multiget
      */
     public function testRetrieve()
     {
@@ -249,6 +259,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Test update customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdate()
     {
@@ -258,6 +270,8 @@ class Api2_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Adm
 
     /**
      * Test delete customer
+     *
+     * @resourceOperation customer::delete
      */
     public function testDelete()
     {

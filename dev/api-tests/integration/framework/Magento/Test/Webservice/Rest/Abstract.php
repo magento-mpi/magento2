@@ -130,4 +130,119 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
 
         return $this->getInstance()->callPut($resourceName, $params);
     }
+
+    /**
+     * Check error messages either by pattern if set or for exact match
+     *
+     * @param array $testData format: array('messages' => array())
+     * <br /><b>or</b> array('message_patterns' => array('pattern' => $pattern, 'matches_count' => $count))
+     * @param array $errorMessages
+     * @throws LogicException
+     */
+    protected function _checkErrorMessages($testData, $errorMessages)
+    {
+        if (isset($testData['message_patterns'])) {
+            $this->_checkErrorMessagesByPattern($testData['message_patterns'], $errorMessages);
+        } else if (isset($testData['messages'])) {
+            $this->_checkMessagesForExactMatch($testData['messages'], $errorMessages);
+        } else {
+            throw new LogicException("Data set seems to be invalid as no error messages checks are performed");
+        }
+    }
+
+    /**
+     * Check if all received error messages are expected ones
+     *
+     * @param array $expectedMessages
+     * @param array $receivedMessages
+     */
+    protected function _checkMessagesForExactMatch($expectedMessages, $receivedMessages)
+    {
+        foreach ($receivedMessages as $message) {
+            $this->assertContains($message, $expectedMessages, "Unexpected message: '$message'");
+        }
+        $expectedErrorsCount = count($expectedMessages);
+        $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
+    }
+
+    /**
+     * Check error messages using regular expression pattern
+     *
+     * @param array $patterns format: array('pattern' => $pattern, 'matches_count' => $count)
+     * @param array $errorMessages
+     * @throws LogicException
+     */
+    protected function _checkErrorMessagesByPattern($patterns, $errorMessages)
+    {
+        if (!is_array($patterns)) {
+            throw new LogicException("Patterns parameter must be be an array");
+        }
+        if (!is_array($errorMessages)) {
+            throw new LogicException("Error messages parameter must be an array");
+        }
+        foreach ($patterns as $messagePattern) {
+            if (!isset($messagePattern['pattern']) || !isset($messagePattern['matches_count'])) {
+                throw new LogicException("Each pattern must contain 'pattern' and 'matches_count' fields");
+            }
+        }
+        $messagesMatchingToPatterns = array();
+        foreach ($errorMessages as $message) {
+            $isMessageValid = false;
+            foreach ($patterns as $messagePattern) {
+                if (preg_match($messagePattern['pattern'], $message)) {
+                    $messagesMatchingToPatterns[$messagePattern['pattern']][] = $message;
+                    $isMessageValid = true;
+                    break;
+                }
+            }
+            $this->assertTrue($isMessageValid, "Received message does not match any pattern: '$message'");
+        }
+        // check if correct messages quantity corresponds to each of patterns
+        foreach ($patterns as $messagePattern) {
+            $actualMatchingMessagesCount = isset($messagesMatchingToPatterns[$messagePattern['pattern']])
+                ? count($messagesMatchingToPatterns[$messagePattern['pattern']]) : 0;
+            $this->assertEquals($messagePattern['matches_count'], $actualMatchingMessagesCount,
+                "Invalid error messages quantity received for pattern: '{$messagePattern['pattern']}'");
+        }
+    }
+
+    /**
+     * Check if expected error messages are set in rest response
+     *
+     * @param Magento_Test_Webservice_Rest_ResponseDecorator $restResponse
+     * @param array|string $expectedMessages
+     * @param string $expectedCode
+     */
+    protected function _checkErrorMessagesInResponse($restResponse, $expectedMessages, $expectedCode = null)
+    {
+        $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
+        $expectedCode = $expectedCode ? $expectedCode : Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+        $this->assertEquals($expectedCode, $restResponse->getStatus(),
+            "Invalid response code");
+        $body = $restResponse->getBody();
+        $this->assertTrue(isset($body['messages']['error']), "Error messages expected to be set");
+        $receivedMessages = array();
+        foreach($body['messages']['error'] as $error) {
+            $receivedMessages[] = $error['message'];
+        }
+        $this->_checkMessagesForExactMatch($expectedMessages, $receivedMessages);
+    }
+
+    /**
+     * Check if expected success messages are set in rest response
+     *
+     * @param Magento_Test_Webservice_Rest_ResponseDecorator $restResponse
+     * @param array|string $expectedMessages
+     */
+    protected function _checkSuccessMessagesInResponse($restResponse, $expectedMessages)
+    {
+        $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
+        $body = $restResponse->getBody();
+        $this->assertTrue(isset($body['messages']['success']), "Success messages expected to be set");
+        $receivedMessages = array();
+        foreach($body['messages']['success'] as $success) {
+            $receivedMessages[] = $success['message'];
+        }
+        $this->_checkMessagesForExactMatch($expectedMessages, $receivedMessages);
+    }
 }

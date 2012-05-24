@@ -22,7 +22,7 @@ if (!Magento_Test_Webservice::getFixture('customer_acl_is_prepared')) {
         $rule->setRoleId(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID)
             ->setResourceId(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL)
             ->save();
-        Magento_Test_Webservice::setFixture('rule', $rule);
+        Magento_Test_Webservice::setFixture('rule', $rule, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
     }
 
     // Prepare local filters
@@ -38,7 +38,8 @@ if (!Magento_Test_Webservice::getFixture('customer_acl_is_prepared')) {
         $attribute->setUserType(Mage_Api2_Model_Auth_User_Customer::USER_TYPE)
             ->setResourceId(Mage_Api2_Model_Acl_Global_Rule::RESOURCE_ALL)
             ->save();
-        Magento_Test_Webservice::setFixture('attribute', $attribute);
+        Magento_Test_Webservice::setFixture('attribute', $attribute,
+            Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
     }
 
     Magento_Test_Webservice::setFixture('customer_acl_is_prepared', true);

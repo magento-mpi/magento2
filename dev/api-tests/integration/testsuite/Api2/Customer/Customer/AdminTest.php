@@ -94,6 +94,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreate()
     {
@@ -103,6 +105,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test retrieve existing customer data
+     *
+     * @resourceOperation customer::get
      */
     public function testRetrieve()
     {
@@ -120,6 +124,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test retrieve not existing customer
+     *
+     * @resourceOperation customer::get
      */
     public function testRetrieveUnavailableResource()
     {
@@ -129,6 +135,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test update customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdate()
     {
@@ -153,6 +161,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test filter data in update customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdateFilter()
     {
@@ -189,6 +199,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      *
      * @param string $attributeCode
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer::update
      */
     public function testUpdateEmptyRequiredField($attributeCode)
     {
@@ -208,7 +219,9 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Data provider for testCreateEmptyRequiredField and testCreateWithoutRequiredField
+     * (dataSet number depends of number of required attributes)
      *
+     * @dataSetNumber 4
      * @return array
      */
     public function providerRequiredAttributes()
@@ -230,6 +243,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test update not existing customer
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdateUnavailableResource()
     {
@@ -247,6 +262,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      * Test unsuccessful update of drop down attributes. Check customer drop down fields validation
      *
      * @dataProvider dataProviderForUpdateDropDownsWithInvalidValues
+     * @resourceOperation customer::update
      * @param string $field
      * @param mixed $value
      */
@@ -268,6 +284,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     /**
      * Provider of invalid drop down fields values
      *
+     * @dataSetNumber 8
      * @return array
      */
     public function dataProviderForUpdateDropDownsWithInvalidValues()
@@ -289,6 +306,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
      * Check if validation works correct with values of different types (int, string)
      *
      * @dataProvider dataProviderForUpdateDropDownsWithValidValues
+     * @resourceOperation customer::update
      * @param $customerData
      */
     public function testUpdateDropDownsWithValidValues($customerData)
@@ -300,6 +318,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     /**
      * Provider of valid drop down fields values
      *
+     * @dataSetNumber 2
      * @return array
      */
     public function dataProviderForUpdateDropDownsWithValidValues()
@@ -313,6 +332,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test delete customer
+     *
+     * @resourceOperation customer::delete
      */
     public function testDelete()
     {
@@ -327,6 +348,8 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
 
     /**
      * Test delete not existing customer
+     *
+     * @resourceOperation customer::delete
      */
     public function testDeleteUnavailableResource()
     {

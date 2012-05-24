@@ -26,50 +26,26 @@ class Mage_Catalog_Model_Api2_Product_Image_Rest_Admin_V1 extends Mage_Catalog_M
      */
     protected function _create(array $data)
     {
-        /* @var $validator Mage_Catalog_Model_Api2_Product_Image_Validator_Image */
-        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Image_Validator_Image');
-        if (!$validator->isValidData($data)) {
-            foreach ($validator->getErrors() as $error) {
-                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+        /** @var $imageUploader Mage_Api2_Model_Request_Uploader_Image */
+        $imageUploader = Mage::getModel('Mage_Api2_Model_Request_Uploader_Image');
+        if ($errorMessage = $imageUploader->validate($data)) {
+            $this->_critical($errorMessage, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
-        $imageFileContent = @base64_decode($data['file_content'], true);
-        if (!$imageFileContent) {
-            $this->_critical('The image content must be valid base64 encoded data',
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-        }
-        unset($data['file_content']);
-
-        $apiTempDir = Mage::getBaseDir('var') . DS . 'api' . DS . Mage::getSingleton('Mage_Api_Model_Session')->getSessionId();
-        $imageFileName = $this->_getFileName($data);
+        $product = $this->_getProduct();
 
         try {
-            $ioAdapter = new Varien_Io_File();
-            $ioAdapter->checkAndCreateFolder($apiTempDir);
-            $ioAdapter->open(array('path' => $apiTempDir));
-            $ioAdapter->write($imageFileName, $imageFileContent, 0666);
-            unset($imageFileContent);
-
-            // try to create Image object to check if image data is valid
-            try {
-                new Varien_Image($apiTempDir . DS . $imageFileName);
-            } catch (Exception $e) {
-                $ioAdapter->rmdir($apiTempDir, true);
-                $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-            }
-            $product = $this->_getProduct();
-            $imageFileUri = $this->_getMediaGallery()
-                ->addImage($product, $apiTempDir . DS . $imageFileName, null, false, false);
-            $ioAdapter->rmdir($apiTempDir, true);
+            $tempImagePath = $imageUploader->upload($data);
+            $imageFileUri = $this->_getMediaGallery()->addImage($product, $tempImagePath, null, false, false);
+            $imageUploader->deleteUploadedFile();
             // updateImage() must be called to add image data that is missing after addImage() call
             $this->_getMediaGallery()->updateImage($product, $imageFileUri, $data);
-
             if (isset($data['types'])) {
                 $this->_getMediaGallery()->setMediaAttribute($product, $data['types'], $imageFileUri);
             }
             $product->save();
             return $this->_getImageLocation($this->_getCreatedImageId($imageFileUri));
+        } catch (Mage_Api2_Exception $e) {
+            $this->_critical($e->getMessage(), $e->getCode());
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {

@@ -20,6 +20,8 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
 {
     /**
      * Test create customer
+     *
+     * @resourceOperation order_comment::create
      */
     public function testCreate()
     {
@@ -29,6 +31,8 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
 
     /**
      * Test retrieve customers collection
+     *
+     * @resourceOperation order_comment::multiget
      */
     public function testRetrieve()
     {
@@ -38,6 +42,8 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
 
     /**
      * Test update action
+     *
+     * @resourceOperation order_comment::update
      */
     public function testUpdate()
     {
@@ -47,6 +53,8 @@ class Api2_Sales_Order_Comments_GuestTest extends Magento_Test_Webservice_Rest_G
 
     /**
      * Test delete action
+     *
+     * @resourceOperation order_comment::delete
      */
     public function testDelete()
     {

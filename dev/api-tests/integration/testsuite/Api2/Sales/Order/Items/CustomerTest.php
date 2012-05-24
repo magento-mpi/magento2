@@ -47,7 +47,8 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
     /**
      * Test get order items for customer
      *
-     *  @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @resourceOperation order_item::multiget
      */
     public function testGetOrder()
     {
@@ -72,6 +73,8 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
 
     /**
      * Test retrieving items for not existing order
+     *
+     * @resourceOperation order_item::multiget
      */
     public function testGetItemsForUnavailableOrder()
     {
@@ -83,6 +86,7 @@ class Api2_Sales_Order_Items_CustomerTest extends Magento_Test_Webservice_Rest_C
      * Test get order items if customer is not owner
      *
      * @magentoDataFixture Api2/Sales/_fixtures/order.php
+     * @resourceOperation order_item::multiget
      */
     public function testGetOrderIfCustomerIsNotOwner()
     {

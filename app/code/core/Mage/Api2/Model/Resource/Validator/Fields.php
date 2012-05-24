@@ -142,18 +142,21 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
         if (!$isPartial && count($this->_requiredFields) > 0) {
             $notEmptyValidator = new Zend_Validate_NotEmpty();
             foreach ($this->_requiredFields as $requiredField) {
-                if (!$notEmptyValidator->isValid(isset($data[$requiredField]) ? $data[$requiredField] : null)) {
+                if (!$this->_isFieldInvalid($requiredField)
+                    && !$notEmptyValidator->isValid(isset($data[$requiredField]) ? $data[$requiredField] : null)
+                ) {
                     $isValid = false;
                     foreach ($notEmptyValidator->getMessages() as $message) {
                         $this->_addError(sprintf('%s: %s', $requiredField, $message));
                     }
+                    $this->_addInvalidField($requiredField);
                 }
             }
         }
 
         // fields rules
         foreach ($data as $field => $value) {
-            if (isset($this->_validators[$field])) {
+            if (!$this->_isFieldInvalid($field) && isset($this->_validators[$field])) {
                 /* @var $validator Zend_Validate_Interface */
                 $validator = $this->_validators[$field];
                 if (!$validator->isValid($value)) {
@@ -161,6 +164,7 @@ class Mage_Api2_Model_Resource_Validator_Fields extends Mage_Api2_Model_Resource
                     foreach ($validator->getMessages() as $message) {
                         $this->_addError(sprintf('%s: %s', $field, $message));
                     }
+                    $this->_addInvalidField($field);
                 }
             }
         }

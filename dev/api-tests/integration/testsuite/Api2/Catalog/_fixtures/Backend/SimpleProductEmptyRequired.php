@@ -17,7 +17,7 @@ return array(
     'name' => '',
     'description' => '',
     'short_description' => '',
-    'sku' => '',
+    'sku' => uniqid(),
     'weight' => '',
     'status' => '',
     'visibility' => '',

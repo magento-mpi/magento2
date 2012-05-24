@@ -20,6 +20,8 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
 {
     /**
      * Test create customer
+     *
+     * @resourceOperation customer::create
      */
     public function testCreate()
     {
@@ -29,6 +31,8 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
 
     /**
      * Test retrieve existing customer data
+     *
+     * @resourceOperation customer::get
      */
     public function testRetrieve()
     {
@@ -38,6 +42,8 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
 
     /**
      * Test update existing customer data
+     *
+     * @resourceOperation customer::update
      */
     public function testUpdate()
     {
@@ -47,6 +53,8 @@ class Api2_Customer_Customer_GuestTest extends Magento_Test_Webservice_Rest_Gues
 
     /**
      * Test delete existing customer data
+     *
+     * @resourceOperation customer::delete
      */
     public function testDelete()
     {

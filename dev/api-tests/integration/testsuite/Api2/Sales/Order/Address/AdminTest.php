@@ -35,6 +35,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
      * Test get order address for admin
      *
      * @magentoDataFixture Api2/Sales/_fixtures/order_address.php
+     * @resourceOperation order_address::get
      */
     public function testGetOrderAddress()
     {
@@ -68,6 +69,8 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
 
     /**
      * Test retrieving address for not existing order
+     *
+     * @resourceOperation order_address::get
      */
     public function testGetAddressForUnavailableOrder()
     {
@@ -82,6 +85,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
      * Test get order address for admin
      *
      * @magentoDataFixture Api2/Sales/_fixtures/order_address.php
+     * @resourceOperation order_address::multiget
      */
     public function testGetOrderAddresses()
     {
@@ -117,6 +121,8 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
 
     /**
      * Test retrieving address for not existing order
+     *
+     * @resourceOperation order_address::multiget
      */
     public function testGetAddressesForUnavailableOrder()
     {

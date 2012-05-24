@@ -2,6 +2,22 @@
 /**
  * {license_notice}
  *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
  * @category    Magento
  * @package     Magento_Test
  * @subpackage  integration_tests
@@ -40,6 +56,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      *
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @resourceOperation customer_address::create
      * @dataProvider providerAddressData
      */
     public function testCreateCustomerAddress($dataForCreate)
@@ -78,6 +95,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param string $attributeCode
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithMissingRequiredFields($attributeCode)
     {
@@ -106,6 +124,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param string $attributeCode
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithEmptyRequiredFields($attributeCode)
     {
@@ -134,6 +153,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithInvalidCountryIdentifier($dataForCreate)
     {
@@ -155,6 +175,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithCountryIdentifierAsSpaces($dataForCreate)
     {
@@ -176,6 +197,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithUnavailableCountry($dataForCreate)
     {
@@ -197,6 +219,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithEmtyRegionWhenRegionIsRequired($dataForCreate)
     {
@@ -219,6 +242,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithInvalidRegionWhenRegionIsRequired($dataForCreate)
     {
@@ -241,6 +265,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithUnavailableRegionWhenRegionIsRequired($dataForCreate)
     {
@@ -263,6 +288,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testCreateCustomerAddressWithInvalidRegionWhenRegionIsNotRequired($dataForCreate)
     {
@@ -285,6 +311,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param $dataForCreate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::create
      */
     public function testFilteringInCreateCustomerAddress($dataForCreate)
     {
@@ -316,6 +343,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test get customer address for admin
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @resourceOperation customer_address::get
      */
     public function testGetCustomerAddress()
     {
@@ -342,6 +370,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test get customer addresses for admin
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @resourceOperation customer_address::get
      */
     public function testGetCustomerAddresses()
     {
@@ -371,6 +400,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddress($dataForUpdate)
     {
@@ -409,6 +439,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithPartialData($dataForUpdate)
     {
@@ -449,6 +480,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressCountryAssociationWhenRegionIsRequiredCase1($dataForUpdate)
     {
@@ -469,6 +501,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressCountryAssociationWhenRegionIsRequiredCase2($dataForUpdate)
     {
@@ -489,6 +522,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase1($dataForUpdate)
     {
@@ -510,6 +544,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase2($dataForUpdate)
     {
@@ -532,6 +567,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressCountryAssociationWhenRegionIsNotRequiredCase3($dataForUpdate)
     {
@@ -552,6 +588,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param string $attributeCode
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerRequiredAttributes
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithEmptyRequiredFields($attributeCode)
     {
@@ -582,6 +619,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithInvalidCountryIdentifier($dataForUpdate)
     {
@@ -605,6 +643,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithCountryIdentifierAsSpaces($dataForUpdate)
     {
@@ -628,6 +667,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithUnavailableCountry($dataForUpdate)
     {
@@ -652,6 +692,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithEmtyRegionWhenRegionIsRequired($dataForUpdate)
     {
@@ -676,6 +717,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsRequiredCase1($dataForUpdate)
     {
@@ -700,6 +742,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsRequiredCase2($dataForUpdate)
     {
@@ -724,6 +767,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithUnavailableRegionWhenRegionIsRequiredCase1($dataForUpdate)
     {
@@ -748,6 +792,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithUnavailableRegionWhenRegionIsRequiredCase2($dataForUpdate)
     {
@@ -772,6 +817,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsNotRequiredCase1($dataForUpdate)
     {
@@ -796,6 +842,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param array $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testUpdateCustomerAddressWithInvalidRegionWhenRegionIsNotRequiredCase2($dataForUpdate)
     {
@@ -821,6 +868,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * @param $dataForUpdate
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
      * @dataProvider providerAddressData
+     * @resourceOperation customer_address::update
      */
     public function testFilteringInUpdateCustomerAddress($dataForUpdate)
     {
@@ -853,6 +901,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test delete address
      *
      * @magentoDataFixture Api2/Customer/Address/_fixtures/customer_with_addresses.php
+     * @resourceOperation customer_address::delete
      */
     public function testDeleteCustomerAddress()
     {
@@ -870,6 +919,9 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
     /**
      * Test actions for not existing resources
+     * @resourceOperation customer_address::get
+     * @resourceOperation customer_address::update
+     * @resourceOperation customer_address::delete
      */
     public function testActionsForUnavailableResorces()
     {
@@ -893,11 +945,27 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Data provider address data
      * Support for custom eav attributes are not implemented
      *
+     * @dataSetNumber 1
      * @return array
      */
     public function providerAddressData()
     {
         return array(array($this->_getAddressData()));
+    }
+
+    /**
+     * Data provider required attributes (dataSet number depends of number of required attributes)
+     *
+     * @dataSetNumber 7
+     * @return array
+     */
+    public function providerRequiredAttributes()
+    {
+        $output = array();
+        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
+            $output[] = array($attributeCode);
+        }
+        return $output;
     }
 
     /**
@@ -927,20 +995,6 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         }
 
         return $data;
-    }
-
-    /**
-     * Data provider required attributes
-     *
-     * @return array
-     */
-    public function providerRequiredAttributes()
-    {
-        $output = array();
-        foreach ($this->_getAddressEavRequiredAttributes() as $attributeCode => $requiredAttribute) {
-            $output[] = array($attributeCode);
-        }
-        return $output;
     }
 
     /**

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$pool = Mage::getResourceModel('Enterprise_Giftcardaccount_Model_Resource_Pool');
+$pool = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Pool');
 
 do {
     $code = 'test-code-' . mt_rand(10, 9999);

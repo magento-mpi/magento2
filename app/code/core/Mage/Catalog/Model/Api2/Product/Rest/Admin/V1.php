@@ -42,6 +42,44 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
             'use_config_enable_qty_increments');
         $product->setData('stock_data', $this->_filterOutArrayKeys($stockData, $stockDataFilterKeys));
         $product->setData('product_type_name', $product->getTypeId());
+        $this->_addConfigurableAttributes($product);
+        $this->_unsetUnnecessaryDataFromConfigurable($product);
+    }
+
+    /**
+     * Add information about the configurable attributes to the product of the configurable type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _addConfigurableAttributes(Mage_Catalog_Model_Product $product)
+    {
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+            /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+            $configurableType = $product->getTypeInstance(true);
+            $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
+            $formattedConfigurableAttributes = array();
+            foreach ($configurableAttributes as $configurableAttribute) {
+                // prepare array of the option prices
+                $prices = array();
+                foreach ($configurableAttribute['values'] as $priceItem) {
+                    $prices[] = array(
+                        'option_value' => $priceItem['value_index'],
+                        'option_label' => $priceItem['label'],
+                        'price' => $priceItem['pricing_value'],
+                        'price_type' => $priceItem['is_percent'] ? 'percent' : 'fixed',
+                    );
+                }
+                // format configurable attribute data
+                $formattedConfigurableAttributes[] = array(
+                    'attribute_code' => $configurableAttribute['attribute_code'],
+                    'frontend_label' => $configurableAttribute['label'],
+                    'frontend_label_use_default' => $configurableAttribute['use_default'],
+                    'position' => $configurableAttribute['position'],
+                    'prices' => $prices,
+                );
+            }
+            $product->setConfigurableAttributes($formattedConfigurableAttributes);
+        }
     }
 
     /**
@@ -79,17 +117,20 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _retrieveCollection()
     {
-        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        /** @var $productsCollection Mage_Catalog_Model_Resource_Product_Collection */
+        $productsCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $store = $this->_getStore();
-        $collection->setStoreId($store->getId());
-        $collection->addAttributeToSelect(array_keys(
+        $productsCollection->setStoreId($store->getId());
+        $productsCollection->addAttributeToSelect(array_keys(
             $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
         ));
-        $this->_applyCategoryFilter($collection);
-        $this->_applyCollectionModifiers($collection);
-        $products = $collection->load()->toArray();
-        return $products;
+        $this->_applyCategoryFilter($productsCollection);
+        $this->_applyCollectionModifiers($productsCollection);
+        /** @var Mage_Catalog_Model_Product $product */
+        foreach ($productsCollection as $product) {
+            $this->_unsetUnnecessaryDataFromConfigurable($product);
+        }
+        return $productsCollection->toArray();
     }
 
     /**
@@ -117,46 +158,24 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _create(array $data)
     {
-        /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
-        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Validator_Product', array(
-            'operation' => self::OPERATION_CREATE
-        ));
-
-        if (!$validator->isValidData($data)) {
-            foreach ($validator->getErrors() as $error) {
-                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-
+        $this->_prevalidateRequiredFields($data);
         $type = $data['type_id'];
-        if ($type !== 'simple') {
-            $this->_critical("Creation of products with type '$type' is not implemented",
-                Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
-        }
-        $set = $data['attribute_set_id'];
-        $sku = $data['sku'];
-
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
-            ->setAttributeSetId($set)
-            ->setTypeId($type)
-            ->setSku($sku);
-
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->setAttributeSetId($data['attribute_set_id'])->setTypeId($type)->setSku($data['sku']);
         foreach ($product->getMediaAttributes() as $mediaAttribute) {
             $mediaAttrCode = $mediaAttribute->getAttributeCode();
             $product->setData($mediaAttrCode, 'no_selection');
         }
+        $this->_prepareProductForSave($product, $data);
 
-        $this->_prepareDataForSave($product, $data);
+        $validator = Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract::getValidatorByProductType($type);
+        if (!$validator->isValidForCreate($product, $data)) {
+            $this->_processValidationErrors($validator);
+        }
         try {
-            $product->validate();
             $product->save();
             $this->_multicall($product->getId());
-        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
-            $this->_critical(sprintf('Invalid attribute "%s": %s', $e->getAttributeCode(), $e->getMessage()),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -173,33 +192,22 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _update(array $data)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->_getProduct();
-        /* @var $validator Mage_Catalog_Model_Api2_Product_Validator_Product */
-        $validator = Mage::getModel('Mage_Catalog_Model_Api2_Product_Validator_Product', array(
-            'operation' => self::OPERATION_UPDATE,
-            'product'   => $product
-        ));
-
-        if (!$validator->isValidData($data)) {
-            foreach ($validator->getErrors() as $error) {
-                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-            $this->_critical(self::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-        if (isset($data['sku'])) {
-            $product->setSku($data['sku']);
-        }
         // attribute set and product type cannot be updated
         unset($data['attribute_set_id']);
         unset($data['type_id']);
-        $this->_prepareDataForSave($product, $data);
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->_getProduct();
+        if (isset($data['sku'])) {
+            $product->setSku($data['sku']);
+        }
+        $this->_prepareProductForSave($product, $data);
+        $type = $product->getTypeId();
+        $validator = Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract::getValidatorByProductType($type);
+        if (!$validator->isValidForUpdate($product, $data)) {
+            $this->_processValidationErrors($validator);
+        }
         try {
-            $product->validate();
             $product->save();
-        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
-            $this->_critical(sprintf('Invalid attribute "%s": %s', $e->getAttributeCode(), $e->getMessage()),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         } catch (Mage_Core_Exception $e) {
             $this->_critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
@@ -208,87 +216,87 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     }
 
     /**
-     * Determine if stock management is enabled
-     *
-     * @param array $stockData
-     * @return bool
-     */
-    protected function _isManageStockEnabled($stockData)
-    {
-        if (!(isset($stockData['use_config_manage_stock']) && $stockData['use_config_manage_stock'])) {
-            $manageStock = isset($stockData['manage_stock']) && $stockData['manage_stock'];
-        } else {
-            $manageStock = Mage::getStoreConfig(
-                Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
-        }
-        return (bool) $manageStock;
-    }
-
-    /**
-     * Check if value from config is used
-     *
-     * @param array $data
-     * @param string $field
-     * @return bool
-     */
-    protected function _isConfigValueUsed($data, $field)
-    {
-        return isset($data["use_config_$field"]) && $data["use_config_$field"];
-    }
-
-    /**
      * Set additional data before product save
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param array $productData
+     * @param array $saveData
      */
-    protected function _prepareDataForSave($product, $productData)
+    protected function _prepareProductForSave($product, &$saveData)
     {
-        if (isset($productData['stock_data'])) {
-            if (!$product->isObjectNew() && !isset($productData['stock_data']['manage_stock'])) {
-                $productData['stock_data']['manage_stock'] = $product->getStockItem()->getManageStock();
-            }
-            $this->_filterStockData($productData['stock_data']);
-        } else {
-            $productData['stock_data'] = array(
-                'use_config_manage_stock' => 1,
-                'use_config_min_sale_qty' => 1,
-                'use_config_max_sale_qty' => 1,
-            );
-        }
-        $product->setStockData($productData['stock_data']);
-        // save gift options
-        $this->_filterConfigValueUsed($productData, array('gift_message_available', 'gift_wrapping_available'));
-        if (isset($productData['use_config_gift_message_available'])) {
-            $product->setData('use_config_gift_message_available', $productData['use_config_gift_message_available']);
-            if (!$productData['use_config_gift_message_available']
-                && ($product->getData('gift_message_available') === null)) {
-                $product->setData('gift_message_available', (int) Mage::getStoreConfig(
-                    Mage_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $product->getStoreId()));
-            }
-        }
-        if (isset($productData['use_config_gift_wrapping_available'])) {
-            $product->setData('use_config_gift_wrapping_available', $productData['use_config_gift_wrapping_available']);
-            if (!$productData['use_config_gift_wrapping_available']
-                && ($product->getData('gift_wrapping_available') === null)
-            ) {
-                $xmlPathGiftWrappingAvailable = 'sales/gift_options/wrapping_allow_items';
-                $product->setData('gift_wrapping_available', (int)Mage::getStoreConfig(
-                    $xmlPathGiftWrappingAvailable, $product->getStoreId()));
-            }
-        }
-
-        if (isset($productData['website_ids']) && is_array($productData['website_ids'])) {
-            $product->setWebsiteIds($productData['website_ids']);
+        $this->_prepareStockData($product, $saveData);
+        $this->_prepareGiftOptions($product, $saveData);
+        $this->_prepareEavAttributes($product, $saveData);
+        $this->_prepareConfigurableAttributes($product, $saveData);
+        if (isset($saveData['website_ids']) && is_array($saveData['website_ids'])) {
+            $product->setWebsiteIds($saveData['website_ids']);
         }
         // Create Permanent Redirect for old URL key
-        if (!$product->isObjectNew()  && isset($productData['url_key'])
-            && isset($productData['url_key_create_redirect'])
-        ) {
-            $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
+        if (!$product->isObjectNew() && isset($saveData['url_key']) && isset($saveData['url_key_create_redirect'])) {
+            $product->setData('save_rewrites_history', (bool)$saveData['url_key_create_redirect']);
         }
+    }
+
+    /**
+     * Prepare Inventory save data.
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareStockData($product, $saveData)
+    {
+        if (isset($saveData['stock_data'])) {
+            if (!$product->isObjectNew() && !isset($saveData['stock_data']['manage_stock'])) {
+                $saveData['stock_data']['manage_stock'] = $product->getStockItem()->getManageStock();
+            }
+            $this->_filterStockData($saveData['stock_data']);
+        } else {
+            $saveData['stock_data'] = array(
+                'use_config_manage_stock' => 1,
+                'use_config_min_sale_qty' => 1,
+                'use_config_max_sale_qty' => 1
+            );
+        }
+        $product->setStockData($saveData['stock_data']);
+    }
+
+    /**
+     * Prepare Gift Options save data.
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareGiftOptions($product, $saveData)
+    {
+        $this->_filterConfigValueUsed($saveData, array('gift_message_available', 'gift_wrapping_available'));
+        if (isset($saveData['use_config_gift_message_available'])) {
+            $product->setData('use_config_gift_message_available', $saveData['use_config_gift_message_available']);
+            if (!$saveData['use_config_gift_message_available'] && is_null($product->getGiftMessageAvailable())) {
+                $product->setData('gift_message_available', (int) Mage::getStoreConfig(
+                    Mage_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $product->getStoreId()
+                ));
+            }
+        }
+        if (isset($saveData['use_config_gift_wrapping_available'])) {
+            $product->setData('use_config_gift_wrapping_available', $saveData['use_config_gift_wrapping_available']);
+            if (!$saveData['use_config_gift_wrapping_available'] && is_null($product->getGiftWrappingAvailable())) {
+                $xmlPathGiftWrappingAvailable = 'sales/gift_options/wrapping_allow_items';
+                $product->setData('gift_wrapping_available', (int) Mage::getStoreConfig(
+                    $xmlPathGiftWrappingAvailable, $product->getStoreId()
+                ));
+            }
+        }
+    }
+
+    /**
+     * Prepare EAV attributes save data.
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareEavAttributes($product, $saveData)
+    {
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store
             if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
@@ -297,14 +305,189 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
                 $product->setData($attribute->getAttributeCode(), false);
             }
 
-            if ($this->_isAllowedAttribute($attribute)) {
-                if (isset($productData[$attribute->getAttributeCode()])) {
-                    $product->setData(
-                        $attribute->getAttributeCode(),
-                        $productData[$attribute->getAttributeCode()]
+            if ($this->_isAllowedAttribute($attribute) && isset($saveData[$attribute->getAttributeCode()])) {
+                if (is_string($saveData[$attribute->getAttributeCode()])) {
+                    $saveData[$attribute->getAttributeCode()] = trim($saveData[$attribute->getAttributeCode()]);
+                }
+                $product->setData(
+                    $attribute->getAttributeCode(),
+                    $saveData[$attribute->getAttributeCode()]
+                );
+            }
+        }
+    }
+
+    /**
+     * Process configurable attributes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareConfigurableAttributes(Mage_Catalog_Model_Product $product, array $saveData)
+    {
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($product->isObjectNew()) {
+                $this->_prepareConfigurableAttributesForCreate($product, $saveData);
+            } else {
+                $this->_prepareConfigurableAttributesForUpdate($product, $saveData);
+            }
+        }
+    }
+
+    /**
+     * Process configurable attributes for product create
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareConfigurableAttributesForCreate(Mage_Catalog_Model_Product $product, array $saveData)
+    {
+        $usedConfigurableAttributeIds = array();
+        $configurableAttributesData = array();
+        if (isset($saveData['configurable_attributes']) && is_array($saveData['configurable_attributes'])) {
+            foreach ($saveData['configurable_attributes'] as $configurableData) {
+                if (!isset($configurableData['attribute_code'])) {
+                    continue;
+                }
+                /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                $attribute = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute');
+                $attribute->load($configurableData['attribute_code'], 'attribute_code');
+                if ($attribute->getId()) {
+                    $usedConfigurableAttributeIds[] = $attribute->getId();
+                    $configurableAttributesData[$attribute->getAttributeCode()] = array(
+                        'attribute_id' => $attribute->getId(),
+                        'attribute_code' => $attribute->getAttributeCode(),
+                        'label' => (isset($configurableData['frontend_label']) && $configurableData['frontend_label'])
+                            ? trim((string) $configurableData['frontend_label']) : null,
+                        'use_default' => (isset($configurableData['frontend_label_use_default'])
+                            && $configurableData['frontend_label_use_default']) ? 1 : 0,
+                        'position' => (isset($configurableData['position']) && $configurableData['position'])
+                            ? (int) $configurableData['position'] : 0,
                     );
+
+                    // save information about configurable options' prices
+                    if (isset($configurableData['prices']) && is_array($configurableData['prices'])) {
+                        $formattedOptions = array();
+                        foreach ($configurableData['prices'] as $optionPrice) {
+                            if (isset($optionPrice['option_value']) && isset($optionPrice['price'])
+                                && isset($optionPrice['price_type'])
+                            ) {
+                                $formattedOptions[] = array(
+                                    'value_index' => $optionPrice['option_value'],
+                                    'pricing_value' => $optionPrice['price'],
+                                    'is_percent' => ($optionPrice['price_type'] == 'percent')
+                                );
+                            }
+                        }
+                        $configurableAttributesData[$attribute->getAttributeCode()]['values'] = $formattedOptions;
+                    }
                 }
             }
+        }
+        $product->setConfigurableAttributesData($configurableAttributesData);
+        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+        $configurableType = $product->getTypeInstance();
+        $configurableType->setUsedProductAttributeIds($usedConfigurableAttributeIds, $product);
+    }
+
+    /**
+     * Process configurable attributes for product update
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareConfigurableAttributesForUpdate(Mage_Catalog_Model_Product $product, array $saveData)
+    {
+        if (isset($saveData['configurable_attributes']) && is_array($saveData['configurable_attributes'])) {
+            $requestData = array();
+            foreach ($saveData['configurable_attributes'] as $data) {
+                if (isset($data['attribute_code'])) {
+                    $requestData[$data['attribute_code']] = array();
+                    if (isset($data['frontend_label'])) {
+                        $requestData[$data['attribute_code']]['label'] = trim((string) $data['frontend_label']);
+                    }
+                    if (isset($data['frontend_label_use_default'])) {
+                        $requestData[$data['attribute_code']]['use_default'] = $data['frontend_label_use_default']
+                            ? 1 : 0;
+                    }
+                    if (isset($data['position'])) {
+                        $requestData[$data['attribute_code']]['position'] = (int) $data['position'];
+                    }
+                    if (isset($data['prices']) && is_array($data['prices'])) {
+                        $values = array();
+                        foreach ($data['prices'] as $price) {
+                            if (isset($price['option_value'])) {
+                                $option = array('value_index' => $price['option_value'], 'use_default_value' => false);
+                                if (isset($price['price'])) {
+                                    $option['pricing_value'] = $price['price'];
+                                }
+                                if (isset($price['price_type'])) {
+                                    $option['is_percent'] = ($price['price_type'] == 'percent');
+                                }
+                                if (isset($price['use_default_value'])) {
+                                    $option['use_default_value'] = $price['use_default_value'] == 1;
+                                }
+                                $values[] = $option;
+                            }
+                        }
+                        $requestData[$data['attribute_code']]['values'] = $values;
+                    }
+                }
+            }
+
+            /** @var $typeInstance Mage_Catalog_Model_Product_Type_Configurable */
+            $typeInstance = $product->getTypeInstance();
+            $configurableAttributesData = $typeInstance->getConfigurableAttributesAsArray($product);
+            foreach ($configurableAttributesData as &$attribute) {
+                if (isset($requestData[$attribute['attribute_code']])) {
+                    $requestDataAttribute = $requestData[$attribute['attribute_code']];
+                    $values = $attribute['values'];
+                    if (isset($requestDataAttribute['values'])) {
+                        foreach ($requestDataAttribute['values'] as $requestValue) {
+                            $isValueSaved = false;
+                            foreach ($values as &$savedValue) {
+                                if ($savedValue['value_index'] == $requestValue['value_index']) {
+                                    $isValueSaved = true;
+                                    $savedValue = array_merge($savedValue, $requestValue);
+                                    break;
+                                }
+                            }
+                            // delete $savedValue link to prevent accidental $values array modification through it
+                            unset($savedValue);
+                            if (!$isValueSaved) {
+                                $values[] = $requestValue;
+                            }
+                        }
+                    }
+
+                    $attribute = array_merge($attribute, $requestData[$attribute['attribute_code']]);
+                    $attribute['values'] = $values;
+                }
+            }
+            // delete $attribute link to prevent accidental $configurableAttributesData array modification through it
+            unset($attribute);
+            $product->setConfigurableAttributesData($configurableAttributesData);
+            $product->setCanSaveConfigurableAttributes(true);
+        }
+    }
+
+    /**
+     * Make sure that required fields are set and not empty
+     *
+     * @param array $data
+     */
+    protected function _prevalidateRequiredFields($data)
+    {
+        if (!isset($data['type_id']) || empty($data['type_id'])) {
+            $this->_critical('The "type_id" value is missing in the request.',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        if (!isset($data['attribute_set_id']) || empty($data['attribute_set_id'])) {
+            $this->_critical('The "attribute_set_id" value is missing in the request.',
+                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+        }
+        if (!isset($data['sku']) || empty($data['sku'])) {
+            $this->_critical('The "sku" value is missing in the request.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
         }
     }
 
@@ -346,8 +529,9 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      * @param array $data
      * @param string $fields
      */
-    protected function _filterConfigValueUsed(&$data, $fields) {
-        foreach($fields as $field) {
+    protected function _filterConfigValueUsed(&$data, $fields)
+    {
+        foreach ($fields as $field) {
             if ($this->_isConfigValueUsed($data, $field)) {
                 unset($data[$field]);
             }
@@ -365,11 +549,40 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     {
         $isAllowed = true;
         if (is_array($attributes)
-            && !(in_array($attribute->getAttributeCode(), $attributes)
-            || in_array($attribute->getAttributeId(), $attributes))
+            && !in_array($attribute->getAttributeCode(), $attributes)
+            && !in_array($attribute->getAttributeId(), $attributes)
         ) {
             $isAllowed = false;
         }
         return $isAllowed;
+    }
+
+    /**
+     * Determine if stock management is enabled
+     *
+     * @param array $stockData
+     * @return bool
+     */
+    protected function _isManageStockEnabled($stockData)
+    {
+        if (!(isset($stockData['use_config_manage_stock']) && $stockData['use_config_manage_stock'])) {
+            $manageStock = isset($stockData['manage_stock']) && $stockData['manage_stock'];
+        } else {
+            $manageStock = Mage::getStoreConfig(
+                Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
+        }
+        return (bool)$manageStock;
+    }
+
+    /**
+     * Check if value from config is used
+     *
+     * @param array $data
+     * @param string $field
+     * @return bool
+     */
+    protected function _isConfigValueUsed($data, $field)
+    {
+        return isset($data["use_config_$field"]) && $data["use_config_$field"];
     }
 }

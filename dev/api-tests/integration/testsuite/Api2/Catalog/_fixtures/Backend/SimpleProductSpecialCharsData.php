@@ -45,9 +45,9 @@ return array(
     'meta_title' => '!"№;%:?*()_+{}[]\|<>,.?/',
     'meta_keyword' => '!"№;%:?*()_+{}[]\|<>,.?/',
     'meta_description' => str_pad('', 8, '!"№;%:?*_+{}[]\|<>,.?'),
-    'custom_design' => 'default/blank',
-    'custom_design_from' => '02/16/2012',
-    'custom_design_to' => '05/01/2012',
+    'custom_design' => 'default/default/blank',
+    'custom_design_from' => date('Y-m-d'),
+    'custom_design_to' => date('Y-m-d', time() + 24*3600),
     'page_layout' => 'one_column',
     'options_container' => 'container1'
 );

@@ -18,9 +18,9 @@ class Magento_Test_Webservice_Rest_Customer extends Magento_Test_Webservice_Rest
      */
     public static function setUpBeforeClass()
     {
-        require dirname(__FILE__) . '/../../../../../fixtures/Acl/customer_acl.php';
-
         parent::setUpBeforeClass();
+
+        require dirname(__FILE__) . '/../../../../../fixtures/Acl/customer_acl.php';
     }
 
     /**

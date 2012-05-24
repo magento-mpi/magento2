@@ -37,6 +37,8 @@ class Mage_Api2_Model_Server
     const HTTP_INTERNAL_ERROR     = 500;
     /**#@- */
 
+    const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
+
     /**
      * List of api types
      *
@@ -50,60 +52,83 @@ class Mage_Api2_Model_Server
     protected $_authUser;
 
     /**
+     * @var Mage_Api2_Model_Renderer_Interface
+     */
+    protected $_renderer;
+
+    /**
+     * Initialize server errors processing mechanism
+     *
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _initEnvironment()
+    {
+        // make sure all errors will not be displayed
+        ini_set('display_startup_errors', 0);
+        ini_set('display_errors', 0);
+
+        // redeclare custom shutdown function to handle fatal errors correctly
+        $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
+
+        return $this;
+    }
+
+    /**
      * Run server
      */
     public function run()
     {
-        // can not use response object case
-        try {
-            /** @var $response Mage_Api2_Model_Response */
-            $response = Mage::getSingleton('Mage_Api2_Model_Response');
-        } catch (Exception $e) {
-            Mage::logException($e);
+        $this->_initEnvironment();
 
-            if (!headers_sent()) {
-                header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
-            }
-            echo 'Service temporary unavailable';
-            return;
-        }
-        // can not render errors case
         try {
-            /** @var $request Mage_Api2_Model_Request */
-            $request = Mage::getSingleton('Mage_Api2_Model_Request');
-            /** @var $renderer Mage_Api2_Model_Renderer_Interface */
-            $renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
-        } catch (Exception $e) {
-            Mage::logException($e);
-
-            $response->setHttpResponseCode(self::HTTP_INTERNAL_ERROR)
-                ->setBody('Service temporary unavailable')
-                ->sendResponse();
-            return;
-        }
-        // default case
-        try {
-            /** @var $apiUser Mage_Api2_Model_Auth_User_Abstract */
+            $request = $this->_getRequest();
+            $response = $this->_getResponse();
             $apiUser = $this->_authenticate($request);
 
             $this->_route($request)
                 ->_allow($request, $apiUser)
                 ->_dispatch($request, $response, $apiUser);
-
-            if ($response->getHttpResponseCode() == self::HTTP_CREATED) {
-                // TODO: Re-factor this after _renderException refactoring
-                throw new Mage_Api2_Exception('Resource was partially created', self::HTTP_CREATED);
-            }
-            //NOTE: At this moment Renderer already could have some content rendered, so we should replace it
-            if ($response->isException()) {
-                throw new Mage_Api2_Exception('Unhandled simple errors.', self::HTTP_INTERNAL_ERROR);
-            }
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_renderException($e, $renderer, $response);
+            $this->_addException($e);
         }
 
-        $response->sendResponse();
+        $this->_sendResponse();
+    }
+
+    /**
+     * Add exception to response
+     *
+     * @param Exception $exception
+     * @return Mage_Api2_Model_Server
+     */
+    protected function _addException(Exception $exception)
+    {
+        $response = $this->_getResponse();
+        $response->setException($exception);
+        return $this;
+    }
+
+    /**
+     * Send response to the client, render exceptions if present
+     */
+    protected function _sendResponse()
+    {
+        try {
+            if ($this->_getResponse()->isException()) {
+                $this->_renderMessages();
+            }
+            $this->_getResponse()->sendResponse();
+        } catch (Exception $e) {
+            // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
+            // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
+            $httpCode = $e->getCode() == self::HTTP_NOT_ACCEPTABLE
+                    ? self::HTTP_NOT_ACCEPTABLE
+                    : self::HTTP_INTERNAL_ERROR;
+
+            //if error appeared in "error rendering" process then use error renderer
+            $this->_renderInternalError($e->getMessage() . PHP_EOL . $e->getTraceAsString(), $httpCode);
+        }
     }
 
     /**
@@ -226,6 +251,41 @@ class Mage_Api2_Model_Server
     }
 
     /**
+     * Get request object
+     *
+     * @return Mage_Api2_Model_Request
+     */
+    protected function _getRequest()
+    {
+        return Mage::getSingleton('Mage_Api2_Model_Request');
+    }
+
+    /**
+     * Get response object
+     *
+     * @return Mage_Api2_Model_Response
+     */
+    protected function _getResponse()
+    {
+        return Mage::getSingleton('Mage_Api2_Model_Response');
+    }
+
+    /**
+     * Get renderer object according to request accepted mime type
+     *
+     * @return Mage_Api2_Model_Renderer_Interface
+     */
+    protected function _getRenderer()
+    {
+        if (!$this->_renderer) {
+            /** @var $request Mage_Api2_Model_Request */
+            $request = $this->_getRequest();
+            $this->_renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
+        }
+        return $this->_renderer;
+    }
+
+    /**
      * Get api2 config instance
      *
      * @return Mage_Api2_Model_Config
@@ -236,54 +296,39 @@ class Mage_Api2_Model_Server
     }
 
     /**
-     * Process thrown exception
-     * Generate and set HTTP response code, error message to Response object
+     * Generate and set HTTP response code, error messages to Response object
      *
-     * @param Exception $exception
-     * @param Mage_Api2_Model_Renderer_Interface $renderer
-     * @param Mage_Api2_Model_Response $response
      * @return Mage_Api2_Model_Server
      */
-    protected function _renderException(Exception $exception, Mage_Api2_Model_Renderer_Interface $renderer,
-        Mage_Api2_Model_Response $response
-    ) {
-        if ($exception instanceof Mage_Api2_Exception && $exception->getCode()) {
-            $httpCode = $exception->getCode();
-        } else {
-            $httpCode = self::HTTP_INTERNAL_ERROR;
-        }
-        try {
-            //add last error to stack
-            $response->setException($exception);
-
-            $messages = array();
-
-            /** @var Exception $exception */
-            foreach ($response->getException() as $exception) {
-                $message = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
-
-                if (Mage::getIsDeveloperMode()) {
-                    $message['trace'] = $exception->getTraceAsString();
-                }
-                $messages['messages']['error'][] = $message;
+    protected function _renderMessages()
+    {
+        $response = $this->_getResponse();
+        $formattedMessages = array();
+        $formattedMessages['messages'] = $response->getMessages();
+        $lastExceptionHttpCode = null;
+        /** @var Exception $exception */
+        foreach ($response->getException() as $exception) {
+            if ($exception instanceof Mage_Api2_Exception) {
+                $code = $exception->getCode();
+                $message = $exception->getMessage();
+                $trace = $exception->getTraceAsString();
+            } else {
+                $code = self::HTTP_INTERNAL_ERROR;
+                $message = Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR;
+                $trace = $exception->getMessage() . PHP_EOL . $exception->getTraceAsString();
             }
-            //set HTTP Code of last error, Content-Type and Body
-            $response->setBody($renderer->render($messages));
-            $response->setHeader('Content-Type', sprintf(
-                '%s; charset=%s', $renderer->getMimeType(), Mage_Api2_Model_Response::RESPONSE_CHARSET
-            ));
-        } catch (Exception $e) {
-            //tunnelling of 406(Not acceptable) error
-            $httpCode = $e->getCode() == self::HTTP_NOT_ACCEPTABLE    //$e->getCode() can result in one more loop
-                    ? self::HTTP_NOT_ACCEPTABLE                      // of try..catch
-                    : self::HTTP_INTERNAL_ERROR;
-
-            //if error appeared in "error rendering" process then show it in plain text
-            $response->setBody($e->getMessage());
-            $response->setHeader('Content-Type', 'text/plain; charset=' . Mage_Api2_Model_Response::RESPONSE_CHARSET);
+            $messageData = array('code' => $code, 'message' => $message);
+            if (Mage::getIsDeveloperMode()) {
+                $messageData['trace'] = $trace;
+            }
+            $formattedMessages['messages']['error'][] = $messageData;
+            // keep HTTP code for response
+            $lastExceptionHttpCode = $code;
         }
-        $response->setHttpResponseCode($httpCode);
-
+        // set HTTP Code of last error, Content-Type and all rendered error messages to body
+        $response->setHttpResponseCode($lastExceptionHttpCode);
+        $response->setMimeType($this->_getRenderer()->getMimeType());
+        $response->setBody($this->_getRenderer()->render($formattedMessages));
         return $this;
     }
 
@@ -295,5 +340,79 @@ class Mage_Api2_Model_Server
     public static function getApiTypes()
     {
         return self::$_apiTypes;
+    }
+
+    /**
+     * Redeclare custom shutdown function
+     *
+     * @param   string $handler
+     * @return  Mage_Api2_Model_Server
+     */
+    public function registerShutdownFunction($handler)
+    {
+        register_shutdown_function($handler);
+        return $this;
+    }
+
+    /**
+     * Function to catch no user error handler function errors
+     */
+    public function mageApiShutdownFunction()
+    {
+        $E_FATAL = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
+
+        $error = error_get_last();
+
+        if ($error && ($error['type'] & $E_FATAL)) {
+            $errorMessage = '';
+            switch($error['type']){
+                case E_ERROR:
+                    $errorMessage .= "Fatal Error";
+                    break;
+                case E_PARSE:
+                    $errorMessage .= "Parse Error";
+                    break;
+                case E_CORE_ERROR:
+                    $errorMessage .= "Core Error";
+                    break;
+                case E_COMPILE_ERROR:
+                    $errorMessage .= "Compile Error";
+                    break;
+                case E_USER_ERROR:
+                    $errorMessage .= "User Error";
+                    break;
+                case E_RECOVERABLE_ERROR:
+                    $errorMessage .= "Recoverable Error";
+                    break;
+                default:
+                    $errorMessage .= "Unknown error ({$error['type']})";
+                    break;
+            }
+            $errorMessage .= ": {$error['message']}  in {$error['file']} on line {$error['line']}";
+            try {
+                // call registered error handler
+                trigger_error("'" . $errorMessage . "'", E_USER_ERROR);
+            } catch (Exception $e) {
+                $errorMessage = $e->getMessage();
+            }
+
+            $this->_renderInternalError($errorMessage);
+        }
+    }
+
+    /**
+     * Process application error
+     * Create report if not in developer mode and render error to send correct api response
+     *
+     * @param string $detailedErrorMessage detailed error message
+     * @param int|null $httpCode
+     */
+    protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
+    {
+        $processor = new Mage_Api2_Model_Error_Processor();
+        if (!Mage::getIsDeveloperMode()) {
+            $processor->saveReport($detailedErrorMessage);
+        }
+        $processor->render($detailedErrorMessage, $httpCode);
     }
 }
