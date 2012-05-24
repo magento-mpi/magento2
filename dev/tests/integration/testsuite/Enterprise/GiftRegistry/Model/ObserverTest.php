@@ -12,25 +12,9 @@
 class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_GiftRegistry_Model_Observer
-     */
-    protected $_observer;
-
-    /**
      * @var Enterprise_GiftRegistry_Model_Entity
      */
     protected $_giftRegistry;
-
-    protected function setUp()
-    {
-        $this->_observer = new Enterprise_GiftRegistry_Model_Observer;
-    }
-
-    protected function tearDown()
-    {
-        $this->_observer = null;
-        $this->_giftRegistry = null;
-    }
 
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
