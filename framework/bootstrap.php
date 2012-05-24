@@ -49,8 +49,8 @@ require_once 'functions.php';
 $testsConfig = Mage_Selenium_TestConfiguration::getInstance();
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
-    $applicationHelper = new Mage_Selenium_Helper_Application($testsConfig);
-    $installCmd = sprintf('php -f %s --', escapeshellarg($applicationHelper->getBasePath() . '/dev/shell/install.php'));
+    $baseDir = realpath(__DIR__ . '/../../../../');
+    $installCmd = sprintf('php -f %s --', escapeshellarg($baseDir . '/dev/shell/install.php'));
     if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
         passthru("$installCmd --uninstall", $exitCode);
         if ($exitCode) {
@@ -60,14 +60,19 @@ if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'e
     $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
     $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
     $installConfig = require($installConfigFile);
-    foreach ($installConfig as $optionName => $optionValue) {
-        $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
-    }
-    passthru($installCmd, $exitCode);
-    if ($exitCode) {
-        exit($exitCode);
+    $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+
+    /* Install application */
+    if ($installOptions) {
+        foreach ($installOptions as $optionName => $optionValue) {
+            $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
+        }
+        passthru($installCmd, $exitCode);
+        if ($exitCode) {
+            exit($exitCode);
+        }
     }
 }
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($testsConfig, $applicationHelper, $installCmd, $installConfigFile, $installConfig, $installExitCode);
+unset($testsConfig, $installCmd, $installConfigFile, $installConfig, $installExitCode);
