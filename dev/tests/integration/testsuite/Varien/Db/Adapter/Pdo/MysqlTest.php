@@ -29,6 +29,9 @@ class Varien_Db_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      */
     public function testWaitTimeout()
     {
+        if (!($this->_getConnection() instanceof Varien_Db_Adapter_Pdo_Mysql)) {
+            $this->markTestSkipped('This test is for Varien_Db_Adapter_Pdo_Mysql');
+        }
         try {
             $defaultWaitTimeout = $this->_getWaitTimeout();
             $minWaitTimeout = 1;
