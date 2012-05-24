@@ -29,11 +29,6 @@ class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
                 ->setRole($role)
                 ->setActive(true)
         );
-        $this->addTab(
-            'account',
-            $this->getLayout()
-                ->createBlock('Mage_User_Block_Role_Tab_Edit', 'adminhtml.permissions.tab.rolesedit')
-        );
 
         if ($role->getId()) {
             $this->addTab('roles', array(

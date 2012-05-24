@@ -46,7 +46,10 @@
     <!-- admin acl roles edit page -->
     <adminhtml_user_role_editrole>
         <reference name="left">
-            <block type="Mage_User_Block_Role_Edit" name="adminhtml.permissions.editroles"/>
+            <block type="Mage_User_Block_Role_Edit" name="adminhtml.permissions.editroles">
+                <block type="Mage_User_Block_Role_Tab_Edit" name="adminhtml.permissions.tab.rolesedit"/>
+                <action method="addTabAfter"><name>account</name><block>adminhtml.permissions.tab.rolesedit</block><after>info</after></action>
+            </block>
         </reference>
 
         <reference name="content">
