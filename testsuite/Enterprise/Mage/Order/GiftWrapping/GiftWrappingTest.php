@@ -129,7 +129,8 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
+            array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
+                  'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
@@ -246,7 +247,8 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages'   => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
+                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
+                      'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
@@ -280,7 +282,7 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_disable');
@@ -323,8 +325,8 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_individual',
-                array('sku_product' => $simpleSku))));
+                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
+                      'gift_messages_individual', array('sku_product' => $simpleSku))));
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
@@ -337,9 +339,164 @@ class Enterprise_Mage_Order_GiftWrapping_GiftWrappingTest extends Mage_Selenium_
         $this->orderHelper()->verifyGiftOptions($orderData);
     }
 
+    /**
+     * <p>TL-MAGE-987: Gift Message for Individual Items is not allowed(message=no, wrapping=yes)</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages for Order Items" is set to "No"</p>
+     * <p>2. In system configuration setting "Allow Gift Wrapping for Order Items" is set to "Yes"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: Simple Product)</p>
+     * <p>4. Click "Gift Options" link below product in a Items Ordered grid</p>
+     * <p>5. Look at blocks in the opened AJAX-popup;</p>
+     * <p>Expected result:</p>
+     * <p>There should be no Gift Message for Individual Item prompt fields (To/From/Message) in AJAX-popup</p>
+     *
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448'
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @group skip_due_to_bug
+     * @test
+     */
+    public function giftMessageForIndividualItemDisabled($simpleSku)
+    {
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_no');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
+        $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
+        $this->addParameter('sku', $simpleSku);
+        $this->clickControl('link', 'gift_options', false);
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_gift_message_block'));
+    }
 
+    /**
+     * <p>TL-MAGE-938: Gift Wrapping for Individual Item is allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Wrapping for Order Items" is set to "Yes"</p>
+     * <p>2. At least one Gift Wrapping is created and enabled (for example, with Price $10 and image specified)</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: Simple Product)</p>
+     * <p>4. Select any shipping method (for example: Free Shipping), any payment method</p>
+     * <p>(for example: Check/Money order), shipping/billing addresses</p>
+     * <p>5. Click "Gift Options" link below product in a Items Ordered grid</p>
+     * <p>6. In the opened AJAX-popup select Gift Wrapping (from Preconditions) in "Gift Wrapping Design"</p>
+     * <p>  dropdown</p>
+     * <p>7. When popup is closed, click "Gift Options" link for this product again, look at Gift Message fields;</p>
+     * <p>8. Click "Cancel" in AJAX-popup;</p>
+     * <p>9. Click "Submit Order" button</p>
+     * <p>10. When Order is placed, click at Gift Options link below product name in Items Ordered grid</p>
+     * <p> of View order page</p>
+     * <p>Expected result:</p>
+     * <p>6. Image and price for selected Gift Wrapping should appear below dropdown ("Price: $10.00" in this</p>
+     * <p> example)</p>
+     * <p>7. AJAX-popup is closed, row with Gift Wrapping for Individual Item should appear in Product Grid with</p>
+     * <p> price ($10 in this example) below desired product, also row should appear in Order Totals block</p>
+     * <p> ("Gift Wrapping for Items: $10.00" in this example)</p>
+     * <p>8. Selected in the previous step  Gift Wrapping should remain selected in "Gift Wrapping Design" dropdown;</p>
+     * <p> present (the same, as enetered when Order was placed)</p>
+     *
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
+     * @param array $simpleSku
+     * @param array $gwDataMain
+     * @group skip_due_to_bug
+     * @test
+     */
+    public function giftWrappingForIndividualItemAllowed($simpleSku, $gwDataMain)
+    {
+        //Data
+        $giftWrappingData = $this->loadDataSet('SalesOrder', 'gift_wrapping_for_item',
+                array('sku_product' => $simpleSku,
+                      'product_gift_wrapping_design' => $gwDataMain['gift_wrapping_design']));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+                array('filter_sku' => $simpleSku, 'gift_messages' => $giftWrappingData));
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_no');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
+        $this->orderHelper()->verifyGiftOptions($orderData);
+        $this->orderHelper()->submitOrder();
+        $this->orderHelper()->verifyGiftOptions($orderData);
+    }
 
+    /**
+     * <p>TL-MAGE-989: Gift Options for Individual Items is not allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Wrapping on Order Items" is set to "No"</p>
+     * <p>2. In system configuration setting "Allow Gift Messages on Order Items" is set to "Yes"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product)</p>
+     * <p>4. Click "Gift Options" link below the product in grid</p>
+     * <p>5. Look at blocks in AJAX-popup, that appears</p>
+     * <p>Expected result:</p>
+     * <p>There should be no "Gift Wrapping Design" dropdown in AJAX-popup</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function giftWrappingPerItemDisabled($simpleSku)
+    {
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
+        $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
+        $this->addParameter('sku', $simpleSku);
+        $this->clickControl('link', 'gift_options', false);
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'product_gift_wrapping_block'),
+                                                   'Cannot find the block');
+    }
 
+    /**
+     * <p>TL-MAGE-985: Gift Options for Individual Items is not allowed</p>
+     * <p>Preconditions:</p>
+     * <p>1. In system configuration setting "Allow Gift Messages on Order Items" is set to "No"</p>
+     * <p>2. In system configuration setting "Allow Gift Wrapping on Order Items" is set to "No"</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to backend;</p>
+     * <p>2. Start creating new Order, select customer and store;</p>
+     * <p>3. Add any product to Items Ordered list (for example: simple product);</p>
+     * <p>4. Look at newly added product row in grid;</p>
+     * <p>Expected result:</p>
+     * <p>"Gift Options" block should be absent on create Order Page;</p>
+     *
+     * @depends createSimpleProduct
+     * @param array $simpleSku
+     *
+     * @test
+     */
+    public function giftOptionsPerItemDisabled($simpleSku)
+    {
+        //Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_no');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
+        $this->orderHelper()->addProductToOrder(array('filter_sku' => $simpleSku));
+        $this->addParameter('sku', $simpleSku);
+        //Verification
+        $this->assertFalse($this->controlIsPresent('link', 'gift_options'), 'Link is present');
+    }
 
     /**
      * @TODO Move from MAUTOSEL-259 branch to here

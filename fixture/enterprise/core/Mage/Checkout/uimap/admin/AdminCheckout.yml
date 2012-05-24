@@ -65,6 +65,8 @@ create_order_for_new_customer:
                         xpath: //div[div/h4[contains(text(),'Gift Options for')]]
                         dropdowns:
                             product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
+                        pageelements:
+                            product_gift_wrapping_block: //div[@id='wrapping-item-container' and contains(.,'Gift Wrapping')]
                 -
                     gift_options_for_order: &giftMessageForOrder
                         xpath: //div[div/h4[contains(text(),'Gift Options')]]
@@ -75,6 +77,7 @@ create_order_for_new_customer:
                             add_printed_card: //input[@id='add-printed-card']
                         pageelements:
                             printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
+                            order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
 
 edit_order:
     uimap:

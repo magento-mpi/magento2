@@ -364,6 +364,8 @@ create_order_for_new_customer:
                             from: //input[@name='current_item_giftmessage_sender']
                             to: //input[@name='current_item_giftmessage_recipient']
                             message: //textarea[@name='current_item_giftmessage_message']
+                        pageelements:
+                            product_gift_message_block: //div[@class='giftcard-send-form' and contains(.,'Gift Message')]
                         buttons:
                             ok: //button[span='OK']
                             cancel: //button[span='Cancel']
@@ -376,7 +378,6 @@ create_order_for_new_customer:
                             message_order_level: //textarea[contains(@name, '[message]')]
                         pageelements:
                             order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
-                            order_gift_wrapping_block: //div[(@id='orderCreateGiftWrapping') and contains(.,'Gift Wrapping for the Entire Order')]
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
