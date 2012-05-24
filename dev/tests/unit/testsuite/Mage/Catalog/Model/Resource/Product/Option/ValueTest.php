@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Frame
      */
     public function testSaveValueTitles()
     {
-        $object = new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Abstract(
+        $object = new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Stub(
             self::$valueTitleData
         );
 
@@ -166,7 +166,7 @@ class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Varien_Db_A
 /*
  * Because Mage_Core_Model_Abstract is abstract - we can't instantiate it directly
  */
-class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Abstract
+class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Stub
     extends Mage_Core_Model_Abstract
 {
 }
