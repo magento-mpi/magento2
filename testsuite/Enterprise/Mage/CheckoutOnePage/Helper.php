@@ -127,5 +127,6 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
                 }
             }
         }
+        $this->assertEmptyVerificationErrors();
     }
 }
