@@ -171,28 +171,28 @@
         </chmod>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--db_host',                    'localhost'"
-                 value="'--db_host',                    '${env.mysql_host}'"/>
+                 token="{{mysql_host}}"
+                 value="${env.mysql_host}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--db_name',                    'bamboo_functional'"
-                 value="'--db_name',                    '${env.mysql_name}'"/>
+                 token="{{mysql_name}}"
+                 value="${env.mysql_name}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--db_user',                    'root'"
-                 value="'--db_user',                    '${env.mysql_user}'"/>
+                 token="{{mysql_user}}"
+                 value="${env.mysql_user}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--db_pass',                    ''"
-                 value="'--db_pass',                    '${env.mysql_password}'"/>
+                 token="{{mysql_password}}"
+                 value="${env.mysql_password}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--url',                        'http://127.0.0.1/bamboo-functional-tests/'"
-                 value="'--url',                        '${env.http_host}${env.build.key}'"/>
+                 token="{{url}}"
+                 value="${env.http_host}${env.build.key}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="'--secure_base_url',            'https://127.0.0.1/bamboo-functional-tests/'"
-                 value="'--secure_base_url',            '${env.https_host}${env.build.key}'"/>
+                 token="{{secure_url}}"
+                 value="${env.https_host}${env.build.key}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
                  token="{{admin_url}}"
