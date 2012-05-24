@@ -165,6 +165,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         $paypalErrors = array('Unable to communicate with the PayPal gateway.',
                               'Please verify the card with the issuer bank before placing the order.',
                               'There was an error processing your order. Please contact us or try again later.',
+                              'PayPal gateway rejected the request. Generic processor error: '
+                              . '10001-Timeout processing request',
                               'PayPal gateway has rejected request. This transaction cannot be processed due to an '
                               . 'invalid merchant configuration (#10501: Invalid Configuration).');
         $errors = $this->getMessagesOnPage('error');
