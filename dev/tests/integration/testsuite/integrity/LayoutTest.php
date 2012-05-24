@@ -21,12 +21,21 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testHandlesHierarchy($area, $package, $theme)
     {
-        $this->markTestIncomplete('MAGETWO-847: Random xpath bug failures at CI builds');
-
         $xml = $this->_composeXml($area, $package, $theme);
 
-        $xpath = '/layouts/*[@type or @parent or @owner]';
-        $handles = $xml->xpath($xpath) ?: array();
+        /**
+         * There could be used an xpath "/layouts/*[@type or @owner or @parent]", but it randomly produced bugs, by
+         * selecting all nodes in depth. Thus it was refactored into manual nodes extraction.
+         */
+        $handles = array();
+        foreach ($xml->children() as $handleNode) {
+            if ($handleNode->getAttribute('type')
+                || $handleNode->getAttribute('owner')
+                || $handleNode->getAttribute('parent')
+            ) {
+                $handles[] = $handleNode;
+            }
+        }
 
         /** @var Mage_Core_Model_Layout_Element $node */
         $errors = array();

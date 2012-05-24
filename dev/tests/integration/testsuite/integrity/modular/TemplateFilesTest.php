@@ -29,7 +29,7 @@ class Integrity_Modular_TemplateFilesTest extends PHPUnit_Framework_TestCase
             '_theme'   => false,
             '_module'  => $module
         );
-        $file = Mage::getDesign()->getTemplateFilename($template, $params);
+        $file = Mage::getDesign()->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 

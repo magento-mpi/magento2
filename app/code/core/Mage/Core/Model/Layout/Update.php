@@ -585,7 +585,7 @@ class Mage_Core_Model_Layout_Update
                 continue;
             }
             /* Resolve layout update filename with fallback to the module */
-            $filename = Mage::getDesign()->getLayoutFilename($file, $layoutParams + array('_module' => $module));
+            $filename = Mage::getDesign()->getFilename($file, $layoutParams + array('_module' => $module));
             if (!is_readable($filename)) {
                 throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
             }
@@ -593,7 +593,7 @@ class Mage_Core_Model_Layout_Update
         }
 
         /* Custom local layout updates file for the current theme */
-        $filename = Mage::getDesign()->getLayoutFilename('local.xml', $layoutParams);
+        $filename = Mage::getDesign()->getFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
         }

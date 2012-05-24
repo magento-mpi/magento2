@@ -150,7 +150,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
         if ($area) {
             $params['_area'] = $area;
         }
-        $templateName = Mage::getDesign()->getTemplateFilename($template, $params);
+        $templateName = Mage::getDesign()->getFilename($template, $params);
 
         $this->_inputTemplates[$type] = $templateName;
         return $this;

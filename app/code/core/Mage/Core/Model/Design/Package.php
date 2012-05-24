@@ -293,7 +293,7 @@ class Mage_Core_Model_Design_Package
      * @param array $params
      * @return string
      */
-    public function getFilename($file, array $params)
+    public function getFilename($file, array $params = array())
     {
         Magento_Profiler::start(__METHOD__);
         try {
@@ -346,32 +346,6 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Path getter for layout file
-     *
-     * @param string $file
-     * @param array $params
-     * @return string
-     */
-    public function getLayoutFilename($file, array $params=array())
-    {
-        $params['_type'] = 'layout';
-        return $this->getFilename($file, $params);
-    }
-
-    /**
-     * Path getter for template file
-     *
-     * @param string $file
-     * @param array $params
-     * @return string
-     */
-    public function getTemplateFilename($file, array $params=array())
-    {
-        $params['_type'] = 'template';
-        return $this->getFilename($file, $params);
-    }
-
-    /**
      * Path getter for locale file
      *
      * @param string $file
@@ -381,12 +355,13 @@ class Mage_Core_Model_Design_Package
     public function getLocaleFileName($file, array $params=array())
     {
         $this->_updateParamDefaults($params);
-        $dir = Mage::getBaseDir('design');
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-        $dirs = array();
         $area = $params['_area'];
         $package = $params['_package'];
         $theme = $params['_theme'];
+        $locale = $params['_locale'];
+        $dir = Mage::getBaseDir('design');
+
+        $dirs = array();
         do {
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/locale/{$locale}";
             list($package, $theme) = $this->_getInheritedTheme($area, $package, $theme);
@@ -513,10 +488,10 @@ class Mage_Core_Model_Design_Package
         $theme = $params['_theme'];
         $skin = $params['_skin'];
         $module = $params['_module'];
+        $locale = $params['_locale'];
         $dir = Mage::getBaseDir('design');
         $moduleDir = $module ? Mage::getConfig()->getModuleDir('view', $module) : '';
         $defaultSkin = self::DEFAULT_SKIN_NAME;
-        $locale = Mage::app()->getLocale()->getLocaleCode();
 
         $dirs = array();
         while ($theme) {

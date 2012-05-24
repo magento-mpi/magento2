@@ -24,7 +24,7 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $currencyCode
      * @dataProvider currencyProvider
-     * @magentoDataFixture Mage/Paypal/_files/order_express.php
+     * @magentoDataFixture Mage/Paypal/_files/order_express_commit_workaround.php
      * @magentoConfigFixture current_store payment/paypal_direct/active 1
      * @magentoConfigFixture current_store payment/paypal_express/active 1
      * @magentoConfigFixture current_store paypal/general/merchant_country US

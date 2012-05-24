@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Bundle
+ * @package     Enterprise_GiftRegistry
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
