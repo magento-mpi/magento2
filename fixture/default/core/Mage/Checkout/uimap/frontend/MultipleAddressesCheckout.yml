@@ -369,6 +369,7 @@ checkout_multishipping_review_order:
                             shipping_method_change: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//a[contains(@href, 'backtoshipping/')]
                             back_to_billing_information: //a[text() = 'Back to Billing Information')]
                         pageelements:
+                            3d_secure_header: //h3[text()='Card Verification']
                             product_table_head: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/thead
                             price_totals: //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tfoot
                             product_line:  //div[./h2[text()='Shipping Information']]/h3[text()='%addressHeader%']/following-sibling::div//table[@class='data-table']/tbody/tr

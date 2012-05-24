@@ -521,7 +521,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     public function frontOrderReview(array $checkoutData)
     {
         $this->assertMultipleCheckoutPageOpened('place_order');
-        $this->checkoutOnePageHelper()->frontValidate3dSecure();
+        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation') . "[not(@style='display: none;')]";
+        if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
+            $this->assertTrue($this->waitForElement($xpath), '3D Secure frame not loaded');
+            $this->checkoutOnePageHelper()->frontValidate3dSecure();
+            $this->assertTrue($this->waitForElement($this->_getControlXpath('button', 'place_order')),
+                'Button "place_order" is not present');
+        }
         //@TODO Verify order data
     }
 }
