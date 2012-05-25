@@ -255,14 +255,19 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $lognum = $this->_model->getLognum();
 
+        $beforeLogin = time();
         $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD)
             ->reload();
-        $this->assertEquals(time(), strtotime($this->_model->getLogdate()));
+        $loginTime = strtotime($this->_model->getLogdate());
+
+        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time() );
         $this->assertEquals(++$lognum, $this->_model->getLognum());
 
+        $beforeLogin = time();
         $this->_model->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD)
             ->reload();
-        $this->assertEquals(time(), strtotime($this->_model->getLogdate()));
+        $loginTime = strtotime($this->_model->getLogdate());
+        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time() );
         $this->assertEquals(++$lognum, $this->_model->getLognum());
     }
 
