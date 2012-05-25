@@ -148,7 +148,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $simple = $products['simple']['simple']['product_name'];
         $grouped = $products['grouped']['grouped']['product_name'];
         $optionParams = $products['grouped'][$productType]['product_name'];
-        $productOptions = $this->loadDataSet('Products', 'grouped_options_to_add_to_shopping_cart', null,
+        $productOptions = $this->loadDataSet('Product', 'grouped_options_to_add_to_shopping_cart', null,
                                              array('subProduct_1' => $optionParams));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),
@@ -201,7 +201,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         foreach ($optionParams as $key => $value) {
             $optionParams[$key] = $products['bundle'][$productType]['product_name'];
         }
-        $productOptions = $this->loadDataSet('Products', 'bundle_options_to_add_to_shopping_cart', null, $optionParams);
+        $productOptions = $this->loadDataSet('Product', 'bundle_options_to_add_to_shopping_cart', null, $optionParams);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
@@ -247,7 +247,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $configurable = $products['configurable']['configurable']['product_name'];
         $optionParams = $products['configurable']['configurableOption'];
         $optionParams['custom_option_dropdown'] = $products['configurable'][$productType . 'Option']['option_front'];
-        $productOptions = $this->loadDataSet('Products', 'configurable_options_to_add_to_shopping_cart', $optionParams);
+        $productOptions = $this->loadDataSet('Product', 'configurable_options_to_add_to_shopping_cart', $optionParams);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
@@ -289,7 +289,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $simple = $products['simple']['simple']['product_name'];
         $downloadable = $products['downloadable']['downloadable']['product_name'];
         $optionParams = $products['downloadable']['downloadableOption'];
-        $productOptions = $this->loadDataSet('Products', 'downloadable_options_to_add_to_shopping_cart', $optionParams);
+        $productOptions = $this->loadDataSet('Product', 'downloadable_options_to_add_to_shopping_cart', $optionParams);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),
                                            array('product_1'       => $simple,
@@ -360,12 +360,12 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         if (!empty($optionParams)) {
             $name = '_options_to_add_to_shopping_cart';
             if ($productType == 'configurable' || $productType == 'downloadable') {
-                $productOptions = $this->loadDataSet('Products', $productType . $name, $optionParams);
+                $productOptions = $this->loadDataSet('Product', $productType . $name, $optionParams);
             } else {
-                $productOptions = $this->loadDataSet('Products', $productType . $name, null, $optionParams);
+                $productOptions = $this->loadDataSet('Product', $productType . $name, null, $optionParams);
             }
         }
-        $customOptions = $this->loadDataSet('Products', 'custom_options_to_add_to_shopping_cart');
+        $customOptions = $this->loadDataSet('Product', 'custom_options_to_add_to_shopping_cart');
         $productOptions = array_merge($productOptions, $customOptions);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
                                            array('email' => $testData['email']),

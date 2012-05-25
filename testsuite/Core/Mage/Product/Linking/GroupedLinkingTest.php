@@ -137,7 +137,7 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart', null,
+        $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart', null,
                                          $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
@@ -302,7 +302,7 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart', null,
+        $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart', null,
                                          $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);

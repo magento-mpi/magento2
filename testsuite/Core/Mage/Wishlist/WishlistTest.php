@@ -432,12 +432,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
             if ($product == 'configurable') {
-                $options = $this->loadDataSet('Products', $option, $testData[$product . 'Option']);
+                $options = $this->loadDataSet('Product', $option, $testData[$product . 'Option']);
             } else {
-                $options = $this->loadDataSet('Products', $option, null, $testData[$product . 'Option']);
+                $options = $this->loadDataSet('Product', $option, null, $testData[$product . 'Option']);
             }
         } else {
-            $options = $this->loadDataSet('Products', $option);
+            $options = $this->loadDataSet('Product', $option);
         }
         //Steps and Verifying
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -491,12 +491,12 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
             if ($product == 'configurable') {
-                $options = $this->loadDataSet('Products', $option, $testData[$product . 'Option']);
+                $options = $this->loadDataSet('Product', $option, $testData[$product . 'Option']);
             } else {
-                $options = $this->loadDataSet('Products', $option, null, $testData[$product . 'Option']);
+                $options = $this->loadDataSet('Product', $option, null, $testData[$product . 'Option']);
             }
         } else {
-            $options = $this->loadDataSet('Products', $option);
+            $options = $this->loadDataSet('Product', $option);
         }
         //Steps and Verifying
         $this->customerHelper()->frontLoginCustomer($testData['user']);

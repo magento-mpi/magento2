@@ -162,17 +162,17 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      */
     public function verifyPayPalErrors()
     {
-        $paypalErrors = array('Unable to communicate with the PayPal gateway.',
-                              'Please verify the card with the issuer bank before placing the order.',
-                              'There was an error processing your order. Please contact us or try again later.',
-                              'PayPal gateway rejected the request. Generic processor error: '
-                              . '10001-Timeout processing request',
-                              'PayPal gateway has rejected request. This transaction cannot be processed due to an '
-                              . 'invalid merchant configuration (#10501: Invalid Configuration).');
-        $errors = $this->getMessagesOnPage('error');
-        if (!empty($errors)) {
-            foreach ($errors as $error) {
-                if (in_array($error, $paypalErrors)) {
+        $errors = array('Unable to communicate with the PayPal gateway.',
+                        'Please verify the card with the issuer bank before placing the order.',
+                        'There was an error processing your order. Please contact us or try again later.',
+                        'PayPal gateway rejected the request. Generic processor error: 10001-Internal Error',
+                        'PayPal gateway rejected the request. Generic processor error: 10001-Timeout processing request',
+                        'PayPal gateway has rejected request. The transaction could not be loaded (#10001: Internal Error)',
+                        'PayPal gateway has rejected request. This transaction cannot be processed due to an invalid merchant configuration (#10501: Invalid Configuration).');
+        $submitErrors = $this->getMessagesOnPage('error');
+        if (!empty($submitErrors)) {
+            foreach ($submitErrors as $error) {
+                if (in_array($error, $errors)) {
                     $this->skipTestWithScreenshot(self::messagesToString($this->getMessagesOnPage()));
                 }
             }
