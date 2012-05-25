@@ -82,33 +82,8 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
     }
 
     /**
-     * @return string
+     * @param array $checkoutData
      */
-    public function submitOnePageCheckoutOrder()
-    {
-        $waitConditions = array($this->_getMessageXpath('success_checkout'), $this->_getMessageXpath('general_error'),
-                                $this->_getMessageXpath('general_validation'));
-        $this->clickButton('place_order', false);
-        $this->waitForElementOrAlert($waitConditions);
-        $error = $this->errorMessage();
-        $validation = $this->validationMessage();
-        if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
-            $message = self::messagesToString($this->getMessagesOnPage());
-            //@TODO
-            //Uncomment and remove workaround for getting fails,
-            //not skipping tests if payment methods are inaccessible
-            $this->skipTestWithScreenshot($message);
-            //$this->fail($message);
-        }
-        $this->validatePage('onepage_checkout_success');
-        $xpath = $this->_getControlXpath('link', 'order_number');
-        if ($this->isElementPresent($xpath)) {
-            return $this->getText($xpath);
-        }
-
-        return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
-    }
-
     public function frontOrderReview(array $checkoutData)
     {
         parent::frontOrderReview($checkoutData);

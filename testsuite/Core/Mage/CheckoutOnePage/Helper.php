@@ -120,9 +120,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('fieldset', 'shipping_method')) {
             $this->frontSelectShippingMethod($shipMethod);
         }
-        if ($payMethod) {
-            $this->frontSelectPaymentMethod($payMethod);
-        }
+        $this->frontSelectPaymentMethod($payMethod);
     }
 
     /**
