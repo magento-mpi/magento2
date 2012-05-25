@@ -21,7 +21,11 @@ class Legacy_ObsoleteMenuTest extends PHPUnit_Framework_TestCase
     public function testMenuDeclaration($menuFile)
     {
         $menuXml = simplexml_load_file($menuFile);
-        $this->assertEmpty($menuXml->xpath('/config/menu/*/children'), 'Obsolete menu structure detected in file ' . $menuFile . '.');
+        $xpath = '/config/menu/*[boolean(./children) or boolean(./title) or boolean(./action)]';
+        $this->assertEmpty(
+            $menuXml->xpath($xpath),
+            'Obsolete menu structure detected in file ' . $menuFile . '.'
+        );
     }
 
     /**
