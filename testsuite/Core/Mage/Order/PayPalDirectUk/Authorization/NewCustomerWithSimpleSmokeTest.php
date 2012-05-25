@@ -56,7 +56,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_without_3Dsecure');
-        $productData = $this->loadDataSet('SalesOrder', 'simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps and Verifying
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($settings);
