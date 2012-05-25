@@ -148,7 +148,7 @@ test_shopping_cart_rule:
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: 10
         public_in_rss_feed: No
 #    conditions: *allConditions
@@ -227,7 +227,7 @@ scpr_all_fields:
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: 10
         public_in_rss_feed: No
     conditions: %noValue%
@@ -258,7 +258,7 @@ scpr_percent_of_product_price_discount:
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory
@@ -314,7 +314,7 @@ scpr_fixed_amount_discount:
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory
@@ -369,7 +369,7 @@ scpr_fixed_amount_discount_for_whole_cart:
         uses_per_coupon: 15
         uses_per_customer: 15
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: 10
         public_in_rss_feed: No
     conditions: *specificCategory
