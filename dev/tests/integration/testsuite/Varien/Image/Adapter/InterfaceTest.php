@@ -162,6 +162,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     public function openDataProvider()
     {
         return $this->_prepareData(array(
+            array(null),
             array($this->_getFixture('image_adapters_test.png')),
             array($this->_getFixture('image_adapters_test.tiff')),
             array($this->_getFixture('image_adapters_test.bmp'))

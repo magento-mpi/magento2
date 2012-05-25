@@ -13,7 +13,7 @@ if (!isset($scope)) {
     $scope = 'websites';
 }
 
-$role = new Mage_Admin_Model_Roles;
+$role = new Mage_User_Model_Role;
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')
@@ -25,12 +25,12 @@ if ('websites' == $scope) {
 }
 $role->save();
 
-$rule = new Mage_Admin_Model_Rules;
+$rule = new Mage_User_Model_Rules;
 $rule->setRoleId($role->getId())
     ->setResources(array('all'))
     ->saveRel();
 
-$user = new Mage_Admin_Model_User();
+$user = new Mage_User_Model_User();
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',
@@ -39,8 +39,6 @@ $user->setData(array(
     'password'  => 'admingws_password',
     'is_active' => 1
 ));
-$user->save();
 
-$user->setRoleIds(array($role->getId()))
-    ->setRoleUserId($user->getUserId())
-    ->saveRelations();
+$user->setRoleId($role->getId())
+    ->save();

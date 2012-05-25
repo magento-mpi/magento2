@@ -76,6 +76,9 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     public function open($filename)
     {
         $this->_fileName = $filename;
+        if (empty($this->_fileName) || !is_readable($this->_fileName)) {
+            throw new RuntimeException('Image file name can not be empty.');
+        }
         $this->_getFileAttributes();
 
         try {
@@ -177,6 +180,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
             $dims['dst']['y']
         );
 
+        $newImage->setImageFormat($this->_imageHandler->getImageFormat());
         $this->_imageHandler->clear();
         $this->_imageHandler->destroy();
         $this->_imageHandler = $newImage;

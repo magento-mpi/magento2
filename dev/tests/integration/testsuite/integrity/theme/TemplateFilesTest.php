@@ -29,7 +29,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 '_module'   => $module
             );
             try {
-                $templateFilename = Mage::getDesign()->getTemplateFilename($file, $params);
+                $templateFilename = Mage::getDesign()->getFilename($file, $params);
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "{$templateFilename}\n"

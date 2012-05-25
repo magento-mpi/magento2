@@ -29,7 +29,7 @@ class Integrity_Modular_TemplateFilesTest extends PHPUnit_Framework_TestCase
             '_theme'   => false,
             '_module'  => $module
         );
-        $file = Mage::getDesign()->getTemplateFilename($template, $params);
+        $file = Mage::getDesign()->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 
@@ -51,7 +51,7 @@ class Integrity_Modular_TemplateFilesTest extends PHPUnit_Framework_TestCase
                 if ($module == 'Mage_Install') {
                     $area = 'install';
                 } elseif ($module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
-                    || ($block instanceof Mage_Adminhtml_Block_Template)
+                    || strpos($blockClass, '_Backend_') || ($block instanceof Mage_Backend_Block_Template)
                 ) {
                     $area = 'adminhtml';
                 }

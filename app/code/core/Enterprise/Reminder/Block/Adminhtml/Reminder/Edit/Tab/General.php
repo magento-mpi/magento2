@@ -80,7 +80,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'title'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }

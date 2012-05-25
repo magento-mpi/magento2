@@ -113,7 +113,7 @@ class Magento_Test_Webservice_Rest_Adapter
                 throw new Exception('Test Customer not found.');
             }
         } elseif ($userType == 'admin') {
-            /** @var $admin Mage_Admin_Model_User */
+            /** @var $admin Mage_User_Model_User */
             $admin = Mage::getModel('admin/user')->loadByUsername(TESTS_ADMIN_USERNAME);
             $userId = $admin->getId();
             if (!$userId) {

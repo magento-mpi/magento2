@@ -244,13 +244,13 @@ class Enterprise_GiftRegistry_Model_Observer
             $productId = $product->getId();
         }
 
-        /** @var $item Enterprise_GiftRegistry_Model_Item */
-        $item = Mage::getModel('Enterprise_GiftRegistry_Model_Item');
+        /** @var $grItem Enterprise_GiftRegistry_Model_Item */
+        $grItem = Mage::getModel('Enterprise_GiftRegistry_Model_Item');
         /** @var $collection Enterprise_GiftRegistry_Model_Resource_Item_Collection */
-        $collection = $item->getCollection()->addProductFilter($productId);
+        $collection = $grItem->getCollection()->addProductFilter($productId);
 
-        foreach($collection->getItems() as $item) {
-            $item->delete();
+        foreach($collection->getItems() as $grItem) {
+            $grItem->delete();
         }
 
         /** @var $options Enterprise_GiftRegistry_Model_Item_Option*/
@@ -262,7 +262,7 @@ class Enterprise_GiftRegistry_Model_Observer
             $itemsArray[$optionItem->getItemId()]  = $optionItem->getItemId();
         }
 
-        $collection = $item->getCollection()->addItemFilter(array_keys($itemsArray));
+        $collection = $grItem->getCollection()->addItemFilter(array_keys($itemsArray));
 
         foreach($collection->getItems() as $item) {
             $item->delete();

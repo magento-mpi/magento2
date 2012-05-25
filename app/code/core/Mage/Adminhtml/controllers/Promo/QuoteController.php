@@ -395,6 +395,6 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('promo/quote');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('promo/quote');
     }
 }

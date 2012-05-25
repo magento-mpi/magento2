@@ -131,40 +131,31 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         return array(
             array(
                 array(
-                    'sender_name' => null,
-                    'sender_message' => 'Hello world',
-                    'sender_email' => 'email',
-                    'recipients' => array()
+                    'sender_name' => null, 'sender_message' => 'Hello world',
+                    'sender_email' => 'email', 'recipients' => array()
                 ),
                 array(
-                    'success' => false,
-                    'has_error' => true,
+                    'success' => false, 'has_error' => true,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
             array(
                 array(
-                    'sender_name' => 'John Doe',
-                    'sender_message' => null,
-                    'sender_email' => 'email',
-                    'recipients' => array()
+                    'sender_name' => 'John Doe', 'sender_message' => null,
+                    'sender_email' => 'email', 'recipients' => array()
                 ),
                 array(
-                    'success' => false,
-                    'has_error' => true,
+                    'success' => false, 'has_error' => true,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
             array(
                 array(
-                    'sender_name' => 'John Doe',
-                    'sender_message' => 'Hello world',
-                    'sender_email' => null,
-                    'recipients' => array()
+                    'sender_name' => 'John Doe', 'sender_message' => 'Hello world',
+                    'sender_email' => null, 'recipients' => array()
                 ),
                 array(
-                    'success' => false,
-                    'has_error' => true,
+                    'success' => false, 'has_error' => true,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
@@ -176,8 +167,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                     'recipients' => array()
                 ),
                 array(
-                    'success' => false,
-                    'has_error' => true,
+                    'success' => false, 'has_error' => true,
                     'error_message' => 'Please input a valid sender email address.'
                 )
             ),

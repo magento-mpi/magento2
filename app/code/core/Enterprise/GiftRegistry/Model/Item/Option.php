@@ -86,7 +86,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
      */
     public function setProduct($product)
     {
-        if (!empty($product) && $product->getId() != null) {
+        if (!empty($product) && !is_null($product->getId())) {
             $this->setProductId($product->getId());
             $this->_product = $product;
         }
