@@ -36,12 +36,12 @@
 class Core_Mage_Installation extends Mage_Selenium_TestCase
 {
     /**
-     * Make sure that customer is not logged in, and navigate to homepage
-     * @BeforeMethod
+     * it's need to add some data before running test('database_name', 'user_name', 'user_password', 'base_url')
+     * to 'install_magento' dataset
      */
     protected function assertPreConditions()
     {
-        $data = $this->loadData('configuration_data');
+        $data = $this->loadDataSet('Installation', 'install_magento/configuration');
         $host = $data['host'];
         $user = $data['user_name'];
         $password = $data['user_password'];
@@ -49,6 +49,7 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
         mysql_connect($host, $user, $password) or die("Couldn't connect to MySQL server!");
         mysql_query("DROP DATABASE IF EXISTS `$baseName`");
         mysql_query("CREATE DATABASE `$baseName`") or die("Couldn't create DATABASE!");
+        //for local build
         //$this->installationHelper()->removeInstallData();
     }
 
@@ -57,57 +58,7 @@ class Core_Mage_Installation extends Mage_Selenium_TestCase
      */
     public function installTest()
     {
-        $this->setArea('frontend');
-        $this->open($this->_configHelper->getBaseUrl());
-
-        // 'License Agreement' page
-        $this->assertTrue($this->checkCurrentPage('license_agreement'), $this->getParsedMessages());
-        $this->fillForm($this->loadData('license_agreement_data'));
-        $this->clickButton('continue');
-
-        // 'Localization' page
-        $localeData = $this->loadData('localization_data');
-        $this->assertTrue($this->checkCurrentPage('localization'), $this->getParsedMessages());
-        $this->fillForm($localeData);
-
-        // Add 'config' parameter to UIMap
-        $page = $this->getCurrentLocationUimapPage();
-        $config = '?';
-        $i = 1;
-        $n = count($localeData);
-        foreach ($localeData as $key => $value) {
-            $xpath = $page->findDropdown($key);
-            $v = $this->getValue($xpath . "/option[text()='$value']");
-            $config .="config[$key]=$v";
-            if ($i < $n) {
-                $config .= '&';
-            }
-            $i++;
-        }
-        $this->addParameter('config', urlencode($config));
-
-        $this->clickButton('continue');
-
-        // 'Configuration' page
-        $this->assertMessagePresent('error');
-        $this->assertTrue($this->checkCurrentPage('configuration'), $this->getParsedMessages());
-        $this->fillForm('configuration_data');
-        $this->clickButton('continue');
-
-        // 'Create Admin Account' page
-        $this->assertMessagePresent('error');
-        $this->assertTrue($this->checkCurrentPage('create_admin_account'), $this->getParsedMessages());
-        $this->fillForm('admin_account_data');
-        $this->clickButton('continue');
-
-        // 'You're All Set!' page
-        $this->assertMessagePresent('error');
-        $this->assertTrue($this->checkCurrentPage('end_installation'), $this->getParsedMessages());
-
-        // Log in to Admin
-        $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
-        //Go to Frontend
-        $this->frontend();
+        $data = $this->loadDataSet('Installation', 'install_magento');
+        $this->installationHelper()->installMagento($data);
     }
 }

@@ -36,20 +36,12 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
     public function removeInstallData()
     {
         $basePath = $this->_configHelper->getBaseUrl();
-
-        $localXml = rtrim($basePath, DIRECTORY_SEPARATOR)
-                    . DIRECTORY_SEPARATOR . 'app'
-                    . DIRECTORY_SEPARATOR . 'etc'
+        $localXml = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc'
                     . DIRECTORY_SEPARATOR . 'local.xml';
-
-        $cacheDir = rtrim($basePath, DIRECTORY_SEPARATOR)
-                    . DIRECTORY_SEPARATOR . 'var'
-                    . DIRECTORY_SEPARATOR . 'cache';
-
+        $cacheDir = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';
         if (file_exists($localXml)) {
             unlink($localXml);
         }
-
         $this->_rmRecursive($cacheDir);
     }
 
@@ -57,6 +49,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
      * Remove fs element with nested elements
      *
      * @param string $dir
+     *
      * @return null
      */
     protected function _rmRecursive($dir)
@@ -74,5 +67,66 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
         } else {
             unlink($dir);
         }
+    }
+
+    /**
+     * @param array $installData
+     */
+    public function installMagento(array $installData)
+    {
+        $licenseAgreement = (isset($installData['license_agreement'])) ? $installData['license_agreement'] : array();
+        $localization = (isset($installData['localization'])) ? $installData['localization'] : array();
+        $configuration = (isset($installData['configuration'])) ? $installData['configuration'] : array();
+        $adminAccount = (isset($installData['admin_account'])) ? $installData['admin_account'] : array();
+        $this->frontend('home_page', false);
+        //'License Agreement' page
+        $this->validatePage('license_agreement');
+        $this->fillFieldset($licenseAgreement, 'license_agreement');
+        $this->clickButton('continue', false);
+        $this->waitForNewPage();
+        $this->assertMessageNotPresent('error');
+        //'Localization' page
+        $this->validatePage('localization');
+        $this->fillFieldset($localization, 'local_settings');
+        //Add 'config' parameter to UIMap
+        $fields = array('locale', 'timezone', 'currency');
+        $config = '?';
+        foreach ($fields as $number => $field) {
+            $xpath = $this->_getControlXpath('dropdown', $field);
+            $selected = $this->getSelectedValue($xpath);
+            $config .= 'config[' . $field . ']=' . $selected;
+            if (array_key_exists($number + 1, $fields)) {
+                $config .= '&';
+            }
+        }
+        $this->addParameter('config', urlencode($config));
+        $this->clickButton('continue', false);
+        $this->waitForNewPage();
+        $this->assertMessageNotPresent('error');
+        // 'Configuration' page
+        $this->validatePage('configuration');
+        $db = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
+        $xpath = $this->_getControlXpath('dropdown', 'database_type');
+        $this->fillDropdown('database_type', $db, $xpath);
+        $this->addParameter('dbType', strtolower($this->getSelectedValue($xpath)));
+        $this->fillForm($configuration);
+        $this->clickButton('continue', false);
+        $this->assertMessageNotPresent('validation');
+        $this->waitForNewPage();
+        $this->assertMessageNotPresent('error');
+        // 'Create Admin Account' page
+        $this->validatePage('create_admin_account');
+        $this->fillForm($adminAccount);
+        $this->clickButton('continue', false);
+        $this->assertMessageNotPresent('validation');
+        $this->waitForNewPage();
+        $this->assertMessageNotPresent('error');
+        // 'You're All Set!' page
+        $this->validatePage('end_installation');
+        //@TODO set new url
+        // Log in to Admin
+        $this->loginAdminUser();
+        //Go to Frontend
+        $this->frontend();
     }
 }
