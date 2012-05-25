@@ -11,7 +11,7 @@
 -->
 <layout>
     <adminhtml_customer_wishlist>
-        <block type="Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" />
+        <block type="Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="1" />
     </adminhtml_customer_wishlist>
     <adminhtml_sales_order_create_index>
         <reference name="sidebar">
