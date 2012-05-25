@@ -1156,14 +1156,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $messages = array();
             foreach ($messageType as $message) {
-                $messages = array_merge($messages, self::$_messages[$message]);
+                if (isset(self::$_messages[$message])) {
+                    $messages = array_merge($messages, self::$_messages[$message]);
+                }
             }
             return $messages;
         }
 
         return self::$_messages;
     }
-
 
     /**
      * Returns all parsed messages (or messages of the specified type)
