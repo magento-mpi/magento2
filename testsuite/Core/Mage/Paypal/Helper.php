@@ -47,6 +47,25 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
                                     '10' => '10 - October',
                                     '11' => '11 - November',
                                     '12' => '12 - December');
+    /**
+     * Verify errors after order submitting. Skip tests if error from Paypal
+     */
+    public function verifyMagentoPayPalErrors()
+    {
+        $paypalErrors = array('PayPal gateway rejected the request',
+                              'PayPal gateway has rejected request',
+                              'Unable to communicate with the PayPal gateway.',
+                              'Please verify the card with the issuer bank before placing the order.',
+                              'There was an error processing your order. Please contact us or try again later.');
+        $submitErrors = $this->getMessagesOnPage('error,validation,verification');
+        foreach ($submitErrors as $error) {
+            foreach ($paypalErrors as $paypalError) {
+                if (strpos($error, $paypalError) !== false) {
+                    $this->skipTestWithScreenshot(self::messagesToString($this->getMessagesOnPage()));
+                }
+            }
+        }
+    }
 
     ################################################################################
     #                                                                              #

@@ -1142,15 +1142,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Returns all messages (or messages of the specified type) on the page
      *
-     * @param null|string $type Message type: validation|error|success
+     * @param null|string $messageType Message type: validation|error|success
      *
      * @return array
      */
-    public function getMessagesOnPage($type = null)
+    public function getMessagesOnPage($messageType = null)
     {
         $this->_parseMessages();
-        if ($type) {
-            return self::$_messages[$type];
+        if ($messageType) {
+            if (is_string($messageType)) {
+                $messageType = explode(',', $messageType);
+                $messageType = array_map('trim', $messageType);
+            }
+            $messages = array();
+            foreach ($messageType as $message) {
+                $messages = array_merge($messages, self::$_messages[$message]);
+            }
+            return $messages;
         }
 
         return self::$_messages;
