@@ -37,7 +37,7 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $currencyCode
      * @dataProvider currencyProvider
-     * @magentoDataFixture Mage/Paypal/_files/order_standard.php
+     * @magentoDataFixture Mage/Paypal/_files/order_standard_commit_workaround.php
      * @magentoConfigFixture current_store payment/paypal_standard/active 1
      * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
      */
