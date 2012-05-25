@@ -70,14 +70,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Open image for processing
      *
-     * @throws RuntimeException if image format is unsupported
+     * @throws RuntimeException
      * @param string $filename
      */
     public function open($filename)
     {
         $this->_fileName = $filename;
-        if (empty($this->_fileName) || !is_readable($this->_fileName)) {
-            throw new RuntimeException('Image file name can not be empty.');
+        if (!$this->_canProcess()) {
+            throw new RuntimeException('Image is not readable or file name is empty.');
         }
         $this->_getFileAttributes();
 
@@ -143,11 +143,15 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Change the image size
      *
+     * @throws Exception
      * @param int $frameWidth
      * @param int $frameHeight
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
+        if (!$this->_canProcess()) {
+            throw new Exception('Image is not readable or file name is empty.');
+        }
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
         $newImage = new Imagick();
@@ -191,10 +195,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Rotate image on specific angle
      *
+     * @throws Exception
      * @param int $angle
      */
     public function rotate($angle)
     {
+        if (!$this->_canProcess()) {
+            throw new Exception('Image is not readable or file name is empty.');
+        }
         // compatibility with GD2 adapter
         $angle = 360 - $angle;
         $pixel = new ImagickPixel;
@@ -215,7 +223,9 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      */
     public function crop($top = 0, $left = 0, $right = 0, $bottom = 0)
     {
-        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0) {
+        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0
+            || !$this->_canProcess()
+        ) {
             return false;
         }
 
@@ -239,6 +249,10 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      */
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $isWaterMarkTile = false)
     {
+        if (!$this->_canProcess()) {
+            throw new RuntimeException('Image is not readable or file name is empty.');
+        }
+
         $opacity = $this->getWatermarkImageOpacity()
             ? $this->getWatermarkImageOpacity()
             : $opacity;
