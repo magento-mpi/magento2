@@ -388,7 +388,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->save();
         $this->_model->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->assertEquals('test', $this->_model->getRpToken());
-        $this->assertEquals($date, $this->_model->getRpTokenCreatedAt());
+        $this->assertEquals(strtotime($date), strtotime($this->_model->getRpTokenCreatedAt()));
     }
 
     /**
