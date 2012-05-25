@@ -460,7 +460,7 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage::getBaseDir('media'),
+            Mage_Core_Model_Store::URL_TYPE_SKIN => Mage::getBaseDir('skin'),
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
@@ -620,7 +620,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicSkinDir()
     {
-        return Mage::getBaseDir('media')  . DIRECTORY_SEPARATOR . 'skin';
+        return Mage::getBaseDir('skin');
     }
 
     /**

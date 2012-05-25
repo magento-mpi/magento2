@@ -224,4 +224,36 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Config_View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
+    /*
+    * @covers Mage_Core_Model_Design_Package::getPublicSkinDir
+    */
+    public function testGetPublicSkinDir()
+    {
+        $this->assertTrue(strpos($this->_model->getPublicSkinDir(), '/media/skin') !== false);
+    }
+
+    /**
+     * @param string $file
+     * @param string $result
+     * @covers Mage_Core_Model_Design_Package::getSkinUrl
+     * @dataProvider getSkinUrlDataProvider
+     */
+    public function testGetSkinUrl($file, $result)
+    {
+        $this->assertEquals($this->_model->getSkinUrl($file, array()), $result);
+    }
+
+    /**
+     * @return array
+     */
+    function getSkinUrlDataProvider()
+    {
+        return array(
+            array(
+                'Mage_Page::favicon.ico',
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Page/favicon.ico',
+            ),
+            array('prototype/prototype.js', 'http://localhost/pub/js/prototype/prototype.js'),
+        );
+    }
 }

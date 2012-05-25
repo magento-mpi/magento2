@@ -26,6 +26,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         'locale_dir'  => 'locale',
         'pub_dir'     => 'pub',
         'js_dir'      => 'js',
+        'skin_dir'    => 'skin',
         'media_dir'   => 'media',
         'var_dir'     => 'var',
         'tmp_dir'     => 'tmp',
@@ -83,6 +84,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Config_Options::getSessionDir
      * @covers Mage_Core_Model_Config_Options::getUploadDir
      * @covers Mage_Core_Model_Config_Options::getExportDir
+     * @covers Mage_Core_Model_Config_Options::getSkinDir
      */
     public function testGetters()
     {
@@ -101,7 +103,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($this->_model->getLogDir()), "Log directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getSessionDir()), "Session directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getUploadDir()), "Upload directory does not exist.");
-        $this->assertTrue(is_dir($this->_model->getExportDir()), "Export directory does not exist.");
+        $this->assertTrue(is_dir($this->_model->getSkinDir()), "Export directory does not exist.");
     }
 
     public function testCreateDirIfNotExists()
