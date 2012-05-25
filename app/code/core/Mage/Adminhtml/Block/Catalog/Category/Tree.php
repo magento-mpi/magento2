@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     {
         $params = array('_current'=>true, 'id'=>null,'store'=>null);
         if (
-            (is_null($expanded) && Mage::getSingleton('Mage_Admin_Model_Session')->getIsTreeWasExpanded())
+            (is_null($expanded) && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getIsTreeWasExpanded())
             || $expanded == true) {
             $params['expand_all'] = true;
         }
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     public function getIsWasExpanded()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->getIsTreeWasExpanded();
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getIsTreeWasExpanded();
     }
 
     public function getMoveUrl()

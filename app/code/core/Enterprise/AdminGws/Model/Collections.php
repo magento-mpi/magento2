@@ -252,7 +252,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param Mage_Admin_Model_Resource_Roles_Collection $collection
+     * @param Mage_User_Model_Resource_Role_Collection $collection
      */
     public function limitAdminPermissionRoles($collection)
     {
@@ -269,7 +269,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin users collection by allowed stores
      *
-     * @param Mage_Admin_Model_Resource_User_Collection $collection
+     * @param Mage_User_Model_Resource_User_Collection $collection
      */
     public function limitAdminPermissionUsers($collection)
     {
@@ -316,7 +316,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         /* @var $rssSession Mage_Rss_Model_Session */
         $rssSession = Mage::getSingleton('Mage_Rss_Model_Session');
-        /* @var $adminUser Mage_Admin_Model_User */
+        /* @var $adminUser Mage_User_Model_User */
         $adminUser = $rssSession->getAdmin();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());

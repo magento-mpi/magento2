@@ -13,7 +13,7 @@
 <layout>
     <adminhtml_logging_index>
         <reference name="content">
-            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="enterprise.logging.log" template="Mage_Adminhtml::widget/grid/container.phtml">
+            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="enterprise.logging.log" template="Mage_Backend::widget/grid/container.phtml">
                 <block type="Enterprise_Logging_Block_Adminhtml_Index_Grid" name="enterprise.logging.log.grid"/>
                 <action method="setHeaderText" translate="text">
                     <text>Admin Actions Log</text>
@@ -36,7 +36,7 @@
 
     <adminhtml_logging_archive>
         <reference name="content">
-            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="enterprise.logging.archive" template="Mage_Adminhtml::widget/grid/container.phtml">
+            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="enterprise.logging.archive" template="Mage_Backend::widget/grid/container.phtml">
                 <block type="Enterprise_Logging_Block_Adminhtml_Archive_Grid" name="enterprise.logging.archive.grid"/>
                 <action method="setHeaderText" translate="text">
                     <text>Admin Actions Log Archive</text>

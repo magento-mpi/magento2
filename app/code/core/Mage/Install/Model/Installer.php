@@ -232,7 +232,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function validateAndPrepareAdministrator($data)
     {
-        $user = Mage::getModel('Mage_Admin_Model_User')
+        $user = Mage::getModel('Mage_User_Model_User')
             ->load($data['username'], 'username');
         $user->addData($data);
 
@@ -256,7 +256,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function createAdministrator($data)
     {
-        $user = Mage::getModel('Mage_Admin_Model_User')
+        $user = Mage::getModel('Mage_User_Model_User')
             ->load('admin', 'username');
         if ($user && $user->getPassword() == '4297f44b13955235245b2497399d7a93') {
             $user->delete();
@@ -265,16 +265,15 @@ class Mage_Install_Model_Installer extends Varien_Object
         //to support old logic checking if real data was passed
         if (is_array($data)) {
             $data = $this->validateAndPrepareAdministrator($data);
-            if (is_array(data)) {
+            if (is_array($data)) {
                 throw new Exception(Mage::helper('Mage_Install_Helper_Data')->__('Please correct the user data and try again.'));
             }
         }
 
         //run time flag to force saving entered password
-        $data->setForceNewPassword(true);
-
-        $data->save();
-        $data->setRoleIds(array(1))->saveRelations();
+        $data->setForceNewPassword(true)
+            ->setRoleId(1)
+            ->save();
 
         return true;
     }

@@ -216,7 +216,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             foreach ($ignoreNodes as $block) {
                 $acl = (string)$attributes->acl;
                 if ($block->getAttribute('ignore') !== null || ($acl
-                    && Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed($acl))) {
+                    && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($acl))) {
                     continue;
                 }
                 if (!isset($block->attributes()->ignore)) {

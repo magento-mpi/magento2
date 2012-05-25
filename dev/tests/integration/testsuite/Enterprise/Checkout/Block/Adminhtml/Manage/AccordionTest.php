@@ -63,12 +63,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
      */
     protected function _initAcl()
     {
-        $user = new Mage_Admin_Model_User;
+        $user = new Mage_User_Model_User;
         $user->setId(1)->setRole(true);
         $acl = $this->getMock('Mage_Admin_Model_Resource_Acl', array('isAllowed'));
         $acl->expects(self::any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        Mage::getSingleton('Mage_Admin_Model_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
     }
 }

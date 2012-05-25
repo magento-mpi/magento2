@@ -32,6 +32,8 @@ class Magento_Test_Bootstrap
     const ADMIN_NAME = 'user';
     const ADMIN_PASSWORD = 'password';
 
+    const ADMIN_ROLE_NAME = 'Administrators';
+
     /**
      * @var Magento_Test_Bootstrap
      */
@@ -532,7 +534,7 @@ class Magento_Test_Bootstrap
      */
     protected function _createAdminUser()
     {
-        $user = new Mage_Admin_Model_User();
+        $user = new Mage_User_Model_User();
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
@@ -543,10 +545,10 @@ class Magento_Test_Bootstrap
         ));
         $user->save();
 
-        $roleAdmin = new Mage_Admin_Model_Role();
-        $roleAdmin->load('Administrators', 'role_name');
+        $roleAdmin = new Mage_User_Model_Role();
+        $roleAdmin->load(self::ADMIN_ROLE_NAME, 'role_name');
 
-        $roleUser = new Mage_Admin_Model_Role();
+        $roleUser = new Mage_User_Model_Role();
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,

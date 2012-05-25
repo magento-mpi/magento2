@@ -83,6 +83,6 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/enterprise_staging/staging_log');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/enterprise_staging/staging_log');
     }
 }

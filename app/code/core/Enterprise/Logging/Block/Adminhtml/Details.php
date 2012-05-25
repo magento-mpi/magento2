@@ -23,7 +23,7 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     /**
      * Store current event user
      *
-     * @var Mage_Admin_Model_User
+     * @var Mage_User_Model_User
      */
     protected $_eventUser = null;
 
@@ -112,12 +112,12 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     /**
      * Get current event user
      *
-     * @return Mage_Admin_Model_User|null
+     * @return Mage_User_Model_User|null
      */
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = Mage::getModel('Mage_Admin_Model_User')->load($this->getUserId());
+            $this->_eventUser = Mage::getModel('Mage_User_Model_User')->load($this->getUserId());
         }
         return $this->_eventUser;
     }

@@ -11,7 +11,7 @@
 
 if (!Magento_Test_Webservice::getFixture('admin_acl_is_prepared')) {
     // Prepare role
-    /* @var $admin Mage_Admin_Model_User */
+    /* @var $admin Mage_User_Model_User */
     $admin = Mage::getModel('admin/user')
         ->loadByUsername(TESTS_ADMIN_USERNAME);
 

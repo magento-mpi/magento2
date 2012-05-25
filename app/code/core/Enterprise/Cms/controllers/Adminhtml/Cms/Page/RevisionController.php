@@ -51,7 +51,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         }
 
         $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision');
-        $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
         $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
         if ($revisionId) {
@@ -115,7 +115,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             // init model and set data
             $revision = $this->_initRevision();
             $revision->setData($data)
-                ->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
+                ->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
 
             if (!$this->_validatePostData($data)) {
                 $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),
@@ -384,7 +384,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page');
                 break;
         }
     }
