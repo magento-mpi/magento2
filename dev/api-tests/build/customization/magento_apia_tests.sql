@@ -3802,7 +3802,7 @@ CREATE TABLE `core_config_data` (
 
 LOCK TABLES `core_config_data` WRITE;
 /*!40000 ALTER TABLE `core_config_data` DISABLE KEYS */;
-INSERT INTO `core_config_data` VALUES (1,'default',0,'general/region/display_all','1'),(2,'default',0,'general/region/state_required','AT,CA,CH,DE,EE,ES,FI,FR,LT,LV,RO,US'),(3,'default',0,'catalog/category/root_id','2'),(4,'default',0,'web/seo/use_rewrites','1'),(5,'default',0,'admin/dashboard/enable_charts','1'),(6,'default',0,'web/unsecure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(7,'default',0,'web/secure/base_url','http://dd.varien.com/dev/alex.borisenko/bamboo_api/'),(8,'default',0,'general/locale/code','en_US'),(9,'default',0,'general/locale/timezone','America/Los_Angeles'),(10,'default',0,'currency/options/base','USD'),(11,'default',0,'currency/options/default','USD'),(12,'default',0,'currency/options/allow','USD');
+INSERT INTO `core_config_data` VALUES (1,'default',0,'general/region/display_all','1'),(2,'default',0,'general/region/state_required','AT,CA,CH,DE,EE,ES,FI,FR,LT,LV,RO,US'),(3,'default',0,'catalog/category/root_id','2'),(4,'default',0,'web/seo/use_rewrites','1'),(5,'default',0,'admin/dashboard/enable_charts','1'),(6,'default',0,'web/unsecure/base_url','http://test-magento-host.loc/'),(7,'default',0,'web/secure/base_url','http://test-magento-host.loc/'),(8,'default',0,'general/locale/code','en_US'),(9,'default',0,'general/locale/timezone','America/Los_Angeles'),(10,'default',0,'currency/options/base','USD'),(11,'default',0,'currency/options/default','USD'),(12,'default',0,'currency/options/allow','USD');
 /*!40000 ALTER TABLE `core_config_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
