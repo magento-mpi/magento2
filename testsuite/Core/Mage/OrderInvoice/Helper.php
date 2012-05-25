@@ -84,7 +84,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
         $this->validatePage();
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        $this->orderHelper()->verifyPayPalErrors();
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_creating_invoice');
         foreach ($verify as $productSku => $qty) {
             if ($qty == '%noValue%') {
