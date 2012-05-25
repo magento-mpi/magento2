@@ -729,7 +729,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
-        $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
+        $this->checkoutMultipleAddressesHelper()->submitMultipleCheckoutSteps();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
@@ -815,7 +815,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
-        $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
+        $this->checkoutMultipleAddressesHelper()->submitMultipleCheckoutSteps();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
 
@@ -879,7 +879,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->checkoutMultipleAddressesHelper()->defineAndSelectShippingMethods($reconfigureShipping);
         $this->clickButton('continue_to_review_order');
         $this->checkoutMultipleAddressesHelper()->frontOrderReview($reconfiguredCheckout);
-        $this->checkoutMultipleAddressesHelper()->placeMultipleCheckoutOrder();
+        $this->checkoutMultipleAddressesHelper()->submitMultipleCheckoutSteps();
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
 

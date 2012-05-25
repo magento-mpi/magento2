@@ -137,10 +137,13 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
 
     /**
      * Selects a store view from 'Choose Store View' drop-down in backend
-     * @param type $controlName Name of the dropdown from UIMaps
-     * @param type $website Default = 'Main Website'
-     * @param type $store Default = 'Main Website Store'
-     * @param type $storeView Default = 'Default Store View'
+     *
+     * @param string $controlName Name of the dropdown from UIMaps
+     * @param string $website Default = 'Main Website'
+     * @param string $store Default = 'Main Website Store'
+     * @param string $storeView Default = 'Default Store View'
+     *
+     * @throws PHPUnit_Framework_Exception
      */
     public function selectStoreView($controlName, $website = 'Main Website', $store = 'Main Website Store',
                                     $storeView = 'Default Store View')

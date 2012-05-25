@@ -44,9 +44,10 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
     public function createGiftWrapping($inputData, $save = true)
     {
         if (is_string($inputData)) {
-            $inputData = $this->loadData($inputData);
+            $elements = explode('/', $inputData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $inputData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $inputData = $this->arrayEmptyClear($inputData);
 
         $this->clickButton('add_gift_wrapping');
         $this->fillGiftWrappingForm($inputData, $save);
@@ -91,9 +92,10 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
     public function openGiftWrapping($wrappingSearch)
     {
         if (is_string($wrappingSearch)) {
-            $wrappingSearch = $this->loadData($wrappingSearch);
+            $elements = explode('/', $wrappingSearch);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $wrappingSearch = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $wrappingSearch = $this->arrayEmptyClear($wrappingSearch);
         if (array_key_exists('filter_websites', $wrappingSearch)
             && !$this->controlIsPresent('dropdown', 'filter_websites')
         ) {
@@ -129,7 +131,6 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
 
     public function verifyGiftWrapping(array $verifyData)
     {
-        $verifyData = $this->arrayEmptyClear($verifyData);
         //Get Gift Wrapping image name.
         $image = '';
         if (isset($verifyData['gift_wrapping_file'])) {

@@ -151,7 +151,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      * <p>"Allow Printed Card";</p>
      *
      * <p>Steps:</p>
-     * <p>1. Log into beckend Sales -> Orders;</p>
+     * <p>1. Log into backend Sales -> Orders;</p>
      * <p>2. Push "create New Order";</p>
      * <p>3. Select any customer from list;</p>
      * <p>4. Select a Store from list;</p>
@@ -164,7 +164,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      * <p> saved;</p>
      *
      * <p>Expected result:</p>
-     * <p>After step 9: Notification massage "The order has been created." apppears</p>
+     * <p>After step 9: Notification massage "The order has been created." appears</p>
      * <p>After step 10: All switched in this test case gift options are saved</p>
      *
      * @TestlinkId TL-MAGE-861
@@ -211,7 +211,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      * <p>"Allow Printed Card";</p>
      *
      * <p>Steps:</p>
-     * <p>1. Log into beckend Sales-> Orders;</p>
+     * <p>1. Log into backend Sales-> Orders;</p>
      * <p>2. Push "create New Order";</p>
      * <p>3. Select any customer from list;</p>
      * <p>4. Select a Store from list;</p>

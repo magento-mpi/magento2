@@ -1791,7 +1791,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $elementName
      * @param Mage_Selenium_Uimap_Page|null $uimap
      *
-     * @return mixed
+     * @return mixed|Mage_Selenium_Uimap_Fieldset
      * @throws PHPUnit_Framework_AssertionFailedError
      */
     protected function _findUimapElement($elementType, $elementName, $uimap = null)

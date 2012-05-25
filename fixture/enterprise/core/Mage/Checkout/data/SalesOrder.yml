@@ -88,7 +88,7 @@ order_gift_options_full:
                 message: message_%randomize%
                 product_gift_wrapping_design: %giftWrappingDesign%
 
-reorder_emty_gift_options:
+reorder_empty_gift_options:
     entire_order:
         from_order_level: billing_Steven billing_Stevenson
         to_order_level: billing_Steven billing_Stevenson

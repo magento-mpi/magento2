@@ -315,7 +315,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>7. All data entered in fields(To/From/Message) related to Gift Message in the previous step should be stored</p>
      * <p>10. AJAX-popup appears. Data in fields related to Gift Message for Order Item(To/From/Message) should be</p>
-     * <p> present (the same, as enetered when Order was placed)</p>
+     * <p> present (the same, as entered when Order was placed)</p>
      *
      * @depends createSimpleProduct
      * @param array $simpleSku
@@ -401,7 +401,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p> price ($10 in this example) below desired product, also row should appear in Order Totals block</p>
      * <p> ("Gift Wrapping for Items: $10.00" in this example)</p>
      * <p>8. Selected in the previous step  Gift Wrapping should remain selected in "Gift Wrapping Design" dropdown;</p>
-     * <p> present (the same, as enetered when Order was placed)</p>
+     * <p> present (the same, as entered when Order was placed)</p>
      *
      * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
      * @depends createSimpleProduct
@@ -518,7 +518,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>7. Check "Send Gift Receipt" checkbox in Gift Options block;</p>
      * <p>8. Fill the fields corresponding to Gift Message for Entire Order in Gift Options block;</p>
      * <p>9. Click "Gift Options" link near product in Items Ordered list;</p>
-     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fullfill fields, corresponding to</p>
+     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fulfill fields, corresponding to</p>
      * <p> Gift Message for Individual Item, click "OK" button in popup;</p>
      * <p>11. Click "Submit Order" button;</p>
      * <p>12. When Order is placed, click "Edit" link on Order page;</p>
@@ -579,7 +579,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>7. Check "Send Gift Receipt" checkbox in Gift Options block;</p>
      * <p>8. Fill the fields corresponding to Gift Message for Entire Order in Gift Options block;</p>
      * <p>9. Click "Gift Options" link near product in Items Ordered list;</p>
-     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fullfill fields, corresponding to</p>
+     * <p>10. In appearing AJAX-popup window select Gift Wrapping for Order Item, fulfill fields, corresponding to</p>
      * <p> Gift Message for Individual Item, click "OK" button in popup;</p>
      * <p>11. Click "Submit Order" button;</p>
      * <p>12. When Order is placed, click "Reorder" button on Order page;</p>
@@ -618,7 +618,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Steps
         $this->clickButton('reorder');
         //Verification
-        $giftOptions = $this->loadDataSet('SalesOrder', 'reorder_emty_gift_options', null,
+        $giftOptions = $this->loadDataSet('SalesOrder', 'reorder_empty_gift_options', null,
             array('product1' => $simpleSku));
         $this->orderHelper()->verifyGiftOptions(array('gift_messages' => $giftOptions));
     }
@@ -681,7 +681,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>7. Click "Submit Order" button. When Order is placed, look at Gift Options block;</p>
      * <p>Expected result:</p>
      * <p>5. Checkbox "Add Printed Card" should be present in Gift Options block of Order creation page;</p>
-     * <p>6. Printed card price must appear belowthe checkbox (for example: Price: $1.00) and it Order Totals block</p>
+     * <p>6. Printed card price must appear below the checkbox (for example: Price: $1.00) and it Order Totals block</p>
      * <p> ("Printed Card: $1.00" for example");</p>
      * <p>7. Order is placed, Order View page opened. Gift options block should contain "Add Printed Card"</p>
      * <p> checkbox, and it should be checked. Printed Сard price should be included in Order Totals block</p>

@@ -1046,15 +1046,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
      * <p>Steps:</p>
      * <p>1. Log in to frontend of Default website</p>
      * <p>2. Browse site and buy at least 2 products</p>
-     * <p>3. Push "Proceed to checkout" in the shoping cart</p>
+     * <p>3. Push "Proceed to checkout" in the shopping cart</p>
      * <p>4. Select any address in billing information and press button "Continue"</p>
      * <p>5. Select any address in shipping information and press button "Continue"</p>
      * <p>6. Select any shipping method in shipping method tab</p>
      * <p>7. Check "Add gift options" checkbox</p>
      * <p>8. Check "Add gift options for the Entire Order" checkbox</p>
-     * <p>9. Choose gift wrappin design ang fill gift message fields which appear when we press "gift message" link</p>
+     * <p>9. Choose gift wrapping design ang fill gift message fields which appear when we press "gift message" link</p>
      * <p>10. Check "Add gift options for Individual Items" checkbox</p>
-     * <p>11. Choose gift wrappin design ang fill gift message fields which appear when we press "gift message" link</p>
+     * <p>11. Choose gift wrapping design ang fill gift message fields which appear when we press "gift message" link</p>
      * <p>12. Check "Send Gift Receipt" checkbox</p>
      * <p>13. Check "Add Printed Card" checkbox </p>
      * <p>14. Press button "Continue"</p>

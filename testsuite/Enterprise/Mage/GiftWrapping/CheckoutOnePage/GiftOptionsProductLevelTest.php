@@ -452,7 +452,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>2. Select some simple product and choose Gift Options.</p>
      * <p>3. Set "Allow Gift Wrapping" to "No" and Save the product. (TL-MAGE-845)</p>
      * <p>3. Set "Allow Gift Message" to "No" and Save the product. (TL-MAGE-851)</p>
-     * <p>4. In Frontend add two or more products (includung the product from step 2) to the shopping cart
+     * <p>4. In Frontend add two or more products (including the product from step 2) to the shopping cart
      * and proceed to onepage checkout.</p>
      * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
      * <p>6. Select checkbox "Add gift options".</p>
@@ -596,7 +596,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * @TestlinkId TL-MAGE-1041
      * <p>Managing Price for Gift Wrapping on product level for websites view. Frontend. Case2</p>
      * <p>Verify that when Price for Gift Wrapping in a product Menu (for store scope) is different from
-     * prices setting in Manage Gift Wrapping Menu and Product Menu (for dafault values),
+     * prices setting in Manage Gift Wrapping Menu and Product Menu (for default values),
      * then price for Gift Wrapping for that product in Frontend is equal to first one (on selected Website scope).</p>
      * <p>Preconditions:</p>
      * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
@@ -611,7 +611,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>5. Select in dropdown "Choose Store View" your store.</p>
      * <p>6. Press OK in notification window .</p>
      * <p>Expected result:</p>
-     * <p>Field "Price for Gift Wrapping" is disabled (vith value 10 in our example) and checkbox "Use Default Value"
+     * <p>Field "Price for Gift Wrapping" is disabled (with value 10 in our example) and checkbox "Use Default Value"
      * must be selected for one.</p>
      * <p>7. Unselect checkbox "Use Default Value" for field "Price for Gift Wrapping" and set field value to
      * different from the both values above (for example 20). Save the product changes.</p>

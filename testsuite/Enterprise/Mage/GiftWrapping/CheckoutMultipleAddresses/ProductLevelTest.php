@@ -115,9 +115,9 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->assertMessagePresent('success', 'success_saved_product');
         //Creating a customer
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $newFronendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
            $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFronendUrl);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -622,7 +622,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
      * <li>Web site is created;</li>
      * <li>Gift wrapping is created;</li>
      * <li>Gift wrapping for items and order are set to "Yes" in system configuration.</li>
-     * <li>Set Catalog Price Scope "Webiste" in system configuration.</li>
+     * <li>Set Catalog Price Scope "Website" in system configuration.</li>
      * <li>Price for gift wrapping is set to N1 in Manage Gift Wrapping.</li>
      * <li>Price for gift wrapping is set to N2 for the product on Default Values level.</li>
      * <li>Price for gift wrapping is set to N3 for the product on the created website level.</li>
@@ -710,11 +710,11 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $newFronendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($website['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFronendUrl);
-        $orderNums = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($website['staging_website_code']);
+        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $orderId = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
-        $this->assertTrue(count($orderNums) == 2, 'Expected that exactly 2 orders have been created.');
+        $this->assertTrue(count($orderId) == 2, 'Expected that exactly 2 orders have been created.');
     }
 }
