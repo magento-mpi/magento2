@@ -162,8 +162,8 @@ class Mage_Core_Model_Layout_Update
     public function addHandle($handleName)
     {
         if (is_array($handleName)) {
-            foreach ($handleName as $n) {
-                $this->_handles[$n] = 1;
+            foreach ($handleName as $name) {
+                $this->_handles[$name] = 1;
             }
         } else {
             $this->_handles[$handleName] = 1;
@@ -249,7 +249,7 @@ class Mage_Core_Model_Layout_Update
      * Get handle xml node by handle name
      *
      * @param string $handleName
-     * @return Varien_Simplexml_Element|null
+     * @return Mage_Core_Model_Layout_Element|null
      */
     protected function _getPageHandleNode($handleName)
     {
@@ -320,14 +320,14 @@ class Mage_Core_Model_Layout_Update
         }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node Varien_Simplexml_Element */
+        /** @var $node Mage_Core_Model_Layout_Element */
         foreach ($nodes as $node) {
             $name = $node->getName();
             $info = array(
-                'name'      => $name,
-                'label'     => (string)$node->label,
-                'type'      => $node->getAttribute('type'),
-                'children'  => array()
+                'name'     => $name,
+                'label'    => (string)$node->label,
+                'type'     => $node->getAttribute('type'),
+                'children' => array()
             );
             if ($info['type'] == self::TYPE_PAGE) {
                 $info['children'] = $this->_getPageHandleChildren($name);
@@ -602,7 +602,7 @@ class Mage_Core_Model_Layout_Update
         foreach ($updateFiles as $filename) {
             $fileStr = file_get_contents($filename);
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
-            /** @var $fileXml Varien_Simplexml_Element */
+            /** @var $fileXml Mage_Core_Model_Layout_Element */
             $fileXml = simplexml_load_string($fileStr, $this->getElementClass());
             $layoutStr .= $fileXml->innerXml();
         }
