@@ -20,12 +20,12 @@
 class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
     static protected $_ioAdapter;
+
     /**
      * Delete fixtures
      */
     protected function tearDown()
     {
-        self::deleteFixture('product_simple', true);
         parent::tearDown();
     }
 
@@ -68,124 +68,289 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->_checkImageData($imageData, $createdImageData);
     }
 
+
     /**
-     * Test image create with empty image file
+     * Test image create with some invalid data which give error message
      *
+     * @param array $imageData
+     * @param array $expectedErrors
+     * @dataProvider dataProviderTestPostInvalidDataError
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      * @resourceOperation product_image::create
      */
-    public function testPostEmptyFileContent()
+    public function testPostInvalidDataError($imageData, $expectedErrors)
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
-        $imageData = $imageData['create_with_empty_file_content'];
-
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            "'file_content' is not specified."
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
-     * Test image create with invalide image (but valid base64 string)
+     * Data provider for testPostInvalidDataError
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
-     * @resourceOperation product_image::create
+     * @dataSetNumber 7
+     * @return array
      */
-    public function testPostInvalideImage()
+    public function dataProviderTestPostInvalidDataError()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
-        $imageData = $imageData['create_with_invalid_image'];
+        $imageBase64Content = 'iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlY'
+            . 'WR5ccllPAAAAWtJREFUeNpi/P//P8NgBkwMgxyMOnDUgTDAyMhIDNYF4vNA/B+IDwCxHLoakgEoFxODiQRXQUYi4e3k2gfDjMRajs'
+            . 'P3zED8F8pmA+JvUDEYeArEMugOpFcanA/Ef6A0CPwC4uNoag5SnAjJjGI2tKhkg4rLAfFGIH4IxEuBWIjSKKYkDfZCHddLiwChVho'
+            . 'kK8YGohwEZYy3aBmEKmDEhOCgreomo+VmZHxsMEQxIc2MAx3FO/DI3RxMmQTZkI9ALDCaSUYdOOrAIeRAPzQ+PxCHUM2FFDb5paGN'
+            . 'BPRa5C20bUhxc4sSB4JaLnvxVHWHsbVu6OnACjyOg+HqgXKgGRD/JMKBoD6LDb0dyAPE94hwHAw/hGYcujlwEQmOg+EV9HJgLBmOg'
+            . '+FMWjsQVKR8psCBoDSrQqoDSSmoG6Hpj1wA6ju30LI9+BBX4UsC+Ai0T4BWVd1EIL5PgeO+APECmoXgaGtm1IE0AgABBgAJAICuV8'
+            . 'dAUAAAAABJRU5ErkJggg==';
 
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product_simple');
-
-        $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'File content is not an image file.'
+        return array(
+            'create_with_empty_file_content' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => '',
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array("'file_content' is not specified.")
+            ),
+            'create_with_invalid_image' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => 'abdbavvghjkdgvfgsydauvsdcfbgdsy321635bhdsisat67832b32y7r82vrdsw==',
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array('File content is not an image file.')
+            ),
+            'create_with_no_content' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array("'file_content' is not specified.")
+            ),
+            'create_with_invalid_base64' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => 'вкегмсыпв/*-+!"№;№"%;*#@$#$%^^&fghjf fghftyu vftib',
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array('File content must be base64 encoded.')
+            ),
+            'create_with_invalid_mime' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'plain/text',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array('Unsuppoted file MIME type')
+            ),
+            'create_with_invalid_mime_2' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => array('image/jpeg'),
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array('Unsuppoted file MIME type')
+            ),
+            'create_with_empty_mime' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => '',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array("'file_mime_type' is not specified.")
+            ),
         );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
     }
 
     /**
-     * Test image create with invalide base64 string as image file content
+     * Test image create with some invalid data which converted to valid in api without error message
      *
+     * @param array $imageData
+     * @param array $correctedImageData
+     * @dataProvider dataProviderTestPostInvalidDataConvertedWithoutError
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      * @resourceOperation product_image::create
      */
-    public function testPostInvalideBase64()
+    public function testPostInvalidDataConvertedWithoutError($imageData, $correctedImageData)
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
-        $imageData = $imageData['create_with_invalid_base64'];
+        $pathPrefix = '/' . substr($imageData['file_name'], 0, 1) . '/' . substr($imageData['file_name'], 1, 1) . '/';
+        $file = $pathPrefix . $imageData['file_name'] . '.jpeg';
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 
-        $expectedErrors = array(
-            'File content must be base64 encoded.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
+        unset($imageData['file_content']);
+        $expectedData = array_merge($imageData, $correctedImageData);
+        $createdImageData = $this->_getProductImageData($product, $file);
+        $this->_checkImageData($expectedData, $createdImageData);
     }
 
     /**
-     * Test image create with empty image file
+     * Data provider for testPostInvalidDataConvertedWithoutError
+     *
+     * @dataSetNumber 7
+     * @return array
+     */
+    public function dataProviderTestPostInvalidDataConvertedWithoutError()
+    {
+        $imageBase64Content = 'iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlY'
+            . 'WR5ccllPAAAAWtJREFUeNpi/P//P8NgBkwMgxyMOnDUgTDAyMhIDNYF4vNA/B+IDwCxHLoakgEoFxODiQRXQUYi4e3k2gfDjMRajs'
+            . 'P3zED8F8pmA+JvUDEYeArEMugOpFcanA/Ef6A0CPwC4uNoag5SnAjJjGI2tKhkg4rLAfFGIH4IxEuBWIjSKKYkDfZCHddLiwChVho'
+            . 'kK8YGohwEZYy3aBmEKmDEhOCgreomo+VmZHxsMEQxIc2MAx3FO/DI3RxMmQTZkI9ALDCaSUYdOOrAIeRAPzQ+PxCHUM2FFDb5paGN'
+            . 'BPRa5C20bUhxc4sSB4JaLnvxVHWHsbVu6OnACjyOg+HqgXKgGRD/JMKBoD6LDb0dyAPE94hwHAw/hGYcujlwEQmOg+EV9HJgLBmOg'
+            . '+FMWjsQVKR8psCBoDSrQqoDSSmoG6Hpj1wA6ju30LI9+BBX4UsC+Ai0T4BWVd1EIL5PgeO+APECmoXgaGtm1IE0AgABBgAJAICuV8'
+            . 'dAUAAAAABJRU5ErkJggg==';
+
+        return array(
+            'create_with_invalid_types' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('invalid'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'types'    => array(),
+                )
+            ),
+            'create_with_invalid_position' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 'invalid',
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'position' => 0,
+                )
+            ),
+            'create_with_no_position' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'position' => 1,
+                )
+            ),
+            'create_with_invalid_exclude' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 'invalid'
+                ),
+                array(
+                    'exclude'  => 0,
+                )
+            ),
+            'create_with_invalid_exclude_1' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => array('invalid')
+                ),
+                array(
+                    'exclude'  => 1,
+                )
+            ),
+            'create_with_invalid_exclude_2' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => array()
+                ),
+                array(
+                    'exclude'  => 0,
+                )
+            ),
+            'create_with_no_exclude' => array(
+                array(
+                    'file_name' => 'product_image' . uniqid(),
+                    'file_content' => $imageBase64Content,
+                    'file_mime_type' => 'image/jpeg',
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image')
+                ),
+                array(
+                    'exclude'  => 0,
+                )
+            ),
+        );
+    }
+
+    /**
+     * Test image create with invalid store id
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      * @resourceOperation product_image::create
      */
-    public function testPostInvalideMime()
+    public function testPostInvalidStoreId()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
-        $imageData = $imageData['create_with_invalid_mime'];
+        $imageData = $imageData['full_create'];
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
 
-        $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Unsuppoted file MIME type'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $resourceUri = 'products/' . $product->getId() . '/images/store/invalidId';
+        $restResponse = $this->callPost($resourceUri, $imageData);
+        $this->_checkErrorMessagesInResponse($restResponse, 'Requested store is invalid');
     }
 
     /**
@@ -216,6 +381,193 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     }
 
     /**
+     * Test image update with invalid data
+     *
+     * @param array $createImageData
+     * @param array $updateImageData
+     * @param array $correctedImageData
+     * @dataProvider dataProviderTestPutInvalidData
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::update
+     */
+    public function testPutInvalidData($createImageData, $updateImageData, $correctedImageData)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product_simple');
+
+        list($file, $fileFixture) = $this->_getImageFixture();
+        $imageId = $this->_addImage($product, $fileFixture, $createImageData);
+        $restResponse = $this->callPut('products/' . $product->getId() . '/images/' . $imageId, $updateImageData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
+
+        $expectedData = array_merge($updateImageData, $correctedImageData);
+        $updatedImageData = $this->_getProductImageData($product, $file);
+        $this->_checkImageData($expectedData, $updatedImageData);
+    }
+
+    /**
+     * Data provider for testPutInvalidData
+     *
+     * @dataSetNumber 7
+     * @return array
+     */
+    public function dataProviderTestPutInvalidData()
+    {
+        $createImageData = array(
+            'label' => 'test product image 1 ' . uniqid(),
+            'position' => 10,
+            'types'    => array('image'),
+            'exclude'  => 0
+        );
+        return array(
+            'update_with_invalid_types' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('invalid'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'types'    => $createImageData['types'],
+                )
+            ),
+            'update_with_invalid_position' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 'invalid',
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'position' => 0,
+                )
+            ),
+            'update_with_no_position' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'types'    => array('small_image'),
+                    'exclude'  => 0
+                ),
+                array(
+                    'position' => $createImageData['position'],
+                )
+            ),
+            'update_with_invalid_exclude' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => 'invalid'
+                ),
+                array(
+                    'exclude'  => 0,
+                )
+            ),
+            'update_with_invalid_exclude_1' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => array('invalid')
+                ),
+                array(
+                    'exclude'  => 1,
+                )
+            ),
+            'update_with_invalid_exclude_2' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image'),
+                    'exclude'  => array()
+                ),
+                array(
+                    'exclude'  => 0,
+                )
+            ),
+            'update_with_no_exclude' => array(
+                $createImageData,
+                array(
+                    'label'    => 'test product image ' . uniqid(),
+                    'position' => 2,
+                    'types'    => array('small_image')
+                ),
+                array(
+                    'exclude' => $createImageData['exclude'],
+                )
+            ),
+        );
+    }
+
+    /**
+     * Test image update for non-default store
+     *
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @resourceOperation product_image::update
+     */
+    public function testPutWithStore()
+    {
+        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $updateImageData = $imageData['data_set_2'];
+        $imageData = $imageData['data_set_1'];
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product_simple');
+
+        /* @var $product Mage_Core_Model_Store */
+        $store = self::getFixture('store');
+
+        list($file, $fileFixture) = $this->_getImageFixture();
+        $imageId = $this->_addImage($product, $fileFixture, $imageData);
+        $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/' . $store->getId();
+        $restResponse = $this->callPut($resourceUri, $updateImageData);
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
+
+        $createdImageData = $this->_getProductImageData($product, $file);
+        $this->_checkImageData($imageData, $createdImageData);
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId($store->getId())->load($product->getId());
+
+        $updatedImageData = $this->_getProductImageData($product, $file);
+        $this->_checkImageData($updateImageData, $updatedImageData);
+    }
+
+    /**
+     * Test image update with invalid store id
+     *
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::create
+     */
+    public function testPutInvalidStoteId()
+    {
+        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $updateImageData = $imageData['data_set_2'];
+        $imageData = $imageData['data_set_1'];
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product_simple');
+
+        list($file, $fileFixture) = $this->_getImageFixture();
+        $imageId = $this->_addImage($product, $fileFixture, $imageData);
+        $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/invalidId';
+        $restResponse = $this->callPut($resourceUri, $updateImageData);
+        $this->_checkErrorMessagesInResponse($restResponse, 'Requested store is invalid');
+    }
+
+    /**
      * Test list images
      *
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
@@ -230,15 +582,13 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
 
         $fileNames = array();
         $fileFixtures = array();
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
         for ($i=1; $i<=3; $i++) {
-            /* @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
             list($fileNames[$i], $fileFixtures[$i]) = $this->_getImageFixture();
             $this->_addImage($product, $fileFixtures[$i], $imageData['data_set_' . $i]);
         }
 
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
         $restResponse = $this->callGet('products/' . $product->getId() . '/images');
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
@@ -279,7 +629,6 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $this->_checkImageData($imageData, $body);
     }
 
-
     /**
      * Test image delete
      *
@@ -306,6 +655,28 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
 
         $gallery = $product->getData('media_gallery');
         $this->assertEmpty($gallery['images']);
+    }
+
+    /**
+     * Test image delete with invalid store
+     *
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @resourceOperation product_image::delete
+     */
+    public function testDeleteWithInvalidStoreId()
+    {
+        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = $imageData['data_set_1'];
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = self::getFixture('product_simple');
+
+        list($file, $fileFixture) = $this->_getImageFixture();
+        $imageId = $this->_addImage($product, $fileFixture, $imageData);
+
+        $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/invalidId';
+        $restResponse = $this->callDelete($resourceUri);
+        $this->_checkErrorMessagesInResponse($restResponse, 'Requested store is invalid');
     }
 
     /**
@@ -409,7 +780,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      *
      * @resourceOperation product_image::multiget
      */
-    public function testGetCollectionWithInvalideProduct()
+    public function testGetCollectionWithInvalidProduct()
     {
         $resourceUri = 'products/12099999/images/';
         $restResponse = $this->callGet($resourceUri);
@@ -422,7 +793,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      * @resourceOperation product_image::get
      */
-    public function testGetWithInvalideStore()
+    public function testGetWithInvalidStore()
     {
         $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
@@ -621,10 +992,10 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      */
     protected function _checkImageData($expectedData, $data)
     {
-        $this->assertTrue(array_key_exists('label', $data), '"Label" attribute is not exists in image data');
-        $this->assertTrue(array_key_exists('position', $data), '"Position" attribute is not exists in image data');
-        $this->assertTrue(array_key_exists('exclude', $data), '"Exclude" attribute is not exists in image data');
-        $this->assertTrue(array_key_exists('types', $data), '"Types" attribute is not exists in image data');
+        $this->assertArrayHasKey('label', $data, '"Label" attribute is not exists in image data');
+        $this->assertArrayHasKey('position', $data, '"Position" attribute is not exists in image data');
+        $this->assertArrayHasKey('exclude', $data, '"Exclude" attribute is not exists in image data');
+        $this->assertArrayHasKey('types', $data, '"Types" attribute is not exists in image data');
         if (array_key_exists('url', $data)) {
             if (array_key_exists('file', $expectedData)) {
                 $this->assertContains($expectedData['file'], $data['url'], 'Image has wrong "url"');

@@ -38,7 +38,6 @@ return array(
     'custom_design_to' => date('Y-m-d', time() + 12*31*24*3600),
     'custom_layout_update' => '<xml><layout>Test Custom Layout Update_new</layout></xml>',
     'page_layout' => 'empty',
-    'options_container' => 'container2',
     'gift_wrapping_available' => 0,
     'gift_wrapping_price' => 15.56,
     'stock_data' => array(

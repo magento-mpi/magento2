@@ -51,7 +51,6 @@ return array(
     'custom_design_to' => date('Y-m-d', time() + 24*3600),
     'custom_layout_update' => '<xml><layout>Test Custom Layout Update</layout></xml>',
     'page_layout' => 'one_column',
-    'options_container' => 'container1',
     'gift_message_available' => 1,
     'gift_wrapping_available' => 1,
     'gift_wrapping_price' => 0.99,

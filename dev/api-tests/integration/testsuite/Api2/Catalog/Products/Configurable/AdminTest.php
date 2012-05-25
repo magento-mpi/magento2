@@ -419,7 +419,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
         $associatedproducts = array();
         $newSimpleProduct = null;
         /** @var $actualProduct Mage_Catalog_Model_Product */
-        foreach ($configurableProduct->getTypeInstance()->getUsedProducts() as $actualProduct) {
+        foreach ($configurableProduct->getTypeInstance()->getUsedProducts($configurableProduct) as $actualProduct) {
             $associatedproducts[$actualProduct->getId()] = $actualProduct;
             // @TODO: refactor getting created simple product after returning it in multicall will be implemented
             if ($actualProduct->getId() != $simpleProduct->getId()) {
@@ -533,7 +533,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
         /** @var $configurable Mage_Catalog_Model_Product */
         $configurable = $this->getFixture('product_configurable');
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-        $configurableType = $configurable->getTypeInstance(true);
+        $configurableType = $configurable->getTypeInstance();
         $productData = array();
         $productData['configurable_attributes'] = array();
         /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
@@ -541,7 +541,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
             $prices = array();
             $productAttribute = $configurableAttribute->getProductAttribute();
             foreach ($productAttribute->getSource()->getAllOptions(false) as $option) {
-                foreach ($configurableType->getUsedProducts(null, $configurable) as $associatedProduct) {
+                foreach ($configurableType->getUsedProducts($configurable) as $associatedProduct) {
                     if (!empty($option['value']) && !isset($prices[$option['value']])
                         && $option['value'] == $associatedProduct->getData($productAttribute->getAttributeCode())) {
                         $prices[$option['value']] = array(

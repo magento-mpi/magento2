@@ -63,7 +63,6 @@ return array(
     'custom_design_to' => 'Text\'',
     'custom_layout_update' => 'Test Custom Layout Update',
     'page_layout' => 'Text\'',
-    'options_container' => 'Text\'',
     'gift_message_available' => -1,
     'gift_wrapping_available' => -1,
     'gift_wrapping_price' => -1,

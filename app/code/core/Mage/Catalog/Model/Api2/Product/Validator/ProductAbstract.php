@@ -26,6 +26,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract extends
      * Factory method for product validators creation by product type
      *
      * @param string $productType
+     * @throws Mage_Api2_Exception
      * @return Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract
      */
     public static function getValidatorByProductType($productType)
@@ -33,7 +34,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract extends
         switch ($productType) {
             case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
             case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
-                return Mage::getModel("catalog/api2_product_validator_product_$productType");
+                return Mage::getModel("Mage_Catalog_Model_Api2_Product_Validator_Product_$productType");
             default:
                 throw new Mage_Api2_Exception("Creation of products with type '$productType' is not implemented",
                     Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);

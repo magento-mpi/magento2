@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $stockDataFilterKeys = array('item_id', 'product_id', 'stock_id', 'low_stock_date', 'type_id',
             'stock_status_changed_auto', 'stock_status_changed_automatically', 'product_name', 'store_id',
             'product_type_id', 'product_status_changed', 'product_changed_websites',
-            'use_config_enable_qty_increments');
+            'use_config_enable_qty_inc');
         $product->setData('stock_data', $this->_filterOutArrayKeys($stockData, $stockDataFilterKeys));
         $product->setData('product_type_name', $product->getTypeId());
         $this->_addConfigurableAttributes($product);
@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     {
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
             /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-            $configurableType = $product->getTypeInstance(true);
+            $configurableType = $product->getTypeInstance();
             $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
             $formattedConfigurableAttributes = array();
             foreach ($configurableAttributes as $configurableAttribute) {
@@ -267,7 +267,10 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _prepareGiftOptions($product, $saveData)
     {
-        $this->_filterConfigValueUsed($saveData, array('gift_message_available', 'gift_wrapping_available'));
+        $this->_filterConfigValueUsed($saveData, array(
+            'gift_message_available' => 'use_config_gift_message_available',
+            'gift_wrapping_available' => 'use_config_gift_wrapping_available'
+        ));
         if (isset($saveData['use_config_gift_message_available'])) {
             $product->setData('use_config_gift_message_available', $saveData['use_config_gift_message_available']);
             if (!$saveData['use_config_gift_message_available'] && is_null($product->getGiftMessageAvailable())) {
@@ -296,7 +299,7 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
     protected function _prepareEavAttributes($product, $saveData)
     {
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             //Unset data if object attribute has no value in current store
             if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int)$product->getStoreId()
                 && !$product->getExistsStoreValueFlag($attribute->getAttributeCode())
@@ -498,9 +501,16 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _filterStockData(&$stockData)
     {
-        $fieldsWithPossibleDefautlValuesInConfig = array('manage_stock', 'min_sale_qty', 'max_sale_qty', 'backorders',
-            'qty_increments', 'notify_stock_qty', 'min_qty', 'enable_qty_increments');
-        $this->_filterConfigValueUsed($stockData, $fieldsWithPossibleDefautlValuesInConfig);
+        $fieldsWithPossibleDefaultValuesInConfig = array(
+            'manage_stock' => 'use_config_manage_stock',
+            'min_sale_qty' => 'use_config_min_sale_qty',
+            'max_sale_qty' => 'use_config_max_sale_qty',
+            'backorders' => 'use_config_backorders',
+            'qty_increments' => 'use_config_qty_increments',
+            'notify_stock_qty' => 'use_config_notify_stock_qty',
+            'min_qty' => 'use_config_min_qty',
+            'enable_qty_increments' => 'use_config_enable_qty_inc');
+        $this->_filterConfigValueUsed($stockData, $fieldsWithPossibleDefaultValuesInConfig);
 
         if ($this->_isManageStockEnabled($stockData)) {
             if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_DECIMAL_VALUE) {
@@ -531,8 +541,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
      */
     protected function _filterConfigValueUsed(&$data, $fields)
     {
-        foreach ($fields as $field) {
-            if ($this->_isConfigValueUsed($data, $field)) {
+        foreach ($fields as $field => $useConfigField) {
+            if (isset($data[$useConfigField]) && $data[$useConfigField]) {
                 unset($data[$field]);
             }
         }
@@ -572,17 +582,5 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
                 Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . 'manage_stock');
         }
         return (bool)$manageStock;
-    }
-
-    /**
-     * Check if value from config is used
-     *
-     * @param array $data
-     * @param string $field
-     * @return bool
-     */
-    protected function _isConfigValueUsed($data, $field)
-    {
-        return isset($data["use_config_$field"]) && $data["use_config_$field"];
     }
 }

@@ -49,5 +49,4 @@ return array(
     'custom_design_from' => date('Y-m-d'),
     'custom_design_to' => date('Y-m-d', time() + 24*3600),
     'page_layout' => 'one_column',
-    'options_container' => 'container1'
 );

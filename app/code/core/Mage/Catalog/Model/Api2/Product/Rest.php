@@ -156,7 +156,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             && $this->getActionType() == self::ACTION_TYPE_ENTITY
         ) {
             /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-            $configurableType = $product->getTypeInstance(true);
+            $configurableType = $product->getTypeInstance();
             $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
             $formattedConfigurableAttributes = array();
             foreach ($configurableAttributes as $configurableAttribute) {
@@ -207,7 +207,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             $product->unsBuyNowUrl();
             $product->unsWeight();
             /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-            $configurableType = $product->getTypeInstance(true);
+            $configurableType = $product->getTypeInstance();
             $configurableAttributes = $configurableType->getConfigurableAttributesAsArray($product);
             foreach ($configurableAttributes as $configurableAttribute) {
                 // exclude current configurable attribute value from the response data

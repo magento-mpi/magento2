@@ -142,11 +142,11 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Configurable
     {
         parent::_validateAttributeSet($data, $productEntity);
         if ($this->_isCreateOperation()) {
-            $attributes = $this->_getProduct()->getTypeInstance(true)->getSetAttributes($this->_getProduct());
+            $attributes = $this->_getProduct()->getTypeInstance()->getSetAttributes($this->_getProduct());
             $configurableAttributesInAttributeSet = array();
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             foreach ($attributes as $attribute) {
-                if ($this->_getProduct()->getTypeInstance(true)->canUseAttribute($attribute, $this->_getProduct())) {
+                if ($this->_getProduct()->getTypeInstance()->canUseAttribute($attribute, $this->_getProduct())) {
                     $configurableAttributesInAttributeSet[] = $attribute->getAttributeCode();
                 }
             }

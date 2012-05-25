@@ -76,7 +76,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Image_Rest extends Mage_Catalog_M
      */
     protected function _getMediaGallery()
     {
-        $attributes = $this->_getProduct()->getTypeInstance(true)->getSetAttributes($this->_getProduct());
+        $attributes = $this->_getProduct()->getTypeInstance()->getSetAttributes($this->_getProduct());
 
         if (!isset($attributes[self::GALLERY_ATTRIBUTE_CODE])
             || !$attributes[self::GALLERY_ATTRIBUTE_CODE] instanceof Mage_Eav_Model_Entity_Attribute_Abstract

@@ -240,8 +240,8 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
             'Invalid "cust_group" value in the "tier_price:6" set',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
-            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
-            'gift_message_available', 'gift_wrapping_available');
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'gift_message_available',
+            'gift_wrapping_available');
         foreach ($invalidValueAttributes as $attribute) {
             $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
         }
@@ -382,7 +382,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
         $fields = array('use_config_min_qty', 'use_config_min_sale_qty', 'use_config_max_sale_qty',
-            'use_config_backorders', 'use_config_notify_stock_qty', 'use_config_enable_qty_increments');
+            'use_config_backorders', 'use_config_notify_stock_qty', 'use_config_enable_qty_inc');
         foreach ($fields as $field) {
             $this->assertEquals(1, $stockItem->getData($field), $field . ' is not set to 1');
         }
@@ -979,8 +979,8 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
             'Invalid "cust_group" value in the "tier_price:6" set',
         );
         $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
-            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'options_container',
-            'gift_message_available', 'gift_wrapping_available');
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'gift_message_available',
+            'gift_wrapping_available');
         foreach ($invalidValueAttributes as $attribute) {
             $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".',
                 $productDataForUpdate[$attribute], $attribute);

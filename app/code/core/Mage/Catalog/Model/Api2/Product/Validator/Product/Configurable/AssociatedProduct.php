@@ -53,13 +53,13 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Configurable_AssociatedP
             // check if product is not assigned to the configurable one yet
             /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
             $configurableType = $configurable->getTypeInstance();
-            $assignedProductsIds = $configurableType->getUsedProductIds();
+            $assignedProductsIds = $configurableType->getUsedProductIds($configurable);
             if (in_array($productToBeAssigned->getId(), $assignedProductsIds)) {
                 $this->_critical('The product to be assigned is already assigned to the specified configurable one.');
             }
             // check that there is no product with the same configurable attributes' values
             // assigned to the configurable one
-            $usedConfigurableAttributes = $configurableType->getUsedProductAttributes();
+            $usedConfigurableAttributes = $configurableType->getUsedProductAttributes($configurable);
             $attributesInfo = array();
             $hasAllConfigurableAttributesValue = true;
             foreach ($usedConfigurableAttributes as $attribute) {
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Configurable_AssociatedP
                 $this->_critical('The product to be associated must have all configurable attribute values'
                     . ' as the configurable product has.');
             }
-            if ($configurableType->getProductByAttributes($attributesInfo)) {
+            if ($configurableType->getProductByAttributes($attributesInfo, $configurable)) {
                 $this->_critical("A product with the same configurable attributes' values is already assigned "
                     . "to the configurable one.");
             }
@@ -135,7 +135,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Configurable_AssociatedP
             // check if product is assigned to the configurable one
             /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
             $configurableType = $configurable->getTypeInstance();
-            $assignedProductsIds = $configurableType->getUsedProductIds();
+            $assignedProductsIds = $configurableType->getUsedProductIds($configurable);
             if (!in_array($associated->getId(), $assignedProductsIds)) {
                 $this->_critical('The specified product cannot be unassigned from the configurable one '
                     . 'as it is not assigned to it.');

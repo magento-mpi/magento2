@@ -290,7 +290,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
         /** @var $updatedConfigurable Mage_Catalog_Model_Product */
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());
         $configurableType = $updatedConfigurable->getTypeInstance();
-        $realAssignedProducts = $configurableType->getUsedProductIds($configurable);
+        $realAssignedProducts = $configurableType->getUsedProductIds($updatedConfigurable);
         // remove element by value not by its key
         $associatedIds = array_flip($associatedIds);
         unset($associatedIds[$associatedToBeUnassigned]);
@@ -403,7 +403,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
         $configurableType = $updatedConfigurable->getTypeInstance();
-        $realAssignedProducts = $configurableType->getUsedProductIds($configurable);
+        $realAssignedProducts = $configurableType->getUsedProductIds($updatedConfigurable);
         if (!is_numeric($associatedData['product_id'])) {
             /** @var $productHelper Mage_Catalog_Helper_Product */
             $productHelper = Mage::helper('Mage_Catalog_Helper_Product');

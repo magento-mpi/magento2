@@ -396,14 +396,17 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Simple
                 if (isset($stockData['is_qty_decimal']) && (bool)$stockData['is_qty_decimal'] == true) {
                     $this->_validateBoolean($stockData, $fieldSet, 'is_decimal_divided');
                 }
-                $this->_validateBoolean($stockData, $fieldSet, 'enable_qty_increments', true);
+                if (!isset($stockData['use_config_enable_qty_inc']) || !$stockData['use_config_enable_qty_inc']) {
+                    $this->_validateBoolean($stockData, $fieldSet, 'enable_qty_increments', true);
+                }
                 if (isset($stockData['enable_qty_increments']) && (bool)$stockData['enable_qty_increments'] == true) {
                     $this->_validatePositiveNumeric($stockData, $fieldSet, 'qty_increments', false, true);
                 }
                 if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
                     $this->_validateSource($stockData, $fieldSet, 'backorders',
-                        'cataloginventory/source_backorders', true);
-                    $this->_validateSource($stockData, $fieldSet, 'is_in_stock', 'cataloginventory/source_stock');
+                        'Mage_CatalogInventory_Model_Source_Backorders', true);
+                    $this->_validateSource($stockData, $fieldSet, 'is_in_stock',
+                        'Mage_CatalogInventory_Model_Source_Stock');
                 }
             }
 

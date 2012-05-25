@@ -44,7 +44,7 @@ return array(
         'notify_stock_qty' => 'text',
         'use_config_notify_stock_qty' => 1,
         'enable_qty_increments' => -100,
-        'use_config_enable_qty_increments' => 1,
+        'use_config_enable_qty_inc' => 1,
         'is_in_stock' => 0
     )
 );

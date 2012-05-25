@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Api2_Product_Configurable_AssociatedProduct_Rest_Admin_
     {
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
         $configurableType = $this->_getProduct()->getTypeInstance();
-        $assignedProductsIds = $configurableType->getUsedProductIds();
+        $assignedProductsIds = $configurableType->getUsedProductIds($this->_getProduct());
         return $assignedProductsIds;
     }
 
