@@ -141,7 +141,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($verPrTotal) {
             $this->verifyProductsTotal($verPrTotal);
         }
+        if($validate){
         $this->submitOrder();
+        }
     }
 
     /**

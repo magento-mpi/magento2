@@ -73,13 +73,13 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Sub Category with all fields filling</p>
+     * <p>Creating Subcategory with all fields filling</p>
      * <p>Steps</p>
-     * <p>1. Click "Add Root Category" button </p>
+     * <p>1. Click "Add Subcategory" button </p>
      * <p>2. Fill in required fields</p>
      * <p>3. Click "Save Category" button</p>
      * <p>Expected Result:</p>
-     * <p>Root Category created, success message appears</p>
+     * <p>Subcategory created, success message appears</p>
      *
      * @param string $rooCat
      *
@@ -87,7 +87,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3642
      */
-    public function rootCategoryWithAllFields($rooCat)
+    public function subCategoryWithAllFields($rooCat)
     {
         //Data
         $categoryData = $this->loadDataSet('Category', 'sub_category_all', array('parent_category' => $rooCat));

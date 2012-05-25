@@ -119,6 +119,7 @@ manage_sales_orders:
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
             confirmation_for_cancel: Are you sure you want to cancel this order?
             confirmation_to_void: Are you sure you want to void the payment?
+            confirmation_to_send_email: Are you sure you want to send order email to customer?
             #not verified
             authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
 
@@ -363,6 +364,8 @@ create_order_for_new_customer:
                             from: //input[@name='current_item_giftmessage_sender']
                             to: //input[@name='current_item_giftmessage_recipient']
                             message: //textarea[@name='current_item_giftmessage_message']
+                        pageelements:
+                            product_gift_message_block: //div[@class='giftcard-send-form' and contains(.,'Gift Message')]
                         buttons:
                             ok: //button[span='OK']
                             cancel: //button[span='Cancel']
@@ -373,9 +376,12 @@ create_order_for_new_customer:
                             from_order_level: //input[contains(@name, '[sender]')]
                             to_order_level: //input[contains(@name, '[recipient]')]
                             message_order_level: //textarea[contains(@name, '[message]')]
+                        pageelements:
+                            order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
+            submit_order: //button[span='Submit Order']
         messages: *orderMessages
 
 reorder_create_new_order:

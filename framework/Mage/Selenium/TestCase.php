@@ -62,6 +62,10 @@
  * @method Core_Mage_Tags_Helper tagsHelper()
  * @method Core_Mage_Tax_Helper taxHelper()
  * @method Core_Mage_Wishlist_Helper wishlistHelper()
+ * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
+ * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
+ * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
+ * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -3119,7 +3123,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
                             $this->addVerificationMessage(
-                                $formFieldName . ": The stored value is not equal to specified: (" . $formField['value']
+                                $formFieldName . ": The stored value is not equal to specified: ('" . $formField['value']
                                 . "' != '" . $val . "')");
                             $resultFlag = false;
                         }
