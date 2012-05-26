@@ -324,10 +324,14 @@ class Mage_User_Model_User
         $result = false;
 
         try {
-            Mage::dispatchEvent('admin_user_authenticate_before', array(
-                'username' => $username,
-                'user'     => $this
-            ));
+            try {
+                Mage::dispatchEvent('admin_user_authenticate_before', array(
+                    'username' => $username,
+                    'user'     => $this
+                ));
+            } catch (Mage_Core_Exception $e) {
+                throw new Mage_Backend_Model_Auth_Exception($e->getMessage());
+            }
             $this->loadByUsername($username);
             $sensitive = ($config) ? $username == $this->getUsername() : true;
 
@@ -336,26 +340,29 @@ class Mage_User_Model_User
                 && Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
-                    throw new Mage_Backend_Model_Auth_Exception(
+                    throw new Mage_Core_Exception(
                         Mage::helper('Mage_User_Helper_Data')->__('This account is inactive.')
                     );
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
-                    throw new Mage_Backend_Model_Auth_Exception(
+                    throw new Mage_Core_Exception(
                         Mage::helper('Mage_User_Helper_Data')->__('Access denied.')
                     );
                 }
                 $result = true;
             }
 
-            Mage::dispatchEvent('admin_user_authenticate_after', array(
-                'username' => $username,
-                'password' => $password,
-                'user'     => $this,
-                'result'   => $result,
-            ));
-        }
-        catch (Mage_Core_Exception $e) {
+            try{
+                Mage::dispatchEvent('admin_user_authenticate_after', array(
+                    'username' => $username,
+                    'password' => $password,
+                    'user'     => $this,
+                    'result'   => $result,
+                ));
+            } catch (Mage_Core_Exception $e) {
+                throw new Mage_Backend_Model_Auth_Exception($e->getMessage());
+            }
+        } catch (Mage_Core_Exception $e) {
             $this->unsetData();
             throw $e;
         }

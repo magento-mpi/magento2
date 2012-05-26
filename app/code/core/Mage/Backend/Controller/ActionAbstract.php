@@ -269,9 +269,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
         } catch (Mage_Backend_Model_Auth_Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
-                Mage::getSingleton('Mage_Backend_Model_Session')->addError(
-                    Mage::helper('Mage_Backend_Helper_Data')->__('Invalid User Name or Password.')
-                );
+                Mage::getSingleton('Mage_Backend_Model_Session')->addError($e->getMessage());
                 $this->getRequest()->setParam('messageSent', true);
                 $outputValue = false;
             }
