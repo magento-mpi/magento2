@@ -151,7 +151,9 @@ class Mage_Captcha_Model_Observer
         if ($captchaModel->isRequired($login)) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
                 $captchaModel->logAttempt($login);
-                Mage::throwException(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.'));
+                throw new Mage_Backend_Model_Auth_Plugin_Exception(
+                    Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA.')
+                );
             }
         }
         $captchaModel->logAttempt($login);
