@@ -132,7 +132,7 @@
 
         <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="${build_host}"/>
 
-        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="${build_host}/pub"/>
         <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="n4hqk3ajzbrlh2cddcvjv1zenh4s70y1"/>
     </target>
 
