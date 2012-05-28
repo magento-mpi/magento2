@@ -25,6 +25,13 @@
         </reference>
     </adminhtml_user_role_index>
 
+    <!-- override roles grid to add website/store columns -->
+    <adminhtml_user_role_rolegrid>
+        <reference name="adminhtml.permission.role.index">
+            <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid" as="grid" output="1"/>
+        </reference>
+    </adminhtml_user_role_rolegrid>
+
     <adminhtml_user_role_editrolegrid>
         <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.permission.role.grid"/>
     </adminhtml_user_role_editrolegrid>
