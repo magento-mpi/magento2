@@ -23,7 +23,7 @@
     </adminhtml_logging_index>
 
     <adminhtml_logging_grid>
-        <block type="Enterprise_Logging_Block_Adminhtml_Index_Grid" name="root"/>
+        <block type="Enterprise_Logging_Block_Adminhtml_Index_Grid" output="1" name="root"/>
     </adminhtml_logging_grid>
 
     <adminhtml_logging_details>
