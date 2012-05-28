@@ -72,8 +72,12 @@ class Mage_Api2_Model_Dispatcher
     public static function loadResourceModel($model, $apiType, $userType, $version)
     {
         $class = strtr(
-            self::RESOURCE_CLASS_TEMPLATE,
-            array(':resource' => $model, ':api' => $apiType, ':user' => $userType, ':version' => $version)
+            self::RESOURCE_CLASS_TEMPLATE, array(
+                ':resource' => $model,
+                ':api' => ucfirst($apiType),
+                ':user' => ucfirst($userType),
+                ':version' => ucfirst($version)
+            )
         );
 
         try {
