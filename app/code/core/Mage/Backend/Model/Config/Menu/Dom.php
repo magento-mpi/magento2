@@ -13,6 +13,7 @@
  */
 class Mage_Backend_Model_Config_Menu_Dom extends Magento_Config_Dom
 {
+
     /**
      * Getter for node by path
      *

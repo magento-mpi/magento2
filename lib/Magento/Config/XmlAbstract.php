@@ -70,16 +70,39 @@ abstract class Magento_Config_XmlAbstract
                 throw new Magento_Exception("File does not exist: {$file}");
             }
             $this->_getDomConfigModel()->merge(file_get_contents($file));
-            if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
-                $message = "Invalid XML-file: {$file}\n";
-                /** @var libXMLError $error */
-                foreach ($errors as $error) {
-                    $message .= "{$error->message} Line: {$error->line}\n";
-                }
-                throw new Magento_Exception($message);
+            if ($this->_isRuntimeValidated()) {
+                $this->_performValidate($file);
             }
         }
         return $this->_getDomConfigModel()->getDom();
+    }
+
+    /**
+     * Perform xml validation
+     * @param string $file
+     * @return Magento_Config_XmlAbstract
+     * @throws Magento_Exception if invalid XML-file passed
+     */
+    protected function _performValidate($file = null)
+    {
+        if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
+            $message = is_null($file) ?  "Invalid Document \n" : "Invalid XML-file: {$file}\n";
+            /** @var libXMLError $error */
+            foreach ($errors as $error) {
+                $message .= "{$error->message} Line: {$error->line}\n";
+            }
+            throw new Magento_Exception($message);
+        }
+        return $this;
+    }
+
+    /**
+     * Get if xml files must be runtime validated
+     * @return boolean
+     */
+    protected function _isRuntimeValidated()
+    {
+        return true;
     }
 
     /**

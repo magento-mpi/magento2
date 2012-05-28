@@ -77,4 +77,23 @@ class Mage_Backend_Model_Config_Menu extends Magento_Config_XmlAbstract
         }
         return $this->_domConfig;
     }
+
+    /**
+     * Perform xml validation
+     * @return Magento_Config_XmlAbstract
+     * @throws Magento_Exception if invalid XML-file passed
+     */
+    public function validate()
+    {
+        return $this->_performValidate();
+    }
+
+    /**
+     * Get if xml files must be runtime validated
+     * @return boolean
+     */
+    protected function _isRuntimeValidated()
+    {
+        return false;
+    }
 }
