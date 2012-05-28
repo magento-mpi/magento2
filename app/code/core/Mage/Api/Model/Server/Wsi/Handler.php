@@ -17,7 +17,7 @@
  */
 class Mage_Api_Model_Server_Wsi_Handler extends Mage_Api_Model_Server_Handler_Abstract
 {
-    protected $_resourceSuffix = '_v2';
+    protected $_resourceSuffix = '_V2';
 
     /**
      * Interceptor for all interfaces
