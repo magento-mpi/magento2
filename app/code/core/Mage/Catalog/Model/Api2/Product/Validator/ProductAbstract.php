@@ -34,7 +34,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract extends
         switch ($productType) {
             case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
             case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
-                return Mage::getModel("Mage_Catalog_Model_Api2_Product_Validator_Product_$productType");
+                return Mage::getModel("Mage_Catalog_Model_Api2_Product_Validator_Product_" . ucfirst($productType));
             default:
                 throw new Mage_Api2_Exception("Creation of products with type '$productType' is not implemented",
                     Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
