@@ -57,6 +57,7 @@ class Api2_Sales_Order_Comments_AdminTest extends Magento_Test_Webservice_Rest_A
                 ->setEntityName(Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
             $order->addStatusHistory($history);
         }
+        $order->setDataChanges(true);
         return $this;
     }
 
