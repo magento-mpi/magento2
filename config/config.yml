@@ -129,4 +129,22 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
+    magento2enterprise: &magento2enterprise
+        fallbackOrderFixture: 'magento2ee, enterprise, default'
+        fallbackOrderHelper: 'Magento2EE, Enterprise, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
     default: *enterprise
