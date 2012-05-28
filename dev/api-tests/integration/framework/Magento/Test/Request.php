@@ -25,6 +25,6 @@ class Magento_Test_Request extends Mage_Core_Controller_Request_Http
      */
     public function getHttpHost($trimPort = true)
     {
-        return 'localhost';
+        return defined('TESTS_HTTP_HOST') ? TESTS_HTTP_HOST : 'localhost';
     }
 }
