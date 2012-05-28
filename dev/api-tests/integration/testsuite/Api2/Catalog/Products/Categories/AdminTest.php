@@ -105,20 +105,11 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
         $expectedErrors = array(
             'category_id: Value is required and can\'t be empty',
             'Resource data pre-validation error.'
         );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
@@ -135,20 +126,11 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
         $expectedErrors = array(
             'category_id: Please use numbers only in "category_id" field.',
             'Resource data pre-validation error.'
         );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
@@ -165,7 +147,6 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
         $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
             Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
@@ -180,19 +161,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
 
         $restResponse = $this->callPost($this->_getResourcePath('INVALID_PRODUCT'), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource not found.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**
@@ -214,19 +184,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         self::setFixture('product_simple', $product);
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Product #' . $product->getId() . ' is already assigned to category #' . $categoryData['category_id']
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse,
+            'Product #' . $product->getId() . ' is already assigned to category #' . $categoryData['category_id']);
     }
 
     /**
@@ -243,19 +202,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Cannot assign product to tree root category.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Cannot assign product to tree root category.');
     }
 
     /**
@@ -295,19 +242,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     public function testListWrongProductId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource not found.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**
@@ -348,19 +284,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     {
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID', $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource not found.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**
@@ -377,19 +302,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Category not found'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**
@@ -406,19 +320,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Product #' . $product->getId() . ' isn\'t assigned to category #' . $categoryData['category_id']
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse,
+            'Product #' . $product->getId() . ' isn\'t assigned to category #' . $categoryData['category_id']);
     }
 
     /**
