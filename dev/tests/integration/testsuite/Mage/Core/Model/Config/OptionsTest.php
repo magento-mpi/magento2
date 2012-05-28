@@ -116,7 +116,6 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
             array('getSessionDir', 'Session directory %s does not exist.'),
             array('getUploadDir', 'Upload directory %s does not exist.'),
             array('getExportDir', 'Export directory %s does not exist.'),
-            array('getSkinDir', 'Skin directory %s does not exist.'),
         );
     }
 
