@@ -43,7 +43,7 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
      */
     protected function _getHelper()
     {
-        if (null == $this->_helper) {
+        if (is_null($this->_helper)) {
             $this->_helper = Mage::helper('Enterprise_Search_Helper_Data');
         }
         return $this->_helper;
