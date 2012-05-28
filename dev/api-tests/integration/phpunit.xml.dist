@@ -14,7 +14,7 @@
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Magento PaaS/API Integration Tests">
-            <directory suffix="Test.php">tests/Mage</directory>
+            <directory suffix="Test.php">testsuite/Mage</directory>
         </testsuite>
     </testsuites>
 
@@ -47,7 +47,7 @@
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- HTTP Host-->
-        <const name="TESTS_HTTP_HOST" value="mydomain.com"/>
+        <const name="TESTS_HTTP_HOST" value="dd.varien.com"/>
         <!-- Admin User -->
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->
