@@ -15,7 +15,7 @@
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framework_TestCase
+abstract class Magento_Test_TestCase_ControllerAbstract extends Magento_TestCase
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';
@@ -51,7 +51,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Run request
      *
-     * @return void
+     * @param string $uri
      */
     public function dispatch($uri)
     {
@@ -110,5 +110,127 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
                 'replace' => true,
             ), $this->getResponse()->getHeaders());
         }
+    }
+
+    /**
+     * Assert that there is a expected match of redirect URL
+     *
+     * Omit expected URL to check that redirect to wherever has been occurred.
+     *
+     * @param string|null $matchUrl         Match URL on redirect
+     * @param string $message               Custom error message
+     */
+    public function assertRedirectMatch($matchUrl = null, $message = '')
+    {
+        $messageAssert = $message ? $message : 'Response is not contain redirect header.';
+        $this->assertTrue($this->getResponse()->isRedirect(), $messageAssert);
+
+        if ($matchUrl) {
+            foreach ($this->getResponse()->getHeaders() as $header) {
+                if ('Location' == $header['name'] && true === $header['replace']) {
+                    if (!$message) {
+                        $message = 'Expected redirect URL does not match URL in Location header.';
+                    }
+                    $this->assertContains($matchUrl, $header['value'], $message);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Login to admin panel
+     *
+     * @param string|null $username     Identity
+     * @param string|null $password     Credential
+     * @return Magento_Test_ControllerTestCaseAbstract
+     * @throws Magento_Test_Exception   Throw exception when admin user not found
+     */
+    public function loginToAdmin($username = null, $password = null)
+    {
+        /** @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        if (null === $username) {
+            $username = TESTS_ADMIN_USERNAME;
+        }
+        if (null === $password) {
+            $password = TESTS_ADMIN_PASSWORD;
+        }
+        if (!$session->isLoggedIn() || false !== ($user = $session->getUser())
+            && $user->getUsername() != $username
+        ) {
+            /** @var $user Mage_Admin_Model_User */
+            $user = Mage::getModel('Mage_Admin_Model_User');
+            $user->login($username, $password);
+            if ($user->getId()) {
+                $session->setIsFirstPageAfterLogin(true);
+                $session->setUser($user);
+                /** @var $acl Mage_Admin_Model_Resource_Acl */
+                $acl = Mage::getResourceModel('Mage_Admin_Model_Resource_Acl');
+                $session->setAcl($acl->loadAcl());
+            }
+
+            if (!$session->isLoggedIn()) {
+                throw new Magento_Test_Exception(
+                    sprintf('Admin cannot logged with username "%s".', $username));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Login to admin panel
+     *
+     * @param string|null $email        Identity
+     * @param string|null $password     Credential
+     * @return Magento_Test_ControllerTestCaseAbstract
+     * @throws Magento_Test_Exception   Throw exception when admin user not found
+     */
+    public function loginToFrontend($email = null, $password = null)
+    {
+        /** @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        if (null === $email) {
+            $email = TESTS_CUSTOMER_EMAIL;
+        }
+        if (null === $password) {
+            $password = TESTS_CUSTOMER_PASSWORD;
+        }
+        if (!$session->isLoggedIn() || false !== ($user = $session->getCustomer())
+            && $user->getEmail() != $email
+        ) {
+            /** @var $user Mage_Customer_Model_Customer */
+            $user = Mage::getModel('Mage_Customer_Model_Customer');
+            $user->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->authenticate($email, $password);
+
+            if ($user->getId()) {
+                $session->setCustomerAsLoggedIn($user);
+            }
+
+            if (!$session->isLoggedIn()) {
+                throw new Magento_Test_Exception(
+                    sprintf('Customer cannot logged with email "%s".', $email));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve URI with admin secret key
+     *
+     * @param string $urlPath
+     * @return string
+     */
+    protected function _getUrlPathWithSecretKey($urlPath)
+    {
+        $uri = Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($urlPath);
+        // strip base URL if detected
+        $baseUrl = rtrim(Mage::getBaseUrl(), '/');
+        if (strpos($uri, $baseUrl) === 0) {
+            $uri = substr($uri, strlen($baseUrl));
+            return $uri;
+        }
+        return $uri;
     }
 }

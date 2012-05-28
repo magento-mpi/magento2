@@ -27,6 +27,10 @@ class Mage_Oauth_Model_ServerTest extends Magento_TestCase
      */
     protected function setUp()
     {
+        $useSidPath = 'web/session/use_frontend_sid';
+        if (Mage::getConfig()->getNode($useSidPath, 'default') != 0) {
+            $this->_updateAppConfig($useSidPath, 0, true, true, true);
+        }
         /** @var $consumer Mage_Oauth_Model_Consumer */
         $consumer = Mage::getModel('Mage_Oauth_Model_Consumer');
 
@@ -144,8 +148,6 @@ class Mage_Oauth_Model_ServerTest extends Magento_TestCase
 
     /**
      * Test initiative request to oAuth server
-     *
-     * @return void
      */
     public function testGetRequestToken()
     {

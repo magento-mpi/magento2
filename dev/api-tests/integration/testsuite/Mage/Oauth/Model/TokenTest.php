@@ -217,7 +217,8 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
         /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = $token->getCollection();
 
-        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper = $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data', array(
+            'isCleanupProbability', 'getCleanupExpirationPeriod'));
         $helper->expects($this->once())
             ->method('isCleanupProbability')
             ->will($this->returnValue(true));
@@ -229,7 +230,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
         $collection->getFirstItem()->setKey(md5(mt_rand()))->save();
         $this->assertEquals($collection->count() - self::OLD_TOKEN_COUNT, $token->getCollection()->count());
 
-        $this->_restoreHelper('oauth');
+        $this->_restoreHelper('Mage_Oauth_Helper_Data');
     }
 
     /**
@@ -247,7 +248,8 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
         /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = $token->getCollection();
 
-        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper = $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data', array(
+            'isCleanupProbability', 'getCleanupExpirationPeriod'));
         $helper->expects($this->once())
             ->method('isCleanupProbability')
             ->will($this->returnValue(false));
@@ -258,7 +260,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
         $collection->getFirstItem()->setKey(md5(mt_rand()))->save();
         $this->assertEquals($collection->count(), $token->getCollection()->count());
 
-        $this->_restoreHelper('oauth');
+        $this->_restoreHelper('Mage_Oauth_Helper_Data');
     }
 
     /**

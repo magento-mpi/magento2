@@ -16,7 +16,7 @@
  * @package     Mage_Api2
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Adminhtml_Model_Url

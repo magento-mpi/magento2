@@ -51,9 +51,9 @@ class Mage_Oauth_Model_ConsumerTest extends Mage_PHPUnit_TestCase
         parent::setUp();
 
         /** @var $helper Mage_Oauth_Helper_Data */
-        $helper = Mage::helper('oauth');
+        $helper = Mage::helper('Mage_Oauth_Helper_Data');
 
-        $this->_consumer = Mage::getModel('oauth/consumer');
+        $this->_consumer = Mage::getModel('Mage_Oauth_Model_Consumer');
         $this->_consumer->setData(array(
             'name'         => 'Consumer name',
             'key'          => $helper->generateConsumerKey(),

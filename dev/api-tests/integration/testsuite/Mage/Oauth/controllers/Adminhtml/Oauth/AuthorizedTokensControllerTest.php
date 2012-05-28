@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**#@+
      * Revoked status constants
@@ -60,11 +60,11 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensControllerTest extends Magento_
         foreach (array(self::STATUS_REVOKED_FALSE, self::STATUS_REVOKED_TRUE) as $revoked) {
             $this->getRequest()->setParam('status', $revoked);
             Mage::unregister('application_params');
-            $this->_replaceHelperWithMock('oauth', array('sendNotificationOnTokenStatusChange'))
+            $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data', array('sendNotificationOnTokenStatusChange'))
                  ->expects($this->exactly($notificationsCount[$revoked]))
                  ->method('sendNotificationOnTokenStatusChange');
 
-            $this->dispatch(Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/oauth_authorizedTokens/revoke'));
+            $this->dispatch($this->_getUrlPathWithSecretKey('adminhtml/oauth_authorizedTokens/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
             /** @var $item Mage_Oauth_Model_Token */
@@ -103,12 +103,12 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensControllerTest extends Magento_
         $this->loginToAdmin();
         $this->getRequest()->setParam('items', $tokenIds);
         Mage::unregister('application_params');
-        $this->_replaceHelperWithMock('oauth', array('sendNotificationOnTokenStatusChange'))
+        $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data', array('sendNotificationOnTokenStatusChange'))
              ->expects($this->exactly($notifications))
              ->method('sendNotificationOnTokenStatusChange')
              ->will($this->returnValue(1));
 
-        $this->dispatch(Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/oauth_authorizedTokens/delete'));
+        $this->dispatch($this->_getUrlPathWithSecretKey('adminhtml/oauth_authorizedTokens/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
         /** @var $item Mage_Oauth_Model_Token */

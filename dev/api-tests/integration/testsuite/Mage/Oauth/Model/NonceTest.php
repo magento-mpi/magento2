@@ -89,7 +89,8 @@ class Mage_Oauth_Model_NonceTest extends Magento_TestCase
         // Nonce items count before delete action
         $count = $nonce->getCollection()->count();
 
-        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper = $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data',
+            array('isCleanupProbability', 'getCleanupExpirationPeriod'));
         $helper->expects($this->once())
             ->method('isCleanupProbability')
             ->will($this->returnValue(true));
@@ -104,7 +105,7 @@ class Mage_Oauth_Model_NonceTest extends Magento_TestCase
             ->save();
 
         $this->assertEquals($count - self::OLD_NONCE_COUNT, $nonce->getCollection()->count());
-        $this->_restoreHelper('oauth');
+        $this->_restoreHelper('Mage_Oauth_Helper_Data');
     }
 
     /**
@@ -121,7 +122,8 @@ class Mage_Oauth_Model_NonceTest extends Magento_TestCase
         // Nonce items count before delete action
         $count = $nonce->getCollection()->count();
 
-        $helper = $this->_replaceHelperWithMock('oauth', array('isCleanupProbability', 'getCleanupExpirationPeriod'));
+        $helper = $this->_replaceHelperWithMock('Mage_Oauth_Helper_Data',
+            array('isCleanupProbability', 'getCleanupExpirationPeriod'));
         $helper->expects($this->once())
             ->method('isCleanupProbability')
             ->will($this->returnValue(false));
@@ -135,7 +137,7 @@ class Mage_Oauth_Model_NonceTest extends Magento_TestCase
             ->save();
 
         $this->assertEquals($count + 1, $nonce->getCollection()->count());
-        $this->_restoreHelper('oauth');
+        $this->_restoreHelper('Mage_Oauth_Helper_Data');
 
         // Delete excess nonce items
         $nonce->getResource()->deleteOldEntries(self::NONCE_TIME_FOR_DELETE/60);

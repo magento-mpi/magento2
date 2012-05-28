@@ -16,7 +16,7 @@
  * @author      Magento Api Team <api-team@magento.com>
  *
  */
-class Mage_Oauth_Adminhtml_Oauth_AuthorizeControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Adminhtml_Oauth_AuthorizeControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * Consumer fixture

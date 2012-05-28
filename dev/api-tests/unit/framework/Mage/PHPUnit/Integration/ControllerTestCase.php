@@ -68,8 +68,8 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
 
             //Mock some objects for dispatch admin actions
             if ($isAdminAction) {
-                $user = Mage::getModel('admin/user')->setId(1);
-                $adminSessionMock = $this->getSingletonMockBuilder('admin/session')
+                $user = Mage::getModel('Mage_Admin_Model_User')->setId(1);
+                $adminSessionMock = $this->getSingletonMockBuilder('Mage_Admin_Model_Session')
                     ->setMethods(array('isLoggedIn', 'getUser'))
                     ->getMock();
                 $adminSessionMock->expects($this->any())
@@ -79,7 +79,7 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
                     ->method('getUser')
                     ->will($this->returnValue($user));
 
-                $adminUrlMock = $this->getSingletonMockBuilder('adminhtml/url')
+                $adminUrlMock = $this->getSingletonMockBuilder('Mage_Adminhtml_Model_Url')
                     ->setMethods(array('useSecretKey'))
                     ->getMock();
                 $adminSessionMock->expects($this->any())

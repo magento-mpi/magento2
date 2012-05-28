@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * Get token data
@@ -37,7 +37,7 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_
         //generate test items
         $models = $this->_getFixtureModels();
 
-        $redirectUrl  = 'admin/oauth_admin_token/index';
+        $redirectUrl = 'admin/oauth_admin_token/index';
 
         $models = array_merge($models['token']['customer'], $models['token']['admin']);
         $tokenIds = array();
@@ -55,7 +55,7 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_
         foreach (array(0, 1) as $revoked) {
             $this->getRequest()->setParam('status', $revoked);
             Mage::unregister('application_params');
-            $this->dispatch(Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/oauth_admin_token/revoke'));
+            $this->dispatch($this->_getUrlPathWithSecretKey('adminhtml/oauth_admin_token/revoke'));
             $this->assertRedirectMatch($redirectUrl);
 
             /** @var $item Mage_Oauth_Model_Token */
@@ -67,7 +67,6 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_
             }
         }
     }
-
 
     /**
      * Test delete action
@@ -92,7 +91,7 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_
         $message                = 'Token is not deleted.';
         $messageMustNotUpdated  = 'Token is deleted but it must be not.';
         Mage::unregister('application_params');
-        $this->dispatch(Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/oauth_admin_token/delete'));
+        $this->dispatch($this->_getUrlPathWithSecretKey('adminhtml/oauth_admin_token/delete'));
         $this->assertRedirectMatch($redirectUrl);
 
         /** @var $item Mage_Oauth_Model_Token */

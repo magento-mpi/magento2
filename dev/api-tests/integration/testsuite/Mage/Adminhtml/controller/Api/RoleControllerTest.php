@@ -15,7 +15,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * Test data filtering on render edit role page

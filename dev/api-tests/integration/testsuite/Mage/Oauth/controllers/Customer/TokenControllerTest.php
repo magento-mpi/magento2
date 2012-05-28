@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Oauth_Customer_TokenControllerTest extends Magento_Test_ControllerTestCaseAbstract
+class Mage_Oauth_Customer_TokenControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * Get token data
