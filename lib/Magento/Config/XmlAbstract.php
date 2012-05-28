@@ -22,6 +22,12 @@ abstract class Magento_Config_XmlAbstract
     protected $_data;
 
     /**
+     * Dom configuration model
+     * @var Magento_Config_Dom
+     */
+    protected $_domConfig = null;
+
+    /**
      * Instantiate with the list of files to merge
      *
      * @param array $configFiles
@@ -59,13 +65,12 @@ abstract class Magento_Config_XmlAbstract
      */
     protected function _merge($configFiles)
     {
-        $domConfig = new Magento_Config_Dom($this->_getInitialXml(), $this->_getIdAttributes());
         foreach ($configFiles as $file) {
             if (!file_exists($file)) {
                 throw new Magento_Exception("File does not exist: {$file}");
             }
-            $domConfig->merge(file_get_contents($file));
-            if (!$domConfig->validate($this->getSchemaFile(), $errors)) {
+            $this->_getDomConfigModel()->merge(file_get_contents($file));
+            if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
                 $message = "Invalid XML-file: {$file}\n";
                 /** @var libXMLError $error */
                 foreach ($errors as $error) {
@@ -74,7 +79,19 @@ abstract class Magento_Config_XmlAbstract
                 throw new Magento_Exception($message);
             }
         }
-        return $domConfig->getDom();
+        return $this->_getDomConfigModel()->getDom();
+    }
+
+    /**
+     * Get Dom configuration model
+     * @return Magento_Config_Dom
+     */
+    protected function _getDomConfigModel()
+    {
+        if (is_null($this->_domConfig)) {
+            $this->_domConfig = new Magento_Config_Dom($this->_getInitialXml(), $this->_getIdAttributes());
+        }
+        return $this->_domConfig;
     }
 
     /**
