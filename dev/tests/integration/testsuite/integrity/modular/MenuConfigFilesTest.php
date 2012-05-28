@@ -95,6 +95,11 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMergedConfig()
     {
-        $this->markTestIncomplete('Test is incomplete until implementation of MAGETWO-882');
+        $model = new Mage_Backend_Model_Config_Menu($this->_getConfigurationFileList());
+        try {
+            $this->assertInstanceOf('Mage_Backend_Model_Config_Menu', $model->validate());
+        } catch (Magento_Exception $e) {
+            $this->fail($e->getMessage());
+        }
     }
 }
