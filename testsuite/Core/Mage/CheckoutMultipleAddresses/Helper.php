@@ -418,9 +418,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertMultipleCheckoutPageOpened('billing_information');
         $this->selectPaymentMethod($payment);
         $setXpath = $this->_getControlXpath('pageelement', 'place_order');
+        $waitConditions = array($setXpath . self::$activeTab, $this->_getMessageXpath('general_error'),
+                                $this->_getMessageXpath('general_validation'));
         $this->clickButton('continue_to_review_order', false);
-        $this->waitForElement(array($setXpath . self::$activeTab, $this->_getMessageXpath('general_error'),
-                                    $this->_getMessageXpath('general_validation')));
+        $this->waitForElementOrAlert($waitConditions);
         $this->validatePage();
     }
 
@@ -445,6 +446,8 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
 
     /**
      * @param array $paymentMethod
+     *
+     * @return bool
      */
     public function selectPaymentMethod(array $paymentMethod)
     {
@@ -458,13 +461,15 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $this->click($xpath);
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
+                return false;
             }
             if ($card) {
-                $paymentId = $this->getAttribute($xpath . '/@value');
+                $paymentId = $this->getAttribute($xpath . '@value');
                 $this->addParameter('paymentId', $paymentId);
                 $this->fillFieldset($card, 'payment_method');
             }
         }
+        return true;
     }
 
     /**

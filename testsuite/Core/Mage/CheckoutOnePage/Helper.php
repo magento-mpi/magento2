@@ -279,6 +279,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Selecting payment method
      *
      * @param array $paymentMethod
+     *
+     * @return bool
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
@@ -294,6 +296,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->click($xpath);
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
+                return false;
             }
             if ($card) {
                 $paymentId = $this->getAttribute($xpath . '/@value');
@@ -302,6 +305,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
         $this->goToNextOnePageCheckoutStep('payment_method');
+        return true;
     }
 
     /**

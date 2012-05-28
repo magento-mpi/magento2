@@ -400,14 +400,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
 
         if ($payment) {
-            $result = $this->errorMessage('no_payment');
-            if ($result['success']) {
+            $this->addParameter('paymentTitle', $payment);
+            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
+            if (!$this->isElementPresent($xpath)) {
                 if ($validate) {
-                    $this->fail('No Payment Information Required');
+                    $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
                 }
             } else {
-                $this->addParameter('paymentTitle', $payment);
-                $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
                 $this->click($xpath);
                 $this->pleaseWait();
                 if ($card) {
