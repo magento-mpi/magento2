@@ -25,36 +25,35 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-license_agreement_data:
-    agree_conditions: Yes
-
-localization_data:
-    locale: English (United States) / English (United States)
-    timezone: Pacific Standard Time (America/Los_Angeles)
-    currency: US Dollar
-
-configuration_data:
-    host: www.localhost.com
-    database_name: magento
-    user_name: root
-    user_password:
-    tables_prefix: %noValue%
-    base_url: http://www.localhost.com/magento/
-    admin_path: admin
-    enable_charts: Yes
-    skip_base_url_validation: %noValue%
-    use_rewrites: %noValue%
-    use_secure: %noValue%
-    run_admin_with_ssl: %noValue%
-    secure_base_url: %noValue%
-    skip_secure_url_validation: %noValue%
-    session_save_in: File System
-
-admin_account_data:
-    first_name: First Name
-    last_name: Last Name
-    email: admin@unknown-domain.com
-    user_name: admin
-    password: 123123q
-    confirm_password: 123123q
-    encryption_key:
+install_magento:
+    license_agreement:
+        agree_conditions: Yes
+    localization:
+        locale: English (United States) / English (United States)
+        timezone: Pacific Standard Time (America/Los_Angeles)
+        currency: US Dollar
+    configuration:
+        database_type: MySQL
+        host: localhost
+        database_name: magento
+        user_name: localhost_user
+        user_password:
+        tables_prefix: %noValue%
+        base_url: http://www.localhost.com/magento/
+        admin_path: admin
+        enable_charts: Yes
+        skip_base_url_validation: %noValue%
+        use_rewrites: %noValue%
+        use_secure: %noValue%
+        run_admin_with_ssl: %noValue%
+        secure_base_url: %noValue%
+        skip_secure_url_validation: %noValue%
+        session_save_in: Database
+    admin_account:
+        first_name: First Name
+        last_name: Last Name
+        email: admin@unknown-domain.com
+        user_name: admin
+        password: 123123q
+        confirm_password: 123123q
+        encryption_key:

@@ -38,7 +38,7 @@ associated_attributes: &associatedAttributes
     Gift Options: %noValue%
 
 attribute_set:
-    set_name: test_attribute_set
+    set_name: test_attribute_set_%randomize%
     based_on: Default
     new_groups: %noValue%
     associated_attributes: *associatedAttributes

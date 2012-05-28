@@ -43,7 +43,6 @@ class Core_Mage_PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCas
     {
         $this->loginAdminUser();
         $this->navigate('manage_shopping_cart_price_rules');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -57,15 +56,15 @@ class Core_Mage_PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCas
      * <p>Shopping Cart Price Rule successfully created and deleted;</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3321
+     * @TestlinkId TL-MAGE-3321
      */
     public function deleteShoppingCartPriceRule()
     {
         $this->navigate('manage_shopping_cart_price_rules');
-        $ruleData = $this->loadData('scpr_required_fields', null, array('rule_name', 'coupon_code'));
-        $ruleSearch = $this->loadData('search_shopping_cart_rule',
-                                      array('filter_rule_name' => $ruleData['info']['rule_name'],
-                                            'filter_coupon_code' => $ruleData['info']['coupon_code']));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields');
+        $ruleSearch = $this->loadDataSet('ShoppingCartPriceRule', 'search_shopping_cart_rule',
+            array('filter_rule_name'   => $ruleData['info']['rule_name'],
+                  'filter_coupon_code' => $ruleData['info']['coupon_code']));
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->priceRulesHelper()->deleteRule($ruleSearch);

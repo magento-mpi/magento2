@@ -51,6 +51,7 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
      */
     public function preconditionsForTests()
     {
+        $forLinking = array();
         $linking = $this->productHelper()->createVirtualProduct();
         foreach (self::$productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';

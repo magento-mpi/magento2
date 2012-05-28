@@ -37,13 +37,12 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 {
     public function setUpBeforeTests()
     {
-        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('default_tax_config');
-        $this->systemConfigurationHelper()->configure('shipping_settings_default');
-        $this->systemConfigurationHelper()->configure('flat_rate_for_price_verification');
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
+        $this->systemConfigurationHelper()->configure('Tax/flat_rate_for_price_verification');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
@@ -53,146 +52,148 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
-        $flatrate = $this->loadDataSet('ShippingMethod', 'flatrate_enable');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($flatrate);
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
     }
 
     /**
-     * Create Customer for tests
-     *
-     * @return string $userData
+     * @return array
      * @test
-     * @group preConditions
+     * @skipTearDown
      */
-    public function createCustomer()
+    public function preconditionsForTests()
     {
-        //Data
-        $userData = $this->loadData('customer_account_for_prices_validation', null, 'email');
-        $addressData = $this->loadData('customer_account_address_for_prices_validation');
+        $user = $this->loadDataSet('PriceReview', 'customer_account_for_prices_validation');
+        $address = $this->loadDataSet('PriceReview', 'customer_account_address_for_prices_validation');
+        $category = $this->loadDataSet('Category', 'sub_category_required');
+        $categoryPath = $category['parent_category'] . '/' . $category['name'];
+        $products = array();
         //Steps
         $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData, $addressData);
+        $this->customerHelper()->createCustomer($user, $address);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-
-        return $userData['email'];
-    }
-
-    /**
-     * Create Simple Products for tests
-     *
-     * @return array $products
-     * @test
-     * @group preConditions
-     */
-    public function createProducts()
-    {
-        $products = array();
+        //Steps
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($category);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->checkCategoriesPage();
+        //Steps
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
-            $simpleProductData = $this->loadData("simple_product_for_prices_validation_$i",
-                null, array('general_name', 'general_sku'));
-            $products['sku'][$i] = $simpleProductData['general_sku'];
-            $products['name'][$i] = $simpleProductData['general_name'];
-            $this->productHelper()->createProduct($simpleProductData);
+            $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_' . $i,
+                array('categories' => $categoryPath));
+            $this->productHelper()->createProduct($simple);
             $this->assertMessagePresent('success', 'success_saved_product');
+            $products['sku'][$i] = $simple['general_sku'];
+            $products['name'][$i] = $simple['general_name'];
         }
-        return $products;
+        return array($user['email'], $products, $category['name']);
     }
 
     /**
      * Create Order on the backend and validate prices with taxes
      *
-     * @param $sysConfigData
-     * @param $customer
-     * @param $products
-     *
-     * @dataProvider createOrderBackendDataProvider
-     * @depends createCustomer
-     * @depends createProducts
+     * @param string $sysConfigData
+     * @param array $testData
      *
      * @test
-     *
+     * @dataProvider createOrderBackendDataProvider
+     * @depends preconditionsForTests
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
-    public function createOrderBackend($sysConfigData, $customer, $products)
+    public function createOrderBackend($sysConfigData, $testData)
     {
+        list($customer, $products) = $testData;
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($sysConfigData);
+        $this->systemConfigurationHelper()->configure('Tax/' . $sysConfigData);
         //Data for order creation
-        $crOrder = $this->loadData($sysConfigData . '_backend_create_order', array('email' => $customer));
+        $order =
+            $this->loadDataSet('PriceReview', $sysConfigData . '_backend_create_order', array('email' => $customer));
         //Data for prices and total verification after order creation
-        $priceAftOrdCr = $this->loadData($sysConfigData . '_backend_product_prices_after_order');
-        $totAftOrdCr = $this->loadData($sysConfigData . '_backend_total_after_order');
+        $priceAftOrd = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_order');
+        $totAftOrd = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_order');
         //Data for prices and total verification before invoice creation
-        $priceBefInvCr = $this->loadData($sysConfigData . '_backend_product_prices_before_invoice');
-        $totBefInvCr = $this->loadData($sysConfigData . '_backend_total_before_invoice');
+        $priceBefInv = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_before_invoice');
+        $totBefInv = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_before_invoice');
         //Data for prices and total verification after invoice creation on order page
-        $priceAftInvCr = $this->loadData($sysConfigData . '_backend_product_prices_after_invoice');
-        $totAftInvCr = $this->loadData($sysConfigData . '_backend_total_after_invoice');
+        $priceAftInv = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_invoice');
+        $totAftInv = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftInvCrOnInv = $this->loadData($sysConfigData . '_backend_product_prices_after_invoice_on_invoice');
-        $totAftInvCrOnInv = $this->loadData($sysConfigData . '_backend_total_after_invoice_on_invoice');
+        $priceAftInvOnInv =
+            $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_invoice_on_invoice');
+        $totAftInvOnInv = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_invoice_on_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftShipCr = $this->loadData($sysConfigData . '_backend_product_prices_after_shipment');
-        $totAftShipCr = $this->loadData($sysConfigData . '_backend_total_after_shipment');
+        $priceAftShip = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_shipment');
+        $totAftShip = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_shipment');
         //Data for prices and total verification before refund creation on refund page
-        $priceBefRefCr = $this->loadData($sysConfigData . '_backend_product_prices_before_refund');
-        $totBefRefCr = $this->loadData($sysConfigData . '_backend_total_before_refund');
+        $priceBefRef = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_before_refund');
+        $totBefRef = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_before_refund');
         //Data for prices and total verification after refund creation on order page
-        $priceAftRefCr = $this->loadData($sysConfigData . '_backend_product_prices_after_refund');
-        $totAftRefCr = $this->loadData($sysConfigData . '_backend_total_after_refund');
+        $priceAftRef = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_refund');
+        $totAftRef = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_refund');
         //Data for prices and total verification after refund creation on refund page
-        $priceAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_product_prices_after_refund_on_refund');
-        $totAftRefCrOnRef = $this->loadData($sysConfigData . '_backend_total_after_refund_on_refund');
+        $priceAftRefOnRef =
+            $this->loadDataSet('PriceReview', $sysConfigData . '_backend_product_prices_after_refund_on_refund');
+        $totAftRefOnRef = $this->loadDataSet('PriceReview', $sysConfigData . '_backend_total_after_refund_on_refund');
         for ($i = 1; $i <= 3; $i++) {
-            $crOrder['products_to_add']['product_' . $i]['filter_sku'] = $products['sku'][$i];
-            $crOrder['prod_verification']['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftOrdCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceBefInvCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftInvCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftInvCrOnInv['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftShipCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceBefRefCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftRefCr['product_' . $i]['product'] = $products['name'][$i];
-            $priceAftRefCrOnRef['product_' . $i]['product'] = $products['name'][$i];
+            $order['products_to_add']['product_' . $i]['filter_sku'] = $products['sku'][$i];
+            $order['prod_verification']['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftOrd['product_' . $i]['product'] = $products['name'][$i];
+            $priceBefInv['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftInv['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftInvOnInv['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftShip['product_' . $i]['product'] = $products['name'][$i];
+            $priceBefRef['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftRef['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftRefOnRef['product_' . $i]['product'] = $products['name'][$i];
         }
         //Create Order and validate prices during order creation
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($crOrder);
+        $this->orderHelper()->createOrder($order);
         //Define Order Id to work with
         $orderId = $this->orderHelper()->defineOrderId();
         //Verify prices on order review page after order creation
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftOrdCr, $totAftOrdCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftOrd, $totAftOrd);
         //Verify prices before creating Invoice
         $this->clickButton('invoice');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefInvCr, $totBefInvCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefInv, $totBefInv);
         //Verify prices after creating invoice on order page
         $this->clickButton('submit_invoice');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCr, $totAftInvCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInv, $totAftInv);
         //Verify prices after creating shipment on order page
         $this->clickButton('ship');
         $this->clickButton('submit_shipment');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftShipCr, $totAftShipCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftShip, $totAftShip);
         //Verify prices before creating refund on refund page
         $this->clickButton('credit_memo');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefRefCr, $totBefRefCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefRef, $totBefRef);
         //Verify prices after creating refund on order page
         $this->clickButton('refund_offline');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCr, $totAftRefCr);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRef, $totAftRef);
         //Verify prices after creating invoice on invoice page
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCrOnInv, $totAftInvCrOnInv);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvOnInv, $totAftInvOnInv);
         //Verify prices after creating Refund on Refund page
         $this->navigate('manage_sales_credit_memos');
         $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCrOnRef, $totAftRefCrOnRef);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefOnRef, $totAftRefOnRef);
     }
 
     public function createOrderBackendDataProvider()

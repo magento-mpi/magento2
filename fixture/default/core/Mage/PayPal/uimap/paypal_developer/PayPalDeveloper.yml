@@ -185,6 +185,11 @@ developer_created_test_account_us:
     title: PayPal Sandbox - Sandbox
     uimap: *developerForm
 
+developer_created_test_account_us_failed:
+    mca: us/cgi-bin/devscr?cmd=_sandbox-acct-session&account_created=1&bank_failed=1&cc_failed=1
+    title: PayPal Sandbox - Sandbox
+    uimap: *developerForm
+
 developer_api_credentials:
     mca: us/cgi-bin/devscr?cmd=_certs-session
     title: PayPal Sandbox - Test Certificates

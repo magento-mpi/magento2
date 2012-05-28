@@ -60,7 +60,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class');
+        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class');
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
@@ -80,9 +80,10 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Product Tax class Core_Mage_should not be created, error message appears</p>
      *
-     * @depends withRequiredFieldsOnly
      * @param array $productTaxClassData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
      */
     public function withNameThatAlreadyExists($productTaxClassData)
     {
@@ -107,7 +108,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyName()
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => ''));
+        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class', array('product_class_name' => ''));
         //Steps
         $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
         //Verifying
@@ -125,24 +126,24 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @dataProvider withSpecialValuesDataProvider
-     * @param array $specialValue
-     * @test
+     * @param string $specialValue
      *
+     * @test
+     * @dataProvider withSpecialValuesDataProvider
      * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {
         //Data
-        $productTaxClassData = $this->loadData('new_product_tax_class', array('product_class_name' => $specialValue));
+        $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class', array('product_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
+        $this->taxHelper()->createTaxItem($taxClass, 'product_class');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_class');
         //Steps
-        $this->taxHelper()->openTaxItem($productTaxClassData, 'product_class');
+        $this->taxHelper()->openTaxItem($taxClass, 'product_class');
         //Verifying
-        $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
+        $this->assertTrue($this->verifyForm($taxClass), $this->getParsedMessages());
     }
 
     public function withSpecialValuesDataProvider()

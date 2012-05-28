@@ -43,8 +43,6 @@ class Core_Mage_Tags_BackendDeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
-        $this->addParameter('storeId', '1');
     }
 
     /**
@@ -57,12 +55,12 @@ class Core_Mage_Tags_BackendDeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the tag has been deleted.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3498
+     * @TestlinkId TL-MAGE-3498
      */
     public function deleteNew()
     {
         //Setup
-        $setData = $this->loadData('backend_new_tag', null, 'tag_name');
+        $setData = $this->loadDataSet('Tag', 'backend_new_tag');
         //Steps
         $this->tagsHelper()->addTag($setData);
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());

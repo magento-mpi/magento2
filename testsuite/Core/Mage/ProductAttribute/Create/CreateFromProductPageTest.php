@@ -43,7 +43,6 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', 0);
     }
 
     protected function tearDownAfterTest()
@@ -77,13 +76,13 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
      *
      * @test
      * @dataProvider onProductPageWithRequiredFieldsOnlyDataProvider
-     * @TestlinkId	TL-MAGE-3322
+     * @TestlinkId    TL-MAGE-3322
      */
     public function onProductPageWithRequiredFieldsOnly($attributeType)
     {
         //Data
-        $productData = $this->loadData('simple_product_required');
-        $attrData = $this->loadData($attributeType, null, array('attribute_code', 'admin_title'));
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $attrData = $this->loadDataSet('ProductAttribute', $attributeType, null);
         //Steps
         $this->clickButton('add_new_product');
         $this->productHelper()->fillProductSettings($productData);

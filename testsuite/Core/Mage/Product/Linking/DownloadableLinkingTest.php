@@ -51,6 +51,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
      */
     public function preconditionsForTests()
     {
+        $forLinking = array();
         $linking = $this->productHelper()->createDownloadableProduct();
         foreach (self::$productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';
@@ -136,7 +137,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
         $assignType = 'cross_sells';
         $assignProductType = 'downloadable';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart',
+        $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart',
                                          $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);
@@ -301,7 +302,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
         $assignType = 'cross_sells';
         $assignProductType = 'downloadable';
         list($linking, $forLinking) = $testData;
-        $dataForBuy = $this->loadDataSet('Products', $assignProductType . '_options_to_add_to_shopping_cart',
+        $dataForBuy = $this->loadDataSet('Product', $assignProductType . '_options_to_add_to_shopping_cart',
                                          $linking[$assignProductType . 'Option']);
         $forLinking = $forLinking[$linkingType][$linkingType];
         $search = $this->loadDataSet('Product', 'product_search', $linking[$assignProductType]);

@@ -83,5 +83,5 @@ root_category_all: &categoryAll
         product_1: *product1
 
 sub_category_all:
-    parent_category: Default Category
     <<: *categoryAll
+    parent_category: Default Category

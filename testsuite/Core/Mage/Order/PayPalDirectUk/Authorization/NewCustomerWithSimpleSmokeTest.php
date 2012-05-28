@@ -56,7 +56,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_without_3Dsecure');
-        $productData = $this->loadDataSet('SalesOrder', 'simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps and Verifying
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($settings);
@@ -65,7 +65,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->paypalHelper()->paypalDeveloperLogin();
-        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard, discover, amex');
+        $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard');
         $cards = array();
         foreach ($accounts as $cardName => $info) {
             $cards[$cardName] = $info['credit_card'];
@@ -96,13 +96,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
     }
@@ -127,19 +121,12 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function orderWithDifferentCreditCardDataProvider()
     {
         return array(
-            array('amex'),
             array('visa')
         );
     }
@@ -177,13 +164,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
@@ -219,13 +200,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
@@ -264,13 +239,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -300,13 +269,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -355,13 +318,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
@@ -388,13 +345,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButton('hold');
         $this->assertMessagePresent('success', 'success_hold_order');
         $this->clickButton('unhold');
@@ -414,13 +365,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
@@ -464,26 +409,14 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
         $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($cardData);
         $this->fillForm($cardData);
         $this->orderHelper()->submitOrder();
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
     }
 
@@ -518,13 +451,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
@@ -572,13 +499,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function createOrderWith3DSecureDataProvider()

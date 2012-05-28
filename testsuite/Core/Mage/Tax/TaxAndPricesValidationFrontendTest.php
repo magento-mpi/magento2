@@ -39,11 +39,10 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings', 'default_tax_config'));
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings',
-                                                                         'shipping_settings_default'));
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Tax', 'flat_rate_for_price_verification'));
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Currency', 'enable_usd'));
+        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
+        $this->systemConfigurationHelper()->configure('Tax/flat_rate_for_price_verification');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
@@ -64,13 +63,14 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingMethod', 'flatrate_enable'));
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('ShippingSettings', 'default_tax_config'));
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
     }
 
     /**
      * @return array
      * @test
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {
@@ -95,7 +95,7 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_front_' . $i,
-                                         array('categories' => $categoryPath));
+                array('categories' => $categoryPath));
             $this->productHelper()->createProduct($simple);
             $this->assertMessagePresent('success', 'success_saved_product');
             $products['sku'][$i] = $simple['general_sku'];
@@ -115,6 +115,7 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
      * @dataProvider validateTaxFrontendDataProvider
      * @depends preconditionsForTests
      * @group skip_due_to_bug
+     * @group skip_due_to_bug1.12
      */
     public function validateTaxFrontend($configName, $testData)
     {
@@ -125,34 +126,35 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
         $orderDetailsData = $this->loadDataSet('PriceReview', $configName . '_front_prices_on_order_details');
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Tax', $configName));
+        $this->systemConfigurationHelper()->configure('Tax/' . $configName);
         $this->customerHelper()->frontLoginCustomer($customer);
         //Verify and add products to shopping cart
         foreach ($products['name'] as $key => $productName) {
             //Data
-            $priceInCategory = $this->loadDataSet('PriceReview',
-                                                  $configName . '_front_prices_in_category_simple_' . $key,
-                                                  array('product_name' => $productName,
-                                                       'category'      => $category));
-            $priceInProdDetails = $this->loadDataSet('PriceReview',
-                                                     $configName . '_front_prices_in_product_simple_' . $key);
+            $priceInCategory =
+                $this->loadDataSet('PriceReview', $configName . '_front_prices_in_category_simple_' . $key,
+                    array('product_name' => $productName,
+                          'category'     => $category));
+            $priceInProdDetails =
+                $this->loadDataSet('PriceReview', $configName . '_front_prices_in_product_simple_' . $key);
             $cartProductsData['product_' . $key]['product_name'] = $productName;
             $checkoutData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
             $orderDetailsData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
             $orderDetailsData['validate_prod_data']['product_' . $key]['sku'] = $products['sku'][$key];
             //Steps
             $this->categoryHelper()->frontOpenCategoryAndValidateProduct($priceInCategory);
-            $this->productHelper()->frontOpenProduct($productName, $category);
+            $this->productHelper()->frontOpenProduct($productName);
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
         }
-        $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
+        $this->shoppingCartHelper()
+            ->frontEstimateShipping('PriceReview/estimate_shipping', 'Shipping/shipping_flatrate');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
         $orderId = '# ' . $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->addParameter('orderId', $orderId);
         $this->clickControl('link', 'order_number');
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
-                                                            $orderDetailsData['validate_total_data']);
+        $this->shoppingCartHelper()
+            ->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'], $orderDetailsData['validate_total_data']);
     }
 
     public function validateTaxFrontendDataProvider()

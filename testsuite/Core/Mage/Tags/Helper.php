@@ -39,6 +39,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      * Converts string with tags to an array for verification
      *
      * @param string $tagName
+     *
      * @return array
      */
     protected function _convertTagsStringToArray($tagName)
@@ -73,8 +74,9 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function frontendDeleteTags($tags)
     {
-        if (is_string($tags))
+        if (is_string($tags)) {
             $tags = $this->_convertTagsStringToArray($tags);
+        }
         foreach ($tags as $tag) {
             $this->addParameter('tagName', $tag);
             $this->clickControl('link', 'tag_name');
@@ -93,8 +95,9 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function frontendTagVerification($tags, $product)
     {
-        if (is_string($tags))
+        if (is_string($tags)) {
             $tags = $this->_convertTagsStringToArray($tags);
+        }
         //Verification in "My Recent tags" area
         $this->addParameter('productName', $product);
         foreach ($tags as $tag) {
@@ -102,8 +105,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tag);
             $this->assertTrue($this->controlIsPresent('link', 'tag'), "Cannot find tag with name: $tag");
             $this->clickControl('link', 'tag');
-            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'), "Cannot find tag $tag in My Tags");
-            $this->assertTrue($this->controlIsPresent('link', 'product_name'),"Cannot find product $product tagged with $tag");
+            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
+                "Cannot find tag $tag in My Tags");
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'),
+                "Cannot find product $product tagged with $tag");
         }
         //Verification in "My Account -> My Tags"
         foreach ($tags as $tag) {
@@ -111,8 +116,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tag);
             $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $tag");
             $this->clickControl('link', 'tag_name');
-            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'), "Cannot find tag $tag in My Tags");
-            $this->assertTrue($this->controlIsPresent('link', 'product_name'),"Cannot find product $product tagged with $tag");
+            $this->assertTrue($this->controlIsPresent('pageelement', 'tag_name_box'),
+                "Cannot find tag $tag in My Tags");
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'),
+                "Cannot find product $product tagged with $tag");
         }
     }
 
@@ -125,8 +132,9 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function frontendTagVerificationInCategory($tags, $product, $category)
     {
-        if (is_string($tags))
+        if (is_string($tags)) {
             $tags = $this->_convertTagsStringToArray($tags);
+        }
         $category = substr($category, strpos($category, '/') + 1);
         $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
         $this->addParameter('productName', $product);
@@ -170,9 +178,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function fillTagSettings($tagData)
     {
-        if (is_string($tagData))
-            $tagData = $this->loadData($tagData);
-        $tagData = $this->arrayEmptyClear($tagData);
+        if (is_string($tagData)) {
+            $elements = explode('/', $tagData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $tagData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -181,7 +191,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
                 unset($tagData['switch_store']);
             }
         }
-        $prodTagAdmin = (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : array();
+        $prodTagAdmin =
+            (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : array();
         // Fill general options
         $this->fillForm($tagData);
         if ($prodTagAdmin) {
@@ -205,6 +216,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function addTag($tagData)
     {
+        $this->addParameter('storeId', '1');
         $this->clickButton('add_new_tag');
         $this->fillTagSettings($tagData);
         $this->saveForm('save_tag');
@@ -217,9 +229,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function openTag($searchData)
     {
-        if (is_string($searchData))
-            $searchData = $this->loadData($searchData);
-        $searchData = $this->arrayEmptyClear($searchData);
+        if (is_string($searchData)) {
+            $elements = explode('/', $searchData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
@@ -249,7 +263,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
-        $this->fillForm(array('tags_massaction' => 'Change status', 'tags_status' => $newStatus));
+        $this->fillForm(array('tags_massaction' => 'Change status',
+                              'tags_status'     => $newStatus));
         $this->clickButton('submit');
     }
 
@@ -262,6 +277,43 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     {
         $this->openTag($searchData);
         $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete');
+    }
+
+    /**
+     * Delete all tags
+     * @return bool
+     */
+    public function deleteAllTags()
+    {
+        if ($this->controlIsPresent('message', 'no_records_found')) {
+            return true;
+        }
+        $this->clickControl('link', 'select_all', false);
+        $this->waitForAjax();
+        $this->fillDropdown('tags_massaction', 'Delete');
+        $this->_parseMessages();
+        foreach (self::$_messages as $key => $value) {
+            self::$_messages[$key] = array_unique($value);
+        }
+        $success = $this->_getMessageXpath('general_success');
+        $error = $this->_getMessageXpath('general_error');
+        $validation = $this->_getMessageXpath('general_validation');
+        $types = array('success', 'error', 'validation');
+        foreach ($types as $message) {
+            if (array_key_exists($message, self::$_messages)) {
+                $exclude = '';
+                foreach (self::$_messages[$message] as $messageText) {
+                    $exclude .= "[not(..//.='$messageText')]";
+                }
+                ${$message} .= $exclude;
+            }
+        }
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete', false);
+        $this->waitForElement(array($success, $error, $validation));
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->validatePage();
+        $this->assertMessagePresent('success');
+        return true;
     }
 
     /**
@@ -292,18 +344,19 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function verifyTagCustomer(array $tagSearchData, array $customerSearchData)
     {
-        $tagSearchData = $this->arrayEmptyClear($tagSearchData);
         $this->customerHelper()->openCustomer($customerSearchData);
         $this->openTab('product_tags');
         $xpathTR = $this->formSearchXpath($tagSearchData);
         do {
-            if ($this->isElementPresent($xpathTR))
+            if ($this->isElementPresent($xpathTR)) {
                 return true;
+            }
             if ($this->controlIsPresent('link', 'next_page')) {
                 $this->clickControl('link', 'next_page', false);
                 $this->pleaseWait();
-            } else
+            } else {
                 break;
+            }
         } while (true);
 
         return false;

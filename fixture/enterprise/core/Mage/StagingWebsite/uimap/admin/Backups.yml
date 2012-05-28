@@ -1,0 +1,109 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# System - Content Staging - Backups
+manage_backups:
+    mca: staging_backup/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'staging_backup/')]
+    title: Staging Websites / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    manage_backups_grid:
+                        xpath: //div[@id='enterpriseStagingBackupGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            submit: //button[span='Submit']
+                        fields:
+                            filter_website_name: //input[@id='enterpriseStagingBackupGrid_filter_name']
+                            filter_created_at: //input[@name='created_at[from]']
+                            filter_created_to: //input[@name='created_at[to]']
+                            page: //input[@name='page']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            action: //tr[%param%]//select[@class='action-select']
+                            massaction: //select[@id='enterpriseStagingBackupGrid_massaction-select']
+                        pageelements:
+                            grid_head: //table[@id='enterpriseStagingManageGrid_table']//tr[@class='headings']
+                            grid_tr: //tr[td[contains(.,'%websiteName%')]]
+        messages:
+            confirmation_to_delete: Are you sure?
+
+edit_backup:
+    mca: staging_backup/edit/id/%id%/
+    title: %elementTitle% / Backups / Content Staging / System / Staging Websites / Content Staging / System / Backups / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    backup_general_info:
+                        xpath: //a[span='Backup General Info']
+                        fieldsets:
+                            -
+                                backup_main_information:
+                                    xpath: //div[@id='enterprise_staging_backup_tabs_backup_general_info_content']
+                                    pageelements:
+                                        backup_name: //tr[td[label='Backup Name']]/td[@class='value']
+                                        staging_website: //tr[td[label='Staging Website']]/td[@class='value']
+                                        master_website: //tr[td[label='Master Website']]/td[@class='value']
+                                        created_date: //tr[td[label='Created Date']]/td[@class='value']
+                                        table_prefix: //tr[td[label='Table Prefix']]/td[@class='value']
+                -
+                    rollback:
+                        xpath: //a[span='Rollback']
+                        fieldsets:
+                            -
+                                items_to_rollback:
+                                    xpath: //form[@id='enterprise_staging_backup_form']
+                                    checkboxes:
+                                        system_configuration: //tr[td[contains(.,'System Configuration')]]//input[@type='checkbox']
+                                        catalog_categories: //tr[td[contains(.,'Catalog Categories')]]//input[@type='checkbox']
+                                        category_permissions: //tr[td[contains(.,'Category Permissions')]]//input[@type='checkbox']
+                                        catalog_products: //tr[td[contains(.,'Catalog Products')]]//input[@type='checkbox']
+                                        bundles: //tr[td[contains(.,'Bundles')]]//input[@type='checkbox']
+                                        downloadable: //tr[td[contains(.,'Downloadable')]]//input[@type='checkbox']
+                                        gift_cards: //tr[td[contains(.,'Gift Cards')]]//input[@type='checkbox']
+                                        catalog_inventory: //tr[td[contains(.,'Catalog Inventory')]]//input[@type='checkbox']
+                                        catalog_search: //tr[td[contains(.,'Catalog Search')]]//input[@type='checkbox']
+                                        url_rewrites: //tr[td[contains(.,'URL Rewrites')]]//input[@type='checkbox']
+                                        cms_pages: //tr[td[contains(.,'CMS Pages')]]//input[@type='checkbox']
+                                        cms_blocks: //tr[td[contains(.,'CMS Blocks')]]//input[@type='checkbox']
+                                        shopping_cart_price_rules: //tr[td[contains(.,'Shopping Cart Price Rules')]]//input[@type='checkbox']
+                                        catalog_price_rules: //tr[td[contains(.,'Catalog Price Rules')]]//input[@type='checkbox']
+                                        polls: //tr[td[contains(.,'Polls')]]//input[@type='checkbox']
+                                        terms_and_conditions: //tr[td[contains(.,'Terms And Conditions')]]//input[@type='checkbox']
+        buttons:
+            back: //button[span='Back']
+            delete: //button[span='Delete']
+            rollback: //button[span='Rollback']
+        messages:
+            validation_no_items_to_rollback: //li[normalize-space(@class)='notice-msg' and contains(.,'There are no items selected for rollback.')]
+            success_website_restored: //li[normalize-space(@class)='success-msg' and contains(.,'The master website has been restored.')]
+            confirmation_to_delete: Are you sure?
+

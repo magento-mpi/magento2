@@ -43,7 +43,6 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
-        $this->addParameter('id', 0);
     }
 
     /**
@@ -52,14 +51,14 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->buttonIsPresent('add_new_attribute'),
-                'There is no "Add New Attribute" button on the page');
+            'There is no "Add New Attribute" button on the page');
         $this->clickButton('add_new_attribute');
         $this->assertTrue($this->checkCurrentPage('new_product_attribute'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_attribute'), 'There is no "Save" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
-                'There is no "Save and Continue Edit" button on the page');
+            'There is no "Save and Continue Edit" button on the page');
     }
 
     /**
@@ -81,7 +80,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_price', null, array('attribute_code', 'admin_title'));
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -139,10 +138,11 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     {
         //Data
         if ($emptyField == 'apply_to') {
-            $attrData = $this->loadData('product_attribute_price', array($emptyField => 'Selected Product Types'),
-                    'attribute_code');
+            $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
+                array($emptyField => 'Selected Product Types'));
         } else {
-            $attrData = $this->loadData('product_attribute_price', array($emptyField => '%noValue%'), 'attribute_code');
+            $attrData =
+                $this->loadDataSet('ProductAttribute', 'product_attribute_price', array($emptyField => '%noValue%'));
         }
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -190,7 +190,8 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_price', array('attribute_code' => $wrongAttributeCode));
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
+            array('attribute_code' => $wrongAttributeCode));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -232,7 +233,8 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withInvalidPosition($invalidPosition)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_price', array('position' => $invalidPosition), 'attribute_code');
+        $attrData =
+            $this->loadDataSet('ProductAttribute', 'product_attribute_price', array('position' => $invalidPosition));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -272,10 +274,11 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersInTitle()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_price',
-                array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
+            array('admin_title' => $this->generate('string', 32, ':punct:')));
         $attrData['admin_title'] = preg_replace('/<|>/', '', $attrData['admin_title']);
-        $searchData = $this->loadData('attribute_search_data', array('attribute_code' => $attrData['attribute_code']));
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -304,19 +307,13 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_price',
-                array(
-                    'attribute_code' => $this->generate('string', 30, ':lower:'),
-                    'admin_title'    => $this->generate('string', 255, ':alnum:'),
-                    'position'       => 2147483647
-                )
-        );
-        $searchData = $this->loadData('attribute_search_data',
-                array(
-                    'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_label' => $attrData['admin_title']
-                )
-        );
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
+            array('attribute_code' => $this->generate('string', 30, ':lower:'),
+                  'admin_title'    => $this->generate('string', 255, ':alnum:'),
+                  'position'       => 2147483647));
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code'  => $attrData['attribute_code'],
+                  'attribute_label' => $attrData['admin_title']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying

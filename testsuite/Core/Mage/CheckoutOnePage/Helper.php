@@ -55,17 +55,30 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function frontCreateCheckout($checkoutData)
     {
         if (is_string($checkoutData)) {
-            $checkoutData = $this->loadData($checkoutData);
+            $elements = explode('/', $checkoutData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $checkoutData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->doOnePageCheckoutSteps($checkoutData);
         $this->frontOrderReview($checkoutData);
-        $this->clickButton('place_order', false);
-        $this->waitForAjax();
-        $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
-        $this->waitForTextNotPresent('Submitting order information.');
-        $this->waitForTextPresent('Thank you for your purchase!');
-        $this->validatePage('onepage_checkout_success');
+        return $this->submitOnePageCheckoutOrder();
+    }
 
+    /**
+     * @return string
+     */
+    public function submitOnePageCheckoutOrder()
+    {
+        $waitConditions = array($this->_getMessageXpath('success_checkout'), $this->_getMessageXpath('general_error'),
+                                $this->_getMessageXpath('general_validation'));
+        $this->clickButton('place_order', false);
+        $this->waitForElementOrAlert($waitConditions);
+        $this->verifyNotPresetAlert();
+        //@TODO
+        //Remove workaround for getting fails,
+        //not skipping tests if payment methods are inaccessible
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
+        $this->validatePage('onepage_checkout_success');
         $xpath = $this->_getControlXpath('link', 'order_number');
         if ($this->isElementPresent($xpath)) {
             return $this->getText($xpath);
@@ -79,7 +92,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function doOnePageCheckoutSteps($checkoutData)
     {
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $customer = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
@@ -136,24 +148,22 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
-        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName);
+        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
+        $waitCondition =
+            array($setXpath, $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $buttonName = $fieldsetName . '_continue';
         $this->clickButton($buttonName, false);
-        $this->waitForAjax();
-        if ($this->verifyNotPresetAlert()) {
-            $this->waitForElement(array($setXpath . self::$notActiveTab,
-                                       $this->_getMessageXpath('general_error'),
-                                       $this->_getMessageXpath('general_validation')));
-            sleep(1);
-            if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
-                $messages = self::messagesToString($this->getMessagesOnPage());
-                if ($messages != null) {
-                    $this->clearMessages('verification');
-                    $this->addVerificationMessage($messages);
-                }
-            }
+        $this->waitForElementOrAlert($waitCondition);
+        $error = $this->errorMessage();
+        $validation = $this->validationMessage();
+        if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
+            $messages = self::messagesToString($this->getMessagesOnPage());
+            $this->clearMessages('verification');
+            $this->fail($messages);
         }
-        $this->assertEmptyVerificationErrors();
+        if ($fieldsetName !== 'checkout_method') {
+            $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));
+        }
     }
 
     /**
@@ -212,8 +222,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
                 $noShipping = $this->_getControlXpath('message', 'no_shipping');
                 if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
-                    //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
+                    //@TODO
+                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                    $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
                 } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                     $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
@@ -226,13 +237,15 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                                           . $service . '" is currently unavailable');
                     }
                 } else {
-                    //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped($service . ': This shipping method is currently not display');
-                    //$this->addVerificationMessage($service . ': This shipping method is currently not display');
+                    //@TODO
+                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                    $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
+                    //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
                 }
             }
 
             if (array_key_exists('add_gift_options', $shipMethod)) {
+                $this->fillForm($shipMethod['add_gift_options']);
                 $this->frontAddGiftMessage($shipMethod['add_gift_options']);
             }
 
@@ -266,6 +279,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Selecting payment method
      *
      * @param array $paymentMethod
+     *
+     * @return bool
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
@@ -281,6 +296,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->click($xpath);
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
+                return false;
             }
             if ($card) {
                 $paymentId = $this->getAttribute($xpath . '/@value');
@@ -289,6 +305,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
         $this->goToNextOnePageCheckoutStep('payment_method');
+        return true;
     }
 
     /**
@@ -421,7 +438,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->assertOnePageCheckoutTabOpened('order_review');
         $this->frontValidate3dSecure();
 
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
         $shipping = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();

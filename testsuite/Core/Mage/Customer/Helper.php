@@ -69,38 +69,58 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Defining and adding %address_number% for customer Uimap.
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     * @return int
+     * PreConditions: Customer is opened on 'Addresses' tab. New address form for filling is added
      */
     public function addAddressNumber()
     {
         $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses');
-        $addressCount = $this->getXpathCount($xpath . '//li') + 1;
-        $this->addParameter('address_number', $addressCount);
-        return $addressCount;
+        $addressCount = $this->getXpathCount($xpath . '//li');
+        $param = preg_replace('/(\D)+/', '', $this->getAttribute($xpath . "//li[$addressCount]@id"));
+        $this->addParameter('address_number', $param);
+    }
+
+    public function deleteAllAddresses($searchData)
+    {
+        $this->openCustomer($searchData);
+        $this->openTab('addresses');
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
+        $addressCount = $this->getXpathCount($xpath);
+        if ($addressCount > 0) {
+            $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$addressCount]@id"));
+            $this->addParameter('address_number', $param);
+            $this->fillRadiobutton('default_billing_address', 'Yes');
+            $this->fillRadiobutton('default_shipping_address', 'Yes');
+            for ($i = 1; $i <= $addressCount; $i++) {
+                $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$i]@id"));
+                $this->addParameter('address_number', $param);
+                $this->clickControlAndConfirm('button', 'delete_address', 'confirmation_for_delete_address', false);
+            }
+            $this->saveForm('save_customer');
+            $this->assertMessagePresent('success');
+        }
     }
 
     /**
      * Add address for customer.
-     *
      * PreConditions: Customer is opened.
+     *
      * @param array $addressData
      */
     public function addAddress(array $addressData)
     {
         //Open 'Addresses' tab
         $this->openTab('addresses');
-        $this->addAddressNumber();
         $this->clickButton('add_new_address', false);
-        $this->waitForAjax();
+        $this->addAddressNumber();
+        $this->waitForElement($this->_getControlXpath('fieldset', 'edit_address'));
         //Fill in 'Customer's Address' tab
-        $this->fillForm($addressData, 'addresses');
+        $this->fillTab($addressData, 'addresses');
     }
 
     /**
      * Create customer.
-     *
      * PreConditions: 'Manage Customers' page is opened.
+     *
      * @param array $userData
      * @param array $addressData
      */
@@ -129,8 +149,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Open customer.
-     *
      * PreConditions: 'Manage Customers' page is opened.
+     *
      * @param array $searchData
      */
     public function openCustomer(array $searchData)
@@ -140,8 +160,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
 
     /**
      * Register Customer on Frontend.
-     *
      * PreConditions: 'Login or Create an Account' page is opened.
+     *
      * @param array $registerData
      */
     public function registerCustomer(array $registerData)
@@ -167,9 +187,20 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function frontLoginCustomer(array $loginData)
     {
-        $this->logoutCustomer();
+        $this->frontend();
+        $this->navigate('customer_account', false);
+        $this->validatePage();
+        if ($this->getCurrentPage() == 'customer_account') {
+            $this->clickControl('link', 'log_out', false);
+            $this->waitForTextPresent('You are now logged out');
+            $this->waitForTextNotPresent('You are now logged out');
+            $this->deleteAllVisibleCookies();
+            $this->validatePage('home_page');
+        }
         $this->clickControl('link', 'log_in');
-        $this->fillForm($loginData);
-        $this->clickButton('login');
+        $this->fillFieldset($loginData, 'log_in_customer');
+        $this->clickButton('login', false);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage('customer_account');
     }
 }

@@ -103,6 +103,38 @@ generic_address:
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
+long_values_address:
+    prefix: %longValue255%
+    first_name: %longValue255%
+    middle_name: %longValue255%
+    last_name: %longValue255%
+    suffix: %longValue255%
+    company: %longValue255%
+    street_address_line_1: %longValue255%
+    street_address_line_2: %longValue255%
+    city: %longValue255%
+    country: Ukraine
+    region: %longValue255%
+    zip_code: %longValue255%
+    telephone: %longValue255%
+    fax: %longValue255%
+
+special_char_address:
+    prefix: %specialValue32%
+    first_name: %specialValue32%
+    middle_name: %specialValue32%
+    last_name: %specialValue32%
+    suffix: %specialValue32%
+    company: %specialValue32%
+    street_address_line_1: %specialValue32%
+    street_address_line_2: %specialValue32%
+    city: %specialValue32%
+    country: Ukraine
+    region: %specialValue32%
+    zip_code: %specialValue32%
+    telephone: %specialValue32%
+    fax: %specialValue32%
+
 all_fields_address:
     prefix: Prefix
     first_name: First Name

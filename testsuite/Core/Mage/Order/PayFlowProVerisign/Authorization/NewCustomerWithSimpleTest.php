@@ -93,13 +93,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
 
         return $orderData;
     }
@@ -122,13 +116,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function cardPayFlowProVerisignDataProvider()
@@ -174,13 +162,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
@@ -227,13 +209,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
@@ -282,13 +258,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
@@ -315,13 +285,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButton('hold');
         $this->assertMessagePresent('success', 'success_hold_order');
         $this->clickButton('unhold');
@@ -341,13 +305,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
@@ -389,13 +347,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
         $data = $orderData['payment_data']['payment_info'];
@@ -438,13 +390,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
@@ -491,13 +437,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_created_order');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_created_order')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_created_order');
     }
 
     public function createOrderWith3DSecureDataProvider()
