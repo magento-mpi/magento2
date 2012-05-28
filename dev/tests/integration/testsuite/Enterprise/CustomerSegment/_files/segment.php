@@ -16,3 +16,5 @@ $data = array(
 $segment = new Enterprise_CustomerSegment_Model_Segment;
 $segment->loadPost($data);
 $segment->save();
+
+Mage::register('_fixture/Enterprise_CustomerSegment_Model_Segment', $segment);
