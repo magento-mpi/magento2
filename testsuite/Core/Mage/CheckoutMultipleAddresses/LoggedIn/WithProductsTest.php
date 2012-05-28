@@ -321,7 +321,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage
     {
         return array(
             array('simple', 'multiple_with_signed_in'),
-            array('virtual', 'multiple_with_signed_in_virtual')
+            //array('virtual', 'multiple_with_signed_in_virtual')
         );
     }
 

@@ -302,7 +302,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
     {
         return array(
             array('simple', 'multiple_with_register'),
-            array('virtual', 'multiple_with_register_virtual')
+            //array('virtual', 'multiple_with_register_virtual')
         );
     }
 

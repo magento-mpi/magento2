@@ -319,7 +319,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
     {
         return array(
             array('simple', 'multiple_with_login'),
-            array('virtual', 'multiple_with_login_virtual')
+            //array('virtual', 'multiple_with_login_virtual')
         );
     }
 
