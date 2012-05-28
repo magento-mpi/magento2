@@ -78,19 +78,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
     public function testListWrongProductId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Resource not found.'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**
