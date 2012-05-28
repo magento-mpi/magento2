@@ -64,7 +64,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_MEDIA                  = 'media';
     const URL_TYPE_SKIN                   = 'skin';
 
-
     /**
      * Code constants
      */
