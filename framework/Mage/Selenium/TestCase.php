@@ -1363,36 +1363,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * @param string $type
-     *
-     * @return array|string
-     * @throws RuntimeException
-     */
-    public function getBasicXpathMessage($type = 'all')
-    {
-        $xpath = null;
-        $types = array('success', 'error', 'validation', 'notice');
-        $currentPage = $this->getCurrentPage();
-        $currentArea = $this->getArea();
-        $this->setArea('admin');
-        $this->setCurrentPage('dashboard');
-        if ($type != 'all') {
-            if (in_array($type, $types)) {
-                $xpath = $this->_getMessageXpath('general_' . $type);
-            } else {
-                throw new RuntimeException('Incorrect message type');
-            }
-        } else {
-            foreach ($types as $value) {
-                $xpath[$value] = $this->_getMessageXpath('general_' . $value);
-            }
-        }
-        $this->setArea($currentArea);
-        $this->setCurrentPage($currentPage);
-        return $xpath;
-    }
-
-    /**
      * Returns a string representation of the messages.
      *
      * @static
@@ -2703,15 +2673,33 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clickControlAndWaitMessage($controlType, $controlName, $validate = true)
     {
-        $this->_parseMessages();
-        foreach (self::$_messages as $key => $value) {
+        $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+        $this->clickControl($controlType, $controlName, false);
+        $this->waitForElement($messagesXpath);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        if ($validate) {
+            $this->validatePage();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string|array $types
+     * @return array|string
+     */
+    public function getBasicXpathMessagesExcludeCurrent($types)
+    {
+        foreach ($this->getMessagesOnPage() as $key => $value) {
             self::$_messages[$key] = array_unique($value);
         }
-        $success = $this->_getMessageXpath('general_success');
-        $error = $this->_getMessageXpath('general_error');
-        $validation = $this->_getMessageXpath('general_validation');
-        $types = array('success', 'error', 'validation');
+        if (is_string($types)) {
+            $types = explode(',', $types);
+            $types = array_map('trim', $types);
+        }
+        $returnXpath = array();
         foreach ($types as $message) {
+            ${$message} = $this->_getMessageXpath('general_' . $message);
             if (array_key_exists($message, self::$_messages)) {
                 $exclude = '';
                 foreach (self::$_messages[$message] as $messageText) {
@@ -2719,15 +2707,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
                 ${$message} .= $exclude;
             }
+            $returnXpath[] = ${$message};
         }
-        $this->clickControl($controlType, $controlName, false);
-        $this->waitForElement(array($success, $error, $validation));
-        $this->addParameter('id', $this->defineIdFromUrl());
-        if ($validate) {
-            $this->validatePage();
-        }
-
-        return $this;
+        return (count($returnXpath) == 1) ? $returnXpath[0] : $returnXpath;
     }
 
     /**
