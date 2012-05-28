@@ -22,7 +22,7 @@
                 <group>customer</group>
                 <sort_order>90</sort_order>
                 <model>Mage_Customer_Model_Api2_Customer</model>
-                <working_model>Mage_Customer_Model_Customer</working_model>
+                <working_model>Mage_Customer_Model_Resource_Customer</working_model>
                 <title>Customer</title>
                 <privileges>
                     <admin>
@@ -113,7 +113,7 @@
                 <group>customer</group>
                 <sort_order>110</sort_order>
                 <model>Mage_Customer_Model_Api2_Customer_Address</model>
-                <working_model>Mage_Customer_Model_Address</working_model>
+                <working_model>Mage_Customer_Model_Resource_Address</working_model>
                 <title>Customer Address</title>
                 <privileges>
                     <admin>

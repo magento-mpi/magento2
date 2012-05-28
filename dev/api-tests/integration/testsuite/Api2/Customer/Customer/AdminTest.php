@@ -2,13 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Test
+ * @category    Paas
+ * @package     tests
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test for customer API2 by admin api user
  *

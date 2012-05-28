@@ -26,10 +26,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
     protected function _create(array $data)
     {
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array(
-            'resource'  => $this,
-            'operation' => self::OPERATION_CREATE
-        ));
+        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array('resource' => $this));
 
         $data = $validator->filter($data);
         if (!$validator->isValidData($data)) {
@@ -89,10 +86,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array(
-            'resource'  => $this,
-            'operation' => self::OPERATION_UPDATE
-        ));
+        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array('resource' => $this));
 
         $data = $validator->filter($data);
 

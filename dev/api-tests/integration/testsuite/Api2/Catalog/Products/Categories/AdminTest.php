@@ -166,18 +166,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $this->assertNotEmpty($errors);
-
-        $expectedErrors = array(
-            'Category not found'
-        );
-
-        $this->assertEquals(count($expectedErrors), count($errors));
-        foreach ($errors as $error) {
-            $this->assertContains($error['message'], $expectedErrors);
-        }
+        $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
+            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**

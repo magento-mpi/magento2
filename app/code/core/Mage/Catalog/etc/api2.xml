@@ -31,7 +31,7 @@
             <product translate="title" module="Mage_Api2">
                 <group>catalog_product</group>
                 <model>Mage_Catalog_Model_Api2_Product</model>
-                <working_model>Mage_Catalog_Model_Product</working_model>
+                <working_model>Mage_Catalog_Model_Resource_Product</working_model>
                 <title>Catalog Product</title>
                 <sort_order>10</sort_order>
                 <privileges>
@@ -213,7 +213,7 @@
             <product_category translate="title" module="Mage_Api2">
                 <group>catalog_product</group>
                 <model>Mage_Catalog_Model_Api2_Product_Category</model>
-                <working_model>Mage_Catalog_Model_Category</working_model>
+                <working_model>Mage_Catalog_Model_Resource_Category</working_model>
                 <title>Product Category</title>
                 <sort_order>40</sort_order>
                 <privileges>

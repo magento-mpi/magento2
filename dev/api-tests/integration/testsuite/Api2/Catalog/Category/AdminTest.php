@@ -47,89 +47,89 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         parent::tearDownAfterClass();
     }
 
-//    /**
-//     * Test successful category get
-//     *
-//     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-//     * @resourceOperation category::get
-//     */
-//    public function testGet()
-//    {
-//        /** @var $category Mage_Catalog_Model_Category */
-//        $category = $this->getFixture('category');
-//        $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-//        $responseData = $restResponse->getBody();
-//        $this->assertNotEmpty($responseData);
-//        $originalData = $category->getData();
-//        $originalData['url_path'] = $originalData['url_key'] . '.html';
-//        foreach ($responseData as $field => $value) {
-//            if (!is_array($value)) {
-//                $this->assertEquals($originalData[$field], $value);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Test successful category get with multi store
-//     *
-//     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_multistore.php
-//     * @resourceOperation category::get
-//     */
-//    public function testGetMultiStore()
-//    {
-//        /** @var $category Mage_Catalog_Model_Category */
-//        $category = $this->getFixture('category');
-//        /** @var $store Mage_Core_Model_Store */
-//        $store = $this->getFixture('store');
-//        $restResponse = $this->callGet($this->_getResourcePath($category->getId(), $store->getId()));
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-//        $responseData = $restResponse->getBody();
-//        $this->assertNotEmpty($responseData);
-//        $inequalFields = array('custom_design_apply', 'path_ids');
-//        $nullFields = array('custom_design_apply', 'path', 'store_id', 'entity_type_id', 'path_ids',
-//            'is_changed_product_list', 'updated_at', 'custom_design_from_is_formated', 'custom_design_to_is_formated',
-//            'level', 'created_at', 'position', 'attribute_set_id');
-//        $this->_checkCategoryData($responseData, $category->getData(), $nullFields, $inequalFields);
-//    }
-//
-//    /**
-//     * Test category get invalid id
-//     *
-//     * @resourceOperation category::get
-//     */
-//    public function testGetInvalidId()
-//    {
-//        $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
-//    }
-//
-//    /**
-//     * Test successful category tree get
-//     *
-//     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
-//     * @resourceOperation category::multiget
-//     */
-//    public function testGetCategoriesTree()
-//    {
-//        $categoryTree = $this->getFixture('category_tree');
-//        /** @var $parentCategory Mage_Catalog_Model_Category */
-//        $parentCategory = reset($categoryTree);
-//        $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
-//        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-//        $responseData = $restResponse->getBody();
-//        $this->assertNotEmpty($responseData);
-//
-//        $responseParentCategory = reset($responseData);
-//        $expectedCategories = array();
-//        /** @var $category Mage_Catalog_Model_Category */
-//        foreach ($categoryTree as $category) {
-//            $expectedCategories[] = $category->getId();
-//        }
-//
-//        $subcategoriesCount = $this->_checkCategoryTree($responseParentCategory, $expectedCategories);
-//        $this->assertEquals($subcategoriesCount, count($categoryTree) - 1);
-//    }
+    /**
+     * Test successful category get
+     *
+     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @resourceOperation category::get
+     */
+    public function testGet()
+    {
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = $this->getFixture('category');
+        $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+        $originalData = $category->getData();
+        $originalData['url_path'] = $originalData['url_key'] . '.html';
+        foreach ($responseData as $field => $value) {
+            if (!is_array($value)) {
+                $this->assertEquals($originalData[$field], $value);
+            }
+        }
+    }
+
+    /**
+     * Test successful category get with multi store
+     *
+     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_multistore.php
+     * @resourceOperation category::get
+     */
+    public function testGetMultiStore()
+    {
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = $this->getFixture('category');
+        /** @var $store Mage_Core_Model_Store */
+        $store = $this->getFixture('store');
+        $restResponse = $this->callGet($this->_getResourcePath($category->getId(), $store->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+        $inequalFields = array('custom_design_apply', 'path_ids');
+        $nullFields = array('custom_design_apply', 'path', 'store_id', 'entity_type_id', 'path_ids',
+            'is_changed_product_list', 'updated_at', 'custom_design_from_is_formated', 'custom_design_to_is_formated',
+            'level', 'created_at', 'position', 'attribute_set_id');
+        $this->_checkCategoryData($responseData, $category->getData(), $nullFields, $inequalFields);
+    }
+
+    /**
+     * Test category get invalid id
+     *
+     * @resourceOperation category::get
+     */
+    public function testGetInvalidId()
+    {
+        $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+    }
+
+    /**
+     * Test successful category tree get
+     *
+     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
+     * @resourceOperation category::multiget
+     */
+    public function testGetCategoriesTree()
+    {
+        $categoryTree = $this->getFixture('category_tree');
+        /** @var $parentCategory Mage_Catalog_Model_Category */
+        $parentCategory = reset($categoryTree);
+        $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
+        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $responseData = $restResponse->getBody();
+        $this->assertNotEmpty($responseData);
+
+        $responseParentCategory = reset($responseData);
+        $expectedCategories = array();
+        /** @var $category Mage_Catalog_Model_Category */
+        foreach ($categoryTree as $category) {
+            $expectedCategories[] = $category->getId();
+        }
+
+        $subcategoriesCount = $this->_checkCategoryTree($responseParentCategory, $expectedCategories);
+        $this->assertEquals($subcategoriesCount, count($categoryTree) - 1);
+    }
 
     /**
      * Test successful category creation
