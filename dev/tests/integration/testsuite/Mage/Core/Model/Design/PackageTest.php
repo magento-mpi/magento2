@@ -246,7 +246,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    function getSkinUrlDataProvider()
+    public function getSkinUrlDataProvider()
     {
         return array(
             array(
