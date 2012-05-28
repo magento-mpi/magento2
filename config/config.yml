@@ -129,32 +129,4 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    training: &training
-            fallbackOrderFixture: 'News,default'
-            fallbackOrderHelper: 'News,Core'
-            areas:
-                admin:
-                    url: 'http://kt.varien.com/dev/sergey.sergunin/mtaf/index.php/admin'
-                    base_page_uimap: 'log_in_to_admin'
-                    uimap_path: 'admin'
-                    login: 'admin'
-                    password: '123123q'
-                frontend:
-                    url: 'http://kt.varien.com/dev/sergey.sergunin/mtaf/'
-                    base_page_uimap: 'home_page'
-                    uimap_path: 'frontend'
-                    login: ''
-                    password: ''
-                paypal_sandbox: &paypalSandbox
-                    url: 'https://www.sandbox.paypal.com/'
-                    base_page_uimap: 'paypal_sandbox'
-                    uimap_path: 'paypal_sandbox'
-                    login: 'paypal_sandbox_login'
-                    password: 'paypal_sandbox_password'
-                paypal_developer: &paypalDeveloper
-                    url: 'https://developer.paypal.com/'
-                    base_page_uimap: 'paypal_developer_home'
-                    uimap_path: 'paypal_developer'
-                    login: 'ashugayev@ebay.com'
-                    password: 'magento123'
-    default: *training
+    default: *enterprise
