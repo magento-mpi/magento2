@@ -121,7 +121,8 @@ system_configuration:
                                         dhl_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
                                         dhl_debug: //select[@id='carriers_dhlint_debug']
                                     multiselects:
-                                        dhl_allowed_methods: //select[@id='carriers_dhlint_doc_methods']
+                                        dhl_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods']
+                                        dhl_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods']
                                         dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
 
 system_configuration_tabs:
