@@ -46,7 +46,7 @@ class Mage_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
             'store' => 1
         );
         $this->_model->setDesignConfig($config);
-        $this->assertEquals($this->_model->getDesignConfig()->getData(), $config);
+        $this->assertEquals($config, $this->_model->getDesignConfig()->getData());
     }
 
     public function invalidInputParametersDataProvider()

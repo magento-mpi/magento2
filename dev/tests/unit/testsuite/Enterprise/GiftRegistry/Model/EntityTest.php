@@ -60,16 +60,15 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
             ->will($this->returnArgument(0));
 
         $emailTemplate = $this->_emailTemplate;
-        $callback =
-            function() use ($emailTemplate)
-            {
-                return clone $emailTemplate;
-            };
 
         $config->expects($this->any())
             ->method('getModelInstance')
             ->with($this->equalTo('Mage_Core_Model_Email_Template'))
-            ->will($this->returnCallback($callback));
+            ->will($this->returnCallback(
+                function() use ($emailTemplate) {
+                    return clone $emailTemplate;
+                }
+            ));
 
         $this->_model = new Enterprise_GiftRegistry_Model_Entity(array(
             'app' => $app,
@@ -94,7 +93,6 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $result = $this->_model->sendShareRegistryEmails();
 
         $this->assertEquals($expectedResult['success'], $result->getIsSuccess());
-        $this->assertEquals($expectedResult['has_error'], $result->hasErrorMessage());
         $this->assertEquals($expectedResult['error_message'], $result->getErrorMessage());
     }
 
@@ -128,34 +126,53 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
 
     public function invalidSenderAndRecipientInfoDataProvider()
     {
+        return array_merge(
+            $this->_invalidRecipientInfoDataProvider(),
+            $this->_invalidSenderInfoDataProvider()
+        );
+    }
+
+    /**
+     * Retrieve data for invalid sender cases
+     *
+     * @return array
+     */
+    protected function _invalidSenderInfoDataProvider()
+    {
         return array(
             array(
                 array(
-                    'sender_name' => null, 'sender_message' => 'Hello world',
-                    'sender_email' => 'email', 'recipients' => array()
+                    'sender_name' => null,
+                    'sender_message' => 'Hello world',
+                    'sender_email' => 'email',
+                    'recipients' => array()
                 ),
                 array(
-                    'success' => false, 'has_error' => true,
+                    'success' => false,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
             array(
                 array(
-                    'sender_name' => 'John Doe', 'sender_message' => null,
-                    'sender_email' => 'email', 'recipients' => array()
+                    'sender_name' => 'John Doe',
+                    'sender_message' => null,
+                    'sender_email' => 'email',
+                    'recipients' => array()
                 ),
                 array(
-                    'success' => false, 'has_error' => true,
+                    'success' => false,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
             array(
                 array(
-                    'sender_name' => 'John Doe', 'sender_message' => 'Hello world',
-                    'sender_email' => null, 'recipients' => array()
+                    'sender_name' => 'John Doe',
+                    'sender_message' => 'Hello world',
+                    'sender_email' => null,
+                    'recipients' => array()
                 ),
                 array(
-                    'success' => false, 'has_error' => true,
+                    'success' => false,
                     'error_message' => 'Sender data can\'t be empty.'
                 )
             ),
@@ -167,10 +184,21 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                     'recipients' => array()
                 ),
                 array(
-                    'success' => false, 'has_error' => true,
+                    'success' => false,
                     'error_message' => 'Please input a valid sender email address.'
                 )
-            ),
+            )
+        );
+    }
+
+    /**
+     * Retrieve data for invalid recipient cases
+     *
+     * @return array
+     */
+    protected function _invalidRecipientInfoDataProvider()
+    {
+        return array(
             array(
                 array(
                     'sender_name' => 'John Doe',
@@ -182,7 +210,6 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'has_error' => true,
                     'error_message' => 'Please input a valid recipient email address.'
                 )
             ),
@@ -198,7 +225,6 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'has_error' => true,
                     'error_message' => 'Please input a recipient name.'
                 )
             ),
@@ -211,7 +237,6 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                     'success' => false,
-                    'has_error' => false,
                     'error_message' => null
                 )
             )
