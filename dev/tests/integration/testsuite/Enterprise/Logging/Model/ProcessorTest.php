@@ -14,7 +14,7 @@
  */
 class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function userAndRoleFixture()
+    public static function userAndRoleFixture()
     {
         $user = Mage::getModel('Mage_User_Model_User');
         $user->setUsername('newuser')
@@ -51,7 +51,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         $this->dispatch($url);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $this->assertEquals($eventCount + 1, count($collection), $action . ' event wasn\'t logged');
-        $lastEvent = array_pop($collection->getData());
+        $lastEvent = $collection->getLastItem();
         $this->assertEquals($action, $lastEvent['action']);
     }
 
