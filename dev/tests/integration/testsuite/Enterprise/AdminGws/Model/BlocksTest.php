@@ -65,7 +65,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws',
-            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.edit.gws'),
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.edit.gws'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not loaded'
         );
 
@@ -89,7 +89,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid'),
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
     }
@@ -104,7 +104,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            Mage::app()->getLayout()->getBlock('adminhtml.permission.role.grid'),
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
 

@@ -33,7 +33,50 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_obsoleteReferences = array(
-        'adminhtml_user_edit' => array('adminhtml.permissions.user.edit.tabs')
+        'adminhtml_user_edit' => array(
+            'adminhtml.permissions.user.edit.tabs',
+            'adminhtml.permission.user.edit.tabs',
+            'adminhtml.permissions.user.edit',
+            'adminhtml.permission.user.edit',
+            'adminhtml.permissions.user.roles.grid.js',
+            'adminhtml.permission.user.roles.grid.js',
+            'adminhtml.permissions.user.edit.tab.roles',
+            'adminhtml.permissions.user.edit.tab.roles.js'
+        ),
+        'adminhtml_user_role_index>' => array(
+            'adminhtml.permission.role.index',
+            'adminhtml.permissions.role.index',
+            'adminhtml.permissions.role.grid'
+        ),
+        'adminhtml_user_role_rolegrid' => array(
+            'adminhtml.permission.role.grid',
+            'adminhtml.permissions.role.grid'
+        ),
+        'adminhtml_user_role_editrole' => array(
+            'adminhtml.permissions.editroles',
+            'adminhtml.permissions.tab.rolesedit',
+            'adminhtml.permission.roles.users.grid.js',
+            'adminhtml.permissions.roles.users.grid.js',
+            'adminhtml.permission.role.buttons',
+            'adminhtml.permissions.role.buttons',
+            'adminhtml.permission.role.edit.gws'
+        ),
+        'adminhtml_user_role_editrolegrid' => array(
+            'adminhtml.permission.role.grid.user',
+            'adminhtml.permissions.role.grid.user'
+        ),
+        'adminhtml_user_index' => array(
+            'adminhtml.permission.user.index',
+            'adminhtml.permissions.user.index'
+        ),
+        'adminhtml_user_rolegrid' => array(
+            'adminhtml.permissions.user.rolegrid',
+            'adminhtml.permission.user.rolegrid'
+        ),
+        'adminhtml_user_rolesgrid' => array(
+            'adminhtml.permissions.user.rolesgrid',
+            'adminhtml.permission.user.rolesgrid'
+        )
     );
 
     /**
