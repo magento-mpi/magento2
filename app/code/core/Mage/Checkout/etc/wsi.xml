@@ -341,6 +341,24 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="shoppingCartOrderWithPaymentRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="quoteId" type="xsd:int" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="storeId" type="xsd:string" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="licenses" type="typens:ArrayOfString" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="paymentData" type="typens:shoppingCartPaymentMethodEntity" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="shoppingCartOrderWithPaymentResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
             <xsd:element name="shoppingCartInfoRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -620,6 +638,12 @@
     <wsdl:message name="shoppingCartOrderResponse">
         <wsdl:part name="parameters" element="typens:shoppingCartOrderResponseParam" />
     </wsdl:message>
+    <wsdl:message name="shoppingCartOrderWithPaymentRequest">
+        <wsdl:part name="parameters" element="typens:shoppingCartOrderWithPaymentRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="shoppingCartOrderWithPaymentResponse">
+        <wsdl:part name="parameters" element="typens:shoppingCartOrderWithPaymentResponseParam" />
+    </wsdl:message>
     <wsdl:message name="shoppingCartInfoRequest">
         <wsdl:part name="parameters" element="typens:shoppingCartInfoRequestParam" />
     </wsdl:message>
@@ -733,6 +757,11 @@
             <wsdl:input message="typens:shoppingCartOrderRequest"/>
             <wsdl:output message="typens:shoppingCartOrderResponse"/>
         </wsdl:operation>
+        <wsdl:operation name="shoppingCartOrderWithPayment">
+            <wsdl:documentation>Create an order from shopping cart with payment method</wsdl:documentation>
+            <wsdl:input message="typens:shoppingCartOrderWithPaymentRequest"/>
+            <wsdl:output message="typens:shoppingCartOrderWithPaymentResponse"/>
+        </wsdl:operation>
         <wsdl:operation name="shoppingCartTotals">
             <wsdl:documentation>Get total prices for shopping cart</wsdl:documentation>
             <wsdl:input message="typens:shoppingCartTotalsRequest"/>
@@ -839,6 +868,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="shoppingCartOrder">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="shoppingCartOrderWithPayment">
             <soap:operation soapAction=""/>
             <wsdl:input>
                 <soap:body use="literal" />

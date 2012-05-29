@@ -339,6 +339,16 @@
     <message name="shoppingCartOrderResponse">
         <part name="result" type="xsd:string"/>
     </message>
+    <message name="shoppingCartOrderWithPaymentRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="quoteId" type="xsd:int"/>
+        <part name="storeId" type="xsd:string"/>
+        <part name="licenses" type="typens:ArrayOfString"/>
+        <part name="method" type="typens:shoppingCartPaymentMethodEntity"/>
+    </message>
+    <message name="shoppingCartOrderWithPaymentResponse">
+        <part name="result" type="xsd:string"/>
+    </message>
     <message name="shoppingCartInfoRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="quoteId" type="xsd:int"/>
@@ -492,6 +502,11 @@
             <input message="typens:shoppingCartOrderRequest"/>
             <output message="typens:shoppingCartOrderResponse"/>
         </operation>
+        <operation name="shoppingCartOrderWithPayment">
+            <documentation>Create an order from shopping cart with payment method</documentation>
+            <input message="typens:shoppingCartOrderWithPaymentRequest"/>
+            <output message="typens:shoppingCartOrderWithPaymentResponse"/>
+        </operation>
         <operation name="shoppingCartTotals">
             <documentation>Get total prices for shopping cart</documentation>
             <input message="typens:shoppingCartTotalsRequest"/>
@@ -604,6 +619,17 @@
             </output>
         </operation>
         <operation name="shoppingCartOrder">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="shoppingCartOrderWithPayment">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
             <input>
                 <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
