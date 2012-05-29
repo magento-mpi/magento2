@@ -300,7 +300,7 @@ class Mage_Core_Model_Translate
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = Mage::getDesign()->getLocaleFileName('translate.csv', array('_locale' => $locale));
+            $file = Mage::getDesign()->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData($this->_getFileData($file), false, $forceReload);
         }
         return $this;

@@ -103,10 +103,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function getFilenameDataProvider()
     {
         return array(
-            array('theme_file.txt', array('_module' => 'Mage_Catalog')),
+            array('theme_file.txt', array('module' => 'Mage_Catalog')),
             array('Mage_Catalog::theme_file.txt', array()),
             array('Mage_Catalog::theme_file_with_2_dots..txt', array()),
-            array('Mage_Catalog::theme_file.txt', array('_module' => 'Overriden_Module')),
+            array('Mage_Catalog::theme_file.txt', array('module' => 'Overriden_Module')),
         );
     }
 

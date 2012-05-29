@@ -232,26 +232,23 @@ class Mage_Core_Model_Design_Package
      */
     protected function _updateParamDefaults(array &$params)
     {
-        if (empty($params['_area'])) {
-            $params['_area'] = $this->getArea();
+        if (empty($params['area'])) {
+            $params['area'] = $this->getArea();
         }
-        if (empty($params['_package'])) {
-            $params['_package'] = $this->getPackageName();
+        if (empty($params['package'])) {
+            $params['package'] = $this->getPackageName();
         }
-        if (!array_key_exists('_theme', $params)) {
-            $params['_theme'] = $this->getTheme();
+        if (!array_key_exists('theme', $params)) {
+            $params['theme'] = $this->getTheme();
         }
-        if (!array_key_exists('_skin', $params)) {
-            $params['_skin'] = $this->getSkin();
+        if (!array_key_exists('skin', $params)) {
+            $params['skin'] = $this->getSkin();
         }
-        if (empty($params['_default'])) {
-            $params['_default'] = false;
+        if (!array_key_exists('module', $params)) {
+            $params['module'] = false;
         }
-        if (!array_key_exists('_module', $params)) {
-            $params['_module'] = false;
-        }
-        if (empty($params['_locale'])) {
-            $params['_locale'] = Mage::app()->getLocale()->getLocaleCode();
+        if (empty($params['locale'])) {
+            $params['locale'] = Mage::app()->getLocale()->getLocaleCode();
         }
         return $this;
     }
@@ -323,7 +320,7 @@ class Mage_Core_Model_Design_Package
             if (empty($file[0])) {
                 throw new Magento_Exception('Scope separator "::" cannot be used without scope identifier.');
             }
-            $params['_module'] = $file[0];
+            $params['module'] = $file[0];
             $file = $file[1];
         }
         return $file;
@@ -440,7 +437,6 @@ class Mage_Core_Model_Design_Package
      */
     public function getSkinUrl($file, array $params = array())
     {
-        $params['_type'] = 'skin';
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         unset($params['_secure']);
         $this->_updateParamDefaults($params);
@@ -642,12 +638,12 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicSkinRedundantFilename($file, array $params)
     {
-        $publicFile = $params['_area']
-            . DIRECTORY_SEPARATOR . $params['_package']
-            . DIRECTORY_SEPARATOR . $params['_theme']
-            . DIRECTORY_SEPARATOR . $params['_skin']
-            . DIRECTORY_SEPARATOR . $params['_locale']
-            . ($params['_module'] ? DIRECTORY_SEPARATOR . $params['_module'] : '')
+        $publicFile = $params['area']
+            . DIRECTORY_SEPARATOR . $params['package']
+            . DIRECTORY_SEPARATOR . $params['theme']
+            . DIRECTORY_SEPARATOR . $params['skin']
+            . DIRECTORY_SEPARATOR . $params['locale']
+            . ($params['module'] ? DIRECTORY_SEPARATOR . $params['module'] : '')
             . DIRECTORY_SEPARATOR . $file
         ;
         $publicFile = $this->_buildPublicSkinFilename($publicFile);
@@ -669,7 +665,7 @@ class Mage_Core_Model_Design_Package
             $publicFile = substr($filename, strlen($designDir));
         } else {
             // modular file
-            $module = $params['_module'];
+            $module = $params['module'];
             $moduleDir = Mage::getModuleDir('skin', $module) . DIRECTORY_SEPARATOR;
             $publicFile = substr($filename, strlen($moduleDir));
             $publicFile = self::PUBLIC_MODULE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $publicFile;
@@ -734,15 +730,15 @@ class Mage_Core_Model_Design_Package
             $relativeSkinFile = $fileUrl;
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['_module'] && strpos($parentFilePath, Mage::getBaseDir('design')) === 0) {
+            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir('design')) === 0) {
                 /* Add module directory to relative URL for canonization */
-                $relativeSkinFile = dirname($params['_module'] . DIRECTORY_SEPARATOR . $parentFileName)
+                $relativeSkinFile = dirname($params['module'] . DIRECTORY_SEPARATOR . $parentFileName)
                     . DIRECTORY_SEPARATOR . $fileUrl;
                 $relativeSkinFile   = $this->_canonize($relativeSkinFile);
-                if (strpos($relativeSkinFile, $params['_module']) === 0) {
-                    $relativeSkinFile = str_replace($params['_module'], '', $relativeSkinFile);
+                if (strpos($relativeSkinFile, $params['module']) === 0) {
+                    $relativeSkinFile = str_replace($params['module'], '', $relativeSkinFile);
                 } else {
-                    $params['_module'] = false;
+                    $params['module'] = false;
                 }
             } else {
                 $relativeSkinFile = $this->_canonize(dirname($parentFileName) . DIRECTORY_SEPARATOR . $fileUrl);
@@ -953,8 +949,8 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getRequestedFileCacheKey($params)
     {
-        return $params['_area'] . '/' . $params['_package'] . '/' . $params['_theme'] . '/'
-            . $params['_skin'] . '/' . $params['_locale'];
+        return $params['area'] . '/' . $params['package'] . '/' . $params['theme'] . '/'
+            . $params['skin'] . '/' . $params['locale'];
     }
 
     /**

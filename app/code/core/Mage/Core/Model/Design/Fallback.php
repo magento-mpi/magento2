@@ -33,8 +33,6 @@ class Mage_Core_Model_Design_Fallback
     /**
      * Use this one to get existing file name with fallback to default
      *
-     * $params['_type'] is required
-     *
      * @param string $file
      * @param array $params
      * @return string
@@ -45,10 +43,10 @@ class Mage_Core_Model_Design_Fallback
         try {
             $dir = Mage::getBaseDir('design');
             $dirs = array();
-            $area = $params['_area'];
-            $package = $params['_package'];
-            $theme = $params['_theme'];
-            $module = $params['_module'];
+            $area = $params['area'];
+            $package = $params['package'];
+            $theme = $params['theme'];
+            $module = $params['module'];
 
             while ($theme) {
                 $dirs[] = "{$dir}/{$area}/{$package}/{$theme}";
@@ -73,10 +71,10 @@ class Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFileName($file, array $params=array())
     {
-        $area = $params['_area'];
-        $package = $params['_package'];
-        $theme = $params['_theme'];
-        $locale = $params['_locale'];
+        $area = $params['area'];
+        $package = $params['package'];
+        $theme = $params['theme'];
+        $locale = $params['locale'];
         $dir = Mage::getBaseDir('design');
 
         $dirs = array();
@@ -97,12 +95,12 @@ class Mage_Core_Model_Design_Fallback
      */
     public function getSkinFile($file, $params)
     {
-        $area = $params['_area'];
-        $package = $params['_package'];
-        $theme = $params['_theme'];
-        $skin = $params['_skin'];
-        $module = $params['_module'];
-        $locale = $params['_locale'];
+        $area = $params['area'];
+        $package = $params['package'];
+        $theme = $params['theme'];
+        $skin = $params['skin'];
+        $module = $params['module'];
+        $locale = $params['locale'];
         $dir = Mage::getBaseDir('design');
         $moduleDir = $module ? Mage::getConfig()->getModuleDir('view', $module) : '';
         $defaultSkin = Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME;

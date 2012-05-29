@@ -153,7 +153,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testGetSkinUrlNoFilesDuplicationWithCaching()
     {
         Mage::app()->getLocale()->setLocale('en_US');
-        $skinParams = array('_package' => 'test', '_theme' => 'default', '_skin' => 'default');
+        $skinParams = array('package' => 'test', 'theme' => 'default', 'skin' => 'default');
         $cacheKey = 'frontend/test/default/default/en_US';
         Mage::app()->cleanCache();
 
@@ -227,10 +227,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function publishSkinFileDataProvider()
     {
         $designParams = array(
-            '_area'    => 'frontend',
-            '_package' => 'test',
-            '_theme'   => 'default',
-            '_skin'    => 'default',
+            'area'    => 'frontend',
+            'package' => 'test',
+            'theme'   => 'default',
+            'skin'    => 'default',
         );
         return array(
             'skin file' => array(
@@ -266,7 +266,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
         $publishedDir = self::$_skinPublicDir . '/frontend/package/default/theme/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->_model->getSkinUrl('css/file.css', array('_package' => 'package', '_skin' => 'theme'));
+        $this->_model->getSkinUrl('css/file.css', array('package' => 'package', 'skin' => 'theme'));
         foreach ($expectedFiles as $file) {
             $this->assertFileExists("{$publishedDir}/{$file}");
         }
@@ -308,10 +308,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'frontend' => array(
                 'widgets.css',
                 array(
-                    '_area'    => 'frontend',
-                    '_package' => 'default',
-                    '_skin'    => 'default',
-                    '_module'  => 'Mage_Reports',
+                    'area'    => 'frontend',
+                    'package' => 'default',
+                    'skin'    => 'default',
+                    'module'  => 'Mage_Reports',
                 ),
                 'frontend/default/default/default/en_US/Mage_Reports/widgets.css',
                 array(
@@ -324,11 +324,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'adminhtml' => array(
                 'Mage_Paypal::boxes.css',
                 array(
-                    '_area'    => 'adminhtml',
-                    '_package' => 'package',
-                    '_theme'   => 'test',
-                    '_skin'    => 'default',
-                    '_module'  => false,
+                    'area'    => 'adminhtml',
+                    'package' => 'package',
+                    'theme'   => 'test',
+                    'skin'    => 'default',
+                    'module'  => false,
                 ),
                 'adminhtml/package/test/default/en_US/Mage_Paypal/boxes.css',
                 array(

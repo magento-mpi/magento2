@@ -58,27 +58,27 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         return array(
             'no default theme inheritance' => array(
                 'fixture_template.phtml',
-                array('_package' => 'package', '_theme' => 'standalone_theme'),
+                array('package' => 'package', 'theme' => 'standalone_theme'),
                 null
             ),
             'same package & parent theme' => array(
                 'fixture_template_two.phtml',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant'),
                 "%s/frontend/package/custom_theme/fixture_template_two.phtml",
             ),
             'same package & grandparent theme' => array(
                 'fixture_template.phtml',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant'),
                 "%s/frontend/package/default/fixture_template.phtml",
             ),
             'parent package & parent theme' => array(
                 'fixture_template_two.phtml',
-                array('_package' => 'test', '_theme' => 'external_package_descendant'),
+                array('package' => 'test', 'theme' => 'external_package_descendant'),
                 "%s/frontend/package/custom_theme/fixture_template_two.phtml",
             ),
             'parent package & grandparent theme' => array(
                 'fixture_template.phtml',
-                array('_package' => 'test', '_theme' => 'external_package_descendant'),
+                array('package' => 'test', 'theme' => 'external_package_descendant'),
                 "%s/frontend/package/default/fixture_template.phtml",
             ),
         );
@@ -110,17 +110,17 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         return array(
             'no default theme inheritance' => array(
                 'fixture_translate.csv',
-                array('_package' => 'package', '_theme' => 'standalone_theme'),
+                array('package' => 'package', 'theme' => 'standalone_theme'),
                 null
             ),
             'parent theme' => array(
                 'fixture_translate_two.csv',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant'),
                 "%s/frontend/package/custom_theme/locale/en_US/fixture_translate_two.csv",
             ),
             'grandparent theme' => array(
                 'fixture_translate.csv',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant'),
                 "%s/frontend/package/default/locale/en_US/fixture_translate.csv",
             ),
         );
@@ -154,42 +154,42 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         return array(
             'no default theme inheritance' => array(
                 'fixture_script_two.js',
-                array('_package' => 'package', '_theme' => 'standalone_theme', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'standalone_theme', 'skin' => 'theme_nested_skin'),
                 null,
             ),
             'same theme & default skin' => array(
                 'fixture_script_two.js',
-                array('_package' => 'package', '_theme' => 'custom_theme', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/default/fixture_script_two.js",
             ),
             'parent theme & same skin' => array(
                 'fixture_script.js',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/fixture_script.js",
             ),
             'parent theme & default skin' => array(
                 'fixture_script_two.js',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/default/fixture_script_two.js",
             ),
             'grandparent theme & same skin' => array(
                 'fixture_script_three.js',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/default/skin/theme_nested_skin/fixture_script_three.js",
             ),
             'grandparent theme & default skin' => array(
                 'fixture_script_four.js',
-                array('_package' => 'package', '_theme' => 'custom_theme_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/default/skin/default/fixture_script_four.js",
             ),
             'parent package & same theme & same skin' => array(
                 'fixture_script.js',
-                array('_package' => 'test', '_theme' => 'external_package_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'test', 'theme' => 'external_package_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/fixture_script.js",
             ),
             'parent package & same theme & default skin' => array(
                 'fixture_script_two.js',
-                array('_package' => 'test', '_theme' => 'external_package_descendant', '_skin' => 'theme_nested_skin'),
+                array('package' => 'test', 'theme' => 'external_package_descendant', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/default/fixture_script_two.js",
             ),
         );
@@ -215,32 +215,32 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         return array(
             'general skin file' => array(
                 'fixture_script.js',
-                array('_package' => 'package', '_theme' => 'custom_theme', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/fixture_script.js",
             ),
             'localized skin file' => array(
                 'fixture_script.js',
-                array('_package' => 'package', '_theme' => 'custom_theme', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/locale/ru_RU/fixture_script.js",
                 'ru_RU',
             ),
             'general modular skin file' => array(
                 'fixture_script.js',
                 array(
-                    '_package' => 'package',
-                    '_theme'   => 'custom_theme',
-                    '_skin'    => 'theme_nested_skin',
-                    '_module'  => 'Fixture_Module'
+                    'package' => 'package',
+                    'theme'   => 'custom_theme',
+                    'skin'    => 'theme_nested_skin',
+                    'module'  => 'Fixture_Module'
                 ),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/Fixture_Module/fixture_script.js",
             ),
             'localized modular skin file' => array(
                 'fixture_script.js',
                 array(
-                    '_package' => 'package',
-                    '_theme'   => 'custom_theme',
-                    '_skin'    => 'theme_nested_skin',
-                    '_module'  => 'Fixture_Module'
+                    'package' => 'package',
+                    'theme'   => 'custom_theme',
+                    'skin'    => 'theme_nested_skin',
+                    'module'  => 'Fixture_Module'
                 ),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/locale/ru_RU/Fixture_Module/fixture_script.js",
                 'ru_RU',
@@ -268,12 +268,12 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         return array(
             'lib file in theme' => array(
                 'mage/jquery-no-conflict.js',
-                array('_package' => 'package', '_theme' => 'custom_theme', '_skin' => 'theme_nested_skin'),
+                array('package' => 'package', 'theme' => 'custom_theme', 'skin' => 'theme_nested_skin'),
                 "%s/frontend/package/custom_theme/skin/theme_nested_skin/mage/jquery-no-conflict.js",
             ),
             'lib file in js lib' => array(
                 'mage/jquery-no-conflict.js',
-                array('_package' => 'package', '_theme' => 'custom_theme', '_skin' => 'default'),
+                array('package' => 'package', 'theme' => 'custom_theme', 'skin' => 'default'),
                 '%s/pub/js/mage/jquery-no-conflict.js',
             ),
         );
