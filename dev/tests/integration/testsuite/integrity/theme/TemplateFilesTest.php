@@ -89,7 +89,8 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                     $parent = $action[0]->xpath("parent::*");
                     $attributes = $parent[0]->attributes();
                     $referenceName = (string)$attributes['name'];
-                    $block = $layoutXml->xpath("//block[@name='{$referenceName}']");
+                    $block = $layoutXml->xpath(
+                        "//block[@name='{$referenceName}'] | //reference[@name='{$referenceName}']");
                     $module = $this->_getBlockModule($block[0]);
                     if (!$template->attributes() && !$this->_isTemplateForDisabledModule($module, (string)$template)) {
                         $templates[] = array($module, (string)$template, $parent[0]->asXml());
