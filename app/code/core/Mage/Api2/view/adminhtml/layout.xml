@@ -86,7 +86,7 @@
 
     <!-- admin acl users edit page -->
     <adminhtml_user_edit>
-        <reference name="adminhtml.permissions.user.edit.tabs">
+        <reference name="adminhtml.permission.user.edit.tabs">
             <block type="Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles" name="adminhtml.permissions.user.edit.tab.roles"/>
             <action method="addTabAfter">
                 <id>api2_roles_section</id>

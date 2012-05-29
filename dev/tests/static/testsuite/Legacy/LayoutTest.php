@@ -14,12 +14,26 @@
  */
 class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * List of obsolete nodes
+     *
+     * @var array
+     */
     protected $_obsoleteNodes = array(
         'PRODUCT_TYPE_simple', 'PRODUCT_TYPE_configurable', 'PRODUCT_TYPE_grouped', 'PRODUCT_TYPE_bundle',
         'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
         'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
         'customer_logged_in', 'customer_logged_out', 'customer_logged_in_psc_handle', 'customer_logged_out_psc_handle',
         'cms_page', 'sku_failed_products_handle', 'catalog_product_send'
+    );
+
+    /**
+     * List of obsolete references per handle
+     *
+     * @var array
+     */
+    protected $_obsoleteReferences = array(
+        'adminhtml_user_edit' => array('adminhtml.permissions.user.edit.tabs')
     );
 
     /**
@@ -30,6 +44,9 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $suggestion = sprintf(Legacy_ObsoleteCodeTest::SUGGESTION_MESSAGE, 'addCss/addJss');
         $layoutXml = simplexml_load_file($layoutFile);
+
+        $this->_testObsoleteReferences($layoutXml);
+
         $selectorHeadBlock = '(name()="block" or name()="reference") and (@name="head" or @name="convert_root_head")';
         $this->assertEmpty(
             $layoutXml->xpath(
@@ -62,6 +79,24 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($layoutXml->xpath('/layout//block[@type="Mage_Core_Block_Text_List"]'),
             'The class Mage_Core_Block_Text_List is not supposed to be used in layout anymore.'
         );
+    }
+
+    /**
+     * @param SimpleXMLElement $layoutXml
+     */
+    protected function _testObsoleteReferences($layoutXml)
+    {
+        foreach ($layoutXml as $handle) {
+            if (isset($this->_obsoleteReferences[$handle->getName()])) {
+                foreach ($handle->xpath('reference') as $reference) {
+                    $this->assertNotContains(
+                        (string)$reference['name'],
+                        $this->_obsoleteReferences[$handle->getName()],
+                        'The block being referenced is removed.'
+                    );
+                }
+            }
+        }
     }
 
     /**
