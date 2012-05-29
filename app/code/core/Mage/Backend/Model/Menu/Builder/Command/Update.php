@@ -9,5 +9,13 @@
  */
 class Mage_Backend_Model_Menu_Builder_Command_Update extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
-
+    /**
+     * Update item data
+     *
+     * @param Mage_Backend_Model_Menu_Item $item
+     */
+    protected function _execute(Mage_Backend_Model_Menu_Item $item)
+    {
+        $item->updateData($this->_data);
+    }
 }
