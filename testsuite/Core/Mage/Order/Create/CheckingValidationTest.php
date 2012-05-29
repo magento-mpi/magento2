@@ -187,7 +187,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         }
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData, false);
         //Verifying
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_shipping_address');
@@ -245,7 +245,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         unset($orderData['shipping_data']);
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData, false);
         //Verifying
         $fieldXpath = $this->_getControlXpath('link', 'get_shipping_methods_and_rates');
         $this->addParameter('fieldXpath', $fieldXpath);
@@ -316,7 +316,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData, false);
         //Verifying
         $this->assertMessagePresent('error', 'error_specify_order_items');
         $this->assertMessagePresent('error', 'shipping_must_be_specified');
@@ -348,7 +348,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         unset($orderData['payment_data']);
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData, false);
         //Verifying
         $this->assertMessagePresent('error', 'empty_payment_method');
     }

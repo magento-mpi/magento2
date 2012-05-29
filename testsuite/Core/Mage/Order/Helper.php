@@ -90,11 +90,21 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Creates order
      *
      * @param array|string $orderData Array or string with name of dataset to load
-     * @param bool $validate If $validate == TRUE 'Submit Order' button will not be pressed
+     * @param bool $validate (If $validate == false - errors will be skipped while filling order data)
      *
      * @return bool|string
      */
     public function createOrder($orderData, $validate = true)
+    {
+        $this->doAdminCheckoutSteps($orderData, $validate);
+        $this->submitOrder();
+    }
+
+    /**
+     * @param $orderData
+     * @param bool $validate
+     */
+    public function doAdminCheckoutSteps($orderData, $validate = true)
     {
         $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : null;
         $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : null;
@@ -140,9 +150,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         }
         if ($verPrTotal) {
             $this->verifyProductsTotal($verPrTotal);
-        }
-        if ($validate) {
-            $this->submitOrder();
         }
     }
 
