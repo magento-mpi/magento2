@@ -72,17 +72,13 @@ class Mage_Api2_Model_Dispatcher
     public static function loadResourceModel($model, $apiType, $userType, $version)
     {
         $class = strtr(
-            self::RESOURCE_CLASS_TEMPLATE, array(
-                ':resource' => $model,
-                ':api' => ucfirst($apiType),
-                ':user' => ucfirst($userType),
-                ':version' => ucfirst($version)
-            )
+            self::RESOURCE_CLASS_TEMPLATE,
+            array(':resource' => $model, ':api' => $apiType, ':user' => $userType, ':version' => $version)
         );
 
         try {
             /** @var $modelObj Mage_Api2_Model_Resource */
-            $modelObj = Mage::getModel($class);
+            $modelObj = Mage::getModel(uc_words($class));
         } catch (Exception $e) {
             // getModel() throws exception when in application is in development mode - skip it to next check
         }
