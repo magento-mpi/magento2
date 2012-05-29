@@ -2533,6 +2533,31 @@ system_configuration:
                         xpath: //a[contains(@href, 'edit/section/payment/')]
                         fieldsets:
                             -
+                            #<-- Start MPI Changes-->
+                                paypal_all_in_one:
+                                    xpath: //fieldset[@id='payment_paypal_group_all_in_one']
+                                    links:
+                                        paypal_all_in_one_section: //parent::div//a[@id='payment_paypal_group_all_in_one-head']
+                                        paypal_all_in_one_help: //a[contains(text(),'Help')]
+                                        ppa_link_more: //strong[contains(text(),'Payments Advanced (Includes Express Checkout)')]//a[@class="link-more"]
+                                        ppp_link_more: //strong[contains(text(),'Payments Pro (Includes Express Checkout)')]//a[@class="link-more"]
+                                        pps_link_more: //strong[contains(text(),'Payments Standard')]//a[@class="link-more"]
+                                    buttons:
+                                        ppa_configure: //button[@id='payment_payflow_advanced-head']
+                                        ppp_configure: //button[@id='payment_wpp-head']
+                                        pps_configure: //button[@id='payment_wps-head']                                         
+                                ppa_required_settings:
+                                    xpath: //fieldset[@id='payment_required_settings-head']
+                                    links:  
+                                paypal_payment_gatawey:
+                                    xpath: //fieldset[@id='payment_paypal_payment_gateways']
+                                    links:
+                                        paypal_payment_gatawey_section: //parent::div//a[@id='payment_paypal_payment_gateways-head']
+                                paypal_express_checkout:
+                                    xpath: //fieldset[@id='payment_paypal_alternative_payment_methods']
+                                    links:
+                                        paypal_express_checkout_section: //parent::div//a[@id='payment_paypal_alternative_payment_methods-head']
+                           #<-- End MPI Changes-->
                                 saved_cc:
                                     xpath: //fieldset[@id='payment_ccsave']
                                     links:
