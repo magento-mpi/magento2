@@ -9,7 +9,7 @@
  */
 
 /**
- * View configuration files handler
+ * Menu configuration files handler
  */
 class Mage_Backend_Model_Config_Menu extends Magento_Config_XmlAbstract
 {

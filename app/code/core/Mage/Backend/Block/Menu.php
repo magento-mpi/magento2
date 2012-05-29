@@ -114,7 +114,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getSingleton('Mage_Admin_Model_Config')->getAdminhtmlConfig()->getNode('menu');
+            $parent = Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getTree();
         }
 
         $parentArr = array();
