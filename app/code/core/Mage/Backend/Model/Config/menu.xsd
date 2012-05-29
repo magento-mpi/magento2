@@ -41,6 +41,9 @@
                                         <xs:attribute name="sort_order" type="xs:int" use="required" />
                                         <xs:attribute name="action" type="typeAction" use="required" />
                                         <xs:attribute name="parent" type="typeId" use="required" />
+                                        <xs:attribute name="resource" type="typeResource" use="optional" />
+                                        <xs:attribute name="dependsOnModule" type="typeModule" use="optional" />
+                                        <xs:attribute name="dependsOnConfig" type="typeDependsConfig" use="optional" />
                                     </xs:complexType>
                                 </xs:element>
                                 <xs:element name="update">
@@ -56,6 +59,9 @@
                                         <xs:attribute name="sort_order" type="xs:int" use="optional" />
                                         <xs:attribute name="action" type="typeAction" use="optional" />
                                         <xs:attribute name="parent" type="typeId" use="optional" />
+                                        <xs:attribute name="resource" type="typeResource" use="optional" />
+                                        <xs:attribute name="dependsOnModule" type="typeModule" use="optional" />
+                                        <xs:attribute name="dependsOnConfig" type="typeDependsConfig" use="optional" />
                                     </xs:complexType>
                                 </xs:element>
                                 <xs:element name="remove">
@@ -138,6 +144,28 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="[A-Za-z_]{3,}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="typeResource">
+        <xs:annotation>
+            <xs:documentation>
+                Item resource attribute can has only [a-z_]. Minimal length 3 symbol. Case insensitive.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z_]{3,}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="typeDependsConfig">
+        <xs:annotation>
+            <xs:documentation>
+                Item resource attribute can has only [a-z_]. Minimal length 3 symbol. Case insensitive.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z_/]{3,}" />
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
