@@ -990,7 +990,7 @@
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
-                        <xsd:element minOccurs="1" maxOccurs="1" name="invoiceIncrementId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="orderIncrementId" type="xsd:string" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="itemsQty" type="typens:orderItemIdQtyArray" />
                         <xsd:element minOccurs="0" maxOccurs="1" name="comment" type="xsd:string" />
                         <xsd:element minOccurs="0" maxOccurs="1" name="email" type="xsd:string" />
