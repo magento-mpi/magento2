@@ -191,7 +191,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             )
         );
 
-        $this->_beginInsert('permission_index', $fields);
+        $this->_beginInsert('enterprise_catalogpermissions_index', $fields);
 
         $permissionDeny = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
         foreach ($categoryPath as $categoryId => $path) {
@@ -204,7 +204,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                     if ($permission['grant_catalog_product_price'] == $permissionDeny) {
                         $permission['grant_checkout_items'] = $permissionDeny;
                     }
-                    $this->_insert('permission_index', array(
+                    $this->_insert('enterprise_catalogpermissions_index', array(
                         'category_id'                 => $categoryId,
                         'website_id'                  => $permission['website_id'],
                         'customer_group_id'           => $permission['customer_group_id'],
@@ -216,7 +216,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             }
         }
 
-        $this->_commitInsert('permission_index');
+        $this->_commitInsert('enterprise_catalogpermissions_index');
         $this->_permissionCache = array();
 
         $select = $readAdapter->select()
