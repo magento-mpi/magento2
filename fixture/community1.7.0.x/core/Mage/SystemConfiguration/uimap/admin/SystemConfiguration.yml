@@ -148,6 +148,9 @@ system_configuration:
                                         pec_api_username: //input[@id='payment_express_checkout_required_express_checkout_api_username']
                                         pec_api_password: //input[@id='payment_express_checkout_required_express_checkout_api_password']
                                         pec_api_signature: //input[@id='payment_express_checkout_required_express_checkout_api_signature']
+                                        pec_api_certificate: //input[@id='payment_express_checkout_required_express_checkout_api_cert']
+                                        pec_proxy_host: //input[@id='payment_express_checkout_required_express_checkout_proxy_host']
+                                        pec_proxy_port: //input[@id='payment_express_checkout_required_express_checkout_proxy_port']
                                     dropdowns:
                                         pec_api_authentication_method: //select[@id='payment_express_checkout_required_express_checkout_api_authentication']
                                         pec_test_mode: //select[@id='payment_express_checkout_required_express_checkout_sandbox_flag']
@@ -161,11 +164,13 @@ system_configuration:
                                     fields:
                                         pec_title: //input[@id='payment_settings_ec_title']
                                         pec_sort_order: //input[@id='payment_settings_ec_sort_order']
+                                        pec_authorization_honor_period: //input[@id='payment_settings_ec_authorization_honor_period']
+                                        pec_order_valid_period: //input[@id='payment_settings_ec_order_valid_period']
+                                        pec_child_authorization_number: //input[@id='payment_settings_ec_child_authorization_number']
                                     dropdowns:
                                         pec_payment_action: //select[@id='payment_settings_ec_payment_action']
                                         pec_shortcut_on_cart: //select[@id='payment_settings_ec_visible_on_cart']
                                         pec_shortcut_on_product: //select[@id='payment_settings_ec_visible_on_product']
-
                             -
                                 #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings
                                 pec_basic_settings_express_checkout_advanced:
@@ -200,6 +205,8 @@ system_configuration:
                                         pec_ba_debug_mode: //select[@id='payment_express_checkout_billing_agreement_debug']
                                         pec_ba_transfer_cart_line_items: //select[@id='payment_express_checkout_billing_agreement_line_items_enabled']
                                         pec_ba_allow_in_agreement_wizard: //select[@id='payment_express_checkout_billing_agreement_allow_billing_agreement_wizard']
+                                    multiselects:
+                                        pec_ba_specific_countries_applicable_from: //select[@id='payment_express_checkout_billing_agreement_specificcountry']
                             -
                                     #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings ==> Settlement Report Settings
                                 pec_settlement_report_settings:
