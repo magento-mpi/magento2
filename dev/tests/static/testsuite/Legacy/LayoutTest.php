@@ -43,7 +43,7 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'adminhtml.permissions.user.edit.tab.roles',
             'adminhtml.permissions.user.edit.tab.roles.js'
         ),
-        'adminhtml_user_role_index>' => array(
+        'adminhtml_user_role_index' => array(
             'adminhtml.permission.role.index',
             'adminhtml.permissions.role.index',
             'adminhtml.permissions.role.grid'
