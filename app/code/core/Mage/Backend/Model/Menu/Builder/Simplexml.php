@@ -34,7 +34,7 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
     {
         $items = array();
         foreach ($this->_commands as $command) {
-            $items = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
+            $items[] = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
         }
 
         foreach($items as $item) {

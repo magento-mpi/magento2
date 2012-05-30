@@ -29,7 +29,7 @@ class Mage_Backend_Model_Menu_Builder_SiplexmlTest extends PHPUnit_Framework_Tes
             );
         $this->_model = new Mage_Backend_Model_Menu_Builder_Simplexml(array(
             'factory' => $factory,
-            'root' => $this->getMock('Varien_Simplexml_Element', array(), array('<menu/>'))
+            'root' => new Varien_Simplexml_Element('<menu />')
         ));
     }
 
@@ -44,6 +44,6 @@ class Mage_Backend_Model_Menu_Builder_SiplexmlTest extends PHPUnit_Framework_Tes
         );
         $this->assertEquals(1,1);
 
-     print_r($this->_model->getResult()->getNode()->asXML());
+        print_r($this->_model->getResult()->getNode()->asXML());
     }
 }

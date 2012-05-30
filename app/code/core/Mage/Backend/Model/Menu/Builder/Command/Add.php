@@ -9,6 +9,10 @@
  */
 class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
+    public function __construct(array $data = array())
+    {
+        parent::__construct()
+    }
     /**
      * Add misssing data to item
      *

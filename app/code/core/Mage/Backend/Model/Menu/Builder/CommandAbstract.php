@@ -30,7 +30,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
 
     public function __construct(array $data = array())
     {
-        if (!isset($data['id'])) {
+        if (!isset($data['id']) || is_null($data['id'])) {
             throw new InvalidArgumentException();
         }
         $this->_id = $data['id'];
