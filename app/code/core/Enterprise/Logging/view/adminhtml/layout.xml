@@ -46,6 +46,6 @@
     </adminhtml_logging_archive>
 
     <adminhtml_logging_archivegrid>
-        <block type="Enterprise_Logging_Block_Adminhtml_Archive_Grid" name="root"/>
+        <block type="Enterprise_Logging_Block_Adminhtml_Archive_Grid" output="1" name="root"/>
     </adminhtml_logging_archivegrid>
 </layout>
