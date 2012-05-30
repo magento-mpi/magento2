@@ -570,7 +570,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
         $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
         //Verify quantity orders
-        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info'));
+        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info') . '/h3');
         $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
         //Verify selected Shipping addresses for orders
         $orderHeaders = array();
