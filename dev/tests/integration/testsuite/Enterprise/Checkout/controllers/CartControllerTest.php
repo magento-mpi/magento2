@@ -17,13 +17,11 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
      */
     public function testConfigureAction()
     {
-        $this->_configureAction[] = array(
-            'gift_card' => array(
-                'fixture' => 'Enterprise/Checkout/_files/product_gift.php',
-                'must_have' => array(
-                    '<input type="text" id="giftcard_amount_input"',
-                    '<button type="button" title="Update Cart" class="button btn-cart"')
-            )
+        $this->_configureAction['gift_card'] = array(
+            'fixture' => 'Enterprise/Checkout/_files/product_gift.php',
+            'must_have' => array(
+                '<input type="text" id="giftcard_amount_input"',
+                '<button type="button" title="Update Cart" class="button btn-cart"')
         );
         parent::testConfigureAction();
     }
