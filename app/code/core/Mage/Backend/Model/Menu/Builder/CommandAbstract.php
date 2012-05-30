@@ -10,6 +10,13 @@
 abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**
+     * Id element to apply command to
+     *
+     * @var int
+     */
+    protected $_id;
+
+    /**
      * Command data
      *
      * @var array
@@ -20,6 +27,24 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
      * @var Mage_Backend_Model_Menu_Builder_CommandAbstract
      */
     protected $_next = null;
+
+    public function __construct(array $data = array())
+    {
+        if (!isset($data['id'])) {
+            throw new InvalidArgumentException();
+        }
+        $this->_id = $data['id'];
+    }
+
+    /**
+     * Retreive id of element to apply command to
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
 
     /**
      * Add command as last in the list of callbacks
