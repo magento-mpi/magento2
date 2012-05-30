@@ -11,7 +11,7 @@
 /**
  * Menu configuration files handler
  */
-class Mage_Backend_Model_Config_Menu_Dom extends Magento_Config_Dom
+class Mage_Backend_Model_Menu_Config_Menu_Dom extends Magento_Config_Dom
 {
 
     /**

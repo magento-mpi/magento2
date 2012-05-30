@@ -20,7 +20,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
     public function testGetSchemaFile()
     {
         $model = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Config_Menu',
+            'Mage_Backend_Model_Menu_Config_Menu',
             array(),
             '',
             false
@@ -35,7 +35,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
     public function testGetMergedConfigDataType()
     {
         $model = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Config_Menu',
+            'Mage_Backend_Model_Menu_Config_Menu',
             array(),
             '',
             false
@@ -48,14 +48,14 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMergedConfig()
     {
-        $basePath = realpath(__DIR__)  . '/../_files/';
+        $basePath = realpath(__DIR__)  . '/../../_files/';
 
         $expectedFile = $basePath . 'menu_merged.xml';
         $files = array(
             $basePath . 'menu_1.xml',
             $basePath . 'menu_2.xml',
         );
-        $model = new Mage_Backend_Model_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
         $actual = $model->getMergedConfig();
         $actual->preserveWhiteSpace = false;
 
@@ -83,7 +83,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
             $basePath . 'menu_1.xml',
             $basePath . 'menu_1.xml',
         );
-        $model = new Mage_Backend_Model_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
         $model->validate();
     }
 
@@ -92,14 +92,14 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateValidConfig()
     {
-        $basePath = realpath(__DIR__)  . '/../_files/';
+        $basePath = realpath(__DIR__)  . '/../../_files/';
         $files = array(
             $basePath . 'menu_1.xml',
             $basePath . 'menu_2.xml',
         );
-        $model = new Mage_Backend_Model_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
         try {
-            $this->assertInstanceOf('Mage_Backend_Model_Config_Menu', $model->validate());
+            $this->assertInstanceOf('Mage_Backend_Model_Menu_Config_Menu', $model->validate());
         } catch (Magento_Exception $e) {
             $this->fail($e->getMessage());
         }

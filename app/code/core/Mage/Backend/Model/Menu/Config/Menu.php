@@ -11,7 +11,7 @@
 /**
  * Menu configuration files handler
  */
-class Mage_Backend_Model_Config_Menu extends Magento_Config_XmlAbstract
+class Mage_Backend_Model_Menu_Config_Menu extends Magento_Config_XmlAbstract
 {
     /**
      * Path to menu.xsd
@@ -65,12 +65,12 @@ class Mage_Backend_Model_Config_Menu extends Magento_Config_XmlAbstract
 
     /**
      * Get Dom configuration model
-     * @return Mage_Backend_Model_Config_Menu_Dom
+     * @return Mage_Backend_Model_Menu_Config_Menu_Dom
      */
     protected function _getDomConfigModel()
     {
         if (is_null($this->_domConfig)) {
-            $this->_domConfig = new Mage_Backend_Model_Config_Menu_Dom(
+            $this->_domConfig = new Mage_Backend_Model_Menu_Config_Menu_Dom(
                 $this->_getInitialXml(),
                 $this->_getIdAttributes()
             );
