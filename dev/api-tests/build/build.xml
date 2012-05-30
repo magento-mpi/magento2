@@ -233,7 +233,7 @@
         <property name="file.reports.integration.log.rest" value="${dir.reports}/integration-phpunit-rest.txt"/>
 
         <exec executable="sudo" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.rest}">
-            <arg line="phpunit">
+            <arg line="phpunit"/>
             <arg line="--configuration ${file.tests.integration.config.rest}"/>
             <arg line="--log-junit ${file.reports.integration.junit.rest}"/>
             <arg line="--debug"/>
