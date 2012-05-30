@@ -14,17 +14,22 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
      */
     protected $_factory;
 
+    /**
+     * @var Varien_Simplexml_Config
+     */
+    protected $_root;
+
     public function __construct(array $data = array())
     {
         if (!isset($data['factory'])) {
-            throw new InvalidApplicationException();
+            throw new InvalidArgumentException();
         }
         $this->_factory = $data['factory'];
 
-        if (!isset($data['root']) || !($data['root'] instanceof Varien_Simplexml_Element)) {
-            throw new InvalidApplicationException();
+        if (!isset($data['tree']) || !($data['tree'] instanceof Varien_Simplexml_Config)) {
+            throw new InvalidArgumentException();
         }
-        $this->_root = $data['root'];
+        $this->_root = $data['tree'];
     }
 
     /**
@@ -32,19 +37,24 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
      */
     public function getResult()
     {
+        $root = new Varien_Simplexml_Element('<menu/>');
+        /** @var $items Mage_Backend_Model_Menu_Item[] */
         $items = array();
         foreach ($this->_commands as $command) {
-            $items[] = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
+            $item = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
+            $items[$item->getAttribute('id')] = $item;
         }
 
         foreach($items as $item) {
-            if (is_null($item->getParentId())) {
-                $this->_root->appendChild($item);
+            if (is_null($item->getAttribute('parent'))) {
+                $items[$item->getAttribute('parent')] = $root->appendChild($item);
             } else {
-                $items[$item->getParentId()] = $item;
+                if (!isset($items[$item->getAttribute('parent')])) {
+                    throw new OutOfBoundsException();
+                }
+                $items[$item->getAttribute('parent')]->appendChild($item);
             }
         }
-
-        return new Varien_Simplexml_Config($this->_root);
+        return new $this->_root->setNode($root);
     }
 }

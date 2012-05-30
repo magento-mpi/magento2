@@ -10,7 +10,7 @@
  */
 
 
-class Mage_Backend_Model_Menu_Builder_SiplexmlTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Menu_Builder_SimplexmlTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Model_Menu_BuilderAbstract
@@ -37,12 +37,11 @@ class Mage_Backend_Model_Menu_Builder_SiplexmlTest extends PHPUnit_Framework_Tes
     {
         $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 1)));
         $this->_model->processCommand(
-            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 2, 'parent_id' => 1))
+            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 2, 'parent' => 1))
         );
         $this->_model->processCommand(
-            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 3, 'parent_id' => 2))
+            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 3, 'parent' => 2))
         );
-        $this->assertEquals(1,1);
 
         print_r($this->_model->getResult()->getNode()->asXML());
     }

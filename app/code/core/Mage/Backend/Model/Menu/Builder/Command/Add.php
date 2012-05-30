@@ -9,11 +9,15 @@
  */
 class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
-    public function __construct(array $data = array())
-    {
-        parent::__construct();
-    }
-    /**
+    protected $_data = array(
+        "id",
+        "title",
+        "module",
+        "sort_order",
+        "action"
+    );
+
+   /**
      * Add misssing data to item
      *
      * @param Mage_Backend_Model_Menu_Item $item

@@ -10,30 +10,43 @@
 abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**
-     * Id element to apply command to
-     *
      * @var int
      */
     protected $_id;
 
     /**
-     * Command data
+     * List of required params
      *
      * @var array
      */
-    protected $_data;
+    protected $_requiredParams = array("id");
 
     /**
+     * Command params array
+     *
+     * @var array
+     */
+    protected $data = array();
+
+    /**
+     * Next command in the chain
+     *
      * @var Mage_Backend_Model_Menu_Builder_CommandAbstract
      */
     protected $_next = null;
 
+    /**
+     * @param array $data
+     * @throws InvalidArgumentException
+     */
     public function __construct(array $data = array())
     {
-        if (!isset($data['id']) || is_null($data['id'])) {
-            throw new InvalidArgumentException();
+        foreach($this->_requiredParams as $param) {
+            if (!isset($data[$param]) || is_null($data[$param])) {
+                throw new InvalidArgumentException();
+            }
         }
-        $this->_id = $data['id'];
+        $this->_data = $data;
     }
 
     /**
@@ -43,7 +56,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->_data['id'];
     }
 
     /**

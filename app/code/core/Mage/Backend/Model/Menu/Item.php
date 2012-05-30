@@ -9,37 +9,32 @@
  */
 class Mage_Backend_Model_Menu_Item extends Varien_Simplexml_Element
 {
-    /**
-     * @var int
-     */
-    protected $_parentId;
-
-    protected $_attributes = array(
-        'translation_module' => 'module',
-    );
-
     protected $_children = array(
         'title' => 'title'
     );
 
+    protected function _getAttributeMap()
+    {
+        return array(
+            'id' => 'id',
+            'parent' => 'parent',
+            'module' => 'module',
+        );
+    }
     /**
      * @param array $data
      */
     public function addData(array $data)
     {
+        $attributeMap = $this->_getAttributeMap();
         foreach ($data as $key => $value) {
-            if ($key == 'parent' && !$this->_parent) {
-                $this->_parent = $value;
-                continue;
-            }
-            if (isset($this->_attributes[$key])) {
-                if (is_null($this->getAttribute($key))) {
-                    $this->addAttribute($key, $value);
+            if (isset($attributeMap[$key])) {
+                if (is_null($this->getAttribute($attributeMap[$key]))) {
+                    $this->addAttribute($attributeMap[$key], $value);
                 }
             }
             if (isset($this->_children[$key])) {
-                if (is_null)
-                $this->_addChild($key, $value);
+                //$this->_addChild($key, $value);
             }
         }
     }
@@ -49,13 +44,10 @@ class Mage_Backend_Model_Menu_Item extends Varien_Simplexml_Element
      */
     public function updateData(array $data)
     {
+        $attributeMap = $this->_getAttributeMap();
         foreach ($data as $key => $value) {
-            if ($key == 'parent') {
-                $this->_parent = $value;
-                continue;
-            }
-            if (isset($this->_attributes[$key])) {
-                $this->addAttribute($key, $value);
+            if (isset($attributeMap[$key])) {
+                $this->addAttribute($attributeMap[$key], $value);
             }
             if (isset($this->_children[$key])) {
                 if ($this->hasChildren() && $this->children($key)) {
@@ -64,18 +56,5 @@ class Mage_Backend_Model_Menu_Item extends Varien_Simplexml_Element
                 $this->_addChild($key, $value);
             }
         }
-    }
-
-    public function getId()
-    {
-        return $this->getAttribute('id');
-    }
-
-    /**
-     * @return int
-     */
-    public function getParentId()
-    {
-        return $this->_parentId;
     }
 }

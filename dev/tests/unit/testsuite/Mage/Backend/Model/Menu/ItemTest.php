@@ -23,44 +23,45 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     public function testAddData()
     {
-        $this->assertEmpty($this->_model->getId());
-        $this->assertEmpty($this->_model->getParentId());
+        $this->assertEmpty($this->_model->getAttribute('id'));
+        $this->assertEmpty($this->_model->getAttribute('parent'));
         $this->_model->addData(array(
             'id' => 3,
-            'parent_id' => 2
+            'parent' => 2
         ));
-        $this->assertEquals(3, $this->_model->getId());
-        $this->assertEquals(2, $this->_model->getParentId());
+        $this->assertEquals(3, $this->_model->getAttribute('id'));
+        $this->assertEquals(2, $this->_model->getAttribute('parent'));
+
     }
 
     public function testUpdateData()
     {
-        $this->assertNull($this->_model->getId());
-        $this->assertNull($this->_model->getParentId());
+        $this->assertNull($this->_model->getAttribute('id'));
+        $this->assertNull($this->_model->getAttribute('parent'));
         $this->_model->updateData(array(
             'id' => 3,
-            'parent_id' => 2
+            'parent' => 2
         ));
-        $this->assertEquals(3, $this->_model->getId());
-        $this->assertEquals(2, $this->_model->getParentId());
+        $this->assertEquals(3, $this->_model->getAttribute('id'));
+        $this->assertEquals(2, $this->_model->getAttribute('parent'));
     }
 
     public function testAddDataAfterUpdateDoesntChangeExistingData()
     {
-        $this->assertNull($this->_model->getId());
-        $this->assertNull($this->_model->getParentId());
+        $this->assertNull($this->_model->getAttribute('id'));
+        $this->assertNull($this->_model->getAttribute('parent'));
         $this->_model->updateData(array(
             'id' => 3,
-            'parent_id' => 2
+            'parent' => 2
         ));
-        $this->assertEquals(3, $this->_model->getId());
-        $this->assertEquals(2, $this->_model->getParentId());
+        $this->assertEquals(3, $this->_model->getAttribute('id'));
+        $this->assertEquals(2, $this->_model->getAttribute('parent'));
         $this->_model->addData(array(
             'id' => 3,
-            'parent_id' => 5
+            'parent' => 5
         ));
-        $this->assertEquals(3, $this->_model->getId());
-        $this->assertEquals(2, $this->_model->getParentId());
+        $this->assertEquals(3, $this->_model->getAttribute('id'));
+        $this->assertEquals(2, $this->_model->getAttribute('parent'));
     }
 
 
