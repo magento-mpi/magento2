@@ -47,26 +47,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <catalog translate="title" module="Find_Feed">
-            <children>
-                <feed translate="title" module="Find_Feed">
-                    <title>TheFind feed</title>
-                    <sort_order>5</sort_order>
-                    <children>
-                        <import_products translate="title" module="Find_Feed">
-                            <title>Manage attributes</title>
-                            <action>adminhtml/codes_grid/index</action>
-                            <sort_order>5</sort_order>
-                        </import_products>
-                        <import_items translate="title" module="Find_Feed">
-                            <title>Manage items</title>
-                            <action>adminhtml/items_grid/index</action>
-                            <sort_order>10</sort_order>
-                        </import_items>
-                    </children>
-                </feed>
-            </children>
-        </catalog>
-    </menu>
 </config>

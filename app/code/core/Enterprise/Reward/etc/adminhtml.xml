@@ -70,20 +70,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <customer>
-            <children>
-                <reward translate="title" module="Enterprise_Reward">
-                    <title>Reward Exchange Rates</title>
-                    <action>adminhtml/reward_rate</action>
-                    <sort_order>100</sort_order>
-                    <depends>
-                        <module>Enterprise_Reward</module>
-                        <config>enterprise_reward/general/is_enabled</config>
-                    </depends>
-                    <resource>customer/rates</resource>
-                </reward>
-            </children>
-        </customer>
-    </menu>
 </config>
