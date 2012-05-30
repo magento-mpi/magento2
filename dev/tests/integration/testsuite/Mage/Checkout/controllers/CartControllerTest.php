@@ -23,7 +23,7 @@ class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerA
         $testPlan = array(
             'bundle_product' => array(
                 'fixture' => 'Mage/Checkout/_files/product_bundle.php',
-                'must_have' => array('<div id="bundle-product-wrapper">')
+                'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
             ),
             'simple_product' => array(
                 'fixture' => 'Mage/Checkout/_files/product.php',
@@ -46,6 +46,7 @@ class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerA
                     '<button type="button" title="Update Cart" class="button btn-cart"')
             ),
             'gift_card' => array(
+                'edition' => 'Enterprise',
                 'fixture' => 'Mage/Checkout/_files/product_gift.php',
                 'must_have' => array(
                     '<input type="text" id="giftcard_amount_input"',
@@ -55,16 +56,19 @@ class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerA
         $this->setUp();
         $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         foreach ($testPlan as $testCode => $testParams) {
+            if (isset($testParams['edition']) && Mage::getEdition() != $testParams['edition']) {
+                continue;
+            }
             $adapter->beginTransaction();
             require __DIR__ . '/../../../' . $testParams['fixture'];
             $quoteItemId = Mage::registry('product/quoteItemId');
             $this->getResponse()->clearBody();
             $this->dispatch('checkout/cart/configure/id/' . $quoteItemId);
             $out = $this->getResponse()->getBody();
+            $adapter->rollBack();
             foreach ($testParams['must_have'] as $haystack) {
                 $this->assertContains($haystack, $out, 'Route checkout/cart/configure ' . $testCode);
             }
-            $adapter->rollBack();
             Mage::unregister('product/quoteItemId');
             Mage::unregister('application_params');
             Mage::unregister('current_product');
