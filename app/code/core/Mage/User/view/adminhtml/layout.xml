@@ -39,8 +39,9 @@
     </adminhtml_user_role_index>
 
     <adminhtml_user_role_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_Role_Grid" name="adminhtml.user.role.grid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_Role_Grid" name="adminhtml.user.role.grid"/>
+        </container>
     </adminhtml_user_role_rolegrid>
 
     <!-- admin acl roles edit page -->
@@ -59,8 +60,9 @@
     </adminhtml_user_role_editrole>
 
     <adminhtml_user_role_editrolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_Role_Grid_User" name="adminhtml.user.role.grid.user" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_Role_Grid_User" name="adminhtml.user.role.grid.user"/>
+        </container>
     </adminhtml_user_role_editrolegrid>
 
     <adminhtml_user_index>
@@ -82,12 +84,14 @@
     </adminhtml_user_edit>
 
     <adminhtml_user_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_User_Grid" name="adminhtml.user.rolegrid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_User_Grid" name="adminhtml.user.rolegrid"/>
+        </container>
     </adminhtml_user_rolegrid>
 
     <adminhtml_user_rolesgrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.user.rolesgrid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.user.rolesgrid"/>
+        </container>
     </adminhtml_user_rolesgrid>
  </layout>

@@ -28,4 +28,31 @@ class Mage_User_Adminhtml_User_RoleControllerTest extends Mage_Adminhtml_Utility
         $this->assertContains('Role Information', $this->getResponse()->getBody());
         $this->assertContains("Edit Role '" . $roleAdmin->getRoleName() . "'", $this->getResponse()->getBody());
     }
+
+    /**
+     * @covers Mage_User_Adminhtml_User_RoleController::editrolegridAction
+     */
+    public function testEditrolegridAction()
+    {
+        $this->getRequest()
+            ->setParam('ajax', true)
+            ->setParam('isAjax', true);
+        $this->dispatch('admin/user_role/editrolegrid');
+        $expected = '%a<table %a id="roleUserGrid_table">%a';
+        $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
+    }
+
+    /**
+     * @covers Mage_User_Adminhtml_User_RoleController::roleGridAction
+     */
+    public function testRoleGridAction()
+    {
+        $this->getRequest()
+            ->setParam('ajax', true)
+            ->setParam('isAjax', true)
+            ->setParam('user_id', 1);
+        $this->dispatch('admin/user_role/roleGrid');
+        $expected = '%a<table %a id="roleGrid_table">%a';
+        $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
+    }
 }
