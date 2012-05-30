@@ -10,19 +10,19 @@
      */
 
 /**
- * Test class for Mage_Backend_Model_Menu_Builder_Director_Dom
+ * Test class for Mage_Backend_Model_Menu_Director_Dom
  */
-class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Mage_Backend_Model_Menu_Builder_Director_Dom
+     * @var Mage_Backend_Model_Menu_Director_Dom
      */
     protected $_model;
 
     public function setUp()
     {
-        $basePath = realpath(__DIR__)  . '/../../../_files/';
+        $basePath = realpath(__DIR__)  . '/../../_files/';
         $path = $basePath . 'menu_merged.xml';
         $domDocument = new DOMDocument();
         $domDocument->load($path);
@@ -37,7 +37,7 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
         $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $factory->expects($this->any())->method('getModelInstance')->will($this->returnValue($mockCommand));
 
-        $this->_model = new Mage_Backend_Model_Menu_Builder_Director_Dom(
+        $this->_model = new Mage_Backend_Model_Menu_Director_Dom(
             array(
                 'config' => $domDocument,
                 'factory' => $factory
@@ -51,7 +51,7 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
      */
     public function testInvalidConstructorException()
     {
-        new Mage_Backend_Model_Menu_Builder_Director_Dom();
+        new Mage_Backend_Model_Menu_Director_Dom();
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
     public function testInvalidConfigInstanceConstructorException()
     {
         $object = $this->getMock('StdClass');
-        new Mage_Backend_Model_Menu_Builder_Director_Dom(array('config' => $object, 'factory' => $object));
+        new Mage_Backend_Model_Menu_Director_Dom(array('config' => $object, 'factory' => $object));
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
     {
         $domDocument = $this->getMock('DOMDocument');
         $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $model = new Mage_Backend_Model_Menu_Builder_Director_Dom(
+        $model = new Mage_Backend_Model_Menu_Director_Dom(
             array(
                 'config' => $domDocument,
                 'factory' => $factory,
@@ -85,7 +85,7 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
      */
     public function testExtractData()
     {
-        $basePath = realpath(__DIR__)  . '/../../../_files/';
+        $basePath = realpath(__DIR__)  . '/../../_files/';
         $expectedData = include ($basePath . 'menu_merged.php');
         $this->assertEquals($expectedData, $this->_model->getExtractedData(), 'Invalid extracted data');
     }
@@ -114,6 +114,6 @@ class Mage_Backend_Model_Menu_Builder_Director_DomTest extends PHPUnit_Framework
             array('processCommand')
         );
         $builder->expects($this->exactly(10))->method('processCommand');
-        $this->assertInstanceOf('Mage_Backend_Model_Menu_Builder_DirectorAbstract', $this->_model->buildMenu($builder));
+        $this->assertInstanceOf('Mage_Backend_Model_Menu_DirectorAbstract', $this->_model->buildMenu($builder));
     }
 }

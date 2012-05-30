@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Backend_Model_Menu_Builder_DirectorAbstract
+abstract class Mage_Backend_Model_Menu_DirectorAbstract
 {
     /**
      * Configuration data
@@ -44,7 +44,7 @@ abstract class Mage_Backend_Model_Menu_Builder_DirectorAbstract
      * Apply menu commands to builder object
      * @abstract
      * @param  Mage_Backend_Model_Menu_BuilderAbstract $builder
-     * @return Mage_Backend_Model_Menu_Builder_DirectorAbstract
+     * @return Mage_Backend_Model_Menu_DirectorAbstract
      */
     abstract public function buildMenu($builder);
 }

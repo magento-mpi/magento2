@@ -28,7 +28,7 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Config_Menu',
+            'Mage_Backend_Model_Menu_Config_Menu',
             array(),
             '',
             false
@@ -95,9 +95,9 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMergedConfig()
     {
-        $model = new Mage_Backend_Model_Config_Menu($this->_getConfigurationFileList());
+        $model = new Mage_Backend_Model_Menu_Config_Menu($this->_getConfigurationFileList());
         try {
-            $this->assertInstanceOf('Mage_Backend_Model_Config_Menu', $model->validate());
+            $this->assertInstanceOf('Mage_Backend_Model_Menu_Config_Menu', $model->validate());
         } catch (Magento_Exception $e) {
             $this->fail($e->getMessage());
         }

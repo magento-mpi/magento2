@@ -24,10 +24,22 @@ class Mage_Backend_Model_Menu_Config
      */
     public function getTree()
     {
-        $director = Mage::getModel('Mage_Backend_Model_Menu_Builder_Director_Dom', array('config' => $this->_getDom()));
+        $director = $this->_appConfig->getModelInstance(
+            'Mage_Backend_Model_Menu_Director_Dom',
+            array(
+                'config' => $this->_getDom(),
+                'factory' => $this->_appConfig
+            )
+        );
         $simpleXmlTree = new Varien_Simplexml_Config();
-        $builder = Mage::getModel('Mage_Backend_Model_Menu_Builder_Simplexml', array('tree' => $simpleXmlTree));
-        $director->command($builder);
+        $builder = $this->_appConfig->getModelInstance(
+            'Mage_Backend_Model_Menu_Builder_Simplexml',
+            array(
+                'tree' => $simpleXmlTree,
+                'factory' => $this->_appConfig,
+            )
+        );
+        $director->buildMenu($builder);
         return $builder->getResult();
     }
 
@@ -37,7 +49,7 @@ class Mage_Backend_Model_Menu_Config
     protected function _getDom()
     {
         $fileList = $this->getMenuConfigurationFiles();
-        return Mage::getModel('Mage_Backend_Model_Menu_Config_Menu', $fileList)->getMergedConfig();
+        return $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Config_Menu', $fileList)->getMergedConfig();
     }
 
     /**

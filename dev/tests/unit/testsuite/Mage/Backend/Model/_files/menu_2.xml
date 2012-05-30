@@ -2,9 +2,9 @@
 <config>
     <menu>
         <item id="elem_two"/>
-        <add id="elem_two_zero" title="Title two.zero" module="Module_Two" sort_order="90" action="adminhtml/system" parent="elem_two" />
-        <add id="elem_two_two" title="Title two.two" module="Module_Two" sort_order="90" action="adminhtml/system" parent="elem_two" />
-        <update id="elem_two_zero" title="Title two.zero update" module="Module_Two_Update" sort_order="90" action="adminhtml/system" parent="elem_two" />
+        <add id="elem_two_zero" title="Title two.zero" module="Module_Two" sortOrder="90" action="adminhtml/system" parent="elem_two" />
+        <add id="elem_two_two" title="Title two.two" module="Module_Two" sortOrder="90" action="adminhtml/system" parent="elem_two" />
+        <update id="elem_two_zero" title="Title two.zero update" module="Module_Two_Update" sortOrder="90" action="adminhtml/system" parent="elem_two" />
         <remove id="elem_two_two" />
     </menu>
 </config>

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Menu_Builder_Director_Dom extends Mage_Backend_Model_Menu_Builder_DirectorAbstract
+class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_DirectorAbstract
 {
     /**
      * Extracted config data
@@ -30,7 +30,7 @@ class Mage_Backend_Model_Menu_Builder_Director_Dom extends Mage_Backend_Model_Me
 
     /**
      * Extract data from DOMDocument
-     * @return Mage_Backend_Model_Menu_Builder_Director_Dom
+     * @return Mage_Backend_Model_Menu_Director_Dom
      */
     protected function _extractData()
     {
@@ -103,7 +103,7 @@ class Mage_Backend_Model_Menu_Builder_Director_Dom extends Mage_Backend_Model_Me
      *
      * @param Mage_Backend_Model_Menu_BuilderAbstract $builder
      * @throws InvalidArgumentException if invalid builder object
-     * @return Mage_Backend_Model_Menu_Builder_DirectorAbstract
+     * @return Mage_Backend_Model_Menu_DirectorAbstract
      */
     public function buildMenu($builder)
     {
