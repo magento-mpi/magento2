@@ -275,7 +275,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $mca a part of current URL opened in browser
      * @param null|Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      *
-     * @return mixed
+     * @return Mage_Selenium_Uimap_Page
      * @throws OutOfRangeException
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
