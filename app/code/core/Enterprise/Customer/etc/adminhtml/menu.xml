@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="customer_attributes" title="Attributes" module="Enterprise_Customer" sortOrder="" parent="customer" />
+        <add id="customer_attributes_customer_attributes" title="Manage Customer Attributes" module="Enterprise_Customer" sortOrder="" parent="customer_attributes" action="adminhtml/customer_attribute" />
+        <add id="customer_attributes_customer_address_attributes" title="Manage Customer Address Attributes" module="Enterprise_Customer" sortOrder="" parent="customer_attributes" action="adminhtml/customer_address_attribute" />
+    </menu>
+</config>

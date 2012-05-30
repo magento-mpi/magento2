@@ -4,13 +4,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Poll
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <item id="root" />
+        <add id="cms_poll" title="Polls" module="Mage_Poll" sortOrder="20" parent="cms" action="adminhtml/poll" />
     </menu>
 </config>

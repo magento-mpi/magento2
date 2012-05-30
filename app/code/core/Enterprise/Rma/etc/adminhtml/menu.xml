@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Rma
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="sales_enterprise_rma" title="RMA" module="Enterprise_Rma" sortOrder="35" parent="sales" dependsOnModule="Enterprise_Rma" />
+        <add id="sales_enterprise_rma_rma" title="Manage RMA" module="Enterprise_Rma" sortOrder="10" parent="sales_enterprise_rma" action="adminhtml/rma" resource="sales/enterprise_rma" />
+        <add id="sales_enterprise_rma_rma_item_attribute" title="Manage RMA Items Attributes" module="Enterprise_Rma" sortOrder="20" parent="sales_enterprise_rma" action="adminhtml/rma_item_attribute" resource="sales/enterprise_rma" />
+    </menu>
+</config>

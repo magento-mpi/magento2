@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="catalog" title="Catalog" module="Mage_Catalog" sortOrder="30" parent="root" dependsOnModule="Mage_Catalog" />
+        <add id="catalog_products" title="Manage Products" module="Mage_Catalog" sortOrder="0" parent="catalog" action="adminhtml/catalog_product/" />
+        <add id="catalog_categories" title="Manage Categories" module="Mage_Catalog" sortOrder="10" parent="catalog" action="adminhtml/catalog_category/" />
+        <add id="catalog_attributes" title="Attributes" module="Mage_Catalog" sortOrder="20" parent="catalog" />
+        <add id="catalog_attributes_attributes" title="Manage Attributes" module="Mage_Catalog" sortOrder="" parent="catalog_attributes" action="adminhtml/catalog_product_attribute/" />
+        <add id="catalog_attributes_sets" title="Manage Attribute Sets" module="Mage_Catalog" sortOrder="" parent="catalog_attributes" action="adminhtml/catalog_product_set/" />
+        <add id="catalog_urlrewrite" title="URL Rewrite Management" module="Mage_Catalog" sortOrder="30" parent="catalog" action="adminhtml/urlrewrite/index" />
+    </menu>
+</config>

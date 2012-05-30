@@ -4,13 +4,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <item id="root" />
+        <add id="system_tools_backup" title="Backups" module="Mage_Backup" sortOrder="" parent="system_tools" action="adminhtml/system_backup" />
     </menu>
 </config>

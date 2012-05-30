@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="customer_enterprise_giftregistry" title="Gift Registry" module="Enterprise_GiftRegistry" sortOrder="30" parent="customer" action="adminhtml/giftregistry" dependsOnModule="Enterprise_GiftRegistry" dependsOnConfig="enterprise_giftregistry/general/enabled" />
+    </menu>
+</config>

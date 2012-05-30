@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="promo_quote" title="Shopping Cart Price Rules" module="Mage_SalesRule" sortOrder="" parent="promo" action="adminhtml/promo_quote/" dependsOnModule="Mage_Sales" />
+    </menu>
+</config>

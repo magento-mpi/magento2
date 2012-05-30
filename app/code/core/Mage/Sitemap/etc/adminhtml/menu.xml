@@ -4,13 +4,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Sitemap
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <item id="root" />
+        <add id="catalog_sitemap" title="Google Sitemap" module="Mage_Sitemap" sortOrder="180" parent="catalog" action="adminhtml/sitemap/" />
     </menu>
 </config>

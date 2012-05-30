@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_enterprise_staging" title="Content Staging" module="" sortOrder="21" parent="system" />
+        <add id="system_enterprise_staging_staging_grid" title="Staging Websites" module="" sortOrder="10" parent="system_enterprise_staging" action="adminhtml/staging_manage/index" />
+        <add id="system_enterprise_staging_staging_backup" title="Backups" module="" sortOrder="20" parent="system_enterprise_staging" action="adminhtml/staging_backup/index" />
+        <add id="system_enterprise_staging_staging_log" title="Log" module="" sortOrder="30" parent="system_enterprise_staging" action="adminhtml/staging_log/index" />
+    </menu>
+</config>

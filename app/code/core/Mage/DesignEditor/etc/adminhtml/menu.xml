@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_design_editor" title="Editor" module="Mage_DesignEditor" sortOrder="20" parent="system_design" action="adminhtml/system_design_editor" />
+    </menu>
+</config>

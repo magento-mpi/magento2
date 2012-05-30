@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_TargetRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="catalog_targetrule" title="Rule-Based Product Relations" module="Enterprise_TargetRule" sortOrder="35" parent="catalog" action="adminhtml/targetrule/" />
+    </menu>
+</config>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Reports
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="report" title="Reports" module="Mage_Reports" sortOrder="80" parent="root" />
+        <add id="report_salesroot" title="Sales" module="Mage_Reports" sortOrder="10" parent="report" />
+        <add id="report_salesroot_sales" title="Orders" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/sales" />
+        <add id="report_salesroot_tax" title="Tax" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/tax" />
+        <add id="report_salesroot_invoiced" title="Invoiced" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/invoiced" />
+        <add id="report_salesroot_shipping" title="Shipping" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/shipping" />
+        <add id="report_salesroot_refunded" title="Refunds" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/refunded" />
+        <add id="report_salesroot_coupons" title="Coupons" module="Mage_Reports" sortOrder="" parent="report_salesroot" action="adminhtml/report_sales/coupons" />
+        <add id="report_shopcart" title="Shopping Cart" module="Mage_Reports" sortOrder="20" parent="report" />
+        <add id="report_shopcart_product" title="Products in carts" module="Mage_Reports" sortOrder="" parent="report_shopcart" action="adminhtml/report_shopcart/product" />
+        <add id="report_shopcart_abandoned" title="Abandoned carts" module="Mage_Reports" sortOrder="" parent="report_shopcart" action="adminhtml/report_shopcart/abandoned" />
+        <add id="report_products" title="Products" module="Mage_Reports" sortOrder="30" parent="report" />
+        <add id="report_products_bestsellers" title="Bestsellers" module="Mage_Reports" sortOrder="" parent="report_products" action="adminhtml/report_sales/bestsellers" />
+        <add id="report_products_sold" title="Products Ordered" module="Mage_Reports" sortOrder="" parent="report_products" action="adminhtml/report_product/sold" />
+        <add id="report_products_viewed" title="Most Viewed" module="Mage_Reports" sortOrder="" parent="report_products" action="adminhtml/report_product/viewed" />
+        <add id="report_products_lowstock" title="Low stock" module="Mage_Reports" sortOrder="" parent="report_products" action="adminhtml/report_product/lowstock" />
+        <add id="report_customers" title="Customers" module="Mage_Reports" sortOrder="40" parent="report" />
+        <add id="report_customers_accounts" title="New Accounts" module="Mage_Reports" sortOrder="" parent="report_customers" action="adminhtml/report_customer/accounts" />
+        <add id="report_customers_totals" title="Customers by orders total" module="Mage_Reports" sortOrder="" parent="report_customers" action="adminhtml/report_customer/totals" />
+        <add id="report_customers_orders" title="Customers by number of orders" module="Mage_Reports" sortOrder="" parent="report_customers" action="adminhtml/report_customer/orders" />
+        <add id="report_search" title="Search Terms" module="Mage_Reports" sortOrder="60" parent="report" action="adminhtml/report/search" />
+        <add id="report_statistics" title="Refresh Statistics" module="Mage_Reports" sortOrder="65535" parent="report" action="adminhtml/report_statistics" />
+    </menu>
+</config>

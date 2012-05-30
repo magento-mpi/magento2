@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="cms_enterprise_banner" title="Banners" module="Enterprise_Banner" sortOrder="15" parent="cms" action="adminhtml/banner" />
+    </menu>
+</config>

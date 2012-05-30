@@ -4,13 +4,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <item id="root" />
+        <add id="cms_widget_instance" title="Widgets" module="Mage_Widget" sortOrder="15" parent="cms" action="adminhtml/widget_instance" />
     </menu>
 </config>

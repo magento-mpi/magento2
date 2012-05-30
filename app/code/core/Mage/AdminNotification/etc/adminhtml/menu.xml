@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_AdminNotification
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_adminnotification" title="Notifications" module="Mage_AdminNotification" sortOrder="15" parent="system" action="adminhtml/notification" />
+    </menu>
+</config>
