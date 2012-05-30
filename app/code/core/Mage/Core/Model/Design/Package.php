@@ -543,6 +543,14 @@ class Mage_Core_Model_Design_Package
         $skinFile = $this->_extractScope($skinFile, $params);
 
         $file = $this->getSkinFile($skinFile, $params);
+        if (!Mage::getIsDeveloperMode() && preg_match('/(\.css|\.js)$/', $skinFile)) {
+            $minifiedPath = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $file);
+            if (file_exists($minifiedPath)) {
+                $file = $minifiedPath;
+                $skinFile = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $skinFile);
+            }
+        }
+
         if (!file_exists($file)) {
             throw new Magento_Exception("Unable to locate skin file '{$file}'.");
         }
