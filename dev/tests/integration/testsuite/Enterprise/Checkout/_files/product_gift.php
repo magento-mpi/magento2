@@ -49,4 +49,4 @@ $requestInfo = new Varien_Object(array(
     'giftcard_message'        => 'message'
 ));
 
-require __DIR__ . '/../../Checkout/_files/cart.php';
+require __DIR__ . '/../../../Mage/Checkout/_files/cart.php';
