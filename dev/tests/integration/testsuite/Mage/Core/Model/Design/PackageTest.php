@@ -29,10 +29,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.js',
             Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.min.js'
         );
-        $ioAdapter->cp(
-            Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.css',
-            Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.min.css'
-        );
         self::$_developerMode = Mage::getIsDeveloperMode();
     }
 
@@ -40,7 +36,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $ioAdapter = new Varien_Io_File();
         $ioAdapter->rm(Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.min.js');
-        $ioAdapter->rm(Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.min.css');
         Mage::setIsDeveloperMode(self::$_developerMode);
     }
 
@@ -301,14 +296,14 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Page/menu.js'
             ),
             array(
-                true,
+                false,
                 'Mage_Catalog::widgets.css',
                 'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Catalog/widgets.css'
             ),
             array(
-                false,
+                true,
                 'Mage_Catalog::widgets.css',
-                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Catalog/widgets.min.css'
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Catalog/widgets.css'
             ),
         );
     }
