@@ -14,6 +14,7 @@
     <restriction_index_stub translate="label" module="Enterprise_WebsiteRestriction" type="page" parent="cms_page_view">
         <label>Website Closed Stub Page</label>
         <block type="Mage_Page_Block_Html" name="root" output="1" template="1column.phtml">
+            <container name="after_body_start" as="after_body_start" label="Page Top"/>
             <block type="Mage_Page_Block_Html_Head" name="head" as="head">
                 <action method="addJs"><file>prototype/prototype.js</file></action>
                 <action method="addJs"><file>prototype/validation.js</file></action>
