@@ -98,6 +98,9 @@ abstract class Mage_PHPUnit_MockBuilder_Abstract extends PHPUnit_Framework_MockO
      */
     public function setMethods($methods)
     {
+        if (!$methods) {
+            return parent::setMethods($methods);
+        }
         $this->_simpleMethodReturnValues = array();
         $resultMethods = array();
         foreach ($methods as $method => $value) {

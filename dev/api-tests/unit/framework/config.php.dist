@@ -10,6 +10,9 @@
  */
 
 define('TESTS_TEMP_DIR', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tmp');
+if (!is_writable(TESTS_TEMP_DIR)) {
+    throw new Exception(TESTS_TEMP_DIR . ' must be writable.');
+}
 
 define('TESTS_MAGENTO_ONLINE_ENABLED', false);
 

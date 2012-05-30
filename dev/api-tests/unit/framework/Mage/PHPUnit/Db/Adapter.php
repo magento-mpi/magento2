@@ -16,21 +16,21 @@
  * @package     Mage_PHPUnit
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
-    implements Varien_Db_Adapter_Interface
+class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Abstract implements Varien_Db_Adapter_Interface
 {
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function describeTable($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
@@ -38,33 +38,36 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function newTable($tableName = null, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param Varien_Db_Ddl_Table $table
      * @return Zend_Db_Statement_Interface
      */
     public function createTable(Varien_Db_Ddl_Table $table)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function dropTable($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
@@ -72,33 +75,36 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function truncateTable($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function isTableExists($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function showTableStatus($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $newTableName
@@ -106,11 +112,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function createTableByDdl($tableName, $newTableName)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $columnName
@@ -121,11 +128,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $oldTableName
      * @param unknown_type $newTableName
@@ -133,11 +141,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function renameTable($oldTableName, $newTableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $columnName
@@ -147,11 +156,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $oldColumnName
@@ -161,14 +171,15 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      * @param unknown_type $schemaName
      * @return Varien_Db_Adapter_Interface
      */
-    public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
-        $schemaName = null
+    public function changeColumn(
+        $tableName, $oldColumnName, $newColumnName, $definition, $flushData = false, $schemaName = null
     ) {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $columnName
@@ -179,11 +190,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $columnName
@@ -191,11 +203,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function dropColumn($tableName, $columnName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $columnName
@@ -203,11 +216,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function tableColumnExists($tableName, $columnName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $indexName
@@ -218,11 +232,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function addIndex($tableName, $indexName, $fields, $indexType = self::INDEX_TYPE_INDEX, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $keyName
@@ -231,22 +246,24 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function getIndexList($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $fkName
      * @param unknown_type $tableName
@@ -260,15 +277,24 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      * @param unknown_type $refSchemaName
      * @return Varien_Db_Adapter_Interface
      */
-    public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
-        $onDelete = self::FK_ACTION_CASCADE, $onUpdate = self::FK_ACTION_CASCADE, $purge = false, $schemaName = null,
+    public function addForeignKey(
+        $fkName,
+        $tableName,
+        $columnName,
+        $refTableName,
+        $refColumnName,
+        $onDelete = self::FK_ACTION_CASCADE,
+        $onUpdate = self::FK_ACTION_CASCADE,
+        $purge = false,
+        $schemaName = null,
         $refSchemaName = null
     ) {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $fkName
@@ -277,22 +303,24 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function getForeignKeys($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $table
      * @param array $data
@@ -300,22 +328,24 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function insertOnDuplicate($table, array $data, array $fields = array())
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $table
      * @param array $data
      */
     public function insertMultiple($table, array $data)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $table
      * @param array $columns
@@ -323,95 +353,104 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function insertArray($table, array $columns, array $data)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $table
      * @param array $bind
      */
     public function insertForce($table, array $bind)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $sql
      * @return Varien_Db_Adapter_Interface
      */
     public function multiQuery($sql)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @param unknown_type $includeTime
      */
     public function formatDate($date, $includeTime = true)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @return Varien_Db_Adapter_Interface
      */
     public function startSetup()
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @return Varien_Db_Adapter_Interface
      */
     public function endSetup()
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $adapter
      * @return Varien_Db_Adapter_Interface
      */
     public function setCacheAdapter($adapter)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @return Varien_Db_Adapter_Interface
      */
     public function allowDdlCache()
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @return Varien_Db_Adapter_Interface
      */
     public function disallowDdlCache()
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
@@ -419,11 +458,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function resetDdlCache($tableName = null, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableCacheKey
      * @param unknown_type $ddlType
@@ -432,44 +472,48 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function saveDdlCache($tableCacheKey, $ddlType, $data)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableCacheKey
      * @param unknown_type $ddlType
      */
     public function loadDdlCache($tableCacheKey, $ddlType)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $fieldName
      * @param unknown_type $condition
      */
     public function prepareSqlCondition($fieldName, $condition)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param array $column
      * @param unknown_type $value
      */
     public function prepareColumnValue(array $column, $value)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $condition
      * @param unknown_type $true
@@ -478,11 +522,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getCheckSql($condition, $true, $false)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $expression
      * @param unknown_type $value
@@ -490,11 +535,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getIfNullSql($expression, $value = 0)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param array $data
      * @param unknown_type $separator
@@ -502,44 +548,48 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getConcatSql(array $data, $separator = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $string
      * @return Zend_Db_Expr
      */
     public function getLengthSql($string)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param array $data
      * @return Zend_Db_Expr
      */
     public function getLeastSql(array $data)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param array $data
      * @return Zend_Db_Expr
      */
     public function getGreatestSql(array $data)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @param unknown_type $interval
@@ -548,11 +598,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getDateAddSql($date, $interval, $unit)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @param unknown_type $interval
@@ -561,11 +612,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getDateSubSql($date, $interval, $unit)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @param unknown_type $format
@@ -573,22 +625,24 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getDateFormatSql($date, $format)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @return Zend_Db_Expr
      */
     public function getDatePartSql($date)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $date
      * @param unknown_type $unit
@@ -596,7 +650,8 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getDateExtractSql($date, $unit)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
@@ -611,7 +666,7 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $fields
@@ -619,11 +674,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getIndexName($tableName, $fields, $indexType = '')
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $priTableName
      * @param unknown_type $priColumnName
@@ -632,11 +688,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
@@ -644,11 +701,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function disableTableKeys($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
@@ -656,11 +714,12 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function enableTableKeys($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param Varien_Db_Select $select
      * @param unknown_type $table
@@ -669,53 +728,58 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param Varien_Db_Select $select
      * @param unknown_type $table
      */
     public function updateFromSelect(Varien_Db_Select $select, $table)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param Varien_Db_Select $select
      * @param unknown_type $table
      */
     public function deleteFromSelect(Varien_Db_Select $select, $table)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableNames
      * @param unknown_type $schemaName
      */
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      */
     public function supportStraightJoin()
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param Varien_Db_Select $select
      * @param unknown_type $field
@@ -723,74 +787,90 @@ class Mage_PHPUnit_Db_Adapter extends Mage_PHPUnit_Db_Adapter_Abstract
      */
     public function orderRand(Varien_Db_Select $select, $field = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $sql
      */
     public function forUpdate($sql)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
      * @param unknown_type $tableName
      * @param unknown_type $schemaName
      */
     public function getPrimaryKeyName($tableName, $schemaName = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
+
     }
 
     /**
-     * Empty method
+     * Enter description here ...
      *
-     * @deprecated after 1.5.1.0
-     * @return string
+     * @param unknown_type $value
      */
-    public function getSuggestedZeroDate() {}
+    public function decodeVarbinary($value)
+    {
+        // TODO Auto-generated method stub
 
+    }
+	
     /**
-     * Empty method
+     * Prepare substring sql function
      *
-     * @param mixed $value
-     * @return mixed
-     */
-    public function decodeVarbinary($value) {}
-
-    /**
-     * Empty method
-     *
-     * @param $stringExpression
-     * @param $pos
-     * @param null $len
+     * @param Zend_Db_Expr|string $stringExpression quoted field name or SQL statement
+     * @param int|string|Zend_Db_Expr $pos
+     * @param int|string|Zend_Db_Expr|null $len
+     * @return Zend_Db_Expr
      */
     public function getSubstringSql($stringExpression, $pos, $len = null)
     {
-        // empty code
+        // TODO Auto-generated method stub
     }
 
     /**
-     * Empty method
-     */
-    public function getTransactionLevel()
-    {
-        // empty code
-    }
-
-    /**
-     * Empty method
+     * Prepare standard deviation sql function
      *
      * @param Zend_Db_Expr|string $expressionField   quoted field name or SQL statement
      * @return Zend_Db_Expr
      */
     public function getStandardDeviationSql($expressionField)
     {
-        // empty code
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * Returns date that fits into TYPE_DATETIME range and is suggested to act as default 'zero' value
+     * for a column for current RDBMS. Deprecated and left for compatibility only.
+     * In Magento at MySQL there was zero date used for datetime columns. However, zero date it is not supported across
+     * different RDBMS. Thus now it is recommended to use same default value equal for all RDBMS - either NULL
+     * or specific date supported by all RDBMS.
+     *
+     * @deprecated after 1.5.1.0
+     * @return string
+     */
+    public function getSuggestedZeroDate()
+    {
+        // TODO Auto-generated method stub
+    }
+	
+    /**
+     * Get adapter transaction level state. Return 0 if all transactions are complete
+     *
+     * @return int
+     */
+    public function getTransactionLevel()
+    {
+        return 0;
     }
 }

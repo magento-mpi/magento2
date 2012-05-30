@@ -157,6 +157,38 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Returns mock builder for database adapter, which can be used in resource models in
+     * $this->_getReadAdapter() or $this->_getWriteAdapter() or $this->_getConnection('core_read'), for example
+     *
+     * @param string $connectionName Full connection name like 'core_read' or 'customer_write' or 'default_read'
+     * @return Mage_PHPUnit_MockBuilder_DbAdapter
+     */
+    protected function getAdapterMockBuilder($connectionName)
+    {
+        return new Mage_PHPUnit_MockBuilder_DbAdapter($this, $connectionName);
+    }
+
+    /**
+     * Returns mock builder for database adapter for construction $this->_getReadAdapter()
+     *
+     * @return Mage_PHPUnit_MockBuilder_DbAdapter
+     */
+    protected function getReadAdapterMockBuilder()
+    {
+        return $this->getAdapterMockBuilder($this->_getConnectionHelper()->getDefaultReadResource());
+    }
+
+    /**
+     * Returns mock builder for database adapter for construction $this->_getWriteAdapter()
+     *
+     * @return Mage_PHPUnit_MockBuilder_DbAdapter
+     */
+    protected function getWriteAdapterMockBuilder()
+    {
+        return $this->getAdapterMockBuilder($this->_getConnectionHelper()->getDefaultWriteResource());
+    }
+
+    /**
      * Clean all data from static data pools.
      */
     protected function cleanPoolsData()
@@ -226,6 +258,16 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
     protected function _getEventHelper()
     {
         return Mage_PHPUnit_Helper_Factory::getHelper('event');
+    }
+
+    /**
+     * Get connection helper.
+     *
+     * @return Mage_PHPUnit_Helper_Connection
+     */
+    protected function _getConnectionHelper()
+    {
+        return Mage_PHPUnit_Helper_Factory::getHelper('connection');
     }
 
     /**

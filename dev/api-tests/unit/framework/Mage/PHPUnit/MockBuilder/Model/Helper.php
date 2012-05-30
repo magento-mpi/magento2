@@ -22,7 +22,7 @@ class Mage_PHPUnit_MockBuilder_Model_Helper extends Mage_PHPUnit_MockBuilder_Mod
      *
      * @var string
      */
-    protected $_regisrtyKeyPrefix = '_helper';
+    protected $_registryKeyPrefix = '_helper';
 
     /**
      * Returns PHPUnit model helper.
@@ -40,12 +40,12 @@ class Mage_PHPUnit_MockBuilder_Model_Helper extends Mage_PHPUnit_MockBuilder_Mod
      * @param string $modelKey
      * @return string
      */
-    protected function _getRegisrtyKey($modelKey)
+    protected function _getRegistryKey($modelKey)
     {
-        if (strpos($modelKey, '/') === false) {
-            $modelKey .= '/data';
+        if (strpos($modelKey, '_Helper_') === false) {
+            $modelKey .= '_Helper_Data';
         }
 
-        return parent::_getRegisrtyKey($modelKey);
+        return parent::_getRegistryKey($modelKey);
     }
 }

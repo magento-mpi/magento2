@@ -23,7 +23,7 @@ class Mage_PHPUnit_MockBuilder_Model_Singleton extends Mage_PHPUnit_MockBuilder_
      *
      * @var string
      */
-    protected $_regisrtyKeyPrefix = '_singleton';
+    protected $_registryKeyPrefix = '_singleton';
 
     /**
      * Returns PHPUnit model helper.
@@ -61,9 +61,9 @@ class Mage_PHPUnit_MockBuilder_Model_Singleton extends Mage_PHPUnit_MockBuilder_
      * @param string $modelKey
      * @return string
      */
-    protected function _getRegisrtyKey($modelKey)
+    protected function _getRegistryKey($modelKey)
     {
-        return $this->_regisrtyKeyPrefix . '/' . $modelKey;
+        return $this->_registryKeyPrefix . '/' . $modelKey;
     }
 
     /**
@@ -73,7 +73,7 @@ class Mage_PHPUnit_MockBuilder_Model_Singleton extends Mage_PHPUnit_MockBuilder_
      */
     protected function _addMockToRegistry($mock)
     {
-        $registryKey = $this->_getRegisrtyKey($this->getModel());
+        $registryKey = $this->_getRegistryKey($this->getModel());
 
         $this->_getSingletonHelper()->registerSingleton($registryKey, $mock);
     }

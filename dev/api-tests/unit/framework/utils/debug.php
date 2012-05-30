@@ -32,11 +32,7 @@ function setTestingFilePath($path)
 }
 
 //set your full path to your needed file to debug
-setTestingFilePath('E:\internal\magentocommerce\products\tests\unit\tests\AppStore\Extension\Model\ProductTest.php');
-
-
-require_once 'PHP/CodeCoverage/Filter.php';
-PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__FILE__, 'PHPUNIT');
+setTestingFilePath('D:\_Work\Mage2\mage2_trunk\www\unit-tests\unit-tests\app\code\core\Mage\Wishlist\Model\ItemTest.php');
 
 if (extension_loaded('xdebug')) {
     xdebug_disable();

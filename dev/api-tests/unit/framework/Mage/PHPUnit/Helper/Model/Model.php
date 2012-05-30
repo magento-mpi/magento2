@@ -68,40 +68,12 @@ class Mage_PHPUnit_Helper_Model_Model extends Mage_PHPUnit_Helper_Model_Abstract
      */
     protected function _getModelClassNameFromConfig($model)
     {
-        $classArr = explode('/', trim($model));
-        $module = $classArr[0];
-        $class = !empty($classArr[1]) ? $classArr[1] : null;
+        $config = Mage::getConfig()->getNode("global");
 
-        $config = Mage::getConfig()->getNode("global/{$this->_group}s/{$module}");
-
-        if (is_object($config) && $config->rewrite->{$class}) {
-            $className = (string)$config->rewrite->{$class};
+        if ($config && isset($config->rewrites->{$model})) {
+            $className = (string)$config->rewrites->{$model};
         } else {
-            if (!empty($config)) {
-                if ($config->class) {
-                    $modelNew = (string)$config->class;
-                } elseif ($config->model) {
-                    $modelNew = (string)$config->model;
-                } else {
-                    $className = false;
-                    $modelNew = false;
-                }
-                if ($modelNew) {
-                    $modelNew = trim($modelNew);
-                    if (strpos($modelNew, '/')===false) {
-                        $className = $modelNew;
-                    } else {
-                        $className = $this->_getModelClassName($modelNew);
-                    }
-                }
-            }
-            if (empty($className)) {
-                $className = 'mage_'.$module.'_'.$this->_group;
-            }
-            if (!empty($class)) {
-                $className .= '_'.$class;
-            }
-            $className = uc_words($className);
+            $className = $model;
         }
 
         return $className;
@@ -116,8 +88,7 @@ class Mage_PHPUnit_Helper_Model_Model extends Mage_PHPUnit_Helper_Model_Abstract
      */
     public function rewriteModelByClass($model, $className)
     {
-        list($module, $modelName) = explode('/', $model);
-        $nodePath = "global/{$this->_group}s/{$module}/rewrite/{$modelName}";
+        $nodePath = "global/rewrites/{$model}";
         if (Mage::getConfig()->getNode($nodePath) != $className) {
             Mage::getConfig()->setNode($nodePath, $className);
         }

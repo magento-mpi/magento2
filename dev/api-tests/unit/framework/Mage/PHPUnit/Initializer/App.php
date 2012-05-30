@@ -96,8 +96,6 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
         $origLoadFromTable = $connection->getLoadFromTable();
         $connection->setLoadFromTable($this->getLoadDataFromTables());
 
-        Mage::isInstalled(array('etc_dir' => $this->_getEtcDirFromRoot()));
-
         Mage::app($this->getRunCode(), $this->getRunType(), $this->getRunOptions());
 
         $connection->setLoadFromTable($origLoadFromTable);
@@ -117,7 +115,10 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
         }
 
         if (is_null($this->_mageRunOptions)) {
-            $this->_mageRunOptions = array('etc_dir' => $this->getDefaultEtcDir());
+            $this->_mageRunOptions = array(
+                'is_installed' => true,
+                'config_model' => 'Mage_PHPUnit_Stub_Mage_Core_Model_Config'
+            );
         }
 
         if (is_null($this->_fixtures)) {
@@ -127,9 +128,6 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
         if (is_null($this->_loadDataFromTables)) {
             $this->_loadDataFromTables = true;
         }
-
-        //TODO implement config usage
-        Mage::setIsDeveloperMode(true);
     }
 
     /**
@@ -141,10 +139,8 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
     {
         Mage::setRoot();
 
-        $etcDir = $this->getTestEtcDir();
-        if (!$etcDir) {
-            $etcDir = $this->getDefaultEtcDir();
-        }
+        $etcDir = $this->getDefaultEtcDir();
+
         $difference = implode(DS, array_fill(0, substr_count(Mage::getRoot(), DS), '..'));
         $absoluteEtcDir = $difference . substr($etcDir, strpos($etcDir, DS));
 
@@ -306,16 +302,6 @@ class Mage_PHPUnit_Initializer_App extends Mage_PHPUnit_Initializer_Abstract
     {
         $this->_mageRunOptions = $runOptions;
         return $this;
-    }
-
-    /**
-     * Returns etc_dir option for testing environment
-     *
-     * @return string|null
-     */
-    public function getTestEtcDir()
-    {
-        return isset($this->_mageRunOptions['etc_dir']) ? $this->_mageRunOptions['etc_dir'] : null;
     }
 
     /**

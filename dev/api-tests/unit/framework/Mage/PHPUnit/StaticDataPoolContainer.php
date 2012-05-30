@@ -1,5 +1,4 @@
 <?php
-
 /**
  * {license_notice}
  *
@@ -36,6 +35,7 @@ class Mage_PHPUnit_StaticDataPoolContainer
     const POOL_RESOURCE_MODEL_DELEGATORS    = 'resource_model';
     const POOL_RESOURCE_MODEL_NAMES         = 'resource_model_name';
     const POOL_BLOCK_DELEGATORS             = 'block';
+    const POOL_CONNECTION_CLASSES           = 'connection_classes';
 
     /**
      * Class map for pool keys
@@ -48,7 +48,8 @@ class Mage_PHPUnit_StaticDataPoolContainer
         self::POOL_MODEL_DELEGATORS            => 'Mage_PHPUnit_StaticDataPool_Model',
         self::POOL_RESOURCE_MODEL_DELEGATORS   => 'Mage_PHPUnit_StaticDataPool_Model',
         self::POOL_BLOCK_DELEGATORS            => 'Mage_PHPUnit_StaticDataPool_Model',
-        self::POOL_RESOURCE_MODEL_NAMES        => 'Mage_PHPUnit_StaticDataPool_ResourceModelName'
+        self::POOL_RESOURCE_MODEL_NAMES        => 'Mage_PHPUnit_StaticDataPool_ResourceModelName',
+        self::POOL_CONNECTION_CLASSES          => 'Mage_PHPUnit_StaticDataPool_Simple'
     );
 
     /**

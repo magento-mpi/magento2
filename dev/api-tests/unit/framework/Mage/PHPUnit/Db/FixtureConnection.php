@@ -25,20 +25,18 @@ class Mage_PHPUnit_Db_FixtureConnection
     const DEFAULT_LOAD_FROM_TABLE = false;
 
     /**
-     * Tables data taken from texture
+     * Tables data taken from fixture
      *
-     * @var array array('table1' => array(array('field' => value, ...), array('field' => value, ...), ...),
-     * 'table2' => ...)
+     * @var array array('table1' => array(array('field' => value, ...), array('field' => value, ...), ...), 'table2' => ...)
      */
     protected $_tables = array();
 
     /**
-     * Select-queries data taken from texture
+     * Select-queries data taken from fixture
      *
-     * @var array array('SELECT * FROM ...' => array(array('field' => value, ...), array('field' => value, ...), ...),
-     * 'SELECT * FROM ...' => ...)
+     * @var array array of queryKey => queryObject
      */
-    protected $_selects = array();
+    protected $_queryModels = array();
 
     /**
      * Should we load data from table or from select array.
@@ -72,6 +70,7 @@ class Mage_PHPUnit_Db_FixtureConnection
      */
     protected function __construct()
     {
+        $this->reset();
     }
 
     /**
@@ -87,7 +86,7 @@ class Mage_PHPUnit_Db_FixtureConnection
     public function reset()
     {
         $this->_tables = array();
-        $this->_selects = array();
+        $this->_queryModels = Mage_PHPUnit_Db_Query_Factory::getAllQueryModels();
         $this->_loadFromTable = self::DEFAULT_LOAD_FROM_TABLE;
     }
 
@@ -145,23 +144,8 @@ class Mage_PHPUnit_Db_FixtureConnection
                     }
                 }
 
-                //load selects data from XML
-                if ($fixture->selects) {
-                    foreach ($fixture->selects->children() as $selectNode) {
-                        if ($selectNode->query) {
-                            $query = (string)$selectNode->query;
-                            $this->_selects[$query] = array();
-                            if ($selectNode->rows) {
-                                foreach ($selectNode->rows->children() as $rowNode) {
-                                    $row = array();
-                                    foreach ($rowNode->children() as $fieldNode) {
-                                        $row[$fieldNode->getName()] = (string)$fieldNode;
-                                    }
-                                    $this->_selects[$query][] = $row;
-                                }
-                            }
-                        }
-                    }
+                foreach ($this->_queryModels as $query) {
+                    $query->setFixtureData($fixture);
                 }
             }
         }
@@ -172,42 +156,48 @@ class Mage_PHPUnit_Db_FixtureConnection
      * Loads fixture from XML file path
      *
      * @param string $fullpath
-     * @throws Exception
+     * @throws Mage_PHPUnit_Db_Exception
      * @return SimpleXMLElement
      */
     protected function _getFixture($fullpath)
     {
         if (!file_exists($fullpath)) {
-            throw new Exception('Fixture file does not exists');
+            throw new Mage_PHPUnit_Db_Exception('Fixture file does not exists');
         }
         if (!is_readable($fullpath)) {
-            throw new Exception('Fixture file does not readable');
+            throw new Mage_PHPUnit_Db_Exception('Fixture file does not readable');
         }
 
         return simplexml_load_file($fullpath);
     }
 
     /**
-     * Runs SELECT query and return the result in array
+     * Selects right query model, which can operate the query.
      *
      * @param string|Zend_Db_Select $sql
-     * @return array
+     * @return mixed
      */
-    public function select($sql)
+    protected function _getQueryModel($sql)
     {
-        if ($this->getLoadFromTable()) {
-            if (!($sql instanceof Zend_Db_Select)) {
-                throw new Exception('SQL query must be of Zend_Db_Select to select data from table');
+        foreach ($this->_queryModels as $queryModel) {
+            if ($queryModel->test($sql)) {
+                return $queryModel;
             }
-            $from = $sql->getPart(Zend_Db_Select::FROM);
-            $keys = array_keys($from);
-            $from = $from[$keys[0]]['tableName'];
-            return $this->selectFromTable($from);
         }
-        if ($sql instanceof Zend_Db_Select) {
-            $sql = (string)$sql;
-        }
-        return isset($this->_selects[$sql]) ? $this->_selects[$sql] : array();
+        throw new Mage_PHPUnit_Db_Exception("Query model does not exist for query: ".((string)$sql));
+    }
+
+    /**
+     * Base method for server operations like 'select', 'delete', etc.
+     * Sets result to $statement object
+     *
+     * @param Zend_Db_Statement_Interface $statement
+     * @param string|Zend_Db_Select $sql
+     * @param array $bind
+     */
+    public function query($statement, $sql, $bind = array())
+    {
+        $this->_getQueryModel($sql)->process($statement, $this, $sql, $bind);
     }
 
     /**

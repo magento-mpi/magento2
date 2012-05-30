@@ -43,9 +43,9 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
      *
      * @return string
      */
-    protected function dispatch($action, $controller = null, $module = null, array $params = null,
-        $isAdminAction = false
-    ) {
+    protected function dispatch(
+        $action, $controller = null, $module = null, array $params = null, $isAdminAction = false)
+    {
         ob_start();
         try {
             $request = $this->getRequest();
@@ -69,7 +69,7 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
             //Mock some objects for dispatch admin actions
             if ($isAdminAction) {
                 $user = Mage::getModel('Mage_Admin_Model_User')->setId(1);
-                $adminSessionMock = $this->getSingletonMockBuilder('Mage_Admin_Model_Session')
+                $adminSessionMock = $this->getSingletonMockBuilder('admin/session')
                     ->setMethods(array('isLoggedIn', 'getUser'))
                     ->getMock();
                 $adminSessionMock->expects($this->any())
@@ -79,7 +79,7 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
                     ->method('getUser')
                     ->will($this->returnValue($user));
 
-                $adminUrlMock = $this->getSingletonMockBuilder('Mage_Adminhtml_Model_Url')
+                $adminUrlMock = $this->getSingletonMockBuilder('adminhtml/url')
                     ->setMethods(array('useSecretKey'))
                     ->getMock();
                 $adminSessionMock->expects($this->any())
@@ -90,8 +90,7 @@ abstract class Mage_PHPUnit_Integration_ControllerTestCase extends Mage_PHPUnit_
             $request->setActionName($action)->setDispatched(false);
 
             $appInitializer = Mage_PHPUnit_Initializer_Factory::createInitializer(
-                'Mage_PHPUnit_Initializer_App',
-                false
+                'Mage_PHPUnit_Initializer_App', false
             );
             $appInitializer->setRunCode($this->_mageRunCode)
                 ->setRunType($this->_mageRunType)

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <api2>
+       <resources>
+            <product>
+                <type>product</type><!-- used in ACL -->
+                <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
+                <model>Mage_Catalog_Model_Api2_Product</model><!-- used in dispatching -->
+                <working_model>Mage_Catalog_Model_Product</working_model>
+                <attributes>
+                    <review_id>ID</review_id>
+                    <content>Content</content>
+                    <created_at>Content</created_at>
+                </attributes>
+                <exclude_attributes>
+                    <customer>
+                        <read>
+                            <created_at>1</created_at>
+                        </read>
+                        <write>
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
+                        </write>
+                    </customer>
+                    <guest>
+                        <read>
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
+                        </read>
+                        <write>
+                            <review_id>1</review_id>
+                            <created_at>1</created_at>
+                        </write>
+                    </guest>
+                </exclude_attributes>
+                <validators>
+                    <validatorType>
+                        <field_name>
+                            <required>1</required>
+                            <regex>
+                                <type>Regex</type>
+                                <options><pattern>/^[0,1]$/</pattern></options>
+                                <message>The "field_name" field must be set to 0 or 1.</message>
+                            </regex>
+                        </field_name>
+                    </validatorType>
+                </validators>
+                <routes>
+                    <route_entity>
+                        <route>/products/:id</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                    <route_collection>
+                        <route>/products</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1,2,5</versions>
+            </product>
+            <test1 />
+            <test2><versions /></test2>
+            <test3><versions>1,,5</versions></test3>
+            <test4><versions>1,2m,5</versions></test4>
+        </resources>
+    </api2>
+</config>

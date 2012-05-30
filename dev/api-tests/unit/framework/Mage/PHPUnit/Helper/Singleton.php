@@ -25,14 +25,6 @@ class Mage_PHPUnit_Helper_Singleton extends Mage_PHPUnit_Helper_Abstract
      */
     public function registerSingleton($registryKey, $object)
     {
-        // Fix for new data helper code behavior
-        if (false !== strpos($registryKey, '/data')) {
-            $helperKey = substr($registryKey, 0, -5);
-
-            Mage::unregister($helperKey);
-            Mage::register($helperKey, $object);
-        }
-
         Mage::unregister($registryKey);
         Mage::register($registryKey, $object);
     }

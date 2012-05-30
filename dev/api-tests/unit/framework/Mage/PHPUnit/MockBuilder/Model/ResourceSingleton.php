@@ -23,7 +23,7 @@ class Mage_PHPUnit_MockBuilder_Model_ResourceSingleton extends Mage_PHPUnit_Mock
      *
      * @var string
      */
-    protected $_regisrtyKeyPrefix = '_resource_singleton';
+    protected $_registryKeyPrefix = '_resource_singleton';
 
     /**
      * Returns PHPUnit model helper.
