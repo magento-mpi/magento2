@@ -2,9 +2,9 @@
 <config>
     <menu>
         <item id="elem_one"/>
-        <add id="elem_one_zero" title="Title one.zero" module="Module_One" sort_order="90" action="adminhtml/system" parent="elem_one" />
-        <add id="elem_one_one" title="Title one.one" module="Module_One" sort_order="90" action="adminhtml/system" parent="elem_one" />
-        <update id="elem_one_zero" title="Title one.zero update" module="Module_One_Update" sort_order="90" action="adminhtml/system" parent="elem_one" />
+        <add id="elem_one_zero" title="Title one.zero" module="Module_One" sortOrder="90" action="adminhtml/system" parent="elem_one" resource="/dsd/sdsd" dependsOnModule="Module_One" dependsOnConfig="/sdfs/sdf/sdf"/>
+        <add id="elem_one_one" title="Title one.one" module="Module_One" sortOrder="90" action="adminhtml/system" parent="elem_one" />
+        <update id="elem_one_zero" title="Title one.zero update" module="Module_One_Update" sortOrder="90" action="adminhtml/system" parent="elem_one" />
         <remove id="elem_one_one" />
     </menu>
 </config>
