@@ -132,6 +132,8 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage::getSingleton('Mage_Install_Model_Installer_Config')
             ->setConfigData($data)
             ->install();
+
+        $this->_refreshConfig();
         return $this;
     }
 
@@ -317,17 +319,14 @@ class Mage_Install_Model_Installer extends Varien_Object
             Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
         }
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
+        $this->_refreshConfig();
         return $this;
     }
 
     public function finish()
     {
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();
-
-        /* Switch application to installed mode */
-        Mage::reset();
-        Mage::app()->cleanCache();
-
+        $this->_refreshConfig();
         /* Enable all cache types */
         $cacheData = array();
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
@@ -337,4 +336,12 @@ class Mage_Install_Model_Installer extends Varien_Object
         return $this;
     }
 
+    /**
+     * Detect changes in the configuration
+     */
+    protected function _refreshConfig()
+    {
+        Mage::app()->cleanCache();
+        Mage::app()->getConfig()->reinit();
+    }
 }
