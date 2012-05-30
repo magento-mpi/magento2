@@ -104,9 +104,6 @@
         <copy file="${dir.tests}/unit/phpunit.xml.dist"
               tofile="${dir.tests}/unit/phpunit.xml"
               failonerror="true"/>
-        <copy file="${dir.tests}/unit/framework/config.php.dist"
-              tofile="${dir.tests}/unit/framework/config.php"
-              failonerror="true"/>
 
         <copy file="${file.tests.config.php.dist}" tofile="${file.tests.config.php}" failonerror="true"/>
     </target>
@@ -235,7 +232,8 @@
         <property name="file.reports.integration.junit.rest" value="${dir.reports}/integration-phpunit-rest.xml"/>
         <property name="file.reports.integration.log.rest" value="${dir.reports}/integration-phpunit-rest.txt"/>
 
-        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.rest}">
+        <exec executable="sudo" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.rest}">
+            <arg line="phpunit">
             <arg line="--configuration ${file.tests.integration.config.rest}"/>
             <arg line="--log-junit ${file.reports.integration.junit.rest}"/>
             <arg line="--debug"/>
