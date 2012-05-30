@@ -16,11 +16,32 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    protected static $_developerMode;
+
     public static function setUpBeforeClass()
     {
         $fixtureDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         Mage::app()->getConfig()->getOptions()->setDesignDir($fixtureDir . DIRECTORY_SEPARATOR . 'design');
         Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin');
+
+        $ioAdapter = new Varien_Io_File();
+        $ioAdapter->cp(
+            Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.js',
+            Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.min.js'
+        );
+        $ioAdapter->cp(
+            Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.css',
+            Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.min.css'
+        );
+        self::$_developerMode = Mage::getIsDeveloperMode();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $ioAdapter = new Varien_Io_File();
+        $ioAdapter->rm(Mage::app()->getConfig()->getOptions()->getJsDir() . '/prototype/prototype.min.js');
+        $ioAdapter->rm(Mage::app()->getConfig()->getOptions()->getSkinDir() . '/frontend/default/default/default/en_US/css/styles.min.css');
+        Mage::setIsDeveloperMode(self::$_developerMode);
     }
 
     protected function setUp()
@@ -229,7 +250,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     */
     public function testGetPublicSkinDir()
     {
-        $this->assertTrue(strpos($this->_model->getPublicSkinDir(), '/media/skin') !== false);
+        $this->assertTrue(strpos(
+                $this->_model->getPublicSkinDir(),
+                DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'skin'
+            ) !== false
+        );
     }
 
     /**
@@ -238,9 +263,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Design_Package::getSkinUrl
      * @dataProvider getSkinUrlDataProvider
      */
-    public function testGetSkinUrl($file, $result)
+    public function testGetSkinUrl($devMode, $file, $result)
     {
-        $this->assertEquals($this->_model->getSkinUrl($file, array()), $result);
+        Mage::setIsDeveloperMode($devMode);
+        $this->assertEquals($this->_model->getSkinUrl($file), $result);
     }
 
     /**
@@ -250,10 +276,40 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
+                false,
                 'Mage_Page::favicon.ico',
                 'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Page/favicon.ico',
             ),
-            array('prototype/prototype.js', 'http://localhost/pub/js/prototype/prototype.js'),
+            array(
+                true,
+                'prototype/prototype.js',
+                'http://localhost/pub/js/prototype/prototype.js'
+            ),
+            array(
+                false,
+                'prototype/prototype.js',
+                'http://localhost/pub/js/prototype/prototype.min.js'
+            ),
+            array(
+                true,
+                'Mage_Page::menu.js',
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Page/menu.js'
+            ),
+            array(
+                false,
+                'Mage_Page::menu.js',
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Page/menu.js'
+            ),
+            array(
+                true,
+                'Mage_Catalog::widgets.css',
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Catalog/widgets.css'
+            ),
+            array(
+                false,
+                'Mage_Catalog::widgets.css',
+                'http://localhost/pub/media/skin/frontend/test/default/default/en_US/Mage_Catalog/widgets.min.css'
+            ),
         );
     }
 }
