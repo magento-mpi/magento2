@@ -10,65 +10,58 @@
  */
 
 /**
- * Because of fixture applying order
+ * This test was moved to the separate file.
+ * Because of fixture applying order magentoAppIsolation -> magentoDataFixture -> magentoConfigFixture
  * (https://wiki.magento.com/display/PAAS/Integration+Tests+Development+Guide
  * #IntegrationTestsDevelopmentGuide-ApplyingAnnotations)
- * we have to move this test to the separate file
+ * config fixtures can't be applied before data fixture.
  */
 class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_TestCase
 {
     /** @var int */
-    protected $_oldLogActive;
+    protected static $_oldLogActive;
 
     /** @var string */
-    protected $_oldExceptionFile;
+    protected static $_oldExceptionFile;
 
     /** @var string */
-    protected $_oldWriterModel;
+    protected static $_oldWriterModel;
 
     /** @var array */
     public static $exceptions = array();
 
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
 
-        $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
-        $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
-        $this->_oldWriterModel = (string) Mage::getConfig()->getNode('global/log/core/writer_model');
+        self::$_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
+        self::$_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
+        self::$_oldWriterModel = (string) Mage::getConfig()->getNode('global/log/core/writer_model');
     }
 
-    protected function tearDown()
+    public static function tearDownAfterClass()
     {
-        Mage::app()->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
-        Mage::app()->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
-        Mage::getConfig()->setNode('global/log/core/writer_model', $this->_oldWriterModel);
+        Mage::app()->getStore()->setConfig('dev/log/active', self::$_oldLogActive);
+        Mage::app()->getStore()->setConfig('dev/log/exception_file', self::$_oldExceptionFile);
+        Mage::getConfig()->setNode('global/log/core/writer_model', self::$_oldWriterModel);
 
-        parent::tearDown();
+        self::$exceptions = array();
+
+        parent::tearDownAfterClass();
     }
 
     /**
      * Test that there is no exception '$_FILES array is empty' in Varien_File_Uploader::_setUploadFileId()
-     * if category image was no set
+     * if category image was not set
+     *
+     * @magentoDataFixture Mage/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
     {
-        Mage::app()->getStore()->setConfig('dev/log/active', 1);
-        Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
-        Mage::getConfig()->setNode('global/log/core/writer_model',
-            'Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream'
-        );
-
-        $category = new Mage_Catalog_Model_Category();
-        $category->setName('Category Without Image 1')
-            ->setParentId(2)
-            ->setLevel(2)
-            ->setAvailableSortBy('name')
-            ->setDefaultSortBy('name')
-            ->setIsActive(true)
-            ->save();
-
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = Mage::registry('_fixture/Mage_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());
+
         foreach (self::$exceptions as $exception) {
             $this->assertNotContains('$_FILES array is empty', $exception['message']);
         }
@@ -81,6 +74,6 @@ class Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream extends Zend_L
     {
         Mage_Catalog_Model_Category_CategoryImageTest::$exceptions[] = $event;
 
-        return parent::write($event);
+        parent::write($event);
     }
 }
