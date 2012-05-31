@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="report_salesroot_paypal_settlement_reports" title="PayPal Settlement Reports" module="" sortOrder="100" parent="report_salesroot" action="adminhtml/paypal_reports" />
+        <add id="report_salesroot_paypal_settlement_reports" title="PayPal Settlement Reports" module="Mage_Paypal" sortOrder="100" parent="report_salesroot" action="adminhtml/paypal_reports" />
     </menu>
 </config>
