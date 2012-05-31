@@ -10,7 +10,8 @@
  */
 
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
-
+// Re-init Mage config to have store data in cache
+Mage::getConfig()->reinit();
 /* @var $categoryFixture Mage_Catalog_Model_Category */
 $categoryFixture = require $fixturesDir . '/Catalog/Category.php';
 $defaultWebsite = Mage::app()->getWebsite();

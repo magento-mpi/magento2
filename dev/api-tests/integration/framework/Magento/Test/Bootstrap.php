@@ -543,6 +543,10 @@ class Magento_Test_Bootstrap
     protected function _createAdminUser()
     {
         $user = new Mage_Admin_Model_User();
+        $user->loadByUsername(self::ADMIN_NAME);
+        if ($user->getId()) {
+            return;
+        }
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
