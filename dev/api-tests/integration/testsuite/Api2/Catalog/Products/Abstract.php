@@ -246,7 +246,6 @@ abstract class Api2_Catalog_Products_Abstract extends Magento_Test_Webservice_Re
     {
         // See Mage_Core_Model_Store::_processConfigValue line 437
         // URLs are generated without /pub
-        $this->markTestIncomplete('Image URL built incorrectly by API.');
         $this->assertNotEmpty($productData['image_url'], 'Image url is not set');
         $this->_testUrlWithCurl($productData, 'image_url');
         unset($productData['image_url']);
