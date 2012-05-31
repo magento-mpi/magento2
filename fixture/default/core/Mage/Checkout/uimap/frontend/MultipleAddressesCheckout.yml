@@ -380,10 +380,11 @@ checkout_multishipping_review_order:
                             card_data: //table
                 -
                     shipping_address_info:
-                        xpath: //div[h2='Shipping Information']
+                        xpath: //div[@class='col2-set'][not(h2='Billing Information')]
                         pageelements:
                             shipping_method_address_header: /h3[%number%]
                             shipping_method_address: //div[contains(@class,'col-narrow')][%number%]//address
+                            shipping_method_products: //div[table]
                 -
                     shipping_address:
                         xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(div/h4,'Shipping To')]
