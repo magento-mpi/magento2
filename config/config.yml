@@ -88,13 +88,13 @@ applications:
         fallbackOrderHelper: 'Core'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento/admin/'
+                url: 'http://kq.varien.com/builds/vixit/ce_taf/release/admin'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento/'
+                url: 'http://kq.varien.com/builds/vixit/ce_taf/release/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
@@ -165,4 +165,4 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *enterprise
+    default: *mage

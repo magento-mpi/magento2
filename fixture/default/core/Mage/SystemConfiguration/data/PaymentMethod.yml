@@ -256,7 +256,7 @@ checkmoney:
         tab_name: sales_payment_methods
         configuration:
             cmo_enabled: Yes
-            cmo_title: Check / Money order
+            cmo_title: Check Money Order
             cmo_new_order_status: %noValue%
             cmo_payment_from_applicable_countries: All Allowed Countries
             cmo_payment_from_specific_countries: %noValue%
@@ -267,6 +267,30 @@ checkmoney:
             cmo_sort_order: %noValue%
 
 check_money_order_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
+#<-------------Cash On Delivery Payment------------------------>
+cashondelivery:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cod_enabled: Yes
+            cod_title: Cash On Delivery
+            cod_instruction: Cash On Delivery Instruction Data
+            cod_payment_from_applicable_countries: All Allowed Countries
+            cod_payment_from_specific_countries: %noValue%
+            cod_make_check_payable_to: %noValue%
+            cod_send_check_to: %noValue%
+            cod_minimum_order_total: %noValue%
+            cod_maximum_order_total: %noValue%
+            cod_sort_order: %noValue%
+
+cash_on_delivery_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_payment_methods
