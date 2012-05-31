@@ -338,6 +338,44 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
         return $html;
     }
 
+    public function getMenuModel()
+    {
+        return Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+    }
+
+    /**
+     * Get menu level HTML code
+     *
+     * @param Mage_Backend_Model_Menu $menu
+     * @param int $level
+     * @return string
+     */
+    public function getMenuLevel(Mage_Backend_Model_Menu $menu, $level = 0)
+    {
+        $html = '<ul ' . (!$level ? 'id="nav"' : '') . '>' . PHP_EOL;
+        foreach ($menu as $item) {
+            $html .= '<li ' . ($item->hasChildren() ? 'onmouseover="Element.addClassName(this,\'over\')" '
+                . 'onmouseout="Element.removeClassName(this,\'over\')"' : '') . ' class="'
+                . (!$level && $item->isActive() ? ' active' : '') . ' '
+                . ($item->hasChildren() ? ' parent' : '')
+                . (!empty($level) && $menu->isLast($item) ? ' last' : '')
+                . ' level' . $level . '"> <a href="' . $item->getUrl() . '" '
+                . ($item->hasTitle() ? 'title="' . $item->getTitle() . '"' : '') . ' '
+                . ($item->hasClickCallback() ? 'onclick="' . $item->getClickCallback() . '"' : '') . ' class="'
+                . ($level === 0 && $item->isActive() ? 'active' : '') . '"><span>'
+                . $this->escapeHtml($item->getLabel()) . '</span></a>' . PHP_EOL;
+
+            if ($item->hasChildren()) {
+                $html .= $this->getMenuLevel($item->getChildren(), $level + 1);
+            }
+            $html .= '</li>' . PHP_EOL;
+        }
+        $html .= '</ul>' . PHP_EOL;
+
+        return $html;
+    }
+
+
     /**
      * Check is module output enabled
      *

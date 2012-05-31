@@ -15,9 +15,11 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
     protected $_factory;
 
     /**
-     * @var Varien_Simplexml_Config
+     * Root menu
+     *
+     * @var Mage_Backend_Model_Menu
      */
-    protected $_root;
+    protected $_menu;
 
     public function __construct(array $data = array())
     {
@@ -26,35 +28,31 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
         }
         $this->_factory = $data['factory'];
 
-        if (!isset($data['tree']) || !($data['tree'] instanceof Varien_Simplexml_Config)) {
+        if (!isset($data['menu']) || !($data['menu'] instanceof Mage_Backend_Model_Menu)) {
             throw new InvalidArgumentException();
         }
-        $this->_root = $data['tree'];
+        $this->_menu = $data['menu'];
     }
 
     /**
-     * @return Varien_Simplexml_Config
+     * @return Mage_Backend_Model_Menu
      */
     public function getResult()
     {
-        $root = new Varien_Simplexml_Element('<menu/>');
         /** @var $items Mage_Backend_Model_Menu_Item[] */
         $items = array();
         foreach ($this->_commands as $command) {
             $item = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
-            $items[$item->getAttribute('id')] = $item;
+            $items[$item->getId()] = $item;
         }
 
         foreach($items as $item) {
-            if (is_null($item->getAttribute('parent'))) {
-                $items[$item->getAttribute('parent')] = $root->appendChild($item);
+            if (!$item->hasParent()) {
+                $this->_menu->addChild($item);
             } else {
-                if (!isset($items[$item->getAttribute('parent')])) {
-                    throw new OutOfBoundsException();
-                }
-                $items[$item->getAttribute('parent')]->appendChild($item);
+                $items[$item->getParent()]->addChild($item);
             }
         }
-        return new $this->_root->setNode($root);
+        return $this->_menu;
     }
 }

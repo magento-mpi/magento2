@@ -29,7 +29,7 @@ class Mage_Backend_Model_Menu_Builder_SimplexmlTest extends PHPUnit_Framework_Te
             );
         $this->_model = new Mage_Backend_Model_Menu_Builder_Simplexml(array(
             'factory' => $factory,
-            'root' => new Varien_Simplexml_Element('<menu />')
+            'menu' => new Mage_Backend_Model_Menu()
         ));
     }
 
@@ -43,6 +43,6 @@ class Mage_Backend_Model_Menu_Builder_SimplexmlTest extends PHPUnit_Framework_Te
             new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 3, 'parent' => 2))
         );
 
-        print_r($this->_model->getResult()->getNode()->asXML());
+        print_r($this->_model->getResult());
     }
 }
