@@ -649,7 +649,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             //Get order shipping method data
             $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
             list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
-            list($method, $price) = explode(' ', $methodAndPrice);
+            preg_match_all('/\([A-Za-z]+\. [A-Za-z]+ ([^0-9\s]+)?(([\d]+\.[\d]+)|([\d]+))\)/', $methodAndPrice, $temp);
+            $severalPrices = (isset($temp[0][0])) ? $temp[0][0] : '';
+            $methodAndPrice = trim(str_replace($severalPrices, '', $methodAndPrice));
+            preg_match_all('/([^0-9\s]+)?(([\d]+\.[\d]+)|([\d]+))/', $methodAndPrice, $temp);
+            //@TODO forming price data if Excl and Incl
+            $price = (isset($temp[0][0])) ? $temp[0][0] : '';
+            $method = trim(str_replace($price, '', $methodAndPrice));
             $addressData['shipping']['shipping_service'] = trim($service);
             $addressData['shipping']['shipping_method'] = trim($method);
             $addressData['shipping']['price'] = trim($price);
