@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_CatalogSearch
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="catalog_search" title="Search Terms" module="Mage_CatalogSearch" sortOrder="40" parent="catalog" action="adminhtml/catalog_search/" />
+    </menu>
+</config>

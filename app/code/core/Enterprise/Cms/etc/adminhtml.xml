@@ -42,33 +42,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <cms>
-            <children>
-                <page><disabled>1</disabled></page>
-                <enterprise_page translate="title" module="Mage_Cms">
-                    <title>Pages</title>
-                    <resource>cms/page</resource>
-                    <children>
-                        <page translate="title" module="Enterprise_Cms">
-                            <title>Manage Content</title>
-                            <action>adminhtml/cms_page</action>
-                            <sort_order>0</sort_order>
-                            <resource>cms/page</resource>
-                        </page>
-                        <hierarchy translate="title" module="Enterprise_Cms">
-                            <title>Manage Hierarchy</title>
-                            <sort_order>5</sort_order>
-                            <action>adminhtml/cms_hierarchy</action>
-                            <depends>
-                                <config>cms/hierarchy/enabled</config>
-                            </depends>
-                            <sort_order>10</sort_order>
-                            <resource>cms/hierarchy</resource>
-                       </hierarchy>
-                    </children>
-                </enterprise_page>
-            </children>
-        </cms>
-    </menu>
 </config>

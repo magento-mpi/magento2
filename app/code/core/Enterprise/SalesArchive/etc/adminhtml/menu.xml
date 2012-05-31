@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_SalesArchive
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="sales_archive" title="Archive" module="Enterprise_SalesArchive" sortOrder="15" parent="sales" dependsOnConfig="sales/enterprise_salesarchive/active" />
+        <add id="sales_archive_orders" title="Orders" module="Enterprise_SalesArchive" sortOrder="10" parent="sales_archive" action="adminhtml/sales_archive/orders" />
+        <add id="sales_archive_invoices" title="Invoices" module="Enterprise_SalesArchive" sortOrder="20" parent="sales_archive" action="adminhtml/sales_archive/invoices" />
+        <add id="sales_archive_shipments" title="Shipments" module="Enterprise_SalesArchive" sortOrder="30" parent="sales_archive" action="adminhtml/sales_archive/shipments" />
+        <add id="sales_archive_creditmemos" title="Creditmemos" module="Enterprise_SalesArchive" sortOrder="40" parent="sales_archive" action="adminhtml/sales_archive/creditmemos" />
+    </menu>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Oauth
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_api_oauth_consumer" title="REST - OAuth Consumers" module="Mage_Oauth" sortOrder="50" parent="system_api" action="adminhtml/oauth_consumer" />
+        <add id="system_api_oauth_authorized_tokens" title="REST - OAuth Authorized Tokens" module="Mage_Oauth" sortOrder="60" parent="system_api" action="adminhtml/oauth_authorizedTokens" />
+        <add id="system_api_oauth_admin_token" title="REST - My Apps" module="Mage_Oauth" sortOrder="70" parent="system_api" action="adminhtml/oauth_admin_token" />
+    </menu>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Sitemap
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="catalog_sitemap" title="Google Sitemap" module="Mage_Sitemap" sortOrder="180" parent="catalog" action="adminhtml/sitemap/" />
+    </menu>
+</config>

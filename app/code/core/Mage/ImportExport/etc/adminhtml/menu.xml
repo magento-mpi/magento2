@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_ImportExport
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_convert_import" title="Import" module="Mage_ImportExport" sortOrder="10" parent="system_convert" action="adminhtml/import" />
+        <add id="system_convert_export" title="Export" module="Mage_ImportExport" sortOrder="20" parent="system_convert" action="adminhtml/export" />
+    </menu>
+</config>

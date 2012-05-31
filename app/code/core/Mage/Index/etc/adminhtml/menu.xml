@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Index
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="system_index" title="Index Management" module="Mage_Index" sortOrder="92" parent="system" action="adminhtml/process/list" />
+    </menu>
+</config>

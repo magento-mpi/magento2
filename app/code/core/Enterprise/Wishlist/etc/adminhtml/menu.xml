@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="report_customers_wishlist" title="Customer's Wishlists" module="Enterprise_Wishlist" sortOrder="120" parent="report_customers" action="adminhtml/report_customer_wishlist" dependsOnModule="Enterprise_Wishlist" />
+    </menu>
+</config>

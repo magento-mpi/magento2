@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Reminder
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="promo_reminder" title="Automated Email Reminder Rules" module="Enterprise_Reminder" sortOrder="20" parent="promo" action="adminhtml/reminder" resource="promo/enterprise_reminder" dependsOnModule="Enterprise_Reminder" dependsOnConfig="promo/enterprise_reminder/enabled" />
+    </menu>
+</config>

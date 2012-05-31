@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="dashboard" title="Dashboard" module="Mage_Adminhtml" sortOrder="10" parent="root" action="adminhtml/dashboard" />
+        <add id="system" title="System" module="Mage_Adminhtml" sortOrder="90" parent="root" />
+        <add id="system_myaccount" title="My Account" module="Mage_Adminhtml" sortOrder="10" parent="system" action="adminhtml/system_account" />
+        <add id="system_tools" title="Tools" module="Mage_Adminhtml" sortOrder="20" parent="system" />
+        <add id="system_design" title="Design" module="Mage_Adminhtml" sortOrder="30" parent="system" />
+        <add id="system_design_schedule" title="Schedule" module="Mage_Adminhtml" sortOrder="10" parent="system_design" action="adminhtml/system_design" />
+        <add id="system_convert" title="Import/Export" module="Mage_Adminhtml" sortOrder="40" parent="system" />
+        <add id="system_convert_gui" title="Dataflow - Profiles" module="Mage_Adminhtml" sortOrder="30" parent="system_convert" action="adminhtml/system_convert_gui" />
+        <add id="system_convert_profiles" title="Dataflow - Advanced Profiles" module="Mage_Adminhtml" sortOrder="40" parent="system_convert" action="adminhtml/system_convert_profile" />
+        <add id="system_currency" title="Manage Currency Rates" module="Mage_Adminhtml" sortOrder="50" parent="system" action="adminhtml/system_currency" />
+        <add id="system_email_template" title="Transactional Emails" module="Mage_Adminhtml" sortOrder="60" parent="system" action="adminhtml/system_email_template" />
+        <add id="system_variable" title="Custom Variables" module="Mage_Adminhtml" sortOrder="65" parent="system" action="adminhtml/system_variable" />
+        <add id="system_cache" title="Cache Management" module="Mage_Adminhtml" sortOrder="90" parent="system" action="adminhtml/cache" />
+        <add id="system_store" title="Manage Stores" module="Mage_Core" sortOrder="100" parent="system" action="adminhtml/system_store/" />
+        <add id="system_config" title="Configuration" module="Mage_Adminhtml" sortOrder="110" parent="system" action="adminhtml/system_config" />
+    </menu>
+</config>

@@ -30,22 +30,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <report>
-            <children>
-                <customers>
-                    <children>
-                        <wishlist translate="title" module="Enterprise_Wishlist">
-                            <title>Customer's Wishlists</title>
-                            <action>adminhtml/report_customer_wishlist</action>
-                            <depends>
-                                <module>Enterprise_Wishlist</module>
-                            </depends>
-                            <sort_order>120</sort_order>
-                        </wishlist>
-                    </children>
-                </customers>
-            </children>
-        </report>
-    </menu>
 </config>

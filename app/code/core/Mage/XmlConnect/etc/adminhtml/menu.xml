@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="xmlconnect" title="Mobile" module="Mage_XmlConnect" sortOrder="35" parent="root" />
+        <add id="xmlconnect_mobile" title="Manage Apps" module="Mage_XmlConnect" sortOrder="10" parent="xmlconnect" action="adminhtml/mobile" />
+        <add id="xmlconnect_history" title="Submission History" module="Mage_XmlConnect" sortOrder="20" parent="xmlconnect" action="adminhtml/mobile/history" />
+        <add id="xmlconnect_templates" title="Message Templates" module="Mage_XmlConnect" sortOrder="30" parent="xmlconnect" action="adminhtml/mobile/template" />
+        <add id="xmlconnect_queue" title="Message Queue" module="Mage_XmlConnect" sortOrder="40" parent="xmlconnect" action="adminhtml/mobile/queue" />
+    </menu>
+</config>

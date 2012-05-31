@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Paypal
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="report_salesroot_paypal_settlement_reports" title="PayPal Settlement Reports" module="Mage_Paypal" sortOrder="100" parent="report_salesroot" action="adminhtml/paypal_reports" />
+    </menu>
+</config>
