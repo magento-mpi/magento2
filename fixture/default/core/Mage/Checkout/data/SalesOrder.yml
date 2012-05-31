@@ -683,6 +683,155 @@ order_virtual:
         payment_method: Check / Money order
         payment_info: %noValue%
 
+#<------------New Customer, BankTransferPayment, FlatRate, ShippingSameAsBilling------------>
+order_newcustomer_BankTransferPayment_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReqUsa
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data:
+        payment_method: Bank Transfer Payment
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages: %noValue%
+
+order_newcustomer_BankTransferPayment_flatrate_france:
+    <<: *orderNewCustomerCheckFlatrateUsa
+    billing_addr_data: *billingReqFrance
+
+#*********************************************
+#*           INVOICE DATA                    *
+#*********************************************
+
+products_to_invoice:
+    product_1:
+        invoice_product_sku: %noValue%
+        qty_to_invoice: 5
+    product_2: %noValue%
+
+#*********************************************
+#*           Shipment Data                   *
+#*********************************************
+
+products_to_ship:
+    product_1:
+        ship_product_sku: %noValue%
+        ship_product_qty: 5
+    product_2: %noValue%
+
+#*********************************************
+#*           CreditMemo Data                 *
+#*********************************************
+products_to_refund:
+    product_1:
+        return_filter_sku: %noValue%
+        return_to_stock: Yes
+        qty_to_refund: 5
+    product_2: %noValue%
+
+#*********************************************
+#*              Coupon Data                  *
+#*********************************************
+
+coupon_fixed_amount:
+    info:
+        rule_name: coupon_fixed_amount_%randomize%
+        description: some_desc
+        status: Active
+        websites: Main Website
+        customer_groups: General, NOT LOGGED IN
+        coupon: Specific Coupon
+        coupon_code: coupon_code_%randomize%
+        uses_per_coupon: 100
+        uses_per_customer: 100
+        priority: 1
+    actions:
+        apply: Fixed amount discount for whole cart
+        discount_amount: 100
+        maximum_qty_discount_is_applied_to: 0
+        discount_qty_step: 0
+        apply_to_shipping_amount: Yes
+        free_shipping: No
+        stop_further_rules_processing: No
+
+coupon_percent:
+    info:
+        rule_name: coupon_percent_%randomize%
+        description: some_desc
+        status: Active
+        websites: Main Website
+        customer_groups: General
+        coupon: Specific Coupon
+        coupon_code: coupon_code_%randomize%
+        uses_per_coupon: 100
+        uses_per_customer: 100
+        priority: 1
+    actions:
+        apply: Percent of product price discount
+        discount_amount: 20
+        maximum_qty_discount_is_applied_to: 0
+        discount_qty_step: 0
+        apply_to_shipping_amount: No
+        free_shipping: No
+        stop_further_rules_processing: No
+
+#*********************************************
+#*           Gift Messages                   *
+#*********************************************
+
+gift_messages_individual:
+    individual: &forProduct
+        product_1:
+            sku_product: %noValue%
+            to: me
+            from: guess_who
+            message: How you doing?
+
+gift_messages_per_order:
+    entire_order: &forOrder
+        from_order_level: guess_who
+        to_order_level: me
+        message_order_level: How you doing?
+
+gift_messages: &allGiftMessages
+    entire_order: *forOrder
+    individual: *forProduct
+
+gift_messages_with_empty_fields:
+    entire_order:
+        from_order_level: ''
+        to_order_level: ''
+        message_order_level: How you doing?
+    individual:
+        product_1:
+            sku_product: %noValue%
+            to: ''
+            from: ''
+            message: How you doing?
+
+gift_messages_with_empty_fields_expected:
+    entire_order:
+        from_order_level: billing_Steven billing_Stevenson
+        to_order_level: shipping_Steven shipping_Stevenson
+        message_order_level: How you doing?
+    individual:
+        product_1:
+            sku_product: %noValue%
+            to: shipping_Steven shipping_Stevenson
+            from: billing_Steven billing_Stevenson
+            message: How you doing?               
+
 #<------------New Customer, Check/Money, FlatRate, ShippingSameAsBilling------------>
 order_newcustomer_checkmoney_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
     store_view: Default Store View

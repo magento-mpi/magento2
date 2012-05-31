@@ -496,7 +496,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $xpathPayMethod .= '/p/strong';
             }
             $text = $this->getText($xpathPayMethod);
-            if (strcmp($text, $payMethod['payment_method']) != 0) {
+            if (!preg_match("/".$payMethod['payment_method']."/",$text)) {
                 $this->addVerificationMessage('Payment method should be: ' . $payMethod['payment_method']
                                                   . ' but now ' . $text);
             }

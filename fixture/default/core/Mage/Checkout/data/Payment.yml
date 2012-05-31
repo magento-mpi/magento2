@@ -228,11 +228,14 @@ payflowpro_mastercard:
 #*********************************************
 
 payment_checkmoney:
-    payment_method: Check / Money order
+    payment_method: Check Money order
 
 payment_savedcc:
     payment_method: Credit Card (saved)
     payment_info: *visaSavedCC
+    
+payment_banktransfer:
+    payment_method: Bank Transfer Payment    
 
 payment_paypaldirectuk:
     payment_method: PayPal Direct Payment Payflow Edition
