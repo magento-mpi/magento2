@@ -31,7 +31,7 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
             return $this;
         }
         $container = $this->getParentBlock();
-        if ($container instanceof Mage_Adminhtml_Block_Template && $container->getCustomerId()) {
+        if ($container instanceof Mage_Backend_Block_Template && $container->getCustomerId()) {
             $url = Mage::getSingleton('Mage_Adminhtml_Model_Url')
                ->getUrl('*/checkout/index', array('customer' => $container->getCustomerId()));
             $container->addButton('manage_quote', array(
