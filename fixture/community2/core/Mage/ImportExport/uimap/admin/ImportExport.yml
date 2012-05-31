@@ -1,0 +1,96 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Manage Import/Export page
+
+import:
+    mca: import/
+    click_xpath: //div[@class='nav-bar']//a[span='Import']
+    title: Import / Import/Export / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    import_settings:
+                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Settings')]]
+                        dropdowns:
+                            entity_type: //select[@id='entity']
+                            import_behavior: //select[@id='behavior']
+                        fields:
+                            file_to_import: //input[@id='import_file']
+                        pageelements:
+                            import_file_note: //span[@id='importFileNote' and contains(., 'Import allows to change only status, _shipment_track_number, _shipment_comment_comment, _order_status_history_comment columns. Any changes in other columns will be ignored.')]
+        messages:
+            extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
+            no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]
+            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file')]
+            status_wrong: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'The Order Status "pending" must not be set manually in row %row%')]
+            checked_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Checked rows: %rows%')]"
+            checked_entities: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'checked entities: %entities%')]"
+            invalid_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'invalid rows: %rows%')]"
+            total_errors: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'total errors: %errors%')]"
+            task_in_queue: //div[@id='import_validation_messages']//*[@class='success-msg']//span[contains(text(),'Import process has just queued.')]
+            task_complete: //div[@class='notification-global notification-global-notice' and contains(.,'Import order task')][//strong[contains(.,'Latest Finished Task:')]]
+            file_is_valid: //div[@id='import_validation_messages']//*[@class='success-msg']//span[contains(text(),'File is valid! To start import process press "Import" button')]
+        buttons:
+            check_data: //button[@id='upload_button' and span='Check Data']
+            import: //button[span='Import']
+        links:
+
+export:
+    mca: export
+    click_xpath: //div[@class='nav-bar']//a[span='Export']
+    title: Export / Import/Export / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    export_settings:
+                        xpath: //div[@id="base_fieldset"]
+                        dropdowns:
+                            entity_type: //select[@id='entity']
+                            file_format: //select[@id='file_format']
+                            export_type: //@TBD old new
+                            export_file: //@TBD custmer , customer address 
+                -
+                    grid_and_filter:
+                        xpath: //div[@id='export_filter_grid_container']
+                        fields:
+                            attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
+                            attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
+                        buttons:
+                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
+                            search: //table[@class='actions']//button[@title='Search']
+        messages:
+            task_in_queue: //div[@id='messages']//*[@class='success-msg']//span[contains(text(),'Export task has been added to queue')]
+        buttons:
+            download: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Download']
+            remove: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Remove']
+            continue: //div[@class='a-right']//button//span[text()='Continue']
+        pageelements:
+            export_file_name: //div[@id='export_file_downloader_file_exist']//*[@id='export_file_downloader_filename']
+            downloader_block: //div[@id='export_file_downloader']
