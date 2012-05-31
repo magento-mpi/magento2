@@ -146,7 +146,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
         $optionParams = $products['grouped'][$productType]['product_name'];
         $productOptions = $this->loadDataSet('Product', 'grouped_options_to_add_to_shopping_cart', null,
             array('subProduct_1' => $optionParams));
-        $checkout = $this->loadDataSet('MultipleAddressesCheckout_', $dateSet, null,
+        $checkout = $this->loadDataSet('MultipleAddressesCheckout', $dateSet, null,
             array('product_1'        => $simple,
                   'product_2'        => $grouped,
                   'option_product_2' => $productOptions));

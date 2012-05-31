@@ -282,7 +282,9 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
 
     /**
      * Return all area configs for current application
-     * @param loadDefault Will override current settings with default values
+     *
+     * @param bool $loadDefault Will override current settings with default values
+     *
      * @return array
      * @throws OutOfRangeException
      */

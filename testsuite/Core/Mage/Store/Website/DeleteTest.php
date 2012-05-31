@@ -93,7 +93,7 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $websiteData = $this->loadDataSet('Website', 'generic_website');
-        $storeData = $this->loadDataSet('', 'generic_store', array('website' => $websiteData['website_name']));
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('website' => $websiteData['website_name']));
         $this->storeHelper()->createStore($websiteData, 'website');
         $this->assertMessagePresent('success', 'success_saved_website');
         $this->storeHelper()->createStore($storeData, 'store');

@@ -458,6 +458,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         //Steps
         $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_voided_order');
     }
 

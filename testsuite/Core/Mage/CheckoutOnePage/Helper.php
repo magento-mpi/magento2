@@ -69,7 +69,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function submitOnePageCheckoutOrder()
     {
-        $waitConditions = array($this->_getMessageXpath('success_checkout'), $this->_getMessageXpath('general_error'),
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $waitConditions = array($this->_getMessageXpath('success_checkout'), $errorMessageXpath,
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('place_order', false);
         $this->waitForElementOrAlert($waitConditions);
@@ -148,18 +149,20 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
-        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
-        $waitCondition =
-            array($setXpath, $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $buttonName = $fieldsetName . '_continue';
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
+        $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
-        $error = $this->errorMessage();
-        $validation = $this->validationMessage();
-        if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
-            $messages = self::messagesToString($this->getMessagesOnPage());
-            $this->clearMessages('verification');
-            $this->fail($messages);
+        if (!$this->isElementPresent($setXpath)) {
+            $error = $this->errorMessage();
+            $validation = $this->validationMessage();
+            if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
+                $messages = self::messagesToString($this->getMessagesOnPage());
+                $this->clearMessages('verification');
+                $this->fail($messages);
+            }
         }
         if ($fieldsetName !== 'checkout_method') {
             $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));
