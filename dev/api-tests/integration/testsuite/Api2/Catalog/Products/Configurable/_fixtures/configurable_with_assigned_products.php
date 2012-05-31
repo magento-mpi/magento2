@@ -17,7 +17,7 @@ $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
 $productsToAssignIds = array();
 for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require $fixturesDir . '/Catalog/Product.php';
+    $product = require $fixturesDir . '/_block/Catalog/Product.php';
     $product->setName("Assigned product #$i")
         ->setAttributeSetId($configurableProduct->getAttributeSetId())
         ->setWebsiteIds($configurableProduct->getWebsiteIds());

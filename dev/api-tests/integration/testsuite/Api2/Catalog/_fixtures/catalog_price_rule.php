@@ -12,7 +12,7 @@
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $ruleFixture Mage_CatalogRule_Model_Rule */
-$ruleFixture = require $fixturesDir . '/CatalogRule/Rule.php';
+$ruleFixture = require $fixturesDir . '/_block/CatalogRule/Rule.php';
 
 $rule = clone $ruleFixture;
 $rule->save();

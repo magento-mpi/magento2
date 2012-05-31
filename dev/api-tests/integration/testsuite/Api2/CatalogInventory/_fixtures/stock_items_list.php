@@ -14,10 +14,10 @@ define('COUNT_STOCK_ITEMS_LIST', 3);
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $product Mage_Catalog_Model_Product */
-$productFixture = require $fixturesDir . '/Catalog/Product.php';
+$productFixture = require $fixturesDir . '/_block/Catalog/Product.php';
 
 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require $fixturesDir . '/CatalogInventory/Stock/Item.php';
+$stockItemFixture = require $fixturesDir . '/_block/CatalogInventory/Stock/Item.php';
 
 $products = array();
 $stockItems = array();

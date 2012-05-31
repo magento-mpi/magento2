@@ -177,7 +177,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/Catalog/Product.php';
+        $product = require $fixturesDir . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'])
             ->save();
@@ -218,7 +218,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/Catalog/Product.php';
+        $product = require $fixturesDir . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
@@ -259,7 +259,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/Catalog/Product.php';
+        $product = require $fixturesDir . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();

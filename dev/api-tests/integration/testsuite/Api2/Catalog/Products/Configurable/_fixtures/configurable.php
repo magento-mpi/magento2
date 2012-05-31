@@ -14,7 +14,7 @@ include "attribute_set.php";
 $attributeSet = Magento_Test_Webservice::getFixture('attribute_set_with_configurable');
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
 /** @var $configurableProduct Mage_Catalog_Model_Product */
-$configurableProduct = require $fixturesDir . '/Catalog/Product.php';
+$configurableProduct = require $fixturesDir . '/_block/Catalog/Product.php';
 $taxClassTaxableGoods = 2;
 $configurableProduct
     ->setName('Configurable Product')

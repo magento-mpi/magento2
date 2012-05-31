@@ -13,7 +13,7 @@ include "attribute_set.php";
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
 $attributeSet = Magento_Test_Webservice::getFixture('attribute_set_with_configurable');
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
-$downloadable = require $fixturesDir . '/Catalog/Product.php';
+$downloadable = require $fixturesDir . '/_block/Catalog/Product.php';
 $downloadable->setAttributeSetId($attributeSet->getId())
     ->setName('Downloadable Product')
     ->setSku('downloadable-product-' . microtime())

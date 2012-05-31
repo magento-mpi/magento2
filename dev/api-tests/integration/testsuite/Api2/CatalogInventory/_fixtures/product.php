@@ -3,11 +3,11 @@
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $product Mage_Catalog_Model_Product */
-$product = require $fixturesDir . '/Catalog/Product.php';
+$product = require $fixturesDir . '/_block/Catalog/Product.php';
 $product->save();
 
 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-$stockItem = require $fixturesDir . '/CatalogInventory/Stock/Item.php';
+$stockItem = require $fixturesDir . '/_block/CatalogInventory/Stock/Item.php';
 $stockItem->setProductId($product->getId())
     ->save();
 

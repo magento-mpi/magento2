@@ -11,7 +11,7 @@ if ($testStore) {
 $products = array();
 for ($i = 1; $i <= 3; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require $fixturesDir . '/Catalog/Product.php';
+    $product = require $fixturesDir . '/_block/Catalog/Product.php';
     $product->setStoreId(0);
     if ($i == 1) {
         $product->setPrice(99.5);

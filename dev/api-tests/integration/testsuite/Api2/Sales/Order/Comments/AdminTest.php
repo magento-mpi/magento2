@@ -52,7 +52,7 @@ class Api2_Sales_Order_Comments_AdminTest extends Magento_Test_Webservice_Rest_A
         $counter = 0;
         while ($counter++ < self::HISTORY_COUNT) {
             /** @var $history Mage_Sales_Model_Order_Status_History */
-            $history = require dirname(__FILE__) . '/../../../../../fixture/Sales/Order/History.php';
+            $history = require dirname(__FILE__) . '/../../../../../fixture/_block/Sales/Order/History.php';
             $history->setIsVisibleOnFront($isVisibleOnFront)
                 ->setEntityName(Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
             $order->addStatusHistory($history);

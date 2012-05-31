@@ -28,10 +28,10 @@
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $customerFixture Mage_Customer_Model_Customer */
-$customerFixture = require $fixturesDir . '/Customer/Customer.php';
+$customerFixture = require $fixturesDir . '/_block/Customer/Customer.php';
 
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
+$customerAddressFixture = require $fixturesDir . '/_block/Customer/Address.php';
 $customerFixture->save();
 
 // Get address eav required attributes

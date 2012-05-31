@@ -11,7 +11,7 @@
 
 define('ATTRIBUTE_OPTIONS_COUNT', 2);
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-$attributeSet = require TESTS_FIXTURES_DIRECTORY . '/Catalog/Product/Attribute/Set.php';
+$attributeSet = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product/Attribute/Set.php';
 $attributeSet->save();
 /** @var $entityType Mage_Eav_Model_Entity_Type */
 $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
@@ -19,7 +19,7 @@ $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save()
 Magento_Test_Webservice::setFixture('attribute_set_with_one_attribute', $attributeSet);
 
 /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
-$attributeFixture = require TESTS_FIXTURES_DIRECTORY . '/Catalog/Product/Attribute.php';
+$attributeFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product/Attribute.php';
 
 $attribute = clone $attributeFixture;
 $attribute->setAttributeCode(substr('test_attribute_' . uniqid(), 0, 30))

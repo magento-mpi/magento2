@@ -18,7 +18,7 @@ $parentPath = '1/' . Mage::app()->getDefaultStoreView()->getRootCategoryId();
 
 for ($i = 0; $i < CATEGORIES_IN_TREE; $i++) {
     /* @var $categoryFixture Mage_Catalog_Model_Category */
-    $categoryFixture = require $fixturesDir . '/Catalog/Category.php';
+    $categoryFixture = require $fixturesDir . '/_block/Catalog/Category.php';
     $categoryFixture->setPath($parentPath);
     $categoryFixture->save();
 

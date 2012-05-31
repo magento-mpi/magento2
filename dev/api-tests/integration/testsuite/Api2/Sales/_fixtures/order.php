@@ -12,13 +12,13 @@
 $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $productFixture Mage_Catalog_Model_Product */
-$productFixture = require $fixturesDir . '/Catalog/Product.php';
+$productFixture = require $fixturesDir . '/_block/Catalog/Product.php';
 
 /* @var $quoteFixture Mage_Sales_Model_Quote */
-$quoteFixture = require $fixturesDir . '/Sales/Quote/Quote.php';
+$quoteFixture = require $fixturesDir . '/_block/Sales/Quote/Quote.php';
 
 /* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
-$rateFixture = require $fixturesDir . '/Sales/Quote/Rate.php';
+$rateFixture = require $fixturesDir . '/_block/Sales/Quote/Rate.php';
 
 // Create products
 $product1 = clone $productFixture;

@@ -1134,7 +1134,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     protected function _getValidCategoryData()
     {
-        $categoryFixturePath = $this->_getGlobalFixtureDirectory() . "/Catalog/Category.php";
+        $categoryFixturePath = $this->_getGlobalFixtureDirectory() . "/_block/Catalog/Category.php";
         $category = require $categoryFixturePath;
         $categoryData = $category->getData();
         unset($categoryData['path']);
