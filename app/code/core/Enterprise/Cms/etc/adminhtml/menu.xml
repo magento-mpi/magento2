@@ -12,8 +12,8 @@
 <config>
     <menu>
         <remove id="cms_page" />
-        <add id="cms_enterprise_page" title="Pages" module="Mage_Cms" sortOrder="" parent="cms" resource="cms/page" />
+        <add id="cms_enterprise_page" title="Pages" module="Mage_Cms" parent="cms" resource="cms/page" />
         <add id="cms_enterprise_page_page" title="Manage Content" module="Enterprise_Cms" sortOrder="0" parent="cms_enterprise_page" action="adminhtml/cms_page" resource="cms/page" />
-        <add id="cms_enterprise_page_hierarchy" title="Manage Hierarchy" module="Enterprise_Cms" sortOrder="Array" parent="cms_enterprise_page" action="adminhtml/cms_hierarchy" resource="cms/hierarchy" dependsOnConfig="cms/hierarchy/enabled" />
+        <add id="cms_enterprise_page_hierarchy" title="Manage Hierarchy" module="Enterprise_Cms" sortOrder="10" parent="cms_enterprise_page" action="adminhtml/cms_hierarchy" resource="cms/hierarchy" dependsOnConfig="cms/hierarchy/enabled" />
     </menu>
 </config>

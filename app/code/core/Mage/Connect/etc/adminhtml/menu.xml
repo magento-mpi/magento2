@@ -12,7 +12,7 @@
 <config>
     <menu>
         <add id="system_extensions" title="Magento Connect" module="Mage_Connect" sortOrder="80" parent="system" />
-        <add id="system_extensions_local" title="Magento Connect Manager" module="Mage_Connect" sortOrder="" parent="system_extensions" action="adminhtml/extension_local" />
-        <add id="system_extensions_custom" title="Package Extensions" module="Mage_Connect" sortOrder="" parent="system_extensions" action="adminhtml/extension_custom" />
+        <add id="system_extensions_local" title="Magento Connect Manager" module="Mage_Connect" parent="system_extensions" action="adminhtml/extension_local" />
+        <add id="system_extensions_custom" title="Package Extensions" module="Mage_Connect" parent="system_extensions" action="adminhtml/extension_custom" />
     </menu>
 </config>

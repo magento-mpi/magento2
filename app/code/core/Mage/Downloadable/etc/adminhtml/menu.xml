@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="report_products_downloads" title="Downloads" module="Mage_Reports" sortOrder="" parent="report_products" action="adminhtml/report_product/downloads" />
+        <add id="report_products_downloads" title="Downloads" module="Mage_Reports" parent="report_products" action="adminhtml/report_product/downloads" />
     </menu>
 </config>

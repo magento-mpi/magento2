@@ -12,7 +12,7 @@
 <config>
     <menu>
         <add id="system_acl" title="Permissions" module="Mage_User" sortOrder="70" parent="system" />
-        <add id="system_acl_users" title="Users" module="Mage_User" sortOrder="" parent="system_acl" action="adminhtml/user" />
-        <add id="system_acl_roles" title="Roles" module="Mage_User" sortOrder="" parent="system_acl" action="adminhtml/user_role" />
+        <add id="system_acl_users" title="Users" module="Mage_User" parent="system_acl" action="adminhtml/user" />
+        <add id="system_acl_roles" title="Roles" module="Mage_User" parent="system_acl" action="adminhtml/user_role" />
     </menu>
 </config>

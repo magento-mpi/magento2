@@ -12,7 +12,7 @@
 <config>
     <menu>
         <add id="catalog_googleshopping" title="Google Content" module="Mage_GoogleShopping" sortOrder="70" parent="catalog" />
-        <add id="catalog_googleshopping_types" title="Manage Attributes" module="Mage_GoogleShopping" sortOrder="" parent="catalog_googleshopping" action="adminhtml/googleshopping_types" />
-        <add id="catalog_googleshopping_items" title="Manage Items" module="Mage_GoogleShopping" sortOrder="" parent="catalog_googleshopping" action="adminhtml/googleshopping_items" />
+        <add id="catalog_googleshopping_types" title="Manage Attributes" module="Mage_GoogleShopping" parent="catalog_googleshopping" action="adminhtml/googleshopping_types" />
+        <add id="catalog_googleshopping_items" title="Manage Items" module="Mage_GoogleShopping" parent="catalog_googleshopping" action="adminhtml/googleshopping_items" />
     </menu>
 </config>
