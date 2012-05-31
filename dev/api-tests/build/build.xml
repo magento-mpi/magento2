@@ -5,6 +5,7 @@
     <property name="dir.checkout.build.files" value="${basedir}/dev/api-tests/build/customization"/>
     <property name="dir.www" value="${env.build_www_simlink}"/>
     <property name="build_host" value="${env.build_host}"/>
+    <property name="build_url" value="${env.build_url}"/>
     <property name="build_db_name" value="${env.build_mysql_db_name}"/>
     <property name="build_db_user" value="${env.build_mysql_db_user}"/>
 
@@ -109,7 +110,7 @@
     </target>
 
     <target name="configureIntegrationTests">
-        <replace file="${file.test.dump.sql}" token="test-magento-host.loc" value="${build_host}"/>
+        <replace file="${file.test.dump.sql}" token="test-magento-host.loc" value="${build_url}"/>
 
         <copy file="${file.tests.config.php.dist}" tofile="${file.tests.config.php}" failonerror="true"/>
         <copy file="${file.tests.integration.local-mysql.xml.dist}" tofile="${file.tests.integration.local-mysql.xml}" failonerror="true"/>
@@ -119,18 +120,21 @@
 
         <copy file="${file.tests.integration.config.dist}" tofile="${file.tests.integration.config}" failonerror="true"/>
 
-        <replace file="${file.tests.integration.config}" token="mydomain.com" value="${build_host}"/>
+        <replace file="${file.tests.integration.config}" token="tests.host" value="${build_host}"/>
 
-        <replace file="${file.tests.integration.config.soap}" token="api.ll" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap}" token="tests.host" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap}" token="tests.url" value="${build_url}"/>
 
-        <replace file="${file.tests.integration.config.soap.v2}" token="api.ll" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap.v2}" token="tests.host" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap.v2}" token="tests.url" value="${build_url}"/>
 
-        <replace file="${file.tests.integration.config.soap.wsi}" token="api.ll" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap.wsi}" token="tests.host" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.soap.wsi}" token="tests.url" value="${build_url}"/>
 
-        <replace file="${file.tests.integration.config.xmlrpc}" token="api.ll" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.xmlrpc}" token="tests.host" value="${build_host}"/>
+        <replace file="${file.tests.integration.config.xmlrpc}" token="tests.url" value="${build_url}"/>
 
-        <replace file="${file.tests.integration.config.rest}" token="apia.magento" value="${build_host}/pub"/>
-        <replace file="${file.tests.integration.config.rest}" token="x7x7i29sflwlsirfznqbuasqmzidcnrz" value="n4hqk3ajzbrlh2cddcvjv1zenh4s70y1"/>
+        <replace file="${file.tests.integration.config.rest}" token="tests.url" value="${build_url}"/>
     </target>
 
     <target name="prepareIntegrationTestsCache">

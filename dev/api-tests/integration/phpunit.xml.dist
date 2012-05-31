@@ -47,7 +47,7 @@
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- HTTP Host-->
-        <const name="TESTS_HTTP_HOST" value="dd.varien.com"/>
+        <const name="TESTS_HTTP_HOST" value="tests.host"/>
         <!-- Admin User -->
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->

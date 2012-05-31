@@ -50,7 +50,7 @@
         <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
         <const name="TESTS_FIXTURE_TRANSACTION" value="off"/>
         <!-- Webserver URL -->
-        <const name="TESTS_WEBSERVICE_URL" value="http://apia.magento"/>
+        <const name="TESTS_WEBSERVICE_URL" value="http://tests.url/pub"/>
         <!-- Admin User -->
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->
@@ -60,7 +60,7 @@
         <!-- Customer password -->
         <const name="TESTS_CUSTOMER_PASSWORD" value="123123q"/>
         <!-- Test oAuth consumer -->
-        <const name="TESTS_OAUTH_CONSUMER" value="x7x7i29sflwlsirfznqbuasqmzidcnrz"/>
+        <const name="TESTS_OAUTH_CONSUMER" value="n4hqk3ajzbrlh2cddcvjv1zenh4s70y1"/>
 
         <!-- DB vendor, optional. Possible values: mysql (default), oracle, mssql -->
         <!--<const name="TESTS_DB_VENDOR" value="mysql"/>-->

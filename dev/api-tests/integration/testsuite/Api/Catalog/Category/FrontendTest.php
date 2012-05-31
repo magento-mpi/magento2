@@ -31,7 +31,6 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
      */
     public function testCategoryUpdateAppliedOnFrontend()
     {
-        $this->markTestSkipped("Test fails with fatal error because of invalid routing");
         $categoryFixture = $this->_getFixtureData();
         $categoryName = $categoryFixture['create']['categoryData']['name'];
         $data = $categoryFixture['create'];

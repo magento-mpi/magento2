@@ -47,13 +47,13 @@
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- HTTP Host-->
-        <const name="TESTS_HTTP_HOST" value="api.ll"/>
+        <const name="TESTS_HTTP_HOST" value="tests.host"/>
         <!-- WebSerivice Type. Possible values: soapv1, soapv2, soapv2_wsi, xmlrpc-->
         <const name="TESTS_WEBSERVICE_TYPE" value="xmlrpc"/>
         <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
         <const name="TESTS_FIXTURE_TRANSACTION" value="off"/>
         <!-- Webserver URL -->
-        <const name="TESTS_WEBSERVICE_URL" value="http://api.ll"/>
+        <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>
         <!-- Webserver API user -->
         <const name="TESTS_WEBSERVICE_USER" value="api"/>
         <!-- Webserver API key -->
