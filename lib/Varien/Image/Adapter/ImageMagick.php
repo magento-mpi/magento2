@@ -242,9 +242,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     {
         $this->_checkCanProcess();
 
-        $opacity = $this->getWatermarkImageOpacity()
-            ? $this->getWatermarkImageOpacity()
-            : $opacity;
+        $opacity = $this->getWatermarkImageOpacity();
 
         $opacity = (float)number_format($opacity / 100, 1);
         $watermark = new Imagick($imagePath);
@@ -262,17 +260,11 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         }
 
         if (method_exists($watermark, 'setImageOpacity')) {
-            // available from imagick 6.2.9
+            // available from imagick 6.3.1
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
-            $iterator = $watermark->getPixelIterator();
-            foreach ($iterator as $y => $pixels) {
-                foreach ($pixels as $x => $pixel) {
-                    $watermark->paintTransparentImage($pixel, $opacity, 65535);
-                }
-                $iterator->syncIterator();
-            }
+            $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
         }
 
         switch ($this->getWatermarkPosition()) {
