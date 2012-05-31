@@ -31,11 +31,41 @@ class Mage_Backend_Model_Menu_Item
     protected $_parentId = null;
 
     /**
+     * Menu item action
+     *
+     * @var string
+     */
+    protected $_action = null;
+
+    /**
+     * Path from root element in tree
+     *
+     * @var string
+     */
+    protected $_path = '';
+
+    /**
      * Menu item sort index in list
      *
      * @var string
      */
     protected $_sortIndex = null;
+
+    /**
+     * @var Mage_Backend_Model_Auth_Session
+     */
+    protected $_acl;
+
+    /**
+     * @param array $data
+     */
+    protected function __construct(array $data = array())
+    {
+        if (!isset($data['acl']) || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session) {
+            throw new InvalidArgumentException();
+        }
+        $this->_acl = $data['acl'];
+    }
 
     /**
      * @return string
@@ -99,12 +129,21 @@ class Mage_Backend_Model_Menu_Item
             || (strpos($this->getActive(), $path.$childName.'/')===0);
     }
 
+    /**
+     * Retrieve full path from root element
+     *
+     * @return string
+     */
+    public function getFullPath()
+    {
+        return $this->_path . $this->_id;
+    }
+
     public function getUrl()
     {
-        if ($child->action) {
-            return $this->_url->getUrl((string)$child->action, array('_cache_secret_key' => true));
+        if ((bool) $this->_action) {
+            return $this->_url->getUrl((string)$this->_action, array('_cache_secret_key' => true));
         }
-        $this->_clickCallback = 'return false';
         return '#';
     }
 
@@ -118,14 +157,31 @@ class Mage_Backend_Model_Menu_Item
 
     }
 
-    public function hasClickCallback()
+    public function getLevel()
     {
 
     }
+    /**
+     * Chechk whether item has javascript callback on click
+     *
+     * @return bool
+     */
+    public function hasClickCallback()
+    {
+        return $this->getUrl() == '#';
+    }
 
+    /**
+     * Retrieve item click callback
+     *
+     * @return bool
+     */
     public function getClickCallback()
     {
-
+        if ($this->getUrl() == '#') {
+            return 'return false;';
+        }
+        return '';
     }
 
     public function getLabel()
@@ -158,34 +214,34 @@ class Mage_Backend_Model_Menu_Item
      */
     protected function _checkDepends(Varien_Simplexml_Element $depends)
     {
-        if ($depends->module) {
+        if ($this->_dependsOnModule) {
+            $module = $this->_dependsOnModule;
             $modulesConfig = Mage::getConfig()->getNode('modules');
-            foreach ($depends->module as $module) {
-                if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
+            if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
                     return false;
-                }
             }
         }
 
-        if ($depends->config) {
-            foreach ($depends->config as $path) {
-                if (!Mage::getStoreConfigFlag((string)$path)) {
-                    return false;
-                }
+        if ($this->_dependsOnConfig) {
+            if (!Mage::getStoreConfigFlag((string)$this->_dependsOnConfig)) {
+                return false;
             }
         }
-
         return true;
     }
 
-
     public function isAllowed()
     {
-        $aclResource = 'admin/' . ($child->resource ? (string)$child->resource : $path . $childName);
-        if (!$this->_checkAcl($aclResource)){
-
+        $aclResource = 'admin/' . ($this->_resource ? (string)$this->_resource : $this->getFullPath());
+        try {
+            $res =  $this->_acl->isAllowed($resource);
+        } catch (Exception $e) {
+            return false;
         }
-
+        return $res;
+        if (!$this->_checkAcl($aclResource)){
+            return true;
+        }
     }
 
     public function addChild(Mage_Backend_Model_Menu_Item $item)
@@ -194,6 +250,11 @@ class Mage_Backend_Model_Menu_Item
             $this->_submenu = new Mage_Backend_Model_Menu();
         }
         $this->_submenu->addChild($item);
+    }
+
+    public function setParent(Mage_Backend_Model_Menu $menu)
+    {
+        $this->_path = $menu->getFullPath();
     }
     /**
      * @param array $data

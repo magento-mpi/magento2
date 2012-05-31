@@ -32,6 +32,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         $index = !is_null($index) ? $index : ($item->hasSortIndex() ? $this->getSortIndex() : $this->_sortIndex++);
         if (!isset($this[$index])) {
             $this->offsetSet($index, $item);
+            $item->setParent($this);
         } else {
             $this->addChild($item, $index);
         }

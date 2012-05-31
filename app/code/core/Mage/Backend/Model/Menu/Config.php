@@ -20,9 +20,9 @@ class Mage_Backend_Model_Menu_Config
     }
 
     /**
-     * @return Varien_Simplexml_Config
+     * @return Mage_Backend_Model_Menu
      */
-    public function getTree()
+    public function getMenu()
     {
         $director = $this->_appConfig->getModelInstance(
             'Mage_Backend_Model_Menu_Director_Dom',
@@ -31,11 +31,11 @@ class Mage_Backend_Model_Menu_Config
                 'factory' => $this->_appConfig
             )
         );
-        $simpleXmlTree = new Varien_Simplexml_Config();
+        $menu = new Mage_Backend_Model_Menu();
         $builder = $this->_appConfig->getModelInstance(
             'Mage_Backend_Model_Menu_Builder_Simplexml',
             array(
-                'tree' => $simpleXmlTree,
+                'menu' => $menu,
                 'factory' => $this->_appConfig,
             )
         );
