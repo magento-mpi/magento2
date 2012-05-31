@@ -812,7 +812,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image get for store which is not related to product
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/new_category_on_new_store.php
+     * @magentoDataFixture Catalog/Category/category_on_new_store.php
      * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
      * @resourceOperation product_image::get
      */

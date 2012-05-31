@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require dirname(dirname(dirname(__FILE__))).'/Categories/_fixtures/new_category_on_new_store.php';
+require TEST_FIXTURE_DIR . '/Catalog/Category/category_on_new_store.php';
 
 /* @var $productFixture Mage_Catalog_Model_Product */
 $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';

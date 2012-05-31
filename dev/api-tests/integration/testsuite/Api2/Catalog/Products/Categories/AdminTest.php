@@ -43,12 +43,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource post
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPost()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -66,13 +66,13 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource post
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostMultiAssign()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-        $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
+        $categoryCreatedData = $this->_loadCategoryFixtureData('product_category_created_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -94,12 +94,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource post with empty required field
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostEmptyRequiredField()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryEmptyRequired.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_empty_required');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -115,12 +115,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource post with invalid categoryId
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostInvalidData()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryInvalidData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_invalid_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -136,12 +136,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource post with nonexistent categoryId
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostCategoryNotExists()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryNotExistsData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_not_exists_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -158,7 +158,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
      */
     public function testPostWrongProductId()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
 
         $restResponse = $this->callPost($this->_getResourcePath('INVALID_PRODUCT'), $categoryData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
@@ -172,7 +172,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
      */
     public function testPostAlreadyAssigned()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
@@ -189,12 +189,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource assigning to category tree root
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostToCategoryTreeRoot()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryTreeRootData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_tree_root_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -210,8 +210,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
      */
     public function testList()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-        $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
+        $categoryCreatedData = $this->_loadCategoryFixtureData('product_category_created_data');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
@@ -249,8 +249,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
      */
     public function testDelete()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-        $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
+        $categoryCreatedData = $this->_loadCategoryFixtureData('product_category_created_data');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
@@ -276,7 +276,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
      */
     public function testDeleteWrongProductId()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID', $categoryData['category_id']));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
             Mage_Api2_Model_Server::HTTP_NOT_FOUND);
@@ -285,12 +285,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource delete for nonexistent category
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::delete
      */
     public function testDeleteWrongCategoryId()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryInvalidData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_invalid_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -303,12 +303,12 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     /**
      * Test product category resource delete for unassigned category
      *
-     * @magentoDataFixture Api2/Catalog/Products/Categories/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::delete
      */
     public function testDeleteNotAssigned()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -332,5 +332,16 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
             $path .= "/{$categoryId}";
         }
         return $path;
+    }
+
+    /**
+     * Load category fixture data
+     * 
+     * @param string $fixtureName
+     * @return array
+     */
+    protected function _loadCategoryFixtureData($fixtureName)
+    {
+        return require TEST_FIXTURE_DIR . "/_data/Catalog/Category/{$fixtureName}.php";
     }
 }

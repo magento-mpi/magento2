@@ -9,8 +9,7 @@
  * @license     {license_link}
  */
 
-require dirname(__FILE__).'/../new_category_on_new_store.php';
-
+require TEST_FIXTURE_DIR . '/Catalog/Category/category_on_new_store.php';
 return array(
     'category_id' => Magento_Test_Webservice::getFixture('category')->getId()
 );

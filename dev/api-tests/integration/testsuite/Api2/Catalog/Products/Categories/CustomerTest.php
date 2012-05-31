@@ -47,8 +47,8 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
      */
     public function testList()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-        $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
+        $categoryCreatedData = $this->_loadCategoryFixtureData('product_category_created_data');
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
@@ -87,8 +87,8 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
      */
     public function testListWithInactiveCategory()
     {
-        $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
-        $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
+        $categoryData = $this->_loadCategoryFixtureData('product_category_data');
+        $categoryCreatedData = $this->_loadCategoryFixtureData('product_category_created_data');
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
@@ -154,5 +154,16 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
             $path .= "/{$categoryId}";
         }
         return $path;
+    }
+
+    /**
+     * Load category fixture data
+     *
+     * @param string $fixtureName
+     * @return array
+     */
+    protected function _loadCategoryFixtureData($fixtureName)
+    {
+        return require TEST_FIXTURE_DIR . "/_data/Catalog/Category/{$fixtureName}.php";
     }
 }
