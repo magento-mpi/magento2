@@ -37,6 +37,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
         $attributeNamesList = array(
             'id',
             'title',
+            'toolTip',
             'module',
             'sortOrder',
             'action',

@@ -41,6 +41,7 @@
                                         <xs:attribute name="sortOrder" type="xs:int" use="optional" />
                                         <xs:attribute name="action" type="typeAction" use="optional" />
                                         <xs:attribute name="parent" type="typeId" use="required" />
+                                        <xs:attribute name="toolTip" type="typeTitle" use="optional" />
                                         <xs:attribute name="resource" type="typeResource" use="optional" />
                                         <xs:attribute name="dependsOnModule" type="typeModule" use="optional" />
                                         <xs:attribute name="dependsOnConfig" type="typeDependsConfig" use="optional" />
@@ -59,6 +60,7 @@
                                         <xs:attribute name="sortOrder" type="xs:int" use="optional" />
                                         <xs:attribute name="action" type="typeAction" use="optional" />
                                         <xs:attribute name="parent" type="typeId" use="optional" />
+                                        <xs:attribute name="toolTip" type="typeTitle" use="optional" />
                                         <xs:attribute name="resource" type="typeResource" use="optional" />
                                         <xs:attribute name="dependsOnModule" type="typeModule" use="optional" />
                                         <xs:attribute name="dependsOnConfig" type="typeDependsConfig" use="optional" />
