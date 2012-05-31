@@ -9,8 +9,7 @@
  * @license     {license_link}
  */
 
-// Re-init Mage config to have store data in cache
-Mage::getConfig()->reinit();
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 /* @var $categoryFixture Mage_Catalog_Model_Category */
 $categoryFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Category.php';
 $defaultWebsite = Mage::app()->getWebsite();

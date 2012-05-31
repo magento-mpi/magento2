@@ -651,8 +651,6 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function dataProviderTestUpdateGiftOptionsUseConfig()
     {
-        // Re-init Mage config to have store data in cache
-        Mage::getConfig()->reinit();
         $giftMessageAvailable =
             (int) Mage::getStoreConfig(Mage_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
         $giftWrappingAvailable =
