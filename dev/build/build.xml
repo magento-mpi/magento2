@@ -142,10 +142,10 @@
         <fail unless="env.build_customization_dir" message="Bamboo variable 'customization_dir' must be defined" />
         <!-- Functional tests params -->
         <fail unless="env.deploy_directory" message="Bamboo variable 'deploy_directory' must be defined on your agent"/>
-        <fail unless="env.mysql_host" message="Bamboo variable 'mysql_host' must be defined on your agent"/>
-        <fail unless="env.mysql_name" message="Bamboo variable 'mysql_name' must be defined on your agent"/>
-        <fail unless="env.mysql_user" message="Bamboo variable 'mysql_user' must be defined on your agent"/>
-        <fail unless="env.mysql_password" message="Bamboo variable 'mysql_password' must be defined on your agent"/>
+        <fail unless="env.db_host" message="Bamboo variable 'db_host' must be defined on your agent"/>
+        <fail unless="env.db_name" message="Bamboo variable 'db_name' must be defined on your agent"/>
+        <fail unless="env.db_user" message="Bamboo variable 'db_user' must be defined on your agent"/>
+        <fail unless="env.db_password" message="Bamboo variable 'db_password' must be defined on your agent"/>
         <fail unless="env.http_host" message="Bamboo variable 'http_host' must be defined on your agent (e.g. http://myhost.com/mypath/)"/>
         <fail unless="env.https_host" message="Bamboo variable 'https_host' must be defined on your agent (e.g. https://myhost.com/mypath/)"/>
 
@@ -173,20 +173,20 @@
         </chmod>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="{{mysql_host}}"
-                 value="${env.mysql_host}"/>
+                 token="{{db_host}}"
+                 value="${env.db_host}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="{{mysql_name}}"
-                 value="${env.mysql_name}"/>
+                 token="{{db_name}}"
+                 value="${env.db_name}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="{{mysql_user}}"
-                 value="${env.mysql_user}"/>
+                 token="{{db_user}}"
+                 value="${env.db_user}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
-                 token="{{mysql_password}}"
-                 value="${env.mysql_password}"/>
+                 token="{{db_password}}"
+                 value="${env.db_password}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
                  token="{{url}}"
