@@ -250,7 +250,9 @@ class Mage_Core_Model_Design_Package
         if (!array_key_exists('_module', $params)) {
             $params['_module'] = false;
         }
-        $params['_locale'] = Mage::app()->getLocale()->getLocaleCode();
+        if (empty($params['_locale'])) {
+            $params['_locale'] = Mage::app()->getLocale()->getLocaleCode();
+        }
         return $this;
     }
 
