@@ -11,13 +11,11 @@
 
 define('COUNT_CUSTOMER_ADDRESES', 3);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
 /* @var $customerFixture Mage_Customer_Model_Customer */
-$customerFixture = require $fixturesDir . '/_block/Customer/Customer.php';
+$customerFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Customer.php';
 
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require $fixturesDir . '/_block/Customer/Address.php';
+$customerAddressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Address.php';
 
 // Create customer
 $customerFixture->save();

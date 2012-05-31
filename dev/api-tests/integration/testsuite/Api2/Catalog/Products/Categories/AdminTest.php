@@ -174,10 +174,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     {
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/_block/Catalog/Product.php';
+        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'])
             ->save();
@@ -215,10 +213,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/_block/Catalog/Product.php';
+        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
@@ -256,10 +252,8 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/_block/Catalog/Product.php';
+        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();

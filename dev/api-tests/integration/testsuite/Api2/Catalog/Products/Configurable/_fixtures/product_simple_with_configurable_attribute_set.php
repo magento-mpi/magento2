@@ -12,8 +12,7 @@
 include "attribute_set.php";
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
 $attributeSet = Magento_Test_Webservice::getFixture('attribute_set_with_configurable');
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
-$simpleProduct = require $fixturesDir . '/_block/Catalog/Product.php';
+$simpleProduct = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
 $simpleProduct->setAttributeSetId($attributeSet->getId());
 // set configurable attributes values
 for ($attributeCount = 1; $attributeCount <= ATTRIBUTES_COUNT; $attributeCount++) {

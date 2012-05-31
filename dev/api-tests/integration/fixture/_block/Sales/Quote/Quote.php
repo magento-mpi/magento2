@@ -9,10 +9,8 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
-
 /* @var $addressFixture Mage_Sales_Model_Quote_Address */
-$addressFixture = require $fixturesDir . '/_block/Sales/Quote/Address.php';
+$addressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Address.php';
 
 $quote = new Mage_Sales_Model_Quote();
 $quote->setStoreId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)

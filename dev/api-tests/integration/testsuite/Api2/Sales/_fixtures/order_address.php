@@ -9,19 +9,17 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
-
 /* @var $productFixture Mage_Catalog_Model_Product */
-$productFixture = require $fixturesDir . '/_block/Catalog/Product.php';
+$productFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
 
 /* @var $quote Mage_Sales_Model_Quote */
-$quote = require $fixturesDir . '/_block/Sales/Quote/Quote.php';
+$quote = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Quote.php';
 
 /* @var $address Mage_Sales_Model_Quote_Address */
-$address = require $fixturesDir . '/_block/Sales/Quote/Address.php';
+$address = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Address.php';
 
 /* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
-$rateFixture = require $fixturesDir . '/_block/Sales/Quote/Rate.php';
+$rateFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Rate.php';
 
 // Create products
 $product1 = clone $productFixture;

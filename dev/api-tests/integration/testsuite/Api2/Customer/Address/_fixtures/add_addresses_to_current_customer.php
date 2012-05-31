@@ -11,10 +11,8 @@
 
 define('COUNT_CUSTOMER_ADDRESES_FOR_CURRENT_CUSTOMER', 3);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require $fixturesDir . '/_block/Customer/Address.php';
+$customerAddressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Address.php';
 
 // Load current customer
 /* @var $customer Mage_Customer_Model_Customer */

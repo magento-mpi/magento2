@@ -50,10 +50,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
         /* @var $product Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/_block/Catalog/Product.php';
+        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setWebsiteIds(array(Mage::app()->getWebsite()->getId()))
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
@@ -92,10 +90,8 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
-
         /* @var $product Mage_Catalog_Model_Product */
-        $product = require $fixturesDir . '/_block/Catalog/Product.php';
+        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setWebsiteIds(array(Mage::app()->getWebsite()->getId()))
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])

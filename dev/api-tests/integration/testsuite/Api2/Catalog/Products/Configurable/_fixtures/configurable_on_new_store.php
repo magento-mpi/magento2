@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 require "configurable_with_assigned_products.php";
-require dirname(__FILE__) . "/../../../_fixtures/store_on_new_website.php";
+require TESTS_FIXTURES_DIRECTORY . '/Core/Store/store_on_new_website.php';
 
 /** @var $configurableProduct Mage_Catalog_Model_Product */
 $configurableProduct = Magento_Test_Webservice::getFixture('product_configurable');

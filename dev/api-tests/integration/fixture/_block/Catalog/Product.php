@@ -9,10 +9,8 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../fixture');
-
 /* @var $stockItemFixture Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require $fixturesDir . '/_block/CatalogInventory/Stock/Item.php';
+$stockItemFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/CatalogInventory/Stock/Item.php';
 
 $product = new Mage_Catalog_Model_Product;
 $product->setTypeId('simple')

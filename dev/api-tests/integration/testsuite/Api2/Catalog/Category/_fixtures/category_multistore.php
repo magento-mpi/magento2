@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 /* @var $categoryFixture Mage_Catalog_Model_Category */
-$categoryFixture = require $fixturesDir . '/_block/Catalog/Category.php';
+$categoryFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Category.php';
 $defaultWebsite = Mage::app()->getWebsite();
 $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($defaultWebsite->getDefaultGroup()->getRootCategoryId());
 $categoryFixture->setPath($parentCategory->getPath());
@@ -19,7 +18,7 @@ $categoryFixture->setStoreId(0);
 $categoryFixture->save();
 
 // create new store fixture
-require realpath(dirname(__FILE__) . '/../../_fixtures/store.php');
+require TESTS_FIXTURES_DIRECTORY . '/Core/Store/store.php';
 /** @var $storeFixture Mage_Core_Model_Store */
 $storeFixture = Magento_Test_Webservice::getFixture('store');
 $categoryDataOnStore = require realpath(dirname(__FILE__)) . '/Backend/CategoryStoreData.php';

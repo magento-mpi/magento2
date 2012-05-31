@@ -214,7 +214,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test post category on specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/store.php
+     * @magentoDataFixture Core/Store/store.php
      * @resourceOperation category::create
      */
     public function testPostCategoryOnSpecifiedStore()
@@ -240,7 +240,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Make sure that root category creation is impossible when store is specified
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/store.php
+     * @magentoDataFixture Core/Store/store.php
      * @resourceOperation category::create
      */
     public function testPostRootCategoryWithinSpecifiedStore()
@@ -402,7 +402,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Test update category on specified store
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/store.php
+     * @magentoDataFixture Core/Store/store.php
      * @resourceOperation category::update
      */
     public function testPutCategoryOnSpecifiedStore()

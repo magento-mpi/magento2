@@ -76,7 +76,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product get for store that product is not assigned to
      *
      * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
     public function testGetFilterByStore()
@@ -492,7 +492,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test tier and group prices update
      *
      * @dataProvider dataProviderTestUpdateGroupPrice
-     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Core/Store/store_on_new_website.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      * @resourceOperation product::update
      * @param string $priceField
@@ -817,7 +817,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful product update on specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Core/Store/store_on_new_website.php
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
      * @resourceOperation product::update
      */

@@ -44,7 +44,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Test successful configurable product single GET. Check received configurable attributes on specified store
      *
      * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
     public function testGetOnSpecifiedStore()

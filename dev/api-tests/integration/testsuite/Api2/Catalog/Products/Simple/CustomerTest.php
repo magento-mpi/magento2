@@ -193,7 +193,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
      * Test product get for store that product is not assigned to
      *
      * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/store_on_new_website.php
+     * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
     public function testGetFilterByStore()

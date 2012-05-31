@@ -25,13 +25,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
-
 /* @var $customerFixture Mage_Customer_Model_Customer */
-$customerFixture = require $fixturesDir . '/_block/Customer/Customer.php';
+$customerFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Customer.php';
 
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require $fixturesDir . '/_block/Customer/Address.php';
+$customerAddressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Address.php';
 $customerFixture->save();
 
 // Get address eav required attributes

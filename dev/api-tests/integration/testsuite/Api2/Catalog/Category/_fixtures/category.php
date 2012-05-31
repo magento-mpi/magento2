@@ -9,11 +9,10 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 // Re-init Mage config to have store data in cache
 Mage::getConfig()->reinit();
 /* @var $categoryFixture Mage_Catalog_Model_Category */
-$categoryFixture = require $fixturesDir . '/_block/Catalog/Category.php';
+$categoryFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Category.php';
 $defaultWebsite = Mage::app()->getWebsite();
 $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($defaultWebsite->getDefaultGroup()->getRootCategoryId());
 $categoryFixture->setPath($parentCategory->getPath());

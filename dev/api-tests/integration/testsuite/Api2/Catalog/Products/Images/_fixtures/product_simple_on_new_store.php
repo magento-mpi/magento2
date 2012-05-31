@@ -11,10 +11,8 @@
 
 require dirname(dirname(dirname(__FILE__))).'/Categories/_fixtures/new_category_on_new_store.php';
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
-
 /* @var $productFixture Mage_Catalog_Model_Product */
-$product = require $fixturesDir . '/_block/Catalog/Product.php';
+$product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
 $product->setStoreId(0)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))
     ->save();

@@ -13,11 +13,10 @@ define('CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT', 2);
 /** @var $configurableProduct Mage_Catalog_Model_Product */
 $configurableProduct = Magento_Test_Webservice::getFixture('product_configurable');
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
 $productsToAssignIds = array();
 for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require $fixturesDir . '/_block/Catalog/Product.php';
+    $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
     $product->setName("Assigned product #$i")
         ->setAttributeSetId($configurableProduct->getAttributeSetId())
         ->setWebsiteIds($configurableProduct->getWebsiteIds());
