@@ -337,7 +337,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     }
 
     /**
-     * Detect changes in the configuration
+     * Ensure changes in the configuration, if any, take effect
      */
     protected function _refreshConfig()
     {
