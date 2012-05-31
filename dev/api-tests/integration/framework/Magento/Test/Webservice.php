@@ -74,7 +74,6 @@ class Magento_Test_Webservice extends Magento_TestCase
             $class = $this->_webServiceMap[$webserviceType];
             self::$_ws = new $class();
             self::$_ws->init($options);
-            $this->_reinitMageConfig();
         }
         return self::$_ws;
     }
@@ -176,13 +175,5 @@ class Magento_Test_Webservice extends Magento_TestCase
             }
         }
         parent::setExpectedException($exceptionName, $exceptionMessage, $exceptionCode);
-    }
-
-    /**
-     * Re-init Mage config to have stores data in cache available for framework
-     */
-    protected static function _reinitMageConfig()
-    {
-        Mage::getConfig()->reinit();
     }
 }

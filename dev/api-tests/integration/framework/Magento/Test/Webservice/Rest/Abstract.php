@@ -62,7 +62,6 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
             $this->setInstance(new Magento_Test_Webservice_Rest_Adapter());
             $options['type'] = $this->_userType;
             $this->getInstance()->init($options);
-            $this->_reinitMageConfig();
         }
 
         return $this->getInstance();

@@ -56,6 +56,8 @@
         <const name="TESTS_CUSTOMER_EMAIL" value="customer@example.com"/>
         <!-- Customer password -->
         <const name="TESTS_CUSTOMER_PASSWORD" value="123123q"/>
+        <!-- Re-init installed magento config -->
+        <const name="TESTS_REINIT_MAGE_CONFIG" value="true"/>
 
         <!-- Enable show content on get invalid response -->
         <!--<const name="TESTS_WEBSERVICE_SHOW_INVALID_RESPONSE" value="1"/>-->

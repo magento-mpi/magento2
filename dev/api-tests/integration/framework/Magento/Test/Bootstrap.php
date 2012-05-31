@@ -262,6 +262,9 @@ class Magento_Test_Bootstrap
         Mage::setIsDeveloperMode($this->_developerMode);
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
+        if (defined('TESTS_REINIT_MAGE_CONFIG')) {
+            Mage::getConfig()->reinit();
+        }
     }
 
     /**

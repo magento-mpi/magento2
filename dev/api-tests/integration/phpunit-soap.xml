@@ -66,6 +66,8 @@
         <const name="TESTS_CUSTOMER_EMAIL" value="customer@example.com"/>
         <!-- Customer password -->
         <const name="TESTS_CUSTOMER_PASSWORD" value="123123q"/>
+        <!-- Re-init installed magento config -->
+        <const name="TESTS_REINIT_MAGE_CONFIG" value="true"/>
 
         <!-- DB vendor, optional. Possible values: mysql (default), oracle, mssql -->
         <!--<const name="TESTS_DB_VENDOR" value="mysql"/>-->
