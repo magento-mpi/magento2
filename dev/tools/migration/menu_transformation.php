@@ -77,7 +77,7 @@ class Routine
     protected $_parentItemID;
     protected $_isCreateMenuActions;
     protected $_isPrintMenuActions;
-    protected $_isRemoveDeclaredMenu;
+    protected $_isRemoveMenu;
     protected $_isDryRunMode;
     protected $_isSearchLegacyCode;
     protected $_isOutputWithErrors;
@@ -99,7 +99,7 @@ class Routine
         $this->_isCreateMenuActions = isset($options['n']);
         $this->_isPrintMenuActions = isset($options['p']);
 
-        $this->_isRemoveDeclaredMenu = isset($options['r']);
+        $this->_isRemoveMenu = isset($options['r']);
         $this->_isDryRunMode = isset($options['d']);
 
         $this->_isSearchLegacyCode = isset($options['s']);
@@ -140,7 +140,7 @@ class Routine
             $this->_printMenuInstructions();
         }
 
-        if ($this->_isRemoveDeclaredMenu) {
+        if ($this->_isRemoveMenu) {
             $this->_removeMenuDeclaration();
         }
 
@@ -166,10 +166,13 @@ class Routine
     }
 
     /**
-     * Create menu instruction
+     * Create menu instructions
+     *
+     * @return bool
      */
     protected function _createMenuInstructions()
     {
+        $createdFiles = array();
         foreach ($this->_defineMenuInstructions() as $module=>$menuInstructions) {
             $filePath = $this->_defineFilePath($module);
             $fileHeader = $this->_prepareFileHeader($module);
@@ -181,11 +184,22 @@ class Routine
 
             if (file_put_contents($filePath, $fileContent) === false) {
                 $this->_addError("Unable to put content into file: {$filePath}");
+            } else {
+                $createdFiles[] = $filePath;
             }
         }
+
+        if (!empty($createdFiles)) {
+            $this->_printFiles($createdFiles);
+        }
+
+        return true;
     }
 
-
+    /**
+     * Print menu instructions
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     protected function _printMenuInstructions()
     {
         foreach ($this->_defineMenuInstructions() as $defModule=>$menuInstructions) {
@@ -198,6 +212,12 @@ class Routine
         }
     }
 
+    /**
+     * Define file path of new file and make directory with areaCode if not exists
+     *
+     * @param $module
+     * @return string
+     */
     protected function _defineFilePath($module)
     {
         $modulePath = str_replace('_', DS, $module);
@@ -210,6 +230,14 @@ class Routine
         return $dirPath . DS . "menu.xml";
     }
 
+    /**
+     * Prepare file header with license template
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
+     * @param $defModule
+     * @return string
+     */
     protected function _prepareFileHeader($defModule)
     {
         list($pool, $namespace, $module) = explode('_', $defModule);
@@ -220,6 +248,11 @@ class Routine
                     LICENSE_FILE_HEADER) . "\n";
     }
 
+    /**
+     * Define menu instructions
+     *
+     * @return array
+     */
     protected function _defineMenuInstructions()
     {
         $menuActionsPerModule = array();
@@ -233,6 +266,12 @@ class Routine
         return $menuActionsPerModule;
     }
 
+    /**
+     * Create menu instruction from menu item
+     *
+     * @param $menuItem
+     * @return string
+     */
     protected function _makeMenuInstruction($menuItem)
     {
         $menuItemInstruction = '';
@@ -249,6 +288,11 @@ class Routine
         return $menuItemInstruction;
     }
 
+    /**
+     * Parse all configuration files to define which files should be parsed for a module
+     *
+     * @return array
+     */
     protected function _parseConfigFiles()
     {
         $menuItemsPerModule = array();
@@ -269,6 +313,12 @@ class Routine
         return $menuItemsPerModule;
     }
 
+    /**
+     * Parse a configuration file to define menu items
+     *
+     * @param $file
+     * @return array|null
+     */
     protected function _parseConfigFile($file)
     {
         $xml = simplexml_load_file($file);
@@ -286,6 +336,8 @@ class Routine
     }
 
     /**
+     * Transform xml nodes with menu declaration into array of menu items
+     *
      * @param $nodes
      * @param $parentItemID
      * @param string $moduleName
@@ -296,61 +348,16 @@ class Routine
         $itemsResult = array();
         /** @var $node SimpleXmlElement */
         foreach ($nodes as $node) {
-            $nodeName = ($parentItemID != $this->_parentItemID)?
-                    $parentItemID . '_' . $node->getName() : $node->getName();
-            $nodeDependencies = $node->xpath('depends');
-            $itemDependencies = array();
-            if (!empty($nodeDependencies)) {
-                $itemDependencies = (array) $nodeDependencies[0];
-            }
-
             $childNodes = $node->xpath('children/*');
 
-            $node = (array) $node;
-            $nodeModuleName = (isset($node["@attributes"]["module"]))? $node["@attributes"]["module"] : '';
-
-            if (isset($node['disabled'])) {
-                $itemResult = array (
-                                'id' => $nodeName,
-                                'disabled' => true
-                            );
-                $itemsResult[] = (object) $itemResult;
-            }
-
-            if (!isset($node['title'])) {
-                if (!empty($childNodes)) {
-                    $itemsResult = array_merge(
-                        $itemsResult,
-                        $this->_parseMenuItems($childNodes, $nodeName, $nodeModuleName)
-                    );
-                }
-                continue;
-            } else {
-                $itemResult = array (
-                                'id' => $nodeName,
-                                'title' => (isset($node['title']))? $node['title'] : '',
-                                'module' => ($nodeModuleName != '')? $nodeModuleName : $moduleName,
-                                'sortOrder' => (isset($node['sort_order']))? $node['sort_order'] : '',
-                                'parent' => $parentItemID,
-                            );
-                if (isset($node['action'])) {
-                    $itemResult['action'] = $node['action'];
-                }
-                if (isset($node['resource'])) {
-                    $itemResult['resource'] = $node['resource'];
-                }
-                if (!empty($itemDependencies)) {
-                    foreach ($itemDependencies as $key => $value) {
-                        $itemResult['dependsOn' . ucfirst($key)] = $value;
-                    }
-                }
-                $itemsResult[] = (object) $itemResult;
-                if (!empty($childNodes)) {
-                    $itemsResult = array_merge(
-                        $itemsResult,
-                        $this->_parseMenuItems($childNodes, $nodeName, $nodeModuleName)
-                    );
-                }
+            $item = $this->_parseMenuItem($node, $parentItemID, $moduleName);
+            $itemsResult[] = $item;
+            if (!empty($childNodes)) {
+                $nodeModuleName = isset($item->module)? $item->module : $moduleName;
+                $itemsResult = array_merge(
+                    $itemsResult,
+                    $this->_parseMenuItems($childNodes, $item->id, $nodeModuleName)
+                );
             }
         }
 
@@ -358,6 +365,70 @@ class Routine
     }
 
     /**
+     * Transform xml node with menu declaration into menu items
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @param $node SimpleXmlElement
+     * @param $parentItemID string
+     * @param $moduleName string
+     * @return stdObject
+     */
+    protected function _parseMenuItem($node, $parentItemID, $moduleName)
+    {
+        $nodeName = ($parentItemID != $this->_parentItemID)?
+                $parentItemID . '_' . $node->getName() : $node->getName();
+
+
+        $item = (array) $node;
+        $nodeModuleName = (isset($item["@attributes"]["module"]))? $item["@attributes"]["module"] : '';
+        $itemResult = array();
+        if (isset($item['disabled'])) {
+            $itemResult = array (
+                            'id' => $nodeName,
+                            'disabled' => true
+                        );
+        } else if (isset($item['title'])) {
+            $itemResult = array (
+                            'id' => $nodeName,
+                            'title' => $item['title'],
+                            'module' => ($nodeModuleName != '')? $nodeModuleName : $moduleName,
+                            'sortOrder' => (isset($item['sort_order']))? $item['sort_order'] : '',
+                            'parent' => $parentItemID,
+                        );
+            if (isset($item['action'])) {
+                $itemResult['action'] = $item['action'];
+            }
+            if (isset($item['resource'])) {
+                $itemResult['resource'] = $item['resource'];
+            }
+
+            $itemResult = $this->_updateItemDependencies($itemResult, $node);
+        }
+
+        return (object) $itemResult;
+    }
+
+    /**
+     * Update menu item with dependencies if exists
+     *
+     * @param $item
+     * @param $node
+     * @return array
+     */
+    protected function _updateItemDependencies($item, $node)
+    {
+        $nodeDependencies = $node->xpath('depends');
+        if (!empty($nodeDependencies)) {
+            foreach ((array) $nodeDependencies[0] as $key => $value) {
+                $item['dependsOn' . ucfirst($key)] = $value;
+            }
+        }
+        return $item;
+    }
+
+    /**
+     * Define pool/namespace/module for a file with menu declaration
+     *
      * @param $file
      * @return string
      */
@@ -369,6 +440,8 @@ class Routine
     }
 
     /**
+     * Remove menu declaration in files
+     *
      * @return array
      */
     protected function _removeMenuDeclaration()
@@ -392,10 +465,18 @@ class Routine
             }
         }
 
-        return $updatedFiles;
+        if (!empty($updatedFiles)) {
+            echo "Menu declaration is removed in files: \n";
+            $this->_printFiles($updatedFiles);
+            echo "\n";
+        }
+
+        return true;
     }
 
     /**
+     * Search for Legacy Menu Declaration
+     *
      * @param bool $isOutput
      * @return array
      */
@@ -416,9 +497,7 @@ class Routine
 
         if ($isOutput && !empty($files)) {
             echo "Files contains legacy code: \n";
-            foreach ($files as $file) {
-                echo str_replace(BP, "", $file) . "\n";
-            }
+            $this->_printFiles($files);
             echo "\n";
         }
 
@@ -426,6 +505,8 @@ class Routine
     }
 
     /**
+     * Add error into class error list
+     *
      * @param $message
      */
     protected function _addError($message)
@@ -434,7 +515,7 @@ class Routine
     }
 
     /**
-     *
+     * Print errors
      */
     protected function _printErrors()
     {
@@ -442,6 +523,18 @@ class Routine
             foreach ($this->_errors as $error) {
                 echo "{$error}\n";
             }
+        }
+    }
+
+    /**
+     * Print list of files with removing root path of directory
+     *
+     * @param $files
+     */
+    protected function _printFiles($files)
+    {
+        foreach ($files as $file) {
+            echo str_replace(BP, "", $file) . "\n";
         }
     }
 }
