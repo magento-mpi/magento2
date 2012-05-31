@@ -56,7 +56,7 @@ class Api2_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admi
     protected function _initCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = require dirname(__FILE__) . '/../../../../fixtures/Customer/Customer.php';
+            $this->_customer = require dirname(__FILE__) . '/../../../../fixture/Customer/Customer.php';
             $this->_customer->addData(array(
                 'password'   => '123123q',
                 'website_id' => 1,

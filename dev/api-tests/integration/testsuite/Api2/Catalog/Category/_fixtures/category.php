@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 // Re-init Mage config to have store data in cache
 Mage::getConfig()->reinit();
 /* @var $categoryFixture Mage_Catalog_Model_Category */

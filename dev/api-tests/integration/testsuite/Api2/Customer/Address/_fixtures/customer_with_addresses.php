@@ -11,7 +11,7 @@
 
 define('COUNT_CUSTOMER_ADDRESES', 3);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
 /* @var $customerFixture Mage_Customer_Model_Customer */
 $customerFixture = require $fixturesDir . '/Customer/Customer.php';

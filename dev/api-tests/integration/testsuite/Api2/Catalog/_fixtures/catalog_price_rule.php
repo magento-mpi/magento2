@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $ruleFixture Mage_CatalogRule_Model_Rule */
 $ruleFixture = require $fixturesDir . '/CatalogRule/Rule.php';

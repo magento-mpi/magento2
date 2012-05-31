@@ -1,6 +1,6 @@
 <?php
 include "store_on_new_website.php";
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 $websiteIds = array(Mage::app()->getDefaultStoreView()->getWebsiteId());
 /** @var $testStore Mage_Core_Model_Store */

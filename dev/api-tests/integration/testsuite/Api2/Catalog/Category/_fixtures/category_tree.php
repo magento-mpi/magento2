@@ -11,7 +11,7 @@
 
 define('CATEGORIES_IN_TREE', 3);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
 $categoryTree = array();
 $parentPath = '1/' . Mage::app()->getDefaultStoreView()->getRootCategoryId();

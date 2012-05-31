@@ -11,7 +11,7 @@
 
 require dirname(dirname(dirname(__FILE__))).'/Categories/_fixtures/new_category_on_new_store.php';
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
 
 /* @var $productFixture Mage_Catalog_Model_Product */
 $product = require $fixturesDir . '/Catalog/Product.php';

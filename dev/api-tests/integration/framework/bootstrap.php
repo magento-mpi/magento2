@@ -63,7 +63,7 @@ if (defined('TESTS_MAGENTO_DEVELOPER_MODE') && TESTS_MAGENTO_DEVELOPER_MODE == '
 }
 
 if (!defined('TESTS_FIXTURES_DIRECTORY')) {
-    define('TESTS_FIXTURES_DIRECTORY', "$baseDir/fixtures");
+    define('TESTS_FIXTURES_DIRECTORY', "$baseDir/fixture");
 }
 
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(

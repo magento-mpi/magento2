@@ -959,7 +959,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     protected function _getAddressData()
     {
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
         $customerAddressFixture = require $fixturesDir . '/Customer/Address.php';
         $data = array_intersect_key($customerAddressFixture->getData(), array_flip(array(

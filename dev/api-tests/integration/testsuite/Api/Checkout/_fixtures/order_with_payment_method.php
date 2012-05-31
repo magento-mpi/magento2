@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $customerFixture Mage_Customer_Model_Customer */
 $customerFixture = require $fixturesDir . '/Customer/Customer.php';

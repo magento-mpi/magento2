@@ -10,7 +10,7 @@
  */
 
 if (!Magento_Test_Webservice::getFixture('category_on_new_website')) {
-    $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+    $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
     /* @var $rootCategory Mage_Catalog_Model_Category */
     $rootCategory = require $fixturesDir . '/Catalog/Category.php';
     $rootCategory->save();

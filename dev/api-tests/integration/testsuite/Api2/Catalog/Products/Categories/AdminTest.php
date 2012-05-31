@@ -174,7 +174,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
     {
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
@@ -215,7 +215,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
@@ -256,7 +256,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $productFixture Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';

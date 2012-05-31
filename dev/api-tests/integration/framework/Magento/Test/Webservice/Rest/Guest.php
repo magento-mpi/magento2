@@ -20,7 +20,7 @@ class Magento_Test_Webservice_Rest_Guest extends Magento_Test_Webservice_Rest_Ab
     {
         parent::setUpBeforeClass();
 
-        require dirname(__FILE__) . '/../../../../../fixtures/Acl/guest_acl.php';
+        require dirname(__FILE__) . '/../../../../../fixture/Acl/guest_acl.php';
     }
 
     /**

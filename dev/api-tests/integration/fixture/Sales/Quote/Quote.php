@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../fixture');
 
 /* @var $addressFixture Mage_Sales_Model_Quote_Address */
 $addressFixture = require $fixturesDir . '/Sales/Quote/Address.php';

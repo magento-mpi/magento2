@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../fixture');
 
 /* @var $stockItemFixture Mage_CatalogInventory_Model_Stock_Item */
 $stockItemFixture = require $fixturesDir . '/CatalogInventory/Stock/Item.php';

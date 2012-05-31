@@ -50,7 +50,7 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';
@@ -92,7 +92,7 @@ class Api2_Catalog_Products_Categories_CustomerTest extends Magento_Test_Webserv
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
-        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+        $fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = require $fixturesDir . '/Catalog/Product.php';

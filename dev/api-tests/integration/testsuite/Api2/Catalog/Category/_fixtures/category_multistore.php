@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 /* @var $categoryFixture Mage_Catalog_Model_Category */
 $categoryFixture = require $fixturesDir . '/Catalog/Category.php';
 $defaultWebsite = Mage::app()->getWebsite();

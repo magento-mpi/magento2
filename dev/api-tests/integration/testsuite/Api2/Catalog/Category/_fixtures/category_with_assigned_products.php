@@ -12,7 +12,7 @@
 require 'category.php';
 /** @var $category Mage_Catalog_Model_Category */
 $category = Magento_Test_Webservice::getFixture('category');
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../fixture');
 
 $assignedProductsFixture = array();
 $assignedProducts = array();

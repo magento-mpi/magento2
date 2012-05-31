@@ -174,7 +174,13 @@ class Magento_Test_Listener_Annotation_Fixture
                 throw new Magento_Exception('The "\" symbol is not allowed for fixture definition.');
             }
             $fixtureMethod = array(get_class($this->_listener->getCurrentTest()), $fixture);
-            $fixtureScript = realpath(dirname(__FILE__) . '/../../../../../testsuite') . DIRECTORY_SEPARATOR . $fixture;
+            /* Define path to fixture */
+            $testsDir = dirname(__FILE__) . DS . '..' . DS . '..' . DS . '..' . DS . '..' . DS . '..';
+            $pathToLocalFixtures = realpath($testsDir . DS . 'testsuite');
+            $pathToGlobalFixtures = realpath($testsDir . DS . 'fixture');
+            $fixtureScript = file_exists($pathToLocalFixtures . DS . $fixture)
+                ? $pathToLocalFixtures . DS . $fixture
+                : $pathToGlobalFixtures . DS . $fixture;
             /* Skip already applied fixtures */
             if (in_array($fixtureMethod, $this->_appliedFixtures, true)
                 || in_array($fixtureScript, $this->_appliedFixtures, true)

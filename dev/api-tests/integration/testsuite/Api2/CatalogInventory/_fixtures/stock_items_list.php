@@ -11,7 +11,7 @@
 
 define('COUNT_STOCK_ITEMS_LIST', 3);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $product Mage_Catalog_Model_Product */
 $productFixture = require $fixturesDir . '/Catalog/Product.php';

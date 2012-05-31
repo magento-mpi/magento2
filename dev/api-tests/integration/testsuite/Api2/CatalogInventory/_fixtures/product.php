@@ -1,6 +1,6 @@
 <?php
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../fixture');
 
 /* @var $product Mage_Catalog_Model_Product */
 $product = require $fixturesDir . '/Catalog/Product.php';

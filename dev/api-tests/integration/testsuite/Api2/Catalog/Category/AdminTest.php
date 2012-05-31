@@ -1152,7 +1152,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     protected function _getGlobalFixtureDirectory()
     {
-        return realpath(dirname(__FILE__) . "/../../../../fixtures");
+        return realpath(dirname(__FILE__) . "/../../../../fixture");
     }
 
     /**

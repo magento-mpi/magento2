@@ -12,7 +12,7 @@
 define('WEBSITES_COUNT_TEST_WEBSITES', 2);
 define('WEBSITES_COUNT_TEST_STORES', 2);
 
-$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixtures');
+$fixturesDir = realpath(dirname(__FILE__) . '/../../../../../../fixture');
 
 // Product (MUST be created before created not assigned Websites)
 /* @var $productFixture Mage_Catalog_Model_Product */

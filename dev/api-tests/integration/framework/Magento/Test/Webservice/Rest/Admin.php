@@ -20,7 +20,7 @@ class Magento_Test_Webservice_Rest_Admin extends Magento_Test_Webservice_Rest_Ab
     {
         parent::setUpBeforeClass();
 
-        require dirname(__FILE__) . '/../../../../../fixtures/Acl/admin_acl.php';
+        require dirname(__FILE__) . '/../../../../../fixture/Acl/admin_acl.php';
     }
 
     /**

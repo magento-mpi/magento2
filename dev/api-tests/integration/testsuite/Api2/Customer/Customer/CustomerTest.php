@@ -48,7 +48,7 @@ class Api2_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest_C
 
         $this->_customer = $this->getDefaultCustomer();
 
-        $this->_otherCustomer = require dirname(__FILE__) . '/../../../../fixtures/Customer/Customer.php';
+        $this->_otherCustomer = require dirname(__FILE__) . '/../../../../fixture/Customer/Customer.php';
         $this->_otherCustomer->save();
 
         $this->addModelToDelete($this->_otherCustomer, true);
