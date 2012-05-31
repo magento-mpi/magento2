@@ -15,6 +15,34 @@
      *
      * @return void
      */
+    varienForm.prototype.getExportFormatVersionSelector = function()
+    {
+        if ($('entity') && $F('entity')) {
+            switch ($F('entity')) {
+                case 'customer':
+                    $('export_filter_grid_container').update('');
+                    $('export_filter_container').hide();
+                    $('head-export_format_version').show();
+                    $('export_format_version').show();
+                    break;
+                default:
+                    $('head-export_format_version').hide();
+                    $('export_format_version').hide();
+                    this.getFilter();
+                    break;
+            }
+        } else {
+            $('export_filter_container').hide();
+            $('head-export_format_version').hide();
+            $('export_format_version').hide();
+        }
+    };
+
+    /**
+     * Post form data and process response via AJAX.
+     *
+     * @return void
+     */
     varienForm.prototype.getFilter = function()
     {
         if ($('entity') && $F('entity')) {
@@ -46,7 +74,8 @@
         if ($('entity') && $('file_format')) {
             var form      = $('export_filter_form');
             var oldAction = form.action;
-            form.action   = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity') + '/file_format/' + $F('file_format');
+            form.action   = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity')
+                + '/file_format/' + $F('file_format');
             form.submit();
             form.action   = oldAction;
         } else {

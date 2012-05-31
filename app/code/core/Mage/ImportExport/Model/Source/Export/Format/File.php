@@ -9,13 +9,13 @@
  */
 
 /**
- * Source model of export formats
+ * Source model of export file formats
  *
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Model_Source_Export_Format
+class Mage_ImportExport_Model_Source_Export_Format_File
 {
     /**
      * Prepare and return array of available export file formats.

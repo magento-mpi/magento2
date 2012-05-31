@@ -67,4 +67,16 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
 
         $this->assertContains('<div id="export_filter_grid"', $this->getResponse()->getBody());
     }
+
+    /**
+     * Test index action
+     */
+    public function testIndexAction()
+    {
+        $this->dispatch('admin/export/index');
+
+        $body = $this->getResponse()->getBody();
+        $this->assertSelectCount('div#head-export_format_version', 1, $body);
+        $this->assertSelectCount('div#export_format_version', 1, $body);
+    }
 }
